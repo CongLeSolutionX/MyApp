@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Step 4: Use in SwiftUI view
+// Step 2: Use in SwiftUI view
 struct ContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
@@ -16,7 +16,7 @@ struct ContentView: View {
 }
 
 // Before iOS 17, use this syntax for preview UIKit view controller
-struct CounterView_Previews: PreviewProvider {
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerWrapper()
     }

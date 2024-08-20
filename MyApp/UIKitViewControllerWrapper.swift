@@ -8,13 +8,13 @@
 import SwiftUI
 import UIKit
 
-// Step 1: UIViewControllerRepresentable implementation
+// Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = MyUIKitViewController
     
-    // Step 2: Required methods implementation
+    // Step 1b: Required methods implementation
     func makeUIViewController(context: Context) -> MyUIKitViewController {
-        // Step 3: Instantiate and return the UIKit view controller
+        // Step 1c: Instantiate and return the UIKit view controller
         return MyUIKitViewController()
     }
     
