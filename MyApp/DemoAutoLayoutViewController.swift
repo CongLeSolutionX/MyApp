@@ -12,8 +12,8 @@ class DemoAutoLayoutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         self.setupVerticalStackLayout()
-        // self.setupHorizontalStackLayout()
+        self.setupHorizontalStackLayout()
+        // self.setupVerticalStackLayout()
     }
     
    
