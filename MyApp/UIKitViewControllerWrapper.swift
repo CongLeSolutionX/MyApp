@@ -152,19 +152,26 @@ class MyUIKitViewController: UIViewController {
         resultLabel.text! += "\nUpdated to:\n\(person.firstName) \(person.lastName)"
     }
     
+    // Function using inout parameters to modify external variables
     func makeFullName(_ firstName: inout String, _ lastName: inout String) {
+        // Capitalize the first and last names
         firstName = firstName.capitalized
         lastName = lastName.capitalized
     }
     
+    // Struct using computed properties to dynamically calculate fullName
     struct Person {
         var firstName: String
         var lastName: String
+        
+        // Computed property for full name
         var fullName: String {
             get {
+                // Compute the full name by concatenating first and last names
                 return "\(firstName) \(lastName)".capitalized
             }
             set {
+                // Split the new full name to update first and last names
                 let names = newValue.split(separator: " ")
                 if names.count == 2 {
                     firstName = String(names[0])
