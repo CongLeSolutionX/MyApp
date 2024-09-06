@@ -54,37 +54,37 @@ class MyUIKitViewController: UIViewController {
         // Example usage
         var resultText = ""
         
-        // Non-Escaping Closure
+        // 1. Non-Escaping Closure
         // This closure is executed immediately within the function.
         // It cannot be stored for later use.
         performNonEscapingClosure {
-            resultText += "This is inside the non-escaping closure.\n"
-            print("This is inside the non-escaping closure.") // Expected output
+            resultText += "1. This is inside the non-escaping closure.\n"
+            print("1. This is inside the non-escaping closure.")
         }
         
-        // Escaping Closure
+        // 2. Escaping Closure
         // This closure is stored in an array and can be executed later,
         // even after the function that takes the closure as a parameter has returned.
         performEscapingClosure {
-            resultText += "This is inside the escaping closure.\n"
-            print("This is inside the escaping closure.") // Expected output
+            resultText += "2. This is inside the escaping closure.\n"
+            print("2. This is inside the escaping closure.")
         }
         
-        // Later on, we execute the escaping closures stored in the array.
+        // 3. Later on, we execute the escaping closures stored in the array.
         // This demonstrates that escaping closures can be called after the function ends.
         completionHandlers.forEach { $0() }
         
-        // Auto Closure
+        // 4. Auto Closure
         // This function takes an expression that evaluates to a boolean value.
         // The expression is automatically wrapped in a closure.
         performAutoClosure(closure: (2 > 1))
         
-        // The above autoclosure is equivalent to this non-escaping closure:
+        // 5. The above autoclosure is equivalent to this non-escaping closure:
         // Here, we manually create a closure that evaluates an expression.
         performNonEscapingClosure {
             let result = 2 > 1
-            resultText += "Auto Closure evaluated to \(result)\n"
-            print("Auto Closure evaluated to \(result)") // Expected output
+            resultText += "5. Auto Closure evaluated to \(result)\n"
+            print("5. Auto Closure evaluated to \(result)")
         }
         
         // Update the label text
@@ -126,9 +126,9 @@ class MyUIKitViewController: UIViewController {
     func performAutoClosure(closure: @autoclosure () -> Bool) {
         print("Auto Closure start")
         if closure() { // The closure is executed here when called.
-            print("Auto Closure evaluated to true")
+            print("4. Auto Closure evaluated to true")
         } else {
-            print("Auto Closure evaluated to false")
+            print("4. Auto Closure evaluated to false")
         }
     }
 }
