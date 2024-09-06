@@ -29,27 +29,33 @@ enum NetworkError: Error, LocalizedError {
 }
 
 // ViewModel: Handles data fetching and state management
+@MainActor
 class ItemViewModel: ObservableObject {
     @Published var items: [Item] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var showAlert: Bool = false
+    @Published var alertMessage: String = ""
+    @Published var showRetry: Bool = false
 
     // Asynchronous function to fetch items
     func fetchItems() async {
-        DispatchQueue.main.async { self.isLoading = true }
-        DispatchQueue.main.async { self.errorMessage = nil }
+        isLoading = true
+        errorMessage = nil
 
         do {
             let fetchedItems = try await fetchRemoteItems()
-            DispatchQueue.main.async {
-                self.items = fetchedItems
-                self.isLoading = false
-            }
+            items = fetchedItems
+            alertMessage = "Data fetched successfully!"
+            showRetry = false
+            showAlert = true
+            isLoading = false
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+            errorMessage = error.localizedDescription
+            alertMessage = errorMessage ?? "An unknown error occurred."
+            showRetry = true
+            showAlert = true
+            isLoading = false
         }
     }
 
@@ -97,16 +103,36 @@ struct ContentView: View {
             .refreshable {
                 await viewModel.fetchItems()
             }
+            .alert(isPresented: $viewModel.showAlert) {
+                if viewModel.showRetry {
+                    return Alert(
+                        title: Text("Network Error"),
+                        message: Text(viewModel.alertMessage),
+                        primaryButton: .default(Text("Retry")) {
+                            Task {
+                                await viewModel.fetchItems()
+                            }
+                        },
+                        secondaryButton: .cancel(Text("Cancel"))
+                    )
+                } else {
+                    return Alert(
+                        title: Text("Success"),
+                        message: Text(viewModel.alertMessage),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+            }
         }
     }
 }
 
 // Before iOS 17, use this syntax for preview UIKit view controller
-//struct UIKitViewControllerWrapper_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
 
 // After iOS 17, we can use this syntax for preview:
 #Preview {
