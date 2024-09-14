@@ -12,6 +12,13 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AE80F632C964C14005F3318 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F622C964C14005F3318 /* MLX */; };
+		9AE80F652C964C14005F3318 /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F642C964C14005F3318 /* MLXFFT */; };
+		9AE80F672C964C14005F3318 /* MLXFast in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F662C964C14005F3318 /* MLXFast */; };
+		9AE80F692C964C14005F3318 /* MLXLinalg in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F682C964C14005F3318 /* MLXLinalg */; };
+		9AE80F6B2C964C14005F3318 /* MLXNN in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F6A2C964C14005F3318 /* MLXNN */; };
+		9AE80F6D2C964C14005F3318 /* MLXOptimizers in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F6C2C964C14005F3318 /* MLXOptimizers */; };
+		9AE80F6F2C964C14005F3318 /* MLXRandom in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE80F6E2C964C14005F3318 /* MLXRandom */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +36,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AE80F6D2C964C14005F3318 /* MLXOptimizers in Frameworks */,
+				9AE80F672C964C14005F3318 /* MLXFast in Frameworks */,
+				9AE80F692C964C14005F3318 /* MLXLinalg in Frameworks */,
+				9AE80F632C964C14005F3318 /* MLX in Frameworks */,
+				9AE80F6B2C964C14005F3318 /* MLXNN in Frameworks */,
+				9AE80F652C964C14005F3318 /* MLXFFT in Frameworks */,
+				9AE80F6F2C964C14005F3318 /* MLXRandom in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +114,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
@@ -116,6 +130,9 @@
 				Base,
 			);
 			mainGroup = 9AAC416F2C74668B00AC0A60;
+			packageReferences = (
+				9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */,
+			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -185,6 +202,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -246,6 +264,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -273,6 +292,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -311,6 +331,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -363,6 +384,55 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.16.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9AE80F622C964C14005F3318 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		9AE80F642C964C14005F3318 /* MLXFFT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFFT;
+		};
+		9AE80F662C964C14005F3318 /* MLXFast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFast;
+		};
+		9AE80F682C964C14005F3318 /* MLXLinalg */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXLinalg;
+		};
+		9AE80F6A2C964C14005F3318 /* MLXNN */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXNN;
+		};
+		9AE80F6C2C964C14005F3318 /* MLXOptimizers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXOptimizers;
+		};
+		9AE80F6E2C964C14005F3318 /* MLXRandom */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE80F612C964C14005F3318 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXRandom;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9AAC41702C74668B00AC0A60 /* Project object */;
 }
