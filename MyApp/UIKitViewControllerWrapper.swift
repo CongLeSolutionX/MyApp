@@ -25,33 +25,44 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 
 // Example UIKit view controller
 class MyUIKitViewController: UIViewController {
+    
+    // Constants for UI Configuration
+    private enum UIConfig {
+        static let labelFontSize: CGFloat = 24
+        static let labelBackgroundColor: UIColor = .lightGray
+        static let buttonBackgroundColor: UIColor = .green
+        static let subtractButtonBackgroundColor: UIColor = .red
+        static let buttonTitleColor: UIColor = .black
+        static let buttonSpacing: CGFloat = 20
+    }
+    
     // UI Elements
-    private let resultLabel: UILabel = {
+    private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 24)
-        label.backgroundColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: UIConfig.labelFontSize)
+        label.backgroundColor = UIConfig.labelBackgroundColor
         return label
     }()
     
-    private let addButton: UIButton = {
+    private lazy var addButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Add", for: .normal)
-        button.backgroundColor = .green
-        button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .selected)
+        button.setTitleColor(UIConfig.buttonTitleColor, for: .normal)
+        button.backgroundColor = UIConfig.buttonBackgroundColor
+        button.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         return button
     }()
     
-    private let subtractButton: UIButton = {
+    private lazy var subtractButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Subtract", for: .normal)
-        button.backgroundColor = .red
-        button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .selected)
+        button.setTitleColor(UIConfig.buttonTitleColor, for: .normal)
+        button.backgroundColor = UIConfig.subtractButtonBackgroundColor
+        button.addTarget(self, action: #selector(subtractTapped), for: .touchUpInside)
         return button
     }()
     
@@ -93,10 +104,25 @@ class MyUIKitViewController: UIViewController {
     
     // Arithmetic Operations
     @objc private func addTapped() {
-        result += 1
+        performOperation(.add)
     }
     
     @objc private func subtractTapped() {
-        result -= 1
+        performOperation(.subtract)
     }
+    
+    private func performOperation(_ operation: ArithmeticOperation) {
+        switch operation {
+        case .add:
+            result += 1
+        case .subtract:
+            result -= 1
+        }
+    }
+}
+
+// Arithmetic Operation Enum
+private enum ArithmeticOperation {
+    case add
+    case subtract
 }
