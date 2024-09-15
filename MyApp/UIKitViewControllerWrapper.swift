@@ -31,6 +31,7 @@ class MyUIKitViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 24)
+        label.backgroundColor = .lightGray
         return label
     }()
     
@@ -38,6 +39,9 @@ class MyUIKitViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Add", for: .normal)
+        button.backgroundColor = .green
+        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .selected)
         return button
     }()
     
@@ -45,6 +49,9 @@ class MyUIKitViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Subtract", for: .normal)
+        button.backgroundColor = .red
+        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .selected)
         return button
     }()
     
