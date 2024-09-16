@@ -91,7 +91,7 @@ struct ContentView: View {
                     // Perform cleanup when the view disappears
                 }
             
-            // .onChange(of:)
+            // // Updated .onChange syntax (two-parameter closure)
             Stepper("Rotation Angle: \(Int(rotationAngle))", value: $rotationAngle, step: 45)
                 .onChange(of: rotationAngle) { oldValue, newValue in
                     // React to changes in rotationAngle
