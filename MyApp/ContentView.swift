@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var rotationAngle: Double = 0
     @State private var isZoomed = false
     @State private var isLoading = false
-
+    
     var body: some View {
         VStack {
             // .disabled(_:)
@@ -22,17 +22,17 @@ struct ContentView: View {
                 isShowingDetails.toggle()
             }
             .disabled(userName.isEmpty) // Disable button if userName is empty
-
+            
             // .hidden(_:)
             if isShowingDetails {
                 Text("Details are shown!")
                     .transition(.opacity) // Use a transition for appearance/disappearance
             }
-
+            
             // .opacity(_:)
             Image(systemName: "cloud.sun.fill")
                 .opacity(isLoading ? 0.5 : 1.0) // Reduce opacity while loading
-
+            
             // .scaleEffect(_:)
             Circle()
                 .fill(Color.blue)
@@ -43,7 +43,7 @@ struct ContentView: View {
                         isZoomed.toggle()
                     }
                 }
-
+            
             // .rotationEffect(_:)
             Rectangle()
                 .fill(Color.red)
@@ -54,21 +54,21 @@ struct ContentView: View {
                         rotationAngle += 45
                     }
                 }
-
-
+            
+            
             // .blur(radius:) and .shadow(radius:)
             Text("Hello, SwiftUI!")
                 .font(.largeTitle)
                 .blur(radius: isLoading ? 5 : 0)
                 .shadow(radius: 5)
-
+            
             // .animation(_:)
             TextField("Enter your name", text: $userName)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
                 .animation(.spring(), value: userName) // Animate changes to the text field
-
+            
             // .gesture(_:)
             Image(systemName: "hand.point.right.fill")
                 .font(.largeTitle)
@@ -78,7 +78,7 @@ struct ContentView: View {
                             // Update view based on drag gesture
                         }
                 )
-
+            
             // .onAppear(_:) and .onDisappear(_:)
             Text("This view appears and disappears")
                 .onAppear {
@@ -90,11 +90,12 @@ struct ContentView: View {
                 .onDisappear {
                     // Perform cleanup when the view disappears
                 }
-
-            // .onChange(of:perform:)
+            
+            // .onChange(of:)
             Stepper("Rotation Angle: \(Int(rotationAngle))", value: $rotationAngle, step: 45)
-                .onChange(of: rotationAngle) { newValue in
+                .onChange(of: rotationAngle) { oldValue, newValue in
                     // React to changes in rotationAngle
+                    print("Rotation angle changed from \(oldValue) to \(newValue)")
                 }
         }
         .padding()
