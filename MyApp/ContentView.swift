@@ -91,11 +91,11 @@ struct ContentView: View {
                     // Perform cleanup when the view disappears
                 }
             
-            // // Updated .onChange syntax (two-parameter closure)
+            // Updated .onChange syntax (zero-parameter closure)
             Stepper("Rotation Angle: \(Int(rotationAngle))", value: $rotationAngle, step: 45)
-                .onChange(of: rotationAngle) { oldValue, newValue in
+                .onChange(of: rotationAngle) {
                     // React to changes in rotationAngle
-                    print("Rotation angle changed from \(oldValue) to \(newValue)")
+                    print("Rotation angle changed to \(rotationAngle)") // Access rotationAngle directly
                 }
         }
         .padding()
