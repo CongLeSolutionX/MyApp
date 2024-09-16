@@ -84,59 +84,97 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Add the button to make a network request
-                Button(action: {
+                FetchButton {
                     Task {
                         await viewModel.fetchItems()
                     }
-                }) {
-                    Text("Load Items")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
                 }
-                .padding(.bottom, 10)
-
+                
                 if viewModel.isLoading {
-                    ProgressView("Loading...")
+                    LoadingView()
                 } else if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .padding()
+                    ErrorView(message: errorMessage)
                 } else {
-                    List(viewModel.items) { item in
-                        Text(item.name)
-                    }
+                    ItemListView(items: viewModel.items)
                 }
             }
             .navigationTitle("Items")
-            // Remove the automatic task on view appear
-            // Remove the refreshable implementation
             .alert(isPresented: $viewModel.showAlert) {
-                if viewModel.showRetry {
-                    return Alert(
-                        title: Text("Network Error"),
-                        message: Text(viewModel.alertMessage),
-                        primaryButton: .default(Text("Retry")) {
-                            Task {
-                                await viewModel.fetchItems()
-                            }
-                        },
-                        secondaryButton: .cancel(Text("Cancel"))
-                    )
-                } else {
-                    return Alert(
-                        title: Text("Success"),
-                        message: Text(viewModel.alertMessage),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
+                makeAlert()
             }
+        }
+    }
+
+    private func makeAlert() -> Alert {
+        if viewModel.showRetry {
+            return Alert(
+                title: Text("Network Error"),
+                message: Text(viewModel.alertMessage),
+                primaryButton: .default(Text("Retry")) {
+                    Task {
+                        await viewModel.fetchItems()
+                    }
+                },
+                secondaryButton: .cancel(Text("Cancel"))
+            )
+        } else {
+            return Alert(
+                title: Text("Success"),
+                message: Text(viewModel.alertMessage),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
 }
 
+// MARK: - FetchButton Component
+struct FetchButton: View {
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text("Load Items")
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
+        .padding(.bottom, 10)
+    }
+}
+
+// MARK: - LoadingView Component
+struct LoadingView: View {
+    var body: some View {
+        ProgressView("Loading...")
+    }
+}
+
+
+// MARK: - ErrorView Component
+struct ErrorView: View {
+    let message: String
+    
+    var body: some View {
+        Text(message)
+            .foregroundColor(.red)
+            .padding()
+    }
+}
+
+// MARK: - ItemListView Component
+struct ItemListView: View {
+    let items: [Item] // Make sure `Item` conforms to `Identifiable`
+    
+    var body: some View {
+        List(items) { item in
+            Text(item.name)
+        }
+    }
+}
+
+
+// MARK: - Preview
 // Before iOS 17, use this syntax for preview UIKit view controller
 struct UIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
