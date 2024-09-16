@@ -84,6 +84,20 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // Add the button to make a network request
+                Button(action: {
+                    Task {
+                        await viewModel.fetchItems()
+                    }
+                }) {
+                    Text("Load Items")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding(.bottom, 10)
+
                 if viewModel.isLoading {
                     ProgressView("Loading...")
                 } else if let errorMessage = viewModel.errorMessage {
@@ -97,12 +111,8 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Items")
-            .task {
-                await viewModel.fetchItems()
-            }
-            .refreshable {
-                await viewModel.fetchItems()
-            }
+            // Remove the automatic task on view appear
+            // Remove the refreshable implementation
             .alert(isPresented: $viewModel.showAlert) {
                 if viewModel.showRetry {
                     return Alert(
