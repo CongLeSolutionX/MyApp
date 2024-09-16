@@ -90,6 +90,8 @@ struct ContentView: View {
                     }
                 }
                 
+                Spacer(minLength: 20) // Ensure spacing to maintain layout consistency
+                
                 if viewModel.isLoading {
                     LoadingView()
                 } else if let errorMessage = viewModel.errorMessage {
@@ -97,6 +99,9 @@ struct ContentView: View {
                 } else {
                     ItemListView(items: viewModel.items)
                 }
+                
+                // Add sufficient space to keep the button position consistent
+                Spacer()
             }
             .navigationTitle("Items")
             .alert(isPresented: $viewModel.showAlert) {
