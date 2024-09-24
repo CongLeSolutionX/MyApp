@@ -58,21 +58,46 @@ class ConcurrencyViewController: UIViewController {
     
     // MARK: - Closures/Callbacks: The Building Blocks
     
+//    func simpleClosureExample() {
+//        downloadImage(from: "https://www.example.com/image.jpg") { image, error in
+//            if let image = image {
+//                // Update UI with the downloaded image on the main queue
+//                DispatchQueue.main.async {
+//                    self.imageView.image = image
+//                }
+//            } else if let error = error {
+//                print("Error downloading image: \(error)")
+//            }
+//        }
+//    }
+//    
+    func downloadImage(from urlString: String, completion: @escaping (UIImage?, Error?) -> Void) {
+        // ... (Implementation to download image from URL)
+    }
+    
+    
     func simpleClosureExample() {
-        downloadImage(from: "https://www.example.com/image.jpg") { image, error in
-            if let image = image {
-                // Update UI with the downloaded image on the main queue
-                DispatchQueue.main.async {
+        loadImage(from: "Orange_Cloud_round_logo") { image, error in // Pass the image name
+            DispatchQueue.main.async { // Always update UI on the main queue
+                if let image = image {
                     self.imageView.image = image
+                } else if let error = error {
+                    print("Error loading image: \(error)")
+                    // Handle the error appropriately (e.g., display an error message to the user)
+                    self.imageView.image = UIImage(named: "placeholderImage") // Show a placeholder
                 }
-            } else if let error = error {
-                print("Error downloading image: \(error)")
             }
         }
     }
     
-    func downloadImage(from urlString: String, completion: @escaping (UIImage?, Error?) -> Void) {
-        // ... (Implementation to download image from URL)
+    func loadImage(from imageName: String, completion: @escaping (UIImage?, Error?) -> Void) { // Takes image name
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let image = UIImage(named: imageName) { // Load from Assets Catalog
+                completion(image, nil)
+            } else {
+                completion(nil, NSError(domain: "ImageLoadingErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Image not found in Assets Catalog"]))
+            }
+        }
     }
     
     // MARK: - Grand Central Dispatch (GCD): Taming the Threads
