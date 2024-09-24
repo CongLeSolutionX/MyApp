@@ -28,12 +28,12 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 class ConcurrencyViewController: UIViewController {
     
     var image = UIImage(systemName: "house")
-     lazy var imageView: UIImageView = {
-         let imageView = UIImageView() // Initialize without setting the image initially
-         imageView.image = image
-         imageView.translatesAutoresizingMaskIntoConstraints = false
-         return imageView
-     }()
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView() // Initialize without setting the image initially
+        imageView.image = image
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     
     override func viewDidLoad() {
@@ -58,47 +58,63 @@ class ConcurrencyViewController: UIViewController {
     
     // MARK: - Closures/Callbacks: The Building Blocks
     
-//    func simpleClosureExample() {
-//        downloadImage(from: "https://www.example.com/image.jpg") { image, error in
-//            if let image = image {
-//                // Update UI with the downloaded image on the main queue
-//                DispatchQueue.main.async {
-//                    self.imageView.image = image
-//                }
-//            } else if let error = error {
-//                print("Error downloading image: \(error)")
-//            }
-//        }
-//    }
-//    
+    //    func simpleClosureExample() {
+    //        downloadImage(from: "https://www.example.com/image.jpg") { image, error in
+    //            if let image = image {
+    //                // Update UI with the downloaded image on the main queue
+    //                DispatchQueue.main.async {
+    //                    self.imageView.image = image
+    //                }
+    //            } else if let error = error {
+    //                print("Error downloading image: \(error)")
+    //            }
+    //        }
+    //    }
+    //
     func downloadImage(from urlString: String, completion: @escaping (UIImage?, Error?) -> Void) {
         // ... (Implementation to download image from URL)
     }
     
-    
     func simpleClosureExample() {
-        loadImage(from: "Orange_Cloud_round_logo") { image, error in // Pass the image name
-            DispatchQueue.main.async { // Always update UI on the main queue
-                if let image = image {
-                    self.imageView.image = image
-                } else if let error = error {
-                    print("Error loading image: \(error)")
-                    // Handle the error appropriately (e.g., display an error message to the user)
-                    self.imageView.image = UIImage(named: "placeholderImage") // Show a placeholder
-                }
-            }
-        }
-    }
-    
-    func loadImage(from imageName: String, completion: @escaping (UIImage?, Error?) -> Void) { // Takes image name
-        DispatchQueue.global(qos: .userInitiated).async {
-            if let image = UIImage(named: imageName) { // Load from Assets Catalog
-                completion(image, nil)
-            } else {
-                completion(nil, NSError(domain: "ImageLoadingErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Image not found in Assets Catalog"]))
-            }
-        }
-    }
+         loadImage(from: "Orange_Cloud_round_logo") { image, error in // Pass the image name
+             DispatchQueue.main.async { // Always update UI on the main queue
+                 if let image = image {
+                     self.imageView.image = image
+                 } else if let error = error {
+                     print("Error loading image: \(error)")
+                     // Handle the error appropriately (e.g., display an error message to the user)
+                     self.imageView.image = UIImage(named: "placeholderImage") // Show a placeholder
+                 }
+             }
+         }
+     }
+     
+     func loadImage(from imageName: String, completion: @escaping (UIImage?, Error?) -> Void) {
+         DispatchQueue.global(qos: .userInitiated).async {
+             // Attempt to load the image directly from the Assets Catalog
+             if let image = UIImage(named: imageName) {
+                 completion(image, nil)
+                 return
+             }
+
+             // If not found in Assets, try loading from the bundle (less common)
+             if let imagePath = Bundle.main.path(forResource: imageName, ofType: "png") { // Assuming it's a PNG
+                 let imageURL = URL(fileURLWithPath: imagePath)
+                 do {
+                     let imageData = try Data(contentsOf: imageURL)
+                     if let image = UIImage(data: imageData) {
+                         completion(image, nil)
+                     } else {
+                         completion(nil, NSError(domain: "ImageLoadingErrorDomain", code: -2, userInfo: [NSLocalizedDescriptionKey: "Could not create image from data"]))
+                     }
+                 } catch {
+                     completion(nil, error)
+                 }
+             } else {
+                 completion(nil, NSError(domain: "ImageLoadingErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Image file not found in bundle: \(imageName)"]))
+             }
+         }
+     }
     
     // MARK: - Grand Central Dispatch (GCD): Taming the Threads
     
