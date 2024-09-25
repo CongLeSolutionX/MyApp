@@ -60,8 +60,9 @@ class ConcurrencyViewController: UIViewController {
         ])
         
         
-        // Example of calling the closure function
-        simpleClosureExample()
+        // Call the example you want to test here
+        // Example: simpleClosureExample()
+        dispatchSemaphoreExample()
     }
     
     
@@ -159,12 +160,12 @@ class ConcurrencyViewController: UIViewController {
     
     func updateDatabase() {
         // ... (Implementation to update a database)
-        print("Database updated")
+        print("Database updated - Serial Queue Example")
     }
     
     func readFromDatabase() {
         // ... (Implementation to read from a database)
-        print("Data read from database")
+        print("Data read from database - Serial Queue Example")
     }
     
     // MARK: - Concurrent Queues: The Multitasking Team
@@ -175,14 +176,14 @@ class ConcurrencyViewController: UIViewController {
         concurrentQueue.async {
             // Task 1: Download image 1
             self.downloadImage(from: "https://www.example.com/image1.jpg") { image, error in
-                // ...
+                // ... Handle image 1 download
             }
         }
         
         concurrentQueue.async {
             // Task 2: Download image 2
             self.downloadImage(from: "https://www.example.com/image2.jpg") { image, error in
-                // ...
+                // ... Handle image 2 download
             }
         }
     }
@@ -194,7 +195,7 @@ class ConcurrencyViewController: UIViewController {
     func updateUIExample() {
         DispatchQueue.main.async {
             // Update UI elements
-            self.label.text = "New Title"
+            self.label.text = "New Title - Main Queue Example"
             self.imageView.image = UIImage(named: "newImage")
         }
     }
@@ -204,9 +205,10 @@ class ConcurrencyViewController: UIViewController {
     func globalQueueExample() {
         DispatchQueue.global(qos: .background).async {
             // Perform background task
-            // ... (Perform time-consuming operation)
+            print("Background task executing - Global Queue Example")
             DispatchQueue.main.async {
-                // ... (Update UI)
+                // Update UI
+                self.label.text = "Updated from Background - Global Queue Example"
             }
         }
     }
@@ -220,8 +222,7 @@ class ConcurrencyViewController: UIViewController {
     
     func dispatchWorkItemExample() {
         let workItem = DispatchWorkItem(qos: .default) {
-            // Perform some work
-            print("Dispatch Work Item executing")
+            print("Dispatch Work Item executing - Dispatch Work Item Example")
         }
         concurrentQueue.async(execute: workItem)
         // workItem.cancel() // You can cancel if needed
@@ -232,7 +233,7 @@ class ConcurrencyViewController: UIViewController {
     func qosExample() {
         let backgroundQueue = DispatchQueue(label: "com.example.backgroundQueue", qos: .background)
         backgroundQueue.async {
-            print("Background task executing")
+            print("Background task executing - QoS Example")
         }
     }
     
@@ -245,7 +246,7 @@ class ConcurrencyViewController: UIViewController {
         
         concurrentQueue.async(flags: .barrier) {
             // Barrier: Ensure all writing is complete before proceeding
-            print("Barrier reached - writing complete")
+            print("Barrier reached - writing complete - Barrier Example")
         }
         
         concurrentQueue.async {
@@ -254,13 +255,11 @@ class ConcurrencyViewController: UIViewController {
     }
 
     func writeDataToDisk() {
-        // ... (Implementation to write data to disk)
-        print("Data written to disk")
+        print("Data written to disk - Barrier Example")
     }
 
     func readDataFromDisk() {
-        // ... (Implementation to read data from disk)
-        print("Data read from disk")
+        print("Data read from disk - Barrier Example")
     }
 
     
@@ -272,25 +271,23 @@ class ConcurrencyViewController: UIViewController {
         dispatchGroup.enter()
         concurrentQueue.async {
             // Task 1: Download image 1
-            self.downloadImage(from: "https://www.example.com/image1.jpg") { image, error in
-                // ...
-                self.dispatchGroup.leave()
-            }
+            // Simulate download delay
+            sleep(2)
+            print("Image 1 downloaded - Dispatch Group Example")
+            self.dispatchGroup.leave()
         }
         
         dispatchGroup.enter()
         concurrentQueue.async {
             // Task 2: Download image 2
-            self.downloadImage(from: "https://www.example.com/image2.jpg") { image, error in
-                // ...
-                self.dispatchGroup.leave()
-            }
+            // Simulate download delay
+            sleep(1)
+            print("Image 2 downloaded - Dispatch Group Example")
+            self.dispatchGroup.leave()
         }
         
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            // All downloads are complete - update UI on the main queue
-            print("All image downloads complete")
-            // ... (Update UI with downloaded images)
+            print("All image downloads complete - Dispatch Group Example")
         }
     }
     
@@ -300,8 +297,7 @@ class ConcurrencyViewController: UIViewController {
         let timerSource = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
         timerSource.schedule(deadline: .now() + 5, repeating: .seconds(1))
         timerSource.setEventHandler {
-            // Code to be executed when the timer fires
-            print("Timer fired!")
+            print("Timer fired! - Dispatch Source Example")
         }
         timerSource.resume()
     }
@@ -314,11 +310,13 @@ class ConcurrencyViewController: UIViewController {
         semaphore.wait() // Acquire the semaphore (decrements the counter)
 
         defer {
+            sleep(1) // Simulate work being done
             semaphore.signal() // Release the semaphore (increments the counter)
+            print("Semaphore released - Dispatch Semaphore Example")
         }
 
         // Access and use the shared resource here
-        print("Accessing shared resource")
+        print("Accessing shared resource - Dispatch Semaphore Example")
     }
 
     func dispatchSemaphoreExample() {
@@ -336,13 +334,11 @@ class ConcurrencyViewController: UIViewController {
     
     func operationQueueExample() {
         let operation1 = BlockOperation {
-            // Task 1: Perform some work
-            print("Operation 1 completed")
+            print("Operation 1 completed - Operation Queue Example")
         }
         
         let operation2 = BlockOperation {
-            // Task 2: Perform some work that depends on Operation 1
-            print("Operation 2 completed")
+            print("Operation 2 completed - Operation Queue Example")
         }
         
         // Add a dependency: Operation 2 depends on Operation 1
