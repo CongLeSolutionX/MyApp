@@ -53,10 +53,10 @@ class ConcurrencyViewController: UIViewController {
         
         // Set up constraints for imageView
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),    // Center horizontally
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),     // Center vertically
-            imageView.widthAnchor.constraint(equalToConstant: 200),             // Set width
-            imageView.heightAnchor.constraint(equalToConstant: 200)             // Set height
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),        // Center horizontally
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),        // Center vertically
+            imageView.widthAnchor.constraint(equalToConstant: 200),                 // Set width
+            imageView.heightAnchor.constraint(equalToConstant: 200)                 // Set height
         ])
         
         
@@ -73,6 +73,8 @@ class ConcurrencyViewController: UIViewController {
             // Code to be executed in a separate thread
             print("Code running in a separate thread")
         }.start()
+        // Threads are the most low-level concurrency mechanism.
+        // Use them with caution, as they require manual management of synchronization and resource safety.
     }
     
     // MARK: - Synchronization Primitives: Ensuring Thread Safety
@@ -291,7 +293,7 @@ class ConcurrencyViewController: UIViewController {
         }
     }
     
-    // MARK: - Dispatch Sources: Reacting to System Events
+    // MARK: - Dispatch Sources: Monitoring System Events
     
     func dispatchSourceExample() {
         let timerSource = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
@@ -306,6 +308,15 @@ class ConcurrencyViewController: UIViewController {
     
     let semaphore = DispatchSemaphore(value: 2) // Allow 2 concurrent accesses
 
+    func dispatchSemaphoreExample() {
+        concurrentQueue.async {
+            self.accessSharedResource()
+        }
+        concurrentQueue.async {
+            self.accessSharedResource()
+        }
+    }
+    
     func accessSharedResource() {
         semaphore.wait() // Acquire the semaphore (decrements the counter)
 
@@ -317,15 +328,6 @@ class ConcurrencyViewController: UIViewController {
 
         // Access and use the shared resource here
         print("Accessing shared resource - Dispatch Semaphore Example")
-    }
-
-    func dispatchSemaphoreExample() {
-        concurrentQueue.async {
-            self.accessSharedResource()
-        }
-        concurrentQueue.async {
-            self.accessSharedResource()
-        }
     }
     
     // MARK: - Operation Queues: Object-Oriented Concurrency
