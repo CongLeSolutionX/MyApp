@@ -50,19 +50,36 @@ class ConcurrencyViewController: UIViewController {
         imageView.image = image
         
         view.addSubview(imageView)
+        view.addSubview(label)
         
-        // Set up constraints for imageView
+        // Set up constraints UI elements
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),        // Center horizontally
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),        // Center vertically
             imageView.widthAnchor.constraint(equalToConstant: 200),                 // Set width
-            imageView.heightAnchor.constraint(equalToConstant: 200)                 // Set height
+            imageView.heightAnchor.constraint(equalToConstant: 200),                // Set height
+            
+            label.topAnchor.constraint(equalTo: view.topAnchor),
+            label.bottomAnchor.constraint(equalTo: imageView.topAnchor)
         ])
         
         
         // Call the example you want to test here
-        // Example: simpleClosureExample()
-        dispatchSemaphoreExample()
+        // Example: threadExample()
+        simpleClosureExample()
+        // dispatchSemaphoreExample()
+        // serialQueueExample()
+        // concurrentQueueExample()
+        // updateUIExample()
+        // globalQueueExample()
+        // dispatchWorkItemExample()
+        // qosExample()
+        // barrierExample()
+        // dispatchGroupExample()
+        // dispatchSourceExample()
+        // dispatchSemaphoreExample()
+        // accessSharedResource()
+        // operationQueueExample()
     }
     
     
@@ -174,6 +191,7 @@ class ConcurrencyViewController: UIViewController {
     
     let concurrentQueue = DispatchQueue(label: "com.example.concurrentQueue", attributes: .concurrent)
     
+    //TODO: Update the implementations
     func concurrentQueueExample() {
         concurrentQueue.async {
             // Task 1: Download image 1
@@ -240,7 +258,7 @@ class ConcurrencyViewController: UIViewController {
     }
     
     // MARK: - Barriers: Synchronization within Concurrent Queues
-
+    // TODO: Need to expand the implementation with real database like CoreDara or SwiftData
     func barrierExample() {
         concurrentQueue.async {
             self.writeDataToDisk() // Task 1: Write data to a file
@@ -266,7 +284,7 @@ class ConcurrencyViewController: UIViewController {
 
     
     // MARK: - DispatchGroup: Coordinating Across Queues
-    
+    // TODO: Update the implementation using real network calls
     let dispatchGroup = DispatchGroup()
     
     func dispatchGroupExample() {
@@ -294,7 +312,7 @@ class ConcurrencyViewController: UIViewController {
     }
     
     // MARK: - Dispatch Sources: Monitoring System Events
-    
+    // FIXME: Not print out the statement
     func dispatchSourceExample() {
         let timerSource = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
         timerSource.schedule(deadline: .now() + 5, repeating: .seconds(1))
@@ -305,7 +323,7 @@ class ConcurrencyViewController: UIViewController {
     }
     
     // MARK: - Dispatch Semaphores: Resource Access Control
-    
+    // TODO: Write more details for the implementtation
     let semaphore = DispatchSemaphore(value: 2) // Allow 2 concurrent accesses
 
     func dispatchSemaphoreExample() {
