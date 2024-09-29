@@ -11,21 +11,32 @@ import CoreData
 
 //// Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = DeadlockExampleViewController
+    typealias UIViewControllerType = DeadlockClassicExampleViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> DeadlockExampleViewController {
+    func makeUIViewController(context: Context) -> DeadlockClassicExampleViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return DeadlockExampleViewController()
+        return DeadlockClassicExampleViewController()
     }
     
-    func updateUIViewController(_ uiViewController: DeadlockExampleViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: DeadlockClassicExampleViewController, context: Context) {
         // Update the view controller if needed
     }
 }
 
 // Example UIKit view controller
-class DeadlockExampleViewController: UIViewController {
+class DeadlockClassicExampleViewController: UIViewController {
+    lazy var label: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemRed
+        label.text = "From UIKit"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.backgroundColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     var persistentContainer: NSPersistentContainer? {
         return (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     }
@@ -37,6 +48,16 @@ class DeadlockExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            // Set the width and height
+            label.widthAnchor.constraint(equalToConstant: 200),
+            label.heightAnchor.constraint(equalToConstant: 50)
+        ])
 
         
         // Load persistent store
