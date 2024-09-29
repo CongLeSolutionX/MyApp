@@ -18,7 +18,7 @@ struct DeadlockClassicViewController: View {
 
 struct DeadlockBySemaphoresView: View {
     var body: some View {
-        Text("Deadlock By Sepaphores View")
+        Text("Deadlock By Semaphores View")
         UIKitViewWrapper()
             .edgesIgnoringSafeArea(.all)
     }
