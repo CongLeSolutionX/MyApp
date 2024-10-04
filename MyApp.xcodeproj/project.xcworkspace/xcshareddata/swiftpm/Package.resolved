@@ -1,0 +1,15 @@
+{
+  "originHash" : "033133227950924ca071090a084a608e5343a69494c4fb95f967971327c66d65",
+  "pins" : [
+    {
+      "identity" : "swift-realtime-openai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/m1guelpf/swift-realtime-openai.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "902a2a86d25bfc47b0efd11db099f86ea92ad3b9"
+      }
+    }
+  ],
+  "version" : 3
+}
