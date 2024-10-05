@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MessageBubble: View {
     var message: Item.Message
-
+    
     var body: some View {
         VStack {
             ForEach(message.content, id: \.self) { content in
@@ -44,6 +44,24 @@ struct MessageBubble_ContentView: View {
         }
     }
 }
+
+extension Item.Message.Content: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        switch self {
+        case .text(let text):
+            hasher.combine(text)
+        case .audio(let audio):
+            hasher.combine(audio.audio)
+            hasher.combine(audio.transcript)
+        case .input_text(let text):
+            hasher.combine(text)
+        case .input_audio(let audio):
+            hasher.combine(audio.audio)
+            hasher.combine(audio.transcript)
+        }
+    }
+}
+
 
 // MARK: - Preview
 
