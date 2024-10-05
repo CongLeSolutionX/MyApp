@@ -13,7 +13,9 @@ struct MessageBubble: View {
     
     var body: some View {
         VStack {
-            ForEach(message.content, id: \.self) { content in
+            ForEach(message.content, id: \.text) { content in
+                // Note: Ideally, use a more robust ID if your content
+                // can have duplicate text values.
                 if let text = content.text {
                     Text(text)
                         .padding()
@@ -44,24 +46,6 @@ struct MessageBubble_ContentView: View {
         }
     }
 }
-
-extension Item.Message.Content: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        switch self {
-        case .text(let text):
-            hasher.combine(text)
-        case .audio(let audio):
-            hasher.combine(audio.audio)
-            hasher.combine(audio.transcript)
-        case .input_text(let text):
-            hasher.combine(text)
-        case .input_audio(let audio):
-            hasher.combine(audio.audio)
-            hasher.combine(audio.transcript)
-        }
-    }
-}
-
 
 // MARK: - Preview
 
