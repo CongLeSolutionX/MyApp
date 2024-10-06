@@ -26,24 +26,43 @@ actor Counter {
 }
 
 @MainActor
-func updateUI(with value: Int) {
-    // Placeholder for UI update (e.g., updating a Text view)
-    print("UI updated with: \(value)")
+func updateUI(with value: Int) -> String {
+    // Returns a string message that could be used to update a UI label
+    return "UI updated with: \(value)"
 }
 
+
+// MARK: - Global Actor
+
+
 @globalActor
-actor DataManager { // Example custom global actor
+final actor DataManager {
     static let shared = DataManager()
+    private var cache: [String: Data] = [:]
+
     func fetchData(from source: String) async throws -> Data {
-        // Placeholder for data fetching operation
-          try await Task.sleep(nanoseconds: 2_000_000_000) // Simulate network request delay
-        return Data(source.utf8)
+        if let cachedData = cache[source] {
+            print("Returning cached data for \(source)")
+            return cachedData
+        }
+        
+        // Simulate a network fetch with delay
+        try await Task.sleep(nanoseconds: 2_000_000_000) // Simulate network delay with 2 seconds
+        
+        // Create sample data
+        let fetchedData = Data("Data from \(source)".utf8)
+        
+        // Store in cache
+        cache[source] = fetchedData
+        
+        print("Fetched and cached data for \(source)")
+        return fetchedData
     }
 }
 
 // MARK: - async/await
 func performAsyncTask(with data: Data) async throws -> String {
-    // Placeholder for asynchronous operation
+    // Simulate processing data
     try await Task.sleep(nanoseconds: 1_000_000_000)
     return String(decoding: data, as: UTF8.self)
 }
@@ -99,8 +118,7 @@ func fetchMultipleData(from sources: [String]) async throws -> [Data] {
 }
 
 // MARK: - Continuations
-// Use with caution! Ensure single resume in each continuation to avoid memory
-// leaks
+// Use with caution! Ensure single resume in each continuation to avoid memory leaks
 
 func integrateWithLegacyCallback(completion: @escaping (String) -> Void) async -> String {
     await withCheckedContinuation { continuation in
@@ -141,6 +159,7 @@ func sendableClosureExample() {
 struct ContentView: View {
     @State private var counterValue = 0
     @State private var fetchedData: String = ""
+    @State private var uiUpdateMessage: String = "Welcome!"
 
     var body: some View {
         VStack {
@@ -149,18 +168,22 @@ struct ContentView: View {
             Button("Increment Counter") {
                 Task {
                     let newValue = await Counter().increment()
-                    await updateUI(with: newValue)
+                    let message = updateUI(with: newValue)
                     counterValue = newValue // Update the view's state
+                    uiUpdateMessage = message // Update message to display in UI
                 }
             }
+            
+            Text(uiUpdateMessage) // Displays the UI update message
+            
             Text("Fetched data: \(fetchedData)")
             Button("Fetch Data") {
                 Task {
                     do {
                     let data = try await DataManager.shared.fetchData(from: "Example Source")
                     let result = try await performAsyncTask(with: data)
-                        await updateUI(with: 1) // Update UI to signal completion
                     fetchedData = result
+                        uiUpdateMessage = updateUI(with: 1) // Simulate a message update post-fetch
                     } catch {
                         print("Error fetching data: \(error)")
                     }
