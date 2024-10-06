@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-//
+
 //// Step 2: Use in SwiftUI view
 //struct ContentView: View {
 //    var body: some View {
@@ -166,15 +166,19 @@ struct ContentView: View {
                     }
                 }
             }
+            
             Button("Start Background Task") {
                 startBackgroundTask()
             }
+            
             Button("Cancellable Task") {
                 cancellableTask(with: "Test Message")
             }
+            
             Button("Prioritized Task") {
                 prioritizedTask(with: .high, message: "High Priority")
             }
+            
             Button("Fetch Multiple Data") {
                 Task {
                     do {
@@ -198,4 +202,18 @@ struct ContentView: View {
             }
         }
     }
+}
+
+// MARK: - Preview
+
+// Before iOS 17, use this syntax for preview UIKit view controller
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitViewControllerWrapper()
+    }
+}
+
+// After iOS 17, we can use this syntax for preview:
+#Preview {
+    ContentView()
 }
