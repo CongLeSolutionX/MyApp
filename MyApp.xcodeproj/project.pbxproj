@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2C3D5B2CB19CD500471329 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2C3D5A2CB19CD500471329 /* OpenAI */; };
+		9A5396332CB1B7BD004FD1D5 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5396322CB1B7BD004FD1D5 /* OpenAI */; };
 		9A86B7FA2CB0AEDF00827D53 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A86B7F92CB0AEDF00827D53 /* OpenAI */; };
 		9A86B7FC2CB0B0C300827D53 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A86B7FB2CB0B0BD00827D53 /* MessageBubble.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
@@ -14,6 +16,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AF52DDF2CB1B8E600ED30EC /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AF52DDE2CB1B8E600ED30EC /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2C3D5B2CB19CD500471329 /* OpenAI in Frameworks */,
+				9A5396332CB1B7BD004FD1D5 /* OpenAI in Frameworks */,
+				9AF52DDF2CB1B8E600ED30EC /* OpenAI in Frameworks */,
 				9A86B7FA2CB0AEDF00827D53 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,7 +128,7 @@
 			);
 			mainGroup = 9AAC416F2C74668B00AC0A60;
 			packageReferences = (
-				9A86B7F82CB0AEDF00827D53 /* XCRemoteSwiftPackageReference "swift-realtime-openai" */,
+				9AF52DDD2CB1B8E600ED30EC /* XCLocalSwiftPackageReference "../swift-realtime-openai-by-me" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -377,6 +383,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		9AF52DDD2CB1B8E600ED30EC /* XCLocalSwiftPackageReference "../swift-realtime-openai-by-me" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../swift-realtime-openai-by-me";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		9A86B7F82CB0AEDF00827D53 /* XCRemoteSwiftPackageReference "swift-realtime-openai" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -389,9 +402,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9A2C3D5A2CB19CD500471329 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OpenAI;
+		};
+		9A5396322CB1B7BD004FD1D5 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OpenAI;
+		};
 		9A86B7F92CB0AEDF00827D53 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9A86B7F82CB0AEDF00827D53 /* XCRemoteSwiftPackageReference "swift-realtime-openai" */;
+			productName = OpenAI;
+		};
+		9AF52DDE2CB1B8E600ED30EC /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
