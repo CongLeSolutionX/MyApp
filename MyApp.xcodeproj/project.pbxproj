@@ -11,6 +11,10 @@
 		9A2760202CB3DB9900F6F4B2 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2760042CB3D7AE00F6F4B2 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A2760242CB3E93200F6F4B2 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2760082CB3D7AE00F6F4B2 /* Alamofire.framework */; platformFilters = (macos, ); };
 		9A2760252CB3E93200F6F4B2 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2760082CB3D7AE00F6F4B2 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A7290212CB3F22500BAAB25 /* AssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290202CB3F22300BAAB25 /* AssistantView.swift */; };
+		9A7290232CB3F23800BAAB25 /* AssistantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */; };
+		9A7290252CB3F24A00BAAB25 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290242CB3F24900BAAB25 /* OpenAIService.swift */; };
+		9A7290272CB3F27A00BAAB25 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290262CB3F27800BAAB25 /* MainView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -108,6 +112,10 @@
 
 /* Begin PBXFileReference section */
 		9A275FF62CB3D7AE00F6F4B2 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		9A7290202CB3F22300BAAB25 /* AssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantView.swift; sourceTree = "<group>"; };
+		9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantViewModel.swift; sourceTree = "<group>"; };
+		9A7290242CB3F24900BAAB25 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		9A7290262CB3F27800BAAB25 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -167,6 +175,10 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A7290262CB3F27800BAAB25 /* MainView.swift */,
+				9A7290242CB3F24900BAAB25 /* OpenAIService.swift */,
+				9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */,
+				9A7290202CB3F22300BAAB25 /* AssistantView.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
@@ -336,8 +348,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A7290272CB3F27A00BAAB25 /* MainView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A7290232CB3F23800BAAB25 /* AssistantViewModel.swift in Sources */,
+				9A7290212CB3F22500BAAB25 /* AssistantView.swift in Sources */,
+				9A7290252CB3F24A00BAAB25 /* OpenAIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
