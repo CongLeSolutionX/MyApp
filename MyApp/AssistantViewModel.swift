@@ -19,8 +19,8 @@ class AssistantViewModel: ObservableObject {
     init(openAIService: OpenAIService = OpenAIService()) {
         self.openAIService = openAIService
     }
-
-    func sendMessage (message: String) {
+    
+    func sendMessage (message: String) async {
         guard message != "" else {return}
 
         openAIService.makeRequest(message: OpenAIMessage(role: "user", content: message))
@@ -125,5 +125,4 @@ class AssistantViewModel: ObservableObject {
             print(error.localizedDescription)
         }
     }
-
 }

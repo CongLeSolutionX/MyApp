@@ -9,49 +9,67 @@ import SwiftUICore
 import SwiftUI
 
 struct AssistantView: View {
-    @ObservedObject var viewModel: AssistantViewModel = AssistantViewModel()
+    @ObservedObject var viewModel: AssistantViewModel
     @StateObject var speechRecognizer = SpeechRecognizer()
 
     @State private var isRecording = false
 
+    init(viewModel: AssistantViewModel) { // Inject the view model
+      self.viewModel = viewModel
+    }
+
     var body: some View {
         VStack {
             Button {
-                endRecording()
-            } label: {
                 if isRecording {
-                    RoundAnimation()
+                    Task {
+                        await endRecording()
+                    }
                 }
+            } label: {
+                VStack { // Center content better
+                    if isRecording {
+                        RoundAnimation()
+                    }
+                    Image(systemName: "mic.circle")
+                        .font(.system(size: 70))
+                        .foregroundColor(.blue)
+                }
+                .frame(height: 100) // Set the frame for the container
+                .padding()
 
-                Image(systemName: "mic.circle")
-                    .frame(height: 100)
-                    .foregroundColor(.blue)
-                    .font(.system(size: 70))
-                    .padding()
             }
             .simultaneousGesture(
-                LongPressGesture(minimumDuration: 0.1).onEnded { _ in
-                    startRecording()
-                })
+                LongPressGesture(minimumDuration: 0.1)
+                    .onEnded { _ in
+                        Task { // Use a Task to handle the async operation
+                            await startRecording()
+                        }
+                    })
         }
         .padding()
     }
 
-    @MainActor private func startRecording() {
+    @MainActor private func startRecording() async {
+        isRecording = true // Set isRecording to true immediately
         print("Debug: Start transcription")
-        speechRecognizer.resetTranscript()
-        speechRecognizer.startTranscribing()
-        isRecording = true
+        await speechRecognizer.resetTranscript()
+        await speechRecognizer.startTranscribing()
     }
 
-    @MainActor private func endRecording() {
-        speechRecognizer.stopTranscribing()
-        isRecording = false
-        print("Stopped", speechRecognizer.transcript)
-        viewModel.sendMessage(message: speechRecognizer.transcript)
 
+    @MainActor private func endRecording() async {
+        await speechRecognizer.stopTranscribing()
+        isRecording = false
+        await viewModel.sendMessage(message: speechRecognizer.transcript)
+        print("Debug: Stopped transcription", speechRecognizer.transcript)
+
+        Task { // Reset the transcript after sending for the next recording
+            await speechRecognizer.resetTranscript()
+        }
     }
 }
+
 
 struct RoundAnimation: View {
     @State private var isAnimating = false
@@ -72,5 +90,5 @@ struct RoundAnimation: View {
 // MARK: - Preview
 #Preview {
     RoundAnimation()
-    AssistantView()
+    AssistantView(viewModel: AssistantViewModel())
 }
