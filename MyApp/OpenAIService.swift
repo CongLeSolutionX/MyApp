@@ -162,6 +162,40 @@ class OpenAIService {
             completion(.failure(error))
         }
     }
+    
+    func tts(text: String) -> AnyPublisher<Data, Error> {
+        let headers: HTTPHeaders = ["Authorization" : "Bearer \(Constants.OpenAIAPIKey)", "Content-Type": "application/json"]
+        let parameters = TTSParameters(
+            model: "tts-1",
+            input: text,
+            voice: "alloy"
+        )
+        return Future { promise in
+            self.performTTSRequest(with: parameters, headers: headers, promise: promise)
+        }
+        .eraseToAnyPublisher()
+    }
+
+    private func performTTSRequest(with parameters: TTSParameters,
+                                   headers: HTTPHeaders,
+                                   promise: @escaping (Result<Data, Error>) -> Void) {
+        AF.request("https://api.openai.com/v1/audio/speech", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers)
+            .validate()
+            .responseData { response in
+                switch response.result {
+                case .success(let data):
+                    promise(.success(data))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+    }
+
+    struct TTSParameters: Codable {
+        let model: String
+        let input: String
+        let voice: String
+    }
 }
 
 // Example dummy function hard coded to return the same weather

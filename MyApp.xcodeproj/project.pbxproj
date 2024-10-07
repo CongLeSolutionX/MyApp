@@ -15,6 +15,7 @@
 		9A7290232CB3F23800BAAB25 /* AssistantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */; };
 		9A7290252CB3F24A00BAAB25 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290242CB3F24900BAAB25 /* OpenAIService.swift */; };
 		9A7290272CB3F27A00BAAB25 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290262CB3F27800BAAB25 /* MainView.swift */; };
+		9A7290352CB3F7F500BAAB25 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7290342CB3F7F400BAAB25 /* SpeechRecognizer.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -116,6 +117,7 @@
 		9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantViewModel.swift; sourceTree = "<group>"; };
 		9A7290242CB3F24900BAAB25 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
 		9A7290262CB3F27800BAAB25 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		9A7290342CB3F7F400BAAB25 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A7290342CB3F7F400BAAB25 /* SpeechRecognizer.swift */,
 				9A7290262CB3F27800BAAB25 /* MainView.swift */,
 				9A7290242CB3F24900BAAB25 /* OpenAIService.swift */,
 				9A7290222CB3F23600BAAB25 /* AssistantViewModel.swift */,
@@ -348,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A7290352CB3F7F500BAAB25 /* SpeechRecognizer.swift in Sources */,
 				9A7290272CB3F27A00BAAB25 /* MainView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
@@ -490,6 +494,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need your permission to use microphone";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need your permission to talk to you";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -529,6 +535,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need your permission to use microphone";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We need your permission to talk to you";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
