@@ -47,14 +47,18 @@ class SpeechRecognizerViewModel: ObservableObject {
         do {
             try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+            print("Audio session configured successfully.")
         } catch {
             print("Audio session setup failed: \(error.localizedDescription)")
             return
         }
 
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        guard let recognitionRequest = recognitionRequest else { return }
-
+        guard let recognitionRequest = recognitionRequest else {
+            print("Unable to create recognition request.")
+            return
+        }
+        
         recognitionRequest.shouldReportPartialResults = true
 
         let inputNode = audioEngine.inputNode
@@ -68,9 +72,10 @@ class SpeechRecognizerViewModel: ObservableObject {
 
         do {
             try audioEngine.start()
-            DispatchQueue.main.async {
-                self.isRecording = true
+            DispatchQueue.main.async { [weak self] in
+                self?.isRecording = true
             }
+            print("Audio engine started successfully.")
         } catch {
             print("Audio engine start failure: \(error.localizedDescription)")
             return
@@ -81,17 +86,24 @@ class SpeechRecognizerViewModel: ObservableObject {
             stopRecording()
             return
         }
-
-        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
+        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
             if let result = result {
                 DispatchQueue.main.async {
-                    self.transcript = result.bestTranscription.formattedString
+                    self?.transcript = result.bestTranscription.formattedString
                 }
             }
-
-            if error != nil || result?.isFinal == true {
-                self.stopRecording()
+            
+            if let error = error {
+                print("Recognition error: \(error.localizedDescription)")
+                self?.stopRecording()
+                return
             }
+            
+            if result?.isFinal == true {
+                self?.stopRecording()
+                return
+            }
+            
         }
     }
 
@@ -134,7 +146,7 @@ struct SpeechRecognizerView_ContentView: View {
                     .background(viewModel.isRecording ? Color.red : Color.green)
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    .animation(.easeInOut(duration: 0.2)) // Smooth transition
+                    .animation(.easeInOut, value: 0.2) // Smooth transition
             }
             .padding()
         }
