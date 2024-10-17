@@ -25,7 +25,7 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 
 // Example UIKit view controller
 class MyUIKitViewController: UIViewController {
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,21 +36,27 @@ class MyUIKitViewController: UIViewController {
     
     func demoStrategyPattern() {
         // MARK: - Usage Example
-        let userSelectedCompressionType: CompressionType = .png // Example: from user settings
+        let userSelectedCompressionType: CompressionType = .jpeg // Example: from user settings
         
-        // Using the factory:
+        // Using the factory to create the selected compression strategy:
         if let strategy = CompressionStrategyFactory.createStrategy(for: userSelectedCompressionType) {
             let imageProcessor = ImageProcessor(compressionStrategy: strategy)
-            if let image = UIImage(named: "Round_logo") { // Replace with actual image loading
+            if let image = UIImage(named: "Round_logo") { // Replace with your image loading
+                
+                // Before compression:
+                if let originalImageData = image.pngData() { // Get original image data (adjust type if needed)
+                    print("Original image data size: \(originalImageData.count) bytes")
+                }
+                
+                
                 let result = imageProcessor.processImage(image: image)
                 switch result {
-                case .success(let data):
-                    print("Compressed image data: \(data)")
+                case .success(let compressedData):
+                    print("Compressed image data size: \(compressedData.count) bytes")
                 case .failure(let error):
                     print("Image compression failed: \(error.localizedDescription)")
                 }
             }
         }
-
     }
 }
