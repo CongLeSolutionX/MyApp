@@ -31,32 +31,53 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
-        self.demoStrategyPattern()
+        // Simulate dynamic selection by iterating through all compression types
+        for compressionType in CompressionType.allCases {
+            performImageCompression(using: compressionType)
+        }
     }
     
-    func demoStrategyPattern() {
-        // MARK: - Usage Example
-        let userSelectedCompressionType: CompressionType = .jpeg // Example: from user settings
-        
+    // Function to simulate usage of Image Compression Strategy
+    func performImageCompression(using compressionType: CompressionType) {
         // Using the factory to create the selected compression strategy:
-        if let strategy = CompressionStrategyFactory.createStrategy(for: userSelectedCompressionType) {
-            let imageProcessor = ImageProcessor(compressionStrategy: strategy)
-            if let image = UIImage(named: "Round_logo") { // Replace with your image loading
-                
-                // Before compression:
-                if let originalImageData = image.pngData() { // Get original image data (adjust type if needed)
-                    print("Original image data size: \(originalImageData.count) bytes")
-                }
-                
-                
-                let result = imageProcessor.processImage(image: image)
-                switch result {
-                case .success(let compressedData):
-                    print("Compressed image data size: \(compressedData.count) bytes")
-                case .failure(let error):
-                    print("Image compression failed: \(error.localizedDescription)")
-                }
-            }
+        guard let strategy = CompressionStrategyFactory.createStrategy(for: compressionType) else {
+            print("Unsupported compression type selected.")
+            return
+        }
+        let imageProcessor = ImageProcessor(compressionStrategy: strategy)
+        
+        // Replace "Round_logo" with the actual image name in your asset catalog
+        // or use another method to load the UIImage
+        guard let image = UIImage(named: "Round_logo") else {
+            print("Failed to load the image.")
+            return
+        }
+        
+        // Retrieve original image data based on the selected compression type
+        let originalImageData: Data?
+        switch compressionType {
+        case .jpeg:
+            // Assuming the original image is best represented as JPEG for comparison
+            originalImageData = image.jpegData(compressionQuality: 1.0)
+        case .png:
+            // Assuming the original image is best represented as PNG for comparison
+            originalImageData = image.pngData()
+        }
+        
+        if let originalData = originalImageData {
+            print("Compression Type: \(compressionType.rawValue.uppercased())")
+            print("Original image data size: \(originalData.count) bytes")
+        } else {
+            print("Failed to retrieve original image data.")
+        }
+        
+        // Perform compression using the selected strategy
+        let result = imageProcessor.processImage(image: image)
+        switch result {
+        case .success(let compressedData):
+            print("Compressed image data size: \(compressedData.count) bytes\n")
+        case .failure(let error):
+            print("Image compression failed: \(error.localizedDescription)\n")
         }
     }
 }
