@@ -28,6 +28,10 @@ class MyUIKitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
-        // Additional setup
+        
+        
+        // Call the usage example function
+        compressSampleImage()
+
     }
 }
