@@ -32,7 +32,11 @@ class MyUIKitViewController: UIViewController {
         
         // Call the usage example function
         // compressSampleImage()
-        demoComprehensiveFactoryPatterns()
+        
+        
+        // demoComprehensiveFactoryPatterns()
+        
+        demoDependencyInjection()
 
     }
 }

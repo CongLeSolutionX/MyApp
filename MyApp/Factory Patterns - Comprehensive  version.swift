@@ -51,6 +51,32 @@ class HEICCompression: ImageCompressionStrategy {
     }
 }
 
+/// Class responsible for processing images and validating data
+class ImageProcessor {
+    private let compressionStrategy: ImageCompressionStrategy
+    private let dataValidator: DataValidator
+    
+    /// Initializes the ImageProcessor with specific strategies
+    /// - Parameters:
+    ///   - compressionStrategy: The strategy to use for image compression
+    ///   - dataValidator: The validator to use for data validation
+    init(compressionStrategy: ImageCompressionStrategy, dataValidator: DataValidator) {
+        self.compressionStrategy = compressionStrategy
+        self.dataValidator = dataValidator
+    }
+    
+    /// Compresses the given image and validates the provided data
+    /// - Parameters:
+    ///   - image: The UIImage to compress
+    ///   - data: The String data to validate
+    /// - Returns: A tuple containing the compressed image data and the validation result
+    func process(image: UIImage, data: String) -> (compressedData: Data?, isValid: Bool) {
+        let compressedData = compressionStrategy.compress(image: image)
+        let isValid = dataValidator.validate(data: data)
+        return (compressedData, isValid)
+    }
+}
+
 @available(iOS 11.0, *)
 extension UIImage {
     /// Helper method to encode UIImage to HEIC Data
@@ -223,4 +249,30 @@ func demoComprehensiveFactoryPatterns() {
     let isPasswordValid = darkValidator.validate(data: "password123")
     print("Dark Theme Password Validation: \(isPasswordValid)")
 
+}
+
+// MARK: - Example Usage with Dependency Injection
+
+func demoDependencyInjection() {
+    // Example Image (Placeholder)
+    let exampleImage = UIImage(named: "sampleImage") ?? UIImage()
+    
+    // Using CompressionFactory to create strategies
+    let compressionFactory = CompressionFactory()
+    let jpegStrategy = compressionFactory.createCompressionStrategy(type: .jpeg)
+    
+    // Using LightThemeFactory to create validators
+    let lightFactory: AbstractFactory = LightThemeFactory()
+    let emailValidator = lightFactory.createDataValidator()
+    
+    // Inject dependencies into ImageProcessor
+    let imageProcessor = ImageProcessor(compressionStrategy: jpegStrategy, dataValidator: emailValidator)
+    
+    // Process Image and Data
+    let result = imageProcessor.process(image: exampleImage, data: "user@example.com")
+    
+    if let data = result.compressedData {
+        print("Compression Successful, Data Size: \(data.count) bytes")
+    }
+    print("Data Validation Result: \(result.isValid)")
 }
