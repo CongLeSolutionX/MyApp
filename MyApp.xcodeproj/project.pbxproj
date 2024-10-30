@@ -26,6 +26,13 @@
 			remoteGlobalIDString = 9AAC41772C74668B00AC0A60;
 			remoteInfo = MyApp;
 		};
+		9AB018132CD1C7D600342227 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9AAC41702C74668B00AC0A60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AAC41772C74668B00AC0A60;
+			remoteInfo = MyApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -40,11 +47,13 @@
 		9AB017F82CD19A1100342227 /* Abstract Factory Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Abstract Factory Pattern.swift"; sourceTree = "<group>"; };
 		9AB017FE2CD19FBC00342227 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB018092CD1C03300342227 /* Factory Patterns - Comprehensive  version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Factory Patterns - Comprehensive  version.swift"; sourceTree = "<group>"; };
+		9AB0180F2CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppComprehensiveFactoryPatternsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD6CE02CD0F75B0088BF83 /* Factory Method Pattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Factory Method Pattern.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9AB017FF2CD19FBC00342227 /* MyAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyAppTests; sourceTree = "<group>"; };
+		9AB018102CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MyAppComprehensiveFactoryPatternsTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +71,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AB0180C2CD1C7D600342227 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -70,6 +86,7 @@
 			children = (
 				9AAC417A2C74668B00AC0A60 /* MyApp */,
 				9AB017FF2CD19FBC00342227 /* MyAppTests */,
+				9AB018102CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests */,
 				9AAC41792C74668B00AC0A60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,6 +96,7 @@
 			children = (
 				9AAC41782C74668B00AC0A60 /* MyApp.app */,
 				9AB017FE2CD19FBC00342227 /* MyAppTests.xctest */,
+				9AB0180F2CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,6 +169,29 @@
 			productReference = 9AB017FE2CD19FBC00342227 /* MyAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9AB0180E2CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AB018152CD1C7D600342227 /* Build configuration list for PBXNativeTarget "MyAppComprehensiveFactoryPatternsTests" */;
+			buildPhases = (
+				9AB0180B2CD1C7D600342227 /* Sources */,
+				9AB0180C2CD1C7D600342227 /* Frameworks */,
+				9AB0180D2CD1C7D600342227 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9AB018142CD1C7D600342227 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9AB018102CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests */,
+			);
+			name = MyAppComprehensiveFactoryPatternsTests;
+			packageProductDependencies = (
+			);
+			productName = MyAppComprehensiveFactoryPatternsTests;
+			productReference = 9AB0180F2CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,6 +206,10 @@
 						CreatedOnToolsVersion = 15.4;
 					};
 					9AB017FD2CD19FBC00342227 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 9AAC41772C74668B00AC0A60;
+					};
+					9AB0180E2CD1C7D600342227 = {
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 9AAC41772C74668B00AC0A60;
 					};
@@ -185,6 +230,7 @@
 			targets = (
 				9AAC41772C74668B00AC0A60 /* MyApp */,
 				9AB017FD2CD19FBC00342227 /* MyAppTests */,
+				9AB0180E2CD1C7D600342227 /* MyAppComprehensiveFactoryPatternsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -200,6 +246,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9AB017FC2CD19FBC00342227 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AB0180D2CD1C7D600342227 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -230,6 +283,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AB0180B2CD1C7D600342227 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -237,6 +297,11 @@
 			isa = PBXTargetDependency;
 			target = 9AAC41772C74668B00AC0A60 /* MyApp */;
 			targetProxy = 9AB018022CD19FBC00342227 /* PBXContainerItemProxy */;
+		};
+		9AB018142CD1C7D600342227 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AAC41772C74668B00AC0A60 /* MyApp */;
+			targetProxy = 9AB018132CD1C7D600342227 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -472,6 +537,47 @@
 			};
 			name = Release;
 		};
+		9AB018162CD1C7D600342227 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99WD9D6Y46;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.CongLeSolutionX.MyAppComprehensiveFactoryPatternsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyApp";
+			};
+			name = Debug;
+		};
+		9AB018172CD1C7D600342227 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99WD9D6Y46;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.CongLeSolutionX.MyAppComprehensiveFactoryPatternsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyApp";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -498,6 +604,15 @@
 			buildConfigurations = (
 				9AB018052CD19FBC00342227 /* Debug */,
 				9AB018062CD19FBC00342227 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AB018152CD1C7D600342227 /* Build configuration list for PBXNativeTarget "MyAppComprehensiveFactoryPatternsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AB018162CD1C7D600342227 /* Debug */,
+				9AB018172CD1C7D600342227 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
