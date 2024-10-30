@@ -171,7 +171,7 @@ class AbstractFactoryTests: XCTestCase {
 class ClientTests: XCTestCase {
     
     func testClient_WithLightTheme_ShouldUseJPEGCompressionAndEmailValidator() {
-        let lightFactory = LightThemeFactory()
+        //let lightFactory = LightThemeFactory()
         let client = Client(theme: .light)
         
         // Test Compression Strategy
@@ -182,7 +182,7 @@ class ClientTests: XCTestCase {
     }
     
     func testClient_WithDarkTheme_ShouldUseHEICCompressionAndPasswordValidator() {
-        let darkFactory = DarkThemeFactory()
+        //let darkFactory = DarkThemeFactory()
         let client = Client(theme: .dark)
         
         // Test Compression Strategy

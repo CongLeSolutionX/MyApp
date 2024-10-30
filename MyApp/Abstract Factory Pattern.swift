@@ -128,8 +128,8 @@ enum Theme {
 
 class Client {
     private let factory: AbstractFactory
-    private let compressionStrategy: ImageCompressionStrategy
-    private let dataValidator: DataValidator
+    let compressionStrategy: ImageCompressionStrategy
+    let dataValidator: DataValidator
     
     init(theme: Theme) {
         switch theme {
