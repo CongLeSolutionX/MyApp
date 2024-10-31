@@ -7,12 +7,15 @@
 
 import SwiftUI
 
-// Step 3: Embed in main app structure
+// MARK: - Main Application
 @main
-struct MyAppApp: App {
+struct LifecycleDemoApp: App {
+    // Register AppDelegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
     }
 }
