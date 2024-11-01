@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - MainView
-struct MainView: View {
+struct MainSwiftUIView: View {
     @State private var showDetail = false
     @State private var refreshCount = 0
     
@@ -109,9 +109,43 @@ struct DetailView: View {
     }
 }
 
+struct MainSwiftUIViewWithObjCInstance: View {
+    // Create an instance of the Objective-C class
+    let objcFunctions = ObjectiveCFunctions()
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Welcome to LifecycleDemoApp")
+                .font(.largeTitle)
+                .padding()
+                .onAppear {
+                    // Call Objective-C function when the view appears
+                    objcFunctions.showAlert(withTitle: "Hello", message: "MainView has appeared!")
+                }
+            
+            Button(action: {
+                // Call Objective-C function when button is tapped
+                objcFunctions.showAlert(withTitle: "Button Tapped", message: "You tapped the button!")
+            }) {
+                Text("Show Alert")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+        }
+        .padding()
+    }
+}
+
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainSwiftUIViewWithObjCInstance()
+    }
+}
 
 // MARK: - Preview
 
 #Preview {
-    MainView()
+    MainSwiftUIView()
 }

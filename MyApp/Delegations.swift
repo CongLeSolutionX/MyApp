@@ -49,7 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            let mainView = MainView()
+            let mainView = MainSwiftUIViewWithObjCInstance()
             window.rootViewController = UIHostingController(rootView: mainView)
             self.window = window
             window.makeKeyAndVisible()

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9A2FDD8F2CD3960A00665538 /* AppViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2FDD8E2CD3960400665538 /* AppViews.swift */; };
 		9A2FDD912CD3968600665538 /* Delegations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2FDD902CD3967D00665538 /* Delegations.swift */; };
+		9A9714D12CD4D48F0086F6C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9714D02CD4D48D0086F6C8 /* AppDelegate.m */; };
+		9A9714D92CD4D6EA0086F6C8 /* ObjectiveCFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A9714D82CD4D6E80086F6C8 /* ObjectiveCFunctions.m */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
@@ -17,6 +19,11 @@
 /* Begin PBXFileReference section */
 		9A2FDD8E2CD3960400665538 /* AppViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViews.swift; sourceTree = "<group>"; };
 		9A2FDD902CD3967D00665538 /* Delegations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegations.swift; sourceTree = "<group>"; };
+		9A9714CF2CD4D4730086F6C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9A9714D02CD4D48D0086F6C8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9A9714D22CD4D4910086F6C8 /* MyApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9A9714D72CD4D6D50086F6C8 /* ObjectiveCFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCFunctions.h; sourceTree = "<group>"; };
+		9A9714D82CD4D6E80086F6C8 /* ObjectiveCFunctions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCFunctions.m; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417F2C74668C00AC0A60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,9 +64,14 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A2FDD902CD3967D00665538 /* Delegations.swift */,
 				9A2FDD8E2CD3960400665538 /* AppViews.swift */,
+				9A9714CF2CD4D4730086F6C8 /* AppDelegate.h */,
+				9A9714D02CD4D48D0086F6C8 /* AppDelegate.m */,
+				9A9714D72CD4D6D50086F6C8 /* ObjectiveCFunctions.h */,
+				9A9714D82CD4D6E80086F6C8 /* ObjectiveCFunctions.m */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
+				9A9714D22CD4D4910086F6C8 /* MyApp-Bridging-Header.h */,
 			);
 			path = MyApp;
 			sourceTree = "<group>";
@@ -104,6 +116,7 @@
 				TargetAttributes = {
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -142,6 +155,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9714D12CD4D48F0086F6C8 /* AppDelegate.m in Sources */,
+				9A9714D92CD4D6EA0086F6C8 /* ObjectiveCFunctions.m in Sources */,
 				9A2FDD8F2CD3960A00665538 /* AppViews.swift in Sources */,
 				9A2FDD912CD3968600665538 /* Delegations.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
@@ -270,6 +285,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -298,6 +314,8 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/MyApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -308,6 +326,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -336,6 +355,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/MyApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

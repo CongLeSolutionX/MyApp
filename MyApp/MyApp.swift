@@ -10,12 +10,13 @@ import SwiftUI
 // MARK: - Main Application
 @main
 struct LifecycleDemoApp: App {
-    // Register AppDelegate
+    // Register AppDelegate (Objective-C)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            //MainSwiftUIViewWithObjCInstance()
+            MainSwiftUIView()
         }
     }
 }
