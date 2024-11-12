@@ -28,14 +28,27 @@ class MyUIKitViewController: UIViewController {
 
     // Initialize the button
     private let myButton: UIButton = {
-        let button = UIButton(type: .system) // You can choose different button types
+        let button = UIButton(type: .system)
         button.setTitle("Click Me", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false // Enable Auto Layout
+
+        // Customize font
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+
+        // Add an image
+        let image = UIImage(systemName: "hand.point.right.fill")
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+
+        // Adjust image and title positioning
+        // button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // was deprecated in iOS 15.0
+
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
