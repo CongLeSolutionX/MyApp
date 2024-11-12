@@ -66,9 +66,10 @@ class MyUIKitViewController: UIViewController {
             myButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        myButton.addAction(for: .touchUpInside) { [weak self] sender in
-            print("Button was tapped and triggered a closure!")
-            self?.buttonTapped()
+        myButton.addAction(for: .touchUpInside) { sender, event in
+            if let touch = event?.allTouches?.first {
+                print("Button pressed at location: \(touch.location(in: sender))")
+            }
         }
     }
 
@@ -79,16 +80,16 @@ class MyUIKitViewController: UIViewController {
 
 
 // MARK: - ActionSleeve
-// Note: This class only works on a compiled app, but not worked on the canvas Preview => The ObjC nature is validated! 
+// Note: This class only works on a compiled app, but not worked on the canvas Preview => The ObjC nature is validated!
 class ActionSleeve {
-    private let action: (UIControl) -> Void
+    private let action: (UIControl, UIEvent?) -> Void
     
-    init(action: @escaping (UIControl) -> Void) {
+    init(action: @escaping (UIControl, UIEvent?) -> Void) {
         self.action = action
     }
     
-    @objc func invoke(sender: UIControl) {
-        action(sender)
+    @objc func invoke(sender: UIControl, event: UIEvent?) {
+        action(sender, event)
     }
 }
 
@@ -97,9 +98,9 @@ extension UIControl {
         static var sleeves = "actionSleeves"
     }
     
-    func addAction(for event: UIControl.Event, action: @escaping (UIControl) -> Void) {
+    func addAction(for event: UIControl.Event, action: @escaping (UIControl, UIEvent?) -> Void) {
         let sleeve = ActionSleeve(action: action)
-        addTarget(sleeve, action: #selector(ActionSleeve.invoke(sender:)), for: event)
+        addTarget(sleeve, action: #selector(ActionSleeve.invoke(sender:event:)), for: event)
         
         var sleeves = objc_getAssociatedObject(self, &AssociatedKeys.sleeves) as? [ActionSleeve] ?? []
         sleeves.append(sleeve)
