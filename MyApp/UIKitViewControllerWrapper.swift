@@ -25,15 +25,15 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 
 // Example UIKit view controller
 class MyUIKitViewController: UIViewController {
-
+    
     // Initialize the button
     private let myButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Click Me", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 10
-
+        
         // Customize font
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
 
@@ -42,19 +42,20 @@ class MyUIKitViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.tintColor = .white
 
-        // Adjust image and title positioning
-        // button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // was deprecated in iOS 15.0
+        button.setBackgroundImage(UIImage(named: "Round_logo.png"), for: .highlighted)
+        
+        // Customize font
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
 
+        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
 
-        // Add button to the view
         view.addSubview(myButton)
 
         // Set up constraints
@@ -64,14 +65,33 @@ class MyUIKitViewController: UIViewController {
             myButton.widthAnchor.constraint(equalToConstant: 150),
             myButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-
-        // Add target for button action
-        myButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        myButton.addAction {
+            self.buttonTapped()
+        }
     }
 
-    // Action method
-    @objc private func buttonTapped() {
+    func buttonTapped() {
         print("Button was tapped!")
-        // You can perform any action here, such as navigating to another screen
+    }
+}
+
+extension UIControl {
+    func addAction(action: @escaping () -> Void) {
+        let sleeve = ActionSleeve(action: action)
+        addTarget(sleeve, action: #selector(ActionSleeve.invoke), for: .touchUpInside)
+        objc_setAssociatedObject(self, String(format: "[%d]", arc4random()), sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+    }
+}
+
+class ActionSleeve {
+    let action: () -> Void
+
+    init(action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    @objc func invoke() {
+        action()
     }
 }
