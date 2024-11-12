@@ -66,32 +66,43 @@ class MyUIKitViewController: UIViewController {
             myButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        myButton.addAction {
-            self.buttonTapped()
+        myButton.addAction(for: .touchUpInside) { [weak self] sender in
+            print("Button was tapped and triggered a closure!")
+            self?.buttonTapped()
         }
     }
 
     func buttonTapped() {
-        print("Button was tapped!")
+        print("...and this is the print statement from the buttonTapped function!")
+    }
+}
+
+
+// MARK: - ActionSleeve
+// Note: This class only works on a compiled app, but not worked on the canvas Preview => The ObjC nature is validated! 
+class ActionSleeve {
+    private let action: (UIControl) -> Void
+    
+    init(action: @escaping (UIControl) -> Void) {
+        self.action = action
+    }
+    
+    @objc func invoke(sender: UIControl) {
+        action(sender)
     }
 }
 
 extension UIControl {
-    func addAction(action: @escaping () -> Void) {
+    private struct AssociatedKeys {
+        static var sleeves = "actionSleeves"
+    }
+    
+    func addAction(for event: UIControl.Event, action: @escaping (UIControl) -> Void) {
         let sleeve = ActionSleeve(action: action)
-        addTarget(sleeve, action: #selector(ActionSleeve.invoke), for: .touchUpInside)
-        objc_setAssociatedObject(self, String(format: "[%d]", arc4random()), sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
-    }
-}
-
-class ActionSleeve {
-    let action: () -> Void
-
-    init(action: @escaping () -> Void) {
-        self.action = action
-    }
-
-    @objc func invoke() {
-        action()
+        addTarget(sleeve, action: #selector(ActionSleeve.invoke(sender:)), for: event)
+        
+        var sleeves = objc_getAssociatedObject(self, &AssociatedKeys.sleeves) as? [ActionSleeve] ?? []
+        sleeves.append(sleeve)
+        objc_setAssociatedObject(self, &AssociatedKeys.sleeves, sleeves, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }
