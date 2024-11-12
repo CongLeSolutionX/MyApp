@@ -66,20 +66,32 @@ class MyUIKitViewController: UIViewController {
             myButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
+     
+        testOutActionSleeveFunction()
+    }
+
+    func buttonTapped() {
+        print("...and this is the print statement from the buttonTapped function!")
+    }
+    
+    func testOutActionSleeveFunction() {
         myButton.addAction(for: .touchUpInside) { sender, event in
             if let touch = event?.allTouches?.first {
                 print("Button pressed at location: \(touch.location(in: sender))")
             }
         }
     }
-
-    func buttonTapped() {
-        print("...and this is the print statement from the buttonTapped function!")
-    }
 }
 
 
+
 // MARK: - ActionSleeve
+
+// Define the unique key using UInt8 to ensure uniqueness and avoid exposing internal representation
+private struct AssociatedKeys {
+    static var sleeves: UInt8 = 0
+}
+
 // Note: This class only works on a compiled app, but not worked on the canvas Preview => The ObjC nature is validated!
 class ActionSleeve {
     private let action: (UIControl, UIEvent?) -> Void
@@ -94,10 +106,6 @@ class ActionSleeve {
 }
 
 extension UIControl {
-    private struct AssociatedKeys {
-        static var sleeves = "actionSleeves"
-    }
-    
     func addAction(for event: UIControl.Event, action: @escaping (UIControl, UIEvent?) -> Void) {
         let sleeve = ActionSleeve(action: action)
         addTarget(sleeve, action: #selector(ActionSleeve.invoke(sender:event:)), for: event)
@@ -105,5 +113,13 @@ extension UIControl {
         var sleeves = objc_getAssociatedObject(self, &AssociatedKeys.sleeves) as? [ActionSleeve] ?? []
         sleeves.append(sleeve)
         objc_setAssociatedObject(self, &AssociatedKeys.sleeves, sleeves, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+    
+    func removeAllActions() {
+        guard let sleeves = objc_getAssociatedObject(self, &AssociatedKeys.sleeves) as? [ActionSleeve] else { return }
+        sleeves.forEach { sleeve in
+            removeTarget(sleeve, action: #selector(ActionSleeve.invoke(sender:event:)), for: .allEvents)
+        }
+        objc_setAssociatedObject(self, &AssociatedKeys.sleeves, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }
