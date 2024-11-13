@@ -36,7 +36,7 @@ struct FramedImage: View {
 /// Examples of making Images accessible using SwiftUI.
 struct ImageExample: View {
     var body: some View {
-        VStack(spacing: 20) {
+        ScrollView {
             LabeledExample("Unlabeled Image") {
                 // This image creates an accessibility element, but has no label.
                 // The accessibility label will be taken from the file name of the
