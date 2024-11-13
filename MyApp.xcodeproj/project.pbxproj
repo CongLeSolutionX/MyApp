@@ -25,6 +25,7 @@
 		9AD133D52CE52B2D005BD7C4 /* CanvasExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */; };
 		9AD133D72CE52B9E005BD7C4 /* ForEachExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133D62CE52B9D005BD7C4 /* ForEachExample.swift */; };
 		9AD133D92CE52BF0005BD7C4 /* SortPriorityExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133D82CE52BEF005BD7C4 /* SortPriorityExample.swift */; };
+		9AD133DB2CE52C37005BD7C4 /* CompositionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasExample.swift; sourceTree = "<group>"; };
 		9AD133D62CE52B9D005BD7C4 /* ForEachExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEachExample.swift; sourceTree = "<group>"; };
 		9AD133D82CE52BEF005BD7C4 /* SortPriorityExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortPriorityExample.swift; sourceTree = "<group>"; };
+		9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		9AD133D32CE52A67005BD7C4 /* SwiftUIViewAccessibilityExamples */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */,
 				9AD133D82CE52BEF005BD7C4 /* SortPriorityExample.swift */,
 				9AD133D62CE52B9D005BD7C4 /* ForEachExample.swift */,
 				9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */,
@@ -201,6 +204,7 @@
 				9AD133CD2CE5299E005BD7C4 /* ActionExample.swift in Sources */,
 				9AD133CB2CE5290C005BD7C4 /* ContainerExample.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AD133DB2CE52C37005BD7C4 /* CompositionExample.swift in Sources */,
 				9AD133D92CE52BF0005BD7C4 /* SortPriorityExample.swift in Sources */,
 				9AD133BF2CE51A15005BD7C4 /* AccessibilityExamples.swift in Sources */,
 				9AD133C52CE5210A005BD7C4 /* ImageExample.swift in Sources */,
