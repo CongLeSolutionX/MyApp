@@ -15,6 +15,7 @@
 		9AD1338C2CE4E80B005BD7C4 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD1338B2CE4E80B005BD7C4 /* Lottie */; };
 		9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1338D2CE4E820005BD7C4 /* LottieView.swift */; };
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
+		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AD1338D2CE4E820005BD7C4 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
+		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */,
+				9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -164,6 +167,7 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
+				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 			);
