@@ -10,9 +10,7 @@ import SwiftUI
 struct TikTikHomeView: View {
     var body: some View {
         ZStack {
-            // Background Color set to Black
-            Color.black
-                .ignoresSafeArea()
+            LottieView(filename: "LottieLego")
 
             VStack {
                 // Top Bar
