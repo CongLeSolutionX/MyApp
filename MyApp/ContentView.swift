@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Step 2: Use in SwiftUI view
+
 struct ContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
@@ -22,7 +22,20 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
     }
 }
 
-// After iOS 17, we can use this syntax for preview:
+struct ContactContentView: View {
+    @State private var storeManager = ContactStoreManager()
+    
+    var body: some View {
+        MainView()
+            .environment(storeManager)
+    }
+}
+
+#Preview {
+    ContactContentView()
+        .environment(ContactStoreManager())
+}
+
 #Preview {
     ContentView()
 }

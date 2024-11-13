@@ -12,6 +12,27 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AD133942CE4F3B8005BD7C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133932CE4F3B4005BD7C4 /* MainView.swift */; };
+		9AD133972CE4F3F3005BD7C4 /* ContactStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133962CE4F3F2005BD7C4 /* ContactStoreManager.swift */; };
+		9AD133992CE4F457005BD7C4 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133982CE4F453005BD7C4 /* Contact.swift */; };
+		9AD1339B2CE4F989005BD7C4 /* CNContact+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1339A2CE4F988005BD7C4 /* CNContact+Extension.swift */; };
+		9AD1339D2CE50234005BD7C4 /* FullAccessList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1339C2CE50233005BD7C4 /* FullAccessList.swift */; };
+		9AD1339F2CE50246005BD7C4 /* CaptionOrderPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1339E2CE50245005BD7C4 /* CaptionOrderPicker.swift */; };
+		9AD133A12CE50255005BD7C4 /* AppSettingsLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133A02CE50255005BD7C4 /* AppSettingsLink.swift */; };
+		9AD133A32CE5025D005BD7C4 /* RequestAccessButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133A22CE5025C005BD7C4 /* RequestAccessButton.swift */; };
+		9AD133A52CE502A6005BD7C4 /* CaptionOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133A42CE502A5005BD7C4 /* CaptionOrder.swift */; };
+		9AD133A72CE5032A005BD7C4 /* LimitedAccessTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133A62CE50329005BD7C4 /* LimitedAccessTab.swift */; };
+		9AD133A92CE50344005BD7C4 /* IgnoreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133A82CE50344005BD7C4 /* IgnoreList.swift */; };
+		9AD133AB2CE50359005BD7C4 /* IgnoreItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133AA2CE50358005BD7C4 /* IgnoreItemModel.swift */; };
+		9AD133AD2CE5036A005BD7C4 /* IgnoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133AC2CE5036A005BD7C4 /* IgnoreItem.swift */; };
+		9AD133AF2CE50376005BD7C4 /* IgnoreItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133AE2CE50376005BD7C4 /* IgnoreItemType.swift */; };
+		9AD133B12CE503A3005BD7C4 /* SearchList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133B02CE503A3005BD7C4 /* SearchList.swift */; };
+		9AD133B32CE503B4005BD7C4 /* QuickAddContactButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133B22CE503B3005BD7C4 /* QuickAddContactButton.swift */; };
+		9AD133B52CE503DF005BD7C4 /* AddContactButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133B42CE503DE005BD7C4 /* AddContactButton.swift */; };
+		9AD133B72CE503F9005BD7C4 /* AddIgnoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133B62CE503F8005BD7C4 /* AddIgnoreItem.swift */; };
+		9AD133B92CE5040D005BD7C4 /* ContactDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133B82CE5040C005BD7C4 /* ContactDetail.swift */; };
+		9AD133BB2CE5041D005BD7C4 /* ThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133BA2CE5041C005BD7C4 /* ThumbnailImage.swift */; };
+		9AD133BD2CE5043C005BD7C4 /* InitialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133BC2CE5043B005BD7C4 /* InitialsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +43,27 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AD133932CE4F3B4005BD7C4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		9AD133962CE4F3F2005BD7C4 /* ContactStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStoreManager.swift; sourceTree = "<group>"; };
+		9AD133982CE4F453005BD7C4 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		9AD1339A2CE4F988005BD7C4 /* CNContact+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CNContact+Extension.swift"; sourceTree = "<group>"; };
+		9AD1339C2CE50233005BD7C4 /* FullAccessList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullAccessList.swift; sourceTree = "<group>"; };
+		9AD1339E2CE50245005BD7C4 /* CaptionOrderPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionOrderPicker.swift; sourceTree = "<group>"; };
+		9AD133A02CE50255005BD7C4 /* AppSettingsLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsLink.swift; sourceTree = "<group>"; };
+		9AD133A22CE5025C005BD7C4 /* RequestAccessButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAccessButton.swift; sourceTree = "<group>"; };
+		9AD133A42CE502A5005BD7C4 /* CaptionOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionOrder.swift; sourceTree = "<group>"; };
+		9AD133A62CE50329005BD7C4 /* LimitedAccessTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedAccessTab.swift; sourceTree = "<group>"; };
+		9AD133A82CE50344005BD7C4 /* IgnoreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreList.swift; sourceTree = "<group>"; };
+		9AD133AA2CE50358005BD7C4 /* IgnoreItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreItemModel.swift; sourceTree = "<group>"; };
+		9AD133AC2CE5036A005BD7C4 /* IgnoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreItem.swift; sourceTree = "<group>"; };
+		9AD133AE2CE50376005BD7C4 /* IgnoreItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreItemType.swift; sourceTree = "<group>"; };
+		9AD133B02CE503A3005BD7C4 /* SearchList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchList.swift; sourceTree = "<group>"; };
+		9AD133B22CE503B3005BD7C4 /* QuickAddContactButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddContactButton.swift; sourceTree = "<group>"; };
+		9AD133B42CE503DE005BD7C4 /* AddContactButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactButton.swift; sourceTree = "<group>"; };
+		9AD133B62CE503F8005BD7C4 /* AddIgnoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIgnoreItem.swift; sourceTree = "<group>"; };
+		9AD133B82CE5040C005BD7C4 /* ContactDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetail.swift; sourceTree = "<group>"; };
+		9AD133BA2CE5041C005BD7C4 /* ThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailImage.swift; sourceTree = "<group>"; };
+		9AD133BC2CE5043B005BD7C4 /* InitialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +99,8 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AD133952CE4F3EC005BD7C4 /* Models */,
+				9AD133922CE4F3AC005BD7C4 /* Views */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -70,6 +114,41 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AD133922CE4F3AC005BD7C4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9AD133B42CE503DE005BD7C4 /* AddContactButton.swift */,
+				9AD133B62CE503F8005BD7C4 /* AddIgnoreItem.swift */,
+				9AD133A02CE50255005BD7C4 /* AppSettingsLink.swift */,
+				9AD1339E2CE50245005BD7C4 /* CaptionOrderPicker.swift */,
+				9AD133B82CE5040C005BD7C4 /* ContactDetail.swift */,
+				9AD1339C2CE50233005BD7C4 /* FullAccessList.swift */,
+				9AD133A82CE50344005BD7C4 /* IgnoreList.swift */,
+				9AD133BC2CE5043B005BD7C4 /* InitialsView.swift */,
+				9AD133A62CE50329005BD7C4 /* LimitedAccessTab.swift */,
+				9AD133932CE4F3B4005BD7C4 /* MainView.swift */,
+				9AD133B22CE503B3005BD7C4 /* QuickAddContactButton.swift */,
+				9AD133A22CE5025C005BD7C4 /* RequestAccessButton.swift */,
+				9AD133B02CE503A3005BD7C4 /* SearchList.swift */,
+				9AD133BA2CE5041C005BD7C4 /* ThumbnailImage.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9AD133952CE4F3EC005BD7C4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9AD133A42CE502A5005BD7C4 /* CaptionOrder.swift */,
+				9AD1339A2CE4F988005BD7C4 /* CNContact+Extension.swift */,
+				9AD133982CE4F453005BD7C4 /* Contact.swift */,
+				9AD133962CE4F3F2005BD7C4 /* ContactStoreManager.swift */,
+				9AD133AC2CE5036A005BD7C4 /* IgnoreItem.swift */,
+				9AD133AA2CE50358005BD7C4 /* IgnoreItemModel.swift */,
+				9AD133AE2CE50376005BD7C4 /* IgnoreItemType.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,9 +221,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AD1339D2CE50234005BD7C4 /* FullAccessList.swift in Sources */,
+				9AD133992CE4F457005BD7C4 /* Contact.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AD133942CE4F3B8005BD7C4 /* MainView.swift in Sources */,
+				9AD133B72CE503F9005BD7C4 /* AddIgnoreItem.swift in Sources */,
+				9AD133AB2CE50359005BD7C4 /* IgnoreItemModel.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AD133B32CE503B4005BD7C4 /* QuickAddContactButton.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AD133A32CE5025D005BD7C4 /* RequestAccessButton.swift in Sources */,
+				9AD133BB2CE5041D005BD7C4 /* ThumbnailImage.swift in Sources */,
+				9AD133A72CE5032A005BD7C4 /* LimitedAccessTab.swift in Sources */,
+				9AD133972CE4F3F3005BD7C4 /* ContactStoreManager.swift in Sources */,
+				9AD133BD2CE5043C005BD7C4 /* InitialsView.swift in Sources */,
+				9AD133A92CE50344005BD7C4 /* IgnoreList.swift in Sources */,
+				9AD133B12CE503A3005BD7C4 /* SearchList.swift in Sources */,
+				9AD1339F2CE50246005BD7C4 /* CaptionOrderPicker.swift in Sources */,
+				9AD133B92CE5040D005BD7C4 /* ContactDetail.swift in Sources */,
+				9AD133A12CE50255005BD7C4 /* AppSettingsLink.swift in Sources */,
+				9AD1339B2CE4F989005BD7C4 /* CNContact+Extension.swift in Sources */,
+				9AD133AD2CE5036A005BD7C4 /* IgnoreItem.swift in Sources */,
+				9AD133A52CE502A6005BD7C4 /* CaptionOrder.swift in Sources */,
+				9AD133B52CE503DF005BD7C4 /* AddContactButton.swift in Sources */,
+				9AD133AF2CE50376005BD7C4 /* IgnoreItemType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +378,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "ContactsAccess uses contacts to show a list of every person or business the app has access to.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -288,7 +389,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -316,6 +417,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "ContactsAccess uses contacts to show a list of every person or business the app has access to.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -326,7 +428,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
