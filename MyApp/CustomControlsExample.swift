@@ -16,75 +16,77 @@ struct CustomControlsExample: View {
     @State private var pickerValue = 0
 
     var body: some View {
-        LabeledExample("Custom Slider") {
-            TrackSlider(value: $sliderValue, label: "Custom Slider")
-                .frame(width: 200, height: 30)
-        }
+        VStack {
+            LabeledExample("Custom Slider") {
+                TrackSlider(value: $sliderValue, label: "Custom Slider")
+                    .frame(width: 200, height: 30)
+            }
 
-        LabeledExample("Custom Switch") {
-            TrackSwitch(isOn: $isOn, label: "Custom Switch")
-                .frame(width: 60, height: 30)
+            LabeledExample("Custom Switch") {
+                TrackSwitch(isOn: $isOn, label: "Custom Switch")
+                    .frame(width: 60, height: 30)
 
-        }
+            }
 
-        LabeledExample("Manually-implemented Custom Button") {
-            Circle()
-                .foregroundColor(Color.white)
-                .overlay(Image(systemName: "trash"))
-                .onTapGesture {
-                    // ...
+            LabeledExample("Manually-implemented Custom Button") {
+                Circle()
+                    .foregroundColor(Color.white)
+                    .overlay(Image(systemName: "trash"))
+                    .onTapGesture {
+                        // ...
+                    }
+                    .accessibilityRepresentation {
+                        Button("Delete") {
+                            // Same action as tap gesture.
+                        }
+                    }
+            }
+
+            LabeledExample("Custom Stepper") {
+                let shape = RoundedRectangle(cornerRadius: defaultCornerRadius)
+                HStack {
+                    Image(systemName: "minus")
+                        .disabled(stepperValue == 0)
+                        .onTapGesture {
+                            stepperValue -= 1
+                        }
+
+                    Text("\(stepperValue)")
+                        .frame(width: 50, alignment: .center)
+
+                    Image(systemName: "plus")
+                        .onTapGesture {
+                            stepperValue += 1
+                        }
                 }
+                .padding()
+                .frame(minWidth: 150)
+                .background { shape.fill(.white) }
+                .overlay { shape.stroke(.gray) }
                 .accessibilityRepresentation {
-                    Button("Delete") {
-                        // Same action as tap gesture.
+                    Stepper(value: $stepperValue, in: 0...100) {
+                        Text("Custom Stepper")
                     }
                 }
-        }
-
-        LabeledExample("Custom Stepper") {
-            let shape = RoundedRectangle(cornerRadius: defaultCornerRadius)
-            HStack {
-                Image(systemName: "minus")
-                    .disabled(stepperValue == 0)
-                    .onTapGesture {
-                        stepperValue -= 1
-                    }
-
-                Text("\(stepperValue)")
-                    .frame(width: 50, alignment: .center)
-
-                Image(systemName: "plus")
-                    .onTapGesture {
-                        stepperValue += 1
-                    }
             }
-            .padding()
-            .frame(minWidth: 150)
-            .background { shape.fill(.white) }
-            .overlay { shape.stroke(.gray) }
-            .accessibilityRepresentation {
-                Stepper(value: $stepperValue, in: 0...100) {
-                    Text("Custom Stepper")
+
+            LabeledExample("Custom Picker") {
+                Text("Selected: \(pickerValue)")
+
+                Spacer().frame(height: 15)
+
+                HStack {
+                    Button("Option 1") { pickerValue = 1 }
+                    Button("Option 2") { pickerValue = 2 }
+                    Button("Option 3") { pickerValue = 3 }
                 }
-            }
-        }
-
-        LabeledExample("Custom Picker") {
-            Text("Selected: \(pickerValue)")
-
-            Spacer().frame(height: 15)
-
-            HStack {
-                Button("Option 1") { pickerValue = 1 }
-                Button("Option 2") { pickerValue = 2 }
-                Button("Option 3") { pickerValue = 3 }
-            }
-            .buttonStyle(.plain)
-            .accessibilityRepresentation {
-                Picker(selection: $pickerValue, label: Text("Custom Picker") ) {
-                    Text("Option 1").tag(1)
-                    Text("Option 2").tag(2)
-                    Text("Option 3").tag(3)
+                .buttonStyle(.plain)
+                .accessibilityRepresentation {
+                    Picker(selection: $pickerValue, label: Text("Custom Picker") ) {
+                        Text("Option 1").tag(1)
+                        Text("Option 2").tag(2)
+                        Text("Option 3").tag(3)
+                    }
                 }
             }
         }
@@ -114,7 +116,6 @@ private struct TrackSlider: View {
 }
 
 // MARK: - Custom Switch
-
 private struct TrackSwitch: View {
     @Binding var isOn: Bool
     var label: String
