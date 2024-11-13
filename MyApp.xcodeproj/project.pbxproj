@@ -29,6 +29,7 @@
 		9AD133DD2CE52C70005BD7C4 /* RotorsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */; };
 		9AD133DF2CE52D1E005BD7C4 /* FocusExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */; };
 		9AD133E12CE52D5D005BD7C4 /* CustomContentExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */; };
+		9AD133E32CE52DB6005BD7C4 /* EnvironmentExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotorsExample.swift; sourceTree = "<group>"; };
 		9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusExample.swift; sourceTree = "<group>"; };
 		9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContentExample.swift; sourceTree = "<group>"; };
+		9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 		9AD133D32CE52A67005BD7C4 /* SwiftUIViewAccessibilityExamples */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */,
 				9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */,
 				9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */,
 				9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */,
@@ -222,6 +225,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AD133C92CE5281C005BD7C4 /* TextExample.swift in Sources */,
 				9AD133DD2CE52C70005BD7C4 /* RotorsExample.swift in Sources */,
+				9AD133E32CE52DB6005BD7C4 /* EnvironmentExample.swift in Sources */,
 				9AD133DF2CE52D1E005BD7C4 /* FocusExample.swift in Sources */,
 				9AD133D52CE52B2D005BD7C4 /* CanvasExample.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
