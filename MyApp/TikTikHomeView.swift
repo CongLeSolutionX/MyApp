@@ -32,12 +32,12 @@ struct TikTikHomeView: View {
                     Spacer()
                     // Profile Picture and User Info
                     HStack {
-                        Image("profile_image") // Replace with a valid image name
+                        Image("Round_logo")
                             .resizable()
                             .clipShape(Circle())
                             .frame(width: 50, height: 50)
                         VStack(alignment: .leading) {
-                            Text("@karenne")
+                            Text("@IAskedAIBots")
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                             Text("1-28")
@@ -112,7 +112,7 @@ struct TikTikHomeView: View {
                         }
                     }
                     .padding()
-                    .background(Color.black.opacity(0.8)) // Background for bottom navigation
+                    .background(Color.orange.opacity(0.8)) // Background for bottom navigation
                 }
             }
         }
@@ -124,23 +124,6 @@ struct ContentView_Previews: PreviewProvider {
         TikTikHomeView()
     }
 }
-
-
-//
-//// MARK - Wrapper for UIKit view
-//struct ContentViewWrapperForUIKitViewController: View {
-//    var body: some View {
-//        UIKitViewControllerWrapper()
-//            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
-//    }
-//}
-//
-//// Before iOS 17, use this syntax for preview UIKit view controller
-//struct UIKitViewControllerWrapper_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UIKitViewControllerWrapper()
-//    }
-//}
 
 // After iOS 17, we can use this syntax for preview:
 #Preview {
