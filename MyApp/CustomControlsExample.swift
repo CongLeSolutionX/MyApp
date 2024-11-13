@@ -75,16 +75,16 @@ struct CustomControlsExample: View {
             Spacer().frame(height: 15)
 
             HStack {
-                Button("Option 1") { pickerValue = 0 }
-                Button("Option 2") { pickerValue = 1 }
-                Button("Option 3") { pickerValue = 2 }
+                Button("Option 1") { pickerValue = 1 }
+                Button("Option 2") { pickerValue = 2 }
+                Button("Option 3") { pickerValue = 3 }
             }
             .buttonStyle(.plain)
             .accessibilityRepresentation {
                 Picker(selection: $pickerValue, label: Text("Custom Picker") ) {
-                    Text("Option 1").tag(0)
-                    Text("Option 2").tag(1)
-                    Text("Option 3").tag(2)
+                    Text("Option 1").tag(1)
+                    Text("Option 2").tag(2)
+                    Text("Option 3").tag(3)
                 }
             }
         }
@@ -98,9 +98,9 @@ private struct TrackSlider: View {
 
     var body: some View {
         TrackShape(value: value)
-            .gesture(DragGesture(minimumDistance: 0)
+            .gesture(DragGesture(minimumDistance: 0) // Allow for horizontal dragging
                 .onChanged { gesture in
-                    let width = 200.0 // Assuming the width allocated for slider
+                    let width = 200.0 // Assuming the 200 is the width allocated for slider
                     let newValue = min(max(0, gesture.location.x / width), 1) // Clamp between 0 and 1
                     value = Double(newValue)
                 }
@@ -121,6 +121,9 @@ private struct TrackSwitch: View {
 
     var body: some View {
         TrackShape(value: isOn ? 1 : 0)
+            .onTapGesture {
+                isOn.toggle() // Toggle the value on tap
+            }
             .accessibilityRepresentation {
                 Toggle(isOn: $isOn) {
                     Text(label)
