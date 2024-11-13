@@ -1,26 +1,28 @@
 //
-//  AccessibilityExamplesView_iOS.swift
+//  AccessibilityExamplesView_macOS.swift
 //  MyApp
 //
 //  Created by Cong Le on 11/13/24.
 //
 
-
 import SwiftUI
 
 /// The contents view for a specific example.
-private struct iOSExampleView: View {
+private struct macOSExampleView: View {
     private var example: ExampleView
 
     init(_ example: ExampleView) {
         self.example = example
     }
 
+    @ViewBuilder
     var innerExampleView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            example.view
-                .padding(.all, example.wantsPadding ? 8 : 0)
-                .navigationBarTitle(example.name)
+        HStack {
+            VStack(alignment: .leading, spacing: 10) {
+                example.view
+                    .padding(.all, example.wantsPadding ? 8 : 0)
+            }
+            Spacer()
         }
     }
 
@@ -39,22 +41,21 @@ private struct iOSExampleView: View {
 }
 
 /// The top-level view for all examples.
-struct ExamplesiOSView: View {
+struct ExamplesMacOSView: View {
     var body: some View {
         NavigationView {
             List(examples, id: \.name) { example in
                 NavigationLink(example.name) {
-                    iOSExampleView(example)
+                    macOSExampleView(example)
                 }
             }
-            .navigationBarTitle(
-                Text("Examples").accessibilityLabel("AX Examples")
-            )
+            Text("No Content")
         }
     }
 }
 
 // MARK: - Preview
+
 #Preview {
-    ExamplesiOSView()
+    ExamplesMacOSView()
 }

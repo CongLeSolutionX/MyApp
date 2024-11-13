@@ -32,7 +32,9 @@
 		9AD133E32CE52DB6005BD7C4 /* EnvironmentExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */; };
 		9AD133E62CE52EAA005BD7C4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AD133E42CE52EAA005BD7C4 /* Localizable.strings */; };
 		9AD133E82CE52ED0005BD7C4 /* AccessibilityExamplesView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E72CE52ECF005BD7C4 /* AccessibilityExamplesView_iOS.swift */; };
-		9AD133EA2CE52EEB005BD7C4 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E92CE52EEB005BD7C4 /* Example.swift */; };
+		9AD133EA2CE52EEB005BD7C4 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E92CE52EEB005BD7C4 /* ExampleView.swift */; };
+		9AD133ED2CE539B0005BD7C4 /* AccessibilityExamplesView_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133EC2CE539AF005BD7C4 /* AccessibilityExamplesView_macOS.swift */; };
+		9AD133EF2CE53A39005BD7C4 /* RepresentableExample_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133EE2CE53A38005BD7C4 /* RepresentableExample_macOS.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +65,9 @@
 		9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentExample.swift; sourceTree = "<group>"; };
 		9AD133E52CE52EAA005BD7C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AD133E72CE52ECF005BD7C4 /* AccessibilityExamplesView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityExamplesView_iOS.swift; sourceTree = "<group>"; };
-		9AD133E92CE52EEB005BD7C4 /* Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
+		9AD133E92CE52EEB005BD7C4 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
+		9AD133EC2CE539AF005BD7C4 /* AccessibilityExamplesView_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityExamplesView_macOS.swift; sourceTree = "<group>"; };
+		9AD133EE2CE53A38005BD7C4 /* RepresentableExample_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentableExample_macOS.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133EB2CE539A8005BD7C4 /* macOS */,
 				9AD133D32CE52A67005BD7C4 /* SwiftUIViewAccessibilityExamples */,
 				9AD133D02CE52A2C005BD7C4 /* iOS */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
@@ -132,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				9AD133BE2CE51A14005BD7C4 /* AccessibilityExamples.swift */,
-				9AD133E92CE52EEB005BD7C4 /* Example.swift */,
+				9AD133E92CE52EEB005BD7C4 /* ExampleView.swift */,
 				9AD133E22CE52DB5005BD7C4 /* EnvironmentExample.swift */,
 				9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */,
 				9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */,
@@ -149,6 +154,15 @@
 				9AD133E42CE52EAA005BD7C4 /* Localizable.strings */,
 			);
 			path = SwiftUIViewAccessibilityExamples;
+			sourceTree = "<group>";
+		};
+		9AD133EB2CE539A8005BD7C4 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				9AD133EE2CE53A38005BD7C4 /* RepresentableExample_macOS.swift */,
+				9AD133EC2CE539AF005BD7C4 /* AccessibilityExamplesView_macOS.swift */,
+			);
+			path = macOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,11 +239,12 @@
 			files = (
 				9AD133CD2CE5299E005BD7C4 /* ActionExample.swift in Sources */,
 				9AD133CB2CE5290C005BD7C4 /* ContainerExample.swift in Sources */,
+				9AD133EF2CE53A39005BD7C4 /* RepresentableExample_macOS.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AD133DB2CE52C37005BD7C4 /* CompositionExample.swift in Sources */,
 				9AD133D92CE52BF0005BD7C4 /* SortPriorityExample.swift in Sources */,
 				9AD133E12CE52D5D005BD7C4 /* CustomContentExample.swift in Sources */,
-				9AD133EA2CE52EEB005BD7C4 /* Example.swift in Sources */,
+				9AD133EA2CE52EEB005BD7C4 /* ExampleView.swift in Sources */,
 				9AD133BF2CE51A15005BD7C4 /* AccessibilityExamples.swift in Sources */,
 				9AD133C52CE5210A005BD7C4 /* ImageExample.swift in Sources */,
 				9AD133C12CE51A29005BD7C4 /* StandardControlExample.swift in Sources */,
@@ -239,6 +254,7 @@
 				9AD133DD2CE52C70005BD7C4 /* RotorsExample.swift in Sources */,
 				9AD133E32CE52DB6005BD7C4 /* EnvironmentExample.swift in Sources */,
 				9AD133DF2CE52D1E005BD7C4 /* FocusExample.swift in Sources */,
+				9AD133ED2CE539B0005BD7C4 /* AccessibilityExamplesView_macOS.swift in Sources */,
 				9AD133D52CE52B2D005BD7C4 /* CanvasExample.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD133CF2CE529D8005BD7C4 /* ViewRepresentableExample.swift in Sources */,
