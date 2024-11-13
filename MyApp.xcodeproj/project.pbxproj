@@ -28,6 +28,7 @@
 		9AD133DB2CE52C37005BD7C4 /* CompositionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */; };
 		9AD133DD2CE52C70005BD7C4 /* RotorsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */; };
 		9AD133DF2CE52D1E005BD7C4 /* FocusExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */; };
+		9AD133E12CE52D5D005BD7C4 /* CustomContentExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionExample.swift; sourceTree = "<group>"; };
 		9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotorsExample.swift; sourceTree = "<group>"; };
 		9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusExample.swift; sourceTree = "<group>"; };
+		9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContentExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 		9AD133D32CE52A67005BD7C4 /* SwiftUIViewAccessibilityExamples */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133E02CE52D5C005BD7C4 /* CustomContentExample.swift */,
 				9AD133DE2CE52D1E005BD7C4 /* FocusExample.swift */,
 				9AD133DC2CE52C6F005BD7C4 /* RotorsExample.swift */,
 				9AD133DA2CE52C35005BD7C4 /* CompositionExample.swift */,
@@ -212,6 +215,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AD133DB2CE52C37005BD7C4 /* CompositionExample.swift in Sources */,
 				9AD133D92CE52BF0005BD7C4 /* SortPriorityExample.swift in Sources */,
+				9AD133E12CE52D5D005BD7C4 /* CustomContentExample.swift in Sources */,
 				9AD133BF2CE51A15005BD7C4 /* AccessibilityExamples.swift in Sources */,
 				9AD133C52CE5210A005BD7C4 /* ImageExample.swift in Sources */,
 				9AD133C12CE51A29005BD7C4 /* StandardControlExample.swift in Sources */,
