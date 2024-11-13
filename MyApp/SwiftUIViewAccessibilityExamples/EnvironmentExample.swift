@@ -257,7 +257,7 @@ private struct AccessibilityFeaturesExample: View {
 /// Example view showing the use of the various `accessibility` environment keys.
 struct EnvironmentExample: View {
     var body: some View {
-        VStack(alignment: .leading) {
+        ScrollView {
             DifferentiateWithoutColorExample()
             ReduceTransparencyView()
             ReduceMotionExample()
@@ -265,7 +265,7 @@ struct EnvironmentExample: View {
             IncreaseContrastExample()
             AccessibilityFeaturesExample()
         }
-        .frame(minWidth: 200)
+        .padding()
     }
 }
 
