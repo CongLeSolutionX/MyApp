@@ -19,6 +19,7 @@
 		9AD133C72CE522F3005BD7C4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AD133C62CE522F3005BD7C4 /* Media.xcassets */; };
 		9AD133C92CE5281C005BD7C4 /* TextExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133C82CE5281C005BD7C4 /* TextExample.swift */; };
 		9AD133CB2CE5290C005BD7C4 /* ContainerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133CA2CE5290A005BD7C4 /* ContainerExample.swift */; };
+		9AD133CD2CE5299E005BD7C4 /* ActionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133CC2CE5299D005BD7C4 /* ActionExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		9AD133C62CE522F3005BD7C4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		9AD133C82CE5281C005BD7C4 /* TextExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextExample.swift; sourceTree = "<group>"; };
 		9AD133CA2CE5290A005BD7C4 /* ContainerExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerExample.swift; sourceTree = "<group>"; };
+		9AD133CC2CE5299D005BD7C4 /* ActionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9AD133CC2CE5299D005BD7C4 /* ActionExample.swift */,
 				9AD133BE2CE51A14005BD7C4 /* AccessibilityExamples.swift */,
 				9AD133CA2CE5290A005BD7C4 /* ContainerExample.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
@@ -164,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AD133CD2CE5299E005BD7C4 /* ActionExample.swift in Sources */,
 				9AD133CB2CE5290C005BD7C4 /* ContainerExample.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AD133BF2CE51A15005BD7C4 /* AccessibilityExamples.swift in Sources */,
