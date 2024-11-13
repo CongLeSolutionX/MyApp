@@ -16,6 +16,7 @@
 		9AD133C12CE51A29005BD7C4 /* StandardControlExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133C02CE51A28005BD7C4 /* StandardControlExample.swift */; };
 		9AD133C32CE51B74005BD7C4 /* CustomControlsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133C22CE51B73005BD7C4 /* CustomControlsExample.swift */; };
 		9AD133C52CE5210A005BD7C4 /* ImageExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133C42CE52109005BD7C4 /* ImageExample.swift */; };
+		9AD133C72CE522F3005BD7C4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AD133C62CE522F3005BD7C4 /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9AD133C02CE51A28005BD7C4 /* StandardControlExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardControlExample.swift; sourceTree = "<group>"; };
 		9AD133C22CE51B73005BD7C4 /* CustomControlsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlsExample.swift; sourceTree = "<group>"; };
 		9AD133C42CE52109005BD7C4 /* ImageExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExample.swift; sourceTree = "<group>"; };
+		9AD133C62CE522F3005BD7C4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133C62CE522F3005BD7C4 /* Media.xcassets */,
 				9AD133C42CE52109005BD7C4 /* ImageExample.swift */,
 				9AD133C22CE51B73005BD7C4 /* CustomControlsExample.swift */,
 				9AD133BE2CE51A14005BD7C4 /* AccessibilityExamples.swift */,
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
+				9AD133C72CE522F3005BD7C4 /* Media.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
