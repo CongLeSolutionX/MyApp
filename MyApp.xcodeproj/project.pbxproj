@@ -22,6 +22,7 @@
 		9AD133CD2CE5299E005BD7C4 /* ActionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133CC2CE5299D005BD7C4 /* ActionExample.swift */; };
 		9AD133CF2CE529D8005BD7C4 /* ViewRepresentableExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133CE2CE529D7005BD7C4 /* ViewRepresentableExample.swift */; };
 		9AD133D22CE52A32005BD7C4 /* RepresentableExample_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133D12CE52A32005BD7C4 /* RepresentableExample_iOS.swift */; };
+		9AD133D52CE52B2D005BD7C4 /* CanvasExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		9AD133CC2CE5299D005BD7C4 /* ActionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionExample.swift; sourceTree = "<group>"; };
 		9AD133CE2CE529D7005BD7C4 /* ViewRepresentableExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentableExample.swift; sourceTree = "<group>"; };
 		9AD133D12CE52A32005BD7C4 /* RepresentableExample_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentableExample_iOS.swift; sourceTree = "<group>"; };
+		9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 		9AD133D32CE52A67005BD7C4 /* SwiftUIViewAccessibilityExamples */ = {
 			isa = PBXGroup;
 			children = (
+				9AD133D42CE52B2C005BD7C4 /* CanvasExample.swift */,
 				9AD133C42CE52109005BD7C4 /* ImageExample.swift */,
 				9AD133C22CE51B73005BD7C4 /* CustomControlsExample.swift */,
 				9AD133CA2CE5290A005BD7C4 /* ContainerExample.swift */,
@@ -197,6 +200,7 @@
 				9AD133C12CE51A29005BD7C4 /* StandardControlExample.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AD133C92CE5281C005BD7C4 /* TextExample.swift in Sources */,
+				9AD133D52CE52B2D005BD7C4 /* CanvasExample.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD133CF2CE529D8005BD7C4 /* ViewRepresentableExample.swift in Sources */,
 				9AD133C32CE51B74005BD7C4 /* CustomControlsExample.swift in Sources */,
