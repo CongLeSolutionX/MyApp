@@ -42,7 +42,6 @@ struct ImageExample: View {
                 // The accessibility label will be taken from the file name of the
                 // image.
                 FramedImage(Image("dot_green"))
-                    .accessibilityLabel("Green Dot")
             }
 
             LabeledExample("Accessible Images") {
