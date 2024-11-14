@@ -62,7 +62,7 @@ struct CustomCloseButtonView: View {
 
 
 
-struct AnimatedCloseButtonView: View {
+struct Rotating45AngleCloseButtonView: View {
     // Action to perform when the button is tapped
     var action: () -> Void
     
@@ -115,16 +115,100 @@ struct AnimatedCloseButtonView: View {
     }
 }
 
+
+struct PulsingButton: View {
+    // MARK: - Properties
+    
+    /// The action to perform when the button is tapped.
+    var action: () -> Void
+    
+    /// The system image name to display inside the button.
+    var systemImageName: String = "heart.fill"
+    
+    /// The size of the icon within the button.
+    var iconSize: CGFloat = 24
+    
+    /// The foreground color of the icon.
+    var iconColor: Color = .red
+    
+    /// The background color of the button.
+    var backgroundColor: Color = .black.opacity(0.8)
+    
+    /// The size (width and height) of the button.
+    var buttonSize: CGFloat = 60
+    
+    /// The duration of one pulse cycle.
+    var pulseDuration: Double = 1.0
+    
+    /// The scale factor for the pulsing effect.
+    var pulseScale: CGFloat = 1.1
+    
+    // MARK: - State
+    
+    /// Controls the pulsating animation state.
+    @State private var isPulsing: Bool = false
+    
+    // MARK: - Body
+    
+    var body: some View {
+        Button(action: {
+            // Trigger the button's action
+            action()
+            
+            // Provide haptic feedback
+            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+            impactMed.impactOccurred()
+        }) {
+            Image(systemName: systemImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: iconSize, height: iconSize)
+                .foregroundColor(iconColor)
+                .padding()
+                .background(backgroundColor)
+                .clipShape(Circle())
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Optional: Add shadow for depth
+                // Apply pulse animation
+                .scaleEffect(isPulsing ? pulseScale : 1.0)
+                .animation(
+                    Animation.easeInOut(duration: pulseDuration)
+                        .repeatForever(autoreverses: true),
+                    value: isPulsing
+                )
+        }
+        .onAppear {
+            // Start the pulsing effect when the view appears
+            isPulsing = true
+        }
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityHint(accessibilityHint)
+        .frame(width: buttonSize, height: buttonSize) // Ensures the button has a consistent size
+    }
+    
+    // MARK: - Accessibility
+    
+    /// Accessibility label for the button.
+    private var accessibilityLabel: String {
+        return systemImageName.replacingOccurrences(of: ".", with: " ")
+    }
+    
+    /// Accessibility hint for the button.
+    private var accessibilityHint: String {
+        return "Activates the \(systemImageName) action."
+    }
+}
+
+
 // MARK: - Previews
 
-struct AnimatedCloseButtonView_Previews: PreviewProvider {
+struct Rotating45AngleCloseButtonView_Previews: PreviewProvider {
     static var previews: some View {
         // Example usage within a VStack for preview purposes
         VStack {
             Spacer()
             HStack {
                 Spacer()
-                AnimatedCloseButtonView(action: {
+                Rotating45AngleCloseButtonView(action: {
                     // Example action: print to console
                     print("Animated Close Button tapped")
                 })
@@ -152,6 +236,22 @@ struct CloseButtonView_Previews: PreviewProvider {
         .background(Color.gray.edgesIgnoringSafeArea(.all))
     }
 }
+
+struct PulsingButton_Previews: PreviewProvider {
+    static var previews: some View {
+        // Example usage within a VStack for preview purposes
+        VStack {
+            Spacer()
+            PulsingButton(action: {
+                print("Pulsing button tapped!")
+            })
+            .padding()
+        }
+        .background(Color.gray.edgesIgnoringSafeArea(.all))
+    }
+}
+
+
 
 #Preview {
     CustomCloseButtonView {
