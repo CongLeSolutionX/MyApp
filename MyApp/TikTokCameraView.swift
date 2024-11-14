@@ -5,245 +5,297 @@
 //  Created by Cong Le on 11/13/24.
 //
 import SwiftUI
+import AVFoundation
+import Combine
+
+class CameraModel: NSObject, ObservableObject {
+    // Published properties to update the UI based on camera status
+    @Published var isCameraAuthorized: Bool = false
+    @Published var session: AVCaptureSession = AVCaptureSession()
+    
+    private let sessionQueue = DispatchQueue(label: "camera.session.queue")
+    private let videoOutput = AVCaptureVideoDataOutput()
+    
+    override init() {
+        super.init()
+        checkPermissions()
+    }
+    
+    // Check and request camera permissions
+    func checkPermissions() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            DispatchQueue.main.async {
+                self.isCameraAuthorized = true
+                self.setupSession()
+            }
+        case .notDetermined:
+            sessionQueue.suspend()
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    self.isCameraAuthorized = granted
+                    self.sessionQueue.resume()
+                    if granted {
+                        self.setupSession()
+                    }
+                }
+            }
+        default:
+            DispatchQueue.main.async {
+                self.isCameraAuthorized = false
+            }
+        }
+    }
+
+    
+    // Setup the camera session
+    func setupSession() {
+        sessionQueue.async {
+            self.configureSession()
+            self.session.startRunning()
+        }
+    }
+    
+    // Configure the AVCaptureSession
+    private func configureSession() {
+        session.beginConfiguration()
+        session.sessionPreset = .high
+        
+        // Add video input
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                        for: .video,
+                                                        position: .back) else {
+            print("Default video device is unavailable.")
+            session.commitConfiguration()
+            return
+        }
+        
+        do {
+            let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            
+            if self.session.canAddInput(videoDeviceInput) {
+                self.session.addInput(videoDeviceInput)
+            } else {
+                print("Couldn't add video device input to the session.")
+                session.commitConfiguration()
+                return
+            }
+        } catch {
+            print("Couldn't create video device input: \(error)")
+            session.commitConfiguration()
+            return
+        }
+        
+        // Add video output
+        if session.canAddOutput(videoOutput) {
+            session.addOutput(videoOutput)
+            videoOutput.alwaysDiscardsLateVideoFrames = true
+            videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String:
+                                            kCVPixelFormatType_32BGRA]
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "video.frame.processing.queue"))
+        } else {
+            print("Could not add video data output to the session")
+            session.commitConfiguration()
+            return
+        }
+        
+        session.commitConfiguration()
+    }
+    
+    // Function to handle session start
+    func startSession() {
+        sessionQueue.async {
+            if !self.session.isRunning {
+                self.session.startRunning()
+            }
+        }
+    }
+    
+    // Function to handle session stop
+    func stopSession() {
+        sessionQueue.async {
+            if self.session.isRunning {
+                self.session.stopRunning()
+            }
+        }
+    }
+}
+
+extension CameraModel: AVCaptureVideoDataOutputSampleBufferDelegate {
+    // Implement delegate methods if needed
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // Handle each frame if necessary
+    }
+}
+
+
+// MARK: - Camera Wrapper
+
+
+struct CameraPreview: UIViewRepresentable {
+    class VideoPreviewView: UIView {
+        override class var layerClass: AnyClass {
+            AVCaptureVideoPreviewLayer.self
+        }
+        
+        var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+            return layer as! AVCaptureVideoPreviewLayer
+        }
+    }
+    
+    @ObservedObject var cameraModel: CameraModel
+    
+    func makeUIView(context: Context) -> VideoPreviewView {
+        let view = VideoPreviewView()
+        view.videoPreviewLayer.session = cameraModel.session
+        view.videoPreviewLayer.videoGravity = .resizeAspectFill
+        return view
+    }
+    
+    func updateUIView(_ uiView: VideoPreviewView, context: Context) {
+        // Update the preview layer if needed
+        if cameraModel.session.isRunning {
+            uiView.videoPreviewLayer.session = cameraModel.session
+        }
+    }
+}
+
+
+// MARK: - VIEWS
+
 
 struct CameraView: View {
+    @StateObject private var cameraModel = CameraModel()
+    
     var body: some View {
         ZStack {
-            // Background Camera Feed Placeholder
-            Color.blue
-                .edgesIgnoringSafeArea(.all)
+            // Camera Feed or Placeholder based on authorization
+            if cameraModel.isCameraAuthorized {
+                CameraPreview(cameraModel: cameraModel)
+                    .edgesIgnoringSafeArea(.all)
+            } else {
+                // Placeholder if camera access is denied
+                Color.green
+                    .edgesIgnoringSafeArea(.all)
+                Text("Camera access is denied. Please enable it in Settings.")
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.red.opacity(0.5))
+                    .cornerRadius(10)
+            }
             
             
-            // Effects Button Panel
-            EffectsButtonPanel()
-                .padding(.top, topPadding)
             
-            // Overlay Content
+            // Top Bar
             VStack {
-                // Top Bar
-                TopBarView()
-                    .padding(.top, topPadding)
-                
+                HStack {
+                    Text("9:41")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("Sounds")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal)
+                .padding(.top, 60) // Adjust top padding for status bar
                 Spacer()
-                
-                // Control Panels
-                ControlPanelsView()
-          
             }
-        }
-    }
-    
-    // Calculate dynamic top padding based on safe area
-    private var topPadding: CGFloat {
-        UIApplication.shared.windows.first?.safeAreaInsets.top ?? 60
-    }
-}
 
-// MARK: - Top Bar View
-struct TopBarView: View {
-    var body: some View {
-        HStack {
-            ClockView()
-            Spacer()
-            SoundToggleView()
-        }
-        .padding(.horizontal)
-    }
-}
+            VStack {
+                Spacer()
 
-// MARK: - Clock View
-struct ClockView: View {
-    var body: some View {
-        Text(Date(), style: .time)
-            .font(.headline)
-            .foregroundColor(.white)
-            .accessibilityLabel("Current time")
-    }
-}
+                // Main Control Panel
+                HStack {
+                    Spacer()
 
-// MARK: - Sound Toggle View
-struct SoundToggleView: View {
-    @State private var isSoundOn: Bool = true
-    
-    var body: some View {
-        Button(action: {
-            isSoundOn.toggle()
-            // Handle sound toggle action
-        }) {
-            Image(systemName: isSoundOn ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                .font(.headline)
-                .foregroundColor(.white)
-        }
-        .accessibilityLabel(isSoundOn ? "Mute sounds" : "Unmute sounds")
-    }
-}
+                    // Recording Button
+                    Button(action: {
+                        // Action for recording
+                    }) {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 80, height: 80)
+                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                    }
+                    
+                    Spacer()
 
-// MARK: - Control Panels View
-struct ControlPanelsView: View {
-    var body: some View {
-        VStack {
-            // Main Control Panel
-            ControlPanelMainView()
-                .padding(.bottom, 10)
-            
-            // Timer and Templates
-            TimerTemplatesView()
-        }
-        .padding(.horizontal)
-    }
-}
-
-// MARK: - Main Control Panel View
-struct ControlPanelMainView: View {
-    var body: some View {
-        HStack {
-            Spacer()
-            
-            // Recording Button
-            RecordButton()
-            
-            Spacer()
-            
-            // Upload Button
-            UploadButton()
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-// MARK: - Recording Button
-struct RecordButton: View {
-    @State private var isRecording: Bool = false
-    
-    var body: some View {
-        Button(action: {
-            isRecording.toggle()
-            // Handle recording action
-        }) {
-            Circle()
-                .fill(isRecording ? Color.red.opacity(0.7) : Color.red)
-                .frame(width: 80, height: 80)
-                .overlay(
-                    Circle()
-                        .stroke(Color.white, lineWidth: 4)
-                )
-                .scaleEffect(isRecording ? 1.1 : 1.0)
-                .animation(.easeInOut(duration: 0.2), value: isRecording)
-        }
-        .accessibilityLabel(isRecording ? "Stop Recording" : "Start Recording")
-    }
-}
-
-// MARK: - Upload Button
-struct UploadButton: View {
-    var body: some View {
-        Button(action: {
-            // Handle upload action
-        }) {
-            Image(systemName: "photo.on.rectangle")
-                .font(.title)
-                .foregroundColor(.white)
+                    Button(action: {
+                        // Action for Upload
+                    }) {
+                        Image(systemName: "photo.on.rectangle")
+                            .font(.title)
+                            .foregroundColor(.white)
+                    }
+                }
                 .padding()
-                .background(Color.black.opacity(0.5))
-                .clipShape(Circle())
-        }
-        .accessibilityLabel("Upload photo")
-    }
-}
 
-// MARK: - Timer and Templates View
-struct TimerTemplatesView: View {
-    var body: some View {
-        HStack {
-            TimerView(duration: "60s")
-            Spacer()
-            TimerView(duration: "15s")
-            Spacer()
-            TemplatesView()
-        }
-        .foregroundColor(.white)
-        .padding(.bottom, 30)
-    }
-}
-
-// MARK: - Timer View
-struct TimerView: View {
-    let duration: String
-    
-    var body: some View {
-        Text(duration)
-            .accessibilityLabel("\(duration) timer")
-    }
-}
-
-// MARK: - Templates View
-struct TemplatesView: View {
-    var body: some View {
-        Button(action: {
-            // Handle templates action
-        }) {
-            Text("Templates")
-                .underline()
-        }
-        .accessibilityLabel("Open templates")
-    }
-}
-
-// MARK: - Effects Button Panel
-struct EffectsButtonPanel: View {
-    var body: some View {
-        HStack {
-            Spacer()
-            VStack(spacing: 20) {
-                EffectButton(icon: "sparkles", tooltip: "Sparkle Effect", action: {
-                    // Sparkle effect action
-                })
-                EffectButton(icon: "star.fill", tooltip: "Star Effect", action: {
-                    // Star effect action
-                })
-                EffectButton(icon: "moon.fill", tooltip: "Moon Effect", action: {
-                    // Moon effect action
-                })
-                EffectButton(icon: "flame.fill", tooltip: "Flame Effect", action: {
-                    // Flame effect action
-                })
+                // Timer and Templates
+                HStack {
+                    Text("60s")
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("15s")
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("Templates")
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 30)
             }
-            .padding()
+
+            // Effects Button Panel
+            VStack {
+                HStack {
+                    VStack(spacing: 20) {
+                        EffectButton(icon: "sparkles", title: "Sparkle") {
+                            // Action for Sparkle effect
+                        }
+                        EffectButton(icon: "star.fill", title: "Star") {
+                            // Action for Star effect
+                        }
+                        EffectButton(icon: "moon.fill", title: "Moon") {
+                            // Action for Moon effect
+                        }
+                        EffectButton(icon: "flame.fill", title: "Flame") {
+                            // Action for Flame effect
+                        }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            }
         }
     }
 }
 
-// MARK: - Effect Button
 struct EffectButton: View {
-    let icon: String
-    let tooltip: String
-    let action: () -> Void
+    var icon: String
+    var title: String
+    var action: () -> Void
     
     var body: some View {
         Button(action: action) {
-            Image(systemName: icon)
-                .font(.title)
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.black.opacity(0.7))
-                .clipShape(Circle())
-                .shadow(radius: 5)
+            HStack {
+                Image(systemName: icon)
+                    .font(.title)
+                    .foregroundColor(.white)
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }
+            .padding()
+            .background(Color.black.opacity(0.7))
+            .cornerRadius(20)
+            .shadow(radius: 5)
         }
-        .accessibilityLabel(tooltip)
+        .accessibilityLabel(Text(title))
+        .accessibilityHint(Text("Activates the \(title) effect"))
     }
 }
 
-// MARK: - Preview
-//struct CameraView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CameraView()
-//    }
-//}
-
-
-// MARK: - Preview
 #Preview {
     CameraView()
 }
