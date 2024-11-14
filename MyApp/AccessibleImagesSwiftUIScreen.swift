@@ -9,20 +9,20 @@ import SwiftUI
 
 struct AccessibleImagesSwiftUIScreen: View {
     @State private var profilePictureName = "defaultProfile" // For dynamic image example
-
+    
     var body: some View {
         ScrollView { // Use ScrollView for longer content
             VStack(alignment: .leading, spacing: 20) {
                 Text("Accessible Images Examples").font(.title)
-
+                
                 // 1. Simple Descriptive Text
                 Image("Round_logo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
                     .accessibilityLabel("A around logo of my channel.")
-
-
+                
+                
                 // 2. Functional Image (Button)
                 Button(action: {
                     // Action for adding to cart
@@ -32,32 +32,31 @@ struct AccessibleImagesSwiftUIScreen: View {
                         .font(.largeTitle)
                 }
                 .accessibilityLabel("Add to cart")
-
-
-
+                
+                
+                
                 // 3. Image with Text (Simulated with an overlay)
                 ZStack {
                     Image("My-meme-heineken")
                         .resizable()
                         .scaledToFit()
-                         .frame(width: 200, height: 100)
+                        .frame(width: 200, height: 100)
                     Text("Sale: 50% off")
                         .font(.headline)
                         .foregroundColor(.yellow)
                 }
                 .accessibilityLabel("Sale: 50% off all items") // Alt text includes embedded text
-
-
-
+                
+                
                 // 4. Complex Image
                 Image("Square_logo")
                     .resizable()
                     .scaledToFit()
-                     .frame(width: 200, height: 100)
+                    .frame(width: 200, height: 100)
                     .accessibilityLabel("A square logo of the same channel as the previous one.")
                     .accessibilityHint("Double-tap to view detailed data.")
-
-
+                
+                
                 // 5. Decorative Image (used as background, no label usually needed)
                 Text("Text with decorative background")
                     .padding()
@@ -68,8 +67,8 @@ struct AccessibleImagesSwiftUIScreen: View {
                             .opacity(0.5) // Make it subtle
                     )
                     .accessibilityElement(children: .ignore) // Example if a SwiftUI label is accidentally being read for background
-
-
+                
+                
                 // 6. Group of Images (Panorama)
                 // Notes: This example is to large to fit in the current screen for now.
                 // TODO: Update assets size add images for this examples
@@ -82,9 +81,7 @@ struct AccessibleImagesSwiftUIScreen: View {
                 .clipped()
                 .accessibilityElement(children: .combine)
                 .accessibilityLabel("A panorama of the Grand Canyon.")
-
-
-
+                
                 // 7. Image with Dynamic Content (Profile Picture)
                 Image(profilePictureName)
                     .resizable()
@@ -95,13 +92,10 @@ struct AccessibleImagesSwiftUIScreen: View {
                         // Simulate changing the profile picture
                         profilePictureName = (profilePictureName == "defaultProfile") ? "customProfile" : "defaultProfile"
                     }
-
-
                 Spacer() // Push content to the top
             }
             .padding()
         }.navigationTitle("Accessible Images")
-
     }
 }
 
