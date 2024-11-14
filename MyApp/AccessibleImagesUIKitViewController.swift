@@ -41,7 +41,7 @@ class AccessibleImagesViewController: UIViewController {
 
 
         // 1. Simple Descriptive Text
-        let appleImageView = createImageView(named: "Round_logo", accessibilityLabel: "A red apple sitting on a table.")
+        let appleImageView = createImageView(named: "Round_logo", accessibilityLabel: "A round logo for my channel.")
         stackView.addArrangedSubview(appleImageView)
 
 
@@ -54,18 +54,38 @@ class AccessibleImagesViewController: UIViewController {
 
 
         // 3. Image with Text
-        let saleBannerView = createCombinedImageView(imageName: "My-meme-heineken", text: "Sale: 50% off", accessibilityLabel: "Sale: 50% off all items")
+        let saleBannerView = createCombinedImageView(
+            imageName: "My-meme-heineken",
+            text: "Sale: 50% off",
+            accessibilityLabel: "Sale: 50% off all items"
+        )
+        
         stackView.addArrangedSubview(saleBannerView)
+        
+        let imageWithLabelView = createImageWithLabelView(
+            imageName: "My-meme-cordyceps",
+            labelText: "For free",
+            accessibilityLabel: "My meme is free"
+        )
+        
+        stackView.addArrangedSubview(imageWithLabelView)
 
 
         // ... Other examples from SwiftUI version can be implemented similarly using UIImageView, UIButton, UILabel, etc. combined inside the stackView
-
+        
+        // 4. Group of related images:
+        let imageGroupView = createImageGroupView(
+            imageNames: ["My-meme-microphone", "My-meme-heineken", "My-meme-cordyceps"],
+            accessibilityLabel: "A selection of fresh fruits including oranges, bananas, and grapes."
+        )
+        
+        stackView.addArrangedSubview(imageGroupView)
 
 
     }
 
-
-    // Helper functions to create image views (more reusable)
+// MARK: - Helper functions
+    // Helper functions to create image views (reusable components)
     func createImageView(named imageName: String, accessibilityLabel: String) -> UIImageView {
         let imageView = UIImageView(image: UIImage(named: imageName))
         imageView.contentMode = .scaleAspectFit // Maintain aspect ratio
@@ -77,7 +97,36 @@ class AccessibleImagesViewController: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return imageView
     }
+    
+    func createImageWithLabelView(imageName: String, labelText: String, accessibilityLabel: String) -> UIView {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
 
+        let imageView = createImageView(named: imageName, accessibilityLabel: "") // Empty label for individual image
+
+        let label = UILabel()
+        label.text = labelText
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+
+        let stackView = UIStackView(arrangedSubviews: [imageView, label])
+        stackView.axis = .vertical  // Vertical arrangement for image and label
+        stackView.spacing = 8      // Spacing between image and label
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        containerView.accessibilityLabel = accessibilityLabel   // Label for the entire view
+        return containerView
+    }
 
 
     func createCombinedImageView(imageName: String, text: String, accessibilityLabel: String) -> UIView {
@@ -86,7 +135,7 @@ class AccessibleImagesViewController: UIViewController {
 
         let label = UILabel()
         label.text = text
-        label.textColor = .white
+        label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
 
         let imageView = UIImageView(image: UIImage(named: imageName))
@@ -112,6 +161,39 @@ class AccessibleImagesViewController: UIViewController {
             containerView.widthAnchor.constraint(equalToConstant: 200).isActive = true // Set width
              containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true// Set height
            return containerView
+    }
+
+    func createImageGroupView(imageNames: [String], accessibilityLabel: String) -> UIView {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+
+
+        let stackView = UIStackView()
+        stackView.axis = .horizontal // Arrange images horizontally
+        stackView.spacing = 8 // Set spacing between images
+        stackView.alignment = .center // Center align images vertically
+        stackView.distribution = .equalSpacing // Ensure even distribution across the container
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+
+        for imageName in imageNames {
+            let imageView = createImageView(named: imageName, accessibilityLabel: "") // Individual images don't need labels inside group
+            stackView.addArrangedSubview(imageView)
+        }
+
+        containerView.addSubview(stackView)
+
+           NSLayoutConstraint.activate([
+               stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+               stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+               stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+               stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+
+           ])
+
+
+        containerView.accessibilityLabel = accessibilityLabel
+        return containerView
     }
 
 
