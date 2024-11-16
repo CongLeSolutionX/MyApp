@@ -17,6 +17,14 @@
 		9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1338D2CE4E820005BD7C4 /* LottieView.swift */; };
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
+		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
+		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
+		9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */; };
+		9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC0B2CE9482C00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift */; };
+		9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC0D2CE948E300EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift */; };
+		9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC0F2CE949AE00EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift */; };
+		9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC112CE94B1800EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift */; };
+		9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC132CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +39,14 @@
 		9AD1338D2CE4E820005BD7C4 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
+		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
+		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
+		9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift"; sourceTree = "<group>"; };
+		9AF7AC0B2CE9482C00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
+		9AF7AC0D2CE948E300EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
+		9AF7AC0F2CE949AE00EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift"; sourceTree = "<group>"; };
+		9AF7AC112CE94B1800EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift"; sourceTree = "<group>"; };
+		9AF7AC132CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +80,8 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
+				9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */,
 				9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */,
 				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
@@ -92,6 +110,20 @@
 				9AD1338D2CE4E820005BD7C4 /* LottieView.swift */,
 			);
 			path = LottieView;
+			sourceTree = "<group>";
+		};
+		9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */ = {
+			isa = PBXGroup;
+			children = (
+				9AF7AC112CE94B1800EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift */,
+				9AF7AC132CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift */,
+				9AF7AC0F2CE949AE00EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift */,
+				9AF7AC0D2CE948E300EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift */,
+				9AF7AC0B2CE9482C00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift */,
+				9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */,
+				9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */,
+			);
+			path = TikTokReplicate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,9 +201,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
+				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
+				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
+				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
+				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
+				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
+				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
+				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 			);
