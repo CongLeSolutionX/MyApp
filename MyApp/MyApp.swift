@@ -12,8 +12,9 @@ import SwiftUI
 struct MyAppApp: App {
     var body: some Scene {
         WindowGroup {
+            SwiftUIContentView()
             //TikTikHomeView()
-            CameraView()
+            //CameraView()
         }
     }
 }

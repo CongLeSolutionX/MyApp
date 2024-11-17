@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -61,6 +63,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */ = {
+			isa = PBXGroup;
+			children = (
+				9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */,
+			);
+			path = SwiftUI_UI_Elements;
+			sourceTree = "<group>";
+		};
+		9A54306E2CE9B90C00A49091 /* TikTokReDesign */ = {
+			isa = PBXGroup;
+			children = (
+				9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */,
+				9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */,
+			);
+			path = TikTokReDesign;
+			sourceTree = "<group>";
+		};
+		9A54306F2CE9B93400A49091 /* AppleNativeCamera */ = {
+			isa = PBXGroup;
+			children = (
+				9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */,
+			);
+			path = AppleNativeCamera;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -80,14 +107,14 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
-				9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */,
-				9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */,
-				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
-				9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */,
-				9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */,
+				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A54306F2CE9B93400A49091 /* AppleNativeCamera */,
+				9A54306E2CE9B90C00A49091 /* TikTokReDesign */,
+				9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */,
+				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
+				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -208,6 +235,7 @@
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
+				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
