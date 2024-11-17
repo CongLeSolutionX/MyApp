@@ -15,6 +15,7 @@ struct MyAppApp: App {
             SwiftUIContentView()
             //TikTikHomeView()
             //CameraView()
+            //PhotoPickerExampleView()
         }
     }
 }
