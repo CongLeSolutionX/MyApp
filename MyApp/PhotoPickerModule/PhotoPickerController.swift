@@ -4,92 +4,173 @@
 //
 //  Created by Cong Le on 11/16/24.
 //
+//
 
 import UIKit
 import PhotosUI
+import Photos
 
-class PhotoPickerController: UIViewController, PHPickerViewControllerDelegate {
+// MARK: - Protocol Definitions
+
+protocol PhotoLibraryProtocol {
+    var authorizationStatus: PHAuthorizationStatus { get }
+    func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void)
+}
+
+protocol PhotoPickerViewControllerProtocol {
+    var delegate: PHPickerViewControllerDelegate? { get set }
+    func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
+}
+
+// MARK: - Protocol Extensions
+
+extension PHPhotoLibrary: PhotoLibraryProtocol {
+    var authorizationStatus: PHAuthorizationStatus {
+        return PHPhotoLibrary.authorizationStatus()
+    }
     
-    let selectPhotoButton: UIButton = {
+    func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void) {
+        PHPhotoLibrary.requestAuthorization { status in
+            DispatchQueue.main.async {
+                handler(status)
+            }
+        }
+    }
+}
+
+extension PHPickerViewController: PhotoPickerViewControllerProtocol {}
+
+// MARK: - PhotoPickerController
+
+class PhotoPickerController: UIViewController {
+    
+    // MARK: - Properties
+    
+    private let photoLibrary: PhotoLibraryProtocol
+    private var pickerViewController: PhotoPickerViewControllerProtocol?
+    
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var selectPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Select Photo", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(selectPhotoButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - Initializers
+    
+    init(photoLibrary: PhotoLibraryProtocol = PHPhotoLibrary.shared()) {
+        self.photoLibrary = photoLibrary
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.photoLibrary = PHPhotoLibrary.shared()
+        super.init(coder: coder)
+    }
+    
+    // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
+    // MARK: - UI Setup
+    
     private func setupUI() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(imageView)
         view.addSubview(selectPhotoButton)
+        
         NSLayoutConstraint.activate([
+            // ImageView Constraints
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            imageView.widthAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            
+            // Button Constraints
             selectPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            selectPhotoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            selectPhotoButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
         ])
-        selectPhotoButton.addTarget(self, action: #selector(selectPhotoButtonTapped), for: .touchUpInside)
     }
+    
+    // MARK: - Button Action
     
     @objc private func selectPhotoButtonTapped() {
-        checkPhotoLibraryPermission()
+        handlePhotoLibraryPermission()
     }
     
-    private func checkPhotoLibraryPermission() {
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .authorized:
-            presentPicker()
+    // MARK: - Permission Handling
+    
+    private func handlePhotoLibraryPermission() {
+        switch photoLibrary.authorizationStatus {
+        case .authorized, .limited:
+            presentPhotoPicker()
         case .notDetermined:
-            requestPhotoLibraryAccess()
+            photoLibrary.requestAuthorization { [weak self] status in
+                if status == .authorized || status == .limited {
+                    self?.presentPhotoPicker()
+                } else {
+                    self?.showPermissionDeniedAlert()
+                }
+            }
         default:
             showPermissionDeniedAlert()
         }
     }
     
-    private func requestPhotoLibraryAccess() {
-        PhotoPermissionsManager.requestPhotoLibraryPermission { [weak self] status in
-            if status == .authorized {
-                self?.presentPicker()
-            } else {
-                self?.showPermissionDeniedAlert()
-            }
-        }
-    }
+    // MARK: - Photo Picker Presentation
     
-    private func showPermissionDeniedAlert() {
-        let alert = UIAlertController(title: "Access Denied", message: "Please enable photo library access in Settings.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func presentPicker() {
+    private func presentPhotoPicker() {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
+        configuration.selectionLimit = 1
+        
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
-        present(picker, animated: true, completion: nil)
+        pickerViewController = picker
+        present(picker, animated: true)
     }
     
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true) { [weak self] in
-            guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else { return }
-            provider.loadObject(ofClass: UIImage.self) { image, _ in
-                if let image = image as? UIImage {
-                    DispatchQueue.main.async {
-                        // TODO: Update UI with the image
-                        print("Image selected and available")
-                    }
-                }
-            }
-        }
+    // MARK: - Alert Presentation
+    
+    private func showPermissionDeniedAlert() {
+        let alert = UIAlertController(
+            title: "Access Denied",
+            message: "Please enable photo library access in Settings.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
 
-class PhotoPermissionsManager {
-    static func requestPhotoLibraryPermission(completion: @escaping (PHAuthorizationStatus) -> Void) {
-        PHPhotoLibrary.requestAuthorization { status in
+// MARK: - PHPickerViewControllerDelegate
+
+extension PhotoPickerController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else { return }
+        
+        provider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+            if let error = error {
+                print("Error loading image: \(error.localizedDescription)")
+                return
+            }
+            guard let uiImage = image as? UIImage else { return }
             DispatchQueue.main.async {
-                completion(status)
+                self?.imageView.image = uiImage
             }
         }
     }
