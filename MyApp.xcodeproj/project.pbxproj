@@ -12,6 +12,11 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9ADF14C32CE9E8FC00F377C5 /* ARManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF14C22CE9E8FB00F377C5 /* ARManager.swift */; };
+		9ADF14C52CE9E90500F377C5 /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF14C42CE9E90500F377C5 /* PixelBuffer.swift */; };
+		9ADF14C72CE9E90F00F377C5 /* PointCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF14C62CE9E90E00F377C5 /* PointCloud.swift */; };
+		9ADF14C92CE9E91700F377C5 /* ProjectCloudExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF14C82CE9E91600F377C5 /* ProjectCloudExampleApp.swift */; };
+		9ADF14CB2CE9E91E00F377C5 /* YCBCRBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADF14CA2CE9E91D00F377C5 /* YCBCRBuffer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9ADF14C22CE9E8FB00F377C5 /* ARManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARManager.swift; sourceTree = "<group>"; };
+		9ADF14C42CE9E90500F377C5 /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
+		9ADF14C62CE9E90E00F377C5 /* PointCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloud.swift; sourceTree = "<group>"; };
+		9ADF14C82CE9E91600F377C5 /* ProjectCloudExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCloudExampleApp.swift; sourceTree = "<group>"; };
+		9ADF14CA2CE9E91D00F377C5 /* YCBCRBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YCBCRBuffer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +67,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9ADF14CC2CE9E95800F377C5 /* ARCamera */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -70,6 +81,18 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9ADF14CC2CE9E95800F377C5 /* ARCamera */ = {
+			isa = PBXGroup;
+			children = (
+				9ADF14C82CE9E91600F377C5 /* ProjectCloudExampleApp.swift */,
+				9ADF14C62CE9E90E00F377C5 /* PointCloud.swift */,
+				9ADF14C22CE9E8FB00F377C5 /* ARManager.swift */,
+				9ADF14C42CE9E90500F377C5 /* PixelBuffer.swift */,
+				9ADF14CA2CE9E91D00F377C5 /* YCBCRBuffer.swift */,
+			);
+			path = ARCamera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,9 +165,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ADF14C32CE9E8FC00F377C5 /* ARManager.swift in Sources */,
+				9ADF14CB2CE9E91E00F377C5 /* YCBCRBuffer.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9ADF14C52CE9E90500F377C5 /* PixelBuffer.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9ADF14C72CE9E90F00F377C5 /* PointCloud.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9ADF14C92CE9E91700F377C5 /* ProjectCloudExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
