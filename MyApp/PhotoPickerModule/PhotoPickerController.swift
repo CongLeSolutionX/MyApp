@@ -5,7 +5,6 @@
 //  Created by Cong Le on 11/16/24.
 //
 //
-
 import UIKit
 import PhotosUI
 import Photos
@@ -105,25 +104,57 @@ class PhotoPickerController: UIViewController {
     
     // MARK: - Button Action
     
-    @objc private func selectPhotoButtonTapped() {
+    @objc fileprivate func selectPhotoButtonTapped() {
         handlePhotoLibraryPermission()
     }
     
     // MARK: - Permission Handling
     
-    private func handlePhotoLibraryPermission() {
+    fileprivate func handlePhotoLibraryPermission() {
         switch photoLibrary.authorizationStatus {
-        case .authorized, .limited:
+        case .authorized:
+            print("Photo Library Access: Authorized")
             presentPhotoPicker()
+            
+        case .limited:
+            print("Photo Library Access: Limited")
+            presentPhotoPicker()
+            
         case .notDetermined:
+            print("Photo Library Access: Not Determined")
             photoLibrary.requestAuthorization { [weak self] status in
-                if status == .authorized || status == .limited {
+                switch status {
+                case .authorized:
+                    print("Photo Library Access Granted: Authorized")
                     self?.presentPhotoPicker()
-                } else {
+                case .limited:
+                    print("Photo Library Access Granted: Limited")
+                    self?.presentPhotoPicker()
+                case .denied:
+                    print("Photo Library Access Denied")
+                    self?.showPermissionDeniedAlert()
+                case .restricted:
+                    print("Photo Library Access Restricted")
+                    self?.showPermissionDeniedAlert()
+                case .notDetermined:
+                    print("Photo Library Access: Still Not Determined")
+                    self?.showPermissionDeniedAlert()
+                @unknown default:
+                    print("Photo Library Access: Unknown Status")
                     self?.showPermissionDeniedAlert()
                 }
             }
-        default:
+            
+        case .denied:
+            print("Photo Library Access: Denied")
+            showPermissionDeniedAlert()
+            
+        case .restricted:
+            print("Photo Library Access: Restricted")
+            showPermissionDeniedAlert()
+            
+        @unknown default:
+            print("Photo Library Access: Unknown Status")
             showPermissionDeniedAlert()
         }
     }
@@ -175,3 +206,17 @@ extension PhotoPickerController: PHPickerViewControllerDelegate {
         }
     }
 }
+
+// MARK: - Extensions for unit tests
+
+/// Testing whether an alert is presented can be a bit tricky.
+/// We'll extend UIViewController to capture presented view controllers for verification.
+extension UIViewController {
+    func getTopMostViewController() -> UIViewController {
+        if let presented = self.presentedViewController {
+            return presented.getTopMostViewController()
+        }
+        return self
+    }
+}
+

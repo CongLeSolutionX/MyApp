@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,6 +38,13 @@
 			remoteGlobalIDString = 9AAC41772C74668B00AC0A60;
 			remoteInfo = MyApp;
 		};
+		9AA001702CEA90D7000A1007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9AAC41702C74668B00AC0A60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AAC41772C74668B00AC0A60;
+			remoteInfo = MyApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +53,7 @@
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A85254D2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPermissionsManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AA0016C2CEA90D7000A1007 /* PhotoPickerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPickerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTikHomeView.swift; sourceTree = "<group>"; };
@@ -68,10 +76,18 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9A85254E2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPermissionsManagerTests; sourceTree = "<group>"; };
+		9AA0016D2CEA90D7000A1007 /* PhotoPickerControllerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPickerControllerTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9A85254A2CE9C95300DF1FB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AA001692CEA90D7000A1007 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,6 +144,7 @@
 			children = (
 				9AAC417A2C74668B00AC0A60 /* MyApp */,
 				9A85254E2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */,
+				9AA0016D2CEA90D7000A1007 /* PhotoPickerControllerTests */,
 				9AAC41792C74668B00AC0A60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -137,6 +154,7 @@
 			children = (
 				9AAC41782C74668B00AC0A60 /* MyApp.app */,
 				9A85254D2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests.xctest */,
+				9AA0016C2CEA90D7000A1007 /* PhotoPickerControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,6 +235,29 @@
 			productReference = 9A85254D2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9AA0016B2CEA90D7000A1007 /* PhotoPickerControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AA001742CEA90D7000A1007 /* Build configuration list for PBXNativeTarget "PhotoPickerControllerTests" */;
+			buildPhases = (
+				9AA001682CEA90D7000A1007 /* Sources */,
+				9AA001692CEA90D7000A1007 /* Frameworks */,
+				9AA0016A2CEA90D7000A1007 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9AA001712CEA90D7000A1007 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9AA0016D2CEA90D7000A1007 /* PhotoPickerControllerTests */,
+			);
+			name = PhotoPickerControllerTests;
+			packageProductDependencies = (
+			);
+			productName = PhotoPickerControllerTests;
+			productReference = 9AA0016C2CEA90D7000A1007 /* PhotoPickerControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9AAC41772C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9AAC41872C74668C00AC0A60 /* Build configuration list for PBXNativeTarget "MyApp" */;
@@ -248,6 +289,10 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 9AAC41772C74668B00AC0A60;
 					};
+					9AA0016B2CEA90D7000A1007 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 9AAC41772C74668B00AC0A60;
+					};
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -271,12 +316,20 @@
 			targets = (
 				9AAC41772C74668B00AC0A60 /* MyApp */,
 				9A85254C2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */,
+				9AA0016B2CEA90D7000A1007 /* PhotoPickerControllerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9A85254B2CE9C95300DF1FB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AA0016A2CEA90D7000A1007 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,6 +350,13 @@
 
 /* Begin PBXSourcesBuildPhase section */
 		9A8525492CE9C95300DF1FB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AA001682CEA90D7000A1007 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -335,6 +395,11 @@
 			target = 9AAC41772C74668B00AC0A60 /* MyApp */;
 			targetProxy = 9A8525512CE9C95300DF1FB9 /* PBXContainerItemProxy */;
 		};
+		9AA001712CEA90D7000A1007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AAC41772C74668B00AC0A60 /* MyApp */;
+			targetProxy = 9AA001702CEA90D7000A1007 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -369,6 +434,47 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = tech.CongLeSolutionX.PhotoPermissionsManagerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyApp";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9AA001722CEA90D7000A1007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99WD9D6Y46;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.CongLeSolutionX.PhotoPickerControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyApp";
+			};
+			name = Debug;
+		};
+		9AA001732CEA90D7000A1007 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 99WD9D6Y46;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.CongLeSolutionX.PhotoPickerControllerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -581,6 +687,15 @@
 			buildConfigurations = (
 				9A8525542CE9C95300DF1FB9 /* Debug */,
 				9A8525552CE9C95300DF1FB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AA001742CEA90D7000A1007 /* Build configuration list for PBXNativeTarget "PhotoPickerControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AA001722CEA90D7000A1007 /* Debug */,
+				9AA001732CEA90D7000A1007 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
