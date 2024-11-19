@@ -43,10 +43,16 @@ class MyUIKitViewController: UIViewController {
         // Create configuration
         let webConfiguration = WKWebViewConfiguration()
         
-        // Configure preferences
-        let preferences = WKPreferences()
-        preferences.javaScriptEnabled = true
-        webConfiguration.preferences = preferences
+        if #available(iOS 14.0, *) {
+            // Set default webpage preferences
+            let webpagePreferences = WKWebpagePreferences()
+            webpagePreferences.allowsContentJavaScript = true // Enable JavaScript
+            webConfiguration.defaultWebpagePreferences = webpagePreferences
+        } else {
+            // Fallback on iOS 13 and ealier
+            webConfiguration.preferences.javaScriptEnabled = true
+        }
+        
         
         // Configure user content controller for JavaScript interaction
         let userContentController = WKUserContentController()
@@ -81,8 +87,8 @@ class MyUIKitViewController: UIViewController {
         ])
         
         // Load web content
-        //loadHTMLWebContent()
-        loadWebContent()
+        loadHTMLWebContent()
+        //loadWebContent()
     }
     
     func loadWebContent() {
@@ -131,6 +137,13 @@ extension MyUIKitViewController: WKNavigationDelegate, WKUIDelegate, WKScriptMes
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         // Allow navigation
         decisionHandler(.allow)
+    }
+    
+    // Optional: Handle per-navigation preferences
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, preferences: WKWebpagePreferences, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+        // Enable JavaScript for this navigation
+        preferences.allowsContentJavaScript = true
+        decisionHandler(.allow, preferences)
     }
     
     // MARK: - WKUIDelegate Methods
