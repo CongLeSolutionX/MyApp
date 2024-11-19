@@ -24,18 +24,10 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     }
 }
 
-// Example UIKit view controller
-//class MyUIKitViewController: UIViewController {
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        view.backgroundColor = .systemBlue
-//        // Additional setup
-//    }
-//}
-
+//MARK: - MyUIKitViewController
 class MyUIKitViewController: UIViewController {
     
-    var webView: WKWebView!
+    var webView: WKWebView = WKWebView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
