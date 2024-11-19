@@ -26,61 +26,48 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 
 //MARK: - MyUIKitViewController
 class MyUIKitViewController: UIViewController {
-    
-    var webView: WKWebView = WKWebView()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    lazy var webView: WKWebView = {
         
-        // Create configuration
-        let webConfiguration = WKWebViewConfiguration()
+        // Create web view configuration
+        let webViewConfiguration = WKWebViewConfiguration()
         
         if #available(iOS 14.0, *) {
             // Set default webpage preferences
             let webpagePreferences = WKWebpagePreferences()
             webpagePreferences.allowsContentJavaScript = true // Enable JavaScript
-            webConfiguration.defaultWebpagePreferences = webpagePreferences
+            webViewConfiguration.defaultWebpagePreferences = webpagePreferences
         } else {
             // Fallback on iOS 13 and ealier
-            webConfiguration.preferences.javaScriptEnabled = true
+            webViewConfiguration.preferences.javaScriptEnabled = true
         }
         
         
-        // Configure user content controller for JavaScript interaction
+        // Configure user content controller
         let userContentController = WKUserContentController()
-        webConfiguration.userContentController = userContentController
         
-        // Add JavaScript message handler
+        // Add script message handler
         userContentController.add(self, name: "callbackHandler")
-        
-        // JavaScript code to be injected
-        let jsCode = "window.webkit.messageHandlers.callbackHandler.postMessage('Hello from JavaScript');"
-        let userScript = WKUserScript(source: jsCode, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        webView.configuration.userContentController.addUserScript(userScript)
+        webViewConfiguration.userContentController = userContentController
         
         
-        // Initialize WKWebView with configuration
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        
-        // Set delegates
+        // Initialize webView with configuration
+        let webView = WKWebView(frame: .zero, configuration: webViewConfiguration)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         
-        // Add web view to view hierarchy
-        view.addSubview(webView)
-        
-        // Set constraints for web view
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.topAnchor.constraint(equalTo: view.topAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        return webView
+    }()
+    
+    override func loadView() {
+        self.view = webView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         // Load web content
-        loadHTMLWebContent()
-        //loadWebContent()
+        //loadHTMLWebContent()
+        loadWebContent()
     }
     
     func loadWebContent() {
