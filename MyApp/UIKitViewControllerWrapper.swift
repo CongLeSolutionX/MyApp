@@ -8,6 +8,37 @@
 import SwiftUI
 import UIKit
 
+// UIViewControllerRepresentable implementation for a random UIKit view controller
+struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = SFViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> SFViewController {
+        // Instantiate and return the UIKit view controller
+        return SFViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: SFViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
+// UIViewControllerRepresentable implementation for a random UIKit view controller
+struct UIKitViewControllerWrapper_AudioVideoPlayerViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = AudioVideoPlayerViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> AudioVideoPlayerViewController {
+        // Instantiate and return the UIKit view controller
+        return AudioVideoPlayerViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: AudioVideoPlayerViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
+
 // UIViewControllerRepresentable implementation for WKWebViewController
 struct UIKitViewControllerWrapper_WKWebViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = WKWebViewController

@@ -22,6 +22,19 @@ struct ContentView: View { // The app will load view from this entry point
 /// removing the `_Previews` suffix from the struct's name.
 
 // Before iOS 17, use this syntax for preview UIKit view controller
+struct GenericUIKitView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
+    static var previews: some View {
+        UIKitViewControllerWrapper_GeneralUIKitViewController()
+    }
+}
+
+struct AudioVideoPlayerView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
+    static var previews: some View {
+        UIKitViewControllerWrapper_AudioVideoPlayerViewController()
+    }
+}
+
+
 struct WKWebView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
     static var previews: some View {
         UIKitViewControllerWrapper_WKWebViewController()
