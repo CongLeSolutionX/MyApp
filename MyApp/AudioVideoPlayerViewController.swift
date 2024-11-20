@@ -204,7 +204,7 @@ private extension AudioVideoPlayerViewController {
         if videoSource is RemoteVideoSource {
             videoSource = LocalVideoSource(fileName: "Khoa_Ly_Biet_video", fileType: "mp4")
         } else {
-            if let remoteURL = URL(string: "https://www.example.com/path/to/your/video.mp4") {
+            if let remoteURL = URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4") {
                 videoSource = RemoteVideoSource(videoURL: remoteURL)
             } else {
                 print("Error: Invalid remote URL.")
@@ -255,6 +255,7 @@ extension AudioVideoPlayerViewController {
         switch playerItem.status {
         case .readyToPlay:
             print("Player item is ready to play.")
+            player?.play()
         case .failed:
             if let error = playerItem.error {
                 print("Player item failed: \(error.localizedDescription)")
