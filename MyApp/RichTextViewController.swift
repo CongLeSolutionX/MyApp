@@ -9,17 +9,24 @@ import UIKit
 
 class RichTextViewController: UIViewController {
 
-    let textView = UITextView()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    lazy var textView:  UITextView = {
+        let textView = UITextView()
         // Set up the UITextView
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false  // Disable editing
         textView.isScrollEnabled = true  // Enable scrolling
         textView.dataDetectorTypes = [.link]  // Enable link detection
         textView.backgroundColor = UIColor.systemBackground
+        
+        // Set the attributed text
+        textView.attributedText = createAttributedText()
+        
+        return textView
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
 
         // Add the textView to the view hierarchy
         view.addSubview(textView)
@@ -31,9 +38,6 @@ class RichTextViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
-
-        // Set the attributed text
-        textView.attributedText = createAttributedText()
     }
 
     func createAttributedText() -> NSAttributedString {
