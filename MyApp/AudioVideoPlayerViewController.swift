@@ -56,7 +56,7 @@ class AudioVideoPlayerViewController: UIViewController {
 
     // MARK: - Properties
 
-    private var player: AVPlayer?
+    internal var player: AVPlayer?
     private var playerItem: AVPlayerItem?
     private var videoSource: VideoSource?
 
@@ -66,7 +66,7 @@ class AudioVideoPlayerViewController: UIViewController {
     private lazy var playButton: UIButton = createButton(title: "Play", action: #selector(playTapped))
     private lazy var pauseButton: UIButton = createButton(title: "Pause", action: #selector(pauseTapped))
     private lazy var seekButton: UIButton = createButton(title: "Seek +10s", action: #selector(seekTapped))
-    private lazy var rateButton: UIButton = createButton(title: "Rate 1.5x", action: #selector(rateTapped))
+    internal lazy var rateButton: UIButton = createButton(title: "Rate 1.5x", action: #selector(rateTapped))
     private lazy var currentTimeButton: UIButton = createButton(title: "Current Time", action: #selector(currentTimeTapped))
     private lazy var switchSourceButton: UIButton = createButton(title: "Switch Source", action: #selector(switchSourceTapped))
 
@@ -120,9 +120,9 @@ private extension AudioVideoPlayerViewController {
 
 // MARK: - Playback Controls
 
-private extension AudioVideoPlayerViewController {
+extension AudioVideoPlayerViewController {
 
-    func setupPlaybackControls() {
+    private func setupPlaybackControls() {
         // Arrange buttons in a stack view
         let stackView = UIStackView(arrangedSubviews: [
             playButton,
@@ -147,7 +147,7 @@ private extension AudioVideoPlayerViewController {
         ])
     }
 
-    func createButton(title: String, action: Selector) -> UIButton {
+    private func createButton(title: String, action: Selector) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString(title, comment: ""), for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
@@ -156,25 +156,28 @@ private extension AudioVideoPlayerViewController {
 
     // Playback Controls Actions
 
-    @objc func playTapped() {
+    @objc
+    internal func playTapped() {
         player?.play()
     }
 
-    @objc func pauseTapped() {
+    @objc
+    internal func pauseTapped() {
         player?.pause()
     }
 
-    @objc func seekTapped() {
-        guard let player = player else { return }
-        let currentTime = player.currentTime()
+    @objc
+    internal func seekTapped() {
+        guard let currentTime = player?.currentTime() else { return }
         let newTime = CMTimeAdd(currentTime, CMTime(seconds: 10, preferredTimescale: currentTime.timescale))
-
-        if let duration = player.currentItem?.duration, newTime < duration {
-            player.seek(to: newTime)
-        }
+        player?.seek(to: newTime, completionHandler: { [weak self] finished in
+            // Handle completion if needed
+            print("Seek completed")
+        })
     }
 
-    @objc func rateTapped() {
+    @objc
+    internal func rateTapped() {
         guard let player = player else { return }
         if player.rate != 1.5 {
             player.rate = 1.5
@@ -185,7 +188,8 @@ private extension AudioVideoPlayerViewController {
         }
     }
 
-    @objc func currentTimeTapped() {
+    @objc
+    internal func currentTimeTapped() {
         guard let player = player else { return }
         let currentTime = CMTimeGetSeconds(player.currentTime())
         let message = String(format: "Current playback time: %.2f seconds", currentTime)
@@ -194,7 +198,8 @@ private extension AudioVideoPlayerViewController {
         present(alert, animated: true)
     }
 
-    @objc func switchSourceTapped() {
+    @objc
+    internal func switchSourceTapped() {
         player?.pause()
         removeObservers()
         playerViewController.view.removeFromSuperview()
