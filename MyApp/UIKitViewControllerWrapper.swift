@@ -11,15 +11,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = SFViewController
+    typealias UIViewControllerType = RichTextViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> SFViewController {
+    func makeUIViewController(context: Context) -> RichTextViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return SFViewController()
+        return RichTextViewController()
     }
     
-    func updateUIViewController(_ uiViewController: SFViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: RichTextViewController, context: Context) {
         // Update the view controller if needed
     }
 }
