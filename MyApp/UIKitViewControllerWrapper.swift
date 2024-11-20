@@ -11,21 +11,21 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = RichTextViewController
+    typealias UIViewControllerType = WKWebViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> RichTextViewController {
+    func makeUIViewController(context: Context) -> WKWebViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return RichTextViewController()
+        return WKWebViewController()
     }
     
-    func updateUIViewController(_ uiViewController: RichTextViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: WKWebViewController, context: Context) {
         // Update the view controller if needed
     }
 }
 
 //MARK: - MyUIKitViewController
-class MyUIKitViewController: UIViewController {
+class WKWebViewController: UIViewController {
     lazy var webView: WKWebView = {
         
         // Create web view configuration
@@ -100,7 +100,7 @@ class MyUIKitViewController: UIViewController {
 }
 
 // MARK: - WKNavigationDelegate Methods
-extension MyUIKitViewController: WKNavigationDelegate {
+extension WKWebViewController: WKNavigationDelegate {
     
     // MARK: - WKNavigationDelegate Methods
     
@@ -136,7 +136,7 @@ extension MyUIKitViewController: WKNavigationDelegate {
 }
 
 // MARK: - WKUIDelegate Methods
-extension MyUIKitViewController: WKUIDelegate {
+extension WKWebViewController: WKUIDelegate {
     // Handle JavaScript alerts
     func webView(_ webView: WKWebView,
                  runJavaScriptAlertPanelWithMessage message: String,
@@ -158,7 +158,7 @@ extension MyUIKitViewController: WKUIDelegate {
 }
 
 // MARK: - WKScriptMessageHandler Methods
-extension MyUIKitViewController: WKScriptMessageHandler {
+extension WKWebViewController: WKScriptMessageHandler {
     // Handle messages from JavaScript
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
