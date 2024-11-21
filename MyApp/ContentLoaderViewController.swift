@@ -10,7 +10,7 @@ import WebKit
 import SwiftSoup
 import Kanna
 
-class URLSessionViewController: UIViewController {
+class ContentLoaderViewController: UIViewController {
     
     lazy var webView: WKWebView = {
         // Initialize and configure the WKWebView

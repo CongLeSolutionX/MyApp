@@ -24,16 +24,16 @@ struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRe
 }
 
 // UIViewControllerRepresentable implementation for a random UIKit view controller
-struct UIKitViewControllerWrapper_URLSessionViewController: UIViewControllerRepresentable {
-    typealias UIViewControllerType = URLSessionViewController
+struct UIKitViewControllerWrapper_ContentLoaderViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = ContentLoaderViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> URLSessionViewController {
+    func makeUIViewController(context: Context) -> ContentLoaderViewController {
         // Instantiate and return the UIKit view controller
-        return URLSessionViewController()
+        return ContentLoaderViewController()
     }
     
-    func updateUIViewController(_ uiViewController: URLSessionViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ContentLoaderViewController, context: Context) {
         // Update the view controller if needed
     }
 }

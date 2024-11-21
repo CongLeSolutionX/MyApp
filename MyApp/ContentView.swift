@@ -28,9 +28,9 @@ struct GenericUIKitView_Previews: PreviewProvider { // The previews on canvas wi
     }
 }
 
-struct URLSessionView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
+struct ContenLoaderView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
     static var previews: some View {
-        UIKitViewControllerWrapper_URLSessionViewController()
+        UIKitViewControllerWrapper_ContentLoaderViewController()
     }
 }
 
