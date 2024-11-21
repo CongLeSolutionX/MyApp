@@ -19,6 +19,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AD40F6D2CEEAAA5008BF642 /* URLSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* URLSessionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AD40F6C2CEEAA8F008BF642 /* URLSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -99,6 +101,7 @@
 				9A9035D62CEC8C3700BCE764 /* SFViewController.swift */,
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
+				9AD40F6C2CEEAA8F008BF642 /* URLSessionViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
 				9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */,
 				9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */,
@@ -228,6 +231,7 @@
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AD40F6D2CEEAAA5008BF642 /* URLSessionViewController.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,

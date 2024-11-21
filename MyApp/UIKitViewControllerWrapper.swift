@@ -10,18 +10,34 @@ import UIKit
 
 // UIViewControllerRepresentable implementation for a random UIKit view controller
 struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRepresentable {
-    typealias UIViewControllerType = SFViewController
+    typealias UIViewControllerType = UIViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> SFViewController {
+    func makeUIViewController(context: Context) -> UIViewController {
         // Instantiate and return the UIKit view controller
-        return SFViewController()
+        return UIViewController()
     }
     
-    func updateUIViewController(_ uiViewController: SFViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         // Update the view controller if needed
     }
 }
+
+// UIViewControllerRepresentable implementation for a random UIKit view controller
+struct UIKitViewControllerWrapper_URLSessionViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = URLSessionViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> URLSessionViewController {
+        // Instantiate and return the UIKit view controller
+        return URLSessionViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: URLSessionViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
 
 // UIViewControllerRepresentable implementation for a random UIKit view controller
 struct UIKitViewControllerWrapper_AudioVideoPlayerViewController: UIViewControllerRepresentable {

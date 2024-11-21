@@ -28,6 +28,12 @@ struct GenericUIKitView_Previews: PreviewProvider { // The previews on canvas wi
     }
 }
 
+struct URLSessionView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
+    static var previews: some View {
+        UIKitViewControllerWrapper_URLSessionViewController()
+    }
+}
+
 struct AudioVideoPlayerView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
     static var previews: some View {
         UIKitViewControllerWrapper_AudioVideoPlayerViewController()
