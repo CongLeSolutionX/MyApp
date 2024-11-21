@@ -21,6 +21,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AD40F6D2CEEAAA5008BF642 /* URLSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* URLSessionViewController.swift */; };
 		9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */; };
+		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */,
 				9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,6 +197,7 @@
 			mainGroup = 9AAC416F2C74668B00AC0A60;
 			packageReferences = (
 				9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -534,6 +537,14 @@
 				minimumVersion = 2.7.6;
 			};
 		};
+		9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tid-kijyun/Kanna.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -541,6 +552,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		9AD40F722CEEE35D008BF642 /* Kanna */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */;
+			productName = Kanna;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

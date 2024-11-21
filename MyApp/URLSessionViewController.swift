@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 import SwiftSoup
+import Kanna
 
 class URLSessionViewController: UIViewController {
     
@@ -49,7 +50,8 @@ class URLSessionViewController: UIViewController {
                 
                 // Manipulate the HTML content
                 //htmlString = self.modifyHTMLContent(htmlString)
-                htmlString = self.modifyHTMLContentUsingSwiftSoup(htmlString)
+                //htmlString = self.modifyHTMLContentUsingSwiftSoup(htmlString)
+                htmlString = self.modifyHTMLContentUsingKanna(htmlString)
                 
                 // Load the manipulated content in the WKWebView on the main thread
                 DispatchQueue.main.async {
@@ -185,5 +187,27 @@ class URLSessionViewController: UIViewController {
             return html
         }
     }
+    
+    func modifyHTMLContentUsingKanna(_ html: String) -> String {
 
+        var modifiedHTML = html
+
+        if let doc = try? HTML(html: modifiedHTML, encoding: .utf8) {
+            print(doc.title as Any)
+            
+            // Search for nodes by CSS
+            for link in doc.css("a, link") {
+                print(link.text as Any)
+                print(link["href"] as Any)
+            }
+            
+            // Search for nodes by XPath
+            for link in doc.xpath("//a | //link") {
+                print(link.text as Any)
+                print(link["href"] as Any)
+            }
+        }
+        print("Used Kanna to modify the HTML doc")
+        return modifiedHTML
+    }
 }
