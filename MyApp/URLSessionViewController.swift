@@ -118,6 +118,23 @@ class URLSessionViewController: UIViewController {
             // If </body> tag is missing, append the footer at the end
             modifiedHTML += customFooter
         }
+       
+        // 7. Add Meta Tags for Responsive Design
+        // Purpose: Ensure the content scales properly on mobile devices.
+        let viewportMeta = """
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        """
+        if let range = modifiedHTML.range(of: "<head>") {
+            modifiedHTML.insert(contentsOf: viewportMeta, at: range.upperBound)
+        } else {
+            modifiedHTML = "<head>\(viewportMeta)</head>" + modifiedHTML
+        }
+        
+        // 8. Wrap Content in a Custom Div
+        // Purpose: Apply styles or scripts to the entire content by wrapping it in a container.
+        modifiedHTML = "<div id=\"customContainer\">\(modifiedHTML)</div>"
+        
+        
         return modifiedHTML
     }
 }
