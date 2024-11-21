@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+import SwiftSoup
 
 class URLSessionViewController: UIViewController {
     
@@ -47,7 +48,8 @@ class URLSessionViewController: UIViewController {
             if let data = data, var htmlString = String(data: data, encoding: .utf8) {
                 
                 // Manipulate the HTML content
-                htmlString = self.modifyHTMLContent(htmlString)
+                //htmlString = self.modifyHTMLContent(htmlString)
+                htmlString = self.modifyHTMLContentUsingSwiftSoup(htmlString)
                 
                 // Load the manipulated content in the WKWebView on the main thread
                 DispatchQueue.main.async {
@@ -137,4 +139,51 @@ class URLSessionViewController: UIViewController {
         
         return modifiedHTML
     }
+    
+    func modifyHTMLContentUsingSwiftSoup(_ html: String) -> String {
+        do {
+            let document = try SwiftSoup.parse(html)
+
+            // 1. Inject Custom CSS
+            let styleElement = try document.head()?.appendElement("style").text("""
+            body { background-color: #f0f0f0; }
+            h1 { color: blue; }
+            p { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+            """)
+
+            // 2. Inject Custom JavaScript
+            let scriptElement = try document.body()?.appendElement("script").attr("type", "text/javascript").text("""
+            document.addEventListener('DOMContentLoaded', function() {
+                alert('Welcome to the modified page!');
+            });
+            """)
+
+            // 3. Remove All <img> Tags
+            try document.select("img").remove()
+
+            // 4. Replace Specific Text
+            let bodyText = try document.body()?.html().replacingOccurrences(of: "Example Domain", with: "Modified Domain")
+            try document.body()?.html(bodyText ?? "")
+
+            // 5. Modify Attributes of <a> Tags
+            let links = try document.select("a")
+            for link in links {
+                try link.attr("target", "_blank")
+            }
+
+            // 6. Add Custom Footer
+            try document.body()?.append("""
+            <footer style="text-align:center; padding:20px; background-color:#eee;">
+                <p>&copy; 2023 MyApp. All rights reserved by SwiftSoup.</p>
+            </footer>
+            """)
+
+            // Return the modified HTML
+            return try document.outerHtml()
+        } catch {
+            print("Error modifying HTML content:", error)
+            return html
+        }
+    }
+
 }
