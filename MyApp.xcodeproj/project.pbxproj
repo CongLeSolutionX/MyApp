@@ -22,7 +22,7 @@
 		9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */; };
 		9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */; };
 		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
-		9AD40F752CEEEC0A008BF642 /* TextViewWithAttributedTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F742CEEEBEC008BF642 /* TextViewWithAttributedTextViewController.swift */; };
+		9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderViewController.swift; sourceTree = "<group>"; };
-		9AD40F742CEEEBEC008BF642 /* TextViewWithAttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithAttributedTextViewController.swift; sourceTree = "<group>"; };
+		9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -107,7 +107,7 @@
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
 				9A9035DA2CED896700BCE764 /* WKWebViewController.swift */,
-				9AD40F742CEEEBEC008BF642 /* TextViewWithAttributedTextViewController.swift */,
+				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
 				9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */,
@@ -245,7 +245,7 @@
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
-				9AD40F752CEEEC0A008BF642 /* TextViewWithAttributedTextViewController.swift in Sources */,
+				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
 			);

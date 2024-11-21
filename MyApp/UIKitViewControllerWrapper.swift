@@ -23,6 +23,21 @@ struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRe
     }
 }
 
+// UIViewControllerRepresentable implementation for AttributedTextViewController
+struct UIKitViewControllerWrapper_AttributedTextViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = AttributedTextViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> AttributedTextViewController {
+        // Instantiate and return the UIKit view controller
+        return AttributedTextViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: AttributedTextViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
 // UIViewControllerRepresentable implementation for a random UIKit view controller
 struct UIKitViewControllerWrapper_ContentLoaderViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = ContentLoaderViewController
