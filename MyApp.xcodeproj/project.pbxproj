@@ -90,8 +90,8 @@
 		9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */ = {
 			isa = PBXGroup;
 			children = (
-				9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */,
 				9A799E632CF08D9900F0796C /* Article.swift */,
+				9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */,
 				9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */,
 			);
 			path = ExtractMediumArticleContent;

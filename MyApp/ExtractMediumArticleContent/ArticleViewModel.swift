@@ -11,15 +11,16 @@ import Kanna
 
 class ArticleViewModel: ObservableObject {
     @Published var article: Article?
+    let urlString = "https://medium.com/towards-data-science/understanding-low-rank-adaptation-lora-in-fine-tuning-llms-d3dd283f1f0a"
 
     func fetchArticle() {
-        guard let url = URL(string: "https://medium.com/towards-data-science/understanding-low-rank-adaptation-lora-in-fine-tuning-llms-d3dd283f1f0a") else {
+        guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent") // Set User-Agent to mimic a web browser
+        request.setValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -50,21 +51,22 @@ class ArticleViewModel: ObservableObject {
             return
         }
 
-        // Extract the content
-        let title = doc.at_xpath("//h1")?.text ?? "No Title"
-        let author = doc.at_xpath("//a[@data-action='show-user-card']")?.text ?? "Unknown Author"
+        // Extract the title
+        let title = doc.at_xpath("//h1")?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "No Title"
+
+        // Extract the author
+        let author = doc.at_xpath("//a[contains(@href, '/@')]")?.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "Unknown Author"
 
         // Extract paragraphs
         var paragraphs: [String] = []
         for paragraph in doc.xpath("//article//p") {
-            if let text = paragraph.text {
+            if let text = paragraph.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty {
                 paragraphs.append(text)
             }
         }
 
         let article = Article(title: title, author: author, content: paragraphs)
 
-        // Update UI on the main thread
         DispatchQueue.main.async {
             self.article = article
         }

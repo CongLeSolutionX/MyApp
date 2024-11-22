@@ -35,15 +35,16 @@ struct MediumArticleContentView: View {
                     .padding()
                 } else {
                     ProgressView("Loading article...")
+                        .onAppear {
+                            viewModel.fetchArticle()
+                        }
                 }
             }
             .navigationTitle("Medium Article")
-            .onAppear {
-                viewModel.fetchArticle()
-            }
         }
     }
 }
+
 
 #Preview {
     MediumArticleContentView()
