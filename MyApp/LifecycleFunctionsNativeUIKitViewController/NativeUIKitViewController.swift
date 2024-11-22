@@ -37,5 +37,17 @@ class NativeUIKitViewController: UIViewController {
             self.customView?.removeView()
             self.customView = nil
         }
+        
+        demoRunObjectCViewController()
+    }
+    
+    // Notes: Since ObjC code will compile at compiling time, not at runtime,
+    // we need to compile the project on a simulator or a physical device to see Obj-C code run.
+    // Presenting LifecycleViewController from another view controller
+    func demoRunObjectCViewController() {
+        let objCViewController = LifecycleViewController(nibName: nil, bundle: nil)
+        objCViewController.present(self, animated: true) {
+            NSLog("LifecycleViewController presented")
+        }
     }
 }

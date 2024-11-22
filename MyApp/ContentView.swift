@@ -10,7 +10,7 @@ import SwiftUI
 // Use in SwiftUI view
 struct ContentView: View { // The app will load view from this entry point
     var body: some View {
-        UIKitViewControllerWrapper_AudioVideoPlayerViewController()
+        UIKitViewControllerWrapper_NativeUIKitViewController()
             .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
     }
 }

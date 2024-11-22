@@ -15,6 +15,7 @@
 		9A799E762CF0E62700F0796C /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E752CF0E62600F0796C /* CustomView.swift */; };
 		9A799E7A2CF0E83600F0796C /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E792CF0E83500F0796C /* ParentView.swift */; };
 		9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E7B2CF0E89500F0796C /* ChildView.swift */; };
+		9A799E802CF0E98A00F0796C /* LifecycleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E7F2CF0E98A00F0796C /* LifecycleViewController.m */; };
 		9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D62CEC8C3700BCE764 /* SFViewController.swift */; };
 		9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D82CED691100BCE764 /* RichTextViewController.swift */; };
 		9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035DA2CED896700BCE764 /* WKWebViewController.swift */; };
@@ -52,6 +53,9 @@
 		9A799E752CF0E62600F0796C /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		9A799E792CF0E83500F0796C /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		9A799E7B2CF0E89500F0796C /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
+		9A799E7F2CF0E98A00F0796C /* LifecycleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LifecycleViewController.m; sourceTree = "<group>"; };
+		9A799E812CF0E98C00F0796C /* MyApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9A799E822CF0E9A000F0796C /* LifecycleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifecycleViewController.h; sourceTree = "<group>"; };
 		9A9035D62CEC8C3700BCE764 /* SFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFViewController.swift; sourceTree = "<group>"; };
 		9A9035D82CED691100BCE764 /* RichTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextViewController.swift; sourceTree = "<group>"; };
 		9A9035DA2CED896700BCE764 /* WKWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A698CB32CF0EBA4008FDDBF /* LifecycleViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9A799E822CF0E9A000F0796C /* LifecycleViewController.h */,
+				9A799E7F2CF0E98A00F0796C /* LifecycleViewController.m */,
+			);
+			path = LifecycleViewController;
+			sourceTree = "<group>";
+		};
 		9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,11 +157,12 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9A799E782CF0E82300F0796C /* LifecycleFunctionsSwiftUIView */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A799E782CF0E82300F0796C /* LifecycleFunctionsSwiftUIView */,
 				9A799E772CF0E78C00F0796C /* LifecycleFunctionsNativeUIKitViewController */,
+				9A698CB32CF0EBA4008FDDBF /* LifecycleViewController */,
 				9A9035D62CEC8C3700BCE764 /* SFViewController.swift */,
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
@@ -163,6 +177,7 @@
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
+				9A799E812CF0E98C00F0796C /* MyApp-Bridging-Header.h */,
 			);
 			path = MyApp;
 			sourceTree = "<group>";
@@ -230,6 +245,7 @@
 				TargetAttributes = {
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1610;
 					};
 					9AD40F5F2CEEA431008BF642 = {
 						CreatedOnToolsVersion = 16.0;
@@ -298,6 +314,7 @@
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A799E802CF0E98A00F0796C /* LifecycleViewController.m in Sources */,
 				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
 				9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */,
@@ -444,6 +461,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -472,6 +490,8 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/MyApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -482,6 +502,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -510,6 +531,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/MyApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
