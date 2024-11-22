@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */; };
+		9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */; };
+		9A799E642CF08D9D00F0796C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E632CF08D9900F0796C /* Article.swift */; };
+		9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */; };
 		9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D62CEC8C3700BCE764 /* SFViewController.swift */; };
 		9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D82CED691100BCE764 /* RichTextViewController.swift */; };
 		9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035DA2CED896700BCE764 /* WKWebViewController.swift */; };
@@ -38,6 +41,9 @@
 
 /* Begin PBXFileReference section */
 		9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderWithActivityIndicatorViewController.swift; sourceTree = "<group>"; };
+		9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
+		9A799E632CF08D9900F0796C /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticleContentView.swift; sourceTree = "<group>"; };
 		9A9035D62CEC8C3700BCE764 /* SFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFViewController.swift; sourceTree = "<group>"; };
 		9A9035D82CED691100BCE764 /* RichTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextViewController.swift; sourceTree = "<group>"; };
 		9A9035DA2CED896700BCE764 /* WKWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +87,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */ = {
+			isa = PBXGroup;
+			children = (
+				9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */,
+				9A799E632CF08D9900F0796C /* Article.swift */,
+				9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */,
+			);
+			path = ExtractMediumArticleContent;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +129,7 @@
 				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
+				9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */,
 				9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */,
 				9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -241,15 +258,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A799E642CF08D9D00F0796C /* Article.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
+				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
+				9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */,
 				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
 			);
