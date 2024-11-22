@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */; };
 		9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D62CEC8C3700BCE764 /* SFViewController.swift */; };
 		9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D82CED691100BCE764 /* RichTextViewController.swift */; };
 		9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035DA2CED896700BCE764 /* WKWebViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderWithActivityIndicatorViewController.swift; sourceTree = "<group>"; };
 		9A9035D62CEC8C3700BCE764 /* SFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFViewController.swift; sourceTree = "<group>"; };
 		9A9035D82CED691100BCE764 /* RichTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextViewController.swift; sourceTree = "<group>"; };
 		9A9035DA2CED896700BCE764 /* WKWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
 				9A9035DA2CED896700BCE764 /* WKWebViewController.swift */,
+				9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */,
 				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
@@ -247,6 +250,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
+				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

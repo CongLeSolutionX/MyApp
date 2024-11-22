@@ -23,6 +23,21 @@ struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRe
     }
 }
 
+// UIViewControllerRepresentable implementation for the ContentLoaderWithActivityIndicatorViewController
+struct UIKitViewControllerWrapper_ContentLoaderWithActivityIndicatorViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = ContentLoaderWithActivityIndicatorViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> ContentLoaderWithActivityIndicatorViewController {
+        // Instantiate and return the UIKit view controller
+        return ContentLoaderWithActivityIndicatorViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: ContentLoaderWithActivityIndicatorViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
 // UIViewControllerRepresentable implementation for AttributedTextViewController
 struct UIKitViewControllerWrapper_AttributedTextViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = AttributedTextViewController
