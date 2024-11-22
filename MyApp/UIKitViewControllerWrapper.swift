@@ -23,6 +23,21 @@ struct UIKitViewControllerWrapper_GeneralUIKitViewController: UIViewControllerRe
     }
 }
 
+// UIViewControllerRepresentable implementation for NativeUIKitViewController
+struct UIKitViewControllerWrapper_NativeUIKitViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = NativeUIKitViewController
+    
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> NativeUIKitViewController {
+        // Instantiate and return the UIKit view controller
+        return NativeUIKitViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: NativeUIKitViewController, context: Context) {
+        // Update the view controller if needed
+    }
+}
+
 // UIViewControllerRepresentable implementation for the ContentLoaderWithActivityIndicatorViewController
 struct UIKitViewControllerWrapper_ContentLoaderWithActivityIndicatorViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = ContentLoaderWithActivityIndicatorViewController

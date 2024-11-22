@@ -28,6 +28,12 @@ struct GenericUIKitView_Previews: PreviewProvider { // The previews on canvas wi
     }
 }
 
+struct NativeUIKitView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
+    static var previews: some View {
+        UIKitViewControllerWrapper_NativeUIKitViewController()
+    }
+}
+
 struct ContentLoaderWithActivityIndicatorView_Previews: PreviewProvider { // The previews on canvas will load from this entry point
     static var previews: some View {
         UIKitViewControllerWrapper_ContentLoaderWithActivityIndicatorViewController()

@@ -11,6 +11,8 @@
 		9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */; };
 		9A799E642CF08D9D00F0796C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E632CF08D9900F0796C /* Article.swift */; };
 		9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */; };
+		9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E732CF0E5C300F0796C /* NativeUIKitViewController.swift */; };
+		9A799E762CF0E62700F0796C /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E752CF0E62600F0796C /* CustomView.swift */; };
 		9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D62CEC8C3700BCE764 /* SFViewController.swift */; };
 		9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035D82CED691100BCE764 /* RichTextViewController.swift */; };
 		9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035DA2CED896700BCE764 /* WKWebViewController.swift */; };
@@ -44,6 +46,8 @@
 		9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
 		9A799E632CF08D9900F0796C /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		9A799E652CF08DB600F0796C /* MediumArticleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumArticleContentView.swift; sourceTree = "<group>"; };
+		9A799E732CF0E5C300F0796C /* NativeUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeUIKitViewController.swift; sourceTree = "<group>"; };
+		9A799E752CF0E62600F0796C /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		9A9035D62CEC8C3700BCE764 /* SFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFViewController.swift; sourceTree = "<group>"; };
 		9A9035D82CED691100BCE764 /* RichTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextViewController.swift; sourceTree = "<group>"; };
 		9A9035DA2CED896700BCE764 /* WKWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +101,15 @@
 			path = ExtractMediumArticleContent;
 			sourceTree = "<group>";
 		};
+		9A799E772CF0E78C00F0796C /* LifecycleFunctionsNativeUIKitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9A799E752CF0E62600F0796C /* CustomView.swift */,
+				9A799E732CF0E5C300F0796C /* NativeUIKitViewController.swift */,
+			);
+			path = LifecycleFunctionsNativeUIKitViewController;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +134,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A799E772CF0E78C00F0796C /* LifecycleFunctionsNativeUIKitViewController */,
 				9A9035D62CEC8C3700BCE764 /* SFViewController.swift */,
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
@@ -259,9 +273,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A799E642CF08D9D00F0796C /* Article.swift in Sources */,
+				9A799E762CF0E62700F0796C /* CustomView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
+				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
