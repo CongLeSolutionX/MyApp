@@ -7,12 +7,32 @@
 
 import SwiftUI
 
-// Step 3: Embed in main app structure
 @main
-struct MyAppApp: App {
+struct MyApp: App {
+    // Monitor the app's scene phase (active, inactive, background)
+    @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        // Equivalent to application(_:didFinishLaunchingWithOptions:)
+        print("App initialized (didFinishLaunchingWithOptions)")
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+        }// Respond to changes in the scene phase
+        // Respond to changes in the scene phase
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            switch newPhase {
+            case .active:
+                print("Scene became active")
+            case .inactive:
+                print("Scene became inactive")
+            case .background:
+                print("Scene entered background")
+            @unknown default:
+                print("Unknown scene phase")
+            }
         }
     }
 }

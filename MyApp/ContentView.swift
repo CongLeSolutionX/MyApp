@@ -10,8 +10,13 @@ import SwiftUI
 // Step 2: Use in SwiftUI view
 struct ContentView: View {
     var body: some View {
-        UIKitViewControllerWrapper()
-            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+        Text("Hello, World!")
+            .onAppear {
+                print("View.onAppear()")
+            }
+            .onDisappear {
+                print("View.onDisappear()")
+            }
     }
 }
 
