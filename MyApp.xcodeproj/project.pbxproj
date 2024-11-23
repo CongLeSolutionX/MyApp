@@ -99,13 +99,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9A698CB32CF0EBA4008FDDBF /* LifecycleViewController */ = {
+		9A698CB32CF0EBA4008FDDBF /* LifecycleObjCViewController */ = {
 			isa = PBXGroup;
 			children = (
 				9A799E822CF0E9A000F0796C /* LifecycleViewController.h */,
 				9A799E7F2CF0E98A00F0796C /* LifecycleViewController.m */,
 			);
-			path = LifecycleViewController;
+			path = LifecycleObjCViewController;
 			sourceTree = "<group>";
 		};
 		9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */ = {
@@ -118,22 +118,22 @@
 			path = ExtractMediumArticleContent;
 			sourceTree = "<group>";
 		};
-		9A799E772CF0E78C00F0796C /* LifecycleFunctionsNativeUIKitViewController */ = {
+		9A799E772CF0E78C00F0796C /* LifecycleNativeUIKitViewController */ = {
 			isa = PBXGroup;
 			children = (
 				9A799E752CF0E62600F0796C /* CustomView.swift */,
 				9A799E732CF0E5C300F0796C /* NativeUIKitViewController.swift */,
 			);
-			path = LifecycleFunctionsNativeUIKitViewController;
+			path = LifecycleNativeUIKitViewController;
 			sourceTree = "<group>";
 		};
-		9A799E782CF0E82300F0796C /* LifecycleFunctionsSwiftUIView */ = {
+		9A799E782CF0E82300F0796C /* LifecycleSwiftUIView */ = {
 			isa = PBXGroup;
 			children = (
 				9A799E792CF0E83500F0796C /* ParentView.swift */,
 				9A799E7B2CF0E89500F0796C /* ChildView.swift */,
 			);
-			path = LifecycleFunctionsSwiftUIView;
+			path = LifecycleSwiftUIView;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -160,9 +160,6 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A799E782CF0E82300F0796C /* LifecycleFunctionsSwiftUIView */,
-				9A799E772CF0E78C00F0796C /* LifecycleFunctionsNativeUIKitViewController */,
-				9A698CB32CF0EBA4008FDDBF /* LifecycleViewController */,
 				9A9035D62CEC8C3700BCE764 /* SFViewController.swift */,
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
 				9A9035DC2CED8F4900BCE764 /* AudioViewController.swift */,
@@ -171,6 +168,9 @@
 				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
+				9A799E782CF0E82300F0796C /* LifecycleSwiftUIView */,
+				9A799E772CF0E78C00F0796C /* LifecycleNativeUIKitViewController */,
+				9A698CB32CF0EBA4008FDDBF /* LifecycleObjCViewController */,
 				9A799E602CF08D5800F0796C /* ExtractMediumArticleContent */,
 				9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */,
 				9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */,
