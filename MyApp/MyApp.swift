@@ -16,19 +16,35 @@ struct MyApp: App {
         // Equivalent to application(_:didFinishLaunchingWithOptions:)
         print("App initialized (didFinishLaunchingWithOptions)")
     }
-
+    
     var body: some Scene {
         WindowGroup {
             
             NavigationStack {
-                // PhotoReasoningScreen()
-                // SummarizeScreen()
-                
-                FunctionCallingScreen()
-                    .environmentObject(FunctionCallingViewModel())
-                
-                //ConversationScreen()
-                //    .environmentObject(ConversationViewModel())
+                List {
+                    NavigationLink {
+                        SummarizeScreen()
+                    } label: {
+                        Label("Text", systemImage: "doc.text")
+                    }
+                    NavigationLink {
+                        PhotoReasoningScreen()
+                    } label: {
+                        Label("Multi-modal", systemImage: "doc.richtext")
+                    }
+                    NavigationLink {
+                        ConversationScreen()
+                            .environmentObject(ConversationViewModel())
+                    } label: {
+                        Label("Chat", systemImage: "ellipsis.message.fill")
+                    }
+                    NavigationLink {
+                        FunctionCallingScreen().environmentObject(FunctionCallingViewModel())
+                    } label: {
+                        Label("Function Calling", systemImage: "function")
+                    }
+                }
+                .navigationTitle("Generative AI Samples")
             }
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
