@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow to the provided UIWindowScene.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            let contentView = ContentView()
+            let contentView = RootContentView()
 
             // Set the root view controller to the SwiftUI view
             window.rootViewController = UIHostingController(rootView: contentView)

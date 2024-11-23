@@ -8,15 +8,22 @@
 import SwiftUI
 
 // Step 2: Use in SwiftUI view
-struct ContentView: View {
+struct RootContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        Text("Hello World from SwiftUI View!")
             .onAppear {
                 print("View.onAppear()")
             }
             .onDisappear {
                 print("View.onDisappear()")
             }
+    }
+}
+
+struct UIKitContentView: View {
+    var body: some View {
+        UIKitViewControllerWrapper()
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -29,5 +36,5 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
 
 // After iOS 17, we can use this syntax for preview:
 #Preview {
-    ContentView()
+    RootContentView()
 }

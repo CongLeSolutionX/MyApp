@@ -19,9 +19,8 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootContentView()
         }// Respond to changes in the scene phase
-        // Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
             switch newPhase {
             case .active:
