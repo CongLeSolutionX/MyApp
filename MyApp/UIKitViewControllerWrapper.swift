@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = NativeUIKitViewController
+    typealias UIViewControllerType = MyUIKitViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> NativeUIKitViewController {
+    func makeUIViewController(context: Context) -> MyUIKitViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return NativeUIKitViewController()
+        return MyUIKitViewController()
     }
     
-    func updateUIViewController(_ uiViewController: NativeUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -29,5 +29,8 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        let googleGenerativeAPIKey = APIKey.default
+        print("Google Generative API Key: \(googleGenerativeAPIKey)")
     }
 }

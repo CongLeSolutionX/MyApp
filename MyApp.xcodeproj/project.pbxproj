@@ -15,6 +15,8 @@
 		9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D21532CF1FF4500E8E7C4 /* InputField.swift */; };
 		9A9D21562CF1FF5600E8E7C4 /* MultimodalInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D21552CF1FF5500E8E7C4 /* MultimodalInputField.swift */; };
 		9A9D21602CF200DE00E8E7C4 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9D215F2CF200DE00E8E7C4 /* GoogleGenerativeAI */; };
+		9A9D21642CF2016300E8E7C4 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D21632CF2016200E8E7C4 /* APIKey.swift */; };
+		9A9D21662CF2017900E8E7C4 /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		9A921F282CF192B00075D3F8 /* LifecycleObjCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifecycleObjCViewController.h; sourceTree = "<group>"; };
 		9A9D21532CF1FF4500E8E7C4 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		9A9D21552CF1FF5500E8E7C4 /* MultimodalInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultimodalInputField.swift; sourceTree = "<group>"; };
+		9A9D21632CF2016200E8E7C4 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		9A9D21512CF1FF3000E8E7C4 /* GoogleAI_GenerativeAI_Prototypes */ = {
 			isa = PBXGroup;
 			children = (
+				9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */,
+				9A9D21632CF2016200E8E7C4 /* APIKey.swift */,
 				9A9D21522CF1FF3C00E8E7C4 /* GenerativeAIUIComponents */,
 				9A9D21572CF2004800E8E7C4 /* ChatSampleApp */,
 			);
@@ -243,6 +249,7 @@
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
+				9A9D21662CF2017900E8E7C4 /* GenerativeAI-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +269,7 @@
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9A921F262CF192A10075D3F8 /* LifecycleObjCViewController.m in Sources */,
 				9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */,
+				9A9D21642CF2016300E8E7C4 /* APIKey.swift in Sources */,
 				9A698CB52CF0EE55008FDDBF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
