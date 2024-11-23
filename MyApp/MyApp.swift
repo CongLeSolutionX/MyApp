@@ -20,7 +20,8 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-              PhotoReasoningScreen()
+                //PhotoReasoningScreen()
+                SummarizeScreen()
             }
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
