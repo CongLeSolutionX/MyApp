@@ -108,13 +108,14 @@ struct ConversationScreen: View {
 }
 
 // MARK: - Previews
+// TODO: Need better ans reusable navigation to preview the views
+// This is workaround setup for now for this preview
 struct ConversationScreen_Previews: PreviewProvider {
   struct ContainerView: View {
     @StateObject var viewModel = ConversationViewModel()
 
     var body: some View {
       ConversationScreen()
-        .environmentObject(viewModel)
         .onAppear {
           viewModel.messages = ChatMessage.samples
         }
@@ -122,8 +123,11 @@ struct ConversationScreen_Previews: PreviewProvider {
   }
 
   static var previews: some View {
+      @StateObject var viewModel = ConversationViewModel()
+      
     NavigationStack {
       ConversationScreen()
+            .environmentObject(viewModel)
     }
   }
 }
