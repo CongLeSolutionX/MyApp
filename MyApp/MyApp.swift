@@ -12,9 +12,12 @@ struct MyApp: App {
     // Monitor the app's scene phase (active, inactive, background)
     @Environment(\.scenePhase) private var scenePhase
     
-    // Inject functionalities of a basic chat app
-    @StateObject
-    var viewModel = ConversationViewModel()
+//    // Inject functionalities of a basic chat app
+//    @StateObject
+//    var conversationViewModel = ConversationViewModel()
+//    
+//    @StateObject
+//    var functionCallingViewModel = FunctionCallingViewModel()
 
     init() {
         // Equivalent to application(_:didFinishLaunchingWithOptions:)
@@ -23,11 +26,18 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
+
             NavigationStack {
-                //PhotoReasoningScreen()
+                // PhotoReasoningScreen()
                 // SummarizeScreen()
-                ConversationScreen()
-                    .environmentObject(viewModel)
+                
+                FunctionCallingScreen()
+                    .environmentObject(FunctionCallingViewModel())
+                
+                
+                
+//                 ConversationScreen()
+//                    .environmentObject(ConversationViewModel())
             }
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
