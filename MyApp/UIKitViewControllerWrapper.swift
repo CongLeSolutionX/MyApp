@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = LifecycleObjCViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
+    func makeUIViewController(context: Context) -> LifecycleObjCViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        return LifecycleObjCViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: LifecycleObjCViewController, context: Context) {
         // Update the view controller if needed
     }
 }
