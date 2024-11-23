@@ -11,6 +11,10 @@ import SwiftUI
 struct MyApp: App {
     // Monitor the app's scene phase (active, inactive, background)
     @Environment(\.scenePhase) private var scenePhase
+    
+    // Inject functionalities of a basic chat app
+    @StateObject
+    var viewModel = ConversationViewModel()
 
     init() {
         // Equivalent to application(_:didFinishLaunchingWithOptions:)
@@ -21,7 +25,9 @@ struct MyApp: App {
         WindowGroup {
             NavigationStack {
                 //PhotoReasoningScreen()
-                SummarizeScreen()
+                // SummarizeScreen()
+                ConversationScreen()
+                    .environmentObject(viewModel)
             }
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
