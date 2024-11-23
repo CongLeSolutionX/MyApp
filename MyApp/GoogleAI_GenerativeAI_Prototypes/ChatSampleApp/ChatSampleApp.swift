@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import SwiftUI
-
-@main
-struct ChatSampleApp: App {
-  @StateObject
-  var viewModel = ConversationViewModel()
-
-  var body: some Scene {
-    WindowGroup {
-      NavigationStack {
-        ConversationScreen()
-          .environmentObject(viewModel)
-      }
-    }
-  }
-}
+//import SwiftUI
+//
+//@main
+//struct ChatSampleApp: App {
+//  @StateObject
+//  var viewModel = ConversationViewModel()
+//
+//  var body: some Scene {
+//    WindowGroup {
+//      NavigationStack {
+//        ConversationScreen()
+//          .environmentObject(viewModel)
+//      }
+//    }
+//  }
+//}

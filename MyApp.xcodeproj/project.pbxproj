@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0045D12CF21CD600F9F1EC /* PhotoReasoningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0045D02CF21CD600F9F1EC /* PhotoReasoningScreen.swift */; };
+		9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0045D22CF21CEE00F9F1EC /* PhotoReasoningViewModel.swift */; };
 		9A698CB52CF0EE55008FDDBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */; };
 		9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */; };
 		9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A921F1F2CF192370075D3F8 /* LifecycleNativeUIKitViewController.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A0045D02CF21CD600F9F1EC /* PhotoReasoningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReasoningScreen.swift; sourceTree = "<group>"; };
+		9A0045D22CF21CEE00F9F1EC /* PhotoReasoningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReasoningViewModel.swift; sourceTree = "<group>"; };
 		9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A921F1F2CF192370075D3F8 /* LifecycleNativeUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleNativeUIKitViewController.swift; sourceTree = "<group>"; };
@@ -44,7 +48,7 @@
 		9A9D21532CF1FF4500E8E7C4 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		9A9D21552CF1FF5500E8E7C4 /* MultimodalInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultimodalInputField.swift; sourceTree = "<group>"; };
 		9A9D21632CF2016200E8E7C4 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
-		9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
+		9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		9A9D21672CF2028600E8E7C4 /* ConversationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationScreen.swift; sourceTree = "<group>"; };
 		9A9D21692CF202E500E8E7C4 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		9A9D216B2CF202F900E8E7C4 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
@@ -79,6 +83,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A0045CD2CF21C9F00F9F1EC /* GenerativeAIMultimodalSampleApp */ = {
+			isa = PBXGroup;
+			children = (
+				9A0045CF2CF21CB700F9F1EC /* ViewModels */,
+				9A0045CE2CF21CAF00F9F1EC /* Screens */,
+			);
+			path = GenerativeAIMultimodalSampleApp;
+			sourceTree = "<group>";
+		};
+		9A0045CE2CF21CAF00F9F1EC /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9A0045D02CF21CD600F9F1EC /* PhotoReasoningScreen.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		9A0045CF2CF21CB700F9F1EC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9A0045D22CF21CEE00F9F1EC /* PhotoReasoningViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		9A921F212CF192480075D3F8 /* LifecycleNativeUIKitViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,8 +130,9 @@
 		9A9D21512CF1FF3000E8E7C4 /* GoogleAI_GenerativeAI_Prototypes */ = {
 			isa = PBXGroup;
 			children = (
-				9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */,
 				9A9D21632CF2016200E8E7C4 /* APIKey.swift */,
+				9A9D21652CF2017500E8E7C4 /* GenerativeAI-Info.plist */,
+				9A0045CD2CF21C9F00F9F1EC /* GenerativeAIMultimodalSampleApp */,
 				9A9D21522CF1FF3C00E8E7C4 /* GenerativeAIUIComponents */,
 				9A9D21572CF2004800E8E7C4 /* ChatSampleApp */,
 			);
@@ -239,7 +269,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
@@ -292,6 +322,7 @@
 				9A9D21752CF203AC00E8E7C4 /* ErrorView.swift in Sources */,
 				9A9D21732CF2036A00E8E7C4 /* BouncingDots.swift in Sources */,
 				9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */,
+				9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */,
 				9A9D216E2CF2031D00E8E7C4 /* MessageView.swift in Sources */,
 				9A9D21772CF203B800E8E7C4 /* ErrorDetailsView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
@@ -304,6 +335,7 @@
 				9A9D21792CF2063E00E8E7C4 /* ChatSampleApp.swift in Sources */,
 				9A9D21682CF2028700E8E7C4 /* ConversationScreen.swift in Sources */,
 				9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */,
+				9A0045D12CF21CD600F9F1EC /* PhotoReasoningScreen.swift in Sources */,
 				9A9D21642CF2016300E8E7C4 /* APIKey.swift in Sources */,
 				9A698CB52CF0EE55008FDDBF /* SceneDelegate.swift in Sources */,
 			);
@@ -346,6 +378,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -407,6 +440,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -435,6 +469,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -476,6 +511,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
