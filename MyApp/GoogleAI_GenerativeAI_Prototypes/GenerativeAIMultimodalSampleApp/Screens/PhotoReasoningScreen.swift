@@ -12,12 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-// TODO: Rewrite custom UI components
-/// I will add this static GenerativeAIUIComponents framework later,
-/// I'm using direct implementation from the original source code for now
-// import GenerativeAIUIComponents
-
 import MarkdownUI
 import PhotosUI
 import SwiftUI

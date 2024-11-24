@@ -7,24 +7,27 @@
 
 
 import Foundation
+import Foundation
 
 enum APIKey {
-  /// Fetch the API key from `GenerativeAI-Info.plist`
-  /// This is just *one* way how you can retrieve the API key for your app.
-  static var `default`: String {
-    guard let filePath = Bundle.main.path(forResource: "GenerativeAI-Info", ofType: "plist")
-    else {
-      fatalError("Couldn't find file 'GenerativeAI-Info.plist'.")
+    /// Fetch the API key from `GenerativeAI-Info.plist`
+    static var `default`: String {
+        guard let url = Bundle.main.url(forResource: "GenerativeAI-Info", withExtension: "plist") else {
+            fatalError("Couldn't find 'GenerativeAI-Info.plist' in the main bundle.")
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            if let plist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
+               let value = plist["API_KEY"] as? String,
+               !value.isEmpty,
+               !value.starts(with: "_") {
+                return value
+            } else {
+                fatalError("Invalid or missing 'API_KEY' in 'GenerativeAI-Info.plist'. Follow the instructions at https://ai.google.dev/tutorials/setup to get an API key.")
+            }
+        } catch {
+            fatalError("Error reading 'GenerativeAI-Info.plist': \(error.localizedDescription)")
+        }
     }
-    let plist = NSDictionary(contentsOfFile: filePath)
-    guard let value = plist?.object(forKey: "API_KEY") as? String else {
-      fatalError("Couldn't find key 'API_KEY' in 'GenerativeAI-Info.plist'.")
-    }
-    if value.starts(with: "_") || value.isEmpty {
-      fatalError(
-        "Follow the instructions at https://ai.google.dev/tutorials/setup to get an API key."
-      )
-    }
-    return value
-  }
 }

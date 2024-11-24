@@ -12,20 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import GoogleGenerativeAI
 import MarkdownUI
 import SwiftUI
 
 
-// TODO: FIx this custom extension by Google
-/*
- Extension declares a conformance of imported type 'HarmCategory'
- to imported protocol 'CustomStringConvertible';
- this will not behave correctly if the owners
- of 'GoogleGenerativeAI' introduce this conformance in the future.
- */
-/// Note: Add `@retroactive` to silence this warning for now.
-extension SafetySetting.HarmCategory: @retroactive CustomStringConvertible {
+extension SafetySetting.HarmCategory: CustomStringConvertible {
   public var description: String {
     switch self {
     case .dangerousContent: "Dangerous content"
@@ -38,15 +29,7 @@ extension SafetySetting.HarmCategory: @retroactive CustomStringConvertible {
   }
 }
 
-// TODO: FIx this custom extension by Google
-/*
- Extension declares a conformance of imported type 'HarmProbability'
- to imported protocol 'CustomStringConvertible';
- this will not behave correctly if the owners
- of 'GoogleGenerativeAI' introduce this conformance in the future.
- */
-/// Note: Add `@retroactive` to silence this warning for now.
-extension SafetyRating.HarmProbability: @retroactive CustomStringConvertible {
+extension SafetyRating.HarmProbability: CustomStringConvertible {
   public var description: String {
     switch self {
     case .high: "High"

@@ -1,18 +1,6 @@
-//
-//  ConversationScreen.swift
-//  MyApp
-//
-//  Created by Cong Le on 11/23/24.
-//
 
 
-// TODO: Rewrite custom UI components
-/// I will add this static GenerativeAIUIComponents framework later,
-/// I'm using direct implementation from the original source code for now
-// import GenerativeAIUIComponents
 
-
-import GoogleGenerativeAI
 import SwiftUI
 
 struct ConversationScreen: View {
