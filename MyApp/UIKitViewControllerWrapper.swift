@@ -10,15 +10,16 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PhotoPickerController
+    typealias UIViewControllerType = MetalRenderViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> PhotoPickerController {
+    func makeUIViewController(context: Context) -> MetalRenderViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return PhotoPickerController()
+        let viewController = MetalRenderViewController()
+        return viewController
     }
     
-    func updateUIViewController(_ uiViewController: PhotoPickerController, context: Context) {
+    func updateUIViewController(_ uiViewController: MetalRenderViewController, context: Context) {
         // Update the view controller if needed
     }
 }

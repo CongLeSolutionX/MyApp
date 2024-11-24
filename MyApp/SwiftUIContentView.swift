@@ -10,6 +10,7 @@ import SwiftUI
 struct SwiftUIContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
