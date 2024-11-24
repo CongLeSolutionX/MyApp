@@ -49,10 +49,11 @@ class Renderer: NSObject {
     ]
     
     static let indices: [UInt16] = [2, 1, 0, 1, 2, 3]
-    
-    //Vertex and Index Metal buffers
-    private let vertData = MetalDevice.sharedInstance.buffer(array: Renderer.vertexData, storageMode: [.storageModeShared])
-    private let indexData = MetalDevice.sharedInstance.buffer(array: Renderer.indices, storageMode: [.storageModeShared])
+
+    // Vertex and Index Metal buffers
+    private let vertData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.vertexData, options: [.storageModeShared])
+    private let indexData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.indices, options: [.storageModeShared])
+
     
     //Shaders
     private let applyForceVectorShader: RenderShader = RenderShader(fragmentShader: "applyForceVector", vertexShader: "vertexShader", pixelFormat: .rg16Float)
