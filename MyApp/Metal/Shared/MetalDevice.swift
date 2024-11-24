@@ -2,9 +2,7 @@
 //  MetalDevice.swift
 //  FluidDynamicsMetal
 //
-//  Created by Andrei-Sergiu Pițiș on 06/06/2017.
-//  Copyright © 2017 Andrei-Sergiu Pițiș. All rights reserved.
-//
+//  Cong Le on 11/24/24.
 
 import Foundation
 import Metal
@@ -111,7 +109,9 @@ class MetalDevice {
     /// - Returns: A new `MTLBuffer` containing the array data.
     func makeBuffer<T>(from array: [T], options: MTLResourceOptions = []) -> MTLBuffer {
         let length = array.count * MemoryLayout<T>.stride
-        return device.makeBuffer(bytes: array, length: length, options: options)!
+        return array.withUnsafeBufferPointer { bufferPointer in
+            device.makeBuffer(bytes: bufferPointer.baseAddress!, length: length, options: options)!
+        }
     }
 
     /// Creates a new command buffer.
@@ -177,4 +177,3 @@ class MetalDevice {
         return pipelineState
     }
 }
-
