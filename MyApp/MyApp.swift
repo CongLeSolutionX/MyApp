@@ -19,7 +19,8 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootContentView()
+            //RootContentView()
+            UIKitContentView()
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
             switch newPhase {
