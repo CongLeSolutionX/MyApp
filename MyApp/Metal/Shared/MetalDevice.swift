@@ -1,6 +1,6 @@
 //
 //  MetalDevice.swift
-//  FluidDynamicsMetal
+//
 //
 //  Cong Le on 11/24/24.
 

@@ -1,46 +1,75 @@
 //
 //  Renderer.swift
-//  FluidDynamicsMetal
 //
-//  Created by Andrei-Sergiu Pițiș on 20/12/2017.
-//  Copyright © 2017 Andrei-Sergiu Pițiș. All rights reserved.
-//
+//  Cong Le on 11/24/24.
 
 import MetalKit
 
+/// Represents a tuple of five `SIMD2<Float>` values. Used for storing positions and impulses.
 typealias FloatTuple = (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>, SIMD2<Float>, SIMD2<Float>)
 
+// MARK: - FloatTuple Operators
+
+/// Divides each element of a `FloatTuple` by a scalar.
+/// - Parameters:
+///   - rhs: The `FloatTuple` dividend.
+///   - lhs: The scalar divisor.
+/// - Returns: A new `FloatTuple` with each element divided by the scalar.
 func / (rhs: FloatTuple, lhs: Float) -> FloatTuple {
     return FloatTuple(rhs.0 / lhs, rhs.1 / lhs, rhs.2 / lhs, rhs.3 / lhs, rhs.4 / lhs)
 }
 
+/// Subtracts two FloatTuples element-wise.
+/// - Parameters:
+///   - rhs: The `FloatTuple` minuend.
+///   - lhs: The `FloatTuple` subtrahend.
+/// - Returns: A new FloatTuple representing the difference.
 func - (rhs: FloatTuple, lhs: FloatTuple) -> FloatTuple {
     return FloatTuple(rhs.0 - lhs.0, rhs.1 - lhs.1, rhs.2 - lhs.2, rhs.3 - lhs.3, rhs.4 - lhs.4)
 }
 
+// MARK: - Data Structures
+
+/// Struct containing static data needed for rendering.
 struct StaticData {
+    /// Touch/mouse positions, scaled by `ScreenScaleAdjustment`
     var positions: FloatTuple
+    /// Touch/mouse impulses (difference between current and previous positions), scaled by `ScreenScaleAdjustment`
     var impulses: FloatTuple
-    
+    /// Scalar impulse values (strength and unused component)
     var impulseScalar: SIMD2<Float>
+    /// Texture coordinate offsets `(1/width, 1/height)`
     var offsets: SIMD2<Float>
-    
+    /// Screen dimensions (width, height).
     var screenSize: SIMD2<Float>
+    /// Radius of the ink effect
     var inkRadius: simd_float1
 }
 
+/// Struct representing vertex data.
 struct VertexData {
+    /// Vertex position.
     let position: SIMD2<Float>
+    /// Texture coordinates.
     let texCoord: SIMD2<Float>
 }
 
+
+// MARK: - Renderer Class
+
+/// Metal-based renderer for fluid simulation.
 class Renderer: NSObject {
+    /// Maximum number of inflight buffers.
     static let MaxBuffers = 3
     
-    //Adjust this to reduce or increase the size of the slab textures. Reasonable values are in the range [0.5, 3.0]
+    /// Adjustment factor for slab texture size.
+    /// Higher values reduce performance impact but lower visual quality.
+    /// Range: `[0.5, 3.0]`
     static let ScreenScaleAdjustment: Float = 1.0
     
-    //Vertex and index data
+    // MARK:  - Vertex and Index Data
+    
+    /// Vertex data for a quad.
     static let vertexData: [VertexData] = [
         VertexData(position: SIMD2<Float>(x: -1.0, y: -1.0), texCoord: SIMD2<Float>(x: 0.0, y: 1.0)),
         VertexData(position: SIMD2<Float>(x: 1.0, y: -1.0), texCoord: SIMD2<Float>(x: 1.0, y: 1.0)),
@@ -48,14 +77,19 @@ class Renderer: NSObject {
         VertexData(position: SIMD2<Float>(x: 1.0, y: 1.0), texCoord: SIMD2<Float>(x: 1.0, y: 0.0)),
     ]
     
+    /// Quad indices
     static let indices: [UInt16] = [2, 1, 0, 1, 2, 3]
-
-    // Vertex and Index Metal buffers
-    private let vertData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.vertexData, options: [.storageModeShared])
-    private let indexData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.indices, options: [.storageModeShared])
-
     
-    //Shaders
+    // MARK: - Metal Buffers
+
+    /// Metal buffer for vertex data
+    private let vertData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.vertexData, options: [.storageModeShared])
+    /// Metal buffer for index data
+    private let indexData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.indices, options: [.storageModeShared])
+    
+    // MARK: - Shaders
+    
+    // Fluid simulation shaders
     private let applyForceVectorShader: RenderShader = RenderShader(fragmentShader: "applyForceVector", vertexShader: "vertexShader", pixelFormat: .rg16Float)
     private let applyForceScalarShader: RenderShader = RenderShader(fragmentShader: "applyForceScalar", vertexShader: "vertexShader", pixelFormat: .rg16Float)
     private let advectShader: RenderShader = RenderShader(fragmentShader: "advect", vertexShader: "vertexShader", pixelFormat: .rg16Float)
@@ -65,29 +99,46 @@ class Renderer: NSObject {
     private let vorticityConfinementShader: RenderShader = RenderShader(fragmentShader: "vorticityConfinement", vertexShader: "vertexShader", pixelFormat: .rg16Float)
     private let gradientShader: RenderShader = RenderShader(fragmentShader: "gradient", vertexShader: "vertexShader", pixelFormat: .rg16Float)
     
+    // Visualization shaders
     private let renderVector: RenderShader = RenderShader(fragmentShader: "visualizeVector", vertexShader: "vertexShader")
     private let renderScalar: RenderShader = RenderShader(fragmentShader: "visualizeScalar", vertexShader: "vertexShader")
     
-    //Touch or Mouse positions
+    // MARK: - Interaction Data
+
+    /// Current touch/mouse positions
     private var positions: FloatTuple?
+    /// Previous touch/mouse positions
     private var directions: FloatTuple?
     
-    //Surfaces
+    // MARK: - Simulation Surfaces
+    
+    /// Velocity slab
     private var velocity: Slab!
+    /// Density slab
     private var density: Slab!
+    /// Velocity divergence slab
     private var velocityDivergence: Slab!
+    /// Velocity vorticity slab
     private var velocityVorticity: Slab!
+    /// Pressure slab
     private var pressure: Slab!
     
-    //Inflight buffers
-    private var uniformsBuffers: [MTLBuffer] = []
-    private var avaliableBufferIndex: Int = 0
+    // MARK: - Rendering Resources
     
+    /// Array of uniform buffers
+    private var uniformsBuffers: [MTLBuffer] = []
+    /// Index of the next available uniform buffer
+    private var avaliableBufferIndex: Int = 0
+    /// Semaphore for managing inflight buffers
     private let semaphore = DispatchSemaphore(value: MaxBuffers)
     
-    //Index of the displayed slab
+    /// Index of the currently displayed slab `(0: density, 1: pressure, 2: velocity, 3: vorticity)`
     private var currentIndex = 0
-    
+
+    // MARK: - Initialization
+
+    /// Initializes the renderer with a given `MetalKit` view.
+    /// - Parameter metalView: The `MTKView` to render into
     init(metalView: MTKView) {
         super.init()
         print("Im initializing the renderer")

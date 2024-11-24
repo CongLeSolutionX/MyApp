@@ -1,9 +1,7 @@
 //
-//  BasicFilter.swift
-//  MetalImage
+//  ComputeShader.swift
 //
-//  Created by Andrei-Sergiu Pițiș on 19/05/2017.
-//  Copyright © 2017 Andrei-Sergiu Pițiș. All rights reserved.
+//  Cong Le on 11/24/24.
 //
 // Source: https://github.com/andreipitis/FluidDynamicsMetal
 // Docs: https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-38-fast-fluid-dynamics-simulation-gpu
