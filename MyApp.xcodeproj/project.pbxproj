@@ -18,6 +18,12 @@
 		9AA0A1D92CF2C0CB0040EE8C /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1D82CF2C0CB0040EE8C /* Metal.framework */; };
 		9AA0A1DB2CF2C0D40040EE8C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1DA2CF2C0D40040EE8C /* QuartzCore.framework */; };
 		9AA0A1DD2CF2C0F30040EE8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1DC2CF2C0F30040EE8C /* Foundation.framework */; };
+		9AA0A1F62CF2F9420040EE8C /* MetalRendererViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1F52CF2F93D0040EE8C /* MetalRendererViewController.swift */; };
+		9AA0A1F82CF2F98B0040EE8C /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1F72CF2F98A0040EE8C /* Renderer.swift */; };
+		9AA0A1FB2CF2F9BE0040EE8C /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1FA2CF2F9BD0040EE8C /* Shaders.metal */; };
+		9AA0A2002CF2FA490040EE8C /* AllocateResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1FF2CF2FA480040EE8C /* AllocateResources.swift */; };
+		9AA0A2022CF2FA840040EE8C /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2012CF2FA830040EE8C /* MathUtilities.swift */; };
+		9AA0A2062CF2FF7F0040EE8C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A2052CF2FF7F0040EE8C /* MetalKit.framework */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -163,6 +169,14 @@
 		9AA0A1D82CF2C0CB0040EE8C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		9AA0A1DA2CF2C0D40040EE8C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		9AA0A1DC2CF2C0F30040EE8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		9AA0A1F52CF2F93D0040EE8C /* MetalRendererViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRendererViewController.swift; sourceTree = "<group>"; };
+		9AA0A1F72CF2F98A0040EE8C /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		9AA0A1F92CF2F9A50040EE8C /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
+		9AA0A1FA2CF2F9BD0040EE8C /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		9AA0A1FE2CF2FA190040EE8C /* MyApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		9AA0A1FF2CF2FA480040EE8C /* AllocateResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocateResources.swift; sourceTree = "<group>"; };
+		9AA0A2012CF2FA830040EE8C /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
+		9AA0A2052CF2FF7F0040EE8C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTikHomeView.swift; sourceTree = "<group>"; };
@@ -207,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA0A2062CF2FF7F0040EE8C /* MetalKit.framework in Frameworks */,
 				9AA0A1DD2CF2C0F30040EE8C /* Foundation.framework in Frameworks */,
 				9AA0A1DB2CF2C0D40040EE8C /* QuartzCore.framework in Frameworks */,
 				9AA0A1D92CF2C0CB0040EE8C /* Metal.framework in Frameworks */,
@@ -399,11 +414,26 @@
 		9AA0A1D72CF2C0CB0040EE8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9AA0A2052CF2FF7F0040EE8C /* MetalKit.framework */,
 				9AA0A1DC2CF2C0F30040EE8C /* Foundation.framework */,
 				9AA0A1DA2CF2C0D40040EE8C /* QuartzCore.framework */,
 				9AA0A1D82CF2C0CB0040EE8C /* Metal.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9AA0A1F42CF2F7D40040EE8C /* RunMetalAppOnSimulator */ = {
+			isa = PBXGroup;
+			children = (
+				9AA0A1FE2CF2FA190040EE8C /* MyApp-Bridging-Header.h */,
+				9AA0A1F92CF2F9A50040EE8C /* ShaderTypes.h */,
+				9AA0A1FA2CF2F9BD0040EE8C /* Shaders.metal */,
+				9AA0A2012CF2FA830040EE8C /* MathUtilities.swift */,
+				9AA0A1FF2CF2FA480040EE8C /* AllocateResources.swift */,
+				9AA0A1F72CF2F98A0040EE8C /* Renderer.swift */,
+				9AA0A1F52CF2F93D0040EE8C /* MetalRendererViewController.swift */,
+			);
+			path = RunMetalAppOnSimulator;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -440,6 +470,7 @@
 				9A54306E2CE9B90C00A49091 /* TikTokReDesign */,
 				9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */,
 				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
+				9AA0A1F42CF2F7D40040EE8C /* RunMetalAppOnSimulator */,
 				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -565,6 +596,7 @@
 					};
 					9AAC41772C74668B00AC0A60 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1610;
 					};
 				};
 			};
@@ -640,19 +672,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA0A2002CF2FA490040EE8C /* AllocateResources.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AA0A1F62CF2F9420040EE8C /* MetalRendererViewController.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
+				9AA0A1F82CF2F98B0040EE8C /* Renderer.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
+				9AA0A2022CF2FA840040EE8C /* MathUtilities.swift in Sources */,
+				9AA0A1FB2CF2F9BE0040EE8C /* Shaders.metal in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
@@ -880,6 +917,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -910,6 +948,8 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/RunMetalAppOnSimulator/MyApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -920,6 +960,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -950,6 +991,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyApp/RunMetalAppOnSimulator/MyApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
