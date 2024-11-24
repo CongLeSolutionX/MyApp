@@ -49,8 +49,7 @@
 		9AA0A1512CF29D5D0040EE8C /* GenerativeAISwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1502CF29D5C0040EE8C /* GenerativeAISwift.swift */; };
 		9AA0A1532CF29D8E0040EE8C /* GenerateContentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1522CF29D8D0040EE8C /* GenerateContentRequest.swift */; };
 		9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1542CF29DD00040EE8C /* CountTokensRequest.swift */; };
-		9AA0A1572CF2A3940040EE8C /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1562CF2A38E0040EE8C /* Sample.swift */; };
-		9AA0A1592CF2A41A0040EE8C /* LightingControlSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1582CF2A41A0040EE8C /* LightingControlSwiftUIView.swift */; };
+		9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A1582CF2A41A0040EE8C /* LightingControlView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -102,8 +101,7 @@
 		9AA0A1502CF29D5C0040EE8C /* GenerativeAISwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerativeAISwift.swift; sourceTree = "<group>"; };
 		9AA0A1522CF29D8D0040EE8C /* GenerateContentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateContentRequest.swift; sourceTree = "<group>"; };
 		9AA0A1542CF29DD00040EE8C /* CountTokensRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountTokensRequest.swift; sourceTree = "<group>"; };
-		9AA0A1562CF2A38E0040EE8C /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
-		9AA0A1582CF2A41A0040EE8C /* LightingControlSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightingControlSwiftUIView.swift; sourceTree = "<group>"; };
+		9AA0A1582CF2A41A0040EE8C /* LightingControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightingControlView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -288,8 +286,7 @@
 		9AA0A1232CF26FC10040EE8C /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9AA0A1562CF2A38E0040EE8C /* Sample.swift */,
-				9AA0A1582CF2A41A0040EE8C /* LightingControlSwiftUIView.swift */,
+				9AA0A1582CF2A41A0040EE8C /* LightingControlView.swift */,
 				9AA0A1262CF26FDA0040EE8C /* FunctionCallingScreen.swift */,
 			);
 			path = Screens;
@@ -447,10 +444,9 @@
 				9A9D21752CF203AC00E8E7C4 /* ErrorView.swift in Sources */,
 				9A9D21732CF2036A00E8E7C4 /* BouncingDots.swift in Sources */,
 				9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */,
-				9AA0A1572CF2A3940040EE8C /* Sample.swift in Sources */,
 				9AA0A1382CF29A800040EE8C /* Logging.swift in Sources */,
 				9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */,
-				9AA0A1592CF2A41A0040EE8C /* LightingControlSwiftUIView.swift in Sources */,
+				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
 				9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */,
 				9AA0A14D2CF29D030040EE8C /* GenerativeAIService.swift in Sources */,
 				9AA0A13A2CF29A8C0040EE8C /* FunctionCall.swift in Sources */,
