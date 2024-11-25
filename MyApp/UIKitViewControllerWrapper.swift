@@ -52,12 +52,15 @@ class MyUIKitViewController: UIViewController {
 }
 
 struct SettingsView: View {
+    @State private var notificationsEnabled: Bool = true // State variable for Toggle
+    @State private var sliderValue: Double = 50        // State variable for Slider
+    
     var body: some View {
         VStack {
             Text("Settings Panel - SwiftUI view")
                 .font(.title)
-            Toggle("Enable Notifications", isOn: .constant(true))
-            Slider(value: .constant(50), in: 0...100)
+            Toggle("Enable Notifications", isOn: $notificationsEnabled) // bind to state variable
+            Slider(value: $sliderValue, in: 0...100) // bind to state variable
         }
         .padding()
         .background(Color.white)
