@@ -47,8 +47,8 @@ class MyUIKitViewController: UIViewController {
                 print("Detail button tapped!")
                 print(self.interactiveMapPinView?.location ?? "No location")
                 // Optionally, create and present a detail view controller here:
-                let detailVC = DetailViewController(location: self.interactiveMapPinView?.location)
-                self.navigationController?.pushViewController(detailVC, animated: true)
+                let detailVC = DetailMapViewController(location: self.interactiveMapPinView?.location)
+                self.present(detailVC, animated: true, completion: nil)
             }
             
             // Add the pin to the view controller's view

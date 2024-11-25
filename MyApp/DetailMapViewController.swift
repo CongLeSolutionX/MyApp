@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class DetailViewController: UIViewController {
+class DetailMapViewController: UIViewController {
 
     let mapView = MKMapView()
     var location: CLLocationCoordinate2D? // Receive coordinates from InteractiveMapPin
@@ -63,7 +63,7 @@ class DetailViewController: UIViewController {
 
 // MARK: - MKMapViewDelegate (Optional, for customization)
 
-extension DetailViewController: MKMapViewDelegate {
+extension DetailMapViewController: MKMapViewDelegate {
     // Customize annotations (optional) - Add custom annotation views & behavior
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {

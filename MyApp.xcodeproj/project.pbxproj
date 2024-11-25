@@ -13,7 +13,7 @@
 		9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A921F222CF192560075D3F8 /* CustomUIKitView.swift */; };
 		9A921F262CF192A10075D3F8 /* LifecycleObjCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A921F252CF1929D0075D3F8 /* LifecycleObjCViewController.m */; };
 		9AA0A2412CF3F07B0040EE8C /* InteractiveMapPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2402CF3F0760040EE8C /* InteractiveMapPinView.swift */; };
-		9AA0A2432CF3F2AE0040EE8C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2422CF3F2AD0040EE8C /* DetailViewController.swift */; };
+		9AA0A2432CF3F2AE0040EE8C /* DetailMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2422CF3F2AD0040EE8C /* DetailMapViewController.swift */; };
 		9AA0A2452CF3FEC50040EE8C /* SettingsPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2442CF3FEC40040EE8C /* SettingsPanelViewController.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -31,7 +31,7 @@
 		9A921F272CF192A30075D3F8 /* MyApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		9A921F282CF192B00075D3F8 /* LifecycleObjCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LifecycleObjCViewController.h; sourceTree = "<group>"; };
 		9AA0A2402CF3F0760040EE8C /* InteractiveMapPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveMapPinView.swift; sourceTree = "<group>"; };
-		9AA0A2422CF3F2AD0040EE8C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		9AA0A2422CF3F2AD0040EE8C /* DetailMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMapViewController.swift; sourceTree = "<group>"; };
 		9AA0A2442CF3FEC40040EE8C /* SettingsPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelViewController.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AA0A2442CF3FEC40040EE8C /* SettingsPanelViewController.swift */,
 				9AA0A2402CF3F0760040EE8C /* InteractiveMapPinView.swift */,
-				9AA0A2422CF3F2AD0040EE8C /* DetailViewController.swift */,
+				9AA0A2422CF3F2AD0040EE8C /* DetailMapViewController.swift */,
 				9A860CD52CF19C5F0092756E /* LifecycleSwiftUIView */,
 				9A921F242CF1928F0075D3F8 /* LifecycleObjCViewController */,
 				9A921F212CF192480075D3F8 /* LifecycleNativeUIKitViewController */,
@@ -198,7 +198,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AA0A2452CF3FEC50040EE8C /* SettingsPanelViewController.swift in Sources */,
 				9AA0A2412CF3F07B0040EE8C /* InteractiveMapPinView.swift in Sources */,
-				9AA0A2432CF3F2AE0040EE8C /* DetailViewController.swift in Sources */,
+				9AA0A2432CF3F2AE0040EE8C /* DetailMapViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
