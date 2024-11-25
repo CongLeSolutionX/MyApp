@@ -7,72 +7,74 @@
 
 import SwiftUI
 import UIKit
+import MapKit
 
 // UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = SettingsPanelViewController
+    typealias UIViewControllerType = MyUIKitViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> SettingsPanelViewController {
+    func makeUIViewController(context: Context) -> MyUIKitViewController {
         // Instantiate and return the UIKit view controller
-        return SettingsPanelViewController()
+        return MyUIKitViewController()
     }
     
-    func updateUIViewController(_ uiViewController: SettingsPanelViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
         // Update the view controller if needed
     }
 }
 
-/// A `UIKit view controller` that embeds a `SwiftUI settings panel`.
-/// This demonstrates a niche use case for `UIHostingController`,
-/// primarily for embedding relatively small `SwiftUI` views within a larger `UIKit` context.
-/// For larger integrations, `UIViewControllerRepresentable` is generally preferred.
-class SettingsPanelViewController: UIViewController {
-    /// `viewDidLoad()` is overridden to setup and embed the `SwiftUI settings view`.
-    /// It uses `Auto Layout constraints` to precisely place and size the embedded `SwiftUI view`
+
+// Example UIKit view controller
+class MyUIKitViewController: UIViewController {
+    private var interactiveMapPinView: InteractiveMapPinView? // Optional to allow deallocation
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .systemGreen
         
-        // Create a SwiftUI view
-        let settingsView = SettingsView()
+        interactiveMapPinView = InteractiveMapPinView() // lazy initialization
         
-        // Create a UIHostingController to host the SwiftUI view. This acts as a bridge between UIKit and SwiftUI.
-        let hostingController = UIHostingController(rootView: settingsView)
-        /// This line is crucial.  Without it, Auto Layout constraints won't work correctly, leading to layout issues.
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Add the hostingController's view as a subview of the main view controller
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        
-        /// Set up `Auto Layout constraints` to position the `SwiftUI view` within the `UIKit view controller`.
-        /// Adjust constants to customize the position and dimensions of the settings panel.
-        NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            hostingController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            hostingController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 200) //Adjust height as needed
-        ])
-        
-        hostingController.didMove(toParent: self)
-    }
-}
-/// A` SwiftUI view` representing a simple settings panel.
-/// This view is embedded within a `UIKit view controller` using `UIHostingController`
-struct SettingsView: View {
-    @State private var notificationsEnabled: Bool = true // State variable for Toggle
-    @State private var sliderValue: Double = 50        // State variable for Slider
-    /// The body of the SettingsView, defining its layout and content
-    var body: some View {
-        VStack {
-            Text("Settings Panel - SwiftUI view")
-                .font(.title)
-            Toggle("Enable Notifications", isOn: $notificationsEnabled) // bind to state variable
-            Slider(value: $sliderValue, in: 0...100) // bind to state variable
+        if let interactiveMapPinView = interactiveMapPinView {
+            // Customize the pin's properties
+            interactiveMapPinView.title = "My Location"
+            interactiveMapPinView.subtitle = "Interesting place at location: \(String(describing: interactiveMapPinView.location))"
+            interactiveMapPinView.location = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+            interactiveMapPinView.detailAction = { [weak self] in
+                guard let self else { return }
+                // Handle the detail action (e.g., show a detail view)
+                print("Detail button tapped!")
+                print(self.interactiveMapPinView?.location ?? "No location")
+                // Optionally, create and present a detail view controller here:
+                let detailVC = DetailViewController(location: self.interactiveMapPinView?.location)
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            }
+            
+            // Add the pin to the view controller's view
+            view.addSubview(interactiveMapPinView)
+            
+            // Set constraints to position the pin (crucial!)
+            interactiveMapPinView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                interactiveMapPinView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                interactiveMapPinView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                interactiveMapPinView.widthAnchor.constraint(equalToConstant: 200), // Adjust width as needed
+                interactiveMapPinView.heightAnchor.constraint(equalToConstant: 100) // Adjust height as needed
+            ])
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Remove the view from its superview to assist in deallocation
+        interactiveMapPinView?.removeFromSuperview()
+        
+        // Release the reference
+        interactiveMapPinView = nil
+    }
+    
+    deinit {
+        print("MyUIKitViewController deinitialized successfully!") // Debugging statement
     }
 }
