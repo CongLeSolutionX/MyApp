@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = CollapsibleTableViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
+    func makeUIViewController(context: Context) -> CollapsibleTableViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        return CollapsibleTableViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: CollapsibleTableViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -31,4 +31,3 @@ class MyUIKitViewController: UIViewController {
         // Additional setup
     }
 }
-
