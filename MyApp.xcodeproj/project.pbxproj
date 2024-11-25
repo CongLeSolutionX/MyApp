@@ -11,6 +11,7 @@
 		9A61A1942CE68DFA00538A6E /* AccessibleImagesUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A1932CE68DF300538A6E /* AccessibleImagesUIKitViewController.swift */; };
 		9AA0A2472CF408FD0040EE8C /* CollapsibleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2462CF408FC0040EE8C /* CollapsibleHeaderView.swift */; };
 		9AA0A2492CF409C20040EE8C /* CollapsibleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A2482CF409C10040EE8C /* CollapsibleTableViewController.swift */; };
+		9AA0A24B2CF4181E0040EE8C /* CollapsibleFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0A24A2CF4181D0040EE8C /* CollapsibleFooterView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		9A61A1932CE68DF300538A6E /* AccessibleImagesUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleImagesUIKitViewController.swift; sourceTree = "<group>"; };
 		9AA0A2462CF408FC0040EE8C /* CollapsibleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleHeaderView.swift; sourceTree = "<group>"; };
 		9AA0A2482CF409C10040EE8C /* CollapsibleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleTableViewController.swift; sourceTree = "<group>"; };
+		9AA0A24A2CF4181D0040EE8C /* CollapsibleFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsibleFooterView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -43,6 +45,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9AA0A24C2CF4189D0040EE8C /* CollapsibleTable */ = {
+			isa = PBXGroup;
+			children = (
+				9AA0A2482CF409C10040EE8C /* CollapsibleTableViewController.swift */,
+				9AA0A24A2CF4181D0040EE8C /* CollapsibleFooterView.swift */,
+				9AA0A2462CF408FC0040EE8C /* CollapsibleHeaderView.swift */,
+			);
+			path = CollapsibleTable;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -67,8 +79,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9AA0A2462CF408FC0040EE8C /* CollapsibleHeaderView.swift */,
-				9AA0A2482CF409C10040EE8C /* CollapsibleTableViewController.swift */,
+				9AA0A24C2CF4189D0040EE8C /* CollapsibleTable */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -156,6 +167,7 @@
 			files = (
 				9AA0A2492CF409C20040EE8C /* CollapsibleTableViewController.swift in Sources */,
 				9AA0A2472CF408FD0040EE8C /* CollapsibleHeaderView.swift in Sources */,
+				9AA0A24B2CF4181E0040EE8C /* CollapsibleFooterView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A61A1942CE68DFA00538A6E /* AccessibleImagesUIKitViewController.swift in Sources */,

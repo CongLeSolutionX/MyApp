@@ -7,28 +7,6 @@
 
 import UIKit
 
-
-// MARK: - CollapsibleHeaderViewDelegate Protocol
-
-protocol CollapsibleHeaderViewDelegate: AnyObject {
-    func didToggleSection(_ header: CollapsibleHeaderView, section: Int)
-}
-
-// MARK: - CollapsibleHeaderViewDelegate
-
-extension CollapsibleTableViewController: CollapsibleHeaderViewDelegate {
-
-    func didToggleSection(_ header: CollapsibleHeaderView, section: Int) {
-        if expandedSections.contains(section) {
-            expandedSections.remove(section)
-        } else {
-            expandedSections.insert(section)
-        }
-
-        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
-    }
-}
-
 // MARK: - CollapsibleTableViewController
 
 class CollapsibleTableViewController: UIViewController {
@@ -43,11 +21,14 @@ class CollapsibleTableViewController: UIViewController {
 
     private func setupTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
         tableView.register(CollapsibleHeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderViewIdentifier")
+        tableView.register(CollapsibleFooterView.self, forHeaderFooterViewReuseIdentifier: "FooterViewIdentifier")
+        
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .systemGray
+        tableView.backgroundColor = .systemPink
 
         view.addSubview(tableView)
 
@@ -98,5 +79,20 @@ extension CollapsibleTableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44.0 // Standard header height
+    }
+}
+
+// MARK: - CollapsibleHeaderViewDelegate
+
+extension CollapsibleTableViewController: CollapsibleHeaderViewDelegate {
+
+    func didToggleSection(_ header: CollapsibleHeaderView, section: Int) {
+        if expandedSections.contains(section) {
+            expandedSections.remove(section)
+        } else {
+            expandedSections.insert(section)
+        }
+
+        tableView.reloadSections(IndexSet(integer: section), with: .automatic)
     }
 }
