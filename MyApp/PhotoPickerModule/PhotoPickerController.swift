@@ -208,15 +208,15 @@ extension PhotoPickerController: PHPickerViewControllerDelegate {
 }
 
 // MARK: - Extensions for unit tests
-
+// TODO: Need review unit tests
 /// Testing whether an alert is presented can be a bit tricky.
 /// We'll extend UIViewController to capture presented view controllers for verification.
-extension UIViewController {
-    func getTopMostViewController() -> UIViewController {
-        if let presented = self.presentedViewController {
-            return presented.getTopMostViewController()
-        }
-        return self
-    }
-}
+//extension UIViewController {
+//    func getTopMostViewController() -> UIViewController {
+//        if let presented = self.presentedViewController {
+//            return presented.getTopMostViewController()
+//        }
+//        return self
+//    }
+//}
 

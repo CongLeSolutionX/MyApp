@@ -97,3 +97,9 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
     }
 }
+
+// MARK: - Previews
+
+#Preview {
+    PhotoPickerExampleView()
+}

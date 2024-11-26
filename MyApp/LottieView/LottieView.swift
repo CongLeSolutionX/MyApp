@@ -46,6 +46,7 @@ struct LottieView: UIViewRepresentable {
     }
 }
 
+// MARK: - Preview
 #Preview {
     LottieView(filename: "LottieLego")
 }

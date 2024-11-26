@@ -106,6 +106,7 @@ struct CameraInterfaceView: View {
     }
 }
 
+// MARK: - Previews
 struct CameraInterfaceView_Previews: PreviewProvider {
     static var previews: some View {
         CameraInterfaceView()

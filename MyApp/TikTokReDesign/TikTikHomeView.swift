@@ -180,5 +180,7 @@ struct ContentView_Previews: PreviewProvider {
 
 // After iOS 17, we can use this syntax for preview:
 #Preview {
-    TikTikHomeView()
+    FloatingButton(icon: "person.circle", action: {
+        print("Button tapped")
+    })
 }

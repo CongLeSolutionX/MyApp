@@ -296,6 +296,11 @@ struct EffectButton: View {
     }
 }
 
+// MARK: - Previews
 #Preview {
     CameraView()
+}
+
+#Preview {
+    EffectButton(icon: "camera", title: "Camera", action: {})
 }
