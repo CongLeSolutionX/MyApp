@@ -18,6 +18,7 @@
 		9A5E5EC82CF60A0B00E6B71A /* RippleEffect_SharedStateVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC72CF60A0A00E6B71A /* RippleEffect_SharedStateVariables.swift */; };
 		9A5E5ECA2CF60D2900E6B71A /* RippleEffect_IndependentStateVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC92CF60D1F00E6B71A /* RippleEffect_IndependentStateVariables.swift */; };
 		9A5E5ECC2CF616D000E6B71A /* ReusableRippleViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ECB2CF616C400E6B71A /* ReusableRippleViewModifier.swift */; };
+		9A5E5ECF2CF6635D00E6B71A /* ScrollTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -75,6 +76,7 @@
 		9A5E5EC72CF60A0A00E6B71A /* RippleEffect_SharedStateVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect_SharedStateVariables.swift; sourceTree = "<group>"; };
 		9A5E5EC92CF60D1F00E6B71A /* RippleEffect_IndependentStateVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect_IndependentStateVariables.swift; sourceTree = "<group>"; };
 		9A5E5ECB2CF616C400E6B71A /* ReusableRippleViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableRippleViewModifier.swift; sourceTree = "<group>"; };
+		9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTransitions.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
+				9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */,
 				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */,
 				9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */,
 				9A5E5EBC2CF5F99800E6B71A /* Ripple */,
@@ -697,6 +700,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
 				9A5E5EC62CF6061700E6B71A /* RippleGridView.swift in Sources */,
+				9A5E5ECF2CF6635D00E6B71A /* ScrollTransitions.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,
