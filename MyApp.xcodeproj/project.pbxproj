@@ -10,6 +10,7 @@
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */; };
+		9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -59,6 +60,7 @@
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
+		9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
+				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */,
 				9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */,
 			);
 			path = VisualEffectsUsingMetal;
@@ -441,7 +444,6 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */,
@@ -452,6 +454,7 @@
 				9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */,
 				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
 				9AD133912CE4E875005BD7C4 /* LottieView */,
+				9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -659,6 +662,7 @@
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
+				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
