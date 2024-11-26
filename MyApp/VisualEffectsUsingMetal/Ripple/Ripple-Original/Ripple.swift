@@ -7,10 +7,10 @@
 
 /*
  Source: https://developer.apple.com/documentation/swiftui/creating-visual-effects-with-swiftui
-
-Abstract:
-Examples for using and configuring the ripple shader as a layer effect.
-*/
+ 
+ Abstract:
+ Examples for using and configuring the ripple shader as a layer effect.
+ */
 
 import SwiftUI
 
@@ -19,18 +19,18 @@ import SwiftUI
 /// trigger value changes.
 struct RippleEffect<T: Equatable>: ViewModifier {
     var origin: CGPoint
-
+    
     var trigger: T
-
+    
     init(at origin: CGPoint, trigger: T) {
         self.origin = origin
         self.trigger = trigger
     }
-
+    
     func body(content: Content) -> some View {
         let origin = origin
         let duration = duration
-
+        
         content.keyframeAnimator(
             initialValue: 0,
             trigger: trigger
@@ -45,39 +45,39 @@ struct RippleEffect<T: Equatable>: ViewModifier {
             LinearKeyframe(duration, duration: duration)
         }
     }
-
+    
     var duration: TimeInterval { 3 }
 }
 
 /// A modifier that applies a ripple effect to its content.
 struct RippleModifier: ViewModifier {
     var origin: CGPoint
-
+    
     var elapsedTime: TimeInterval
-
+    
     var duration: TimeInterval
-
+    
     var amplitude: Double = 12
     var frequency: Double = 15
     var decay: Double = 8
     var speed: Double = 1200
-
+    
     func body(content: Content) -> some View {
         let shader = ShaderLibrary.Ripple(
             .float2(origin),
             .float(elapsedTime),
-
+            
             // Parameters
             .float(amplitude),
             .float(frequency),
             .float(decay),
             .float(speed)
         )
-
+        
         let maxSampleOffset = maxSampleOffset
         let elapsedTime = elapsedTime
         let duration = duration
-
+        
         content.visualEffect { view, _ in
             view.layerEffect(
                 shader,
@@ -86,7 +86,7 @@ struct RippleModifier: ViewModifier {
             )
         }
     }
-
+    
     var maxSampleOffset: CGSize {
         CGSize(width: amplitude, height: amplitude)
     }
@@ -103,16 +103,16 @@ extension View {
 // MARK: - Customize the spatial gesture
 struct SpatialPressingGestureModifier: ViewModifier {
     var onPressingChanged: (CGPoint?) -> Void
-
+    
     @State var currentLocation: CGPoint?
-
+    
     init(action: @escaping (CGPoint?) -> Void) {
         self.onPressingChanged = action
     }
-
+    
     func body(content: Content) -> some View {
         let gesture = SpatialPressingGesture(location: $currentLocation)
-
+        
         if #available(iOS 18.0, *) {
             content
                 .gesture(gesture)
@@ -138,33 +138,33 @@ struct SpatialPressingGesture: UIGestureRecognizerRepresentable {
             true
         }
     }
-
+    
     @Binding var location: CGPoint?
-
+    
     func makeCoordinator(converter: CoordinateSpaceConverter) -> Coordinator {
         Coordinator()
     }
-
+    
     func makeUIGestureRecognizer(context: Context) -> UILongPressGestureRecognizer {
         let recognizer = UILongPressGestureRecognizer()
         recognizer.minimumPressDuration = 0
         recognizer.delegate = context.coordinator
-
+        
         return recognizer
     }
-
+    
     func handleUIGestureRecognizerAction(
         _ recognizer: UIGestureRecognizerType, context: Context) {
             switch recognizer.state {
-                case .began:
-                    location = context.converter.localLocation
-                case .ended, .cancelled, .failed:
-                    location = nil
-                default:
-                    break
+            case .began:
+                location = context.converter.localLocation
+            case .ended, .cancelled, .failed:
+                location = nil
+            default:
+                break
             }
         }
-    }
+}
 
 
 // MARK: - PREVIEWS
@@ -172,10 +172,10 @@ struct SpatialPressingGesture: UIGestureRecognizerRepresentable {
 #Preview("Ripple") {
     @Previewable @State var counter: Int = 0
     @Previewable @State var origin: CGPoint = .zero
-
+    
     VStack {
         Spacer()
-
+        
         Image("palm_tree")
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -192,7 +192,7 @@ struct SpatialPressingGesture: UIGestureRecognizerRepresentable {
                     trigger: counter
                 )
             )
-
+        
         Spacer()
     }
     .padding()

@@ -14,6 +14,10 @@
 		9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */; };
 		9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */; };
 		9A5E5EC22CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */; };
+		9A5E5EC62CF6061700E6B71A /* RippleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC52CF6061600E6B71A /* RippleGridView.swift */; };
+		9A5E5EC82CF60A0B00E6B71A /* RippleEffect_SharedStateVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC72CF60A0A00E6B71A /* RippleEffect_SharedStateVariables.swift */; };
+		9A5E5ECA2CF60D2900E6B71A /* RippleEffect_IndependentStateVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC92CF60D1F00E6B71A /* RippleEffect_IndependentStateVariables.swift */; };
+		9A5E5ECC2CF616D000E6B71A /* ReusableRippleViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ECB2CF616C400E6B71A /* ReusableRippleViewModifier.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -67,6 +71,10 @@
 		9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
 		9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
 		9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AssetsForVisualEffectsUsingMetal.xcassets; sourceTree = "<group>"; };
+		9A5E5EC52CF6061600E6B71A /* RippleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleGridView.swift; sourceTree = "<group>"; };
+		9A5E5EC72CF60A0A00E6B71A /* RippleEffect_SharedStateVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect_SharedStateVariables.swift; sourceTree = "<group>"; };
+		9A5E5EC92CF60D1F00E6B71A /* RippleEffect_IndependentStateVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect_IndependentStateVariables.swift; sourceTree = "<group>"; };
+		9A5E5ECB2CF616C400E6B71A /* ReusableRippleViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableRippleViewModifier.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -266,10 +274,22 @@
 		9A5E5EBC2CF5F99800E6B71A /* Ripple */ = {
 			isa = PBXGroup;
 			children = (
+				9A5E5ECD2CF620D400E6B71A /* Ripple-Original */,
+				9A5E5ECB2CF616C400E6B71A /* ReusableRippleViewModifier.swift */,
+				9A5E5EC92CF60D1F00E6B71A /* RippleEffect_IndependentStateVariables.swift */,
+				9A5E5EC72CF60A0A00E6B71A /* RippleEffect_SharedStateVariables.swift */,
+				9A5E5EC52CF6061600E6B71A /* RippleGridView.swift */,
+			);
+			path = Ripple;
+			sourceTree = "<group>";
+		};
+		9A5E5ECD2CF620D400E6B71A /* Ripple-Original */ = {
+			isa = PBXGroup;
+			children = (
 				9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */,
 				9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */,
 			);
-			path = Ripple;
+			path = "Ripple-Original";
 			sourceTree = "<group>";
 		};
 		9A6EC6442CE9BDD30030FB2B /* PhotoPickerModule */ = {
@@ -676,6 +696,7 @@
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
+				9A5E5EC62CF6061700E6B71A /* RippleGridView.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,
@@ -689,10 +710,13 @@
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
+				9A5E5ECC2CF616D000E6B71A /* ReusableRippleViewModifier.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
+				9A5E5ECA2CF60D2900E6B71A /* RippleEffect_IndependentStateVariables.swift in Sources */,
+				9A5E5EC82CF60A0B00E6B71A /* RippleEffect_SharedStateVariables.swift in Sources */,
 				9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
