@@ -21,6 +21,7 @@
 		9A5E5ECF2CF6635D00E6B71A /* ScrollTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */; };
 		9A5E5ED12CF664B500E6B71A /* Stripes.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED02CF664B300E6B71A /* Stripes.metal */; };
 		9A5E5ED42CF664C300E6B71A /* Stripes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED32CF664C200E6B71A /* Stripes.swift */; };
+		9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -81,6 +82,7 @@
 		9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTransitions.swift; sourceTree = "<group>"; };
 		9A5E5ED02CF664B300E6B71A /* Stripes.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Stripes.metal; sourceTree = "<group>"; };
 		9A5E5ED32CF664C200E6B71A /* Stripes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripes.swift; sourceTree = "<group>"; };
+		9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTransition.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
+				9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */,
 				9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */,
 				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */,
 				9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */,
@@ -724,6 +727,7 @@
 				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
+				9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
