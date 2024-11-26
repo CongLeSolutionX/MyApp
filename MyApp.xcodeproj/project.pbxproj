@@ -11,6 +11,9 @@
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */; };
 		9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */; };
+		9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */; };
+		9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */; };
+		9A5E5EC22CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -61,6 +64,9 @@
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
 		9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient.swift; sourceTree = "<group>"; };
+		9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
+		9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
+		9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AssetsForVisualEffectsUsingMetal.xcassets; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -251,8 +257,19 @@
 			children = (
 				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */,
 				9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */,
+				9A5E5EBC2CF5F99800E6B71A /* Ripple */,
+				9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */,
 			);
 			path = VisualEffectsUsingMetal;
+			sourceTree = "<group>";
+		};
+		9A5E5EBC2CF5F99800E6B71A /* Ripple */ = {
+			isa = PBXGroup;
+			children = (
+				9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */,
+				9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */,
+			);
+			path = Ripple;
 			sourceTree = "<group>";
 		};
 		9A6EC6442CE9BDD30030FB2B /* PhotoPickerModule */ = {
@@ -629,6 +646,7 @@
 				9AA0A1D52CF2BFAA0040EE8C /* LICENSE.txt in Resources */,
 				9AA0A1D62CF2BFAA0040EE8C /* MakeSingleHeader.py in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
+				9A5E5EC22CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets in Resources */,
 				9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -654,6 +672,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
@@ -674,6 +693,7 @@
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
+				9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
