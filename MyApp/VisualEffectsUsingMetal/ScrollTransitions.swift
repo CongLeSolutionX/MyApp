@@ -75,3 +75,65 @@ struct ItemLabel: View {
     .scrollTargetBehavior(.paging)
 }
 
+// MARK:  Paging + Rotation
+#Preview("Paging + Rotation") {
+    let photos = [
+        Photo("Lily Pads"),
+        Photo("Fish"),
+        Photo("Succulent")
+    ]
+
+    ScrollView(.horizontal) {
+        LazyHStack(spacing: 12) {
+            ForEach(photos) { photo in
+                ItemPhoto(photo)
+                    .containerRelativeFrame(.horizontal)
+                    .clipShape(RoundedRectangle(cornerRadius: 36))
+                    .scrollTransition(axis: .horizontal) { content, phase in
+                        content
+                            .rotationEffect(.degrees(phase.value * 1.5))
+                    }
+            }
+        }
+    }
+    .contentMargins(24)
+    .scrollTargetBehavior(.paging)
+}
+
+// MARK: Paging + ParallaxS
+#Preview("Paging + Parallax") {
+    let photos = [
+        Photo("Lily Pads"),
+        Photo("Fish"),
+        Photo("Succulent")
+    ]
+    
+    ScrollView(.horizontal) {
+        LazyHStack(spacing: 16) {
+            ForEach(photos) { photo in
+                VStack {
+                    ZStack {
+                        ItemPhoto(photo)
+                            .scrollTransition(axis: .horizontal) { content, phase in
+                                content
+                                    .offset(x: phase.isIdentity ? 0 : phase.value * -200)
+                            }
+                    }
+                    .containerRelativeFrame(.horizontal)
+                    .clipShape(RoundedRectangle(cornerRadius: 36))
+                    
+                    ItemLabel(photo)
+                        .scrollTransition(axis: .horizontal) { content, phase in
+                            content
+                                .opacity(phase.isIdentity ? 1 : 0)
+                                .offset(x: phase.value * 100)
+                        }
+                    
+                }
+            }
+        }
+    }
+    .contentMargins(32)
+    .scrollTargetBehavior(.paging)
+    
+}
