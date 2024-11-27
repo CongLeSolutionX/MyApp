@@ -58,11 +58,48 @@ struct AnimatedStripesViewTimeline: View {
     }
 }
 
+struct AnimatedStripesViewTimer: View {
+    @State private var phase: Int = 0
+    let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .indigo]
+    let stripeWidth: Float = 12.0
+    let timerInterval: Double = 0.1
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect() // Create timer here
+    
+    var body: some View {
+        VStack {
+            Circle()
+                .fill(ShaderLibrary.Stripes(
+                    .float(stripeWidth),
+                    .colorArray(shiftedColors())
+                ))
+                .onReceive(timer) { _ in
+                    phase = (phase + 1) % colors.count // Use modulo to keep phase within bounds
+                }
+        }
+        .padding()
+    }
 
-// MARK: - Previews
+    func shiftedColors() -> [Color] {
+        var shifted: [Color] = []
+        for i in 0..<colors.count {
+            shifted.append(colors[(i + phase) % colors.count])
+        }
+        return shifted
+    }
+}
 
 
-// MARK: - Modified effect
+
+// MARK: - PREVIEWS
+
+
+// MARK: - Modified Visual Effects
+
+
+// MARK: Animated Stripes Using Timer
+#Preview("Animated Stripes Timer") {
+    AnimatedStripesViewTimer()
+}
 
 // MARK: Animated Stripes using TimelineView
 #Preview("Animated Stripes Timeline") {
