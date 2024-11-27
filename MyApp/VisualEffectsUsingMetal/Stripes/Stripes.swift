@@ -6,7 +6,6 @@
 //
 
 /*
- Source: https://developer.apple.com/documentation/swiftui/creating-visual-effects-with-swiftui
 Abstract:
 An example of using the `Stripes` shader as a `ShapeStyle`.
 */
@@ -63,31 +62,45 @@ struct AnimatedStripesViewTimer: View {
     let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .indigo]
     let stripeWidth: Float = 12.0
     let timerInterval: Double = 0.1
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect() // Create timer here
     
     var body: some View {
         VStack {
             Circle()
-                .fill(ShaderLibrary.Stripes(
-                    .float(stripeWidth),
-                    .colorArray(shiftedColors())
-                ))
-                .onReceive(timer) { _ in
-                    phase = (phase + 1) % colors.count // Use modulo to keep phase within bounds
+                .fill(stripedShader())
+                .onReceive(Timer.publish(every: timerInterval, on: .main, in: .common).autoconnect()) { _ in
+                    phase = (phase + 1) % colors.count
                 }
         }
         .padding()
     }
-
-    func shiftedColors() -> [Color] {
-        var shifted: [Color] = []
-        for i in 0..<colors.count {
-            shifted.append(colors[(i + phase) % colors.count])
-        }
+    
+    private func stripedShader() -> some ShapeStyle {
+       ShaderLibrary.Stripes(
+           .float(stripeWidth),
+           .colorArray(shiftedColors())
+       )
+    }
+    
+    private func shiftedColors() -> [Color] {
+        var shifted = colors
+        shifted.rotate(to: phase)
         return shifted
     }
 }
 
+extension Array {
+    mutating func rotate(to shift: Int) {
+        let shift = shift % count
+        if shift < 0 {
+          let newShift = count + shift
+          self.rotate(to: newShift)
+        } else {
+            let remaining = self.suffix(shift)
+            let rotated = remaining + self.prefix(self.count - shift)
+            self = Array(rotated)
+        }
+    }
+}
 
 
 // MARK: - PREVIEWS
@@ -97,7 +110,7 @@ struct AnimatedStripesViewTimer: View {
 
 
 // MARK: Animated Stripes Using Timer
-#Preview("Animated Stripes Timer") {
+#Preview("AnimatedStripesViewTimer") {
     AnimatedStripesViewTimer()
 }
 
@@ -107,6 +120,7 @@ struct AnimatedStripesViewTimer: View {
 }
 
 //MARK: Original effect
+// Source: https://developer.apple.com/documentation/swiftui/creating-visual-effects-with-swiftui
 #Preview("Stripes") {
     VStack {
         let fill = ShaderLibrary.Stripes(
