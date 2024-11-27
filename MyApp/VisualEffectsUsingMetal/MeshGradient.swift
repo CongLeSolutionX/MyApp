@@ -14,24 +14,24 @@ A simple mesh gradient.
 
 import SwiftUI
 
+// MARK: MeshGradient
 #Preview {
     if #available(iOS 18.0, *) {
         MeshGradient(
             width: 3,
             height: 3,
-            points: [
+            points: [SIMD2<Float>]([
                 [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
                 [0.0, 0.5], [0.8, 0.2], [1.0, 0.5],
                 [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
-            ], colors: [
+            ]), colors: [Color]([
                 .black, .black, .black,
                 .blue, .blue, .blue,
                 .green, .green, .green
-            ])
+            ]))
         .edgesIgnoringSafeArea(.all)
     } else {
         // Fallback on earlier versions
-        EmptyView()
-            .background(Color.pink)
+        Text("MeshGradient requires iOS 18.0 or later.")
     }
 }
