@@ -23,7 +23,6 @@
 		9A5E5ED42CF664C300E6B71A /* Stripes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED32CF664C200E6B71A /* Stripes.swift */; };
 		9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */; };
 		9A5E5ED82CF6999B00E6B71A /* VisualEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED72CF6999B00E6B71A /* VisualEffects.swift */; };
-		9A5E5EDA2CF69D7600E6B71A /* VisualEffectss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5ED92CF69D7200E6B71A /* VisualEffectss.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
 		9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */; };
@@ -86,7 +85,6 @@
 		9A5E5ED32CF664C200E6B71A /* Stripes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripes.swift; sourceTree = "<group>"; };
 		9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTransition.swift; sourceTree = "<group>"; };
 		9A5E5ED72CF6999B00E6B71A /* VisualEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffects.swift; sourceTree = "<group>"; };
-		9A5E5ED92CF69D7200E6B71A /* VisualEffectss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectss.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A6EC6422CE9BDB10030FB2B /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
-				9A5E5ED92CF69D7200E6B71A /* VisualEffectss.swift */,
 				9A5E5ED72CF6999B00E6B71A /* VisualEffects.swift */,
 				9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */,
 				9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */,
@@ -740,7 +737,6 @@
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
-				9A5E5EDA2CF69D7600E6B71A /* VisualEffectss.swift in Sources */,
 				9A5E5ECC2CF616D000E6B71A /* ReusableRippleViewModifier.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
