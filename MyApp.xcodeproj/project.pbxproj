@@ -40,6 +40,7 @@
 		9AD1338C2CE4E80B005BD7C4 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD1338B2CE4E80B005BD7C4 /* Lottie */; };
 		9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1338D2CE4E820005BD7C4 /* LottieView.swift */; };
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
+		9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -200,6 +201,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AD1338D2CE4E820005BD7C4 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
+		9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingColorWheel.swift; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */,
 				9A5E5ED72CF6999B00E6B71A /* VisualEffects.swift */,
 				9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */,
 				9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */,
@@ -730,6 +733,7 @@
 				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
+				9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */,
 				9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
