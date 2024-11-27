@@ -89,10 +89,46 @@ class Renderer: NSObject {
     
     /// Vertex data for a quad.
     static let vertexData: [VertexData] = [
-        VertexData(position: SIMD2<Float>(x: -1.0, y: -1.0), texCoord: SIMD2<Float>(x: 0.0, y: 1.0)),
-        VertexData(position: SIMD2<Float>(x: 1.0, y: -1.0), texCoord: SIMD2<Float>(x: 1.0, y: 1.0)),
-        VertexData(position: SIMD2<Float>(x: -1.0, y: 1.0), texCoord: SIMD2<Float>(x: 0.0, y: 0.0)),
-        VertexData(position: SIMD2<Float>(x: 1.0, y: 1.0), texCoord: SIMD2<Float>(x: 1.0, y: 0.0)),
+        VertexData(
+            position: SIMD2<Float>(
+                x: -1.0,
+                y: -1.0
+            ),
+            texCoord: SIMD2<Float>(
+                x: 0.0,
+                y: 1.0
+            )
+        ),
+        VertexData(
+            position: SIMD2<Float>(
+                x: 1.0,
+                y: -1.0
+            ),
+            texCoord: SIMD2<Float>(
+                x: 1.0,
+                y: 1.0
+            )
+        ),
+        VertexData(
+            position: SIMD2<Float>(
+                x: -1.0,
+                y: 1.0
+            ),
+            texCoord: SIMD2<Float>(
+                x: 0.0,
+                y: 0.0
+            )
+        ),
+        VertexData(
+            position: SIMD2<Float>(
+                x: 1.0,
+                y: 1.0
+            ),
+            texCoord: SIMD2<Float>(
+                x: 1.0,
+                y: 0.0
+            )
+        ),
     ]
     
     /// Quad indices
@@ -101,25 +137,69 @@ class Renderer: NSObject {
     // MARK: - Metal Buffers
 
     /// Metal buffer for vertex data
-    private let vertData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.vertexData, options: [.storageModeShared])
+    private let vertData = MetalDevice.sharedInstance.makeBuffer(
+        from: Renderer.vertexData,
+        options: [.storageModeShared]
+    )
     /// Metal buffer for index data
-    private let indexData = MetalDevice.sharedInstance.makeBuffer(from: Renderer.indices, options: [.storageModeShared])
+    private let indexData = MetalDevice.sharedInstance.makeBuffer(
+        from: Renderer.indices,
+        options: [.storageModeShared]
+    )
     
     // MARK: - Shaders
     
     // Fluid simulation shaders
-    private let applyForceVectorShader: RenderShader = RenderShader(fragmentShader: "applyForceVector", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let applyForceScalarShader: RenderShader = RenderShader(fragmentShader: "applyForceScalar", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let advectShader: RenderShader = RenderShader(fragmentShader: "advect", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let divergenceShader: RenderShader = RenderShader(fragmentShader: "divergence", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let jacobiShader: RenderShader = RenderShader(fragmentShader: "jacobi", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let vorticityShader: RenderShader = RenderShader(fragmentShader: "vorticity", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let vorticityConfinementShader: RenderShader = RenderShader(fragmentShader: "vorticityConfinement", vertexShader: "vertexShader", pixelFormat: .rg16Float)
-    private let gradientShader: RenderShader = RenderShader(fragmentShader: "gradient", vertexShader: "vertexShader", pixelFormat: .rg16Float)
+    private let applyForceVectorShader: RenderShader = RenderShader(
+        fragmentShader: "applyForceVector",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let applyForceScalarShader: RenderShader = RenderShader(
+        fragmentShader: "applyForceScalar",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let advectShader: RenderShader = RenderShader(
+        fragmentShader: "advect",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let divergenceShader: RenderShader = RenderShader(
+        fragmentShader: "divergence",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let jacobiShader: RenderShader = RenderShader(
+        fragmentShader: "jacobi",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let vorticityShader: RenderShader = RenderShader(
+        fragmentShader: "vorticity",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let vorticityConfinementShader: RenderShader = RenderShader(
+        fragmentShader: "vorticityConfinement",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
+    private let gradientShader: RenderShader = RenderShader(
+        fragmentShader: "gradient",
+        vertexShader: "vertexShader",
+        pixelFormat: .rg16Float
+    )
     
     // Visualization shaders
-    private let renderVector: RenderShader = RenderShader(fragmentShader: "visualizeVector", vertexShader: "vertexShader")
-    private let renderScalar: RenderShader = RenderShader(fragmentShader: "visualizeScalar", vertexShader: "vertexShader")
+    private let renderVector: RenderShader = RenderShader(
+        fragmentShader: "visualizeVector",
+        vertexShader: "vertexShader"
+    )
+    private let renderScalar: RenderShader = RenderShader(
+        fragmentShader: "visualizeScalar",
+        vertexShader: "vertexShader"
+    )
     
     // MARK: - Interaction Data
 
@@ -172,29 +252,62 @@ class Renderer: NSObject {
         currentIndex = (currentIndex + 1) % 4
     }
     
-    func updateInteraction(points: FloatTuple?, in view: MTKView) {
+    func updateInteraction(
+        points: FloatTuple?,
+        in view: MTKView
+    ) {
         positions = points
     }
     
-    private final func initSurfaces(width: Int, height: Int) {
-        velocity = Slab(width: width, height: height, format: .rg16Float, name: "Velocity")
-        density = Slab(width: width, height: height, format: .rg16Float, name: "Density")
-        velocityDivergence = Slab(width: width, height: height, format: .rg16Float, name: "Divergence")
-        velocityVorticity = Slab(width: width, height: height, format: .rg16Float, name: "Vorticity")
-        pressure = Slab(width: width, height: height, format: .rg16Float, name: "Pressure")
+    private final func initSurfaces(
+        width: Int,
+        height: Int
+    ) {
+        velocity = Slab(
+            width: width,
+            height: height,
+            format: .rg16Float,
+            name: "Velocity"
+        )
+        density = Slab(
+            width: width,
+            height: height,
+            format: .rg16Float,
+            name: "Density"
+        )
+        velocityDivergence = Slab(
+            width: width,
+            height: height,
+            format: .rg16Float,
+            name: "Divergence"
+        )
+        velocityVorticity = Slab(
+            width: width,
+            height: height,
+            format: .rg16Float,
+            name: "Vorticity"
+        )
+        pressure = Slab(
+            width: width,
+            height: height,
+            format: .rg16Float,
+            name: "Pressure"
+        )
     }
     
     private final func initBuffers(width: Int, height: Int) {
         let bufferSize = MemoryLayout<StaticData>.stride
         
-        var staticData = StaticData(positions: (SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>()),
-                                    impulses: (SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>()),
-                                    impulseScalar: SIMD2<Float>(),
-                                    offsets: SIMD2<Float>(1.0/Float(width), 1.0/Float(height)),
-                                    screenSize: SIMD2<Float>(Float(width), Float(height)),
-                                    inkRadius: 150 / Renderer.ScreenScaleAdjustment)
+        var staticData = StaticData(
+            positions: (SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>()),
+            impulses: (SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>(), SIMD2<Float>()),
+            impulseScalar: SIMD2<Float>(),
+            offsets: SIMD2<Float>(1.0/Float(width), 1.0/Float(height)),
+            screenSize: SIMD2<Float>(Float(width), Float(height)),
+            inkRadius: 150 / Renderer.ScreenScaleAdjustment)
         
         uniformsBuffers.removeAll()
+        
         for _ in 0..<Renderer.MaxBuffers {
             let buffer = MetalDevice.sharedInstance.device.makeBuffer(bytes: &staticData, length: bufferSize, options: .storageModeShared)!
             
@@ -202,12 +315,19 @@ class Renderer: NSObject {
         }
     }
     
-    private final func nextBuffer(positions: FloatTuple?, directions: FloatTuple?) -> MTLBuffer {
+    private final func nextBuffer(
+        positions: FloatTuple?,
+        directions: FloatTuple?
+    ) -> MTLBuffer {
         let buffer = uniformsBuffers[avaliableBufferIndex]
         
-        let bufferData = buffer.contents().bindMemory(to: StaticData.self, capacity: 1)
+        let bufferData = buffer.contents().bindMemory(
+            to: StaticData.self,
+            capacity: 1
+        )
         
-        if let positions = positions, let directions = directions {
+        if let positions = positions,
+           let directions = directions {
             let alteredPositions = positions / Renderer.ScreenScaleAdjustment
             let impulses = (positions - directions) / Renderer.ScreenScaleAdjustment
             
