@@ -198,3 +198,37 @@ extension Text.Layout {
     .multilineTextAlignment(.center)
     .padding()
 }
+
+// MARK: Text Transition Editor
+#Preview("Text Transition Editor") {
+    @Previewable @State var time: TimeInterval = 0.3
+
+    VStack {
+        GroupBox {
+            HStack {
+                Text("Progress")
+                Slider(value: $time, in: 0 ... 0.8)
+            }
+        }
+
+        Spacer()
+
+        let visualEffects = Text("Visual Effects")
+            .customAttribute(EmphasisAttribute())
+            .foregroundStyle(.pink)
+            .bold()
+
+        if #available(iOS 18.0, *) {
+            Text("Build \(visualEffects) with SwiftUI 🧑‍💻")
+                .font(.system(.title, design: .rounded, weight: .semibold))
+                .frame(width: 250)
+                .textRenderer(AppearanceEffectRenderer(elapsedTime: time, totalDuration: 0.8))
+        } else {
+            // Fallback on earlier versions
+        }
+
+        Spacer()
+    }
+    .multilineTextAlignment(.center)
+    .padding()
+}
