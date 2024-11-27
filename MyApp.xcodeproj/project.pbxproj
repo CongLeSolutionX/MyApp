@@ -17,6 +17,8 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E47A2CF7235700E490A7 /* PresentingSimpleViewController.swift */; };
+		9AE1E47D2CF7239300E490A7 /* PresentedSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E47C2CF7239300E490A7 /* PresentedSimpleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AE1E47A2CF7235700E490A7 /* PresentingSimpleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingSimpleViewController.swift; sourceTree = "<group>"; };
+		9AE1E47C2CF7239300E490A7 /* PresentedSimpleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentedSimpleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -94,6 +98,7 @@
 				9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AE1E4792CF7234100E490A7 /* UIKitModalPresentationStyles */,
 				9A860CD52CF19C5F0092756E /* LifecycleSwiftUIView */,
 				9A921F242CF1928F0075D3F8 /* LifecycleObjCViewController */,
 				9A921F212CF192480075D3F8 /* LifecycleNativeUIKitViewController */,
@@ -110,6 +115,15 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AE1E4792CF7234100E490A7 /* UIKitModalPresentationStyles */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1E47C2CF7239300E490A7 /* PresentedSimpleViewController.swift */,
+				9AE1E47A2CF7235700E490A7 /* PresentingSimpleViewController.swift */,
+			);
+			path = UIKitModalPresentationStyles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,8 +201,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AE1E47D2CF7239300E490A7 /* PresentedSimpleViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9A921F262CF192A10075D3F8 /* LifecycleObjCViewController.m in Sources */,
