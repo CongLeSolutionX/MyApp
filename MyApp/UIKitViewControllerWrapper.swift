@@ -8,21 +8,34 @@
 import SwiftUI
 import UIKit
 
-// Step 1a: UIViewControllerRepresentable implementation
+
+// MARK: - Example UIKit view controller
+class MyUIKitViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBlue
+        // Additional setup
+    }
+}
+
+// MARK: - Wrap the UIKit View Controller into a wrapper preparing for preview
+
+// UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = LifecycleViewController
+    typealias UIViewControllerType = MyUIKitViewController
     
-    // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> LifecycleViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
-        return LifecycleViewController()
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> MyUIKitViewController {
+        // Instantiate and return the UIKit view controller
+        return MyUIKitViewController()
     }
     
-    func updateUIViewController(_ uiViewController: LifecycleViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
         // Update the view controller if needed
     }
 }
 
+// MARK: - Previews
 struct DemoUIKitContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
@@ -34,16 +47,5 @@ struct DemoUIKitContentView: View {
 struct DemoUIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerWrapper()
-    }
-}
-
-
-
-// Example UIKit view controller
-class MyUIKitViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBlue
-        // Additional setup
     }
 }
