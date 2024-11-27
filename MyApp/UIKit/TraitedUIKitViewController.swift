@@ -74,6 +74,7 @@ class TraitedUIKitViewController: UIViewController {
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        // TODO: Update to the latest API
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) ||
             traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
