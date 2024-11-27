@@ -19,6 +19,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E47A2CF7235700E490A7 /* PresentingSimpleViewController.swift */; };
 		9AE1E47D2CF7239300E490A7 /* PresentedSimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E47C2CF7239300E490A7 /* PresentedSimpleViewController.swift */; };
+		9AE1E47F2CF726F900E490A7 /* LifecycleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E47E2CF726F600E490A7 /* LifecycleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE1E47A2CF7235700E490A7 /* PresentingSimpleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentingSimpleViewController.swift; sourceTree = "<group>"; };
 		9AE1E47C2CF7239300E490A7 /* PresentedSimpleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentedSimpleViewController.swift; sourceTree = "<group>"; };
+		9AE1E47E2CF726F600E490A7 /* LifecycleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -58,6 +60,7 @@
 		9A921F212CF192480075D3F8 /* LifecycleNativeUIKitViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E47E2CF726F600E490A7 /* LifecycleViewController.swift */,
 				9A921F222CF192560075D3F8 /* CustomUIKitView.swift */,
 				9A921F1F2CF192370075D3F8 /* LifecycleNativeUIKitViewController.swift */,
 			);
@@ -206,6 +209,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
+				9AE1E47F2CF726F900E490A7 /* LifecycleViewController.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9A921F262CF192A10075D3F8 /* LifecycleObjCViewController.m in Sources */,
 				9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */,
