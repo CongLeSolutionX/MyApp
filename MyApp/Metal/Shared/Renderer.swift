@@ -15,8 +15,17 @@ typealias FloatTuple = (SIMD2<Float>, SIMD2<Float>, SIMD2<Float>, SIMD2<Float>, 
 ///   - rhs: The `FloatTuple` dividend.
 ///   - lhs: The scalar divisor.
 /// - Returns: A new `FloatTuple` with each element divided by the scalar.
-func / (rhs: FloatTuple, lhs: Float) -> FloatTuple {
-    return FloatTuple(rhs.0 / lhs, rhs.1 / lhs, rhs.2 / lhs, rhs.3 / lhs, rhs.4 / lhs)
+func / (
+    rhs: FloatTuple,
+    lhs: Float
+) -> FloatTuple {
+    return FloatTuple(
+        rhs.0 / lhs,
+        rhs.1 / lhs,
+        rhs.2 / lhs,
+        rhs.3 / lhs,
+        rhs.4 / lhs
+    )
 }
 
 /// Subtracts two FloatTuples element-wise.
@@ -24,8 +33,17 @@ func / (rhs: FloatTuple, lhs: Float) -> FloatTuple {
 ///   - rhs: The `FloatTuple` minuend.
 ///   - lhs: The `FloatTuple` subtrahend.
 /// - Returns: A new FloatTuple representing the difference.
-func - (rhs: FloatTuple, lhs: FloatTuple) -> FloatTuple {
-    return FloatTuple(rhs.0 - lhs.0, rhs.1 - lhs.1, rhs.2 - lhs.2, rhs.3 - lhs.3, rhs.4 - lhs.4)
+func - (
+    rhs: FloatTuple,
+    lhs: FloatTuple
+) -> FloatTuple {
+    return FloatTuple(
+        rhs.0 - lhs.0,
+        rhs.1 - lhs.1,
+        rhs.2 - lhs.2,
+        rhs.3 - lhs.3,
+        rhs.4 - lhs.4
+    )
 }
 
 // MARK: - Data Structures
