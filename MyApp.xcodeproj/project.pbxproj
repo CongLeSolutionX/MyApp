@@ -46,6 +46,7 @@
 		9AE1E4AA2CF7C56900E490A7 /* MeshGradientColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */; };
 		9AE1E4AC2CF7CB8900E490A7 /* MeshGradient90sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */; };
 		9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */; };
+		9AE1E4B22CF804FC00E490A7 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE1E4B12CF804FC00E490A7 /* MarkdownUI */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -251,6 +252,7 @@
 				9AA0A1DB2CF2C0D40040EE8C /* QuartzCore.framework in Frameworks */,
 				9AA0A1D92CF2C0CB0040EE8C /* Metal.framework in Frameworks */,
 				9AD1338C2CE4E80B005BD7C4 /* Lottie in Frameworks */,
+				9AE1E4B22CF804FC00E490A7 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,6 +681,7 @@
 			mainGroup = 9AAC416F2C74668B00AC0A60;
 			packageReferences = (
 				9AD1338A2CE4E80B005BD7C4 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				9AE1E4B02CF804FC00E490A7 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -1125,6 +1128,14 @@
 				minimumVersion = 4.5.0;
 			};
 		};
+		9AE1E4B02CF804FC00E490A7 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1132,6 +1143,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD1338A2CE4E80B005BD7C4 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		9AE1E4B12CF804FC00E490A7 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE1E4B02CF804FC00E490A7 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
