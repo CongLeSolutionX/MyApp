@@ -52,6 +52,12 @@
 		9AE1E4B82CF820D700E490A7 /* AnimatedMeshGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */; };
 		9AE1E4C52CF84F0600E490A7 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */; };
 		9AE1E4CF2CF8528D00E490A7 /* GradientMaskedShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */; };
+		9AE1E4D12CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4D02CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift */; };
+		9AE1E4D32CF85E6600E490A7 /* AnimatedMeshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4D22CF85E6600E490A7 /* AnimatedMeshView.swift */; };
+		9AE1E4D62CF861F200E490A7 /* LayoutInSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4D52CF861F100E490A7 /* LayoutInSwiftUI.swift */; };
+		9AE1E4D92CF8645B00E490A7 /* NavigationViewInSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4D82CF8645600E490A7 /* NavigationViewInSwiftUI.swift */; };
+		9AE1E4DC2CF86AFE00E490A7 /* HorizontalScroll_WithRotate3DEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4DB2CF86AF700E490A7 /* HorizontalScroll_WithRotate3DEffect.swift */; };
+		9AE1E4DE2CF86B6F00E490A7 /* Parallax_ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4DD2CF86B6F00E490A7 /* Parallax_ScrollView.swift */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -223,6 +229,12 @@
 		9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedMeshGradientBackground.swift; sourceTree = "<group>"; };
 		9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientMaskedShape.swift; sourceTree = "<group>"; };
+		9AE1E4D02CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedRetroMeshGradientView.swift; sourceTree = "<group>"; };
+		9AE1E4D22CF85E6600E490A7 /* AnimatedMeshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedMeshView.swift; sourceTree = "<group>"; };
+		9AE1E4D52CF861F100E490A7 /* LayoutInSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInSwiftUI.swift; sourceTree = "<group>"; };
+		9AE1E4D82CF8645600E490A7 /* NavigationViewInSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewInSwiftUI.swift; sourceTree = "<group>"; };
+		9AE1E4DB2CF86AF700E490A7 /* HorizontalScroll_WithRotate3DEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScroll_WithRotate3DEffect.swift; sourceTree = "<group>"; };
+		9AE1E4DD2CF86B6F00E490A7 /* Parallax_ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parallax_ScrollView.swift; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -539,10 +551,10 @@
 				9A6EC6442CE9BDD30030FB2B /* PhotoPickerModule */,
 				9A54306F2CE9B93400A49091 /* AppleNativeCamera */,
 				9A54306E2CE9B90C00A49091 /* TikTokReDesign */,
-				9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */,
 				9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */,
 				9AD133912CE4E875005BD7C4 /* LottieView */,
 				9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */,
+				9AE1E4DA2CF86ABF00E490A7 /* SwiftUIFramework */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -570,6 +582,8 @@
 		9AE1E4AF2CF7CED400E490A7 /* MeshGradientColors */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E4D22CF85E6600E490A7 /* AnimatedMeshView.swift */,
+				9AE1E4D02CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift */,
 				9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */,
 				9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */,
 				9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */,
@@ -580,6 +594,34 @@
 				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradientColor2x2.swift */,
 			);
 			path = MeshGradientColors;
+			sourceTree = "<group>";
+		};
+		9AE1E4D42CF861DC00E490A7 /* LayoutsInSwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1E4D52CF861F100E490A7 /* LayoutInSwiftUI.swift */,
+			);
+			path = LayoutsInSwiftUI;
+			sourceTree = "<group>";
+		};
+		9AE1E4D72CF8644800E490A7 /* NavigationInSwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1E4D82CF8645600E490A7 /* NavigationViewInSwiftUI.swift */,
+			);
+			path = NavigationInSwiftUI;
+			sourceTree = "<group>";
+		};
+		9AE1E4DA2CF86ABF00E490A7 /* SwiftUIFramework */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1E4DB2CF86AF700E490A7 /* HorizontalScroll_WithRotate3DEffect.swift */,
+				9AE1E4DD2CF86B6F00E490A7 /* Parallax_ScrollView.swift */,
+				9AE1E4D72CF8644800E490A7 /* NavigationInSwiftUI */,
+				9AE1E4D42CF861DC00E490A7 /* LayoutsInSwiftUI */,
+				9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */,
+			);
+			path = SwiftUIFramework;
 			sourceTree = "<group>";
 		};
 		9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */ = {
@@ -761,6 +803,7 @@
 			files = (
 				9AE1E4B42CF81DCE00E490A7 /* MeshGradientColorUsage.swift in Sources */,
 				9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */,
+				9AE1E4DE2CF86B6F00E490A7 /* Parallax_ScrollView.swift in Sources */,
 				9A5E5ED42CF664C300E6B71A /* Stripes.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
@@ -771,6 +814,9 @@
 				9A5E5ECF2CF6635D00E6B71A /* ScrollTransitions.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
 				9AE1E4A02CF7940A00E490A7 /* PulsatingCircle.swift in Sources */,
+				9AE1E4D62CF861F200E490A7 /* LayoutInSwiftUI.swift in Sources */,
+				9AE1E4D32CF85E6600E490A7 /* AnimatedMeshView.swift in Sources */,
+				9AE1E4D92CF8645B00E490A7 /* NavigationViewInSwiftUI.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
@@ -784,6 +830,7 @@
 				9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */,
 				9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */,
 				9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */,
+				9AE1E4D12CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AE1E4C52CF84F0600E490A7 /* GradientButton.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
@@ -800,6 +847,7 @@
 				9A5E5ECA2CF60D2900E6B71A /* RippleEffect_IndependentStateVariables.swift in Sources */,
 				9AE1E4B82CF820D700E490A7 /* AnimatedMeshGradientBackground.swift in Sources */,
 				9A5E5EC82CF60A0B00E6B71A /* RippleEffect_SharedStateVariables.swift in Sources */,
+				9AE1E4DC2CF86AFE00E490A7 /* HorizontalScroll_WithRotate3DEffect.swift in Sources */,
 				9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
