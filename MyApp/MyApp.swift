@@ -12,7 +12,9 @@ import SwiftUI
 struct MyAppApp: App {
     var body: some Scene {
         WindowGroup {
-            SwiftUIContentView()
+            AnimatedMeshView()
+            //AnimatedStripesViewTimeline()
+            //SwiftUIContentView()
             //TikTikHomeView()
             //CameraView()
             //PhotoPickerExampleView()
