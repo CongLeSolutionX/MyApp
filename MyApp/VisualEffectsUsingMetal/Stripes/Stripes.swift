@@ -12,13 +12,7 @@ An example of using the `Stripes` shader as a `ShapeStyle`.
 
 import SwiftUI
 
-// MARK: - PREVIEWS
-
-
-// MARK: - Modified Visual Effects
-
-
-//MARK: Original effect
+//MARK: Preview
 // Source: https://developer.apple.com/documentation/swiftui/creating-visual-effects-with-swiftui
 #Preview("Stripes") {
     VStack {
