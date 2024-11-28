@@ -10,7 +10,7 @@
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */; };
-		9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */; };
+		9A5E5EBB2CF5F8FD00E6B71A /* MeshGradientColor2x2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBA2CF5F8FC00E6B71A /* MeshGradientColor2x2.swift */; };
 		9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */; };
 		9A5E5EC02CF5F9B000E6B71A /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */; };
 		9A5E5EC22CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */; };
@@ -41,6 +41,11 @@
 		9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1338D2CE4E820005BD7C4 /* LottieView.swift */; };
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
 		9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */; };
+		9AE1E49E2CF793BD00E490A7 /* ColorWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E49D2CF793B900E490A7 /* ColorWave.swift */; };
+		9AE1E4A02CF7940A00E490A7 /* PulsatingCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E49F2CF7940A00E490A7 /* PulsatingCircle.swift */; };
+		9AE1E4AA2CF7C56900E490A7 /* MeshGradientColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */; };
+		9AE1E4AC2CF7CB8900E490A7 /* MeshGradient90sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */; };
+		9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -73,7 +78,7 @@
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTransition.swift; sourceTree = "<group>"; };
-		9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient.swift; sourceTree = "<group>"; };
+		9A5E5EBA2CF5F8FC00E6B71A /* MeshGradientColor2x2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientColor2x2.swift; sourceTree = "<group>"; };
 		9A5E5EBD2CF5F9A200E6B71A /* Ripple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ripple.swift; sourceTree = "<group>"; };
 		9A5E5EBF2CF5F9AE00E6B71A /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
 		9A5E5EC12CF5FC1F00E6B71A /* AssetsForVisualEffectsUsingMetal.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AssetsForVisualEffectsUsingMetal.xcassets; sourceTree = "<group>"; };
@@ -202,6 +207,11 @@
 		9AD1338D2CE4E820005BD7C4 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
 		9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingColorWheel.swift; sourceTree = "<group>"; };
+		9AE1E49D2CF793B900E490A7 /* ColorWave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWave.swift; sourceTree = "<group>"; };
+		9AE1E49F2CF7940A00E490A7 /* PulsatingCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsatingCircle.swift; sourceTree = "<group>"; };
+		9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientColor3x3.swift; sourceTree = "<group>"; };
+		9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient90sRetroColor3x3.swift; sourceTree = "<group>"; };
+		9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient80sRetroColor3x3.swift; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -275,11 +285,13 @@
 		9A5E5EB72CF5F78200E6B71A /* VisualEffectsUsingMetal */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E4AF2CF7CED400E490A7 /* MeshGradientColors */,
+				9AE1E49F2CF7940A00E490A7 /* PulsatingCircle.swift */,
+				9AE1E49D2CF793B900E490A7 /* ColorWave.swift */,
 				9AE1E49B2CF7929400E490A7 /* RotatingColorWheel.swift */,
 				9A5E5ED72CF6999B00E6B71A /* VisualEffects.swift */,
 				9A5E5ED52CF6651C00E6B71A /* TextTransition.swift */,
 				9A5E5ECE2CF6635C00E6B71A /* ScrollTransitions.swift */,
-				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradient.swift */,
 				9A5E5EB82CF5F79200E6B71A /* CustomTransition.swift */,
 				9A5E5ED22CF664BB00E6B71A /* Stripes */,
 				9A5E5EBC2CF5F99800E6B71A /* Ripple */,
@@ -542,6 +554,17 @@
 			path = LottieView;
 			sourceTree = "<group>";
 		};
+		9AE1E4AF2CF7CED400E490A7 /* MeshGradientColors */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */,
+				9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */,
+				9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */,
+				9A5E5EBA2CF5F8FC00E6B71A /* MeshGradientColor2x2.swift */,
+			);
+			path = MeshGradientColors;
+			sourceTree = "<group>";
+		};
 		9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */ = {
 			isa = PBXGroup;
 			children = (
@@ -724,15 +747,20 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
 				9A5E5EC62CF6061700E6B71A /* RippleGridView.swift in Sources */,
+				9AE1E4AA2CF7C56900E490A7 /* MeshGradientColor3x3.swift in Sources */,
+				9AE1E49E2CF793BD00E490A7 /* ColorWave.swift in Sources */,
 				9A5E5ECF2CF6635D00E6B71A /* ScrollTransitions.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
+				9AE1E4A02CF7940A00E490A7 /* PulsatingCircle.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
+				9AE1E4AC2CF7CB8900E490A7 /* MeshGradient90sRetroColor3x3.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
-				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradient.swift in Sources */,
+				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradientColor2x2.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
+				9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */,
 				9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */,
 				9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
