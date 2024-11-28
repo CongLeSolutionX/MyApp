@@ -51,6 +51,7 @@
 		9AE1E4B62CF8202600E490A7 /* AnimatedStripesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4B52CF8202500E490A7 /* AnimatedStripesView.swift */; };
 		9AE1E4B82CF820D700E490A7 /* AnimatedMeshGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */; };
 		9AE1E4C52CF84F0600E490A7 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */; };
+		9AE1E4CF2CF8528D00E490A7 /* GradientMaskedShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -221,6 +222,7 @@
 		9AE1E4B52CF8202500E490A7 /* AnimatedStripesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedStripesView.swift; sourceTree = "<group>"; };
 		9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedMeshGradientBackground.swift; sourceTree = "<group>"; };
 		9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientMaskedShape.swift; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 		9AE1E4AF2CF7CED400E490A7 /* MeshGradientColors */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E4CE2CF8528C00E490A7 /* GradientMaskedShape.swift */,
 				9AE1E4C42CF84F0500E490A7 /* GradientButton.swift */,
 				9AE1E4B72CF820D600E490A7 /* AnimatedMeshGradientBackground.swift */,
 				9AE1E4B32CF81DAF00E490A7 /* MeshGradientColorUsage.swift */,
@@ -774,6 +777,7 @@
 				9AE1E4AC2CF7CB8900E490A7 /* MeshGradient90sRetroColor3x3.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
 				9A5E5EBB2CF5F8FD00E6B71A /* MeshGradientColor2x2.swift in Sources */,
+				9AE1E4CF2CF8528D00E490A7 /* GradientMaskedShape.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AE1E4B62CF8202600E490A7 /* AnimatedStripesView.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
