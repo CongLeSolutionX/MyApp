@@ -31,6 +31,7 @@ import SwiftUI
 }
 
 // MARK: - "Berry Smoothie" Gradient
+/// Colors: Raspberry, Strawberry,   Blueberry,  Cranberry,  Cream,  Blackberry,  Cherry,  Yogurt ,  Plum.
 #Preview("Berry Smoothie Gradient") {
     if #available(iOS 18, *) {
         MeshGradient(width: 3, height: 3,
@@ -60,7 +61,7 @@ import SwiftUI
 
 // MARK: - "Ocean Sunset" Gradient
 /// Colors: Sky Blue, Coral, Deep Sea Blue, Gold, Orange, Lavender, Peach, Royal Purple
-#Preview {
+#Preview("Ocean Sunset Gradient") {
     if #available(iOS 18.0, *) {
         MeshGradient(width: 3, height: 3,
                      points: [
@@ -85,6 +86,7 @@ import SwiftUI
     }
 }
 // MARK: - Modern Art Gradient
+/// Colors: Teal, Salmon,  Beige,  Light Coral,  Charcoal,  Lavender,  Mustard,  Sky Blue,  Dusty Rose
 #Preview("Modern Art") {
     if #available(iOS 18.0, *) {
         MeshGradient(width: 3, height: 3,
@@ -111,6 +113,7 @@ import SwiftUI
 }
 
 // MARK: - "Forest Canopy" Gradient
+///Colors:  Light Green,  Moss Green,  Dark Green,  Sunlight Yellow,  Deep Forest Green,  Jade Green,  Forest Brown,  Emerald Green, Brown
 #Preview("Forest Canopy Gradient") {
     if #available(iOS 18.0, *) {
         MeshGradient(width: 3, height: 3,

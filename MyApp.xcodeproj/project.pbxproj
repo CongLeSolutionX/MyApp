@@ -47,6 +47,7 @@
 		9AE1E4AC2CF7CB8900E490A7 /* MeshGradient90sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */; };
 		9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */; };
 		9AE1E4B22CF804FC00E490A7 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE1E4B12CF804FC00E490A7 /* MarkdownUI */; };
+		9AE1E4B42CF81DCE00E490A7 /* MeshGradientColorUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4B32CF81DAF00E490A7 /* MeshGradientColorUsage.swift */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
@@ -213,6 +214,7 @@
 		9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientColor3x3.swift; sourceTree = "<group>"; };
 		9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient90sRetroColor3x3.swift; sourceTree = "<group>"; };
 		9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradient80sRetroColor3x3.swift; sourceTree = "<group>"; };
+		9AE1E4B32CF81DAF00E490A7 /* MeshGradientColorUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientColorUsage.swift; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 		9AE1E4AF2CF7CED400E490A7 /* MeshGradientColors */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1E4B32CF81DAF00E490A7 /* MeshGradientColorUsage.swift */,
 				9AE1E4AD2CF7CEB800E490A7 /* MeshGradient80sRetroColor3x3.swift */,
 				9AE1E4AB2CF7CB7D00E490A7 /* MeshGradient90sRetroColor3x3.swift */,
 				9AE1E4A92CF7C56100E490A7 /* MeshGradientColor3x3.swift */,
@@ -744,6 +747,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AE1E4B42CF81DCE00E490A7 /* MeshGradientColorUsage.swift in Sources */,
 				9A5E5EBE2CF5F9A300E6B71A /* Ripple.swift in Sources */,
 				9A5E5ED42CF664C300E6B71A /* Stripes.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,

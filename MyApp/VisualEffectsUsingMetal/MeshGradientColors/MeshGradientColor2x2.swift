@@ -72,6 +72,9 @@ import SwiftUI
 
 
 // MARK: - "Earthy Tones" Gradient
+/// This gradient uses natural, muted colors to create a calm and organic feel.
+/// It’s well-suited for backgrounds or UI elements that need to convey a sense of nature and grounding.
+/// Colors:  Forest Green, Sandy Brown, Moss Green, Dark Oak
 #Preview("Earthy Tones Gradient" ) {
     if #available(iOS 18.0, *) {
         MeshGradient(width: 2, height: 2,
@@ -124,6 +127,26 @@ import SwiftUI
         Text("MeshGradient requires iOS 18.0 or later.")
     }
 }
+// MARK: - Sunset Gradient V2
+/// This gradient mimics the warm, inviting colors of a sunset, transitioning from bright oranges to deep blues and purples.
+/// It's great for creating a feeling of peace and tranquility.
+/// Colors:  Bright Orange, Peach, Deep Sky Blue, Royal Purple
+#Preview("Sunset Gradient V2") {
+    if #available(iOS 18.0, *) {
+        MeshGradient(width: 2, height: 2,
+                     points: [[0.0, 0.0], [1.0, 0.0],
+                              [0.0, 1.0], [1.0, 1.0]],
+                     colors: [Color(red: 255/255, green: 153/255, blue: 0/255),
+                              Color(red: 255/255, green: 229/255, blue: 180/255),
+                              Color(red: 0/255, green: 191/255, blue: 255/255),
+                              Color(red: 106/255, green: 13/255, blue: 173/255)])
+        .edgesIgnoringSafeArea(.all)
+    } else {
+        Text("MeshGradient requires iOS 18.0 or later.")
+    }
+}
+
+
 
 // MARK: - "Subtle Monochrome" Gradient
 /// This uses various shades of gray to create a subtle and modern gradient,
@@ -202,6 +225,10 @@ import SwiftUI
 }
 
 // MARK: - Simple Tri-Color Blend
+/// This example creates a smooth transition between three distinct colors: red, yellow, and blue.
+/// It's a basic yet visually appealing gradient.
+/// The grid structure provides a subtle geometric feel.
+/// Colors: Red, Yellow, Blue
 #Preview("Simple Tri-Color Blend") {
    if #available(iOS 18.0, *) {
         MeshGradient(
@@ -216,6 +243,9 @@ import SwiftUI
 }
 
 // MARK: - Metallic Sheen
+/// This gradient attempts to mimic the appearance of polished metal using shades of gray and silver,
+/// creating a sense of depth and reflectivity.
+/// Colors:  Dark Gray, Light Gray, White, Silver
 #Preview("Metallic Sheen") {
     if #available(iOS 18.0, *) {
         MeshGradient(
@@ -230,6 +260,9 @@ import SwiftUI
 }
 
 // MARK: - Earth Tone
+/// This uses earthy colors like browns, greens, and tans to produce a natural and calming visual effect.
+/// It's well-suited for backgrounds in nature-themed apps.
+/// Colors:  Brown, Tan, Light Green, Dark Green
 #Preview("Earth Tone") {
     if #available(iOS 18.0, *) {
         MeshGradient(
@@ -246,6 +279,9 @@ import SwiftUI
 
 
 //MARK: - Neon Glow
+/// For a more vibrant, futuristic feel, this example uses bright, saturated colors that mimic a neon glow effect.
+/// Good for creating accents or lively backgrounds.
+/// Colors:  Magenta, Cyan, Yellow
 //TODO: Not working yet
 //#Preview("Neon Glow") {
 //    if #available(iOS 18.0, *) {
@@ -259,6 +295,9 @@ import SwiftUI
 //}
 
 // MARK: - Rainbow Spectrum
+///This creates a more vibrant gradient by simulating a rainbow effect.
+///It will transition through the classic rainbow colors: red, orange, yellow, green, blue, indigo, and violet.
+///Colors: Red, Orange, Yellow, Green, Blue, Indigo, Violet
 //TODO: Not working yet
 //#Preview("Rainbow Spectrum") {
 //    if #available(iOS 18.0, *) {
