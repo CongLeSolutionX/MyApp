@@ -6,41 +6,52 @@
 //
 import SwiftUI
 
-struct CardView: View {
-    @State private var isHovered: Bool = false // Track hover state
-
+struct MagicCardView: View {
+    @State private var isHovered: Bool = false // Tracks hover interaction
+    
     var body: some View {
         ZStack {
-            // Background blur effect
+            // Glowing shadow effect
+            if isHovered {
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color(hex: "#f7645b"), Color(hex: "#f7ba2b")]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ),
+                        lineWidth: 20
+                    )
+                    .blur(radius: 25)
+                    .opacity(0.7)
+                    .scaleEffect(isHovered ? 1.1 : 1) // Slight scaling on hover
+            }
+            
+            // Outer card border
             RoundedRectangle(cornerRadius: 16)
-                .fill(
+                .strokeBorder(
                     LinearGradient(
-                        gradient: Gradient(colors: [Color(hex: "#f7ba2b"), Color(hex: "#ea5358")]),
+                        gradient: Gradient(colors: [Color(hex: "#f7645b"), Color(hex: "#f7ba2b")]),
                         startPoint: .leading,
                         endPoint: .trailing
-                    )
+                    ),
+                    lineWidth: 4
                 )
-                .scaleEffect(0.8)
-                .blur(radius: isHovered ? 0 : 25) // Blur effect based on hover
-                .opacity(isHovered ? 0 : 1) // Hide the blur effect on hover
-                .animation(.easeInOut(duration: 0.5), value: isHovered)
-
-            // Card foreground
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(hex: "#f7ba2b")) // Primary gradient background
-                .overlay(
-                    Text("Card Info")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundColor(isHovered ? Color(hex: "#f7ba2b") : Color(hex: "#181818"))
-                        .animation(.easeInOut(duration: 1), value: isHovered) // Smooth text color transition
-                )
-                .frame(width: 190, height: 254)
-                .shadow(radius: 10) // Add slight shadow for realism
+            
+            // Inner text label
+            Text("Magic Card")
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundColor(Color(hex: "#f7ba2b"))
         }
-        .frame(width: 190, height: 254) // Explicit frame for card dimensions
+        .frame(width: 190, height: 254) // Card dimensions
+        .scaleEffect(isHovered ? 1.05 : 1) // Slight scaling effect
+        .shadow(color: isHovered ? Color(hex: "#f7645b").opacity(0.5) : .clear, radius: 30, x: 0, y: 0)
+        .animation(.easeInOut(duration: 0.4), value: isHovered) // Smooth animation
         .onHover { hovering in
-            self.isHovered = hovering
+            withAnimation {
+                isHovered = hovering
+            }
         }
     }
 }
@@ -50,7 +61,7 @@ extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
         scanner.scanLocation = 1 // Skip the "#"
-        
+
         var rgb: UInt64 = 0
         scanner.scanHexInt64(&rgb)
 
@@ -63,7 +74,8 @@ extension Color {
 }
 
 
+
 // MARK: - Preview
 #Preview("Card View") {
-    CardView()
+    MagicCardView()
 }
