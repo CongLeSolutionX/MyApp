@@ -32,6 +32,7 @@
 		9AA0A1D92CF2C0CB0040EE8C /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1D82CF2C0CB0040EE8C /* Metal.framework */; };
 		9AA0A1DB2CF2C0D40040EE8C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1DA2CF2C0D40040EE8C /* QuartzCore.framework */; };
 		9AA0A1DD2CF2C0F30040EE8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA0A1DC2CF2C0F30040EE8C /* Foundation.framework */; };
+		9AA94BDE2CF9F48000F141EB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA94BDD2CF9F47D00F141EB /* CardView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -209,6 +210,7 @@
 		9AA0A1D82CF2C0CB0040EE8C /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		9AA0A1DA2CF2C0D40040EE8C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		9AA0A1DC2CF2C0F30040EE8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		9AA94BDD2CF9F47D00F141EB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* TikTikHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTikHomeView.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 		9AE1E4DA2CF86ABF00E490A7 /* SwiftUIFramework */ = {
 			isa = PBXGroup;
 			children = (
+				9AA94BDD2CF9F47D00F141EB /* CardView.swift */,
 				9AE1E4DB2CF86AF700E490A7 /* HorizontalScroll_WithRotate3DEffect.swift */,
 				9AE1E4DD2CF86B6F00E490A7 /* Parallax_ScrollView.swift */,
 				9AE1E4D72CF8644800E490A7 /* NavigationInSwiftUI */,
@@ -829,6 +832,7 @@
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AE1E4AE2CF7CEBB00E490A7 /* MeshGradient80sRetroColor3x3.swift in Sources */,
 				9AE1E49C2CF7929500E490A7 /* RotatingColorWheel.swift in Sources */,
+				9AA94BDE2CF9F48000F141EB /* CardView.swift in Sources */,
 				9A5E5ED62CF6651D00E6B71A /* TextTransition.swift in Sources */,
 				9AE1E4D12CF8590800E490A7 /* AnimatedRetroMeshGradientView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
