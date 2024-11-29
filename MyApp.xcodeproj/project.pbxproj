@@ -27,6 +27,8 @@
 		9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD1338D2CE4E820005BD7C4 /* LottieView.swift */; };
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
+		9AF53B9D2CF8E2820020E064 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF53B9C2CF8E27F0020E064 /* Camera.swift */; };
+		9AF53B9F2CF8E9E60020E064 /* MVPCam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF53B9E2CF8E9DF0020E064 /* MVPCam.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
 		9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */; };
@@ -173,6 +175,8 @@
 		9AD1338D2CE4E820005BD7C4 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
+		9AF53B9C2CF8E27F0020E064 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		9AF53B9E2CF8E9DF0020E064 /* MVPCam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVPCam.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
 		9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -431,6 +435,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AF53B9B2CF8E2690020E064 /* ConstantColorCam */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */,
@@ -463,6 +468,15 @@
 				9AD1338D2CE4E820005BD7C4 /* LottieView.swift */,
 			);
 			path = LottieView;
+			sourceTree = "<group>";
+		};
+		9AF53B9B2CF8E2690020E064 /* ConstantColorCam */ = {
+			isa = PBXGroup;
+			children = (
+				9AF53B9E2CF8E9DF0020E064 /* MVPCam.swift */,
+				9AF53B9C2CF8E27F0020E064 /* Camera.swift */,
+			);
+			path = ConstantColorCam;
 			sourceTree = "<group>";
 		};
 		9AF7AC062CE945E000EEF5D7 /* TikTokReplicate */ = {
@@ -652,12 +666,14 @@
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
+				9AF53B9D2CF8E2820020E064 /* Camera.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
+				9AF53B9F2CF8E9E60020E064 /* MVPCam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
