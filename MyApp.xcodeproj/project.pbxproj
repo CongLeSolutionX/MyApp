@@ -23,8 +23,10 @@
 		9A9035DF2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */; };
 		9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */; };
 		9A9035E32CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */; };
+		9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA94C002CFAE1CF00F141EB /* MarkdownUI */; };
+		9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
-		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
+		9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* RootContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
@@ -63,9 +65,11 @@
 		9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3"; sourceTree = "<group>"; };
 		9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Khoa_Ly_Biet_video.mp4; sourceTree = "<group>"; };
+		9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSyntaxHighlightView.swift; sourceTree = "<group>"; };
+		9AA94C112CFB3D3C00F141EB /* Pods_TaboolaSDKExampleSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TaboolaSDKExampleSwift.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/TaboolaSDKExampleSwift-cfghdvsuuqivlsgiohmzbcpzfclj/Build/Products/Debug-iphoneos/Pods_TaboolaSDKExampleSwift.framework"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
-		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9AAC417D2C74668B00AC0A60 /* RootContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootContentView.swift; sourceTree = "<group>"; };
 		9AAC417F2C74668C00AC0A60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -84,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */,
 				9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */,
 				9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */,
 			);
@@ -136,11 +141,28 @@
 			path = LifecycleSwiftUIView;
 			sourceTree = "<group>";
 		};
+		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
+			isa = PBXGroup;
+			children = (
+				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+			);
+			path = SwiftMarkdownUIView;
+			sourceTree = "<group>";
+		};
+		9AA94C102CFB3D3C00F141EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9AA94C112CFB3D3C00F141EB /* Pods_TaboolaSDKExampleSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
 				9AAC417A2C74668B00AC0A60 /* MyApp */,
 				9AD40F612CEEA431008BF642 /* MyAppTests */,
+				9AA94C102CFB3D3C00F141EB /* Frameworks */,
 				9AAC41792C74668B00AC0A60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -158,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
-				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9AAC417D2C74668B00AC0A60 /* RootContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A9035D62CEC8C3700BCE764 /* SFViewController.swift */,
 				9A9035D82CED691100BCE764 /* RichTextViewController.swift */,
@@ -168,6 +190,7 @@
 				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
+				9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */,
 				9A799E782CF0E82300F0796C /* LifecycleSwiftUIView */,
 				9A799E772CF0E78C00F0796C /* LifecycleNativeUIKitViewController */,
 				9A698CB32CF0EBA4008FDDBF /* LifecycleObjCViewController */,
@@ -265,6 +288,7 @@
 			packageReferences = (
 				9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */,
+				9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -307,9 +331,10 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
+				9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */,
 				9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
-				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
@@ -611,6 +636,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 		9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -630,6 +663,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9AA94C002CFAE1CF00F141EB /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
 		9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */;

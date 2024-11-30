@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Use in SwiftUI view
-struct ContentView: View { // The app will load view from this entry point
+struct RootContentView: View { // The app will load view from this entry point
     var body: some View {
         UIKitViewControllerWrapper_NativeUIKitViewController()
             .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
@@ -80,5 +80,5 @@ struct RichTextView_Previews: PreviewProvider {
 // MARK: - Using macros to preview views - connecting SwiftUI views
 // After iOS 17, we can use this syntax for preview
 #Preview {
-    ContentView()
+    RootContentView()
 }
