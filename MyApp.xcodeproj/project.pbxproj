@@ -35,6 +35,8 @@
 		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
 		9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */; };
 		9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */; };
+		9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E472CFBB6AF001B0696 /* CodeView.swift */; };
+		9AE97E4C2CFBBC2C001B0696 /* DingusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4B2CFBBC24001B0696 /* DingusView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderViewController.swift; sourceTree = "<group>"; };
 		9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextViewController.swift; sourceTree = "<group>"; };
 		9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMarkdownDemoView.swift; sourceTree = "<group>"; };
+		9AE97E472CFBB6AF001B0696 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
+		9AE97E4B2CFBBC24001B0696 /* DingusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DingusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -146,8 +150,10 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
-				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
+				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
+				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
 			);
 			path = SwiftMarkdownUIView;
 			sourceTree = "<group>";
@@ -343,9 +349,11 @@
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AE97E4C2CFBBC2C001B0696 /* DingusView.swift in Sources */,
 				9A799E802CF0E98A00F0796C /* LifecycleViewController.m in Sources */,
 				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
+				9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */,
 				9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */,
 				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
