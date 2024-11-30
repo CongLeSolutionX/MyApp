@@ -37,6 +37,7 @@
 		9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */; };
 		9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E472CFBB6AF001B0696 /* CodeView.swift */; };
 		9AE97E4C2CFBBC2C001B0696 /* DingusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4B2CFBBC24001B0696 /* DingusView.swift */; };
+		9AE97E4E2CFBBCCD001B0696 /* HeadingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMarkdownDemoView.swift; sourceTree = "<group>"; };
 		9AE97E472CFBB6AF001B0696 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		9AE97E4B2CFBBC24001B0696 /* DingusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DingusView.swift; sourceTree = "<group>"; };
+		9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -150,6 +152,7 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
@@ -338,6 +341,7 @@
 				9A799E642CF08D9D00F0796C /* Article.swift in Sources */,
 				9A799E762CF0E62700F0796C /* CustomView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AE97E4E2CFBBCCD001B0696 /* HeadingsView.swift in Sources */,
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */,
