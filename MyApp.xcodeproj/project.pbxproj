@@ -34,6 +34,7 @@
 		9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */; };
 		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
 		9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */; };
+		9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderViewController.swift; sourceTree = "<group>"; };
 		9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextViewController.swift; sourceTree = "<group>"; };
+		9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMarkdownDemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -144,6 +146,7 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
 			);
 			path = SwiftMarkdownUIView;
@@ -333,6 +336,7 @@
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */,
 				9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */,
+				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
