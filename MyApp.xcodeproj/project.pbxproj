@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A3452DA2CFBC8B300DE3E85 /* Siri-reverse-engineering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */; };
+		9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */; };
+		9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */; };
 		9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */; };
 		9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */; };
 		9A799E642CF08D9D00F0796C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E632CF08D9900F0796C /* Article.swift */; };
@@ -38,6 +41,8 @@
 		9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E472CFBB6AF001B0696 /* CodeView.swift */; };
 		9AE97E4C2CFBBC2C001B0696 /* DingusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4B2CFBBC24001B0696 /* DingusView.swift */; };
 		9AE97E4E2CFBBCCD001B0696 /* HeadingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */; };
+		9AE97E502CFBBD4C001B0696 /* ImageProvidersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */; };
+		9AE97E532CFBBD92001B0696 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AE97E522CFBBD92001B0696 /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Siri-reverse-engineering.swift"; sourceTree = "<group>"; };
+		9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineInfo.swift; sourceTree = "<group>"; };
+		9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
 		9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderWithActivityIndicatorViewController.swift; sourceTree = "<group>"; };
 		9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
 		9A799E632CF08D9900F0796C /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
@@ -85,6 +93,7 @@
 		9AE97E472CFBB6AF001B0696 /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		9AE97E4B2CFBBC24001B0696 /* DingusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DingusView.swift; sourceTree = "<group>"; };
 		9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingsView.swift; sourceTree = "<group>"; };
+		9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvidersView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -96,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AE97E532CFBBD92001B0696 /* SDWebImageSwiftUI in Frameworks */,
 				9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */,
 				9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */,
 				9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */,
@@ -112,6 +122,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A3452DB2CFBD07900DE3E85 /* ReverseEngineering_Siri */ = {
+			isa = PBXGroup;
+			children = (
+				9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */,
+				9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */,
+				9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */,
+			);
+			path = ReverseEngineering_Siri;
+			sourceTree = "<group>";
+		};
 		9A698CB32CF0EBA4008FDDBF /* LifecycleObjCViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +172,7 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
 				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
@@ -202,6 +223,7 @@
 				9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */,
 				9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */,
 				9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */,
+				9A3452DB2CFBD07900DE3E85 /* ReverseEngineering_Siri */,
 				9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */,
 				9A799E782CF0E82300F0796C /* LifecycleSwiftUIView */,
 				9A799E772CF0E78C00F0796C /* LifecycleNativeUIKitViewController */,
@@ -301,6 +323,7 @@
 				9AD40F6E2CEEDF9D008BF642 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */,
 				9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				9AE97E512CFBBD92001B0696 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -348,18 +371,22 @@
 				9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */,
 				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
+				9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A3452DA2CFBC8B300DE3E85 /* Siri-reverse-engineering.swift in Sources */,
 				9AE97E4C2CFBBC2C001B0696 /* DingusView.swift in Sources */,
 				9A799E802CF0E98A00F0796C /* LifecycleViewController.m in Sources */,
 				9AD40F752CEEEC0A008BF642 /* AttributedTextViewController.swift in Sources */,
+				9AE97E502CFBBD4C001B0696 /* ImageProvidersView.swift in Sources */,
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
 				9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */,
 				9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */,
 				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
+				9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
 				9A799E7A2CF0E83600F0796C /* ParentView.swift in Sources */,
 			);
@@ -676,6 +703,14 @@
 				minimumVersion = 5.3.0;
 			};
 		};
+		9AE97E512CFBBD92001B0696 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -693,6 +728,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */;
 			productName = Kanna;
+		};
+		9AE97E522CFBBD92001B0696 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AE97E512CFBBD92001B0696 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

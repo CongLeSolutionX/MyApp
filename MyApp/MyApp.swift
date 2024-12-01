@@ -12,8 +12,8 @@ import SwiftUI
 struct MyAppApp: App {
     var body: some Scene {
         WindowGroup {
-            //RootContentView()
-            CodeSyntaxHighlightView()
+            RootContentView()
+            //CodeSyntaxHighlightView()
         }
     }
 }
