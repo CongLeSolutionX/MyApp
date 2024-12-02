@@ -136,6 +136,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A1170682CFD8258002B0FAA /* ExampleMarkdownViews */ = {
+			isa = PBXGroup;
+			children = (
+				9A1170662CFD817A002B0FAA /* TextStylesView.swift */,
+				9A99A5CF2CFD7FFA00018FF4 /* TablesView.swift */,
+				9AA12C6A2CFD7B340045F777 /* QuotesView.swift */,
+				9AA12C682CFD7ABE0045F777 /* ListsView.swift */,
+				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
+				9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */,
+				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
+				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
+				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
+				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
+				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+			);
+			path = ExampleMarkdownViews;
+			sourceTree = "<group>";
+		};
 		9A3452DB2CFBD07900DE3E85 /* ReverseEngineering_Siri */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,17 +204,7 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
-				9A1170662CFD817A002B0FAA /* TextStylesView.swift */,
-				9A99A5CF2CFD7FFA00018FF4 /* TablesView.swift */,
-				9AA12C6A2CFD7B340045F777 /* QuotesView.swift */,
-				9AA12C682CFD7ABE0045F777 /* ListsView.swift */,
-				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
-				9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */,
-				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
-				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
-				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
-				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
-				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+				9A1170682CFD8258002B0FAA /* ExampleMarkdownViews */,
 				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
 				9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */,
 			);
