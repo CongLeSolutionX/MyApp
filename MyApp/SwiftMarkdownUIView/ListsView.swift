@@ -4,6 +4,7 @@
 //
 //  Created by Cong Le on 12/1/24.
 //
+// Source: https://github.com/gonzalezreal/swift-markdown-ui
 
 import MarkdownUI
 import SwiftUI
