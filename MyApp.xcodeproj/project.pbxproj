@@ -37,6 +37,7 @@
 		9AB9E6ED2CFD644E00D52AC0 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */; };
 		9AB9E6EF2CFD705D00D52AC0 /* MarkdownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */; };
 		9AB9E6F12CFD714300D52AC0 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */; };
+		9AB9E6F32CFD71FA00D52AC0 /* LazyLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */; };
 		9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */; };
 		9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */; };
 		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
@@ -94,6 +95,7 @@
 		9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
 		9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownDocument.swift; sourceTree = "<group>"; };
 		9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadingView.swift; sourceTree = "<group>"; };
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderViewController.swift; sourceTree = "<group>"; };
 		9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
+				9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */,
 				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
 				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
@@ -383,6 +386,7 @@
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */,
 				9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */,
+				9AB9E6F32CFD71FA00D52AC0 /* LazyLoadingView.swift in Sources */,
 				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
 				9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */,
