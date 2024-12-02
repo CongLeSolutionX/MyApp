@@ -36,8 +36,6 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AB9E6EB2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */; };
-		9AB9E6ED2CFD644E00D52AC0 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */; };
-		9AB9E6EF2CFD705D00D52AC0 /* MarkdownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */; };
 		9AB9E6F12CFD714300D52AC0 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */; };
 		9AB9E6F32CFD71FA00D52AC0 /* LazyLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */; };
 		9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */; };
@@ -96,8 +94,6 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SwiftMarkdownUI_Assets.xcassets; sourceTree = "<group>"; };
-		9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
-		9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownDocument.swift; sourceTree = "<group>"; };
 		9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadingView.swift; sourceTree = "<group>"; };
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,8 +192,6 @@
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
 				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
-				9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */,
-				9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */,
 				9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */,
 			);
 			path = SwiftMarkdownUIView;
@@ -397,10 +391,8 @@
 				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
 				9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */,
-				9AB9E6EF2CFD705D00D52AC0 /* MarkdownDocument.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
-				9AB9E6ED2CFD644E00D52AC0 /* MarkdownRenderer.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
