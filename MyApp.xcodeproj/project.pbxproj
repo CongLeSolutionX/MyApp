@@ -26,6 +26,7 @@
 		9A9035DF2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */; };
 		9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */; };
 		9A9035E32CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */; };
+		9AA12C692CFD7AC30045F777 /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA12C682CFD7ABE0045F777 /* ListsView.swift */; };
 		9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA94C002CFAE1CF00F141EB /* MarkdownUI */; };
 		9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
@@ -82,6 +83,7 @@
 		9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3"; sourceTree = "<group>"; };
 		9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Khoa_Ly_Biet_video.mp4; sourceTree = "<group>"; };
+		9AA12C682CFD7ABE0045F777 /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
 		9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSyntaxHighlightView.swift; sourceTree = "<group>"; };
 		9AA94C112CFB3D3C00F141EB /* Pods_TaboolaSDKExampleSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_TaboolaSDKExampleSwift.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/TaboolaSDKExampleSwift-cfghdvsuuqivlsgiohmzbcpzfclj/Build/Products/Debug-iphoneos/Pods_TaboolaSDKExampleSwift.framework"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9AA12C682CFD7ABE0045F777 /* ListsView.swift */,
 				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
 				9AB9E6F22CFD71F500D52AC0 /* LazyLoadingView.swift */,
 				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
@@ -385,6 +388,7 @@
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
 				9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */,
 				9AA94C042CFAE20800F141EB /* CodeSyntaxHighlightView.swift in Sources */,
+				9AA12C692CFD7AC30045F777 /* ListsView.swift in Sources */,
 				9A799E7C2CF0E89500F0796C /* ChildView.swift in Sources */,
 				9AB9E6F32CFD71FA00D52AC0 /* LazyLoadingView.swift in Sources */,
 				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
