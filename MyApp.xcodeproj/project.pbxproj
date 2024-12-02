@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A1170672CFD8182002B0FAA /* TextStylesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1170662CFD817A002B0FAA /* TextStylesView.swift */; };
 		9A3452DA2CFBC8B300DE3E85 /* Siri-reverse-engineering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */; };
 		9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */; };
 		9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */; };
@@ -26,6 +27,7 @@
 		9A9035DF2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */; };
 		9A9035E12CEDAF0B00BCE764 /* AudioVideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */; };
 		9A9035E32CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */; };
+		9A99A5D02CFD7FFD00018FF4 /* TablesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A99A5CF2CFD7FFA00018FF4 /* TablesView.swift */; };
 		9AA12C692CFD7AC30045F777 /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA12C682CFD7ABE0045F777 /* ListsView.swift */; };
 		9AA12C6B2CFD7B3C0045F777 /* QuotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA12C6A2CFD7B340045F777 /* QuotesView.swift */; };
 		9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA94C002CFAE1CF00F141EB /* MarkdownUI */; };
@@ -61,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A1170662CFD817A002B0FAA /* TextStylesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStylesView.swift; sourceTree = "<group>"; };
 		9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Siri-reverse-engineering.swift"; sourceTree = "<group>"; };
 		9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineInfo.swift; sourceTree = "<group>"; };
 		9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
@@ -82,6 +85,7 @@
 		9A9035DE2CED931000BCE764 /* Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Khoa_Ly_Biet_DJ_Remixed-Segmented.MP3"; sourceTree = "<group>"; };
 		9A9035E02CEDAF0900BCE764 /* AudioVideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoPlayerViewController.swift; sourceTree = "<group>"; };
 		9A9035E22CEDB0BB00BCE764 /* Khoa_Ly_Biet_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Khoa_Ly_Biet_video.mp4; sourceTree = "<group>"; };
+		9A99A5CF2CFD7FFA00018FF4 /* TablesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TablesView.swift; sourceTree = "<group>"; };
 		9AA12C682CFD7ABE0045F777 /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
 		9AA12C6A2CFD7B340045F777 /* QuotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesView.swift; sourceTree = "<group>"; };
 		9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSyntaxHighlightView.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9A1170662CFD817A002B0FAA /* TextStylesView.swift */,
+				9A99A5CF2CFD7FFA00018FF4 /* TablesView.swift */,
 				9AA12C6A2CFD7B340045F777 /* QuotesView.swift */,
 				9AA12C682CFD7ABE0045F777 /* ListsView.swift */,
 				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
@@ -408,6 +414,8 @@
 				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
 				9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
+				9A1170672CFD8182002B0FAA /* TextStylesView.swift in Sources */,
+				9A99A5D02CFD7FFD00018FF4 /* TablesView.swift in Sources */,
 				9A799E7A2CF0E83600F0796C /* ParentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
