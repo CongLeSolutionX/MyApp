@@ -34,6 +34,9 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AB9E6EB2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */; };
+		9AB9E6ED2CFD644E00D52AC0 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */; };
+		9AB9E6EF2CFD705D00D52AC0 /* MarkdownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */; };
+		9AB9E6F12CFD714300D52AC0 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */; };
 		9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */; };
 		9AD40F702CEEDFF8008BF642 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F6F2CEEDFF8008BF642 /* SwiftSoup */; };
 		9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD40F722CEEE35D008BF642 /* Kanna */; };
@@ -88,6 +91,9 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SwiftMarkdownUI_Assets.xcassets; sourceTree = "<group>"; };
+		9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
+		9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownDocument.swift; sourceTree = "<group>"; };
+		9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		9AD40F602CEEA431008BF642 /* MyAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD40F6C2CEEAA8F008BF642 /* ContentLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderViewController.swift; sourceTree = "<group>"; };
 		9AD40F742CEEEBEC008BF642 /* AttributedTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextViewController.swift; sourceTree = "<group>"; };
@@ -174,12 +180,15 @@
 		9AA94C022CFAE1F800F141EB /* SwiftMarkdownUIView */ = {
 			isa = PBXGroup;
 			children = (
+				9AB9E6F02CFD713F00D52AC0 /* ImageView.swift */,
 				9AE97E4F2CFBBD43001B0696 /* ImageProvidersView.swift */,
 				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
 				9AE97E452CFBB5C1001B0696 /* SwiftMarkdownDemoView.swift */,
+				9AB9E6EC2CFD644D00D52AC0 /* MarkdownRenderer.swift */,
+				9AB9E6EE2CFD705C00D52AC0 /* MarkdownDocument.swift */,
 				9AB9E6EA2CFD60B300D52AC0 /* SwiftMarkdownUI_Assets.xcassets */,
 			);
 			path = SwiftMarkdownUIView;
@@ -367,6 +376,7 @@
 			files = (
 				9A799E642CF08D9D00F0796C /* Article.swift in Sources */,
 				9A799E762CF0E62700F0796C /* CustomView.swift in Sources */,
+				9AB9E6F12CFD714300D52AC0 /* ImageView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AE97E4E2CFBBCCD001B0696 /* HeadingsView.swift in Sources */,
 				9A9035D72CEC8C4100BCE764 /* SFViewController.swift in Sources */,
@@ -376,8 +386,10 @@
 				9AE97E462CFBB5C2001B0696 /* SwiftMarkdownDemoView.swift in Sources */,
 				9A799E742CF0E5D500F0796C /* NativeUIKitViewController.swift in Sources */,
 				9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */,
+				9AB9E6EF2CFD705D00D52AC0 /* MarkdownDocument.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
+				9AB9E6ED2CFD644E00D52AC0 /* MarkdownRenderer.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
