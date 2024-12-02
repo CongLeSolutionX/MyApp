@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A1170672CFD8182002B0FAA /* TextStylesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1170662CFD817A002B0FAA /* TextStylesView.swift */; };
+		9A11706A2CFD82B7002B0FAA /* RepositoryReadmeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1170692CFD82B6002B0FAA /* RepositoryReadmeView.swift */; };
 		9A3452DA2CFBC8B300DE3E85 /* Siri-reverse-engineering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */; };
 		9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */; };
 		9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		9A1170662CFD817A002B0FAA /* TextStylesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStylesView.swift; sourceTree = "<group>"; };
+		9A1170692CFD82B6002B0FAA /* RepositoryReadmeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryReadmeView.swift; sourceTree = "<group>"; };
 		9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Siri-reverse-engineering.swift"; sourceTree = "<group>"; };
 		9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineInfo.swift; sourceTree = "<group>"; };
 		9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
 				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+				9A1170692CFD82B6002B0FAA /* RepositoryReadmeView.swift */,
 			);
 			path = ExampleMarkdownViews;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				9A1170672CFD8182002B0FAA /* TextStylesView.swift in Sources */,
 				9A99A5D02CFD7FFD00018FF4 /* TablesView.swift in Sources */,
 				9A799E7A2CF0E83600F0796C /* ParentView.swift in Sources */,
+				9A11706A2CFD82B7002B0FAA /* RepositoryReadmeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
