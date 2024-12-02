@@ -7,7 +7,7 @@
 // Source: https://github.com/gonzalezreal/swift-markdown-ui
 
 import MarkdownUI
-//import Splash
+import Splash
 import SwiftUI
 
 struct CodeSyntaxHighlightView: View {
@@ -102,8 +102,7 @@ struct CodeSyntaxHighlightView: View {
         .markdownBlockStyle(\.codeBlock) {
           codeBlock($0)
         }
-        .markdownTheme(.gitHub)
-        //.markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
+        .markdownCodeSyntaxHighlighter(.splash(theme: .sundellsColors(withFont: .init(size: 16))))
     }
   }
 
@@ -115,8 +114,7 @@ struct CodeSyntaxHighlightView: View {
           .font(.system(.caption, design: .monospaced))
           .fontWeight(.semibold)
           .foregroundColor(
-            Color.black
-            //Color(theme.plainTextColor)
+            Color(theme.plainTextColor)
           )
         Spacer()
 
@@ -128,8 +126,7 @@ struct CodeSyntaxHighlightView: View {
       .padding(.horizontal)
       .padding(.vertical, 8)
       .background {
-          Color.red
-        //Color(theme.backgroundColor)
+        Color(theme.backgroundColor)
       }
 
       Divider()
@@ -149,15 +146,15 @@ struct CodeSyntaxHighlightView: View {
     .markdownMargin(top: .zero, bottom: .em(0.8))
   }
 
-//  private var theme: Splash.Theme {
-//    // NOTE: We are ignoring the Splash theme font
-//    switch self.colorScheme {
-//    case .dark:
-//      return .wwdc17(withFont: .init(size: 16))
-//    default:
-//      return .sunset(withFont: .init(size: 16))
-//    }
-//  }
+  private var theme: Splash.Theme {
+    // NOTE: We are ignoring the Splash theme font
+    switch self.colorScheme {
+    case .dark:
+      return .wwdc17(withFont: .init(size: 16))
+    default:
+      return .sunset(withFont: .init(size: 16))
+    }
+  }
 
   private func copyToClipboard(_ string: String) {
     #if os(macOS)

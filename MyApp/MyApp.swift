@@ -14,7 +14,8 @@ struct MyAppApp: App {
         WindowGroup {
             // RootContentView()
             //CodeSyntaxHighlightView()
-            ImageProvidersView()
+            //ImageProvidersView()
+            CodeSyntaxHighlightView()
         }
     }
 }

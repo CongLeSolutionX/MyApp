@@ -12,6 +12,9 @@
 		9A3452DA2CFBC8B300DE3E85 /* Siri-reverse-engineering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */; };
 		9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */; };
 		9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */; };
+		9A4CF4252CFDB60000DE9FB7 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 9A4CF4242CFDB60000DE9FB7 /* Splash */; };
+		9A4CF4272CFDB6F800DE9FB7 /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4262CFDB6F700DE9FB7 /* SplashCodeSyntaxHighlighter.swift */; };
+		9A4CF4292CFDB71200DE9FB7 /* TextOutputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4282CFDB71100DE9FB7 /* TextOutputFormat.swift */; };
 		9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */; };
 		9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */; };
 		9A799E642CF08D9D00F0796C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A799E632CF08D9900F0796C /* Article.swift */; };
@@ -69,6 +72,8 @@
 		9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Siri-reverse-engineering.swift"; sourceTree = "<group>"; };
 		9A3452DC2CFBD09800DE3E85 /* MachineInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineInfo.swift; sourceTree = "<group>"; };
 		9A3452DE2CFBD34D00DE3E85 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
+		9A4CF4262CFDB6F700DE9FB7 /* SplashCodeSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCodeSyntaxHighlighter.swift; sourceTree = "<group>"; };
+		9A4CF4282CFDB71100DE9FB7 /* TextOutputFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOutputFormat.swift; sourceTree = "<group>"; };
 		9A76F41A2CF03E3C00CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoaderWithActivityIndicatorViewController.swift; sourceTree = "<group>"; };
 		9A799E612CF08D7D00F0796C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
 		9A799E632CF08D9900F0796C /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
@@ -121,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A4CF4252CFDB60000DE9FB7 /* Splash in Frameworks */,
 				9AE97E532CFBBD92001B0696 /* SDWebImageSwiftUI in Frameworks */,
 				9AA94C012CFAE1CF00F141EB /* MarkdownUI in Frameworks */,
 				9AD40F732CEEE35D008BF642 /* Kanna in Frameworks */,
@@ -151,8 +157,9 @@
 				9AE97E4D2CFBBCC8001B0696 /* HeadingsView.swift */,
 				9AE97E4B2CFBBC24001B0696 /* DingusView.swift */,
 				9AE97E472CFBB6AF001B0696 /* CodeView.swift */,
-				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
 				9A1170692CFD82B6002B0FAA /* RepositoryReadmeView.swift */,
+				9AA94C032CFAE20800F141EB /* CodeSyntaxHighlightView.swift */,
+				9A4CF42A2CFDBB3B00DE9FB7 /* SyntaxHighlighter */,
 			);
 			path = ExampleMarkdownViews;
 			sourceTree = "<group>";
@@ -165,6 +172,15 @@
 				9A3452D92CFBC8AB00DE3E85 /* Siri-reverse-engineering.swift */,
 			);
 			path = ReverseEngineering_Siri;
+			sourceTree = "<group>";
+		};
+		9A4CF42A2CFDBB3B00DE9FB7 /* SyntaxHighlighter */ = {
+			isa = PBXGroup;
+			children = (
+				9A4CF4282CFDB71100DE9FB7 /* TextOutputFormat.swift */,
+				9A4CF4262CFDB6F700DE9FB7 /* SplashCodeSyntaxHighlighter.swift */,
+			);
+			path = SyntaxHighlighter;
 			sourceTree = "<group>";
 		};
 		9A698CB32CF0EBA4008FDDBF /* LifecycleObjCViewController */ = {
@@ -356,6 +372,7 @@
 				9AD40F712CEEE35D008BF642 /* XCRemoteSwiftPackageReference "Kanna" */,
 				9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				9AE97E512CFBBD92001B0696 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				9A4CF4232CFDB60000DE9FB7 /* XCRemoteSwiftPackageReference "Splash" */,
 			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
@@ -410,6 +427,7 @@
 				9A3452DF2CFBD35C00DE3E85 /* SharedComponents.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* RootContentView.swift in Sources */,
 				9AD40F6D2CEEAAA5008BF642 /* ContentLoaderViewController.swift in Sources */,
+				9A4CF4272CFDB6F800DE9FB7 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				9A799E662CF08DCB00F0796C /* MediumArticleContentView.swift in Sources */,
 				9A9035DB2CED896800BCE764 /* WKWebViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
@@ -422,6 +440,7 @@
 				9A9035DD2CED8F4A00BCE764 /* AudioViewController.swift in Sources */,
 				9AE97E482CFBB6B2001B0696 /* CodeView.swift in Sources */,
 				9A799E622CF08D7E00F0796C /* ArticleViewModel.swift in Sources */,
+				9A4CF4292CFDB71200DE9FB7 /* TextOutputFormat.swift in Sources */,
 				9A76F41B2CF03E5600CFA0D9 /* ContentLoaderWithActivityIndicatorViewController.swift in Sources */,
 				9A3452DD2CFBD0AA00DE3E85 /* MachineInfo.swift in Sources */,
 				9A9035D92CED691C00BCE764 /* RichTextViewController.swift in Sources */,
@@ -723,6 +742,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9A4CF4232CFDB60000DE9FB7 /* XCRemoteSwiftPackageReference "Splash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/Splash";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.16.0;
+			};
+		};
 		9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
@@ -758,6 +785,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9A4CF4242CFDB60000DE9FB7 /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A4CF4232CFDB60000DE9FB7 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = Splash;
+		};
 		9AA94C002CFAE1CF00F141EB /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9AA94BFF2CFAE1CF00F141EB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
