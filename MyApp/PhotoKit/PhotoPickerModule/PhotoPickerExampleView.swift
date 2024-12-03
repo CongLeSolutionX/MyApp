@@ -8,15 +8,20 @@
 import SwiftUI
 import PhotosUI
 
+struct IdentifiableImage: Identifiable {
+    let id = UUID()
+    let image: Image
+}
+
 struct PhotoPickerExampleView: View {
     @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var images: [Image] = []
+    @State private var images: [IdentifiableImage] = []
     
     var body: some View {
         VStack {
             ScrollView {
-                ForEach(images, id: \.self) { image in
-                    image
+                ForEach(images) { identificableImage in
+                    identificableImage.image
                         .resizable()
                         .scaledToFit()
                         .frame(height: 200)
