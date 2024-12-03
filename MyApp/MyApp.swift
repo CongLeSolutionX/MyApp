@@ -12,10 +12,10 @@ import SwiftUI
 struct MyAppApp: App {
     var body: some Scene {
         WindowGroup {
-            SwiftUIContentView()
+            //SwiftUIContentView()
             //TikTikHomeView()
             //CameraView()
-            //PhotoPickerExampleView()
+            PhotoPickerExampleView()
         }
     }
 }

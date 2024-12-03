@@ -57,5 +57,5 @@ extension Image {
 
 #Preview {
    
-    SepiaFilterView(image: Image(systemName: "house"))
+    SepiaFilterView(image: Image.init("Round_logo"))
 }
