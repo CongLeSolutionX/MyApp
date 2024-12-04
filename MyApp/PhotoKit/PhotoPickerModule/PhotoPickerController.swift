@@ -16,42 +16,9 @@
  Using the Photos picker (PHPickerViewController and PhotosPicker in SwiftUI).
  
  */
-
 import UIKit
 import PhotosUI
 import Photos
-
-// MARK: - Protocol Definitions
-
-protocol PhotoLibraryProtocol {
-    var authorizationStatus: PHAuthorizationStatus { get }
-    func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void)
-    func register(_ observer: PHPhotoLibraryChangeObserver)
-    func unregisterChangeObserver(_ observer: PHPhotoLibraryChangeObserver)
-}
-
-protocol PhotoPickerViewControllerProtocol {
-    var delegate: PHPickerViewControllerDelegate? { get set }
-    func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
-}
-
-// MARK: - Protocol Extensions
-
-extension PHPhotoLibrary: PhotoLibraryProtocol {
-    var authorizationStatus: PHAuthorizationStatus {
-        return PHPhotoLibrary.authorizationStatus(for: .readWrite)
-    }
-    
-    func requestAuthorization(_ handler: @escaping (PHAuthorizationStatus) -> Void) {
-        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-            DispatchQueue.main.async {
-                handler(status)
-            }
-        }
-    }
-}
-
-extension PHPickerViewController: PhotoPickerViewControllerProtocol {}
 
 // MARK: - PhotoPickerController
 
@@ -59,16 +26,10 @@ class PhotoPickerController: UIViewController {
     
     // MARK: - Properties
     
-    private let photoLibrary: PhotoLibraryProtocol
-    private var pickerViewController: PhotoPickerViewControllerProtocol?
-    private var assetsFetchResults: PHFetchResult<PHAsset>?
-    private var imageManager: PHCachingImageManager?
+    private let photoLibrary: PHPhotoLibrary = .shared()
+    private let imageManager = PHCachingImageManager()
     
     private var livePhotoView: PHLivePhotoView?
-    private var assetCollection: PHAssetCollection?
-    
-    /// Observes changes in the photo library
-    private var photoLibraryObserver: NSObjectProtocol?
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -93,25 +54,6 @@ class PhotoPickerController: UIViewController {
         return button
     }()
     
-    // MARK: - Initializers
-    
-    init(photoLibrary: PhotoLibraryProtocol = PHPhotoLibrary.shared()) {
-        self.photoLibrary = photoLibrary
-        super.init(nibName: nil, bundle: nil)
-        self.imageManager = PHCachingImageManager()
-    }
-    
-    required init?(coder: NSCoder) {
-        self.photoLibrary = PHPhotoLibrary.shared()
-        super.init(coder: coder)
-        self.imageManager = PHCachingImageManager()
-    }
-    
-    deinit {
-        // Unregister from photo library changes
-        photoLibrary.unregisterChangeObserver(self)
-    }
-    
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
@@ -119,6 +61,11 @@ class PhotoPickerController: UIViewController {
         setupUI()
         // Register for photo library changes
         photoLibrary.register(self)
+    }
+    
+    deinit {
+        // Unregister from photo library changes
+        photoLibrary.unregisterChangeObserver(self)
     }
     
     // MARK: - UI Setup
@@ -148,44 +95,32 @@ class PhotoPickerController: UIViewController {
     
     // MARK: - Button Actions
     
-    @objc fileprivate func selectPhotoButtonTapped() {
+    @objc private func selectPhotoButtonTapped() {
         handlePhotoLibraryPermission()
     }
     
-    @objc fileprivate func savePhotoButtonTapped() {
+    @objc private func savePhotoButtonTapped() {
         saveImageToPhotoLibrary()
     }
     
     // MARK: - Permission Handling
     
-    fileprivate func handlePhotoLibraryPermission() {
-        switch photoLibrary.authorizationStatus {
+    private func handlePhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        switch status {
         case .authorized, .limited:
-            print("Photo Library Access: Granted")
             presentPhotoPicker()
-            
         case .notDetermined:
-            print("Photo Library Access: Not Determined")
-            photoLibrary.requestAuthorization { [weak self] status in
-                switch status {
-                case .authorized, .limited:
-                    print("Photo Library Access Granted")
-                    self?.presentPhotoPicker()
-                case .denied, .restricted:
-                    print("Photo Library Access Denied")
-                    self?.showPermissionDeniedAlert()
-                default:
-                    print("Photo Library Access: Unknown Status")
-                    self?.showPermissionDeniedAlert()
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] newStatus in
+                DispatchQueue.main.async {
+                    if newStatus == .authorized || newStatus == .limited {
+                        self?.presentPhotoPicker()
+                    } else {
+                        self?.showPermissionDeniedAlert()
+                    }
                 }
             }
-            
-        case .denied, .restricted:
-            print("Photo Library Access: Denied or Restricted")
-            showPermissionDeniedAlert()
-            
-        @unknown default:
-            print("Photo Library Access: Unknown Status")
+        default:
             showPermissionDeniedAlert()
         }
     }
@@ -193,13 +128,12 @@ class PhotoPickerController: UIViewController {
     // MARK: - Photo Picker Presentation
     
     private func presentPhotoPicker() {
-        var configuration = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
+        var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images, .livePhotos])
         configuration.selectionLimit = 1
         
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
-        pickerViewController = picker
         present(picker, animated: true)
     }
     
@@ -215,60 +149,67 @@ class PhotoPickerController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - Fetching Assets
-    
-    private func fetchAssets() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        assetsFetchResults = PHAsset.fetchAssets(with: fetchOptions)
-    }
-    
     // MARK: - Requesting Images
     
-    private func requestImage(for asset: PHAsset) {
+    private func displayAsset(_ asset: PHAsset) {
         let targetSize = CGSize(width: 200, height: 200)
+        if asset.mediaSubtypes.contains(.photoLive) {
+            requestLivePhoto(for: asset, targetSize: targetSize)
+        } else {
+            requestImage(for: asset, targetSize: targetSize)
+        }
+    }
+    
+    private func requestImage(for asset: PHAsset, targetSize: CGSize) {
         let options = PHImageRequestOptions()
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         
-        // Check if asset is a Live Photo
-        if asset.mediaSubtypes.contains(.photoLive) {
-            requestLivePhoto(for: asset, targetSize: targetSize)
-        } else {
-            imageManager?.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { [weak self] image, info in
-                DispatchQueue.main.async {
-                    self?.imageView.image = image
-                }
+        imageManager.requestImage(
+            for: asset,
+            targetSize: targetSize,
+            contentMode: .aspectFill,
+            options: options
+        ) { [weak self] image, _ in
+            DispatchQueue.main.async {
+                self?.imageView.image = image
+                self?.livePhotoView?.removeFromSuperview()
             }
         }
     }
-    
-    // MARK: - Requesting Live Photos
     
     private func requestLivePhoto(for asset: PHAsset, targetSize: CGSize) {
         let options = PHLivePhotoRequestOptions()
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
         
-        imageManager?.requestLivePhoto(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { [weak self] livePhoto, info in
-            if let livePhoto = livePhoto {
-                DispatchQueue.main.async {
-                    // Remove existing Live Photo view if any
-                    self?.livePhotoView?.removeFromSuperview()
-                    let livePhotoView = PHLivePhotoView(frame: self?.imageView.frame ?? .zero)
-                    livePhotoView.livePhoto = livePhoto
-                    self?.view.addSubview(livePhotoView)
-                    self?.livePhotoView = livePhotoView
+        imageManager.requestLivePhoto(
+            for: asset,
+            targetSize: targetSize,
+            contentMode: .aspectFill,
+            options: options
+        ) { [weak self] livePhoto, _ in
+            DispatchQueue.main.async {
+                if let livePhoto = livePhoto {
+                    self?.updateLivePhotoView(with: livePhoto)
                 }
             }
         }
+    }
+    
+    private func updateLivePhotoView(with livePhoto: PHLivePhoto) {
+        livePhotoView?.removeFromSuperview()
+        let livePhotoView = PHLivePhotoView(frame: imageView.frame)
+        livePhotoView.livePhoto = livePhoto
+        view.addSubview(livePhotoView)
+        self.livePhotoView = livePhotoView
     }
     
     // MARK: - Saving Images to Photo Library
     
     private func saveImageToPhotoLibrary() {
         guard let image = imageView.image else { return }
-        PHPhotoLibrary.shared().performChanges({
+        photoLibrary.performChanges({
             PHAssetChangeRequest.creationRequestForAsset(from: image)
         }) { [weak self] success, error in
             DispatchQueue.main.async {
@@ -298,35 +239,31 @@ extension PhotoPickerController: PHPickerViewControllerDelegate {
         
         guard let provider = results.first?.itemProvider else { return }
         
-        if provider.canLoadObject(ofClass: UIImage.self) {
-            // Load UIImage
-            provider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                if let error = error {
-                    print("Error loading image: \(error.localizedDescription)")
-                    return
-                }
-                guard let uiImage = image as? UIImage else { return }
-                DispatchQueue.main.async {
-                    self?.imageView.image = uiImage
-                    // Remove Live Photo view if any
-                    self?.livePhotoView?.removeFromSuperview()
-                }
-            }
-        } else if provider.canLoadObject(ofClass: PHLivePhoto.self) {
+        if provider.canLoadObject(ofClass: PHLivePhoto.self) {
             // Load Live Photo
             provider.loadObject(ofClass: PHLivePhoto.self) { [weak self] livePhoto, error in
                 if let error = error {
                     print("Error loading live photo: \(error.localizedDescription)")
                     return
                 }
-                guard let livePhoto = livePhoto as? PHLivePhoto else { return }
-                DispatchQueue.main.async {
-                    // Remove existing Live Photo view if any
-                    self?.livePhotoView?.removeFromSuperview()
-                    let livePhotoView = PHLivePhotoView(frame: self?.imageView.frame ?? .zero)
-                    livePhotoView.livePhoto = livePhoto
-                    self?.view.addSubview(livePhotoView)
-                    self?.livePhotoView = livePhotoView
+                if let livePhoto = livePhoto as? PHLivePhoto {
+                    DispatchQueue.main.async {
+                        self?.updateLivePhotoView(with: livePhoto)
+                    }
+                }
+            }
+        } else if provider.canLoadObject(ofClass: UIImage.self) {
+            // Load UIImage
+            provider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+                if let error = error {
+                    print("Error loading image: \(error.localizedDescription)")
+                    return
+                }
+                if let uiImage = image as? UIImage {
+                    DispatchQueue.main.async {
+                        self?.imageView.image = uiImage
+                        self?.livePhotoView?.removeFromSuperview()
+                    }
                 }
             }
         }
@@ -337,9 +274,7 @@ extension PhotoPickerController: PHPickerViewControllerDelegate {
 
 extension PhotoPickerController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        // Handle changes to the photo library (e.g., update UI or assets)
+        // Handle changes to the photo library if needed
         print("Photo library did change.")
-        fetchAssets()
     }
 }
-

@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 12/2/24.
 //
-
 import SwiftUI
 import PhotosUI
 
@@ -27,41 +26,36 @@ struct PhotoPickerExampleView: View {
                         .frame(height: 200)
                 }
             }
-        }
-        
-        PhotosPicker(
-            selection: $selectedItems,
-            maxSelectionCount: 5,
-            matching: .any(of: [.images, .livePhotos])
-        ) {
-            Text("Select Photos")
-                .padding()
-                .foregroundColor(.white)
-                .background(Color.blue)
-                .cornerRadius(10)
-        }
-        // Use a single-parameter closure with explicit type
-        .onChange(of: selectedItems) { (newItems: [PhotosPickerItem]) in
-            images.removeAll()
-            for item in newItems {
-                // Start a Task to load the image asynchronously
+            
+            PhotosPicker(
+                selection: $selectedItems,
+                maxSelectionCount: 5,
+                matching: .any(of: [.images, .livePhotos])
+            ) {
+                Text("Select Photos")
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+            .onChange(of: selectedItems) { newItems in
+                images.removeAll()
                 Task {
-                    if let image = try? await loadPhoto(from: item) {
-                        let identifiableImage = IdentifiableImage(image: Image(uiImage: image))
-                        images.append(identifiableImage)
-                    }
+                    await loadImages(from: newItems)
                 }
             }
         }
     }
     
-    // Async function to load UIImage from PhotosPickerItem
-    func loadPhoto(from item: PhotosPickerItem) async throws -> UIImage {
-        if let data = try? await item.loadTransferable(type: Data.self),
-           let uiImage = UIImage(data: data) {
-            return uiImage
-        } else {
-            throw URLError(.badServerResponse)
+    // Async function to load images from PhotosPickerItems
+    @MainActor
+    private func loadImages(from items: [PhotosPickerItem]) async {
+        for item in items {
+            if let data = try? await item.loadTransferable(type: Data.self),
+               let uiImage = UIImage(data: data) {
+                let identifiableImage = IdentifiableImage(image: Image(uiImage: uiImage))
+                images.append(identifiableImage)
+            }
         }
     }
 }
@@ -71,4 +65,3 @@ struct PhotoPickerExampleView_Previews: PreviewProvider {
         PhotoPickerExampleView()
     }
 }
-
