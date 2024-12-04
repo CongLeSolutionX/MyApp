@@ -68,6 +68,7 @@
 		9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC0F2CE949AE00EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift */; };
 		9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC112CE94B1800EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift */; };
 		9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC132CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift */; };
+		9AFAB7DF2D010837001788DB /* VariousAnimationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAB7DE2D010828001788DB /* VariousAnimationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +247,7 @@
 		9AF7AC0F2CE949AE00EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift"; sourceTree = "<group>"; };
 		9AF7AC112CE94B1800EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift"; sourceTree = "<group>"; };
 		9AF7AC132CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift"; sourceTree = "<group>"; };
+		9AFAB7DE2D010828001788DB /* VariousAnimationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariousAnimationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -618,6 +620,7 @@
 			isa = PBXGroup;
 			children = (
 				9AA94BDD2CF9F47D00F141EB /* CardView.swift */,
+				9AFAB7DE2D010828001788DB /* VariousAnimationsView.swift */,
 				9AE1E4DB2CF86AF700E490A7 /* HorizontalScroll_WithRotate3DEffect.swift */,
 				9AE1E4DD2CF86B6F00E490A7 /* Parallax_ScrollView.swift */,
 				9AE1E4D72CF8644800E490A7 /* NavigationInSwiftUI */,
@@ -819,6 +822,7 @@
 				9AE1E4A02CF7940A00E490A7 /* PulsatingCircle.swift in Sources */,
 				9AE1E4D62CF861F200E490A7 /* LayoutInSwiftUI.swift in Sources */,
 				9AE1E4D32CF85E6600E490A7 /* AnimatedMeshView.swift in Sources */,
+				9AFAB7DF2D010837001788DB /* VariousAnimationsView.swift in Sources */,
 				9AE1E4D92CF8645B00E490A7 /* NavigationViewInSwiftUI.swift in Sources */,
 				9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */,
 				9A5E5EB92CF5F79900E6B71A /* CustomTransition.swift in Sources */,

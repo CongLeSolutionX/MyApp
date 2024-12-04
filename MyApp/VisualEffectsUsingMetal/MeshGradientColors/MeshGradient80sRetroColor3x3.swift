@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MarkdownUI
 
 // MARK: - Retro 80s Gradient
 /// Colors: Hot Pink, Teal, Electric Purple, Neon Yellow, Black, Sunset Orange, Miami Green, Synthwave Blue, Cyber Pink.
