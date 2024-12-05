@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-// Step 2: Use in SwiftUI view
-struct ContentView: View {
+struct RootContentView: View {
     var body: some View {
-        UIKitViewControllerWrapper()
-            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+        
+        let photoService = PhotoService()
+        let photoRepository = PhotoRepository(photoService: photoService)
+        let viewModel = PhotoViewModel(photoRepository: photoRepository)
+        PhotoView(viewModel: viewModel)
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
+// MARK: - Previews
 // Before iOS 17, use this syntax for preview UIKit view controller
 struct UIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
@@ -23,6 +27,6 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
 }
 
 // After iOS 17, we can use this syntax for preview:
-#Preview {
-    ContentView()
+#Preview("SwiftUI Content View") {
+    RootContentView()
 }

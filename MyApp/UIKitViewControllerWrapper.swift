@@ -8,17 +8,22 @@
 import SwiftUI
 import UIKit
 
-// Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = UINavigationController
     
-    // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+    // Required methods implementation
+    func makeUIViewController(context: Context) -> UINavigationController {
+        // Instantiate and return the PhotoViewController
+        let photoService = PhotoService()
+        let photoRepository = PhotoRepository(photoService: photoService)
+        let viewModel = PhotoViewModel(photoRepository: photoRepository)
+        let photoViewController = PhotoViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: photoViewController)
+
+        return navigationController
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
         // Update the view controller if needed
     }
 }
