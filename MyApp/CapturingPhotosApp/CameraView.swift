@@ -72,7 +72,7 @@ struct CapturingCameraView: View {
                 }
             }
             
-            Button {
+            Button { // trigger the camera on device
                 model.camera.takePhoto()
             } label: {
                 Label {

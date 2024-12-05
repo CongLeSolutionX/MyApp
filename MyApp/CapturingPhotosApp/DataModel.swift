@@ -24,7 +24,7 @@ final class DataModel: ObservableObject {
             await handleCameraPreviews()
         }
         
-        Task {
+        Task { /// This is a dedicated task for handling the captured photo stream.
             await handleCameraPhotos()
         }
     }
@@ -51,18 +51,31 @@ final class DataModel: ObservableObject {
         }
     }
     
+    /// Each `AVCapturePhoto` element in the camera’s `photoStream` may contain several images at different resolutions,
+    /// as well as other metadata about the image, such as its size and the date and time the image was captured.
+    /// We have to unpack it to get the images and metadata that we want.
+    /// This funtion help to convert `photoStream` into a more useful `unpackedPhotoStream`,
+    /// in which each element is an instance of the `PhotoData` structure that contains the data we want.
     func handleCameraPhotos() async {
         let unpackedPhotoStream = camera.photoStream
             .compactMap { self.unpackPhoto($0) }
         
+        /// The `for-await` loop now waits for a `photoData` element to arrive in our unpacked stream before processing it.
         for await photoData in unpackedPhotoStream {
             Task { @MainActor in
+                /// We use the thumbnail image in `photoData` to update our model’s `thumbnailImage` property.
                 thumbnailImage = photoData.thumbnailImage
             }
-            savePhoto(imageData: photoData.imageData)
+            savePhoto(imageData: photoData.imageData) /// Call the model’s `savePhoto(imageData:)` method to save the image data from `photoData` as a new photo in our photo library.
+            
+
         }
     }
     
+    /// To unpack the `photoStream`, we'll use the `unpackPhoto(_:)` function,
+    /// which takes a captured photo and returns a `PhotoData` instance that contains a low-resolution image thumbnail as an `Image`,
+    /// the size of the image thumbnail, a high-resolution image as `Data`,
+    /// and the size of the high-resolution image.
     private func unpackPhoto(_ photo: AVCapturePhoto) -> PhotoData? {
         guard let imageData = photo.fileDataRepresentation() else { return nil }
 
@@ -80,6 +93,8 @@ final class DataModel: ObservableObject {
         return PhotoData(thumbnailImage: thumbnailImage, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
     }
     
+    /// The `savePhoto(imageData:)` method creates a task and passes on the real work of saving the photo data
+    /// to the `photoCollection` object by calling its `addImage(_:)` method.
     func savePhoto(imageData: Data) {
         Task {
             do {

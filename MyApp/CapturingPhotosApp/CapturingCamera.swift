@@ -345,7 +345,8 @@ class CapturingCamera: NSObject {
                     photoOutputVideoConnection.videoOrientation = videoOrientation
                 }
             }
-            
+            /// We start the real work of taking the photo by requesting the photo output to capture a photo.
+            /// If all goes well, this is when you hear a reassuring shutter sound
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
         }
     }
@@ -353,7 +354,8 @@ class CapturingCamera: NSObject {
 
 // MARK: - AVCapturePhotoCaptureDelegate
 extension CapturingCamera: AVCapturePhotoCaptureDelegate {
-    
+    /// After the photo capture has completed, we receive a callback to another method in our camera object: `photoOutput(_:didFinishProcessingPhoto:error:)`.
+    /// Its first argument receives the captured photo as an instance of `AVCapturePhoto`.
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         
         if let error = error {
@@ -361,6 +363,8 @@ extension CapturingCamera: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        /// Now that we've got the captured photo, we add it into the camera’s photo stream.
+        /// It’s then available to any object in your app waiting for a photo, like the data model.
         addToPhotoStream?(photo)
     }
 }
