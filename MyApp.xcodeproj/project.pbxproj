@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
+		9A396BF42D017BB100A3F09A /* CapturingCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BF32D017BA400A3F09A /* CapturingCamera.swift */; };
 		9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */; };
 		9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
+		9A396BF32D017BA400A3F09A /* CapturingCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturingCamera.swift; sourceTree = "<group>"; };
 		9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
@@ -219,6 +221,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A396BF22D017B9600A3F09A /* CapturingPhotosApp */ = {
+			isa = PBXGroup;
+			children = (
+				9A396BF32D017BA400A3F09A /* CapturingCamera.swift */,
+			);
+			path = CapturingPhotosApp;
+			sourceTree = "<group>";
+		};
 		9A4CF4642CFE6AB200DE9FB7 /* PhotoKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -441,6 +451,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A396BF22D017B9600A3F09A /* CapturingPhotosApp */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */,
@@ -673,6 +684,7 @@
 				9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */,
 				9AF53B9D2CF8E2820020E064 /* Camera.swift in Sources */,
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
+				9A396BF42D017BB100A3F09A /* CapturingCamera.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
