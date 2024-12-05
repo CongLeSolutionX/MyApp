@@ -23,7 +23,15 @@ class CapturingCamera: NSObject {
     private var sessionQueue: DispatchQueue!
     
     private var allCaptureDevices: [AVCaptureDevice] {
-        AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInDualCamera, .builtInDualWideCamera, .builtInWideAngleCamera, .builtInDualWideCamera], mediaType: .video, position: .unspecified).devices
+        AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInTrueDepthCamera,
+                          .builtInDualCamera,
+                          .builtInDualWideCamera,
+                          .builtInWideAngleCamera,
+                          .builtInDualWideCamera],
+            mediaType: .video,
+            position: .unspecified
+        ).devices
     }
     
     private var frontCaptureDevices: [AVCaptureDevice] {
@@ -116,7 +124,12 @@ class CapturingCamera: NSObject {
         captureDevice = availableCaptureDevices.first ?? AVCaptureDevice.default(for: .video)
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateForDeviceOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateForDeviceOrientation),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil
+        )
     }
     
     private func configureCaptureSession(completionHandler: (_ success: Bool) -> Void) {
@@ -166,7 +179,7 @@ class CapturingCamera: NSObject {
         self.photoOutput = photoOutput
         self.videoOutput = videoOutput
         
-        photoOutput.isHighResolutionCaptureEnabled = true
+        photoOutput.maxPhotoDimensions = .init(width: 1920, height: 1080)
         photoOutput.maxPhotoQualityPrioritization = .quality
         
         updateVideoOutputConnection()
@@ -293,6 +306,7 @@ class CapturingCamera: NSObject {
         //TODO: Figure out if we need this for anything.
     }
     
+    //TODO: Update to the latest API
     private func videoOrientationFor(_ deviceOrientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
         switch deviceOrientation {
         case .portrait: return AVCaptureVideoOrientation.portrait
@@ -316,13 +330,14 @@ class CapturingCamera: NSObject {
             
             let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
             photoSettings.flashMode = isFlashAvailable ? .auto : .off
-            photoSettings.isHighResolutionPhotoEnabled = true
+            photoSettings.maxPhotoDimensions = photoOutput.maxPhotoDimensions
             if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
             }
             photoSettings.photoQualityPrioritization = .balanced
             
             if let photoOutputVideoConnection = photoOutput.connection(with: .video) {
+                //TODO: Update to the latest API
                 if photoOutputVideoConnection.isVideoOrientationSupported,
                     let videoOrientation = self.videoOrientationFor(self.deviceOrientation) {
                     photoOutputVideoConnection.videoOrientation = videoOrientation
@@ -353,7 +368,7 @@ extension CapturingCamera: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
-        
+        //TODO: Update to the latest API
         if connection.isVideoOrientationSupported,
            let videoOrientation = videoOrientationFor(deviceOrientation) {
             connection.videoOrientation = videoOrientation
