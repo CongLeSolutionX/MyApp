@@ -68,19 +68,20 @@ struct PhotoAsset: Identifiable {
     }
 }
 
+// MARK: - Equatable
 extension PhotoAsset: Equatable {
     static func ==(lhs: PhotoAsset, rhs: PhotoAsset) -> Bool {
         (lhs.identifier == rhs.identifier) && (lhs.isFavorite == rhs.isFavorite)
     }
 }
-
+// MARK: - Hashable
 extension PhotoAsset: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }
 }
-
-extension PHObject: Identifiable {
+// MARK: - Identifiable
+extension PHObject: @retroactive Identifiable {
     public var id: String { localIdentifier }
 }
 

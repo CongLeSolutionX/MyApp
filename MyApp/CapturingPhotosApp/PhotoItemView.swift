@@ -41,3 +41,8 @@ struct PhotoItemView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview {
+    PhotoItemView(asset: .init(identifier: "ID"), cache: .init(), imageSize: .init())
+}

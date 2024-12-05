@@ -10,6 +10,8 @@ import SwiftUI
 import os.log
 
 struct PhotoCollectionView: View {
+    /// use a `PhotoCollectionView` to display your photos in a scrolling grid,
+    /// with the most recent photos at the top.
     @ObservedObject var photoCollection : PhotoCollection
     
     @Environment(\.displayScale) private var displayScale
@@ -28,12 +30,19 @@ struct PhotoCollectionView: View {
     
     var body: some View {
         ScrollView {
+            /// Using `LazyGrid` because the layout uses a vertical grid,
+            /// we only need to decide how many columns we want and the spacing between each item.
+            /// After the grid has the number of columns, it expands vertically to add enough rows for displaying all of our photos.
             LazyVGrid(columns: columns, spacing: Self.itemSpacing) {
                 ForEach(photoCollection.photoAssets) { asset in
+                    /// create a `NavigationLink` for each grid item that, when tapped or clicked,
+                    /// displays the individual photo at full size using the destination `PhotoView` initialized with the photo asset.
                     NavigationLink {
                         PhotoView(asset: asset, cache: photoCollection.cache)
                     } label: {
-                        photoItemView(asset: asset)
+                        /// We’ll use this view as the label for the navigation link,
+                        /// displaying each link as a thumbnail-sized image of the photo.
+                        photoItemView(asset: asset) /// creates a view that displays a small image thumbnail for a photo asset.
                     }
                     .buttonStyle(.borderless)
                     .accessibilityLabel(asset.accessibilityLabel)
@@ -71,4 +80,9 @@ struct PhotoCollectionView: View {
                 }
             }
     }
+}
+
+// MARK: - Preview
+#Preview {
+    PhotoCollectionView(photoCollection: .init(albumNamed: "Unknown Album"))
 }

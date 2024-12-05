@@ -11,6 +11,9 @@ import os.log
 
 class PhotoCollection: NSObject, ObservableObject {
     
+    /// `photoAssets` enables use of the photo assets collection just like we would an array.
+    /// We can fetch a photo asset using its index: `photoAssets[4]`, or use `photoAssets.coun` to get the number of photos in the collection.
+    /// Since its is a `ObservableObject`, the property `photoAssets` can respond to changes in the photo assets, such as when photos are added or deleted.
     @Published var photoAssets: PhotoAssetCollection = PhotoAssetCollection(PHFetchResult<PHAsset>())
     
     var identifier: String? {
@@ -234,6 +237,7 @@ class PhotoCollection: NSObject, ObservableObject {
     }
 }
 
+// MARK: - PHPhotoLibraryChangeObserver
 extension PhotoCollection: PHPhotoLibraryChangeObserver {
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {

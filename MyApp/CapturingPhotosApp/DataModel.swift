@@ -12,7 +12,7 @@ import os.log
 
 final class DataModel: ObservableObject {
     let camera = Camera()
-    let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
+    let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary) /// This property represents any collection of items in your photo library.
     
     @Published var viewfinderImage: Image?
     @Published var thumbnailImage: Image?
@@ -145,6 +145,8 @@ fileprivate struct PhotoData {
     var imageSize: (width: Int, height: Int)
 }
 
+
+// MARK: - CIImage extension
 fileprivate extension CIImage {
     var image: Image? {
         let ciContext = CIContext()
@@ -153,6 +155,7 @@ fileprivate extension CIImage {
     }
 }
 
+// MARK: - Image Extension
 fileprivate extension Image.Orientation {
 
     init(_ cgImageOrientation: CGImagePropertyOrientation) {

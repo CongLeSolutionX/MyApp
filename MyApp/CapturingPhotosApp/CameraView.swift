@@ -56,9 +56,15 @@ struct CapturingCameraView: View {
             
             Spacer()
             
-            NavigationLink {
+            NavigationLink { /// A navigation link is just like a button — we can even give it a label and an icon.
+                /// By passing our model’s `photoCollection` to the `PhotoCollectionView` when we initialize it,
+                /// we provide the collection of photos that we want to display in our gallery.
                 PhotoCollectionView(photoCollection: model.photoCollection)
                     .onAppear {
+                        /// When we open the gallery, we'll no longer see the viewfinder, so there’s no need to keep updating it.
+                        /// Instead, you’d rather concentrate the device’s performance on displaying your photos.
+                        /// To control when the camera’s preview stream is active, use the navigation link’s `onAppear(perform:)` modifier
+                        /// to pause it when the gallery appears, and `onDisappear(perform:)` to resume it again when you navigate back to the camera.
                         model.camera.isPreviewPaused = true
                     }
                     .onDisappear {
@@ -105,4 +111,9 @@ struct CapturingCameraView: View {
         .padding()
     }
     
+}
+
+// MARK: - Preview
+#Preview("Capturing Camera View") {
+    CapturingCameraView()
 }

@@ -39,6 +39,8 @@ class PhotoAssetCollection: RandomAccessCollection {
     }
 }
 
+
+// MARK: - Sequence and IteratorProtocol
 extension PhotoAssetCollection: Sequence, IteratorProtocol {
 
     func next() -> PhotoAsset? {

@@ -14,8 +14,8 @@ struct MyAppApp: App {
         WindowGroup {
             //SwiftUIContentView()
             //TikTikHomeView()
-            //CameraView()
-            PhotoPickerExampleView()
+            CapturingCameraView()
+            //PhotoPickerExampleView()
         }
     }
 }
