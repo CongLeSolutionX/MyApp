@@ -18,7 +18,7 @@ struct CapturingCameraView: View {
         
         NavigationStack {
             GeometryReader { geometry in
-                ViewfinderView(image:  $model.viewfinderImage )
+                ViewfinderView(image:  $model.viewfinderImage ) // uses to display live video from the camera
                     .overlay(alignment: .top) {
                         Color.black
                             .opacity(0.75)

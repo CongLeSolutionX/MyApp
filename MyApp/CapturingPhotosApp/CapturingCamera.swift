@@ -92,6 +92,8 @@ class CapturingCamera: NSObject {
     
     var isPreviewPaused = false
     
+    /// We receive these preview images through the camera’s previewStream property,
+    /// as an asynchronous stream of `CIImage` (`Core Image`) objects.
     lazy var previewStream: AsyncStream<CIImage> = {
         AsyncStream { continuation in
             addToPreviewStream = { ciImage in
@@ -247,6 +249,9 @@ class CapturingCamera: NSObject {
         }
     }
     
+    /// After calling the camera’s `start()` method,
+    /// its video output produces a stream of low-resolution preview images (video frames),
+    /// at rates of up to 60 frames a second.
     func start() async {
         let authorized = await checkAuthorization()
         guard authorized else {

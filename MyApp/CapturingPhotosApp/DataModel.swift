@@ -20,7 +20,7 @@ final class DataModel: ObservableObject {
     var isPhotosLoaded = false
     
     init() {
-        Task {
+        Task { /// This is a  dedicated task to handle the stream of preview images from the camera
             await handleCameraPreviews()
         }
         
@@ -29,12 +29,23 @@ final class DataModel: ObservableObject {
         }
     }
     
+    ///`handleCameraPreviews` turns the preview stream of `CIImage` objects from the camera
+    /// into a stream of Image views, ready for display.
     func handleCameraPreviews() async {
+        /// We use `stream’s map(_:)` function to convert each element — `$0` — into an Image instance
+        /// using an image property extension of `CIImage`.
+        /// This transforms the stream of `CIImage` instances into a stream of Image instances.
         let imageStream = camera.previewStream
             .map { $0.image }
 
+        /// The `for-await` loop waits for each image in our transformed `imageStream`
+        /// before doing something with it.
         for await image in imageStream {
             Task { @MainActor in
+                /// We use the image from the preview stream
+                ///  to update your data model’s viewfinderImage property.
+                ///  SwiftUI makes sure that any views using this property get updated
+                ///  when the viewfinderImage value changes.
                 viewfinderImage = image
             }
         }

@@ -248,19 +248,19 @@
 		9A396BF22D017B9600A3F09A /* CapturingPhotosApp */ = {
 			isa = PBXGroup;
 			children = (
-				9A396C0B2D01856000A3F09A /* ThumbnailView.swift */,
-				9A396C092D01854900A3F09A /* PhotoItemView.swift */,
-				9A396C072D01853700A3F09A /* PhotoView.swift */,
-				9A396C052D01852600A3F09A /* PhotoCollectionView.swift */,
-				9A396C032D01850D00A3F09A /* ViewfinderView.swift */,
+				9A396BF52D01822B00A3F09A /* CachedImageManager.swift */,
+				9A396BF92D0182B600A3F09A /* CameraView.swift */,
+				9A396BF32D017BA400A3F09A /* CapturingCamera.swift */,
+				9A396BFB2D01849E00A3F09A /* DataModel.swift */,
+				9A396BF72D01824C00A3F09A /* PhotoAsset.swift */,
 				9A396C012D0184DE00A3F09A /* PhotoAssetCollection.swift */,
 				9A396BFF2D0184CB00A3F09A /* PhotoCollection.swift */,
+				9A396C052D01852600A3F09A /* PhotoCollectionView.swift */,
+				9A396C092D01854900A3F09A /* PhotoItemView.swift */,
 				9A396BFD2D0184B000A3F09A /* PhotoLibrary.swift */,
-				9A396BF92D0182B600A3F09A /* CameraView.swift */,
-				9A396BFB2D01849E00A3F09A /* DataModel.swift */,
-				9A396BF52D01822B00A3F09A /* CachedImageManager.swift */,
-				9A396BF72D01824C00A3F09A /* PhotoAsset.swift */,
-				9A396BF32D017BA400A3F09A /* CapturingCamera.swift */,
+				9A396C072D01853700A3F09A /* PhotoView.swift */,
+				9A396C0B2D01856000A3F09A /* ThumbnailView.swift */,
+				9A396C032D01850D00A3F09A /* ViewfinderView.swift */,
 			);
 			path = CapturingPhotosApp;
 			sourceTree = "<group>";
