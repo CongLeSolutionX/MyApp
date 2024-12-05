@@ -11,6 +11,16 @@
 		9A396BF42D017BB100A3F09A /* CapturingCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BF32D017BA400A3F09A /* CapturingCamera.swift */; };
 		9A396BF62D01823400A3F09A /* CachedImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BF52D01822B00A3F09A /* CachedImageManager.swift */; };
 		9A396BF82D01825700A3F09A /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BF72D01824C00A3F09A /* PhotoAsset.swift */; };
+		9A396BFA2D0182B600A3F09A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BF92D0182B600A3F09A /* CameraView.swift */; };
+		9A396BFC2D0184A200A3F09A /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BFB2D01849E00A3F09A /* DataModel.swift */; };
+		9A396BFE2D0184B100A3F09A /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BFD2D0184B000A3F09A /* PhotoLibrary.swift */; };
+		9A396C002D0184CC00A3F09A /* PhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396BFF2D0184CB00A3F09A /* PhotoCollection.swift */; };
+		9A396C022D0184DF00A3F09A /* PhotoAssetCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C012D0184DE00A3F09A /* PhotoAssetCollection.swift */; };
+		9A396C042D01850E00A3F09A /* ViewfinderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C032D01850D00A3F09A /* ViewfinderView.swift */; };
+		9A396C062D01852700A3F09A /* PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C052D01852600A3F09A /* PhotoCollectionView.swift */; };
+		9A396C082D01853700A3F09A /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C072D01853700A3F09A /* PhotoView.swift */; };
+		9A396C0A2D01854900A3F09A /* PhotoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C092D01854900A3F09A /* PhotoItemView.swift */; };
+		9A396C0C2D01856100A3F09A /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C0B2D01856000A3F09A /* ThumbnailView.swift */; };
 		9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */; };
 		9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
@@ -63,6 +73,16 @@
 		9A396BF32D017BA400A3F09A /* CapturingCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturingCamera.swift; sourceTree = "<group>"; };
 		9A396BF52D01822B00A3F09A /* CachedImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageManager.swift; sourceTree = "<group>"; };
 		9A396BF72D01824C00A3F09A /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
+		9A396BF92D0182B600A3F09A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		9A396BFB2D01849E00A3F09A /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		9A396BFD2D0184B000A3F09A /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
+		9A396BFF2D0184CB00A3F09A /* PhotoCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollection.swift; sourceTree = "<group>"; };
+		9A396C012D0184DE00A3F09A /* PhotoAssetCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAssetCollection.swift; sourceTree = "<group>"; };
+		9A396C032D01850D00A3F09A /* ViewfinderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewfinderView.swift; sourceTree = "<group>"; };
+		9A396C052D01852600A3F09A /* PhotoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionView.swift; sourceTree = "<group>"; };
+		9A396C072D01853700A3F09A /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		9A396C092D01854900A3F09A /* PhotoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItemView.swift; sourceTree = "<group>"; };
+		9A396C0B2D01856000A3F09A /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
@@ -228,6 +248,16 @@
 		9A396BF22D017B9600A3F09A /* CapturingPhotosApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A396C0B2D01856000A3F09A /* ThumbnailView.swift */,
+				9A396C092D01854900A3F09A /* PhotoItemView.swift */,
+				9A396C072D01853700A3F09A /* PhotoView.swift */,
+				9A396C052D01852600A3F09A /* PhotoCollectionView.swift */,
+				9A396C032D01850D00A3F09A /* ViewfinderView.swift */,
+				9A396C012D0184DE00A3F09A /* PhotoAssetCollection.swift */,
+				9A396BFF2D0184CB00A3F09A /* PhotoCollection.swift */,
+				9A396BFD2D0184B000A3F09A /* PhotoLibrary.swift */,
+				9A396BF92D0182B600A3F09A /* CameraView.swift */,
+				9A396BFB2D01849E00A3F09A /* DataModel.swift */,
 				9A396BF52D01822B00A3F09A /* CachedImageManager.swift */,
 				9A396BF72D01824C00A3F09A /* PhotoAsset.swift */,
 				9A396BF32D017BA400A3F09A /* CapturingCamera.swift */,
@@ -678,15 +708,23 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
+				9A396C002D0184CC00A3F09A /* PhotoCollection.swift in Sources */,
+				9A396C082D01853700A3F09A /* PhotoView.swift in Sources */,
 				9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */,
+				9A396C062D01852700A3F09A /* PhotoCollectionView.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
+				9A396BFC2D0184A200A3F09A /* DataModel.swift in Sources */,
+				9A396C022D0184DF00A3F09A /* PhotoAssetCollection.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
+				9A396C0C2D01856100A3F09A /* ThumbnailView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
 				9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */,
+				9A396C042D01850E00A3F09A /* ViewfinderView.swift in Sources */,
 				9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */,
+				9A396C0A2D01854900A3F09A /* PhotoItemView.swift in Sources */,
 				9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */,
 				9AF53B9D2CF8E2820020E064 /* Camera.swift in Sources */,
 				9A396BF62D01823400A3F09A /* CachedImageManager.swift in Sources */,
@@ -694,8 +732,10 @@
 				9A396BF42D017BB100A3F09A /* CapturingCamera.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
+				9A396BFA2D0182B600A3F09A /* CameraView.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A396BFE2D0184B100A3F09A /* PhotoLibrary.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 				9A396BF82D01825700A3F09A /* PhotoAsset.swift in Sources */,
 			);

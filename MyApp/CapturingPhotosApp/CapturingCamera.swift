@@ -4,10 +4,7 @@
 //
 //  Created by Cong Le on 12/4/24.
 //
-
-/*
-See the License.txt file for this sample’s licensing information.
-*/
+// Source: https://developer.apple.com/tutorials/sample-apps/capturingphotos-captureandsave
 
 import AVFoundation
 import CoreImage

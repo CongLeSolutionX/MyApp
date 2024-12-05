@@ -4,7 +4,7 @@
 //
 //  Created by Cong Le on 12/4/24.
 //
-
+// Source: https://developer.apple.com/tutorials/sample-apps/capturingphotos-captureandsave
 
 import Photos
 import os.log
