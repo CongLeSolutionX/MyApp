@@ -6,7 +6,7 @@
 //
 
 /*
-Source:
+Source: https://developer.apple.com/documentation/vision/analyzing-a-selfie-and-visualizing-its-content?changes=_4
 
 Abstract:
 Provides the initial option to select photos.

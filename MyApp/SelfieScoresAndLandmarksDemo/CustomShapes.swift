@@ -6,7 +6,7 @@
 //
 
 /*
-Source:
+Source: https://developer.apple.com/documentation/vision/analyzing-a-selfie-and-visualizing-its-content?changes=_4
 
 Abstract:
 Provides custom shapes to draw bounding boxes and outline facial features.

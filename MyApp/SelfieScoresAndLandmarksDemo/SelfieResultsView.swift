@@ -6,7 +6,7 @@
 //
 
 /*
-Source:
+Source: https://developer.apple.com/documentation/vision/analyzing-a-selfie-and-visualizing-its-content?changes=_4
 
 Abstract:
 Displays the selected image and its results based on the Vision requests.
