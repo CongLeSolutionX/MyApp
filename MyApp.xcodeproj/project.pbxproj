@@ -27,10 +27,15 @@
 		9A396C282D02B6EF00A3F09A /* SegmentationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C272D02B6EE00A3F09A /* SegmentationModel.swift */; };
 		9A396C2A2D02B70B00A3F09A /* SegmentationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C292D02B70A00A3F09A /* SegmentationResults.swift */; };
 		9A396C392D02BA4900A3F09A /* PersonInstanceDemoAssests.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A396C382D02BA4900A3F09A /* PersonInstanceDemoAssests.xcassets */; };
+		9A396C5F2D02BED200A3F09A /* SelfieScoresAndLandmarksMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C5E2D02BED000A3F09A /* SelfieScoresAndLandmarksMainView.swift */; };
+		9A396C612D02BF0200A3F09A /* SelfieAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C602D02BF0200A3F09A /* SelfieAnalysis.swift */; };
+		9A396C632D02BF5700A3F09A /* SelfieResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C622D02BF5600A3F09A /* SelfieResultsView.swift */; };
+		9A396C652D02BF8F00A3F09A /* CustomShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C642D02BF8E00A3F09A /* CustomShapes.swift */; };
 		9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */; };
 		9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
+		9A99464E2D03A46E0082C81D /* SelfieScoresAndLandmarksAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A99464D2D03A46E0082C81D /* SelfieScoresAndLandmarksAssets.xcassets */; };
 		9AA0A1D42CF2BFAA0040EE8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9AA0A1D22CF2BFAA0040EE8C /* README.md */; };
 		9AA0A1D52CF2BFAA0040EE8C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9AA0A1D12CF2BFAA0040EE8C /* LICENSE.txt */; };
 		9AA0A1D62CF2BFAA0040EE8C /* MakeSingleHeader.py in Resources */ = {isa = PBXBuildFile; fileRef = 9AA0A1CF2CF2BFAA0040EE8C /* MakeSingleHeader.py */; };
@@ -95,11 +100,16 @@
 		9A396C272D02B6EE00A3F09A /* SegmentationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentationModel.swift; sourceTree = "<group>"; };
 		9A396C292D02B70A00A3F09A /* SegmentationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentationResults.swift; sourceTree = "<group>"; };
 		9A396C382D02BA4900A3F09A /* PersonInstanceDemoAssests.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PersonInstanceDemoAssests.xcassets; sourceTree = "<group>"; };
+		9A396C5E2D02BED000A3F09A /* SelfieScoresAndLandmarksMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieScoresAndLandmarksMainView.swift; sourceTree = "<group>"; };
+		9A396C602D02BF0200A3F09A /* SelfieAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieAnalysis.swift; sourceTree = "<group>"; };
+		9A396C622D02BF5600A3F09A /* SelfieResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieResultsView.swift; sourceTree = "<group>"; };
+		9A396C642D02BF8E00A3F09A /* CustomShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShapes.swift; sourceTree = "<group>"; };
 		9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A85254D2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPermissionsManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A99464D2D03A46E0082C81D /* SelfieScoresAndLandmarksAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SelfieScoresAndLandmarksAssets.xcassets; sourceTree = "<group>"; };
 		9AA0016C2CEA90D7000A1007 /* PhotoPickerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPickerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA0A16C2CF2BFAA0040EE8C /* Foundation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Foundation.hpp; sourceTree = "<group>"; };
 		9AA0A16D2CF2BFAA0040EE8C /* NSArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NSArray.hpp; sourceTree = "<group>"; };
@@ -304,6 +314,18 @@
 				9A396C232D02B69B00A3F09A /* PhotoSelectionModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		9A396C5D2D02BEBA00A3F09A /* SelfieScoresAndLandmarksDemo */ = {
+			isa = PBXGroup;
+			children = (
+				9A396C642D02BF8E00A3F09A /* CustomShapes.swift */,
+				9A396C602D02BF0200A3F09A /* SelfieAnalysis.swift */,
+				9A396C622D02BF5600A3F09A /* SelfieResultsView.swift */,
+				9A396C5E2D02BED000A3F09A /* SelfieScoresAndLandmarksMainView.swift */,
+				9A99464D2D03A46E0082C81D /* SelfieScoresAndLandmarksAssets.xcassets */,
+			);
+			path = SelfieScoresAndLandmarksDemo;
 			sourceTree = "<group>";
 		};
 		9A4CF4642CFE6AB200DE9FB7 /* PhotoKit */ = {
@@ -533,6 +555,7 @@
 				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A396C5D2D02BEBA00A3F09A /* SelfieScoresAndLandmarksDemo */,
 				9A396C1E2D02B64800A3F09A /* PersonInstanceMaskDemo */,
 				9A4CF4642CFE6AB200DE9FB7 /* PhotoKit */,
 				9AF53B9B2CF8E2690020E064 /* ConstantColorCam */,
@@ -723,6 +746,7 @@
 				9AA0A1D42CF2BFAA0040EE8C /* README.md in Resources */,
 				9AA0A1D52CF2BFAA0040EE8C /* LICENSE.txt in Resources */,
 				9AA0A1D62CF2BFAA0040EE8C /* MakeSingleHeader.py in Resources */,
+				9A99464E2D03A46E0082C81D /* SelfieScoresAndLandmarksAssets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 				9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */,
 			);
@@ -775,10 +799,13 @@
 				9AF7AC0E2CE948E800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-GPT-4o.swift in Sources */,
 				9A396C2A2D02B70B00A3F09A /* SegmentationResults.swift in Sources */,
 				9A396C202D02B66400A3F09A /* PhotoSelectionView.swift in Sources */,
+				9A396C612D02BF0200A3F09A /* SelfieAnalysis.swift in Sources */,
 				9A396C262D02B6C700A3F09A /* SegmentationResultsView.swift in Sources */,
+				9A396C652D02BF8F00A3F09A /* CustomShapes.swift in Sources */,
 				9A396BF42D017BB100A3F09A /* CapturingCamera.swift in Sources */,
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
+				9A396C632D02BF5700A3F09A /* SelfieResultsView.swift in Sources */,
 				9A396BFA2D0182B600A3F09A /* CameraView.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
@@ -786,6 +813,7 @@
 				9A396C242D02B69B00A3F09A /* PhotoSelectionModel.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 				9A396BF82D01825700A3F09A /* PhotoAsset.swift in Sources */,
+				9A396C5F2D02BED200A3F09A /* SelfieScoresAndLandmarksMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

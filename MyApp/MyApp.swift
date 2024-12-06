@@ -14,8 +14,13 @@ struct MyAppApp: App {
         WindowGroup {
             //SwiftUIContentView()
             //TikTikHomeView()
-            CapturingCameraView()
+            //CapturingCameraView()
             //PhotoPickerExampleView()
+            if #available(iOS 18.0, *) {
+                SelfieScoresAndLandmarksMainView()
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }
