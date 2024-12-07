@@ -17,7 +17,7 @@ import SwiftUI
 import Vision
 
 @available(iOS 18.0, *)
-struct Selfie: Hashable {
+struct Selfie_Original: Hashable {
     var photo: Data
     var score: Float
     var facesDetected: Int {
@@ -30,7 +30,7 @@ struct Selfie: Hashable {
 
 /// A function that processes a single photo, and returns a new `Selfie` object with the results.
 @available(iOS 18.0, *)
-func processSelfie(photo: Data) async throws -> Selfie {
+func processSelfie(photo: Data) async throws -> Selfie_Original {
     /// Instantiate the `Vision` requests.
     let detectFacesRequest = DetectFaceRectanglesRequest()
     var qualityRequest = DetectFaceCaptureQualityRequest()
@@ -59,14 +59,14 @@ func processSelfie(photo: Data) async throws -> Selfie {
         score /= Float(qualityResults.count)
     }
         
-    return Selfie(photo: photo, score: score, landmarksResults: landmarksResults)
+    return Selfie_Original(photo: photo, score: score, landmarksResults: landmarksResults)
 }
 
 /// Concurrently processes a collection of photos by using the `processSelfie` function and returns a sorted array of `Selfie` objects.
 @available(iOS 18.0, *)
-func processAllSelfies(photos: [Data]) async throws -> [Selfie] {
-    var selfies = [Selfie]()
-    try await withThrowingTaskGroup(of: Selfie.self) { group in
+func processAllSelfies(photos: [Data]) async throws -> [Selfie_Original] {
+    var selfies = [Selfie_Original]()
+    try await withThrowingTaskGroup(of: Selfie_Original.self) { group in
         for photo in photos {
             group.addTask {
                 return try await processSelfie(photo: photo)

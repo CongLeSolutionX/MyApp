@@ -15,8 +15,8 @@ Displays the selected image and its results based on the Vision requests.
 import SwiftUI
 
 @available(iOS 18.0, *)
-struct SelfieResultsView: View {
-    var selfie: Selfie
+struct SelfieResultsView_Original: View {
+    var selfie: Selfie_Original
     
     @State private var showingFaceRectangle = false
     @State private var showingFaceLandmarks = false
