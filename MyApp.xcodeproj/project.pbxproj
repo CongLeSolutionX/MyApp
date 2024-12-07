@@ -31,6 +31,8 @@
 		9A396C612D02BF0200A3F09A /* SelfieAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C602D02BF0200A3F09A /* SelfieAnalysis.swift */; };
 		9A396C632D02BF5700A3F09A /* SelfieResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C622D02BF5600A3F09A /* SelfieResultsView.swift */; };
 		9A396C652D02BF8F00A3F09A /* CustomShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C642D02BF8E00A3F09A /* CustomShapes.swift */; };
+		9A451AA52D050AF00050D2C6 /* FacePoseSegmentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */; };
+		9A451AA72D050B5E0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */; };
 		9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */; };
 		9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
@@ -104,6 +106,8 @@
 		9A396C602D02BF0200A3F09A /* SelfieAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieAnalysis.swift; sourceTree = "<group>"; };
 		9A396C622D02BF5600A3F09A /* SelfieResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieResultsView.swift; sourceTree = "<group>"; };
 		9A396C642D02BF8E00A3F09A /* CustomShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShapes.swift; sourceTree = "<group>"; };
+		9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePoseSegmentationViewController.swift; sourceTree = "<group>"; };
+		9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FacePoseSegmentationViewController+Helpers.swift"; sourceTree = "<group>"; };
 		9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
@@ -341,6 +345,8 @@
 		9A451AA32D050AA10050D2C6 /* FacePoseSegmentation */ = {
 			isa = PBXGroup;
 			children = (
+				9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */,
+				9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */,
 			);
 			path = FacePoseSegmentation;
 			sourceTree = "<group>";
@@ -798,6 +804,7 @@
 				9A396C062D01852700A3F09A /* PhotoCollectionView.swift in Sources */,
 				9AF7AC142CE94CAE00EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_with-my-updates.swift in Sources */,
 				9AF7AC122CE94B2000EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-Gemini-1-5-Pro-002_Original-version.swift in Sources */,
+				9A451AA72D050B5E0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift in Sources */,
 				9A396BFC2D0184A200A3F09A /* DataModel.swift in Sources */,
 				9A396C022D0184DF00A3F09A /* PhotoAssetCollection.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
@@ -809,6 +816,7 @@
 				9A396C042D01850E00A3F09A /* ViewfinderView.swift in Sources */,
 				9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */,
 				9A396C0A2D01854900A3F09A /* PhotoItemView.swift in Sources */,
+				9A451AA52D050AF00050D2C6 /* FacePoseSegmentationViewController.swift in Sources */,
 				9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */,
 				9AF53B9D2CF8E2820020E064 /* Camera.swift in Sources */,
 				9A396BF62D01823400A3F09A /* CachedImageManager.swift in Sources */,
