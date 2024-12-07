@@ -16,6 +16,7 @@
 import UIKit
 import Vision
 import AVFoundation
+import MetalKit
 
 
 
@@ -38,17 +39,24 @@ final class FacePoseSegmentationViewController: UIViewController {
 //        }
 //    }
     
+    lazy var cameraView: MTKView = {
+        let cameraView = MTKView()
+        cameraView.device = MTLCreateSystemDefaultDevice()
+        cameraView.clearColor = .init(red: 0, green: 0, blue: 0, alpha: 0)
+        return cameraView
+    }()
+    
     // The Metal pipeline.
     public var metalDevice: MTLDevice!
     public var metalCommandQueue: MTLCommandQueue!
     
     // The Core Image pipeline.
     public var ciContext: CIContext!
-//    public var currentCIImage: CIImage? {
-//        didSet {
-//            cameraView.draw()
-//        }
-//    }
+    public var currentCIImage: CIImage? {
+        didSet {
+            cameraView.draw()
+        }
+    }
     
     // The capture session that provides video frames.
     public var session: AVCaptureSession?

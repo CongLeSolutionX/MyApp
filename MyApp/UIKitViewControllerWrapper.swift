@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PhotoPickerController
+    typealias UIViewControllerType = FacePoseSegmentationViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> PhotoPickerController {
+    func makeUIViewController(context: Context) -> FacePoseSegmentationViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return PhotoPickerController()
+        return FacePoseSegmentationViewController()
     }
     
-    func updateUIViewController(_ uiViewController: PhotoPickerController, context: Context) {
+    func updateUIViewController(_ uiViewController: FacePoseSegmentationViewController, context: Context) {
         // Update the view controller if needed
     }
 }
