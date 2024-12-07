@@ -328,6 +328,23 @@
 			path = SelfieScoresAndLandmarksDemo;
 			sourceTree = "<group>";
 		};
+		9A451AA22D050A550050D2C6 /* VISION */ = {
+			isa = PBXGroup;
+			children = (
+				9A451AA32D050AA10050D2C6 /* FacePoseSegmentation */,
+				9A396C1E2D02B64800A3F09A /* PersonInstanceMaskDemo */,
+				9A396C5D2D02BEBA00A3F09A /* SelfieScoresAndLandmarksDemo */,
+			);
+			path = VISION;
+			sourceTree = "<group>";
+		};
+		9A451AA32D050AA10050D2C6 /* FacePoseSegmentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FacePoseSegmentation;
+			sourceTree = "<group>";
+		};
 		9A4CF4642CFE6AB200DE9FB7 /* PhotoKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,13 +567,12 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A451AA22D050A550050D2C6 /* VISION */,
 				9A396BF22D017B9600A3F09A /* CapturingPhotosApp */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */,
 				9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A396C5D2D02BEBA00A3F09A /* SelfieScoresAndLandmarksDemo */,
-				9A396C1E2D02B64800A3F09A /* PersonInstanceMaskDemo */,
 				9A4CF4642CFE6AB200DE9FB7 /* PhotoKit */,
 				9AF53B9B2CF8E2690020E064 /* ConstantColorCam */,
 				9A54306F2CE9B93400A49091 /* AppleNativeCamera */,
