@@ -33,6 +33,7 @@
 		9A396C652D02BF8F00A3F09A /* CustomShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A396C642D02BF8E00A3F09A /* CustomShapes.swift */; };
 		9A451AA52D050AF00050D2C6 /* FacePoseSegmentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */; };
 		9A451AA72D050B5E0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */; };
+		9A451AA92D050D7A0050D2C6 /* FacePoseSegmentationViewController+Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A451AA82D050D750050D2C6 /* FacePoseSegmentationViewController+Metal.swift */; };
 		9A4CF4662CFE701600DE9FB7 /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */; };
 		9A4CF4682CFE840000DE9FB7 /* PhotoPickerExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
@@ -108,6 +109,7 @@
 		9A396C642D02BF8E00A3F09A /* CustomShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShapes.swift; sourceTree = "<group>"; };
 		9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePoseSegmentationViewController.swift; sourceTree = "<group>"; };
 		9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FacePoseSegmentationViewController+Helpers.swift"; sourceTree = "<group>"; };
+		9A451AA82D050D750050D2C6 /* FacePoseSegmentationViewController+Metal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FacePoseSegmentationViewController+Metal.swift"; sourceTree = "<group>"; };
 		9A4CF4652CFE701500DE9FB7 /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
 		9A4CF4672CFE83FF00DE9FB7 /* PhotoPickerExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerExampleView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 		9A451AA32D050AA10050D2C6 /* FacePoseSegmentation */ = {
 			isa = PBXGroup;
 			children = (
+				9A451AA82D050D750050D2C6 /* FacePoseSegmentationViewController+Metal.swift */,
 				9A451AA62D050B5A0050D2C6 /* FacePoseSegmentationViewController+Helpers.swift */,
 				9A451AA42D050AEB0050D2C6 /* FacePoseSegmentationViewController.swift */,
 			);
@@ -809,6 +812,7 @@
 				9A396C022D0184DF00A3F09A /* PhotoAssetCollection.swift in Sources */,
 				9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */,
 				9AF7AC0C2CE9483200EEF5D7 /* My-profile-FOR-YOU-screen_303KB_by-GPT-4o.swift in Sources */,
+				9A451AA92D050D7A0050D2C6 /* FacePoseSegmentationViewController+Metal.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* TikTikHomeView.swift in Sources */,
 				9A396C0C2D01856100A3F09A /* ThumbnailView.swift in Sources */,
 				9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */,
