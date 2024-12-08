@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MTKViewController
+    typealias UIViewControllerType = SecondMTKViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> MTKViewController {
+    func makeUIViewController(context: Context) -> SecondMTKViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return MTKViewController()
+        return SecondMTKViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MTKViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: SecondMTKViewController, context: Context) {
         // Update the view controller if needed
     }
 }
