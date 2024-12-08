@@ -12,7 +12,62 @@
  */
 
 import MetalKit
+import AVFoundation
 
+
+extension FacePoseSegmentationViewController {
+    
+    func setupMetalKitView() {
+        metalDevice = MTLCreateSystemDefaultDevice()
+        metalCommandQueue = metalDevice?.makeCommandQueue()
+        
+        cameraView.device = metalDevice
+        cameraView.delegate = self
+        
+        cameraView.isPaused = true
+        cameraView.enableSetNeedsDisplay = false
+        cameraView.framebufferOnly = false
+    }
+    
+    func setupCoreImage() {
+        ciContext = CIContext(mtlDevice: metalDevice)
+    }
+    
+    func setupCaptureSession() {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+            fatalError("Error creating AVCaptureDevice")
+        }
+        
+        guard let input = try? AVCaptureDeviceInput(device: device) else {
+            fatalError("Error creating AVCaptureDeviceInput")
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.session = AVCaptureSession()
+            strongSelf.session?.sessionPreset = .high
+            strongSelf.session?.addInput(input)
+            
+            let output = AVCaptureVideoDataOutput()
+            output.alwaysDiscardsLateVideoFrames = true
+            output.setSampleBufferDelegate(strongSelf, queue: .main)
+            
+            strongSelf.session?.addOutput(output)
+            output.connections.first?.videoOrientation = .portrait
+            strongSelf.session?.startRunning()
+        }
+    }
+}
+
+// MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+extension FacePoseSegmentationViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+    }
+}
+
+// MARK: - AngleColors
 /// A structure that provides an RGB color intensity value for the roll, pitch, and yaw angles.
 struct AngleColors {
     
