@@ -66,6 +66,7 @@ final class FacePoseSegmentationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         intializeRequests()
+        view.backgroundColor = .systemGreen
     }
     
     deinit {
