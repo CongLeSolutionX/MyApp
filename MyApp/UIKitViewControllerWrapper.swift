@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = FacePoseSegmentationViewController
+    typealias UIViewControllerType = MTKViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> FacePoseSegmentationViewController {
+    func makeUIViewController(context: Context) -> MTKViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return FacePoseSegmentationViewController()
+        return MTKViewController()
     }
     
-    func updateUIViewController(_ uiViewController: FacePoseSegmentationViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MTKViewController, context: Context) {
         // Update the view controller if needed
     }
 }
