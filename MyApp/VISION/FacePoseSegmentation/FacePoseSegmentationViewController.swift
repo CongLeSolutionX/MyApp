@@ -18,8 +18,6 @@ import Vision
 import AVFoundation
 import MetalKit
 
-
-
 final class FacePoseSegmentationViewController: UIViewController {
     
     // The Vision requests and the handler to perform them.
@@ -29,20 +27,20 @@ final class FacePoseSegmentationViewController: UIViewController {
     
     // A structure that contains RGB color intensity values.
     private var colors: AngleColors?
-    
-//    @IBOutlet weak var cameraView: MTKView! {
-//        didSet {
-//            guard metalDevice == nil else { return }
-//            setupMetal()
-//            setupCoreImage()
-//            setupCaptureSession()
-//        }
-//    }
-    
+
     lazy var cameraView: MTKView = {
         let cameraView = MTKView()
         cameraView.device = MTLCreateSystemDefaultDevice()
         cameraView.clearColor = .init(red: 0, green: 0, blue: 0, alpha: 0)
+        cameraView.backgroundColor = .systemPink
+        cameraView.translatesAutoresizingMaskIntoConstraints = false
+        guard metalDevice == nil else { return cameraView }
+
+        // If the physical iPhone has metal device,
+        // then proceed to setting up the MetalKitView
+        setupMetalKitView()
+        setupCoreImage()
+        setupCaptureSession()
         return cameraView
     }()
     
@@ -67,6 +65,14 @@ final class FacePoseSegmentationViewController: UIViewController {
         super.viewDidLoad()
         intializeRequests()
         view.backgroundColor = .systemGreen
+        view.addSubview(cameraView)
+        
+        NSLayoutConstraint.activate([
+            cameraView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            cameraView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            cameraView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            cameraView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     deinit {
