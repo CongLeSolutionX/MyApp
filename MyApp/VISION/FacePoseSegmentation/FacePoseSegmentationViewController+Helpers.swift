@@ -54,7 +54,7 @@ extension FacePoseSegmentationViewController {
             output.setSampleBufferDelegate(strongSelf, queue: .main)
             
             strongSelf.session?.addOutput(output)
-            output.connections.first?.videoOrientation = .portrait
+            output.connections.first?.videoRotationAngle = .zero
             strongSelf.session?.startRunning()
         }
     }
@@ -63,7 +63,7 @@ extension FacePoseSegmentationViewController {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension FacePoseSegmentationViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        guard CMSampleBufferGetImageBuffer(sampleBuffer) != nil else { return }
     }
 }
 
