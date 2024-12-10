@@ -62,6 +62,7 @@
 		9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F42D07CBAB00AC8FF5 /* yolov8l.mlpackage */; };
 		9AC116FF2D07CC6400AC8FF5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9AC116FE2D07CC6400AC8FF5 /* .gitignore */; };
 		9AC117052D07F83500AC8FF5 /* YOLOSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */; };
+		9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +124,7 @@
 		9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x.mlpackage; sourceTree = "<group>"; };
 		9AC116FE2D07CC6400AC8FF5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOSettingsViewController.swift; sourceTree = "<group>"; };
+		9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOStatisticsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -380,6 +382,7 @@
 		9AC116F22D07CACB00AC8FF5 /* YOLODemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */,
 				9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */,
 				9AC116F32D07CB8D00AC8FF5 /* YOLOModels */,
 			);
@@ -487,6 +490,7 @@
 				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
 				9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */,
 				9AA0A14D2CF29D030040EE8C /* GenerativeAIService.swift in Sources */,
+				9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */,
 				9AA0A13A2CF29A8C0040EE8C /* FunctionCall.swift in Sources */,
 				9A9D216E2CF2031D00E8E7C4 /* MessageView.swift in Sources */,
 				9A9D21772CF203B800E8E7C4 /* ErrorDetailsView.swift in Sources */,
