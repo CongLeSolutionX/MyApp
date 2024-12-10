@@ -20,6 +20,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             
+            // TODO: Wrap entire functionalities of Gemini model into a card view
             NavigationStack {
                 List {
                     NavigationLink {
