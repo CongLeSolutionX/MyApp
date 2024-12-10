@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = LifecycleObjCViewController
+    typealias UIViewControllerType = YOLOViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> LifecycleObjCViewController {
+    func makeUIViewController(context: Context) -> YOLOViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return LifecycleObjCViewController()
+        return YOLOViewController()
     }
     
-    func updateUIViewController(_ uiViewController: LifecycleObjCViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: YOLOViewController, context: Context) {
         // Update the view controller if needed
     }
 }
