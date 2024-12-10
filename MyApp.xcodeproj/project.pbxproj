@@ -55,6 +55,11 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AC116F92D07CBAB00AC8FF5 /* yolov8s.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F72D07CBAB00AC8FF5 /* yolov8s.mlpackage */; };
+		9AC116FA2D07CBAB00AC8FF5 /* yolov8m.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F52D07CBAB00AC8FF5 /* yolov8m.mlpackage */; };
+		9AC116FB2D07CBAB00AC8FF5 /* yolov8n.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F62D07CBAB00AC8FF5 /* yolov8n.mlpackage */; };
+		9AC116FC2D07CBAB00AC8FF5 /* yolov8x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */; };
+		9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F42D07CBAB00AC8FF5 /* yolov8l.mlpackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +114,11 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AC116F42D07CBAB00AC8FF5 /* yolov8l.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8l.mlpackage; sourceTree = "<group>"; };
+		9AC116F52D07CBAB00AC8FF5 /* yolov8m.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8m.mlpackage; sourceTree = "<group>"; };
+		9AC116F62D07CBAB00AC8FF5 /* yolov8n.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8n.mlpackage; sourceTree = "<group>"; };
+		9AC116F72D07CBAB00AC8FF5 /* yolov8s.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8s.mlpackage; sourceTree = "<group>"; };
+		9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x.mlpackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -337,6 +347,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AC116F22D07CACB00AC8FF5 /* YOLODemoApp */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */,
 				9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */,
@@ -359,6 +370,26 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AC116F22D07CACB00AC8FF5 /* YOLODemoApp */ = {
+			isa = PBXGroup;
+			children = (
+				9AC116F32D07CB8D00AC8FF5 /* YOLOModels */,
+			);
+			path = YOLODemoApp;
+			sourceTree = "<group>";
+		};
+		9AC116F32D07CB8D00AC8FF5 /* YOLOModels */ = {
+			isa = PBXGroup;
+			children = (
+				9AC116F42D07CBAB00AC8FF5 /* yolov8l.mlpackage */,
+				9AC116F52D07CBAB00AC8FF5 /* yolov8m.mlpackage */,
+				9AC116F62D07CBAB00AC8FF5 /* yolov8n.mlpackage */,
+				9AC116F72D07CBAB00AC8FF5 /* yolov8s.mlpackage */,
+				9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */,
+			);
+			path = YOLOModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,6 +496,11 @@
 				9AA0A12C2CF299A50040EE8C /* GenerativeModel.swift in Sources */,
 				9AA0A1272CF26FE30040EE8C /* FunctionCallingScreen.swift in Sources */,
 				9AA0A1252CF26FD20040EE8C /* FunctionCallingViewModel.swift in Sources */,
+				9AC116F92D07CBAB00AC8FF5 /* yolov8s.mlpackage in Sources */,
+				9AC116FA2D07CBAB00AC8FF5 /* yolov8m.mlpackage in Sources */,
+				9AC116FB2D07CBAB00AC8FF5 /* yolov8n.mlpackage in Sources */,
+				9AC116FC2D07CBAB00AC8FF5 /* yolov8x.mlpackage in Sources */,
+				9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9AA0A1402CF29B140040EE8C /* PartsRepresentable.swift in Sources */,
