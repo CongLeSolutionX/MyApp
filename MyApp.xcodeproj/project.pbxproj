@@ -60,6 +60,7 @@
 		9AC116FB2D07CBAB00AC8FF5 /* yolov8n.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F62D07CBAB00AC8FF5 /* yolov8n.mlpackage */; };
 		9AC116FC2D07CBAB00AC8FF5 /* yolov8x.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */; };
 		9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 9AC116F42D07CBAB00AC8FF5 /* yolov8l.mlpackage */; };
+		9AC116FF2D07CC6400AC8FF5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9AC116FE2D07CC6400AC8FF5 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,7 @@
 		9AC116F62D07CBAB00AC8FF5 /* yolov8n.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8n.mlpackage; sourceTree = "<group>"; };
 		9AC116F72D07CBAB00AC8FF5 /* yolov8s.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8s.mlpackage; sourceTree = "<group>"; };
 		9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = yolov8x.mlpackage; sourceTree = "<group>"; };
+		9AC116FE2D07CC6400AC8FF5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -360,6 +362,7 @@
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
+				9AC116FE2D07CC6400AC8FF5 /* .gitignore */,
 			);
 			path = MyApp;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AC116FF2D07CC6400AC8FF5 /* .gitignore in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 				9A9D21662CF2017900E8E7C4 /* GenerativeAI-Info.plist in Resources */,
