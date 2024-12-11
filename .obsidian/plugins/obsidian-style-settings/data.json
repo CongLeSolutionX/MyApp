@@ -1,0 +1,11 @@
+{
+  "encore-settings@@theme-dark": "encore-theme-dark-cobalt",
+  "encore-settings@@encore-translucency": true,
+  "encore-settings@@colors": "encore-colors-colorful",
+  "encore-settings@@encore-fancy-headers": true,
+  "encore-settings@@encore-mobile-translucency": false,
+  "encore-settings@@encore-highlight-border": true,
+  "encore-settings@@encore-coloured-tooltip": true,
+  "encore-settings@@theme-light": "encore-theme-light-sterling",
+  "encore-settings@@encore-bright-accent": true
+}
