@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
 		9A3062D42D0C44B7007689B2 /* Rendering3DObjectMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */; };
-		9A3062D62D0C452C007689B2 /* train.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 9A3062D52D0C452C007689B2 /* train.usdz */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
@@ -61,7 +60,6 @@
 /* Begin PBXFileReference section */
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
 		9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rendering3DObjectMetalView.swift; sourceTree = "<group>"; };
-		9A3062D52D0C452C007689B2 /* train.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = train.usdz; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
@@ -192,6 +190,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9A3062DF2D0C4D73007689B2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
 		9A85254E2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPermissionsManagerTests; sourceTree = "<group>"; };
 		9AA0016D2CEA90D7000A1007 /* PhotoPickerControllerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPickerControllerTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -477,7 +476,7 @@
 		9AF4EAE62D0C2CAB00903E51 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				9A3062D52D0C452C007689B2 /* train.usdz */,
+				9A3062DF2D0C4D73007689B2 /* resources */,
 				9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */,
 				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
 				9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */,
@@ -560,6 +559,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				9A3062DF2D0C4D73007689B2 /* resources */,
+			);
 			name = MyApp;
 			productName = MyApp;
 			productReference = 9AAC41782C74668B00AC0A60 /* MyApp.app */;
@@ -630,7 +632,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A3062D62D0C452C007689B2 /* train.usdz in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AA0A1D42CF2BFAA0040EE8C /* README.md in Resources */,
 				9AA0A1D52CF2BFAA0040EE8C /* LICENSE.txt in Resources */,
