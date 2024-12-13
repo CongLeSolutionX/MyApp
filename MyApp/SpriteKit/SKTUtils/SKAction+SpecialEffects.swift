@@ -38,7 +38,7 @@ public extension SKAction {
    * @param oscillations The number of oscillations; 10 is a good value.
    * @param duration How long the effect lasts. Shorter is better.
    */
-  public class func screenShakeWithNode(_ node: SKNode, amount: CGPoint, oscillations: Int, duration: TimeInterval) -> SKAction {
+    class func screenShakeWithNode(_ node: SKNode, amount: CGPoint, oscillations: Int, duration: TimeInterval) -> SKAction {
     let oldPosition = node.position
     let newPosition = oldPosition + amount
     
@@ -57,7 +57,7 @@ public extension SKAction {
    * @param oscillations The number of oscillations; 10 is a good value.
    * @param duration How long the effect lasts. Shorter is better.
    */
-  public class func screenRotateWithNode(_ node: SKNode, angle: CGFloat, oscillations: Int, duration: TimeInterval) -> SKAction {
+    class func screenRotateWithNode(_ node: SKNode, angle: CGFloat, oscillations: Int, duration: TimeInterval) -> SKAction {
     let oldAngle = node.zRotation
     let newAngle = oldAngle + angle
     
@@ -76,7 +76,7 @@ public extension SKAction {
    * @param oscillations The number of oscillations; 10 is a good value.
    * @param duration How long the effect lasts. Shorter is better.
    */
-  public class func screenZoomWithNode(_ node: SKNode, amount: CGPoint, oscillations: Int, duration: TimeInterval) -> SKAction {
+    class func screenZoomWithNode(_ node: SKNode, amount: CGPoint, oscillations: Int, duration: TimeInterval) -> SKAction {
     let oldScale = CGPoint(x: node.xScale, y: node.yScale)
     let newScale = oldScale * amount
     
@@ -89,7 +89,7 @@ public extension SKAction {
   /**
    * Causes the scene background to flash for duration seconds.
    */
-  public class func colorGlitchWithScene(_ scene: SKScene, originalColor: SKColor, duration: TimeInterval) -> SKAction {
+    class func colorGlitchWithScene(_ scene: SKScene, originalColor: SKColor, duration: TimeInterval) -> SKAction {
     return SKAction.customAction(withDuration: duration) {(node, elapsedTime) in
       if elapsedTime < CGFloat(duration) {
         scene.backgroundColor = SKColorWithRGB(Int.random(0...255), g: Int.random(0...255), b: Int.random(0...255))

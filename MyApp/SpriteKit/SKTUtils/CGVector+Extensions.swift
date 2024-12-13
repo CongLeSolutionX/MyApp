@@ -34,7 +34,7 @@ public extension CGVector {
   /**
    * Creates a new CGVector given a CGPoint.
    */
-  public init(point: CGPoint) {
+    init(point: CGPoint) {
     self.init(dx: point.x, dy: point.y)
   }
   
@@ -42,14 +42,14 @@ public extension CGVector {
    * Given an angle in radians, creates a vector of length 1.0 and returns the
    * result as a new CGVector. An angle of 0 is assumed to point to the right.
    */
-  public init(angle: CGFloat) {
+    init(angle: CGFloat) {
     self.init(dx: cos(angle), dy: sin(angle))
   }
 
   /**
    * Adds (dx, dy) to the vector.
    */
-  public mutating func offset(dx: CGFloat, dy: CGFloat) -> CGVector {
+    mutating func offset(dx: CGFloat, dy: CGFloat) -> CGVector {
     self.dx += dx
     self.dy += dy
     return self
@@ -58,14 +58,14 @@ public extension CGVector {
   /**
    * Returns the length (magnitude) of the vector described by the CGVector.
    */
-  public func length() -> CGFloat {
+    func length() -> CGFloat {
     return sqrt(dx*dx + dy*dy)
   }
 
   /**
    * Returns the squared length of the vector described by the CGVector.
    */
-  public func lengthSquared() -> CGFloat {
+    func lengthSquared() -> CGFloat {
     return dx*dx + dy*dy
   }
 
@@ -81,7 +81,7 @@ public extension CGVector {
   /**
    * Normalizes the vector described by the CGVector to length 1.0.
    */
-  public mutating func normalize() -> CGVector {
+    mutating func normalize() -> CGVector {
     self = normalized()
     return self
   }
@@ -89,7 +89,7 @@ public extension CGVector {
   /**
    * Calculates the distance between two CGVectors. Pythagoras!
    */
-  public func distanceTo(_ vector: CGVector) -> CGFloat {
+    func distanceTo(_ vector: CGVector) -> CGFloat {
     return (self - vector).length()
   }
 
@@ -97,7 +97,7 @@ public extension CGVector {
    * Returns the angle in radians of the vector described by the CGVector.
    * The range of the angle is -π to π; an angle of 0 points to the right.
    */
-  public var angle: CGFloat {
+    var angle: CGFloat {
     return atan2(dy, dx)
   }
 }

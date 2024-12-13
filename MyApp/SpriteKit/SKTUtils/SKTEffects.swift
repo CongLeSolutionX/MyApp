@@ -127,7 +127,7 @@ public class SKTRotateEffect: SKTEffect {
  * Wrapper that allows you to use SKTEffect objects as regular SKActions.
  */
 public extension SKAction {
-  public class func actionWithEffect(_ effect: SKTEffect) -> SKAction {
+    class func actionWithEffect(_ effect: SKTEffect) -> SKAction {
     return SKAction.customAction(withDuration: effect.duration) { node, elapsedTime in
       var t = elapsedTime / CGFloat(effect.duration)
 
