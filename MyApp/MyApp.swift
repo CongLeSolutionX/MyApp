@@ -12,7 +12,7 @@ import SwiftUI
 struct MyAppApp: App {
     var body: some Scene {
         WindowGroup {
-            Rendering3DMushroomMetalView()
+            VertexMetalContentView()
             //SwiftUIContentView()
             //TikTikHomeView()
             //CameraView()

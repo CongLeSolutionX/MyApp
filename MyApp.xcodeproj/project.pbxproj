@@ -13,6 +13,12 @@
 		9A3063062D0C5803007689B2 /* MetalRenderPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063052D0C57F9007689B2 /* MetalRenderPipeline.swift */; };
 		9A30630B2D0C5F3F007689B2 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A30630A2D0C5F3B007689B2 /* MetalRenderer.swift */; };
 		9A30630D2D0C5F80007689B2 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A30630C2D0C5F7B007689B2 /* Shaders.metal */; };
+		9A3063142D0CDA52007689B2 /* VertexShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063132D0CDA49007689B2 /* VertexShaders.metal */; };
+		9A3063162D0CDB55007689B2 /* VertexMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063152D0CDB51007689B2 /* VertexMetalView.swift */; };
+		9A3063182D0CDBCA007689B2 /* VertexRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063172D0CDBCA007689B2 /* VertexRenderer.swift */; };
+		9A30631A2D0CDBFF007689B2 /* Quad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063192D0CDBFC007689B2 /* Quad.swift */; };
+		9A30631C2D0CDC39007689B2 /* VertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A30631B2D0CDC32007689B2 /* VertexDescriptor.swift */; };
+		9A30631E2D0CDD32007689B2 /* VertexMetalContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A30631D2D0CDD27007689B2 /* VertexMetalContentView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
@@ -68,6 +74,12 @@
 		9A3063052D0C57F9007689B2 /* MetalRenderPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderPipeline.swift; sourceTree = "<group>"; };
 		9A30630A2D0C5F3B007689B2 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
 		9A30630C2D0C5F7B007689B2 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		9A3063132D0CDA49007689B2 /* VertexShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VertexShaders.metal; sourceTree = "<group>"; };
+		9A3063152D0CDB51007689B2 /* VertexMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexMetalView.swift; sourceTree = "<group>"; };
+		9A3063172D0CDBCA007689B2 /* VertexRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexRenderer.swift; sourceTree = "<group>"; };
+		9A3063192D0CDBFC007689B2 /* Quad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quad.swift; sourceTree = "<group>"; };
+		9A30631B2D0CDC32007689B2 /* VertexDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexDescriptor.swift; sourceTree = "<group>"; };
+		9A30631D2D0CDD27007689B2 /* VertexMetalContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VertexMetalContentView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
@@ -253,6 +265,19 @@
 				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
 			);
 			path = "02-3d-models";
+			sourceTree = "<group>";
+		};
+		9A3063102D0CD9F8007689B2 /* 04-the-vertex-function */ = {
+			isa = PBXGroup;
+			children = (
+				9A30631D2D0CDD27007689B2 /* VertexMetalContentView.swift */,
+				9A30631B2D0CDC32007689B2 /* VertexDescriptor.swift */,
+				9A3063192D0CDBFC007689B2 /* Quad.swift */,
+				9A3063172D0CDBCA007689B2 /* VertexRenderer.swift */,
+				9A3063152D0CDB51007689B2 /* VertexMetalView.swift */,
+				9A3063132D0CDA49007689B2 /* VertexShaders.metal */,
+			);
+			path = "04-the-vertex-function";
 			sourceTree = "<group>";
 		};
 		9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */ = {
@@ -510,6 +535,7 @@
 				9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */,
 				9A3062FD2D0C563E007689B2 /* 02-3d-models */,
 				9A3062FC2D0C5639007689B2 /* 03-the-rendering-pipeline */,
+				9A3063102D0CD9F8007689B2 /* 04-the-vertex-function */,
 			);
 			path = Metal;
 			sourceTree = "<group>";
@@ -693,6 +719,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A30631E2D0CDD32007689B2 /* VertexMetalContentView.swift in Sources */,
 				9A3062E72D0C4DEC007689B2 /* Rendering3DMushroomMetalView.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
@@ -711,12 +738,17 @@
 				9AF7AC102CE949B800EEF5D7 /* My-profile-FOR-YOU-screen_203KB_by-Gemini-1-5-Pro-002.swift in Sources */,
 				9A30630B2D0C5F3F007689B2 /* MetalRenderer.swift in Sources */,
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
+				9A30631C2D0CDC39007689B2 /* VertexDescriptor.swift in Sources */,
+				9A30631A2D0CDBFF007689B2 /* Quad.swift in Sources */,
 				9A30630D2D0C5F80007689B2 /* Shaders.metal in Sources */,
 				9AF4EAE52D0C276500903E51 /* MetalBasicView.swift in Sources */,
+				9A3063182D0CDBCA007689B2 /* VertexRenderer.swift in Sources */,
+				9A3063142D0CDA52007689B2 /* VertexShaders.metal in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AF4EAE82D0C40A700903E51 /* Metal3DView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A3063062D0C5803007689B2 /* MetalRenderPipeline.swift in Sources */,
+				9A3063162D0CDB55007689B2 /* VertexMetalView.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

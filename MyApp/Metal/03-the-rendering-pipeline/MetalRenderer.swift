@@ -42,6 +42,7 @@ import MetalKit
 // swiftlint:disable function_body_length
 // swiftlint:disable force_cast
 
+//MARK: - MetalRenderer
 class MetalRenderer: NSObject {
     static var device: MTLDevice!
     static var commandQueue: MTLCommandQueue!
@@ -139,7 +140,6 @@ class MetalRenderer: NSObject {
         } catch {
             fatalError("Mesh not loaded")
         }
-        
     }
     
     private func createBoxMesh(device: MTLDevice) -> MTKMesh {
