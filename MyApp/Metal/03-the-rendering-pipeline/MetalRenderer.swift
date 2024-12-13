@@ -72,8 +72,13 @@ class MetalRenderer: NSObject {
         // create the shader function library
         let library = device.makeDefaultLibrary()
         Self.library = library
-        let vertexFunction = library?.makeFunction(name: "vertex_main")
-        let fragmentFunction = library?.makeFunction(name: "fragment_main")
+        
+        
+        let vertexFunctionName = useUSDZMesh ? "vertex_main_using_USDZMesh" : "vertex_main"
+        let fragmentFunctionName = useUSDZMesh ? "fragment_main_using_USDZMesh":"fragment_main"
+
+        let vertexFunction = library?.makeFunction(name: vertexFunctionName)
+        let fragmentFunction = library?.makeFunction(name: fragmentFunctionName)
         
         // create the pipeline state object
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
