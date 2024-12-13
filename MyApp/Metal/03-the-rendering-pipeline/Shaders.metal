@@ -29,65 +29,25 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
-
-//  MetalRenderPipeline.swift
+//
+//  Shaders.metal
 //  MyApp
 //
 //  Created by Cong Le on 12/13/24.
 //
 
 
-import SwiftUI
-import MetalKit
+#include <metal_stdlib>
+using namespace metal;
 
-// MARK: - MetalView
-struct MetalView: View {
-  @State private var metalView = MTKView()
-  @State private var renderer: MetalRenderer?
+struct VertexIn {
+  float4 position [[attribute(0)]];
+};
 
-  var body: some View {
-    MetalViewRepresentable(metalView: $metalView)
-      .onAppear {
-        renderer = MetalRenderer(metalView: metalView)
-      }
-  }
+vertex float4 vertex_main(const VertexIn vertexIn [[stage_in]]) {
+  return vertexIn.position;
 }
 
-#if os(macOS)
-typealias ViewRepresentable = NSViewRepresentable
-#elseif os(iOS)
-typealias ViewRepresentable = UIViewRepresentable
-#endif
-
-struct MetalViewRepresentable: ViewRepresentable {
-  @Binding var metalView: MTKView
-
-#if os(macOS)
-  func makeNSView(context: Context) -> some NSView {
-    metalView
-  }
-  func updateNSView(_ uiView: NSViewType, context: Context) {
-    updateMetalView()
-  }
-#elseif os(iOS)
-  func makeUIView(context: Context) -> MTKView {
-    metalView
-  }
-
-  func updateUIView(_ uiView: MTKView, context: Context) {
-    updateMetalView()
-  }
-#endif
-
-  func updateMetalView() {
-  }
+fragment float4 fragment_main() {
+  return float4(1, 0, 0, 1);
 }
-
-// MARK: - Preview
-#Preview {
-  VStack {
-    MetalView()
-    Text("Metal View")
-  }
-}
-
