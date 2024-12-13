@@ -28,6 +28,7 @@
 		9AD133902CE4E851005BD7C4 /* LottieLego.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AD1338F2CE4E851005BD7C4 /* LottieLego.json */; };
 		9AF4906D2CE566D30021A42B /* TikTokCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */; };
 		9AF4EAE52D0C276500903E51 /* MetalBasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */; };
+		9AF4EAE82D0C40A700903E51 /* Metal3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */; };
 		9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */; };
 		9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */; };
 		9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */; };
@@ -175,6 +176,7 @@
 		9AD1338F2CE4E851005BD7C4 /* LottieLego.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LottieLego.json; sourceTree = "<group>"; };
 		9AF4906C2CE566CD0021A42B /* TikTokCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikTokCameraView.swift; sourceTree = "<group>"; };
 		9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBasicView.swift; sourceTree = "<group>"; };
+		9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal3DView.swift; sourceTree = "<group>"; };
 		9AF7AC042CE92A7400EEF5D7 /* AppleNativeCameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleNativeCameraScreen.swift; sourceTree = "<group>"; };
 		9AF7AC072CE945EB00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift"; sourceTree = "<group>"; };
 		9AF7AC092CE946CA00EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift"; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 		9AF4EAE62D0C2CAB00903E51 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
+				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
 				9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */,
 			);
 			path = Metal;
@@ -668,6 +671,7 @@
 				9AF7AC0A2CE946D100EEF5D7 /* My-profile-FOR-YOU-screen_1MB_by-GPT-4o.swift in Sources */,
 				9AF4EAE52D0C276500903E51 /* MetalBasicView.swift in Sources */,
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
+				9AF4EAE82D0C40A700903E51 /* Metal3DView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 			);
