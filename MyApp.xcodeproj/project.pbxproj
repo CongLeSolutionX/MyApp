@@ -10,6 +10,7 @@
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
 		9A3062D42D0C44B7007689B2 /* Rendering3DObjectMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */; };
 		9A3062E72D0C4DEC007689B2 /* Rendering3DMushroomMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */; };
+		9A3063062D0C5803007689B2 /* MetalRenderPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063052D0C57F9007689B2 /* MetalRenderPipeline.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
@@ -62,6 +63,7 @@
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
 		9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rendering3DObjectMetalView.swift; sourceTree = "<group>"; };
 		9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rendering3DMushroomMetalView.swift; sourceTree = "<group>"; };
+		9A3063052D0C57F9007689B2 /* MetalRenderPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderPipeline.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9A3062DF2D0C4D73007689B2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
+		9A3063012D0C5699007689B2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
 		9A85254E2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPermissionsManagerTests; sourceTree = "<group>"; };
 		9AA0016D2CEA90D7000A1007 /* PhotoPickerControllerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPickerControllerTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -229,6 +232,8 @@
 		9A3062FC2D0C5639007689B2 /* 03-the-rendering-pipeline */ = {
 			isa = PBXGroup;
 			children = (
+				9A3063052D0C57F9007689B2 /* MetalRenderPipeline.swift */,
+				9A3063012D0C5699007689B2 /* resources */,
 			);
 			path = "03-the-rendering-pipeline";
 			sourceTree = "<group>";
@@ -580,6 +585,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				9A3062DF2D0C4D73007689B2 /* resources */,
+				9A3063012D0C5699007689B2 /* resources */,
 			);
 			name = MyApp;
 			productName = MyApp;
@@ -594,7 +600,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					9A85254C2CE9C95300DF1FB9 = {
 						CreatedOnToolsVersion = 16.0;
@@ -702,6 +708,7 @@
 				9AF7AC052CE92A8000EEF5D7 /* AppleNativeCameraScreen.swift in Sources */,
 				9AF4EAE82D0C40A700903E51 /* Metal3DView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A3063062D0C5803007689B2 /* MetalRenderPipeline.swift in Sources */,
 				9AD1338E2CE4E827005BD7C4 /* LottieView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,6 +845,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -900,6 +908,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -928,6 +937,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -968,6 +978,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
