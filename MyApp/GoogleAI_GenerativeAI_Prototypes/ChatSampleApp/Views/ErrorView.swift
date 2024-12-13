@@ -33,6 +33,7 @@ struct ErrorView: View {
 }
 
 //MARK: - Previews
+//TODO: Update to use MockChatMessage
 #Preview {
   NavigationView {
     let errorPromptBlocked = GenerateContentError.promptBlocked(

@@ -93,6 +93,7 @@ struct MessageView: View {
 }
 
 // MARK: - Previews
+//TODO: Update to use MockChatMessage
 struct MessageView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {

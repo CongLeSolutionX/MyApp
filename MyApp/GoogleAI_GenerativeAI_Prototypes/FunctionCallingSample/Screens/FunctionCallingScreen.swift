@@ -109,6 +109,7 @@ struct FunctionCallingScreen: View {
 }
 
 // MARK: - Preview
+//TODO: Update to use MockChatMessage
 struct FunctionCallingScreen_Previews: PreviewProvider {
   struct ContainerView: View {
     @EnvironmentObject

@@ -1,5 +1,7 @@
-
-
+//  MyApp.swift
+//  MyApp
+//
+//  Created by Cong Le on 8/19/24
 
 import SwiftUI
 
@@ -95,27 +97,47 @@ struct ConversationScreen: View {
     }
 }
 
-// MARK: - Previews
-// TODO: Need better and reusable navigation to preview the views
-// This is workaround setup for now for this preview
+// MARK: - Preview different states on conversation screen
 struct ConversationScreen_Previews: PreviewProvider {
-    struct ContainerView: View {
-        @StateObject var viewModel = ConversationViewModel()
+    
+    // Preview with default messages
+    static var withDefaultMessages: some View {
+        let viewModel = ConversationViewModel()
+        viewModel.messages = MockChatMessage.defaultMessages()
         
-        var body: some View {
-            ConversationScreen()
-                .onAppear {
-                    viewModel.messages = ChatMessage.samples
-                }
-        }
+        return ConversationScreen()
+            .environmentObject(viewModel)
     }
     
-    static var previews: some View {
-        @StateObject var viewModel = ConversationViewModel()
+    // Preview with error messages
+    static var withErrorMessages: some View {
+        let viewModel = ConversationViewModel()
+        viewModel.messages = MockChatMessage.errorMessages()
+
+        return ConversationScreen()
+            .environmentObject(viewModel)
+    }
+    
+    // Preview with a pending message
+    static var withPendingMessage: some View {
+        let viewModel = ConversationViewModel()
+        viewModel.messages = MockChatMessage.pendingMessage()
         
-        NavigationStack {
-            ConversationScreen()
-                .environmentObject(viewModel)
+        return ConversationScreen()
+            .environmentObject(viewModel)
+    }
+    
+    // All previews
+    static var previews: some View {
+        Group {
+            withDefaultMessages
+                .previewDisplayName("Default Messages")
+            
+            withErrorMessages
+                .previewDisplayName("Error Messages")
+            
+            withPendingMessage
+                .previewDisplayName("Pending Message")
         }
     }
 }
