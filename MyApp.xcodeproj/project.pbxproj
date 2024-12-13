@@ -226,6 +226,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A3062FC2D0C5639007689B2 /* 03-the-rendering-pipeline */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "03-the-rendering-pipeline";
+			sourceTree = "<group>";
+		};
+		9A3062FD2D0C563E007689B2 /* 02-3d-models */ = {
+			isa = PBXGroup;
+			children = (
+				9A3062DF2D0C4D73007689B2 /* resources */,
+				9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */,
+				9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */,
+				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
+			);
+			path = "02-3d-models";
+			sourceTree = "<group>";
+		};
 		9A54306D2CE9B8CF00A49091 /* SwiftUI_UI_Elements */ = {
 			isa = PBXGroup;
 			children = (
@@ -478,11 +496,9 @@
 		9AF4EAE62D0C2CAB00903E51 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				9A3062DF2D0C4D73007689B2 /* resources */,
-				9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */,
-				9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */,
-				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
 				9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */,
+				9A3062FD2D0C563E007689B2 /* 02-3d-models */,
+				9A3062FC2D0C5639007689B2 /* 03-the-rendering-pipeline */,
 			);
 			path = Metal;
 			sourceTree = "<group>";
