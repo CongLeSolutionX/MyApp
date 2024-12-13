@@ -42,15 +42,23 @@ import MetalKit
 
 // MARK: - MetalView
 struct MetalView: View {
-  @State private var metalView = MTKView()
-  @State private var renderer: MetalRenderer?
-
-  var body: some View {
-    MetalViewRepresentable(metalView: $metalView)
-      .onAppear {
-        renderer = MetalRenderer(metalView: metalView)
-      }
-  }
+    @State private var metalView = MTKView()
+    @State private var renderer: MetalRenderer?
+    @State private var useUSDZMesh = true
+    
+    var body: some View {
+        VStack {
+            Toggle("Use USDZ Mesh", isOn: $useUSDZMesh)
+                .padding()
+            MetalViewRepresentable(metalView: $metalView)
+                .onAppear {
+                    renderer = MetalRenderer(metalView: metalView, useUSDZMesh: useUSDZMesh)
+                }
+                .onChange(of: useUSDZMesh) { oldValue, newValue in
+                    renderer = MetalRenderer(metalView: metalView, useUSDZMesh: newValue)
+                }
+        }
+    }
 }
 
 #if os(macOS)
@@ -60,34 +68,34 @@ typealias ViewRepresentable = UIViewRepresentable
 #endif
 
 struct MetalViewRepresentable: ViewRepresentable {
-  @Binding var metalView: MTKView
-
+    @Binding var metalView: MTKView
+    
 #if os(macOS)
-  func makeNSView(context: Context) -> some NSView {
-    metalView
-  }
-  func updateNSView(_ uiView: NSViewType, context: Context) {
-    updateMetalView()
-  }
+    func makeNSView(context: Context) -> some NSView {
+        metalView
+    }
+    func updateNSView(_ uiView: NSViewType, context: Context) {
+        updateMetalView()
+    }
 #elseif os(iOS)
-  func makeUIView(context: Context) -> MTKView {
-    metalView
-  }
-
-  func updateUIView(_ uiView: MTKView, context: Context) {
-    updateMetalView()
-  }
+    func makeUIView(context: Context) -> MTKView {
+        metalView
+    }
+    
+    func updateUIView(_ uiView: MTKView, context: Context) {
+        updateMetalView()
+    }
 #endif
-
-  func updateMetalView() {
-  }
+    
+    func updateMetalView() {
+    }
 }
 
 // MARK: - Preview
 #Preview {
-  VStack {
-    MetalView()
-    Text("Metal View")
-  }
+    VStack {
+        MetalView()
+        Text("Metal View")
+    }
 }
 
