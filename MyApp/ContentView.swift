@@ -10,13 +10,14 @@ import SwiftUI
 // Step 2: Use in SwiftUI view
 struct RootContentView: View {
     var body: some View {
-        Text("Hello World from SwiftUI View!")
-            .onAppear {
-                print("View.onAppear()")
-            }
-            .onDisappear {
-                print("View.onDisappear()")
-            }
+        UIKitViewControllerWrapper()
+//        Text("Hello World from SwiftUI View!")
+//            .onAppear {
+//                print("View.onAppear()")
+//            }
+//            .onDisappear {
+//                print("View.onDisappear()")
+//            }
     }
 }
 
