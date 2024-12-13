@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9A22BE222CEC11CD003EE60B /* SepiaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */; };
 		9A3062D42D0C44B7007689B2 /* Rendering3DObjectMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */; };
+		9A3062E72D0C4DEC007689B2 /* Rendering3DMushroomMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */; };
 		9A5430712CE9B96C00A49091 /* SwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */; };
 		9A61A1902CE58A0A00538A6E /* SwiftUIViews_TBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */; };
 		9A6EC6412CE9BDA30030FB2B /* PhotoPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		9A22BE212CEC11C7003EE60B /* SepiaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepiaFilterView.swift; sourceTree = "<group>"; };
 		9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rendering3DObjectMetalView.swift; sourceTree = "<group>"; };
+		9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rendering3DMushroomMetalView.swift; sourceTree = "<group>"; };
 		9A5430702CE9B96C00A49091 /* SwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIContentView.swift; sourceTree = "<group>"; };
 		9A61A18F2CE58A0400538A6E /* SwiftUIViews_TBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews_TBD.swift; sourceTree = "<group>"; };
 		9A6EC6402CE9BDA20030FB2B /* PhotoPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerController.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 			children = (
 				9A3062DF2D0C4D73007689B2 /* resources */,
 				9A3062D32D0C44A5007689B2 /* Rendering3DObjectMetalView.swift */,
+				9A3062E62D0C4DDD007689B2 /* Rendering3DMushroomMetalView.swift */,
 				9AF4EAE72D0C40A100903E51 /* Metal3DView.swift */,
 				9AF4EAE42D0C275F00903E51 /* MetalBasicView.swift */,
 			);
@@ -662,6 +665,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A3062E72D0C4DEC007689B2 /* Rendering3DMushroomMetalView.swift in Sources */,
 				9A6EC6432CE9BDB30030FB2B /* PhotoPickerExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF7AC082CE945ED00EEF5D7 /* My-profile-FOR-YOU-screen_331-KB_by-GPT-4o.swift in Sources */,
