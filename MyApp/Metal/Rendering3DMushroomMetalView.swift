@@ -4,77 +4,79 @@
 //
 //  Created by Cong Le on 12/13/24.
 //
-
 import SwiftUI
 import MetalKit
 
 // 1. MetalView: A SwiftUI view that hosts the MTKView
 struct MetalView: UIViewRepresentable {
     @Binding var showLines: Bool
+
     func makeUIView(context: Context) -> MTKView {
         guard let device = MTLCreateSystemDefaultDevice() else {
-          fatalError("GPU is not supported")
+            fatalError("GPU is not supported")
         }
 
         let mtkView = MTKView(frame: .zero, device: device)
         mtkView.clearColor = MTLClearColor(red: 1, green: 1, blue: 0.8, alpha: 1)
-        
-        //Use coordinator to manage the Metal rendering
+
+        // Use coordinator to manage the Metal rendering
         context.coordinator.configure(mtkView: mtkView)
         return mtkView
     }
 
     func updateUIView(_ uiView: MTKView, context: Context) {
-            context.coordinator.showLines = showLines
-         context.coordinator.updateRendering()
-        //This function is called every time the view updates
+        // This line ensures that changes to `showLines` in SwiftUI updates the Coordinator,
+        // by passing the value bound via the closure on its initial instantiation
+        context.coordinator.updateRendering(with: showLines)
+        // The following line is not needed since the above is doing the job of updating.
+        // context.coordinator.showLines = showLines // Removed this line
     }
-    
+
     func makeCoordinator() -> Coordinator {
-            Coordinator(showLines: _showLines)
-        }
+        // Modified closure to propagate changes from binding
+        Coordinator(showLines: _showLines)
+    }
 }
 
 // 2. Coordinator: Manages Metal drawing logic
-class Coordinator: NSObject{
-     var device: MTLDevice!
-     var commandQueue: MTLCommandQueue!
+class Coordinator: NSObject {
+    var device: MTLDevice!
+    var commandQueue: MTLCommandQueue!
     var pipelineState: MTLRenderPipelineState!
     var mesh: MTKMesh!
-    var showLines: Bool
-    
-    @Binding var dynamic_showLines: Bool
-        
+     var dynamic_showLines: Bool //Store current updated lineStatus for rendering
 
-        init(showLines: Binding<Bool>){
-            self._dynamic_showLines = showLines
-            self.showLines = showLines.wrappedValue
-            
-        }
-    
-    func configure(mtkView: MTKView){
+    // Use @Binding to update view on status changes
+    @Binding var showLines: Bool
+
+    init(showLines: Binding<Bool>) {
+        self._showLines = showLines // Store the binding from the UIViewRepresentable
+        self.dynamic_showLines = showLines.wrappedValue
+    }
+
+    func configure(mtkView: MTKView) {
         guard let device = MTLCreateSystemDefaultDevice() else {
-          fatalError("GPU is not supported")
+            fatalError("GPU is not supported")
         }
         self.device = device
 
         guard let commandQueue = device.makeCommandQueue() else {
             fatalError("Could not create a command queue")
         }
-       self.commandQueue = commandQueue
-        
+        self.commandQueue = commandQueue
+
         setupMesh()
         setupPipeline(mtkView: mtkView)
-        mtkView.delegate = self;
+        mtkView.delegate = self
     }
-    
-    private func setupMesh(){
+
+    private func setupMesh() {
         let allocator = MTKMeshBufferAllocator(device: device)
 
         guard let assetURL = Bundle.main.url(
-          forResource: "mushroom",
-          withExtension: "usdz") else {
-          fatalError()
+            forResource: "mushroom",
+            withExtension: "usdz") else {
+            fatalError()
         }
 
         let vertexDescriptor = MTLVertexDescriptor()
@@ -83,28 +85,28 @@ class Coordinator: NSObject{
         vertexDescriptor.attributes[0].bufferIndex = 0
 
         vertexDescriptor.layouts[0].stride =
-          MemoryLayout<SIMD3<Float>>.stride
+            MemoryLayout<SIMD3<Float>>.stride
         let meshDescriptor =
-          MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
+            MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
         (meshDescriptor.attributes[0] as! MDLVertexAttribute).name =
-          MDLVertexAttributePosition
+            MDLVertexAttributePosition
 
         let asset = MDLAsset(
-          url: assetURL,
-          vertexDescriptor: meshDescriptor,
-          bufferAllocator: allocator)
+            url: assetURL,
+            vertexDescriptor: meshDescriptor,
+            bufferAllocator: allocator)
 
         let mdlMesh =
-          asset.childObjects(of: MDLMesh.self).first as! MDLMesh
+            asset.childObjects(of: MDLMesh.self).first as! MDLMesh
 
-        do{
-         mesh = try MTKMesh(mesh: mdlMesh, device: device)
-        }catch {
+        do {
+            mesh = try MTKMesh(mesh: mdlMesh, device: device)
+        } catch {
             fatalError("Could not create MTKMesh")
         }
     }
 
-    private func setupPipeline(mtkView: MTKView){
+    private func setupPipeline(mtkView: MTKView) {
         let shader = """
         #include <metal_stdlib>
         using namespace metal;
@@ -124,34 +126,35 @@ class Coordinator: NSObject{
         }
         """
 
-        do{
+        do {
             let library = try device.makeLibrary(source: shader, options: nil)
             if let vertexFunction = library.makeFunction(name: "vertex_main"),
-               let fragmentFunction = library.makeFunction(name: "fragment_main"){
+               let fragmentFunction = library.makeFunction(name: "fragment_main") {
                 let pipelineDescriptor = MTLRenderPipelineDescriptor()
                 pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
                 pipelineDescriptor.vertexFunction = vertexFunction
                 pipelineDescriptor.fragmentFunction = fragmentFunction
                 pipelineDescriptor.vertexDescriptor =
-                  MTKMetalVertexDescriptorFromModelIO(mesh.vertexDescriptor)
-                
+                    MTKMetalVertexDescriptorFromModelIO(mesh.vertexDescriptor)
+
                 pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
             } else {
-                 fatalError("Could not create shader functions")
+                fatalError("Could not create shader functions")
             }
         } catch {
-             fatalError("Could not create shader library")
+            fatalError("Could not create shader library")
         }
     }
-        
-    func updateRendering(){
-            
-             self.showLines = dynamic_showLines
+
+    //Accepts the status to update
+    func updateRendering(with updatedStatus:Bool){
+
+            self.dynamic_showLines = updatedStatus
     }
 }
 
 // 3. MTKViewDelegate: Rendering logic
-extension Coordinator: MTKViewDelegate{
+extension Coordinator: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let commandBuffer = commandQueue.makeCommandBuffer(),
               let renderPassDescriptor = view.currentRenderPassDescriptor,
@@ -160,53 +163,50 @@ extension Coordinator: MTKViewDelegate{
 
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(
-          mesh.vertexBuffers[0].buffer, offset: 0, index: 0)
-        
-        if showLines {
+            mesh.vertexBuffers[0].buffer, offset: 0, index: 0)
+
+        if dynamic_showLines {
             renderEncoder.setTriangleFillMode(.lines)
 
-        }else {
+        } else {
              renderEncoder.setTriangleFillMode(.fill)
         }
 
         for submesh in mesh.submeshes {
-          renderEncoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: submesh.indexCount,
-            indexType: submesh.indexType,
-            indexBuffer: submesh.indexBuffer.buffer,
-            indexBufferOffset: submesh.indexBuffer.offset
-          )
+            renderEncoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: submesh.indexCount,
+                indexType: submesh.indexType,
+                indexBuffer: submesh.indexBuffer.buffer,
+                indexBufferOffset: submesh.indexBuffer.offset
+            )
         }
-        
+
         renderEncoder.endEncoding()
-        
-                guard let drawable = view.currentDrawable else {
-                  return
-                }
+
+        guard let drawable = view.currentDrawable else {
+            return
+        }
         commandBuffer.present(drawable)
         commandBuffer.commit()
     }
 
-
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        //Handle resize if needed
+        // Handle resize if needed
     }
 }
 
 // 4. ContentView: Example usage
 struct ContentView: View {
     @State private var showLines = false
-   
-    var body: some View {
-            VStack{
-                Toggle("show lines", isOn: $showLines)
-                    .padding()
-                MetalView(showLines: $showLines)
 
-            }
-                
+    var body: some View {
+        VStack {
+            Toggle("show lines", isOn: $showLines)
+                .padding()
+            MetalView(showLines: $showLines)
         }
+    }
 }
 
 #Preview {
