@@ -27,6 +27,8 @@
 		9AE1E4842CF72D8800E490A7 /* UIKitParent-ChildViewControllerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4832CF72D8700E490A7 /* UIKitParent-ChildViewControllerExample.swift */; };
 		9AE1E4862CF732E500E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4852CF732DF00E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift */; };
 		9AE1E48A2CF7397E00E490A7 /* TraitedUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4892CF7396800E490A7 /* TraitedUIKitViewController.swift */; };
+		9AF4EAB02D0C13FF00903E51 /* SpriteKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4EAAF2D0C13FA00903E51 /* SpriteKitViewController.swift */; };
+		9AF4EAB22D0C159700903E51 /* MyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF4EAB12D0C159600903E51 /* MyScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		9AE1E4832CF72D8700E490A7 /* UIKitParent-ChildViewControllerExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKitParent-ChildViewControllerExample.swift"; sourceTree = "<group>"; };
 		9AE1E4852CF732DF00E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedUIViewControllerRepresentablePattern.swift; sourceTree = "<group>"; };
 		9AE1E4892CF7396800E490A7 /* TraitedUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitedUIKitViewController.swift; sourceTree = "<group>"; };
+		9AF4EAAF2D0C13FA00903E51 /* SpriteKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteKitViewController.swift; sourceTree = "<group>"; };
+		9AF4EAB12D0C159600903E51 /* MyScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -121,6 +125,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AF4EAAE2D0C13EC00903E51 /* SpriteKit */,
 				9AAB9A3E2D08849200F62BE8 /* UseSwiftUIWithUIKit */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */,
@@ -164,6 +169,15 @@
 				9AE1E4792CF7234100E490A7 /* UIKitModalPresentationStyles */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		9AF4EAAE2D0C13EC00903E51 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				9AF4EAB12D0C159600903E51 /* MyScene.swift */,
+				9AF4EAAF2D0C13FA00903E51 /* SpriteKitViewController.swift */,
+			);
+			path = SpriteKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +256,7 @@
 			files = (
 				9AAB9A462D088AD100F62BE8 /* MedicalConditionsViewController.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AF4EAB02D0C13FF00903E51 /* SpriteKitViewController.swift in Sources */,
 				9AE1E4842CF72D8800E490A7 /* UIKitParent-ChildViewControllerExample.swift in Sources */,
 				9AE1E47D2CF7239300E490A7 /* PresentedSimpleViewController.swift in Sources */,
 				9AE1E4862CF732E500E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift in Sources */,
@@ -251,6 +266,7 @@
 				9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
 				9AE1E48A2CF7397E00E490A7 /* TraitedUIKitViewController.swift in Sources */,
+				9AF4EAB22D0C159700903E51 /* MyScene.swift in Sources */,
 				9AAB9A402D08849E00F62BE8 /* MainMenuViewController.swift in Sources */,
 				9AE1E47F2CF726F900E490A7 /* LifecycleViewController.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
