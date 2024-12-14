@@ -19,34 +19,34 @@ struct MyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            
+            UIKitContentView()
             // TODO: Wrap entire functionalities of Gemini model into a card view
-            NavigationStack {
-                List {
-                    NavigationLink {
-                        SummarizeScreen()
-                    } label: {
-                        Label("Text", systemImage: "doc.text")
-                    }
-                    NavigationLink {
-                        PhotoReasoningScreen()
-                    } label: {
-                        Label("Multi-modal", systemImage: "doc.richtext")
-                    }
-                    NavigationLink {
-                        ConversationScreen()
-                            .environmentObject(ConversationViewModel())
-                    } label: {
-                        Label("Chat", systemImage: "ellipsis.message.fill")
-                    }
-                    NavigationLink {
-                        FunctionCallingScreen().environmentObject(FunctionCallingViewModel())
-                    } label: {
-                        Label("Function Calling", systemImage: "function")
-                    }
-                }
-                .navigationTitle("Generative AI Samples")
-            }
+//            NavigationStack {
+//                List {
+//                    NavigationLink {
+//                        SummarizeScreen()
+//                    } label: {
+//                        Label("Text", systemImage: "doc.text")
+//                    }
+//                    NavigationLink {
+//                        PhotoReasoningScreen()
+//                    } label: {
+//                        Label("Multi-modal", systemImage: "doc.richtext")
+//                    }
+//                    NavigationLink {
+//                        ConversationScreen()
+//                            .environmentObject(ConversationViewModel())
+//                    } label: {
+//                        Label("Chat", systemImage: "ellipsis.message.fill")
+//                    }
+//                    NavigationLink {
+//                        FunctionCallingScreen().environmentObject(FunctionCallingViewModel())
+//                    } label: {
+//                        Label("Function Calling", systemImage: "function")
+//                    }
+//                }
+//                .navigationTitle("Generative AI Samples")
+//            }
         }// Respond to changes in the scene phase
         .onChange(of: scenePhase) { oldPhase, newPhase in
             switch newPhase {

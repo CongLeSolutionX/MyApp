@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9A0045D12CF21CD600F9F1EC /* PhotoReasoningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0045D02CF21CD600F9F1EC /* PhotoReasoningScreen.swift */; };
 		9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0045D22CF21CEE00F9F1EC /* PhotoReasoningViewModel.swift */; };
+		9A06B7CD2D0CFF790064A627 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06B7CC2D0CFF760064A627 /* VideoCapture.swift */; };
+		9A3063242D0CFE50007689B2 /* BoundingBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3063232D0CFE4F007689B2 /* BoundingBoxView.swift */; };
 		9A698CB52CF0EE55008FDDBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */; };
 		9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */; };
 		9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A921F1F2CF192370075D3F8 /* LifecycleNativeUIKitViewController.swift */; };
@@ -69,6 +71,8 @@
 /* Begin PBXFileReference section */
 		9A0045D02CF21CD600F9F1EC /* PhotoReasoningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReasoningScreen.swift; sourceTree = "<group>"; };
 		9A0045D22CF21CEE00F9F1EC /* PhotoReasoningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReasoningViewModel.swift; sourceTree = "<group>"; };
+		9A06B7CC2D0CFF760064A627 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		9A3063232D0CFE4F007689B2 /* BoundingBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
 		9A698CB42CF0EE54008FDDBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A921F1F2CF192370075D3F8 /* LifecycleNativeUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleNativeUIKitViewController.swift; sourceTree = "<group>"; };
@@ -385,7 +389,9 @@
 			isa = PBXGroup;
 			children = (
 				9AC117022D07F7F300AC8FF5 /* YOLOViewController.swift */,
+				9A06B7CC2D0CFF760064A627 /* VideoCapture.swift */,
 				9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */,
+				9A3063232D0CFE4F007689B2 /* BoundingBoxView.swift */,
 				9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */,
 				9AC116F32D07CB8D00AC8FF5 /* YOLOModels */,
 			);
@@ -491,10 +497,12 @@
 				9AA0A1382CF29A800040EE8C /* Logging.swift in Sources */,
 				9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */,
 				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
+				9A06B7CD2D0CFF790064A627 /* VideoCapture.swift in Sources */,
 				9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */,
 				9AA0A14D2CF29D030040EE8C /* GenerativeAIService.swift in Sources */,
 				9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */,
 				9AA0A13A2CF29A8C0040EE8C /* FunctionCall.swift in Sources */,
+				9A3063242D0CFE50007689B2 /* BoundingBoxView.swift in Sources */,
 				9A9D216E2CF2031D00E8E7C4 /* MessageView.swift in Sources */,
 				9A9D21772CF203B800E8E7C4 /* ErrorDetailsView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
