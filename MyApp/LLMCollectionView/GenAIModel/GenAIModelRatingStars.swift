@@ -1,5 +1,5 @@
 //
-//  AwardStars.swift
+//  GenAIModelRatingStars.swift
 //  MyApp
 //
 //  Created by Cong Le on 12/13/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LLMProviderRatingStars: View {
+struct GenAIModelRatingStars: View {
   var stars: Int = 3
 
   var body: some View {
@@ -34,5 +34,5 @@ struct LLMProviderRatingStars: View {
 
 //MARK: - Previews
 #Preview {
-  LLMProviderRatingStars()
+    GenAIModelRatingStars()
 }
