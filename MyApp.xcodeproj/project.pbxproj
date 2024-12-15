@@ -66,6 +66,16 @@
 		9AC117032D07F7F800AC8FF5 /* YOLOViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117022D07F7F300AC8FF5 /* YOLOViewController.swift */; };
 		9AC117052D07F83500AC8FF5 /* YOLOSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */; };
 		9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */; };
+		9AF2D6272D0D46C100A9B2DC /* LLMsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */; };
+		9AF2D6292D0D470400A9B2DC /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */; };
+		9AF2D62B2D0D471B00A9B2DC /* LLMProviderInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */; };
+		9AF2D62D2D0D473100A9B2DC /* LLMGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */; };
+		9AF2D62F2D0D475500A9B2DC /* LLMProviderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */; };
+		9AF2D6312D0D476B00A9B2DC /* LLMProviderRatingStars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */; };
+		9AF2D6332D0D47A200A9B2DC /* ProviderDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */; };
+		9AF2D6392D0D889500A9B2DC /* LLMCollectionAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */; };
+		9AF2D63B2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */; };
+		9AF2D63D2D0EB74000A9B2DC /* GenAIInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +141,16 @@
 		9AC117022D07F7F300AC8FF5 /* YOLOViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOViewController.swift; sourceTree = "<group>"; };
 		9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOSettingsViewController.swift; sourceTree = "<group>"; };
 		9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOStatisticsViewController.swift; sourceTree = "<group>"; };
+		9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMsView.swift; sourceTree = "<group>"; };
+		9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderInformation.swift; sourceTree = "<group>"; };
+		9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMGrid.swift; sourceTree = "<group>"; };
+		9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderCardView.swift; sourceTree = "<group>"; };
+		9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderRatingStars.swift; sourceTree = "<group>"; };
+		9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDetails.swift; sourceTree = "<group>"; };
+		9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LLMCollectionAssets.xcassets; sourceTree = "<group>"; };
+		9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAICapabilityDetails.swift; sourceTree = "<group>"; };
+		9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIInformation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -369,6 +389,7 @@
 				9A921F242CF1928F0075D3F8 /* LifecycleObjCViewController */,
 				9A921F212CF192480075D3F8 /* LifecycleNativeUIKitViewController */,
 				9A9D21512CF1FF3000E8E7C4 /* GoogleAI_GenerativeAI_Prototypes */,
+				9AF2D6252D0D46B100A9B2DC /* LLMCollectionView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -408,6 +429,23 @@
 				9AC116F82D07CBAB00AC8FF5 /* yolov8x.mlpackage */,
 			);
 			path = YOLOModels;
+			sourceTree = "<group>";
+		};
+		9AF2D6252D0D46B100A9B2DC /* LLMCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */,
+				9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */,
+				9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */,
+				9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */,
+				9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */,
+				9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */,
+				9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */,
+				9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */,
+				9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */,
+				9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */,
+			);
+			path = LLMCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AC116FF2D07CC6400AC8FF5 /* .gitignore in Resources */,
+				9AF2D6392D0D889500A9B2DC /* LLMCollectionAssets.xcassets in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 				9A9D21662CF2017900E8E7C4 /* GenerativeAI-Info.plist in Resources */,
@@ -494,11 +533,13 @@
 				9A9D21752CF203AC00E8E7C4 /* ErrorView.swift in Sources */,
 				9A9D21732CF2036A00E8E7C4 /* BouncingDots.swift in Sources */,
 				9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */,
+				9AF2D6272D0D46C100A9B2DC /* LLMsView.swift in Sources */,
 				9AA0A1382CF29A800040EE8C /* Logging.swift in Sources */,
 				9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */,
 				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
 				9A06B7CD2D0CFF790064A627 /* VideoCapture.swift in Sources */,
 				9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */,
+				9AF2D62F2D0D475500A9B2DC /* LLMProviderCardView.swift in Sources */,
 				9AA0A14D2CF29D030040EE8C /* GenerativeAIService.swift in Sources */,
 				9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */,
 				9AA0A13A2CF29A8C0040EE8C /* FunctionCall.swift in Sources */,
@@ -514,6 +555,7 @@
 				9AA0A12A2CF299810040EE8C /* Chat.swift in Sources */,
 				9AA0A1422CF29B410040EE8C /* PartsRepresentable+Image.swift in Sources */,
 				9AA0A14B2CF29CF20040EE8C /* GenerationConfig.swift in Sources */,
+				9AF2D6312D0D476B00A9B2DC /* LLMProviderRatingStars.swift in Sources */,
 				9AA0A1532CF29D8E0040EE8C /* GenerateContentRequest.swift in Sources */,
 				9AA0A12C2CF299A50040EE8C /* GenerativeModel.swift in Sources */,
 				9AA0A1272CF26FE30040EE8C /* FunctionCallingScreen.swift in Sources */,
@@ -521,14 +563,19 @@
 				9AC116F92D07CBAB00AC8FF5 /* yolov8s.mlpackage in Sources */,
 				9AC116FA2D07CBAB00AC8FF5 /* yolov8m.mlpackage in Sources */,
 				9AC116FB2D07CBAB00AC8FF5 /* yolov8n.mlpackage in Sources */,
+				9AF2D62B2D0D471B00A9B2DC /* LLMProviderInformation.swift in Sources */,
 				9AC116FC2D07CBAB00AC8FF5 /* yolov8x.mlpackage in Sources */,
 				9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
+				9AF2D62D2D0D473100A9B2DC /* LLMGrid.swift in Sources */,
+				9AF2D63B2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9AA0A1402CF29B140040EE8C /* PartsRepresentable.swift in Sources */,
 				9A921F262CF192A10075D3F8 /* LifecycleObjCViewController.m in Sources */,
 				9A9D216A2CF202E600E8E7C4 /* ConversationViewModel.swift in Sources */,
+				9AF2D63D2D0EB74000A9B2DC /* GenAIInformation.swift in Sources */,
 				9AA0A1342CF299D60040EE8C /* ImageConversionError.swift in Sources */,
+				9AF2D6292D0D470400A9B2DC /* AppEnvironment.swift in Sources */,
 				9AC117032D07F7F800AC8FF5 /* YOLOViewController.swift in Sources */,
 				9A9D21682CF2028700E8E7C4 /* ConversationScreen.swift in Sources */,
 				9AA0A1462CF29BE40040EE8C /* Safety.swift in Sources */,
@@ -540,6 +587,7 @@
 				9A9D21642CF2016300E8E7C4 /* APIKey.swift in Sources */,
 				9AA0A14F2CF29D150040EE8C /* GenerativeAIRequest.swift in Sources */,
 				9AA0A1512CF29D5D0040EE8C /* GenerativeAISwift.swift in Sources */,
+				9AF2D6332D0D47A200A9B2DC /* ProviderDetails.swift in Sources */,
 				9AA0A1322CF299C90040EE8C /* GenerateContentResponse.swift in Sources */,
 				9AA0A12E2CF299B40040EE8C /* ModelContent.swift in Sources */,
 				9A698CB52CF0EE55008FDDBF /* SceneDelegate.swift in Sources */,
