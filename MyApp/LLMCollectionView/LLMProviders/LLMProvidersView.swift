@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct LLMProvidersView: View {
-  @EnvironmentObject var llmProviderCollectionNavigation: LLMProviderSupplier
+  @EnvironmentObject var llmProviderCollectionNavigation: AppEnvironment
   @State var selectedLLMProvider: LLMProviderInformation?
   @Namespace var providerNamespace
 
@@ -80,5 +80,5 @@ struct LLMProvidersView: View {
   NavigationStack {
     LLMProvidersView()
   }
-  .environmentObject(LLMProviderSupplier())
+  .environmentObject(AppEnvironment())
 }

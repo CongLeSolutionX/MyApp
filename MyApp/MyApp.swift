@@ -19,16 +19,8 @@ struct MyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            let genAIModel = GenAIInformation(
-                imageName: "Apple_Intelligence_Logo",
-                title: "Apple",
-                description: "This is anactived gen AI model",
-                activatedGenerativeModel: true
-            )
-            
-            GenAICapabilityDetails(generativeModel: genAIModel)
-//            LLMProvidersView()
-//                .environmentObject(AppEnvironment())
+            LLMProvidersView()
+                .environmentObject(AppEnvironment())
             //UIKitContentView()
             // TODO: Wrap entire functionalities of Gemini model into a card view
 //            NavigationStack {

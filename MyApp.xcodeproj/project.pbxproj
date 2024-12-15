@@ -76,11 +76,6 @@
 		9AF2D6392D0D889500A9B2DC /* LLMCollectionAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */; };
 		9AF2D63B2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */; };
 		9AF2D63D2D0EB74000A9B2DC /* GenAIInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */; };
-		9AF2D6412D0F7DFB00A9B2DC /* GenAIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6402D0F7DFB00A9B2DC /* GenAIModels.swift */; };
-		9AF2D6432D0F7EE100A9B2DC /* GenAIModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6422D0F7EE100A9B2DC /* GenAIModelsView.swift */; };
-		9AF2D6452D0F809300A9B2DC /* GenAIModelGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6442D0F809300A9B2DC /* GenAIModelGrid.swift */; };
-		9AF2D6472D0F80E800A9B2DC /* GenAIModelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6462D0F80E800A9B2DC /* GenAIModelCardView.swift */; };
-		9AF2D6492D0F813C00A9B2DC /* GenAIModelRatingStars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6482D0F813C00A9B2DC /* GenAIModelRatingStars.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -156,11 +151,6 @@
 		9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LLMCollectionAssets.xcassets; sourceTree = "<group>"; };
 		9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAICapabilityDetails.swift; sourceTree = "<group>"; };
 		9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIInformation.swift; sourceTree = "<group>"; };
-		9AF2D6402D0F7DFB00A9B2DC /* GenAIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIModels.swift; sourceTree = "<group>"; };
-		9AF2D6422D0F7EE100A9B2DC /* GenAIModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIModelsView.swift; sourceTree = "<group>"; };
-		9AF2D6442D0F809300A9B2DC /* GenAIModelGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIModelGrid.swift; sourceTree = "<group>"; };
-		9AF2D6462D0F80E800A9B2DC /* GenAIModelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIModelCardView.swift; sourceTree = "<group>"; };
-		9AF2D6482D0F813C00A9B2DC /* GenAIModelRatingStars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenAIModelRatingStars.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -444,6 +434,7 @@
 		9AF2D6252D0D46B100A9B2DC /* LLMCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */,
 				9AF2D63E2D0F796700A9B2DC /* LLMProviders */,
 				9AF2D63F2D0F7A1000A9B2DC /* GenAIModel */,
 				9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */,
@@ -454,7 +445,6 @@
 		9AF2D63E2D0F796700A9B2DC /* LLMProviders */ = {
 			isa = PBXGroup;
 			children = (
-				9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */,
 				9AF2D6262D0D46BC00A9B2DC /* LLMProvidersView.swift */,
 				9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */,
 				9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */,
@@ -468,11 +458,6 @@
 		9AF2D63F2D0F7A1000A9B2DC /* GenAIModel */ = {
 			isa = PBXGroup;
 			children = (
-				9AF2D6402D0F7DFB00A9B2DC /* GenAIModels.swift */,
-				9AF2D6442D0F809300A9B2DC /* GenAIModelGrid.swift */,
-				9AF2D6422D0F7EE100A9B2DC /* GenAIModelsView.swift */,
-				9AF2D6462D0F80E800A9B2DC /* GenAIModelCardView.swift */,
-				9AF2D6482D0F813C00A9B2DC /* GenAIModelRatingStars.swift */,
 				9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */,
 				9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */,
 			);
@@ -559,11 +544,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AF2D6432D0F7EE100A9B2DC /* GenAIModelsView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9D216C2CF202FA00E8E7C4 /* ChatMessage.swift in Sources */,
 				9A9D21752CF203AC00E8E7C4 /* ErrorView.swift in Sources */,
-				9AF2D6412D0F7DFB00A9B2DC /* GenAIModels.swift in Sources */,
 				9A9D21732CF2036A00E8E7C4 /* BouncingDots.swift in Sources */,
 				9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */,
 				9AF2D6272D0D46C100A9B2DC /* LLMProvidersView.swift in Sources */,
@@ -572,7 +555,6 @@
 				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
 				9A06B7CD2D0CFF790064A627 /* VideoCapture.swift in Sources */,
 				9AA0A1552CF29DD40040EE8C /* CountTokensRequest.swift in Sources */,
-				9AF2D6472D0F80E800A9B2DC /* GenAIModelCardView.swift in Sources */,
 				9AF2D62F2D0D475500A9B2DC /* LLMProviderCardView.swift in Sources */,
 				9AA0A14D2CF29D030040EE8C /* GenerativeAIService.swift in Sources */,
 				9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */,
@@ -590,7 +572,6 @@
 				9AA0A1422CF29B410040EE8C /* PartsRepresentable+Image.swift in Sources */,
 				9AA0A14B2CF29CF20040EE8C /* GenerationConfig.swift in Sources */,
 				9AF2D6312D0D476B00A9B2DC /* LLMProviderRatingStars.swift in Sources */,
-				9AF2D6452D0F809300A9B2DC /* GenAIModelGrid.swift in Sources */,
 				9AA0A1532CF29D8E0040EE8C /* GenerateContentRequest.swift in Sources */,
 				9AA0A12C2CF299A50040EE8C /* GenerativeModel.swift in Sources */,
 				9AA0A1272CF26FE30040EE8C /* FunctionCallingScreen.swift in Sources */,
@@ -616,7 +597,6 @@
 				9AA0A1462CF29BE40040EE8C /* Safety.swift in Sources */,
 				9A698CB72CF0EFC9008FDDBF /* AppDelegate.swift in Sources */,
 				9AA0A11E2CF26CE00040EE8C /* SummarizeScreen.swift in Sources */,
-				9AF2D6492D0F813C00A9B2DC /* GenAIModelRatingStars.swift in Sources */,
 				9AA0A1442CF29BA40040EE8C /* Errors.swift in Sources */,
 				9AC117052D07F83500AC8FF5 /* YOLOSettingsViewController.swift in Sources */,
 				9A0045D12CF21CD600F9F1EC /* PhotoReasoningScreen.swift in Sources */,

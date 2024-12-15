@@ -70,7 +70,7 @@ struct GenAICapabilityDetails: View {
 }
 
 // MARK: - Previews
-#Preview("Active Gen AI model") {
+#Preview {
     let genAIModel = GenAIInformation(
         imageName: "Apple_Intelligence_Logo",
         title: "Apple",
@@ -81,13 +81,15 @@ struct GenAICapabilityDetails: View {
     return GenAICapabilityDetails(generativeModel: genAIModel)
 }
 
-#Preview("Inactivated Gen AI model") {
-    let genAIModel = GenAIInformation(
-        imageName: "Grok_Logo",
-        title: "Grok",
-        description: "This is inactive Gen AI model",
-        activatedGenerativeModel: false
-    )
-    
-    return GenAICapabilityDetails(generativeModel: genAIModel)
-}
+
+//#Preview("Inactivated LLM View") {
+//    let genAIModel = LLMProviderInformation(
+//        imageName: "Apple_Intelligence_Logo",
+//        title: "Inactivated LLM",
+//        description: "Your LLM is not ready yet.",
+//        activatedLLMProvider: false,
+//        ratingStars: 1
+//    )
+//    
+//    return GenAICapabilityDetails(generativeModel: genAIModel)
+//}

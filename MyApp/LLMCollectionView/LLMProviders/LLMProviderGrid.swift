@@ -49,7 +49,7 @@ struct LLMProviderGrid: View {
 
   return LLMProviderGrid(
     title: "Test",
-    providers: LLMProviderSupplier().llmProviderList,
+    providers: AppEnvironment().llmProviderList,
     selected: .constant(nil),
     namespace: namespace
   )

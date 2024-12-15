@@ -32,7 +32,6 @@ struct LLMProviderRatingStars: View {
   }
 }
 
-//MARK: - Previews
 #Preview {
   LLMProviderRatingStars()
 }

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-class LLMProviderSupplier: ObservableObject {
+class AppEnvironment: ObservableObject {
     @Published var lastAppLaunchId: Int?
     @Published var llmProviderList: [LLMProviderInformation] = []
     
