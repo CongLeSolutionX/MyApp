@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LLMGrid: View {
+struct LLMProviderGrid: View {
   var title: String
   var providers: [LLMProviderInformation]
   @Binding var selected: LLMProviderInformation?
@@ -47,7 +47,7 @@ struct LLMGrid: View {
 #Preview {
   @Previewable @Namespace var namespace
 
-  return LLMGrid(
+  return LLMProviderGrid(
     title: "Test",
     providers: AppEnvironment().llmProviderList,
     selected: .constant(nil),

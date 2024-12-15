@@ -35,6 +35,15 @@ struct ProviderDetails: View {
         }.padding()
             .opacity(provider.activatedLLMProvider ? 1.0 : 0.4)
             .saturation(provider.activatedLLMProvider ? 1 : 0)
+        
+        //TODO: Task 1 - Provide a list of gen AI models
+        //TODO: Task 2 - Link each selected gen AI model to a corresponding `GenAICapabilityDetails` view
+        VStack {
+            Text("Model 1")
+            Text("Model 2")
+            Text("Model 1")
+            Text("Model 2")
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LLMsView: View {
+struct LLMProvidersView: View {
   @EnvironmentObject var llmProviderCollectionNavigation: AppEnvironment
   @State var selectedLLMProvider: LLMProviderInformation?
   @Namespace var providerNamespace
@@ -50,13 +50,13 @@ struct LLMsView: View {
       } else {
         ScrollView {
           LazyVGrid(columns: llmColumns) {
-            LLMGrid(
+            LLMProviderGrid(
               title: "Activated",
               providers: activeLLMProviders,
               selected: $selectedLLMProvider,
               namespace: providerNamespace
             )
-            LLMGrid(
+            LLMProviderGrid(
               title: "Not Activated",
               providers: inactiveLLMProviders,
               selected: $selectedLLMProvider,
@@ -78,7 +78,7 @@ struct LLMsView: View {
 // MARK: - Previews
 #Preview {
   NavigationStack {
-    LLMsView()
+    LLMProvidersView()
   }
   .environmentObject(AppEnvironment())
 }

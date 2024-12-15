@@ -66,10 +66,10 @@
 		9AC117032D07F7F800AC8FF5 /* YOLOViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117022D07F7F300AC8FF5 /* YOLOViewController.swift */; };
 		9AC117052D07F83500AC8FF5 /* YOLOSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */; };
 		9AC117072D07FA8300AC8FF5 /* YOLOStatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */; };
-		9AF2D6272D0D46C100A9B2DC /* LLMsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */; };
+		9AF2D6272D0D46C100A9B2DC /* LLMProvidersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6262D0D46BC00A9B2DC /* LLMProvidersView.swift */; };
 		9AF2D6292D0D470400A9B2DC /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */; };
 		9AF2D62B2D0D471B00A9B2DC /* LLMProviderInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */; };
-		9AF2D62D2D0D473100A9B2DC /* LLMGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */; };
+		9AF2D62D2D0D473100A9B2DC /* LLMProviderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62C2D0D473000A9B2DC /* LLMProviderGrid.swift */; };
 		9AF2D62F2D0D475500A9B2DC /* LLMProviderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */; };
 		9AF2D6312D0D476B00A9B2DC /* LLMProviderRatingStars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */; };
 		9AF2D6332D0D47A200A9B2DC /* ProviderDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */; };
@@ -141,10 +141,10 @@
 		9AC117022D07F7F300AC8FF5 /* YOLOViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOViewController.swift; sourceTree = "<group>"; };
 		9AC117042D07F83000AC8FF5 /* YOLOSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOSettingsViewController.swift; sourceTree = "<group>"; };
 		9AC117062D07FA7E00AC8FF5 /* YOLOStatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YOLOStatisticsViewController.swift; sourceTree = "<group>"; };
-		9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMsView.swift; sourceTree = "<group>"; };
+		9AF2D6262D0D46BC00A9B2DC /* LLMProvidersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProvidersView.swift; sourceTree = "<group>"; };
 		9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderInformation.swift; sourceTree = "<group>"; };
-		9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMGrid.swift; sourceTree = "<group>"; };
+		9AF2D62C2D0D473000A9B2DC /* LLMProviderGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderGrid.swift; sourceTree = "<group>"; };
 		9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderCardView.swift; sourceTree = "<group>"; };
 		9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMProviderRatingStars.swift; sourceTree = "<group>"; };
 		9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDetails.swift; sourceTree = "<group>"; };
@@ -435,17 +435,33 @@
 			isa = PBXGroup;
 			children = (
 				9AF2D6282D0D470300A9B2DC /* AppEnvironment.swift */,
-				9AF2D6262D0D46BC00A9B2DC /* LLMsView.swift */,
-				9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */,
-				9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */,
-				9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */,
-				9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */,
-				9AF2D62C2D0D473000A9B2DC /* LLMGrid.swift */,
-				9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */,
-				9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */,
+				9AF2D63E2D0F796700A9B2DC /* LLMProviders */,
+				9AF2D63F2D0F7A1000A9B2DC /* GenAIModel */,
 				9AF2D6382D0D889500A9B2DC /* LLMCollectionAssets.xcassets */,
 			);
 			path = LLMCollectionView;
+			sourceTree = "<group>";
+		};
+		9AF2D63E2D0F796700A9B2DC /* LLMProviders */ = {
+			isa = PBXGroup;
+			children = (
+				9AF2D6262D0D46BC00A9B2DC /* LLMProvidersView.swift */,
+				9AF2D62E2D0D475400A9B2DC /* LLMProviderCardView.swift */,
+				9AF2D6322D0D47A100A9B2DC /* ProviderDetails.swift */,
+				9AF2D62A2D0D471A00A9B2DC /* LLMProviderInformation.swift */,
+				9AF2D6302D0D476A00A9B2DC /* LLMProviderRatingStars.swift */,
+				9AF2D62C2D0D473000A9B2DC /* LLMProviderGrid.swift */,
+			);
+			path = LLMProviders;
+			sourceTree = "<group>";
+		};
+		9AF2D63F2D0F7A1000A9B2DC /* GenAIModel */ = {
+			isa = PBXGroup;
+			children = (
+				9AF2D63A2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift */,
+				9AF2D63C2D0EB74000A9B2DC /* GenAIInformation.swift */,
+			);
+			path = GenAIModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,7 +549,7 @@
 				9A9D21752CF203AC00E8E7C4 /* ErrorView.swift in Sources */,
 				9A9D21732CF2036A00E8E7C4 /* BouncingDots.swift in Sources */,
 				9A9D21542CF1FF4600E8E7C4 /* InputField.swift in Sources */,
-				9AF2D6272D0D46C100A9B2DC /* LLMsView.swift in Sources */,
+				9AF2D6272D0D46C100A9B2DC /* LLMProvidersView.swift in Sources */,
 				9AA0A1382CF29A800040EE8C /* Logging.swift in Sources */,
 				9A0045D32CF21CEF00F9F1EC /* PhotoReasoningViewModel.swift in Sources */,
 				9AA0A1592CF2A41A0040EE8C /* LightingControlView.swift in Sources */,
@@ -567,7 +583,7 @@
 				9AC116FC2D07CBAB00AC8FF5 /* yolov8x.mlpackage in Sources */,
 				9AC116FD2D07CBAB00AC8FF5 /* yolov8l.mlpackage in Sources */,
 				9A921F232CF192560075D3F8 /* CustomUIKitView.swift in Sources */,
-				9AF2D62D2D0D473100A9B2DC /* LLMGrid.swift in Sources */,
+				9AF2D62D2D0D473100A9B2DC /* LLMProviderGrid.swift in Sources */,
 				9AF2D63B2D0EB6B900A9B2DC /* GenAICapabilityDetails.swift in Sources */,
 				9A921F202CF1923A0075D3F8 /* LifecycleNativeUIKitViewController.swift in Sources */,
 				9AA0A1402CF29B140040EE8C /* PartsRepresentable.swift in Sources */,

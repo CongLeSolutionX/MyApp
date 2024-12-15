@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct GenAICapabilityDetails: View {
-    var generativeModel: LLMProviderInformation
+    var generativeModel: GenAIInformation
     
     func imageSize(proxy: GeometryProxy) -> Double {
         let size = min(proxy.size.width, proxy.size.height)
@@ -17,6 +17,7 @@ struct GenAICapabilityDetails: View {
     }
     
     var body: some View {
+        // TODO: Provide some description and information about the selected gen AI model, dynamically
         VStack(alignment: .center) {
             Image(generativeModel.imageName)
                 .resizable()
@@ -33,9 +34,10 @@ struct GenAICapabilityDetails: View {
                 .shadow(color: .black, radius: 5)
             Spacer()
         }.padding()
-            .opacity(generativeModel.activatedLLMProvider ? 1.0 : 0.4)
-            .saturation(generativeModel.activatedLLMProvider ? 1 : 0)
+            .opacity(generativeModel.activatedGenerativeModel ? 1.0 : 0.4)
+            .saturation(generativeModel.activatedGenerativeModel ? 1 : 0)
         
+        // TODO: This list of capabilities should bve dynamically updated basedon selected gen AI model by name
         HStack {
             NavigationStack {
                 List {
@@ -68,27 +70,26 @@ struct GenAICapabilityDetails: View {
 }
 
 // MARK: - Previews
-#Preview("Activated LLM View") {
-    let genAIModel = LLMProviderInformation(
-        imageName: "Gemini_logo",
-        title: "Activated LLM",
-        description: "Your LLM is activated and ready to serve your needs.",
-        activatedLLMProvider: true,
-        ratingStars: 5
-    )
-    
-    return GenAICapabilityDetails(generativeModel: genAIModel)
-}
-
-
-#Preview("Inactivated LLM View") {
-    let genAIModel = LLMProviderInformation(
+#Preview {
+    let genAIModel = GenAIInformation(
         imageName: "Apple_Intelligence_Logo",
-        title: "Inactivated LLM",
-        description: "Your LLM is not ready yet.",
-        activatedLLMProvider: false,
-        ratingStars: 1
+        title: "Apple",
+        description: "This is anactived gen AI model",
+        activatedGenerativeModel: true
     )
     
     return GenAICapabilityDetails(generativeModel: genAIModel)
 }
+
+
+//#Preview("Inactivated LLM View") {
+//    let genAIModel = LLMProviderInformation(
+//        imageName: "Apple_Intelligence_Logo",
+//        title: "Inactivated LLM",
+//        description: "Your LLM is not ready yet.",
+//        activatedLLMProvider: false,
+//        ratingStars: 1
+//    )
+//    
+//    return GenAICapabilityDetails(generativeModel: genAIModel)
+//}
