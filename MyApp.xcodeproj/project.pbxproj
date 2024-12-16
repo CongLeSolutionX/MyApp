@@ -210,6 +210,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9A260AD22D10518800EA1145 /* TessellationRenderer */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TessellationRenderer; sourceTree = "<group>"; };
 		9A3062DF2D0C4D73007689B2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
 		9A3063012D0C5699007689B2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
 		9A85254E2CE9C95300DF1FB9 /* PhotoPermissionsManagerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoPermissionsManagerTests; sourceTree = "<group>"; };
@@ -536,6 +537,7 @@
 				9A3062FD2D0C563E007689B2 /* 02-3d-models */,
 				9A3062FC2D0C5639007689B2 /* 03-the-rendering-pipeline */,
 				9A3063102D0CD9F8007689B2 /* 04-the-vertex-function */,
+				9A260AD22D10518800EA1145 /* TessellationRenderer */,
 			);
 			path = Metal;
 			sourceTree = "<group>";
@@ -616,6 +618,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				9A260AD22D10518800EA1145 /* TessellationRenderer */,
 				9A3062DF2D0C4D73007689B2 /* resources */,
 				9A3063012D0C5699007689B2 /* resources */,
 			);
