@@ -5,18 +5,19 @@
 //  Created by Cong Le on 8/19/24.
 //
 
-//import SwiftUI
-//
-//// Step 3: Embed in main app structure
-//@main
-//struct MyAppApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            VertexMetalContentView()
-//            //SwiftUIContentView()
-//            //TikTikHomeView()
-//            //CameraView()
-//            //PhotoPickerExampleView()
-//        }
-//    }
-//}
+import SwiftUI
+
+// Step 3: Embed in main app structure
+@main
+struct MyAppApp: App {
+    var body: some Scene {
+        WindowGroup {
+            LightingDemoAppView()
+            //VertexMetalContentView()
+            //SwiftUIContentView()
+            //TikTikHomeView()
+            //CameraView()
+            //PhotoPickerExampleView()
+        }
+    }
+}
