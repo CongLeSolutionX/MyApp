@@ -27,6 +27,7 @@
 		9AE1E4842CF72D8800E490A7 /* UIKitParent-ChildViewControllerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4832CF72D8700E490A7 /* UIKitParent-ChildViewControllerExample.swift */; };
 		9AE1E4862CF732E500E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4852CF732DF00E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift */; };
 		9AE1E48A2CF7397E00E490A7 /* TraitedUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1E4892CF7396800E490A7 /* TraitedUIKitViewController.swift */; };
+		9AF2D6662D0F940300A9B2DC /* UIKitTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF2D6652D0F93FF00A9B2DC /* UIKitTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		9AE1E4832CF72D8700E490A7 /* UIKitParent-ChildViewControllerExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKitParent-ChildViewControllerExample.swift"; sourceTree = "<group>"; };
 		9AE1E4852CF732DF00E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedUIViewControllerRepresentablePattern.swift; sourceTree = "<group>"; };
 		9AE1E4892CF7396800E490A7 /* TraitedUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitedUIKitViewController.swift; sourceTree = "<group>"; };
+		9AF2D6652D0F93FF00A9B2DC /* UIKitTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -121,6 +123,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AF2D6652D0F93FF00A9B2DC /* UIKitTheme.swift */,
 				9AAB9A3E2D08849200F62BE8 /* UseSwiftUIWithUIKit */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9A698CB62CF0EFC8008FDDBF /* AppDelegate.swift */,
@@ -246,6 +249,7 @@
 				9AE1E47D2CF7239300E490A7 /* PresentedSimpleViewController.swift in Sources */,
 				9AE1E4862CF732E500E490A7 /* EnhancedUIViewControllerRepresentablePattern.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AF2D6662D0F940300A9B2DC /* UIKitTheme.swift in Sources */,
 				9AAB9A442D088A7A00F62BE8 /* HostingConfigurationViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE1E47B2CF7235800E490A7 /* PresentingSimpleViewController.swift in Sources */,

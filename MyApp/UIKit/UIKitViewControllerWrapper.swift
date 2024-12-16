@@ -22,15 +22,15 @@ class MyUIKitViewController: UIViewController {
 
 // UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = ViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
+    func makeUIViewController(context: Context) -> ViewController {
         // Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        return ViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         // Update the view controller if needed
     }
 }
