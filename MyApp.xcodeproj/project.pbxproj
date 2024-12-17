@@ -12,6 +12,18 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AB950112D11281F00E19F58 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950102D11281C00E19F58 /* Student.swift */; };
+		9AB950132D11283900E19F58 /* StudentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950122D11283800E19F58 /* StudentRepository.swift */; };
+		9AB950152D11296900E19F58 /* Students.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950142D11296700E19F58 /* Students.swift */; };
+		9AB950172D11299600E19F58 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950162D11299500E19F58 /* JSONHelper.swift */; };
+		9AB9501F2D112AEA00E19F58 /* HomeTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9501E2D112AE900E19F58 /* HomeTabView.swift */; };
+		9AB950212D112B2E00E19F58 /* StudentsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950202D112B2D00E19F58 /* StudentsListView.swift */; };
+		9AB950232D112B4300E19F58 /* StudentsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950222D112B4200E19F58 /* StudentsListViewModel.swift */; };
+		9AB950252D112B6200E19F58 /* View+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950242D112B5C00E19F58 /* View+Alert.swift */; };
+		9AB950272D112BD400E19F58 /* AlertPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950262D112BD300E19F58 /* AlertPrompt.swift */; };
+		9AB9502A2D112C3700E19F58 /* StudentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB950292D112C3600E19F58 /* StudentDetailViewModel.swift */; };
+		9AB9502C2D112C5700E19F58 /* StudentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9502B2D112C5700E19F58 /* StudentDetailView.swift */; };
+		9AB9502F2D112DEB00E19F58 /* students_sample_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9502E2D112DEB00E19F58 /* students_sample_data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +34,18 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AB950102D11281C00E19F58 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		9AB950122D11283800E19F58 /* StudentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentRepository.swift; sourceTree = "<group>"; };
+		9AB950142D11296700E19F58 /* Students.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Students.swift; sourceTree = "<group>"; };
+		9AB950162D11299500E19F58 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		9AB9501E2D112AE900E19F58 /* HomeTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabView.swift; sourceTree = "<group>"; };
+		9AB950202D112B2D00E19F58 /* StudentsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsListView.swift; sourceTree = "<group>"; };
+		9AB950222D112B4200E19F58 /* StudentsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsListViewModel.swift; sourceTree = "<group>"; };
+		9AB950242D112B5C00E19F58 /* View+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Alert.swift"; sourceTree = "<group>"; };
+		9AB950262D112BD300E19F58 /* AlertPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPrompt.swift; sourceTree = "<group>"; };
+		9AB950292D112C3600E19F58 /* StudentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailViewModel.swift; sourceTree = "<group>"; };
+		9AB9502B2D112C5700E19F58 /* StudentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailView.swift; sourceTree = "<group>"; };
+		9AB9502E2D112DEB00E19F58 /* students_sample_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = students_sample_data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +81,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AB9501C2D112A6400E19F58 /* SwiftUI_InteractiveTable */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -70,6 +95,65 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AB9501A2D112A2800E19F58 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950262D112BD300E19F58 /* AlertPrompt.swift */,
+				9AB950102D11281C00E19F58 /* Student.swift */,
+				9AB950142D11296700E19F58 /* Students.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9AB9501B2D112A3600E19F58 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9502E2D112DEB00E19F58 /* students_sample_data.json */,
+				9AB9501A2D112A2800E19F58 /* Models */,
+				9AB950122D11283800E19F58 /* StudentRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9AB9501C2D112A6400E19F58 /* SwiftUI_InteractiveTable */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950242D112B5C00E19F58 /* View+Alert.swift */,
+				9AB9501D2D112AE100E19F58 /* UI */,
+				9AB950162D11299500E19F58 /* JSONHelper.swift */,
+				9AB9501B2D112A3600E19F58 /* Data */,
+			);
+			path = SwiftUI_InteractiveTable;
+			sourceTree = "<group>";
+		};
+		9AB9501D2D112AE100E19F58 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950282D112C3300E19F58 /* StudentDetail */,
+				9AB9502D2D112CDD00E19F58 /* StudentsList */,
+				9AB9501E2D112AE900E19F58 /* HomeTabView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		9AB950282D112C3300E19F58 /* StudentDetail */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9502B2D112C5700E19F58 /* StudentDetailView.swift */,
+				9AB950292D112C3600E19F58 /* StudentDetailViewModel.swift */,
+			);
+			path = StudentDetail;
+			sourceTree = "<group>";
+		};
+		9AB9502D2D112CDD00E19F58 /* StudentsList */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950222D112B4200E19F58 /* StudentsListViewModel.swift */,
+				9AB950202D112B2D00E19F58 /* StudentsListView.swift */,
+			);
+			path = StudentsList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB9502F2D112DEB00E19F58 /* students_sample_data.json in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
@@ -142,9 +227,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB950172D11299600E19F58 /* JSONHelper.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AB950252D112B6200E19F58 /* View+Alert.swift in Sources */,
+				9AB9502A2D112C3700E19F58 /* StudentDetailViewModel.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AB950152D11296900E19F58 /* Students.swift in Sources */,
+				9AB9502C2D112C5700E19F58 /* StudentDetailView.swift in Sources */,
+				9AB950272D112BD400E19F58 /* AlertPrompt.swift in Sources */,
+				9AB950132D11283900E19F58 /* StudentRepository.swift in Sources */,
+				9AB950232D112B4300E19F58 /* StudentsListViewModel.swift in Sources */,
+				9AB950212D112B2E00E19F58 /* StudentsListView.swift in Sources */,
+				9AB950112D11281F00E19F58 /* Student.swift in Sources */,
+				9AB9501F2D112AEA00E19F58 /* HomeTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
