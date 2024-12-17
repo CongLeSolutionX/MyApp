@@ -4,7 +4,8 @@
 //
 //  Created by Cong Le on 12/16/24.
 //
-// Source: https://github.com/cp-divyesh-v/SafeLock/
+// Source: https://github.com/cp-divyesh-v/SafeLock/blob/main/SafeLock/Utils/LAContext%2BExtension.swift
+// Article: https://canopas.com/implement-face-id-authentication-in-the-ios-app-2f1160aadf1f
 
 import LocalAuthentication
 

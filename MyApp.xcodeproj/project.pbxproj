@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A9D3F432D1166AC00023E8E /* Taks+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9D3F422D1166AB00023E8E /* Taks+Extension.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A9D3F422D1166AB00023E8E /* Taks+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Taks+Extension.swift"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +53,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A9D3F3D2D11616200023E8E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9A9D3F3E2D11661000023E8E /* EncryptionManager */,
+				9AB950672D11433300E19F58 /* Authenticator.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9A9D3F3E2D11661000023E8E /* EncryptionManager */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9506B2D11437400E19F58 /* AESEncryptionManager.swift */,
+			);
+			path = EncryptionManager;
+			sourceTree = "<group>";
+		};
+		9A9D3F3F2D11662A00023E8E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950712D11441A00E19F58 /* NumberPadView.swift */,
+				9AB9506F2D11440800E19F58 /* PasscodeIndicatorView.swift */,
+				9A9D3F412D11668000023E8E /* LockScreen */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		9A9D3F402D11665E00023E8E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950692D11435F00E19F58 /* LAContext+Extension.swift */,
+				9A9D3F422D1166AB00023E8E /* Taks+Extension.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9A9D3F412D11668000023E8E /* LockScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9506D2D1143BE00E19F58 /* LockScreenView.swift */,
+				9AB950652D11431A00E19F58 /* LockScreenViewModel.swift */,
+			);
+			path = LockScreen;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -92,14 +139,10 @@
 		9AB950622D1142B200E19F58 /* SafeLockDemo */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950712D11441A00E19F58 /* NumberPadView.swift */,
-				9AB9506F2D11440800E19F58 /* PasscodeIndicatorView.swift */,
-				9AB9506D2D1143BE00E19F58 /* LockScreenView.swift */,
-				9AB9506B2D11437400E19F58 /* AESEncryptionManager.swift */,
-				9AB950692D11435F00E19F58 /* LAContext+Extension.swift */,
-				9AB950672D11433300E19F58 /* Authenticator.swift */,
-				9AB950652D11431A00E19F58 /* LockScreenViewModel.swift */,
 				9AB950632D1142F100E19F58 /* SafeLockDemoView.swift */,
+				9A9D3F3D2D11616200023E8E /* Data */,
+				9A9D3F3F2D11662A00023E8E /* UI */,
+				9A9D3F402D11665E00023E8E /* Utils */,
 			);
 			path = SafeLockDemo;
 			sourceTree = "<group>";
@@ -180,6 +223,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AB9506C2D11437400E19F58 /* AESEncryptionManager.swift in Sources */,
 				9AB9506A2D11436000E19F58 /* LAContext+Extension.swift in Sources */,
+				9A9D3F432D1166AC00023E8E /* Taks+Extension.swift in Sources */,
 				9AB950702D11440900E19F58 /* PasscodeIndicatorView.swift in Sources */,
 				9AB950722D11441B00E19F58 /* NumberPadView.swift in Sources */,
 				9AB9506E2D1143C200E19F58 /* LockScreenView.swift in Sources */,

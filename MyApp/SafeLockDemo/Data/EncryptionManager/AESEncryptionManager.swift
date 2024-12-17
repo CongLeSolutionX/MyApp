@@ -5,6 +5,7 @@
 //  Created by Cong Le on 12/16/24.
 //
 // Source: https://github.com/cp-divyesh-v/SafeLock/
+// Article: https://canopas.com/consistent-data-encryption-in-android-ios-and-flutter-apps-with-aes-535fc64ad80c
 
 import CryptoKit
 import Foundation
