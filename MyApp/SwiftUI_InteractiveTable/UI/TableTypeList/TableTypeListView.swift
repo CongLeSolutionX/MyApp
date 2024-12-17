@@ -97,3 +97,8 @@ enum TableTypes: String, Equatable, CaseIterable {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Table Type List View") {
+    TableTypeListView(viewModel: TableTypeListViewModel())
+}

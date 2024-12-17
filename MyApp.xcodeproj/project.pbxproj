@@ -207,8 +207,8 @@
 		9AB950562D11391400E19F58 /* EverythingInOneTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950522D11376500E19F58 /* EverythingInOneTableViewModel.swift */,
 				9AB950502D11376200E19F58 /* EverythingInOneTableView.swift */,
+				9AB950522D11376500E19F58 /* EverythingInOneTableViewModel.swift */,
 			);
 			path = EverythingInOneTable;
 			sourceTree = "<group>";
@@ -216,8 +216,8 @@
 		9AB950572D11394600E19F58 /* ContextMenuTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB9504E2D11373E00E19F58 /* ContextMenuTableViewModel.swift */,
 				9AB9504C2D11373A00E19F58 /* ContextMenuTableView.swift */,
+				9AB9504E2D11373E00E19F58 /* ContextMenuTableViewModel.swift */,
 			);
 			path = ContextMenuTable;
 			sourceTree = "<group>";
@@ -225,8 +225,8 @@
 		9AB950582D11395600E19F58 /* ExpandableTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB9504A2D11371400E19F58 /* ExpandableTableViewModel.swift */,
 				9AB950482D11371100E19F58 /* ExpandableTableView.swift */,
+				9AB9504A2D11371400E19F58 /* ExpandableTableViewModel.swift */,
 			);
 			path = ExpandableTable;
 			sourceTree = "<group>";
@@ -234,8 +234,8 @@
 		9AB950592D11396600E19F58 /* SearchableTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950462D1136EB00E19F58 /* SearchableTableViewModel.swift */,
 				9AB950442D1136E800E19F58 /* SearchableTableView.swift */,
+				9AB950462D1136EB00E19F58 /* SearchableTableViewModel.swift */,
 			);
 			path = SearchableTable;
 			sourceTree = "<group>";
@@ -243,8 +243,8 @@
 		9AB9505A2D11397000E19F58 /* SortableTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950422D1136B400E19F58 /* SortableTableViewModel.swift */,
 				9AB950402D1136AF00E19F58 /* SortableTableView.swift */,
+				9AB950422D1136B400E19F58 /* SortableTableViewModel.swift */,
 			);
 			path = SortableTable;
 			sourceTree = "<group>";
@@ -252,8 +252,8 @@
 		9AB9505B2D11397A00E19F58 /* MultipleSelectionTable */ = {
 			isa = PBXGroup;
 			children = (
-				9AB9503E2D11367600E19F58 /* MultipleSelectionTableViewModel.swift */,
 				9AB9503C2D11367300E19F58 /* MultipleSelectionTableView.swift */,
+				9AB9503E2D11367600E19F58 /* MultipleSelectionTableViewModel.swift */,
 			);
 			path = MultipleSelectionTable;
 			sourceTree = "<group>";
@@ -279,8 +279,8 @@
 		9AB9505E2D11399A00E19F58 /* TableTypeList */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950322D11359100E19F58 /* TableTypeListViewModel.swift */,
 				9AB950302D11358500E19F58 /* TableTypeListView.swift */,
+				9AB950322D11359100E19F58 /* TableTypeListViewModel.swift */,
 			);
 			path = TableTypeList;
 			sourceTree = "<group>";

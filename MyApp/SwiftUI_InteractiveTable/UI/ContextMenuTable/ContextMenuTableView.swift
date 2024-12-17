@@ -104,3 +104,8 @@ struct ContextMenuTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Context Menu Table View") {
+    ContextMenuTableView(viewModel: ContextMenuTableViewModel())
+}

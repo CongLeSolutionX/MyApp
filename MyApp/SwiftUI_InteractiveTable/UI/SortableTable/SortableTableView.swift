@@ -76,3 +76,8 @@ struct SortableTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Sortable Table View") {
+    SortableTableView(viewModel: SortableTableViewModel())
+}

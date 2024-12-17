@@ -72,3 +72,8 @@ struct PlainTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Plain Table View") {
+    PlainTableView(viewModel: PlainTableViewModel())
+}

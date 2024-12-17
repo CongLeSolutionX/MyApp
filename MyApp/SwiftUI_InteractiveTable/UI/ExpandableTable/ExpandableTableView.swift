@@ -84,3 +84,8 @@ struct ExpandableTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Expandable Table View") {
+    ExpandableTableView(viewModel: ExpandableTableViewModel())
+}

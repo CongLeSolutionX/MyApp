@@ -98,3 +98,28 @@ private func gradeColor(for grade: Int) -> Color {
         return .red
     }
 }
+
+// MARK: - Preview
+#Preview("Student Detail View") {
+    let studentDetails = Student(
+        id: "random-id",
+        name: "Khoa Nguyen",
+        gradeHistory: GradeHistory(
+            semester: "This semester",
+            subjects: Subjects(
+                math: 100,
+                science: 100,
+                english: 100,
+                physics: 100,
+                computer: 100,
+                socialScience: 100
+            )
+        )
+    )
+    
+    StudentDetailView(
+        viewModel: StudentDetailViewModel(
+            student: studentDetails
+        )
+    )
+}

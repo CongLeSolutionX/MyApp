@@ -93,11 +93,12 @@ struct EverythingInOneTableView: View {
                 }
             })
             .navigationTitle("Final Table")
-            #if os(iOS)
-            .toolbar(content: {
-                EditButton()
-            })
-            #endif
+            /// Note: This directives code block will crash the preview on canvas
+//            #if os(iOS)
+//            .toolbar(content: {
+//                EditButton()
+//            })
+//            #endif
             .alertPrompt(item: $viewModel.alertPrompt)
             .task {
                 await viewModel.fetchStudents()
@@ -119,4 +120,9 @@ struct EverythingInOneTableView: View {
             return .red
         }
     }
+}
+
+// MARK: - Preview
+#Preview("Context Menu Table View") {
+    EverythingInOneTableView(viewModel: EverythingInOneTableViewModel())
 }

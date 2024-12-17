@@ -74,3 +74,8 @@ struct SearchableTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Searchable Table View") {
+    SearchableTableView(viewModel: SearchableTableViewModel())
+}

@@ -74,3 +74,8 @@ struct SingleSelectionTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Single Selection Table View") {
+    SingleSelectionTableView(viewModel: SingleSelectionTableViewModel())
+}

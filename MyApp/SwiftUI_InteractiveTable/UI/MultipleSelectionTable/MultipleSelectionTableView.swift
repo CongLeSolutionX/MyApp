@@ -79,3 +79,8 @@ struct MultipleSelectionTableView: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview("Multiple Selection Table View") {
+    MultipleSelectionTableView(viewModel: MultipleSelectionTableViewModel())
+}
