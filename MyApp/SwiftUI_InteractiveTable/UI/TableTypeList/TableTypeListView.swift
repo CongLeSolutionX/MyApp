@@ -58,7 +58,7 @@ struct TableTypeListView: View {
         case .expandableTable:
             ExpandableTableView(viewModel: .init())
         case .contextMenuTable:
-            ContextManuTableView(viewModel: ContextManuTableViewModel())
+            ContextMenuTableView(viewModel: ContextMenuTableViewModel())
         case .everythingInOneTable:
             EverythingInOneTableView(viewModel: .init())
         }

@@ -9,9 +9,9 @@
 
 import SwiftUI
 
-struct ContextManuTableView: View {
+struct ContextMenuTableView: View {
     
-    @State var viewModel: ContextManuTableViewModel
+    @State var viewModel: ContextMenuTableViewModel
     
     var body: some View {
         Group {

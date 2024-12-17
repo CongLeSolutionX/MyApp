@@ -9,7 +9,7 @@
 import SwiftUI
 
 @Observable
-class ContextManuTableViewModel {
+class ContextMenuTableViewModel {
     var students: [Student] = []
     
     var alertPrompt: AlertPrompt?
