@@ -171,17 +171,8 @@
 			children = (
 				9AB9501E2D112AE900E19F58 /* HomeTabView.swift */,
 				9AB950542D1137D100E19F58 /* HomeTabViewModel.swift */,
-				9AB950562D11391400E19F58 /* EverythingInOneTable */,
-				9AB950572D11394600E19F58 /* ContextMenuTable */,
-				9AB950582D11395600E19F58 /* ExpandableTable */,
-				9AB950592D11396600E19F58 /* SearchableTable */,
-				9AB9505A2D11397000E19F58 /* SortableTable */,
-				9AB9505B2D11397A00E19F58 /* MultipleSelectionTable */,
-				9AB9505C2D11398500E19F58 /* SingleSelectionTable */,
-				9AB9505D2D11398E00E19F58 /* PlainTable */,
-				9AB9505E2D11399A00E19F58 /* TableTypeList */,
-				9AB950282D112C3300E19F58 /* StudentDetail */,
-				9AB9502D2D112CDD00E19F58 /* StudentsList */,
+				9AB950602D113E3600E19F58 /* StudentGradeHistory */,
+				9AB950612D113E8200E19F58 /* StudentInfo */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -198,8 +189,8 @@
 		9AB9502D2D112CDD00E19F58 /* StudentsList */ = {
 			isa = PBXGroup;
 			children = (
-				9AB950222D112B4200E19F58 /* StudentsListViewModel.swift */,
 				9AB950202D112B2D00E19F58 /* StudentsListView.swift */,
+				9AB950222D112B4200E19F58 /* StudentsListViewModel.swift */,
 			);
 			path = StudentsList;
 			sourceTree = "<group>";
@@ -283,6 +274,39 @@
 				9AB950322D11359100E19F58 /* TableTypeListViewModel.swift */,
 			);
 			path = TableTypeList;
+			sourceTree = "<group>";
+		};
+		9AB9505F2D113DF500E19F58 /* VariousTableTypes */ = {
+			isa = PBXGroup;
+			children = (
+				9AB950562D11391400E19F58 /* EverythingInOneTable */,
+				9AB950572D11394600E19F58 /* ContextMenuTable */,
+				9AB950582D11395600E19F58 /* ExpandableTable */,
+				9AB950592D11396600E19F58 /* SearchableTable */,
+				9AB9505A2D11397000E19F58 /* SortableTable */,
+				9AB9505B2D11397A00E19F58 /* MultipleSelectionTable */,
+				9AB9505C2D11398500E19F58 /* SingleSelectionTable */,
+				9AB9505D2D11398E00E19F58 /* PlainTable */,
+			);
+			path = VariousTableTypes;
+			sourceTree = "<group>";
+		};
+		9AB950602D113E3600E19F58 /* StudentGradeHistory */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9505F2D113DF500E19F58 /* VariousTableTypes */,
+				9AB9505E2D11399A00E19F58 /* TableTypeList */,
+			);
+			path = StudentGradeHistory;
+			sourceTree = "<group>";
+		};
+		9AB950612D113E8200E19F58 /* StudentInfo */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9502D2D112CDD00E19F58 /* StudentsList */,
+				9AB950282D112C3300E19F58 /* StudentDetail */,
+			);
+			path = StudentInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
