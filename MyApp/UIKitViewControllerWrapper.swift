@@ -4,7 +4,7 @@
 //
 //  Created by Cong Le on 8/19/24.
 //
-
+#if canImport(UIKit)
 import SwiftUI
 import UIKit
 
@@ -31,3 +31,4 @@ class MyUIKitViewController: UIViewController {
         // Additional setup
     }
 }
+#endif

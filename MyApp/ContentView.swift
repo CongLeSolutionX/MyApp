@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 // Step 2: Use in SwiftUI view
 struct ContentView: View {
     var body: some View {
@@ -25,4 +26,11 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
 // After iOS 17, we can use this syntax for preview:
 #Preview {
     ContentView()
+}
+#endif
+
+struct NSViewWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        MetalView()
+    }
 }
