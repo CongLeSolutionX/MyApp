@@ -110,7 +110,7 @@ import Metal
 }
 #endif
 
-// MARK: - Shared
+// MARK: - Shared code
 
 private extension CAMetalView {
   /// Fills the metal layer with a solid color.

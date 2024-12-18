@@ -29,8 +29,12 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
 }
 #endif
 
-struct NSViewWrapper_Previews: PreviewProvider {
+struct NSMetalViewWrapper_Previews: PreviewProvider {
     static var previews: some View {
-        MetalView()
+        NSMetalView()
     }
+}
+
+#Preview("NSMetalView") {
+    NSMetalView()
 }

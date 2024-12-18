@@ -11,7 +11,7 @@ import Metal
 
 #if os(macOS)
 /// Simple passthrough instance exposing the custom `NSView` containing the `CAMetalLayer`.
-struct MetalView: NSViewRepresentable {
+struct NSMetalView: NSViewRepresentable {
   func makeNSView(context: Context) -> CAMetalView {
     let device = MTLCreateSystemDefaultDevice()!
     let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue")  }

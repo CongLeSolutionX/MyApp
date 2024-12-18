@@ -12,7 +12,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
-		9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* MetalView.swift */; };
+		9AE591E82D125BE5002C2B05 /* NSMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* NSMetalView.swift */; };
 		9AE591EA2D125BF1002C2B05 /* CAMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E92D125BF0002C2B05 /* CAMetalView.swift */; };
 		9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */; };
 		9AE591EE2D125C36002C2B05 /* Foundation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591ED2D125C31002C2B05 /* Foundation+Extensions.swift */; };
@@ -26,7 +26,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
-		9AE591E72D125BE3002C2B05 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
+		9AE591E72D125BE3002C2B05 /* NSMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMetalView.swift; sourceTree = "<group>"; };
 		9AE591E92D125BF0002C2B05 /* CAMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetalView.swift; sourceTree = "<group>"; };
 		9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
 		9AE591ED2D125C31002C2B05 /* Foundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extensions.swift"; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
 			isa = PBXGroup;
 			children = (
-				9AE591E72D125BE3002C2B05 /* MetalView.swift */,
+				9AE591E72D125BE3002C2B05 /* NSMetalView.swift */,
 				9AE591E92D125BF0002C2B05 /* CAMetalView.swift */,
 			);
 			path = "Metal_Basic-Views";
@@ -171,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AE591EA2D125BF1002C2B05 /* CAMetalView.swift in Sources */,
-				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,
+				9AE591E82D125BE5002C2B05 /* NSMetalView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE591EE2D125C36002C2B05 /* Foundation+Extensions.swift in Sources */,
