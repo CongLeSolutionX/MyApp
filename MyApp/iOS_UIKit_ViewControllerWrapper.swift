@@ -28,7 +28,13 @@ class MyUIKitViewController: MyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
-        // Additional setup
+        
+        // Load ObjC view controller
+        let objcViewController = ObjCViewController()
+        objcViewController.view.backgroundColor = .systemBrown
+        addChild(objcViewController)
+        view.addSubview(objcViewController.view)
+        objcViewController.didMove(toParent: self)
     }
 }
 #endif
