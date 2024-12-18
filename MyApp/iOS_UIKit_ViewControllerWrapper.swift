@@ -10,15 +10,15 @@ import UIKit
 
 // UIViewControllerRepresentable implementation
 struct iOS_UIKit_ViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = ObjectiveC_UIKitWrapperViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
+    func makeUIViewController(context: Context) -> ObjectiveC_UIKitWrapperViewController {
         // Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        return ObjectiveC_UIKitWrapperViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ObjectiveC_UIKitWrapperViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -28,10 +28,15 @@ class MyUIKitViewController: MyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
+    }
+}
+
+class ObjectiveC_UIKitWrapperViewController: MyViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         // Load ObjC view controller
         let objcViewController = ObjCViewController()
-        objcViewController.view.backgroundColor = .systemBrown
         addChild(objcViewController)
         view.addSubview(objcViewController.view)
         objcViewController.didMove(toParent: self)
