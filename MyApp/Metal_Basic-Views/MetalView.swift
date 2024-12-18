@@ -22,7 +22,7 @@ struct NSMetalView: NSViewRepresentable {
 }
 #elseif canImport(UIKit)
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
-struct MetalView: UIViewRepresentable {
+struct iOS_UIKit_MetalView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetalView {
     let device = MTLCreateSystemDefaultDevice()!
     let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue") }

@@ -8,27 +8,29 @@
 import SwiftUI
 
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
-// Step 2: Use in SwiftUI view
-struct ContentView: View {
+// Use in SwiftUI view
+struct iOS_SwiftUI_RootContentView: View {  /// presenting this view to the App level of a SwiftUI-based project
     var body: some View {
-        UIKitViewControllerWrapper()
+        iOS_UIKit_ViewControllerWrapper()
             .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
     }
 }
 
+// MARK: - Previews
 // Before iOS 17, use this syntax for preview UIKit view controller
-struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+struct iOSUIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
-        UIKitViewControllerWrapper()
+            iOS_UIKit_ViewControllerWrapper() // preview the view through a wrapper controller view
+            iOS_UIKit_MetalView() // directly preview the view through protocol `UIViewRepresentable`
     }
 }
 
 // After iOS 17, we can use this syntax for preview:
-#Preview {
-    ContentView()
+#Preview("iOS SwiftUI RootContentView") {
+    iOS_SwiftUI_RootContentView()
 }
-#endif
 
+#elseif os(macOS)
 struct NSMetalViewWrapper_Previews: PreviewProvider {
     static var previews: some View {
         NSMetalView()
@@ -38,3 +40,4 @@ struct NSMetalViewWrapper_Previews: PreviewProvider {
 #Preview("NSMetalView") {
     NSMetalView()
 }
+#endif
