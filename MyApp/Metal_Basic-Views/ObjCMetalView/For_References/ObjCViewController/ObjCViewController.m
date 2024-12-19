@@ -9,10 +9,12 @@
 
 #import "ObjCViewController.h"
 #import "ObjCMetalPlainView.h"
+#import "ObjCMetal2DView.h"
 
 // MARK: - Interface of ObjCViewController
 @interface ObjCViewController ()
-@property (nonatomic, strong) ObjCMetalPlainView *metalView;
+//@property (nonatomic, strong) ObjCMetalPlainView *metalPlainView;
+@property (nonatomic, strong) ObjCMetal2DView *metal2DView;
 @end
 
 // MARK: -  Implementation of ObjCViewController
@@ -23,13 +25,13 @@
 
 #if TARGET_OS_IOS
     // Initialize the metal view
-    self.metalView = [[ObjCMetalPlainView alloc] initWithFrame:self.view.bounds];
+    self.metal2DView = [[ObjCMetal2DView alloc] initWithFrame:self.view.bounds];
 
     // Set autoresizingMask if not using Auto Layout
-    self.metalView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.metal2DView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     // Add the metal view as a subview
-    [self.view addSubview:self.metalView];
+    [self.view addSubview:self.metal2DView];
 
 #elif TARGET_OS_OSX
     // Initialize the metal view
@@ -51,7 +53,7 @@
     [super viewDidLayoutSubviews];
 
     // Ensure the metal view's frame matches the view controller's view
-    self.metalView.frame = self.view.bounds;
+    self.metal2DView.frame = self.view.bounds;
 }
 #elif TARGET_OS_OSX
 - (void)viewDidLayout {

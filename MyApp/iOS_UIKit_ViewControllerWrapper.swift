@@ -10,15 +10,15 @@ import UIKit
 
 // UIViewControllerRepresentable implementation
 struct iOS_UIKit_ViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = ObjectiveC_UIKitWrapperViewController
+    typealias UIViewControllerType = ObjC_MetalViewController_UIKitWrapperViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> ObjectiveC_UIKitWrapperViewController {
+    func makeUIViewController(context: Context) -> ObjC_MetalViewController_UIKitWrapperViewController {
         // Instantiate and return the UIKit view controller
-        return ObjectiveC_UIKitWrapperViewController()
+        return ObjC_MetalViewController_UIKitWrapperViewController()
     }
     
-    func updateUIViewController(_ uiViewController: ObjectiveC_UIKitWrapperViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ObjC_MetalViewController_UIKitWrapperViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -30,13 +30,13 @@ class MyUIKitViewController: MySwiftViewController {
         view.backgroundColor = .systemYellow
     }
 }
-
-class ObjectiveC_UIKitWrapperViewController: MySwiftViewController {
+class ObjC_MetalViewController_UIKitWrapperViewController: MySwiftViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .brown
         
         // Load ObjC view controller
-        let objcViewController = ObjCViewController()
+        let objcViewController = MetalViewController()
         addChild(objcViewController)
         view.addSubview(objcViewController.view)
         objcViewController.didMove(toParent: self)

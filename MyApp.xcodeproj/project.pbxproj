@@ -31,6 +31,9 @@
 		9ADE41DA2D142F4A0037B2CF /* spot_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D82D142F4A0037B2CF /* spot_texture.png */; };
 		9ADE41DB2D142F4A0037B2CF /* spot_texture.svg in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D92D142F4A0037B2CF /* spot_texture.svg */; };
 		9ADE41DC2D142F4A0037B2CF /* spot.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D72D142F4A0037B2CF /* spot.obj */; };
+		9ADE41E22D1462010037B2CF /* ObjCMetal2DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41E12D1461FF0037B2CF /* ObjCMetal2DView.m */; };
+		9ADE41E62D146DF00037B2CF /* MetalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41E52D146DEF0037B2CF /* MetalViewController.m */; };
+		9ADE41E92D146E2A0037B2CF /* CAMetalPlainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */; };
 		9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* MetalView.swift */; };
 		9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */; };
 		9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */; };
@@ -66,6 +69,12 @@
 		9ADE41D72D142F4A0037B2CF /* spot.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = spot.obj; sourceTree = "<group>"; };
 		9ADE41D82D142F4A0037B2CF /* spot_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spot_texture.png; sourceTree = "<group>"; };
 		9ADE41D92D142F4A0037B2CF /* spot_texture.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = spot_texture.svg; sourceTree = "<group>"; };
+		9ADE41E02D1461EB0037B2CF /* ObjCMetal2DView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCMetal2DView.h; sourceTree = "<group>"; };
+		9ADE41E12D1461FF0037B2CF /* ObjCMetal2DView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCMetal2DView.m; sourceTree = "<group>"; };
+		9ADE41E42D146DE60037B2CF /* MetalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalViewController.h; sourceTree = "<group>"; };
+		9ADE41E52D146DEF0037B2CF /* MetalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalViewController.m; sourceTree = "<group>"; };
+		9ADE41E72D146E220037B2CF /* CAMetalPlainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAMetalPlainView.h; sourceTree = "<group>"; };
+		9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAMetalPlainView.m; sourceTree = "<group>"; };
 		9AE591E72D125BE3002C2B05 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetalPlainView.swift; sourceTree = "<group>"; };
 		9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -102,10 +111,8 @@
 		9A90E1D82D13DD1C003EE66A /* ObjCMetalView */ = {
 			isa = PBXGroup;
 			children = (
-				9AE591F92D129B9C002C2B05 /* ObjCMetalPlainView.h */,
-				9AE591F72D129B74002C2B05 /* ObjCMetalPlainView.m */,
-				9AE591F62D129935002C2B05 /* ObjCViewController.h */,
-				9AE591F32D129925002C2B05 /* ObjCViewController.m */,
+				9ADE41EC2D14714B0037B2CF /* Simmilar_Logic_with_Swift */,
+				9ADE41EF2D14717D0037B2CF /* For_References */,
 			);
 			path = ObjCMetalView;
 			sourceTree = "<group>";
@@ -234,6 +241,70 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		9ADE41E32D1462350037B2CF /* MetalPlainView */ = {
+			isa = PBXGroup;
+			children = (
+				9AE591F92D129B9C002C2B05 /* ObjCMetalPlainView.h */,
+				9AE591F72D129B74002C2B05 /* ObjCMetalPlainView.m */,
+			);
+			path = MetalPlainView;
+			sourceTree = "<group>";
+		};
+		9ADE41EA2D1471320037B2CF /* MetalViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41E42D146DE60037B2CF /* MetalViewController.h */,
+				9ADE41E52D146DEF0037B2CF /* MetalViewController.m */,
+			);
+			path = MetalViewController;
+			sourceTree = "<group>";
+		};
+		9ADE41EB2D14713F0037B2CF /* CAMetalPlainView */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */,
+				9ADE41E72D146E220037B2CF /* CAMetalPlainView.h */,
+			);
+			path = CAMetalPlainView;
+			sourceTree = "<group>";
+		};
+		9ADE41EC2D14714B0037B2CF /* Simmilar_Logic_with_Swift */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41EB2D14713F0037B2CF /* CAMetalPlainView */,
+				9ADE41EA2D1471320037B2CF /* MetalViewController */,
+			);
+			path = Simmilar_Logic_with_Swift;
+			sourceTree = "<group>";
+		};
+		9ADE41ED2D1471690037B2CF /* ObjCMetal2DView */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41E12D1461FF0037B2CF /* ObjCMetal2DView.m */,
+				9ADE41E02D1461EB0037B2CF /* ObjCMetal2DView.h */,
+			);
+			path = ObjCMetal2DView;
+			sourceTree = "<group>";
+		};
+		9ADE41EE2D1471760037B2CF /* ObjCViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9AE591F62D129935002C2B05 /* ObjCViewController.h */,
+				9AE591F32D129925002C2B05 /* ObjCViewController.m */,
+			);
+			path = ObjCViewController;
+			sourceTree = "<group>";
+		};
+		9ADE41EF2D14717D0037B2CF /* For_References */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41ED2D1471690037B2CF /* ObjCMetal2DView */,
+				9ADE41E32D1462350037B2CF /* MetalPlainView */,
+				9ADE41EE2D1471760037B2CF /* ObjCViewController */,
+			);
+			path = For_References;
+			sourceTree = "<group>";
+		};
 		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,8 +425,11 @@
 				9AE591F82D129B81002C2B05 /* ObjCMetalPlainView.m in Sources */,
 				9A90E1E22D13EA62003EE66A /* CAMetal2DView.swift in Sources */,
 				9AE591EE2D125C36002C2B05 /* Foundation+Extensions.swift in Sources */,
+				9ADE41E22D1462010037B2CF /* ObjCMetal2DView.m in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9ADE41E62D146DF00037B2CF /* MetalViewController.m in Sources */,
 				9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */,
+				9ADE41E92D146E2A0037B2CF /* CAMetalPlainView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
