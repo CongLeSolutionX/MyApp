@@ -49,7 +49,7 @@ class ObjC_Metal2DViewController_UIKitWrapperViewController: MySwiftViewControll
         view.backgroundColor = .brown
         
         // Load ObjC view controller
-        let objcViewController = Metal2DViewController()
+        let objcViewController = ViewController()//Metal2DViewController()
         addChild(objcViewController)
         view.addSubview(objcViewController.view)
         objcViewController.didMove(toParent: self)

@@ -4,17 +4,16 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
-
 // ViewController.m
 
 #import "ViewController.h"
-#import "CAMetal3DView.h"
-#import "CubeRenderer.h"
+#import "MBEMetalView.h"
+#import "MBERenderer.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) CAMetal3DView *metalView;
-@property (nonatomic, strong) CubeRenderer *renderer;
+@property (nonatomic, strong) MBEMetalView *metalView;
+@property (nonatomic, strong) MBERenderer *renderer;
 
 @end
 
@@ -30,18 +29,15 @@
         return;
     }
     
-    // Initialize the renderer
-    self.renderer = [[CubeRenderer alloc] initWithDevice:device];
-    if (!self.renderer) {
-        NSLog(@"Failed to initialize renderer");
-        return;
-    }
-    
     // Create the Metal view
-    self.metalView = [[CAMetal3DView alloc] initWithFrame:self.view.bounds
-                                                   device:device
-                                                 renderer:self.renderer];
+    self.metalView = [[MBEMetalView alloc] initWithFrame:self.view.bounds device:device];
     self.metalView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.metalView.preferredFramesPerSecond = 60;
+    
+    // Set the renderer as the delegate
+    self.renderer = [[MBERenderer alloc] initWithDevice:device];
+    self.metalView.delegate = self.renderer;
+    
     [self.view addSubview:self.metalView];
 }
 

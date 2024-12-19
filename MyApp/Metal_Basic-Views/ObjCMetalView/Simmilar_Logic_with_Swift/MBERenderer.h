@@ -1,16 +1,16 @@
 //
-//  CubeRenderer.h
+//  MBERenderer.h
 //  MyApp
 //
 //  Created by Cong Le on 12/19/24.
 //
 
-// CubeRenderer.h
+// MBERenderer.h
 
 #import <Foundation/Foundation.h>
-#import <MetalKit/MetalKit.h>
+#import "MBEMetalView.h"
 
-@interface CubeRenderer : NSObject <MTKViewDelegate>
+@interface MBERenderer : NSObject <MBEMetalViewDelegate>
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device;
 
