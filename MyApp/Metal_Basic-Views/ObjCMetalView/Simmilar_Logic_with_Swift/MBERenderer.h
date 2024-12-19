@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MBEMetalView.h"
+#import "CAMetal3DView.h"
 
 @interface MBERenderer : NSObject <MBEMetalViewDelegate>
 

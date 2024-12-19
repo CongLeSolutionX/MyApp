@@ -7,16 +7,16 @@
 // Source: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/MBEMetalView.m
 //
 
-#import "MBEMetalView.h"
+#import "CAMetal3DView.h"
 
-@interface MBEMetalView ()
+@interface CAMetal3DView ()
 @property (strong) id<CAMetalDrawable> currentDrawable;
 @property (assign) NSTimeInterval frameDuration;
 @property (strong) id<MTLTexture> depthTexture;
 @property (strong) CADisplayLink *displayLink;
 @end
 
-@implementation MBEMetalView
+@implementation CAMetal3DView
 
 + (Class)layerClass {
     return [CAMetalLayer class];

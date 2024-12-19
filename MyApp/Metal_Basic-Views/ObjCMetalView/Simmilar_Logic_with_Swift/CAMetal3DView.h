@@ -13,7 +13,7 @@
 
 @protocol MBEMetalViewDelegate;
 
-@interface MBEMetalView : UIView
+@interface CAMetal3DView : UIView
 
 /// The delegate of this view, responsible for drawing
 @property (nonatomic, weak) id<MBEMetalViewDelegate> delegate;
@@ -54,5 +54,5 @@
 /// any of the properties of the view, and request the current render pass
 /// descriptor to get a descriptor configured with renderable color and depth
 /// textures.
-- (void)drawInView:(MBEMetalView *)view;
+- (void)drawInView:(CAMetal3DView *)view;
 @end

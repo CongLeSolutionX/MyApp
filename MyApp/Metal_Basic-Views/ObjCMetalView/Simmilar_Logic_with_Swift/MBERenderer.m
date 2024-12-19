@@ -123,7 +123,7 @@ static const uint32_t MBEBufferAlignment = 256;
     [_uniformBuffer setLabel:@"Uniforms"];
 }
 
-- (void)updateUniformsForView:(MBEMetalView *)view duration:(NSTimeInterval)duration {
+- (void)updateUniformsForView:(CAMetal3DView *)view duration:(NSTimeInterval)duration {
     self.time += duration;
     self.rotationX += duration * (M_PI / 2);
     self.rotationY += duration * (M_PI / 3);
@@ -152,7 +152,7 @@ static const uint32_t MBEBufferAlignment = 256;
     memcpy([self.uniformBuffer contents] + uniformBufferOffset, &uniforms, sizeof(uniforms));
 }
 
-- (void)drawInView:(MBEMetalView *)view {
+- (void)drawInView:(CAMetal3DView *)view {
     dispatch_semaphore_wait(self.displaySemaphore, DISPATCH_TIME_FOREVER);
 
     view.clearColor = MTLClearColorMake(0.95, 0.95, 0.95, 1);

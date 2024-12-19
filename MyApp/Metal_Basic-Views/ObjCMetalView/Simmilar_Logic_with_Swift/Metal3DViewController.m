@@ -7,18 +7,18 @@
 // Source: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/ViewController.m
 //
 
-#import "ViewController.h"
-#import "MBEMetalView.h"
+#import "Metal3DViewController.h"
+#import "CAMetal3DView.h"
 #import "MBERenderer.h"
 
-@interface ViewController ()
+@interface Metal3DViewController ()
 
-@property (nonatomic, strong) MBEMetalView *metalView;
+@property (nonatomic, strong) CAMetal3DView *metalView;
 @property (nonatomic, strong) MBERenderer *renderer;
 
 @end
 
-@implementation ViewController
+@implementation Metal3DViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,7 +31,7 @@
     }
     
     // Create the Metal view
-    self.metalView = [[MBEMetalView alloc] initWithFrame:self.view.bounds device:device];
+    self.metalView = [[CAMetal3DView alloc] initWithFrame:self.view.bounds device:device];
     self.metalView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.metalView.preferredFramesPerSecond = 60;
     

@@ -9,6 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface Metal3DViewController : UIViewController
 
 @end

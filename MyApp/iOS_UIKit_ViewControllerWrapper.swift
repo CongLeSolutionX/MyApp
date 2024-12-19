@@ -10,15 +10,15 @@ import UIKit
 
 // UIViewControllerRepresentable implementation
 struct iOS_UIKit_ViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = ObjC_Metal2DViewController_UIKitWrapperViewController
+    typealias UIViewControllerType = ObjC_Metal3DViewController_UIKitWrapperViewController
     
     // Required methods implementation
-    func makeUIViewController(context: Context) -> ObjC_Metal2DViewController_UIKitWrapperViewController {
+    func makeUIViewController(context: Context) -> ObjC_Metal3DViewController_UIKitWrapperViewController {
         // Instantiate and return the UIKit view controller
-        return ObjC_Metal2DViewController_UIKitWrapperViewController()
+        return ObjC_Metal3DViewController_UIKitWrapperViewController()
     }
     
-    func updateUIViewController(_ uiViewController: ObjC_Metal2DViewController_UIKitWrapperViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ObjC_Metal3DViewController_UIKitWrapperViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -49,7 +49,19 @@ class ObjC_Metal2DViewController_UIKitWrapperViewController: MySwiftViewControll
         view.backgroundColor = .brown
         
         // Load ObjC view controller
-        let objcViewController = ViewController()//Metal2DViewController()
+        let objcViewController = Metal2DViewController()
+        addChild(objcViewController)
+        view.addSubview(objcViewController.view)
+        objcViewController.didMove(toParent: self)
+    }
+}
+class ObjC_Metal3DViewController_UIKitWrapperViewController: MySwiftViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .brown
+        
+        // Load ObjC view controller
+        let objcViewController = Metal3DViewController()//Metal2DViewController()
         addChild(objcViewController)
         view.addSubview(objcViewController.view)
         objcViewController.didMove(toParent: self)
