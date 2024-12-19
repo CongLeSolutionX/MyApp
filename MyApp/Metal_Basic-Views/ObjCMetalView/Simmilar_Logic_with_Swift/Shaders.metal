@@ -29,7 +29,7 @@ struct VertexOut {
     float4 color;
 };
 
-vertex VertexOut vertexShader(
+vertex VertexOut vertex_shader_for_2D_view(
     uint vertexID [[vertex_id]],
     constant Vertex *vertices [[buffer(0)]]) {
     VertexOut out;
@@ -38,6 +38,6 @@ vertex VertexOut vertexShader(
     return out;
 }
 
-fragment half4 fragmentShader(VertexOut in [[stage_in]]) {
+fragment half4 fragment_shader_for_2d_view(VertexOut in [[stage_in]]) {
     return half4(in.color);
 }

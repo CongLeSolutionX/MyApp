@@ -60,8 +60,8 @@ typedef struct {
         return;
     }
     
-    id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertexShader"];
-    id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"fragmentShader"];
+    id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertex_shader_for_2D_view"];
+    id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"fragment_shader_for_2d_view"];
     
     if (!vertexFunction || !fragmentFunction) {
         NSLog(@"Failed to find shaders in the library.");
