@@ -4,8 +4,9 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
+// Source: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/MBERenderer.m
+//
 
-// MBERenderer.m
 
 #import "MBERenderer.h"
 #import "MBEMathUtilities.h"
@@ -18,14 +19,12 @@ static const NSInteger MBEInFlightBufferCount = 3;
 typedef uint16_t MBEIndex;
 const MTLIndexType MBEIndexType = MTLIndexTypeUInt16;
 
-typedef struct
-{
+typedef struct {
     vector_float4 position;
     vector_float4 color;
 } MBEVertex;
 
-typedef struct
-{
+typedef struct {
     matrix_float4x4 modelViewProjectionMatrix;
 } MBEUniforms;
 
@@ -52,10 +51,8 @@ static const uint32_t MBEBufferAlignment = 256;
 
 @implementation MBERenderer
 
-- (instancetype)initWithDevice:(id<MTLDevice>)device
-{
-    if ((self = [super init]))
-    {
+- (instancetype)initWithDevice:(id<MTLDevice>)device {
+    if ((self = [super init])) {
         _device = device;
         _displaySemaphore = dispatch_semaphore_create(MBEInFlightBufferCount);
         [self makePipeline];
@@ -64,8 +61,7 @@ static const uint32_t MBEBufferAlignment = 256;
     return self;
 }
 
-- (void)makePipeline
-{
+- (void)makePipeline {
     self.commandQueue = [self.device newCommandQueue];
 
     id<MTLLibrary> library = [self.device newDefaultLibrary];
@@ -91,10 +87,8 @@ static const uint32_t MBEBufferAlignment = 256;
     }
 }
 
-- (void)makeBuffers
-{
-    static const MBEVertex vertices[] =
-    {
+- (void)makeBuffers {
+    static const MBEVertex vertices[] = {
         { .position = { -1,  1,  1, 1 }, .color = { 0, 1, 1, 1 } },
         { .position = { -1, -1,  1, 1 }, .color = { 0, 0, 1, 1 } },
         { .position = {  1, -1,  1, 1 }, .color = { 1, 0, 1, 1 } },
@@ -105,8 +99,7 @@ static const uint32_t MBEBufferAlignment = 256;
         { .position = {  1,  1, -1, 1 }, .color = { 1, 1, 0, 1 } }
     };
 
-    static const MBEIndex indices[] =
-    {
+    static const MBEIndex indices[] = {
         3, 2, 6, 6, 7, 3,
         4, 5, 1, 1, 0, 4,
         4, 0, 3, 3, 7, 4,
@@ -130,8 +123,7 @@ static const uint32_t MBEBufferAlignment = 256;
     [_uniformBuffer setLabel:@"Uniforms"];
 }
 
-- (void)updateUniformsForView:(MBEMetalView *)view duration:(NSTimeInterval)duration
-{
+- (void)updateUniformsForView:(MBEMetalView *)view duration:(NSTimeInterval)duration {
     self.time += duration;
     self.rotationX += duration * (M_PI / 2);
     self.rotationY += duration * (M_PI / 3);
@@ -160,8 +152,7 @@ static const uint32_t MBEBufferAlignment = 256;
     memcpy([self.uniformBuffer contents] + uniformBufferOffset, &uniforms, sizeof(uniforms));
 }
 
-- (void)drawInView:(MBEMetalView *)view
-{
+- (void)drawInView:(MBEMetalView *)view {
     dispatch_semaphore_wait(self.displaySemaphore, DISPATCH_TIME_FOREVER);
 
     view.clearColor = MTLClearColorMake(0.95, 0.95, 0.95, 1);

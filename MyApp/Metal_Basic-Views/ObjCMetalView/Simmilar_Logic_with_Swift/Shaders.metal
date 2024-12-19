@@ -4,7 +4,7 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
-// Shaders.metal
+// SSource: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/Shaders.metal
 
 #include <metal_stdlib>
 using namespace metal;

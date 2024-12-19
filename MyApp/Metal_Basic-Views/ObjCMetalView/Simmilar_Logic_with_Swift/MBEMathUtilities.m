@@ -4,13 +4,12 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
-
-// MBEMathUtilities.m
+// Source: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/MBEMathUtilities.m
+//
 
 #import "MBEMathUtilities.h"
 
-matrix_float4x4 matrix_float4x4_translation(vector_float3 t)
-{
+matrix_float4x4 matrix_float4x4_translation(vector_float3 t) {
     vector_float4 X = { 1, 0, 0, 0 };
     vector_float4 Y = { 0, 1, 0, 0 };
     vector_float4 Z = { 0, 0, 1, 0 };
@@ -20,8 +19,7 @@ matrix_float4x4 matrix_float4x4_translation(vector_float3 t)
     return mat;
 }
 
-matrix_float4x4 matrix_float4x4_uniform_scale(float scale)
-{
+matrix_float4x4 matrix_float4x4_uniform_scale(float scale) {
     vector_float4 X = { scale, 0, 0, 0 };
     vector_float4 Y = { 0, scale, 0, 0 };
     vector_float4 Z = { 0, 0, scale, 0 };
@@ -31,8 +29,7 @@ matrix_float4x4 matrix_float4x4_uniform_scale(float scale)
     return mat;
 }
 
-matrix_float4x4 matrix_float4x4_rotation(vector_float3 axis, float angle)
-{
+matrix_float4x4 matrix_float4x4_rotation(vector_float3 axis, float angle) {
     float c = cos(angle);
     float s = sin(angle);
     
@@ -64,8 +61,7 @@ matrix_float4x4 matrix_float4x4_rotation(vector_float3 axis, float angle)
     return mat;
 }
 
-matrix_float4x4 matrix_float4x4_perspective(float aspect, float fovy, float near, float far)
-{
+matrix_float4x4 matrix_float4x4_perspective(float aspect, float fovy, float near, float far) {
     float yScale = 1 / tan(fovy * 0.5);
     float xScale = yScale / aspect;
     float zRange = far - near;

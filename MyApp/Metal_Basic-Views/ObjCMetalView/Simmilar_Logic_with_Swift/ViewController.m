@@ -4,7 +4,8 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
-// ViewController.m
+// Source: https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/ViewController.m
+//
 
 #import "ViewController.h"
 #import "MBEMetalView.h"
