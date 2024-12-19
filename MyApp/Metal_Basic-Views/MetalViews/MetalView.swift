@@ -55,20 +55,20 @@ struct iOS_UIKit_Metal3DView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetal3DView, context: Context) {}
 }
-//// MARK: -
-//struct MetalView: UIViewRepresentable {
-//  func makeUIView(context: Context) -> MTKView {
-//    let renderer = context.coordinator
-//    return MTKView(frame: .zero, device: renderer.device).configure {
-//      $0.clearColor = MTLClearColorMake(0, 0, 0, 1)
-//      $0.colorPixelFormat = .bgra8Unorm
-//      $0.depthStencilPixelFormat = .depth32Float
-//      $0.delegate = renderer
-//    }
-//  }
-//
-//  func updateUIView(_ lowlevelView: MTKView, context: Context) {}
-//}
+// MARK: -
+struct iOS_UIKit_MetalLightingView: UIViewRepresentable {
+  func makeUIView(context: Context) -> MTKView {
+    let renderer = context.coordinator
+    return MTKView(frame: .zero, device: renderer.device).configure {
+      $0.clearColor = MTLClearColorMake(0, 0, 0, 1)
+      $0.colorPixelFormat = .bgra8Unorm
+      $0.depthStencilPixelFormat = .depth32Float
+      $0.delegate = renderer
+    }
+  }
+
+  func updateUIView(_ lowlevelView: MTKView, context: Context) {}
+}
 
 #endif
 
@@ -77,5 +77,13 @@ extension iOS_UIKit_Metal3DView {
   @MainActor func makeCoordinator() -> CubeRenderer {
     let device = MTLCreateSystemDefaultDevice()!
     return CubeRenderer(device: device)!
+  }
+}
+
+// MARK: - Extensions for iOS_UIKit_MetalLightingView
+extension iOS_UIKit_MetalLightingView {
+  @MainActor func makeCoordinator() -> TeapotRenderer {
+    let device = MTLCreateSystemDefaultDevice()!
+    return TeapotRenderer(device: device)!
   }
 }

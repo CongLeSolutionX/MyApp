@@ -21,6 +21,10 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift */; };
+		9ADE41C52D1419B70037B2CF /* RendererForLightingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41C42D1419AD0037B2CF /* RendererForLightingView.swift */; };
+		9ADE41C72D141A260037B2CF /* ShaderForLightingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41C62D141A1F0037B2CF /* ShaderForLightingView.swift */; };
+		9ADE41C92D141A520037B2CF /* ShaderForLightingView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41C82D141A470037B2CF /* ShaderForLightingView.metal */; };
+		9ADE41CB2D141BC20037B2CF /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41CA2D141BC20037B2CF /* teapot.obj */; };
 		9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* MetalView.swift */; };
 		9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */; };
 		9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */; };
@@ -46,6 +50,10 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_UIKit_ViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9ADE41C42D1419AD0037B2CF /* RendererForLightingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererForLightingView.swift; sourceTree = "<group>"; };
+		9ADE41C62D141A1F0037B2CF /* ShaderForLightingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderForLightingView.swift; sourceTree = "<group>"; };
+		9ADE41C82D141A470037B2CF /* ShaderForLightingView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderForLightingView.metal; sourceTree = "<group>"; };
+		9ADE41CA2D141BC20037B2CF /* teapot.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		9AE591E72D125BE3002C2B05 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetalPlainView.swift; sourceTree = "<group>"; };
 		9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -133,6 +141,8 @@
 		9ADE41C32D1418760037B2CF /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE41C62D141A1F0037B2CF /* ShaderForLightingView.swift */,
+				9ADE41C82D141A470037B2CF /* ShaderForLightingView.metal */,
 				9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */,
 				9A888A322D1401FF00396BB0 /* ShaderFor3DView.swift */,
 				9A90E1DD2D13E188003EE66A /* ShaderFor2DView.swift */,
@@ -144,9 +154,11 @@
 		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE41CA2D141BC20037B2CF /* teapot.obj */,
 				9A888A1F2D13F21400396BB0 /* MetalViews */,
 				9ADE41C32D1418760037B2CF /* Shaders */,
 				9A888A302D1401CC00396BB0 /* RendererFor3DView.swift */,
+				9ADE41C42D1419AD0037B2CF /* RendererForLightingView.swift */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";
@@ -224,6 +236,7 @@
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
+				9ADE41CB2D141BC20037B2CF /* teapot.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,9 +248,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A888A312D1401CC00396BB0 /* RendererFor3DView.swift in Sources */,
+				9ADE41C72D141A260037B2CF /* ShaderForLightingView.swift in Sources */,
 				9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */,
 				9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */,
+				9ADE41C52D1419B70037B2CF /* RendererForLightingView.swift in Sources */,
 				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,
+				9ADE41C92D141A520037B2CF /* ShaderForLightingView.metal in Sources */,
 				9A90E1DE2D13E18E003EE66A /* ShaderFor2DView.swift in Sources */,
 				9A90E1E02D13E1B6003EE66A /* ShaderFor2DView.metal in Sources */,
 				9A90E1DC2D13E0FE003EE66A /* SIMD+Extensions.swift in Sources */,
