@@ -1,14 +1,14 @@
 //
-//  MetalViewController.m
+//  MetalPlainViewController.m
 //  MyApp
 //
 //  Created by Cong Le on 12/19/24.
 //
-#import "MetalViewController.h"
+#import "MetalPlainViewController.h"
 #import "CAMetalPlainView.h"
 #import <Metal/Metal.h>
 
-@interface MetalViewController ()
+@interface MetalPlainViewController ()
 
 @property (nonatomic, strong) CAMetalPlainView *metalView;
 @property (nonatomic, strong) id<MTLDevice> device;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation MetalViewController
+@implementation MetalPlainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

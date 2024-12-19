@@ -3,5 +3,5 @@
 //
 
 
-#import "MetalViewController.h"
+#import "MetalPlainViewController.h"
 #import "Metal2DViewController.h"

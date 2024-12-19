@@ -30,13 +30,13 @@ class MyUIKitViewController: MySwiftViewController {
         view.backgroundColor = .systemYellow
     }
 }
-class ObjC_MetalViewController_UIKitWrapperViewController: MySwiftViewController {
+class ObjC_MetalPlainViewController_UIKitWrapperViewController: MySwiftViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .brown
         
         // Load ObjC view controller
-        let objcViewController = MetalViewController()
+        let objcViewController = MetalPlainViewController()
         addChild(objcViewController)
         view.addSubview(objcViewController.view)
         objcViewController.didMove(toParent: self)
