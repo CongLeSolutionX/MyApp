@@ -18,7 +18,7 @@ struct ShaderVertexFor2DView {
 };
 
 // The definition of Metal shader functions must be prefixed with a function qualifier: vertex, fragment, or kernel.
-[[vertex]] ShaderVertexFor2DView main_vertex(
+[[vertex]] ShaderVertexFor2DView main_vertex_for_2D_view(
   device ShaderVertexFor2DView const* const vertices [[buffer(0)]],
   uint vid [[vertex_id]]
 ) {
@@ -27,7 +27,7 @@ struct ShaderVertexFor2DView {
 
 // [[stage_in]] attribute identifies it as per-fragment data rather than data that is constant accross a draw call.
 // The Vertex here is an interpolated value.
-[[fragment]] float4 main_fragment(
+[[fragment]] float4 main_fragment_for_2D_view(
   ShaderVertexFor2DView interpolatedVertex [[stage_in]]
 ) {
   return interpolatedVertex.color;

@@ -160,8 +160,8 @@ private extension CAMetal2DView {
       self.queue = queue
 
       guard let library = device.makeDefaultLibrary(),
-            let vertexFunc = library.makeFunction(name: "main_vertex"),
-            let fragmentFunc = library.makeFunction(name: "main_fragment") else { return nil }
+            let vertexFunc = library.makeFunction(name: "main_vertex_for_2D_view"),
+            let fragmentFunc = library.makeFunction(name: "main_fragment_for_2D_view") else { return nil }
 
       let descriptor = MTLRenderPipelineDescriptor().configure {
         $0.label = .identifier("pipeline.render.triangle")
