@@ -12,7 +12,7 @@ import Metal
 import simd
 
 /// Conforming instances must be able to draw through Metal a frame in a given Core Animation Metal layer.
-protocol Renderer: AnyObject {
+protocol RendererFor3DView: AnyObject {
   /// The GPU used for rendering.
   var device: any MTLDevice { get }
   /// This function should perform a rendering call (or ignore the frame).
@@ -26,7 +26,7 @@ protocol Renderer: AnyObject {
 }
 
 /// A render that will draw a spinning cube.
-final class CubeRenderer: Renderer {
+final class CubeRenderer: RendererFor3DView {
   let device: any MTLDevice
   private let queue: any MTLCommandQueue
   private let renderPipeline: any MTLRenderPipelineState

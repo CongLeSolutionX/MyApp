@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A888A2F2D14018800396BB0 /* CAMetal3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A2E2D14018500396BB0 /* CAMetal3DView.swift */; };
-		9A888A312D1401CC00396BB0 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A302D1401CC00396BB0 /* Renderer.swift */; };
+		9A888A312D1401CC00396BB0 /* RendererFor3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A302D1401CC00396BB0 /* RendererFor3DView.swift */; };
 		9A888A332D14020600396BB0 /* ShaderFor3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A322D1401FF00396BB0 /* ShaderFor3DView.swift */; };
 		9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */; };
 		9A90E1DA2D13E03D003EE66A /* FrameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1D92D13E03C003EE66A /* FrameTimer.swift */; };
@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		9A888A2E2D14018500396BB0 /* CAMetal3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetal3DView.swift; sourceTree = "<group>"; };
-		9A888A302D1401CC00396BB0 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		9A888A302D1401CC00396BB0 /* RendererFor3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererFor3DView.swift; sourceTree = "<group>"; };
 		9A888A322D1401FF00396BB0 /* ShaderFor3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderFor3DView.swift; sourceTree = "<group>"; };
 		9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderFor3DView.metal; sourceTree = "<group>"; };
 		9A90E1D92D13E03C003EE66A /* FrameTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTimer.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 			children = (
 				9A888A1F2D13F21400396BB0 /* MetalViews */,
 				9ADE41C32D1418760037B2CF /* Shaders */,
-				9A888A302D1401CC00396BB0 /* Renderer.swift */,
+				9A888A302D1401CC00396BB0 /* RendererFor3DView.swift */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";
@@ -234,7 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A888A312D1401CC00396BB0 /* Renderer.swift in Sources */,
+				9A888A312D1401CC00396BB0 /* RendererFor3DView.swift in Sources */,
 				9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */,
 				9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */,
 				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,

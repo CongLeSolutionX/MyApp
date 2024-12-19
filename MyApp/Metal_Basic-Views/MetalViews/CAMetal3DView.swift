@@ -56,7 +56,7 @@ import Metal
 @MainActor final class CAMetal3DView: UIView {
   private let metalState: MetalState
 
-  init(device: any MTLDevice, renderer: (any Renderer)?) {
+  init(device: any MTLDevice, renderer: (any RendererFor3DView)?) {
     self.metalState = MetalState(device: device, renderer: renderer)!
     super.init(frame: .zero)
 
@@ -97,10 +97,10 @@ private extension CAMetal3DView {
   final class MetalState {
     let device: any MTLDevice
     weak var layer: CAMetalLayer?
-    weak var renderer: (any Renderer)?
+    weak var renderer: (any RendererFor3DView)?
     var timer: FrameTimer?
 
-    init?(device: any MTLDevice, renderer: (any Renderer)?) {
+    init?(device: any MTLDevice, renderer: (any RendererFor3DView)?) {
       self.device = device
       self.renderer = renderer
     }

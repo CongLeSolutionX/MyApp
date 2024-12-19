@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Metal
+import MetalKit
 
 #if os(macOS)
 /// Simple passthrough instance exposing the custom `NSView` containing the `CAMetalLayer`.
@@ -21,6 +22,7 @@ struct NSMetalView: NSViewRepresentable {
   func updateNSView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
 #elseif canImport(UIKit)
+// MARK: - A Metail Plain View
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
 struct iOS_UIKit_MetalPlainView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetalPlainView {
@@ -31,6 +33,7 @@ struct iOS_UIKit_MetalPlainView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
+// MARK: - A 2D Metal View
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
 struct iOS_UIKit_Metal2DView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetal2DView {
@@ -41,7 +44,7 @@ struct iOS_UIKit_Metal2DView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetal2DView, context: Context) {}
 }
-
+// MARK: - A 3D Metal View
 /// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/MetalView.swift
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
 struct iOS_UIKit_Metal3DView: UIViewRepresentable {
@@ -52,6 +55,21 @@ struct iOS_UIKit_Metal3DView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetal3DView, context: Context) {}
 }
+//// MARK: -
+//struct MetalView: UIViewRepresentable {
+//  func makeUIView(context: Context) -> MTKView {
+//    let renderer = context.coordinator
+//    return MTKView(frame: .zero, device: renderer.device).configure {
+//      $0.clearColor = MTLClearColorMake(0, 0, 0, 1)
+//      $0.colorPixelFormat = .bgra8Unorm
+//      $0.depthStencilPixelFormat = .depth32Float
+//      $0.delegate = renderer
+//    }
+//  }
+//
+//  func updateUIView(_ lowlevelView: MTKView, context: Context) {}
+//}
+
 #endif
 
 // MARK: - Extensions for iOS_UIKit_Metal3DView
