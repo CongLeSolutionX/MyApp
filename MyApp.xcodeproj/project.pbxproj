@@ -60,6 +60,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A888A1F2D13F21400396BB0 /* MetalViews */ = {
+			isa = PBXGroup;
+			children = (
+				9AE591E72D125BE3002C2B05 /* MetalView.swift */,
+				9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */,
+				9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */,
+			);
+			path = MetalViews;
+			sourceTree = "<group>";
+		};
 		9A90E1D82D13DD1C003EE66A /* ObjCMetalView */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,9 +124,7 @@
 		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
 			isa = PBXGroup;
 			children = (
-				9AE591E72D125BE3002C2B05 /* MetalView.swift */,
-				9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */,
-				9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */,
+				9A888A1F2D13F21400396BB0 /* MetalViews */,
 				9A90E1DD2D13E188003EE66A /* ShaderVertexFor2DView.swift */,
 				9A90E1DF2D13E1B0003EE66A /* ShaderVertexFor2DView.metal */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
