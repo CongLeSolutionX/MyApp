@@ -74,7 +74,6 @@
 		9ADE41D92D142F4A0037B2CF /* spot_texture.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = spot_texture.svg; sourceTree = "<group>"; };
 		9ADE41E02D1461EB0037B2CF /* ObjCMetal2DView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCMetal2DView.h; sourceTree = "<group>"; };
 		9ADE41E12D1461FF0037B2CF /* ObjCMetal2DView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCMetal2DView.m; sourceTree = "<group>"; };
-		9ADE41E42D146DE60037B2CF /* MetalPlainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalPlainViewController.h; sourceTree = "<group>"; };
 		9ADE41E52D146DEF0037B2CF /* MetalPlainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetalPlainViewController.m; sourceTree = "<group>"; };
 		9ADE41E72D146E220037B2CF /* CAMetalPlainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAMetalPlainView.h; sourceTree = "<group>"; };
 		9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAMetalPlainView.m; sourceTree = "<group>"; };
@@ -83,6 +82,7 @@
 		9ADE41F32D14794B0037B2CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		9ADE41F52D1479E00037B2CF /* Metal2DViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metal2DViewController.h; sourceTree = "<group>"; };
 		9ADE41F62D1479EA0037B2CF /* Metal2DViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Metal2DViewController.m; sourceTree = "<group>"; };
+		9ADE41FA2D147E1E0037B2CF /* MetalPlainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalPlainViewController.h; sourceTree = "<group>"; };
 		9AE591E72D125BE3002C2B05 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetalPlainView.swift; sourceTree = "<group>"; };
 		9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 		9ADE41EA2D1471320037B2CF /* MetalPlainViewController */ = {
 			isa = PBXGroup;
 			children = (
-				9ADE41E42D146DE60037B2CF /* MetalPlainViewController.h */,
+				9ADE41FA2D147E1E0037B2CF /* MetalPlainViewController.h */,
 				9ADE41E52D146DEF0037B2CF /* MetalPlainViewController.m */,
 			);
 			path = MetalPlainViewController;
