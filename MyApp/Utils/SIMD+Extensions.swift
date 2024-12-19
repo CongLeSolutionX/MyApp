@@ -6,7 +6,6 @@
 //
 // Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Utilities/SIMD%2BAdditions.swift
 
-/// Note: Set up to draw 2D view
 
 import simd
 
