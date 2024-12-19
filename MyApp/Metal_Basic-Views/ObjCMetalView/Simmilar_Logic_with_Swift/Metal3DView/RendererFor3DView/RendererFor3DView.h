@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "CAMetal3DView.h"
 
-@interface MBERenderer : NSObject <MBEMetalViewDelegate>
+@interface RendererFor3DView : NSObject <MBEMetalViewDelegate>
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device;
 

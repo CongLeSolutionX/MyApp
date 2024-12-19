@@ -9,12 +9,12 @@
 
 #import "Metal3DViewController.h"
 #import "CAMetal3DView.h"
-#import "MBERenderer.h"
+#import "RendererFor3DView.h"
 
 @interface Metal3DViewController ()
 
 @property (nonatomic, strong) CAMetal3DView *metalView;
-@property (nonatomic, strong) MBERenderer *renderer;
+@property (nonatomic, strong) RendererFor3DView *renderer;
 
 @end
 
@@ -36,7 +36,7 @@
     self.metalView.preferredFramesPerSecond = 60;
     
     // Set the renderer as the delegate
-    self.renderer = [[MBERenderer alloc] initWithDevice:device];
+    self.renderer = [[RendererFor3DView alloc] initWithDevice:device];
     self.metalView.delegate = self.renderer;
     
     [self.view addSubview:self.metalView];

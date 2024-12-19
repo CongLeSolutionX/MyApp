@@ -8,7 +8,7 @@
 //
 
 
-#import "MBERenderer.h"
+#import "RendererFor3DView.h"
 #import "MBEMathUtilities.h"
 
 #import <Metal/Metal.h>
@@ -34,7 +34,7 @@ static inline uint64_t AlignUp(uint64_t n, uint32_t alignment) {
 
 static const uint32_t MBEBufferAlignment = 256;
 
-@interface MBERenderer ()
+@interface RendererFor3DView ()
 
 @property (strong) id<MTLDevice> device;
 @property (strong) id<MTLBuffer> vertexBuffer;
@@ -49,7 +49,7 @@ static const uint32_t MBEBufferAlignment = 256;
 
 @end
 
-@implementation MBERenderer
+@implementation RendererFor3DView
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device {
     if ((self = [super init])) {
