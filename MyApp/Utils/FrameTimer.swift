@@ -4,9 +4,7 @@
 //
 //  Created by Cong Le on 12/18/24.
 //
-// Source: https://github.com/dehesa/sample-metal/
-
-/// Note: Set up to draw 2D view
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Utilities/FrameTimer.swift
 
 #if os(macOS)
 import AppKit

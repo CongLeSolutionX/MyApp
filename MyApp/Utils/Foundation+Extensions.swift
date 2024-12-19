@@ -4,7 +4,8 @@
 //
 //  Created by Cong Le on 12/17/24.
 //
-// Source: https://github.com/dehesa/sample-metal/tree/main/Metal%20By%20Example/Clear%20Screen
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Utilities/Foundation%2BAdditions.swift
+//
 
 import Foundation
 

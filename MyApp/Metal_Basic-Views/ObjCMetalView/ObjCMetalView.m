@@ -5,6 +5,8 @@
 //  Created by Cong Le on 12/17/24.
 //
 // ObjCMetalView.m
+// Source: https://github.com/metal-by-example/sample-code/blob/master/objc/02-ClearScreen/ClearScreen/MBEMetalView.m
+//
 
 #import "ObjCMetalView.h"
 @import Metal;

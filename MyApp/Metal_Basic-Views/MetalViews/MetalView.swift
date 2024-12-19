@@ -42,6 +42,7 @@ struct iOS_UIKit_Metal2DView: UIViewRepresentable {
   func updateUIView(_ lowlevelView: CAMetal2DView, context: Context) {}
 }
 
+/// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/MetalView.swift
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
 struct iOS_UIKit_Metal3DView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetal3DView {
@@ -53,6 +54,7 @@ struct iOS_UIKit_Metal3DView: UIViewRepresentable {
 }
 #endif
 
+// MARK: - Extensions for iOS_UIKit_Metal3DView
 extension iOS_UIKit_Metal3DView {
   @MainActor func makeCoordinator() -> CubeRenderer {
     let device = MTLCreateSystemDefaultDevice()!

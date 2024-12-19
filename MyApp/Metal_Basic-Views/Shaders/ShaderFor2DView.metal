@@ -4,8 +4,8 @@
 //
 //  Created by Cong Le on 12/18/24.
 //
-
-/// Note: Set up to draw 2D view
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%202D/Shader.metal
+//
 
 #include <metal_stdlib>
 using namespace metal;

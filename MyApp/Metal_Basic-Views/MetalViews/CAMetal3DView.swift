@@ -4,6 +4,8 @@
 //
 //  Created by Cong Le on 12/18/24.
 //
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/CAMetalView.swift
+//
 
 #if os(macOS)
 import Cocoa
@@ -89,7 +91,7 @@ import Metal
 }
 #endif
 
-// MARK: -
+// MARK: - Private Extensions
 
 private extension CAMetal3DView {
   final class MetalState {

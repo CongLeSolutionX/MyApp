@@ -4,7 +4,8 @@
 //
 //  Created by Cong Le on 12/18/24.
 //
-
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/Renderer.swift
+//
 
 import QuartzCore
 import Metal
@@ -99,7 +100,7 @@ final class CubeRenderer: Renderer {
     self.lock.name = .identifier(Self.id, "lock")
   }
 }
-
+// MARK: - Public Extensions
 extension CubeRenderer {
   func draw(layer: CAMetalLayer, time: (now: Double, display: Double)) {
     // Drop frames if we are already waiting for other frames to be processed.
@@ -155,7 +156,7 @@ extension CubeRenderer {
     }.commit()
   }
 }
-
+// MARK: - Private Extensions
 private extension CubeRenderer {
   static var id: String { "renderer.cube" }
   static var maxParallelRenders: Int { 3 }

@@ -13,8 +13,8 @@
 		9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */; };
 		9A90E1DA2D13E03D003EE66A /* FrameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1D92D13E03C003EE66A /* FrameTimer.swift */; };
 		9A90E1DC2D13E0FE003EE66A /* SIMD+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DB2D13E0F7003EE66A /* SIMD+Extensions.swift */; };
-		9A90E1DE2D13E18E003EE66A /* ShaderVertexFor2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DD2D13E188003EE66A /* ShaderVertexFor2DView.swift */; };
-		9A90E1E02D13E1B6003EE66A /* ShaderVertexFor2DView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DF2D13E1B0003EE66A /* ShaderVertexFor2DView.metal */; };
+		9A90E1DE2D13E18E003EE66A /* ShaderFor2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DD2D13E188003EE66A /* ShaderFor2DView.swift */; };
+		9A90E1E02D13E1B6003EE66A /* ShaderFor2DView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DF2D13E1B0003EE66A /* ShaderFor2DView.metal */; };
 		9A90E1E22D13EA62003EE66A /* CAMetal2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -36,8 +36,8 @@
 		9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderFor3DView.metal; sourceTree = "<group>"; };
 		9A90E1D92D13E03C003EE66A /* FrameTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTimer.swift; sourceTree = "<group>"; };
 		9A90E1DB2D13E0F7003EE66A /* SIMD+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SIMD+Extensions.swift"; sourceTree = "<group>"; };
-		9A90E1DD2D13E188003EE66A /* ShaderVertexFor2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderVertexFor2DView.swift; sourceTree = "<group>"; };
-		9A90E1DF2D13E1B0003EE66A /* ShaderVertexFor2DView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderVertexFor2DView.metal; sourceTree = "<group>"; };
+		9A90E1DD2D13E188003EE66A /* ShaderFor2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderFor2DView.swift; sourceTree = "<group>"; };
+		9A90E1DF2D13E1B0003EE66A /* ShaderFor2DView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderFor2DView.metal; sourceTree = "<group>"; };
 		9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetal2DView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -75,7 +75,6 @@
 				9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */,
 				9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */,
 				9A888A2E2D14018500396BB0 /* CAMetal3DView.swift */,
-				9A888A302D1401CC00396BB0 /* Renderer.swift */,
 			);
 			path = MetalViews;
 			sourceTree = "<group>";
@@ -131,14 +130,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
+		9ADE41C32D1418760037B2CF /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
 				9A888A342D14026D00396BB0 /* ShaderFor3DView.metal */,
 				9A888A322D1401FF00396BB0 /* ShaderFor3DView.swift */,
+				9A90E1DD2D13E188003EE66A /* ShaderFor2DView.swift */,
+				9A90E1DF2D13E1B0003EE66A /* ShaderFor2DView.metal */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
+			isa = PBXGroup;
+			children = (
 				9A888A1F2D13F21400396BB0 /* MetalViews */,
-				9A90E1DD2D13E188003EE66A /* ShaderVertexFor2DView.swift */,
-				9A90E1DF2D13E1B0003EE66A /* ShaderVertexFor2DView.metal */,
+				9ADE41C32D1418760037B2CF /* Shaders */,
+				9A888A302D1401CC00396BB0 /* Renderer.swift */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";
@@ -230,8 +238,8 @@
 				9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */,
 				9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */,
 				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,
-				9A90E1DE2D13E18E003EE66A /* ShaderVertexFor2DView.swift in Sources */,
-				9A90E1E02D13E1B6003EE66A /* ShaderVertexFor2DView.metal in Sources */,
+				9A90E1DE2D13E18E003EE66A /* ShaderFor2DView.swift in Sources */,
+				9A90E1E02D13E1B6003EE66A /* ShaderFor2DView.metal in Sources */,
 				9A90E1DC2D13E0FE003EE66A /* SIMD+Extensions.swift in Sources */,
 				9A888A332D14020600396BB0 /* ShaderFor3DView.swift in Sources */,
 				9A888A2F2D14018800396BB0 /* CAMetal3DView.swift in Sources */,

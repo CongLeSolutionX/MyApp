@@ -4,7 +4,7 @@
 //
 //  Created by Cong Le on 12/17/24.
 //
-// Source: https://github.com/dehesa/sample-metal/tree/main/Metal%20By%20Example/Clear%20Screen
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%202D/CAMetalView.swift
 //
 
 #if os(macOS)
@@ -108,7 +108,7 @@ import Metal
 }
 #endif
 
-// MARK: - Shared
+// MARK: - Shared Public Extensions
 
 extension CAMetal2DView {
   nonisolated func draw(now: Double, frame: Double) {
