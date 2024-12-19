@@ -173,13 +173,13 @@ private extension CAMetal2DView {
       guard let pipeline = try? device.makeRenderPipelineState(descriptor: descriptor) else { return nil }
       self.pipeline = pipeline
 
-      let vertices: [ShaderVertex] = [
-        ShaderVertex(position: [   0,  0.5, 0, 1], color: [1, 0, 0, 1]), // Top vertex
-        ShaderVertex(position: [-0.5, -0.5, 0, 1], color: [0, 1, 0, 1]), // Left vertex
-        ShaderVertex(position: [ 0.5, -0.5, 0, 1], color: [0, 0, 1, 1])  // Right vertex
+      let vertices: [ShaderVertexFor2DView] = [
+        ShaderVertexFor2DView(position: [   0,  0.5, 0, 1], color: [1, 0, 0, 1]), // Top vertex
+        ShaderVertexFor2DView(position: [-0.5, -0.5, 0, 1], color: [0, 1, 0, 1]), // Left vertex
+        ShaderVertexFor2DView(position: [ 0.5, -0.5, 0, 1], color: [0, 0, 1, 1])  // Right vertex
       ]
 
-      let length = vertices.count * MemoryLayout<ShaderVertex>.stride
+      let length = vertices.count * MemoryLayout<ShaderVertexFor2DView>.stride
       guard let buffer = device.makeBuffer(bytes: vertices, length: length, options: .cpuCacheModeWriteCombined) else { return nil }
       self.buffer = buffer.configure { $0.label = .identifier("buffer", "vertices") }
 
