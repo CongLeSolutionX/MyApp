@@ -18,17 +18,14 @@
 
 #if TARGET_OS_IOS
 @import UIKit;
-typedef UIView MyView;
+typedef UIView MyObjCView;
 #elif TARGET_OS_OSX
 @import AppKit;
-typedef NSView MyView;
+typedef NSView MyObjCView;
 #endif
 
 
-
-
-
-@interface ObjCMetalView : MyView
+@interface ObjCMetalView : MyObjCView
 
 @property (readonly) CAMetalLayer *metalLayer;
 

@@ -24,14 +24,14 @@ struct iOS_UIKit_ViewControllerWrapper: UIViewControllerRepresentable {
 }
 
 // Example iOS UIKit view controller
-class MyUIKitViewController: MyViewController {
+class MyUIKitViewController: MySwiftViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
     }
 }
 
-class ObjectiveC_UIKitWrapperViewController: MyViewController {
+class ObjectiveC_UIKitWrapperViewController: MySwiftViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

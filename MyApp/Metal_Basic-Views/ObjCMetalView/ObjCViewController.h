@@ -11,17 +11,17 @@
 
 #if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
-typedef UIViewController MyViewController;
+typedef UIViewController MyObjCViewController;
 #elif TARGET_OS_OSX
 #import <AppKit/AppKit.h>
-typedef NSViewController MyViewController;
+typedef NSViewController MyObjCViewController;
 #endif
 
 // Type alias for MyView
 #if TARGET_OS_IOS
 typedef UIView MyView;
 #elif TARGET_OS_OSX
-typedef NSView MyView;
+typedef NSView MyObjCView;
 #endif
 
 @interface SharedLogic : NSObject  // Located in the 'Shared' directory
@@ -38,6 +38,6 @@ typedef NSView MyView;
 }
 @end
 
-@interface ObjCViewController : MyViewController
+@interface ObjCViewController : MyObjCViewController
 
 @end

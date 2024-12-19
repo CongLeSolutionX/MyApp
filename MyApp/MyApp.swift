@@ -9,10 +9,10 @@ import SwiftUI
 
 #if os(iOS)
 import UIKit
-typealias MyViewController = UIViewController
+typealias MySwiftViewController = UIViewController
 #elseif os(macOS)
 import AppKit
-typealias MyViewController = NSViewController
+typealias MySwiftViewController = NSViewController
 #endif
 
 
