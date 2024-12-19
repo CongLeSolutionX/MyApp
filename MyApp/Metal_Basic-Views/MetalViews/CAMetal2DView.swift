@@ -137,7 +137,7 @@ extension CAMetal2DView {
   }
 }
 
-// MARK: - Private Extensions
+// MARK: - Shared Private Extensions
 private extension CAMetal2DView {
   final class MetalState: @unchecked Sendable {
     /// The GPU doing the rendering.

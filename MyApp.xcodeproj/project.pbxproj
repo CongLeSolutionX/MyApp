@@ -153,8 +153,7 @@
 		9ADE41C32D1418760037B2CF /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				9ADE41D52D142D630037B2CF /* ShaderForTexturingView.metal */,
-				9ADE41D32D142D4A0037B2CF /* ShaderForTexturingView.swift */,
+				9ADE41DE2D1433E40037B2CF /* ShaderForTexturingView */,
 				9ADE41CC2D142B3B0037B2CF /* ShaderForLightingView */,
 				9ADE41CD2D142B490037B2CF /* ShaderFor3DView */,
 				9ADE41CE2D142B550037B2CF /* ShaderFor2DView */,
@@ -199,24 +198,49 @@
 			path = Renderers;
 			sourceTree = "<group>";
 		};
-		9ADE41D02D142B790037B2CF /* Assets_3DObjects */ = {
+		9ADE41D02D142B790037B2CF /* Assets_ForLightingView */ = {
 			isa = PBXGroup;
 			children = (
 				9ADE41CA2D141BC20037B2CF /* teapot.obj */,
 			);
-			path = Assets_3DObjects;
+			path = Assets_ForLightingView;
 			sourceTree = "<group>";
 		};
-		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
+		9ADE41DD2D1430490037B2CF /* Assets_ForTexturingView */ = {
 			isa = PBXGroup;
 			children = (
 				9ADE41D72D142F4A0037B2CF /* spot.obj */,
 				9ADE41D82D142F4A0037B2CF /* spot_texture.png */,
 				9ADE41D92D142F4A0037B2CF /* spot_texture.svg */,
-				9ADE41D02D142B790037B2CF /* Assets_3DObjects */,
+			);
+			path = Assets_ForTexturingView;
+			sourceTree = "<group>";
+		};
+		9ADE41DE2D1433E40037B2CF /* ShaderForTexturingView */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41D32D142D4A0037B2CF /* ShaderForTexturingView.swift */,
+				9ADE41D52D142D630037B2CF /* ShaderForTexturingView.metal */,
+			);
+			path = ShaderForTexturingView;
+			sourceTree = "<group>";
+		};
+		9ADE41DF2D14348B0037B2CF /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE41DD2D1430490037B2CF /* Assets_ForTexturingView */,
+				9ADE41D02D142B790037B2CF /* Assets_ForLightingView */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
+			isa = PBXGroup;
+			children = (
 				9A888A1F2D13F21400396BB0 /* MetalViews */,
 				9ADE41C32D1418760037B2CF /* Shaders */,
 				9ADE41CF2D142B650037B2CF /* Renderers */,
+				9ADE41DF2D14348B0037B2CF /* Assets */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";

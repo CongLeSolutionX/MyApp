@@ -110,7 +110,7 @@ import Metal
 }
 #endif
 
-// MARK: - Shared Provate Extensions
+// MARK: - Shared Private Extensions
 
 private extension CAMetalPlainView {
   /// Fills the metal layer with a solid color.

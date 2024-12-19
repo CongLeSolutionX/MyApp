@@ -91,7 +91,7 @@ import Metal
 }
 #endif
 
-// MARK: - Private Extensions
+// MARK: - Shared Private Extensions
 
 private extension CAMetal3DView {
   final class MetalState {

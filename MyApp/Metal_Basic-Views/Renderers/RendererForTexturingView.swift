@@ -4,12 +4,14 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Texturing/Renderer.swift
+//
 
 import MetalKit
 import ModelIO
 import simd
 
-@MainActor final class CowRenderer: NSObject, MTKViewDelegate {
+@MainActor final class CowRenderer: NSObject {
     let device: any MTLDevice
     private let queue: any MTLCommandQueue
     private let renderPipeline: any MTLRenderPipelineState
@@ -103,6 +105,10 @@ import simd
             $0.contents().bindMemory(to: ShaderUniformsForTexturingView.self, capacity: 1)
         }
     }
+}
+
+// MARK: - MTKViewDelegate
+extension CowRenderer: MTKViewDelegate {
     
     nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         MainActor.assumeIsolated {
@@ -185,9 +191,9 @@ import simd
         }
     }
 }
-
+// MARK: - Private Extensions
 private extension CowRenderer {
-    static var id: String { "renderer.teapot" }
+    static var id: String { "renderer.spot" }
     
     struct Uniforms {
         let startTimestamp: Date
