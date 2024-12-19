@@ -12,24 +12,24 @@ import Metal
 #if os(macOS)
 /// Simple passthrough instance exposing the custom `NSView` containing the `CAMetalLayer`.
 struct NSMetalView: NSViewRepresentable {
-  func makeNSView(context: Context) -> CAMetalView {
+  func makeNSView(context: Context) -> CAMetalPlainView {
     let device = MTLCreateSystemDefaultDevice()!
     let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue")  }
-    return CAMetalView(device: device, queue: queue)
+    return CAMetalPlainView(device: device, queue: queue)
   }
 
-  func updateNSView(_ lowlevelView: CAMetalView, context: Context) {}
+  func updateNSView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
 #elseif canImport(UIKit)
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
-struct iOS_UIKit_MetalView: UIViewRepresentable {
-  func makeUIView(context: Context) -> CAMetalView {
+struct iOS_UIKit_MetalPlainView: UIViewRepresentable {
+  func makeUIView(context: Context) -> CAMetalPlainView {
     let device = MTLCreateSystemDefaultDevice()!
     let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue") }
-    return CAMetalView(device: device, queue: queue)
+    return CAMetalPlainView(device: device, queue: queue)
   }
 
-  func updateUIView(_ lowlevelView: CAMetalView, context: Context) {}
+  func updateUIView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
 
 struct iOS_UIKit_Metal2DView: UIViewRepresentable {

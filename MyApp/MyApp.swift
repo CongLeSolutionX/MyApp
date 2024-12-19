@@ -35,7 +35,7 @@ struct MyAppApp: App {
             
             // Display 3 iOS views from 3 different sources on the same screen
             iOS_SwiftUI_RootContentView()
-            iOS_UIKit_MetalView()
+            iOS_UIKit_MetalPlainView()
             iOS_UIKit_ViewControllerWrapper()
             iOS_UIKit_Metal2DView()
             #elseif os(macOS)

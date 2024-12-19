@@ -1,5 +1,5 @@
 //
-//  CAMetalView.swift
+//  CAMetal2DView.swift
 //  MyApp
 //
 //  Created by Cong Le on 12/17/24.

@@ -1,5 +1,5 @@
 //
-//  CAMetalView.swift
+//  CAMetalPlainView.swift
 //  MyApp
 //
 //  Created by Cong Le on 12/17/24.
@@ -15,7 +15,7 @@ import Metal
 
 #if os(macOS)
 /// Custom `NSView` holding the `CAMetalLayer` where the drawing will end up.
-@MainActor final class CAMetalView: NSView {
+@MainActor final class CAMetalPlainView: NSView {
   /// Representation of the system GPU.
   private let device: any MTLDevice
   /// Serial queue of buffer commands.
@@ -65,7 +65,7 @@ import Metal
 }
 #elseif canImport(UIKit)
 /// Custom `UIView` holding the `CAMetalLayer` where the drawing will end up.
-@MainActor final class CAMetalView: UIView {
+@MainActor final class CAMetalPlainView: UIView {
   /// Representation of the system GPU.
   private let device: any MTLDevice
   /// Serial queue of buffer commands.
@@ -112,7 +112,7 @@ import Metal
 
 // MARK: - Shared code
 
-private extension CAMetalView {
+private extension CAMetalPlainView {
   /// Fills the metal layer with a solid color.
   func draw() {
     // Setup Command Buffer (transient)
