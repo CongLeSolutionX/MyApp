@@ -1,5 +1,5 @@
 //
-//  ShaderVertex.metal
+//  ShaderVertexFor2DView.metal
 //  MyApp
 //
 //  Created by Cong Le on 12/18/24.

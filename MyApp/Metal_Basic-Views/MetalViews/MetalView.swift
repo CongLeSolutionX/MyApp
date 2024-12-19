@@ -31,7 +31,7 @@ struct iOS_UIKit_MetalPlainView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
-
+/// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
 struct iOS_UIKit_Metal2DView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetal2DView {
     let device = MTLCreateSystemDefaultDevice()!
@@ -41,4 +41,21 @@ struct iOS_UIKit_Metal2DView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetal2DView, context: Context) {}
 }
+
+/// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
+struct iOS_UIKit_Metal3DView: UIViewRepresentable {
+  func makeUIView(context: Context) -> CAMetal3DView {
+    let renderer = context.coordinator
+    return CAMetal3DView(device: renderer.device, renderer: renderer)
+  }
+
+  func updateUIView(_ lowlevelView: CAMetal3DView, context: Context) {}
+}
 #endif
+
+extension iOS_UIKit_Metal3DView {
+  @MainActor func makeCoordinator() -> CubeRenderer {
+    let device = MTLCreateSystemDefaultDevice()!
+    return CubeRenderer(device: device)!
+  }
+}
