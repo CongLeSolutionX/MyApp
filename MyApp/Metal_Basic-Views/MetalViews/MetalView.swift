@@ -21,6 +21,32 @@ struct NSMetalView: NSViewRepresentable {
 
   func updateNSView(_ lowlevelView: CAMetalPlainView, context: Context) {}
 }
+// MARK: - 3D View
+/// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/MetalView.swift
+struct Metal3DView: NSViewRepresentable {
+  /// Simple passthrough instance exposing the custom `NSView` containing the `CAMetalLayer`.
+  func makeNSView(context: Context) -> CAMetal3DView {
+    let renderer = context.coordinator
+    return CAMetal3DView(device: renderer.device, renderer: renderer)
+  }
+
+  func updateNSView(_ lowlevelView: CAMetal3DView, context: Context) {}
+}
+
+// MARK: - A Metal View with Lighting
+struct MetalLightingView: NSViewRepresentable {
+  func makeNSView(context: Context) -> MTKView {
+    let renderer = context.coordinator
+    return MTKView(frame: .zero, device: renderer.device).configure {
+      $0.clearColor = MTLClearColorMake(0, 0, 0, 1)
+      $0.colorPixelFormat = .bgra8Unorm
+      $0.depthStencilPixelFormat = .depth32Float
+      $0.delegate = renderer
+    }
+  }
+
+  func updateNSView(_ lowlevelView: MTKView, context: Context) {}
+}
 #elseif canImport(UIKit)
 // MARK: - A Metail Plain View
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
@@ -47,7 +73,7 @@ struct iOS_UIKit_Metal2DView: UIViewRepresentable {
 // MARK: - A 3D Metal View
 /// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Drawing%20in%203D/MetalView.swift
 /// Simple passthrough instance exposing the custom `UIView` containing the `CAMetalLayer`.
-struct iOS_UIKit_Metal3DView: UIViewRepresentable {
+struct Metal3DView: UIViewRepresentable {
   func makeUIView(context: Context) -> CAMetal3DView {
     let renderer = context.coordinator
     return CAMetal3DView(device: renderer.device, renderer: renderer)
@@ -55,8 +81,9 @@ struct iOS_UIKit_Metal3DView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetal3DView, context: Context) {}
 }
-// MARK: -
-struct iOS_UIKit_MetalLightingView: UIViewRepresentable {
+// MARK: - A Metal View with Lighting
+/// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Lighting/MetalView.swift
+struct MetalLightingView: UIViewRepresentable {
   func makeUIView(context: Context) -> MTKView {
     let renderer = context.coordinator
     return MTKView(frame: .zero, device: renderer.device).configure {
@@ -72,16 +99,16 @@ struct iOS_UIKit_MetalLightingView: UIViewRepresentable {
 
 #endif
 
-// MARK: - Extensions for iOS_UIKit_Metal3DView
-extension iOS_UIKit_Metal3DView {
+// MARK: - Extensions for Metal3DView
+extension Metal3DView {
   @MainActor func makeCoordinator() -> CubeRenderer {
     let device = MTLCreateSystemDefaultDevice()!
     return CubeRenderer(device: device)!
   }
 }
 
-// MARK: - Extensions for iOS_UIKit_MetalLightingView
-extension iOS_UIKit_MetalLightingView {
+// MARK: - Extensions MetalLightingView
+extension MetalLightingView {
   @MainActor func makeCoordinator() -> TeapotRenderer {
     let device = MTLCreateSystemDefaultDevice()!
     return TeapotRenderer(device: device)!

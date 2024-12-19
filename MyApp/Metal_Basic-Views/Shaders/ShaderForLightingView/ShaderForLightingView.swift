@@ -4,6 +4,8 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Lighting/Shader.swift
+//
 
 import simd
 

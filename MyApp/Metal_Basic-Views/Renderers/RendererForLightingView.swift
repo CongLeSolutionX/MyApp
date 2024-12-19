@@ -4,13 +4,16 @@
 //
 //  Created by Cong Le on 12/19/24.
 //
+// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Lighting/Renderer.swift
+//
 
 import Metal
 import MetalKit
 import ModelIO
 import simd
 
-@MainActor final class TeapotRenderer: NSObject, MTKViewDelegate {
+@MainActor final class TeapotRenderer: NSObject {
+    
     let device: any MTLDevice
     private let queue: any MTLCommandQueue
     private let renderPipeline: any MTLRenderPipelineState
@@ -76,7 +79,10 @@ import simd
             $0.contents().bindMemory(to: ShaderUniformsForLightingView.self, capacity: 1)
         }
     }
-    
+}
+
+// MARK: - MTKViewDelegate
+extension TeapotRenderer: MTKViewDelegate {
     nonisolated func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         MainActor.assumeIsolated {
             let (width, height) = (Int(size.width), Int(size.height))
@@ -155,8 +161,9 @@ import simd
             commandBuffer.commit()
         }
     }
+    
 }
-
+// MARK: - Private Extensions
 private extension TeapotRenderer {
     static var id: String { "renderer.teapot" }
     
