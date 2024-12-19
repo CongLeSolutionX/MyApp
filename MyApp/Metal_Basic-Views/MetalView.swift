@@ -31,4 +31,14 @@ struct iOS_UIKit_MetalView: UIViewRepresentable {
 
   func updateUIView(_ lowlevelView: CAMetalView, context: Context) {}
 }
+
+struct iOS_UIKit_Metal2DView: UIViewRepresentable {
+  func makeUIView(context: Context) -> CAMetal2DView {
+    let device = MTLCreateSystemDefaultDevice()!
+    let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue") }
+    return CAMetal2DView(device: device, queue: queue)
+  }
+
+  func updateUIView(_ lowlevelView: CAMetal2DView, context: Context) {}
+}
 #endif
