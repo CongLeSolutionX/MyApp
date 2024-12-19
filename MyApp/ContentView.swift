@@ -38,11 +38,13 @@ struct iOSUIKitViewControllerWrapper_Previews: PreviewProvider {
 #elseif os(macOS)
 struct NSMetalPlainViewWrapper_Previews: PreviewProvider {
     static var previews: some View {
+        NSMetal2DView()
         NSMetalPlainView()
     }
 }
 
-#Preview("NS Metal Plain View") {
+#Preview("NS Metal Views") {
+    NSMetal2DView()
     NSMetalPlainView()
 }
 #endif
