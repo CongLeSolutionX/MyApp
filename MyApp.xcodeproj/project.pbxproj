@@ -35,7 +35,7 @@
 		9ADE41E62D146DF00037B2CF /* MetalPlainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41E52D146DEF0037B2CF /* MetalPlainViewController.m */; };
 		9ADE41E92D146E2A0037B2CF /* CAMetalPlainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */; };
 		9ADE41F22D1479230037B2CF /* CAMetal2DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41F12D1479220037B2CF /* CAMetal2DView.m */; };
-		9ADE41F42D14794F0037B2CF /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41F32D14794B0037B2CF /* Shaders.metal */; };
+		9ADE41F42D14794F0037B2CF /* ShadersForObjCMetal2DView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41F32D14794B0037B2CF /* ShadersForObjCMetal2DView.metal */; };
 		9ADE41F72D1479EC0037B2CF /* Metal2DViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41F62D1479EA0037B2CF /* Metal2DViewController.m */; };
 		9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* MetalView.swift */; };
 		9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */; };
@@ -79,7 +79,7 @@
 		9ADE41E82D146E270037B2CF /* CAMetalPlainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAMetalPlainView.m; sourceTree = "<group>"; };
 		9ADE41F02D1479180037B2CF /* CAMetal2DView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAMetal2DView.h; sourceTree = "<group>"; };
 		9ADE41F12D1479220037B2CF /* CAMetal2DView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAMetal2DView.m; sourceTree = "<group>"; };
-		9ADE41F32D14794B0037B2CF /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		9ADE41F32D14794B0037B2CF /* ShadersForObjCMetal2DView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShadersForObjCMetal2DView.metal; sourceTree = "<group>"; };
 		9ADE41F52D1479E00037B2CF /* Metal2DViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metal2DViewController.h; sourceTree = "<group>"; };
 		9ADE41F62D1479EA0037B2CF /* Metal2DViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Metal2DViewController.m; sourceTree = "<group>"; };
 		9ADE41FA2D147E1E0037B2CF /* MetalPlainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MetalPlainViewController.h; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				9ADE41F82D147A940037B2CF /* Metal2DViewController */,
-				9ADE41F32D14794B0037B2CF /* Shaders.metal */,
+				9ADE41F32D14794B0037B2CF /* ShadersForObjCMetal2DView.metal */,
 				9ADE41F92D147AAB0037B2CF /* CAMetal2DView */,
 				9ADE41EB2D14713F0037B2CF /* CAMetalPlainView */,
 				9ADE41EA2D1471320037B2CF /* MetalPlainViewController */,
@@ -432,7 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9ADE41F42D14794F0037B2CF /* Shaders.metal in Sources */,
+				9ADE41F42D14794F0037B2CF /* ShadersForObjCMetal2DView.metal in Sources */,
 				9ADE41D42D142D520037B2CF /* ShaderForTexturingView.swift in Sources */,
 				9A888A312D1401CC00396BB0 /* RendererFor3DView.swift in Sources */,
 				9ADE41C72D141A260037B2CF /* ShaderForLightingView.swift in Sources */,

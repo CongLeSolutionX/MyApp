@@ -12,7 +12,7 @@
 typedef struct {
     vector_float2 position;
     vector_float4 color;
-} Vertex;
+} VertexFor2DView;
 
 @interface CAMetal2DView ()
 
@@ -83,7 +83,7 @@ typedef struct {
 }
 
 - (void)setupVertices {
-    static const Vertex triangleVertices[] = {
+    static const VertexFor2DView triangleVertices[] = {
         { {  0.0,  0.5 }, { 1, 0, 0, 1 } }, // top center, red
         { { -0.5, -0.5 }, { 0, 1, 0, 1 } }, // bottom left, green
         { {  0.5, -0.5 }, { 0, 0, 1, 1 } }, // bottom right, blue
@@ -92,7 +92,7 @@ typedef struct {
     self.vertexBuffer = [self.device newBufferWithBytes:triangleVertices
                                                  length:sizeof(triangleVertices)
                                                 options:MTLResourceStorageModeShared];
-    self.numVertices = sizeof(triangleVertices) / sizeof(Vertex);
+    self.numVertices = sizeof(triangleVertices) / sizeof(VertexFor2DView);
 }
 
 - (void)setupDisplayLink {
