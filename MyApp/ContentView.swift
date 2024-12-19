@@ -38,6 +38,7 @@ struct iOSUIKitViewControllerWrapper_Previews: PreviewProvider {
 #elseif os(macOS)
 struct NSMetalPlainViewWrapper_Previews: PreviewProvider {
     static var previews: some View {
+        MetalTexturingView()
         MetalLightingView()
         Metal3DView()
         NSMetal2DView()
@@ -46,6 +47,7 @@ struct NSMetalPlainViewWrapper_Previews: PreviewProvider {
 }
 
 #Preview("NS Metal Views") {
+    MetalTexturingView()
     MetalLightingView()
     Metal3DView()
     NSMetal2DView()

@@ -43,6 +43,7 @@ struct MyAppApp: App {
             iOS_SwiftUI_RootContentView()
             #elseif os(macOS)
             // macOS-specific implementation (e.g., AppKit calls)
+            MetalTexturingView()
             MetalLightingView()
             Metal3DView()
             NSMetal2DView()
