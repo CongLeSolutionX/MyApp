@@ -25,6 +25,12 @@
 		9ADE41C72D141A260037B2CF /* ShaderForLightingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41C62D141A1F0037B2CF /* ShaderForLightingView.swift */; };
 		9ADE41C92D141A520037B2CF /* ShaderForLightingView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41C82D141A470037B2CF /* ShaderForLightingView.metal */; };
 		9ADE41CB2D141BC20037B2CF /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41CA2D141BC20037B2CF /* teapot.obj */; };
+		9ADE41D22D142D2E0037B2CF /* RendererForTexturingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41D12D142D260037B2CF /* RendererForTexturingView.swift */; };
+		9ADE41D42D142D520037B2CF /* ShaderForTexturingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41D32D142D4A0037B2CF /* ShaderForTexturingView.swift */; };
+		9ADE41D62D142D670037B2CF /* ShaderForTexturingView.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9ADE41D52D142D630037B2CF /* ShaderForTexturingView.metal */; };
+		9ADE41DA2D142F4A0037B2CF /* spot_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D82D142F4A0037B2CF /* spot_texture.png */; };
+		9ADE41DB2D142F4A0037B2CF /* spot_texture.svg in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D92D142F4A0037B2CF /* spot_texture.svg */; };
+		9ADE41DC2D142F4A0037B2CF /* spot.obj in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE41D72D142F4A0037B2CF /* spot.obj */; };
 		9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E72D125BE3002C2B05 /* MetalView.swift */; };
 		9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */; };
 		9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */; };
@@ -54,6 +60,12 @@
 		9ADE41C62D141A1F0037B2CF /* ShaderForLightingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderForLightingView.swift; sourceTree = "<group>"; };
 		9ADE41C82D141A470037B2CF /* ShaderForLightingView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderForLightingView.metal; sourceTree = "<group>"; };
 		9ADE41CA2D141BC20037B2CF /* teapot.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
+		9ADE41D12D142D260037B2CF /* RendererForTexturingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererForTexturingView.swift; sourceTree = "<group>"; };
+		9ADE41D32D142D4A0037B2CF /* ShaderForTexturingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderForTexturingView.swift; sourceTree = "<group>"; };
+		9ADE41D52D142D630037B2CF /* ShaderForTexturingView.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderForTexturingView.metal; sourceTree = "<group>"; };
+		9ADE41D72D142F4A0037B2CF /* spot.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = spot.obj; sourceTree = "<group>"; };
+		9ADE41D82D142F4A0037B2CF /* spot_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spot_texture.png; sourceTree = "<group>"; };
+		9ADE41D92D142F4A0037B2CF /* spot_texture.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = spot_texture.svg; sourceTree = "<group>"; };
 		9AE591E72D125BE3002C2B05 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		9AE591E92D125BF0002C2B05 /* CAMetalPlainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetalPlainView.swift; sourceTree = "<group>"; };
 		9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -141,6 +153,8 @@
 		9ADE41C32D1418760037B2CF /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE41D52D142D630037B2CF /* ShaderForTexturingView.metal */,
+				9ADE41D32D142D4A0037B2CF /* ShaderForTexturingView.swift */,
 				9ADE41CC2D142B3B0037B2CF /* ShaderForLightingView */,
 				9ADE41CD2D142B490037B2CF /* ShaderFor3DView */,
 				9ADE41CE2D142B550037B2CF /* ShaderFor2DView */,
@@ -180,6 +194,7 @@
 			children = (
 				9A888A302D1401CC00396BB0 /* RendererFor3DView.swift */,
 				9ADE41C42D1419AD0037B2CF /* RendererForLightingView.swift */,
+				9ADE41D12D142D260037B2CF /* RendererForTexturingView.swift */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -195,6 +210,9 @@
 		9AE591EF2D125C81002C2B05 /* Metal_Basic-Views */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE41D72D142F4A0037B2CF /* spot.obj */,
+				9ADE41D82D142F4A0037B2CF /* spot_texture.png */,
+				9ADE41D92D142F4A0037B2CF /* spot_texture.svg */,
 				9ADE41D02D142B790037B2CF /* Assets_3DObjects */,
 				9A888A1F2D13F21400396BB0 /* MetalViews */,
 				9ADE41C32D1418760037B2CF /* Shaders */,
@@ -274,6 +292,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ADE41DA2D142F4A0037B2CF /* spot_texture.png in Resources */,
+				9ADE41DB2D142F4A0037B2CF /* spot_texture.svg in Resources */,
+				9ADE41DC2D142F4A0037B2CF /* spot.obj in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 				9ADE41CB2D141BC20037B2CF /* teapot.obj in Resources */,
@@ -287,12 +308,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ADE41D42D142D520037B2CF /* ShaderForTexturingView.swift in Sources */,
 				9A888A312D1401CC00396BB0 /* RendererFor3DView.swift in Sources */,
 				9ADE41C72D141A260037B2CF /* ShaderForLightingView.swift in Sources */,
 				9AE591EA2D125BF1002C2B05 /* CAMetalPlainView.swift in Sources */,
 				9A888A352D14027800396BB0 /* ShaderFor3DView.metal in Sources */,
 				9ADE41C52D1419B70037B2CF /* RendererForLightingView.swift in Sources */,
 				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,
+				9ADE41D22D142D2E0037B2CF /* RendererForTexturingView.swift in Sources */,
 				9ADE41C92D141A520037B2CF /* ShaderForLightingView.metal in Sources */,
 				9A90E1DE2D13E18E003EE66A /* ShaderFor2DView.swift in Sources */,
 				9A90E1E02D13E1B6003EE66A /* ShaderFor2DView.metal in Sources */,
@@ -301,6 +324,7 @@
 				9A888A2F2D14018800396BB0 /* CAMetal3DView.swift in Sources */,
 				9AE591F42D129928002C2B05 /* ObjCViewController.m in Sources */,
 				9A90E1DA2D13E03D003EE66A /* FrameTimer.swift in Sources */,
+				9ADE41D62D142D670037B2CF /* ShaderForTexturingView.metal in Sources */,
 				9AAC418B2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE591F82D129B81002C2B05 /* ObjCMetalView.m in Sources */,

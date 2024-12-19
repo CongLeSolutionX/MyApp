@@ -34,6 +34,7 @@ struct MyAppApp: App {
             // iOS-specific implementation (e.g., UIKit calls)
             
             // Display iOS views from different sources on the same screen
+            MetalTexturingView()
             MetalLightingView()
             Metal3DView()
             iOS_UIKit_Metal2DView()

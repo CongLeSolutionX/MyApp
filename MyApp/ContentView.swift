@@ -20,6 +20,7 @@ struct iOS_SwiftUI_RootContentView: View {  /// presenting this view to the App 
 // Before iOS 17, use this syntax for preview UIKit view controller
 struct iOSUIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
+            MetalTexturingView()
             MetalLightingView()
             Metal3DView()
             iOS_UIKit_Metal2DView()
