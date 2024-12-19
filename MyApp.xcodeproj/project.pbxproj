@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A90E1DA2D13E03D003EE66A /* FrameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1D92D13E03C003EE66A /* FrameTimer.swift */; };
+		9A90E1DC2D13E0FE003EE66A /* SIMD+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DB2D13E0F7003EE66A /* SIMD+Extensions.swift */; };
+		9A90E1DE2D13E18E003EE66A /* ShaderVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DD2D13E188003EE66A /* ShaderVertex.swift */; };
+		9A90E1E02D13E1B6003EE66A /* ShaderVertex.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1DF2D13E1B0003EE66A /* ShaderVertex.metal */; };
+		9A90E1E22D13EA62003EE66A /* CAMetal2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -21,6 +26,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A90E1D92D13E03C003EE66A /* FrameTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTimer.swift; sourceTree = "<group>"; };
+		9A90E1DB2D13E0F7003EE66A /* SIMD+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SIMD+Extensions.swift"; sourceTree = "<group>"; };
+		9A90E1DD2D13E188003EE66A /* ShaderVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderVertex.swift; sourceTree = "<group>"; };
+		9A90E1DF2D13E1B0003EE66A /* ShaderVertex.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ShaderVertex.metal; sourceTree = "<group>"; };
+		9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAMetal2DView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -106,6 +116,9 @@
 			children = (
 				9AE591E72D125BE3002C2B05 /* MetalView.swift */,
 				9AE591E92D125BF0002C2B05 /* CAMetalView.swift */,
+				9A90E1E12D13EA62003EE66A /* CAMetal2DView.swift */,
+				9A90E1DD2D13E188003EE66A /* ShaderVertex.swift */,
+				9A90E1DF2D13E1B0003EE66A /* ShaderVertex.metal */,
 				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";
@@ -114,6 +127,8 @@
 		9AE591F02D125C9E002C2B05 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				9A90E1DB2D13E0F7003EE66A /* SIMD+Extensions.swift */,
+				9A90E1D92D13E03C003EE66A /* FrameTimer.swift */,
 				9AE591EB2D125C16002C2B05 /* CoreGraphics+Extensions.swift */,
 				9AE591ED2D125C31002C2B05 /* Foundation+Extensions.swift */,
 			);
@@ -193,10 +208,15 @@
 			files = (
 				9AE591EA2D125BF1002C2B05 /* CAMetalView.swift in Sources */,
 				9AE591E82D125BE5002C2B05 /* MetalView.swift in Sources */,
+				9A90E1DE2D13E18E003EE66A /* ShaderVertex.swift in Sources */,
+				9A90E1E02D13E1B6003EE66A /* ShaderVertex.metal in Sources */,
+				9A90E1DC2D13E0FE003EE66A /* SIMD+Extensions.swift in Sources */,
 				9AE591F42D129928002C2B05 /* ObjCViewController.m in Sources */,
+				9A90E1DA2D13E03D003EE66A /* FrameTimer.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE591F82D129B81002C2B05 /* ObjCMetalView.m in Sources */,
+				9A90E1E22D13EA62003EE66A /* CAMetal2DView.swift in Sources */,
 				9AE591EE2D125C36002C2B05 /* Foundation+Extensions.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE591EC2D125C20002C2B05 /* CoreGraphics+Extensions.swift in Sources */,
