@@ -10,19 +10,21 @@
 @import Metal;
 @import QuartzCore.CAMetalLayer;
 
+
+// MARK: - Interface of ObjCMetalView
 @interface ObjCMetalView ()
 @property (nonatomic, readonly) id<MTLDevice> device;
 @end
 
+
+// MARK: - Implementation of ObjCMetalView
 @implementation ObjCMetalView
 
-+ (Class)layerClass
-{
++ (Class)layerClass {
     return [CAMetalLayer class];
 }
 
-- (void)commonInit
-{
+- (void)commonInit {
     _device = MTLCreateSystemDefaultDevice();
     if (!_device) {
         NSLog(@"Metal is not supported on this device");
@@ -35,20 +37,16 @@
     self.metalLayer.framebufferOnly = YES;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    if ((self = [super initWithCoder:aDecoder]))
-    {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
         [self commonInit];
     }
     
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if ((self = [super initWithFrame:frame]))
-    {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
         [self commonInit];
     }
     
@@ -59,13 +57,11 @@
     return (CAMetalLayer *)self.layer;
 }
 
-- (void)didMoveToWindow
-{
+- (void)didMoveToWindow {
     [self redraw];
 }
 
-- (void)redraw
-{
+- (void)redraw {
     id<CAMetalDrawable> drawable = [self.metalLayer nextDrawable];
     if (!drawable) {
         NSLog(@"Failed to get a drawable.");

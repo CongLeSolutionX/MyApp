@@ -10,12 +10,15 @@
 #import "ObjCViewController.h"
 #import "ObjCMetalView.h"
 
-@interface ObjCViewController ()
 
+// MARK: - Interface of ObjCViewController
+@interface ObjCViewController ()
 @property (nonatomic, strong) ObjCMetalView *metalView;
 
 @end
 
+
+// MARK: -  Implementation of ObjCViewController
 @implementation ObjCViewController
 
 - (void)viewDidLoad {
