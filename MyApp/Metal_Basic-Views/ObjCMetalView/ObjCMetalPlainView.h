@@ -1,5 +1,5 @@
 //
-//  ObjCMetalView.h
+//  ObjCMetalPlainView.h
 //  MyApp
 //
 //  Created by Cong Le on 12/17/24.
@@ -8,8 +8,6 @@
 //  ObjCMetalView.h
 
 #import <TargetConditionals.h>
-
-
 
 @import QuartzCore.CAMetalLayer; // Import CAMetalLayer from framework QuartzCore
 // Alternatively, you can use:
@@ -25,7 +23,7 @@ typedef NSView MyObjCView;
 #endif
 
 
-@interface ObjCMetalView : MyObjCView
+@interface ObjCMetalPlainView : MyObjCView
 
 @property (readonly) CAMetalLayer *metalLayer;
 

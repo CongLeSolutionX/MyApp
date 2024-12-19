@@ -8,7 +8,7 @@
 // Source: https://github.com/metal-by-example/sample-code/blob/master/objc/02-ClearScreen/ClearScreen/MBEMetalView.m
 //
 
-#import "ObjCMetalView.h"
+#import "ObjCMetalPlainView.h"
 @import Metal;
 @import QuartzCore.CAMetalLayer;
 
@@ -19,12 +19,12 @@
 #endif
 
 // MARK: - Interface of ObjCMetalView
-@interface ObjCMetalView ()
+@interface ObjCMetalPlainView ()
 @property (nonatomic, readonly) id<MTLDevice> device;
 @end
 
 // MARK: - Implementation of ObjCMetalView
-@implementation ObjCMetalView
+@implementation ObjCMetalPlainView
 
 + (Class)layerClass {
     return [CAMetalLayer class];

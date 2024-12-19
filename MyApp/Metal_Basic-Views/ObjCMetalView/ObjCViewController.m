@@ -8,17 +8,11 @@
 //  ObjCViewController.m
 
 #import "ObjCViewController.h"
-#import "ObjCMetalView.h"
-
-//#if TARGET_OS_IOS
-//// No additional imports needed
-//#elif TARGET_OS_OSX
-//#import <QuartzCore/QuartzCore.h> // For CALayer
-//#endif
+#import "ObjCMetalPlainView.h"
 
 // MARK: - Interface of ObjCViewController
 @interface ObjCViewController ()
-@property (nonatomic, strong) ObjCMetalView *metalView;
+@property (nonatomic, strong) ObjCMetalPlainView *metalView;
 @end
 
 // MARK: -  Implementation of ObjCViewController
@@ -29,7 +23,7 @@
 
 #if TARGET_OS_IOS
     // Initialize the metal view
-    self.metalView = [[ObjCMetalView alloc] initWithFrame:self.view.bounds];
+    self.metalView = [[ObjCMetalPlainView alloc] initWithFrame:self.view.bounds];
 
     // Set autoresizingMask if not using Auto Layout
     self.metalView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -39,7 +33,7 @@
 
 #elif TARGET_OS_OSX
     // Initialize the metal view
-    self.metalView = [[ObjCMetalView alloc] initWithFrame:self.view.bounds];
+    self.metalView = [[ObjCMetalPlainView alloc] initWithFrame:self.view.bounds];
 
     // Set autoresizingMask if not using Auto Layout
     self.metalView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
