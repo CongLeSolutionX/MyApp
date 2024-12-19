@@ -14,7 +14,7 @@ import MetalKit
 // MARK: - A Plain Metal View
 /// Source: https://github.com/dehesa/sample-metal/blob/main/Metal%20By%20Example/Clear%20Screen/MetalView.swift
 /// Simple passthrough instance exposing the custom `NSView` containing the `CAMetalLayer`.
-struct NSMetalView: NSViewRepresentable {
+struct NSMetalPlainView: NSViewRepresentable {
   func makeNSView(context: Context) -> CAMetalPlainView {
     let device = MTLCreateSystemDefaultDevice()!
     let queue = device.makeCommandQueue()!.configure { $0.label = .identifier("queue")  }

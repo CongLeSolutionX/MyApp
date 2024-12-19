@@ -18,7 +18,7 @@ import Metal
 @MainActor final class CAMetal3DView: NSView {
   private let metalState: MetalState
 
-  init(device: any MTLDevice, renderer: (any Renderer)?) {
+  init(device: any MTLDevice, renderer: (any RendererFor3DView)?) {
     self.metalState = MetalState(device: device, renderer: renderer)!
     super.init(frame: .zero)
 
