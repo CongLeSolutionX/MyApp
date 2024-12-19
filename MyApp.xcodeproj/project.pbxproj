@@ -50,6 +50,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A90E1D82D13DD1C003EE66A /* ObjCMetalView */ = {
+			isa = PBXGroup;
+			children = (
+				9AE591F92D129B9C002C2B05 /* ObjCMetalView.h */,
+				9AE591F72D129B74002C2B05 /* ObjCMetalView.m */,
+				9AE591F62D129935002C2B05 /* ObjCViewController.h */,
+				9AE591F32D129925002C2B05 /* ObjCViewController.m */,
+			);
+			path = ObjCMetalView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -69,10 +80,6 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9AE591F92D129B9C002C2B05 /* ObjCMetalView.h */,
-				9AE591F72D129B74002C2B05 /* ObjCMetalView.m */,
-				9AE591F62D129935002C2B05 /* ObjCViewController.h */,
-				9AE591F32D129925002C2B05 /* ObjCViewController.m */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* iOS_UIKit_ViewControllerWrapper.swift */,
@@ -99,6 +106,7 @@
 			children = (
 				9AE591E72D125BE3002C2B05 /* MetalView.swift */,
 				9AE591E92D125BF0002C2B05 /* CAMetalView.swift */,
+				9A90E1D82D13DD1C003EE66A /* ObjCMetalView */,
 			);
 			path = "Metal_Basic-Views";
 			sourceTree = "<group>";
