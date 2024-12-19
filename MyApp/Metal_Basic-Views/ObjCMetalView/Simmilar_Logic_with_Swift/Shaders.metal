@@ -12,13 +12,32 @@ struct Vertex {
     float2 position [[attribute(0)]];
     float4 color [[attribute(1)]];
 };
+// MARK: - White color
+//vertex float4 vertexShader(
+//    uint vertexID [[vertex_id]],
+//    constant Vertex *vertices [[buffer(0)]]) {
+//    return float4(vertices[vertexID].position, 0.0, 1.0);
+//}
+//
+//fragment half4 fragmentShader() {
+//    return half4(1.0); // White color
+//}
 
-vertex float4 vertexShader(
+// MARK: - Colorful
+struct VertexOut {
+    float4 position [[position]];
+    float4 color;
+};
+
+vertex VertexOut vertexShader(
     uint vertexID [[vertex_id]],
     constant Vertex *vertices [[buffer(0)]]) {
-    return float4(vertices[vertexID].position, 0.0, 1.0);
+    VertexOut out;
+    out.position = float4(vertices[vertexID].position, 0.0, 1.0);
+    out.color = vertices[vertexID].color;
+    return out;
 }
 
-fragment half4 fragmentShader() {
-    return half4(1.0); // White color
+fragment half4 fragmentShader(VertexOut in [[stage_in]]) {
+    return half4(in.color);
 }
