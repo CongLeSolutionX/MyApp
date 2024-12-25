@@ -29,21 +29,28 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
-        
-        // Two Pointers
-        //demoTwoPointers()
-        demoTwoPointersDetails()
-        
-        // Islands - Matrix Tranversal
-        //demoIslands()
-        //demoIslandsDetails()
-        
-        // Sliding Window
-        //demoSlidingWindowAlgorithm()
-        //demoPrintOutallSubstringsWithKDistinctCharacters()
+      
+        demoSlidingWindowAlgorithmExample()
     }
     
     // MARK: - Sliding Window
+    
+    func demoSlidingWindowAlgorithmExample() {
+        
+        // Sliding Window - Example 1
+        demoSlidingWindowAlgorithm()
+        demoPrintOutallSubstringsWithKDistinctCharacters()
+        
+        // Sliding Window - Example 2
+        demoSlicingWindow3()
+        demoSlicingWindow3Details()
+        
+        // Sliding Window - Example 3
+        demoSlicingWindow2()
+        demoSlicingWindow2Details()
+    }
+    
+    // Sliding Window - Example 1
     func demoSlidingWindowAlgorithm() {
         let s = "araaci"
         let k = 2
@@ -116,10 +123,10 @@ class MyUIKitViewController: UIViewController {
         }
     }
     
-    // MARK: - Islands - Matrix Transerval
+    // Sliding Window - Example 2
     
     
-    func demoIslands() {
+    func demoSlicingWindow2() {
         
         // Example usage
         let arr = [2, 1, 5, 1, 3, 2]
@@ -128,7 +135,7 @@ class MyUIKitViewController: UIViewController {
         print("Maximum sum of subarray of size \(k) is \(maxSum)")
     }
     
-    func demoIslandsDetails() {
+    func demoSlicingWindow2Details() {
         
         // Example usage
         let arr = [2, 1, 5, 1, 3, 2]
@@ -178,9 +185,9 @@ class MyUIKitViewController: UIViewController {
     }
     
     
-    // MARK: - Two Pointers
+    // Sliding Window - - Example 3
     
-    func demoTwoPointers() {
+    func demoSlicingWindow3() {
         if let result = maxSumSubarray(ofSize: 3, in: [2, 1, 5, 1, 3, 2]) {
             print("Maximum sum of subarray of size 3 is \(result).")
         } else {
@@ -188,7 +195,7 @@ class MyUIKitViewController: UIViewController {
         }
     }
     
-    func demoTwoPointersDetails() {
+    func demoSlicingWindow3Details() {
         substrings(ofSize: 3, in: "abcdef")
     }
     
