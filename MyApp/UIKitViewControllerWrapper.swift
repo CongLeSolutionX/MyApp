@@ -30,8 +30,11 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
        
         
-        demoSlidingWindowAlgorithm()
-        demoPrintOutallSubstringsWithKDistinctCharacters()
+        demoIslands()
+        
+        // Sliding Window
+        //demoSlidingWindowAlgorithm()
+        //demoPrintOutallSubstringsWithKDistinctCharacters()
     }
     
     // MARK: - Sliding Window
@@ -105,5 +108,44 @@ class MyUIKitViewController: UIViewController {
                 print(String(s[startIdx...endIdx]))
             }
         }
+    }
+    
+    // MARK: - Islands - Matrix Transerval
+  
+    
+    func demoIslands() {
+        
+        // Example usage
+        let arr = [2, 1, 5, 1, 3, 2]
+        let k = 3
+        let maxSum = maxSumSubarray(arr: arr, k: k)
+        print("Maximum sum of subarray of size \(k) is \(maxSum)")
+    }
+    
+    func maxSumSubarray(arr: [Int], k: Int) -> Int {
+        // Handle edge cases
+        if arr.isEmpty || k <= 0 || k > arr.count {
+            return 0
+        }
+        
+        var maxSum = 0
+        var windowSum = 0
+        var windowStart = 0
+        
+        // Calculate initial window sum
+        for windowEnd in 0..<k {
+            windowSum += arr[windowEnd]
+        }
+        
+        maxSum = windowSum
+        
+        // Slide the window through the array
+        for windowEnd in k..<arr.count {
+            windowSum += arr[windowEnd] - arr[windowStart]
+            windowStart += 1
+            maxSum = max(maxSum, windowSum)
+        }
+        
+        return maxSum
     }
 }
