@@ -30,9 +30,10 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         
         
+        demoFastAndSlowPointersExample()
         
-        demoTwoPintersExample()
-        demoTwoPointersDetails()
+        //demoTwoPintersExample()
+        //demoTwoPointersDetails()
         
         
         //demoIslandsExample()
@@ -41,6 +42,62 @@ class MyUIKitViewController: UIViewController {
         
         //demoSlidingWindowAlgorithmExample()
     }
+    
+    
+    // MARK: - Fast and Slow Pointers
+    func demoFastAndSlowPointersExample() {
+        
+        // Example usage:
+        let head = ListNode(1)
+        head.next = ListNode(2)
+        head.next?.next = ListNode(3)
+        head.next?.next?.next = ListNode(4)
+        head.next?.next?.next?.next = ListNode(5)
+        head.next?.next?.next?.next?.next = head.next?.next  // Creates a cycle
+
+        if let cycleStart = detectCycle(head) {
+            print("Cycle starts at node with value: \(cycleStart.value)")
+        } else {
+            print("No cycle detected")
+        }
+    }
+    
+    
+    class ListNode {
+        var value: Int
+        var next: ListNode?
+
+        init(_ value: Int) {
+            self.value = value
+            self.next = nil
+        }
+    }
+
+    func detectCycle(_ head: ListNode?) -> ListNode? {
+        var slow = head
+        var fast = head
+
+        // Detect if a cycle exists
+        while fast != nil && fast?.next != nil {
+            slow = slow?.next
+            fast = fast?.next?.next
+
+            if slow === fast {
+                // A cycle is detected, now find the start of the cycle
+                var startPointer = head
+
+                while startPointer !== slow {
+                    startPointer = startPointer?.next
+                    slow = slow?.next
+                }
+
+                return startPointer // Cycle start found
+            }
+        }
+
+        return nil // No cycle
+    }
+
     
     // MARK: - Two Pointers
     
