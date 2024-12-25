@@ -29,7 +29,10 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
-        demoIslandsExample()
+        //demoIslandsExample()
+        demoIslandsDetails()
+        
+        
         //demoSlidingWindowAlgorithmExample()
     }
     
@@ -48,6 +51,13 @@ class MyUIKitViewController: UIViewController {
         
         let numberOfIslands = numIslands(grid)
         print("Number of Islands: \(numberOfIslands)")
+    }
+    
+    func demoIslandsDetails() {
+        
+        // Example usage:
+        let exampleString = "abc"
+        printAllSubstrings(of: exampleString)
     }
     
     func numIslands(_ grid: [[Character]]) -> Int {
@@ -91,7 +101,18 @@ class MyUIKitViewController: UIViewController {
         return islandCount
     }
     
-    
+    func printAllSubstrings(of input: String) {
+        let length = input.count
+        let characters = Array(input)
+        
+        for startIndex in 0..<length {
+            for endIndex in startIndex..<length {
+                let substring = String(characters[startIndex...endIndex])
+                print(substring)
+            }
+        }
+    }
+
     
     // MARK: - Sliding Window
     
