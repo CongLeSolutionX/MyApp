@@ -29,12 +29,51 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
+        
+        
+        demoTwoPintersExample()
+        
         //demoIslandsExample()
-        demoIslandsDetails()
+        //demoIslandsDetails()
         
         
         //demoSlidingWindowAlgorithmExample()
     }
+    
+    // MARK: - Two Pointers
+    
+    func demoTwoPintersExample() {
+        
+        // Example usage:
+        let inputArray = [-4, -1, 0, 3, 10]
+        let sortedSquaresArray = sortedSquares(inputArray)
+        print(sortedSquaresArray) // Output: [0, 1, 9, 16, 100]
+    }
+    
+    func sortedSquares(_ nums: [Int]) -> [Int] {
+        var left = 0
+        var right = nums.count - 1
+        var result = Array(repeating: 0, count: nums.count)
+        var position = nums.count - 1
+
+        while left <= right {
+            let leftSquare = nums[left] * nums[left]
+            let rightSquare = nums[right] * nums[right]
+
+            if leftSquare > rightSquare {
+                result[position] = leftSquare
+                left += 1
+            } else {
+                result[position] = rightSquare
+                right -= 1
+            }
+            position -= 1
+        }
+
+        return result
+    }
+
+    
     
     // MARK: - Islands - Matric Tranversal
     
