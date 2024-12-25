@@ -31,13 +31,13 @@ class MyUIKitViewController: UIViewController {
         
         // Fast and Slow Pointers
         // Run test cases
-        testCycleDetection()
+        //testCycleDetection()
         
         
-        //demoFastAndSlowPointersExample()
-        
-        //demoTwoPintersExample()
-        //demoTwoPointersDetails()
+    
+        // Two Pointers algorithm
+        demoTwoPointersExample()
+        demoTwoPointersDetails()
         
         
         //demoIslandsExample()
@@ -123,7 +123,7 @@ class MyUIKitViewController: UIViewController {
 
     // MARK: - Two Pointers
     
-    func demoTwoPintersExample() {
+    func demoTwoPointersExample() {
         
         // Example usage:
         let inputArray = [-4, -1, 0, 3, 10]
@@ -134,8 +134,8 @@ class MyUIKitViewController: UIViewController {
     func demoTwoPointersDetails() {
         
         // Example usage:
-        let inputString = "abc"
-        printAllSubstrings(inputString)
+        let inputArray = [-4, -1, 0, 3, 10]
+        let sortedSquaresArray = sortedSquaresDetails(inputArray)
     }
     
     func sortedSquares(_ nums: [Int]) -> [Int] {
@@ -161,16 +161,38 @@ class MyUIKitViewController: UIViewController {
         return result
     }
 
-    func printAllSubstrings(_ str: String) {
-        let characters = Array(str)
-        let n = characters.count
+    func sortedSquaresDetails(_ nums: [Int]) -> [Int] {
+        var left = 0
+        var right = nums.count - 1
+        var result = Array(repeating: 0, count: nums.count)
+        var position = nums.count - 1
 
-        for start in 0..<n {
-            for end in start..<n {
-                let substring = String(characters[start...end])
-                print(substring)
+        print("Initial Array: \(nums)")
+        print("Initial Result: \(result)")
+        
+        while left <= right {
+            let leftSquare = nums[left] * nums[left]
+            let rightSquare = nums[right] * nums[right]
+
+            print("Comparing: leftSquare \(leftSquare) at index \(left), rightSquare \(rightSquare) at index \(right)")
+
+            if leftSquare > rightSquare {
+                result[position] = leftSquare
+                print("Placing \(leftSquare) at result[\(position)]")
+                left += 1
+            } else {
+                result[position] = rightSquare
+                print("Placing \(rightSquare) at result[\(position)]")
+                right -= 1
             }
+            
+            position -= 1
+            print("Result so far: \(result)")
+            print("Left pointer at \(left), Right pointer at \(right)\n")
         }
+
+        print("Final Sorted Squares Array: \(result)")
+        return result
     }
     
     
