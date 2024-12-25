@@ -34,6 +34,7 @@ class MyUIKitViewController: UIViewController {
         demoPrintOutallSubstringsWithKDistinctCharacters()
     }
     
+    // MARK: - Sliding Window
     func demoSlidingWindowAlgorithm() {
         let s = "araaci"
         let k = 2
