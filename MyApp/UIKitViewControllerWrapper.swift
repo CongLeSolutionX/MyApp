@@ -29,8 +29,12 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
+        // Fast and Slow Pointers
+        // Run test cases
+        testCycleDetection()
         
-        demoFastAndSlowPointersExample()
+        
+        //demoFastAndSlowPointersExample()
         
         //demoTwoPintersExample()
         //demoTwoPointersDetails()
@@ -45,23 +49,6 @@ class MyUIKitViewController: UIViewController {
     
     
     // MARK: - Fast and Slow Pointers
-    func demoFastAndSlowPointersExample() {
-        
-        // Example usage:
-        let head = ListNode(1)
-        head.next = ListNode(2)
-        head.next?.next = ListNode(3)
-        head.next?.next?.next = ListNode(4)
-        head.next?.next?.next?.next = ListNode(5)
-        head.next?.next?.next?.next?.next = head.next?.next  // Creates a cycle
-
-        if let cycleStart = detectCycle(head) {
-            print("Cycle starts at node with value: \(cycleStart.value)")
-        } else {
-            print("No cycle detected")
-        }
-    }
-    
     
     class ListNode {
         var value: Int
@@ -73,17 +60,16 @@ class MyUIKitViewController: UIViewController {
         }
     }
 
-    func detectCycle(_ head: ListNode?) -> ListNode? {
+    func detectCycle(_ head: ListNode?) -> (hasCycle: Bool, cycleStart: ListNode?) {
         var slow = head
         var fast = head
 
-        // Detect if a cycle exists
         while fast != nil && fast?.next != nil {
             slow = slow?.next
             fast = fast?.next?.next
 
             if slow === fast {
-                // A cycle is detected, now find the start of the cycle
+                print("Cycle detected")
                 var startPointer = head
 
                 while startPointer !== slow {
@@ -91,14 +77,50 @@ class MyUIKitViewController: UIViewController {
                     slow = slow?.next
                 }
 
-                return startPointer // Cycle start found
+                print("Cycle starts at node with value: \(startPointer?.value ?? -1)")
+                return (true, startPointer)
             }
         }
 
-        return nil // No cycle
+        print("No cycle detected")
+        return (false, nil)
     }
 
-    
+    func testCycleDetection() {
+        // Test Case 1: List with a cycle
+        let head1 = ListNode(1)
+        head1.next = ListNode(2)
+        head1.next?.next = ListNode(3)
+        head1.next?.next?.next = ListNode(4)
+        head1.next?.next?.next?.next = ListNode(5)
+        head1.next?.next?.next?.next?.next = head1.next?.next // Creates a cycle at node 3
+
+        print("Test Case 1:")
+        _ = detectCycle(head1)
+
+        // Test Case 2: List without a cycle
+        let head2 = ListNode(1)
+        head2.next = ListNode(2)
+        head2.next?.next = ListNode(3)
+
+        print("\nTest Case 2:")
+        _ = detectCycle(head2)
+
+        // Test Case 3: Single node, no cycle
+        let head3 = ListNode(1)
+
+        print("\nTest Case 3:")
+        _ = detectCycle(head3)
+
+        // Test Case 4: Single node, self-cycle
+        let head4 = ListNode(1)
+        head4.next = head4 // Creates a cycle with itself
+
+        print("\nTest Case 4:")
+        _ = detectCycle(head4)
+    }
+
+
     // MARK: - Two Pointers
     
     func demoTwoPintersExample() {
