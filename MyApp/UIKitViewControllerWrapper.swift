@@ -32,6 +32,8 @@ class MyUIKitViewController: UIViewController {
         
         
         demoTwoPintersExample()
+        demoTwoPointersDetails()
+        
         
         //demoIslandsExample()
         //demoIslandsDetails()
@@ -48,6 +50,13 @@ class MyUIKitViewController: UIViewController {
         let inputArray = [-4, -1, 0, 3, 10]
         let sortedSquaresArray = sortedSquares(inputArray)
         print(sortedSquaresArray) // Output: [0, 1, 9, 16, 100]
+    }
+    
+    func demoTwoPointersDetails() {
+        
+        // Example usage:
+        let inputString = "abc"
+        printAllSubstrings(inputString)
     }
     
     func sortedSquares(_ nums: [Int]) -> [Int] {
@@ -73,6 +82,17 @@ class MyUIKitViewController: UIViewController {
         return result
     }
 
+    func printAllSubstrings(_ str: String) {
+        let characters = Array(str)
+        let n = characters.count
+
+        for start in 0..<n {
+            for end in start..<n {
+                let substring = String(characters[start...end])
+                print(substring)
+            }
+        }
+    }
     
     
     // MARK: - Islands - Matric Tranversal
