@@ -36,12 +36,12 @@ class MyUIKitViewController: UIViewController {
         
     
         // Two Pointers algorithm
-        demoTwoPointersExample()
-        demoTwoPointersDetails()
+        //demoTwoPointersExample()
+        //demoTwoPointersDetails()
         
-        
-        //demoIslandsExample()
-        //demoIslandsDetails()
+        // Island - Matrix Traversal algorithm
+        demoIslandsExample()
+        demoIslandsExampleDetail()
         
         
         //demoSlidingWindowAlgorithmExample()
@@ -135,7 +135,7 @@ class MyUIKitViewController: UIViewController {
         
         // Example usage:
         let inputArray = [-4, -1, 0, 3, 10]
-        let sortedSquaresArray = sortedSquaresDetails(inputArray)
+        _ = sortedSquaresDetails(inputArray)
     }
     
     func sortedSquares(_ nums: [Int]) -> [Int] {
@@ -213,12 +213,21 @@ class MyUIKitViewController: UIViewController {
         print("Number of Islands: \(numberOfIslands)")
     }
     
-    func demoIslandsDetails() {
+    func demoIslandsExampleDetail() {
         
         // Example usage:
-        let exampleString = "abc"
-        printAllSubstrings(of: exampleString)
+        let grid: [[Character]] = [
+            ["1", "1", "1", "0", "0"],
+            ["0", "1", "0", "0", "1"],
+            ["0", "0", "1", "1", "0"],
+            ["0", "0", "1", "0", "0"],
+            ["0", "1", "0", "0", "0"]
+        ]
+
+        let numberOfIslands = numIslandsDetail(grid)
+        print("Number of Islands: \(numberOfIslands)")
     }
+    
     
     func numIslands(_ grid: [[Character]]) -> Int {
         if grid.isEmpty { return 0 }
@@ -261,18 +270,51 @@ class MyUIKitViewController: UIViewController {
         return islandCount
     }
     
-    func printAllSubstrings(of input: String) {
-        let length = input.count
-        let characters = Array(input)
+ 
+    func numIslandsDetail(_ grid: [[Character]]) -> Int {
+        if grid.isEmpty { return 0 }
         
-        for startIndex in 0..<length {
-            for endIndex in startIndex..<length {
-                let substring = String(characters[startIndex...endIndex])
-                print(substring)
+        var grid = grid
+        let rows = grid.count
+        let cols = grid[0].count
+        var islandCount = 0
+        
+        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        func bfs(_ r: Int, _ c: Int) {
+            var queue: [(Int, Int)] = [(r, c)]
+            grid[r][c] = "0"
+            print("Starting BFS at (\(r), \(c))")
+            
+            while !queue.isEmpty {
+                let (row, col) = queue.removeFirst()
+                print("Visiting (\(row), \(col))")
+                
+                for direction in directions {
+                    let newRow = row + direction.0
+                    let newCol = col + direction.1
+                    
+                    if newRow >= 0, newRow < rows, newCol >= 0, newCol < cols, grid[newRow][newCol] == "1" {
+                        queue.append((newRow, newCol))
+                        grid[newRow][newCol] = "0"
+                        print("Found connected land at (\(newRow), \(newCol)), marking as visited and adding to queue")
+                    }
+                }
             }
         }
+        
+        for r in 0..<rows {
+            for c in 0..<cols {
+                if grid[r][c] == "1" {
+                    islandCount += 1
+                    print("Island \(islandCount) starting at (\(r), \(c))")
+                    bfs(r, c)
+                }
+            }
+        }
+        
+        return islandCount
     }
-
     
     // MARK: - Sliding Window
     
