@@ -30,9 +30,13 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         
         
+        // Two Pointers
+        //demoTwoPointers()
+        demoTwoPointersDetails()
+        
         // Islands - Matrix Tranversal
-        demoIslands()
-        demoIslandsDetails()
+        //demoIslands()
+        //demoIslandsDetails()
         
         // Sliding Window
         //demoSlidingWindowAlgorithm()
@@ -170,6 +174,57 @@ class MyUIKitViewController: UIViewController {
         for start in 0...(arr.count - k) {
             let subarray = arr[start..<(start + k)]
             print(Array(subarray))
+        }
+    }
+    
+    
+    // MARK: - Two Pointers
+    
+    func demoTwoPointers() {
+        if let result = maxSumSubarray(ofSize: 3, in: [2, 1, 5, 1, 3, 2]) {
+            print("Maximum sum of subarray of size 3 is \(result).")
+        } else {
+            print("The array is smaller than the subarray size.")
+        }
+    }
+    
+    func demoTwoPointersDetails() {
+        substrings(ofSize: 3, in: "abcdef")
+    }
+    
+    func maxSumSubarray(ofSize k: Int, in array: [Int]) -> Int? {
+        guard array.count >= k else { return nil }
+        
+        var maxSum = 0
+        var windowSum = 0
+        
+        // Calculate the sum of the first window
+        for i in 0..<k {
+            windowSum += array[i]
+        }
+        
+        maxSum = windowSum
+        
+        // Slide the window across the array
+        for i in k..<array.count {
+            windowSum += array[i] - array[i - k]
+            maxSum = max(maxSum, windowSum)
+        }
+        
+        return maxSum
+    }
+    
+    func substrings(ofSize k: Int, in str: String) {
+        guard str.count >= k else {
+            print("The string is smaller than the substring size.")
+            return
+        }
+
+        let characters = Array(str)
+
+        for i in 0...(characters.count - k) {
+            let substring = characters[i..<(i + k)]
+            print(String(substring))
         }
     }
 }
