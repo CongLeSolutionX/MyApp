@@ -29,9 +29,69 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         
-      
-        demoSlidingWindowAlgorithmExample()
+        demoIslandsExample()
+        //demoSlidingWindowAlgorithmExample()
     }
+    
+    // MARK: - Islands - Matric Tranversal
+    
+    func demoIslandsExample() {
+        
+        // Example usage:
+        let grid: [[Character]] = [
+            ["1", "1", "1", "0", "0"],
+            ["0", "1", "0", "0", "1"],
+            ["0", "0", "1", "1", "0"],
+            ["0", "0", "1", "0", "0"],
+            ["0", "1", "0", "0", "0"]
+        ]
+        
+        let numberOfIslands = numIslands(grid)
+        print("Number of Islands: \(numberOfIslands)")
+    }
+    
+    func numIslands(_ grid: [[Character]]) -> Int {
+        if grid.isEmpty { return 0 }
+        
+        var grid = grid
+        let rows = grid.count
+        let cols = grid[0].count
+        var islandCount = 0
+        
+        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        func bfs(_ r: Int, _ c: Int) {
+            var queue: [(Int, Int)] = [(r, c)]
+            grid[r][c] = "0"
+            
+            while !queue.isEmpty {
+                let (row, col) = queue.removeFirst()
+                
+                for direction in directions {
+                    let newRow = row + direction.0
+                    let newCol = col + direction.1
+                    
+                    if newRow >= 0, newRow < rows, newCol >= 0, newCol < cols, grid[newRow][newCol] == "1" {
+                        queue.append((newRow, newCol))
+                        grid[newRow][newCol] = "0"
+                    }
+                }
+            }
+        }
+        
+        for r in 0..<rows {
+            for c in 0..<cols {
+                if grid[r][c] == "1" {
+                    islandCount += 1
+                    bfs(r, c)
+                }
+            }
+        }
+        
+        return islandCount
+    }
+    
+    
     
     // MARK: - Sliding Window
     
@@ -226,9 +286,9 @@ class MyUIKitViewController: UIViewController {
             print("The string is smaller than the substring size.")
             return
         }
-
+        
         let characters = Array(str)
-
+        
         for i in 0...(characters.count - k) {
             let substring = characters[i..<(i + k)]
             print(String(substring))
