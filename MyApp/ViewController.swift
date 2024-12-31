@@ -164,6 +164,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 displayAsciiArt(asciiArt)
                 busyView.isHidden = true
             }
+            print(asciiArt)
         }
     }
 
