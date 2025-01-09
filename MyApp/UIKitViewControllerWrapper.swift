@@ -23,12 +23,16 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     }
 }
 
+
+
 // Example UIKit view controller
 class MyUIKitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
-        demoComprehensiveSwiftInitializer()
+//        demoComprehensiveSwiftInitializer()
+        
+        demoCalculation()
     }
     
     func demoComprehensiveSwiftInitializer() {
@@ -46,6 +50,15 @@ class MyUIKitViewController: UIViewController {
         print(specialProduct ?? "No special price")
         print(productFromRawData)
         print(discountedProduct)
+
+    }
+    
+    func demoCalculation() {
+        
+        let myCalculation = Calculation(initialValue: 5)
+        // Output:
+        // Phase 1: Initial value set for 'value' to 5
+        // Phase 2: Calculated 'result' based on 'value', result is 10
 
     }
 }
@@ -112,3 +125,48 @@ class DiscountedProduct: Product {
         super.init(name: name, price: price, description: description)
     }
 }
+
+// MARK: - Calculation Example
+class Calculation {
+    var value: Int
+    var result: Int
+
+    init(initialValue: Int) {
+        // Phase 1: Initialization of All Stored Properties
+
+        // Initialize 'value' - a stored property of this class.
+        self.value = initialValue
+        print("Phase 1: Initial value set for 'value' to \(value)")
+
+        // Initialize 'result' - another stored property of this class.
+        // We need to give it an initial value before we can use 'self'
+        // to call methods that might rely on it.
+        self.result = 0 // Provide a default initial value
+        print("Phase 1: Initial (placeholder) value set for 'result' to \(result)")
+
+        // At this point, if 'Calculation' had a superclass,
+        // the superclass's designated initializer would be called
+        // implicitly by Swift before Phase 2 begins for this class.
+
+        // Phase 2: Customization and Further Setup
+
+        // Now that all stored properties of this class ('value' and 'result')
+        // and its superclass (if any) have been initialized with a value,
+        // we can perform further customization and calculations.
+
+        // Perform a calculation based on the initialized 'value'.
+        // It's now safe to call 'calculateResult' because 'result' has
+        // been initialized (even with a placeholder).
+        let calculatedResult = calculateResult()
+        self.result = calculatedResult // Assign the calculated value
+        print("Phase 2: Calculated 'result' based on 'value', result updated to \(result)")
+
+        // You can perform other setup tasks here, knowing that
+        // all stored properties have their initial values.
+    }
+
+    func calculateResult() -> Int {
+        return value * 2
+    }
+}
+
