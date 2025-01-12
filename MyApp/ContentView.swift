@@ -24,5 +24,9 @@ struct UIKitViewControllerWrapper_Previews: PreviewProvider {
 
 // After iOS 17, we can use this syntax for preview:
 #Preview {
-    ContentView()
+    //ContentView()
+    
+    @Previewable @StateObject var appCoordinator = AppCoordinator()
+    AppContentView()
+        .environmentObject(appCoordinator)
 }
