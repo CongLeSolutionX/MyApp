@@ -6,14 +6,25 @@
 //
 
 import SwiftUI
+//
+//// Step 3: Embed in main app structure
+//@main
+//struct MyAppApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}
 
-// Step 3: Embed in main app structure
 @main
-struct MyAppApp: App {
+struct CustomCoordinatorApp: App {
+    @StateObject private var appCoordinator = AppCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            HomeView(coordinator: .init())
-            //ContentView()
+            AppContentView()
+                .environmentObject(appCoordinator)
         }
     }
 }
