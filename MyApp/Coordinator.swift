@@ -112,7 +112,7 @@ struct User: Hashable {
 
 // MARK: - AppContentView
 struct AppContentView: View {
-    @EnvironmentObject var appCoordinator: AppCoordinator
+    @StateObject var appCoordinator = AppCoordinator() // Use StateObject at the top level
 
     var body: some View {
         NavigationStack(path: $appCoordinator.navigationPath) {
@@ -122,8 +122,8 @@ struct AppContentView: View {
                     switch page {
                     case .home:
                         HomeView()
+                            .environmentObject(appCoordinator)
                     case .settings:
-                        // Inject the settingsCoordinator here
                         if let settingsCoordinator = appCoordinator.settingsCoordinator {
                             SettingsView()
                                 .environmentObject(settingsCoordinator)
@@ -143,11 +143,14 @@ struct AppContentView: View {
                         }
                     case .privacy:
                         PrivacySettingsView()
+                            .environmentObject(appCoordinator.settingsCoordinator!) // Ensure it's not nil
                     case .notifications:
                         NotificationSettingsView()
+                            .environmentObject(appCoordinator.settingsCoordinator!) // Ensure it's not nil
                     }
                 }
         }
+        .environmentObject(appCoordinator) // Provide the coordinator to the hierarchy
         .onAppear {
             appCoordinator.start()
         }
