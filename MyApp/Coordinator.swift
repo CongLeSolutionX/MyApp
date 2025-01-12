@@ -4,8 +4,12 @@
 //
 //  Created by Cong Le on 1/11/25.
 //
+//
+//  MyApp
+//
+//  Created by Cong Le on 1/11/25.
+//
 import SwiftUI
-
 
 // MARK: - Coordinator
 protocol Coordinator: AnyObject {
@@ -26,12 +30,11 @@ extension Coordinator {
     }
 }
 
-
 // MARK: - AppCoordinator
 class AppCoordinator: ObservableObject, Coordinator {
     @Published var navigationPath = NavigationPath()
     @Published var settingsCoordinator: SettingsCoordinator?
-    
+
     // Computed property to provide a Binding to navigationPath
     var navigationBinding: Binding<NavigationPath> {
         Binding(
@@ -39,16 +42,16 @@ class AppCoordinator: ObservableObject, Coordinator {
             set: { self.navigationPath = $0 }
         )
     }
-    
+
     func start() {
         // Start with the Home page
         push(AppPage.home)
     }
-    
+
     func push<T: Hashable>(_ page: T) {
         navigationPath.append(page)
     }
-    
+
     enum AppPage: Hashable {
         case home
         case settings
@@ -56,40 +59,39 @@ class AppCoordinator: ObservableObject, Coordinator {
         case productDetail(product: Product)
         // Add other pages as needed
     }
-    
+
     // Example functions to handle specific navigation actions
     func showSettings() {
         settingsCoordinator = SettingsCoordinator(navigationPath: navigationBinding)
         settingsCoordinator?.start()
     }
-    
+
     func showProfile(for userID: Int) {
         push(AppPage.profile(userID: userID))
     }
-    
+
     func showProductDetail(for productID: Int) {
         let product = Product(id: productID, name: "Sample Product")
         push(AppPage.productDetail(product: product))
     }
 }
 
-
 // MARK: - SettingsCoordinator
 class SettingsCoordinator: ObservableObject, Coordinator {
     @Binding var navigationPath: NavigationPath
-    
+
     init(navigationPath: Binding<NavigationPath>) {
         self._navigationPath = navigationPath
     }
-    
+
     func start() {
         push(SettingsPage.main)
     }
-    
+
     func push<T: Hashable>(_ page: T) {
         navigationPath.append(page)
     }
-    
+
     enum SettingsPage: Hashable {
         case main
         case privacy
@@ -97,7 +99,6 @@ class SettingsCoordinator: ObservableObject, Coordinator {
         // Add other settings pages as needed
     }
 }
-
 
 struct Product: Hashable {
     let id: Int
@@ -112,7 +113,7 @@ struct User: Hashable {
 // MARK: - AppContentView
 struct AppContentView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
-    
+
     var body: some View {
         NavigationStack(path: $appCoordinator.navigationPath) {
             HomeView()
@@ -122,12 +123,28 @@ struct AppContentView: View {
                     case .home:
                         HomeView()
                     case .settings:
-                        SettingsView()
-                            .environmentObject(appCoordinator)
+                        // Inject the settingsCoordinator here
+                        if let settingsCoordinator = appCoordinator.settingsCoordinator {
+                            SettingsView()
+                                .environmentObject(settingsCoordinator)
+                        }
                     case .profile(let userID):
                         ProfileView(userID: userID)
                     case .productDetail(let product):
                         ProductDetailView(product: product)
+                    }
+                }
+                .navigationDestination(for: SettingsCoordinator.SettingsPage.self) { page in
+                    switch page {
+                    case .main:
+                        if let settingsCoordinator = appCoordinator.settingsCoordinator {
+                            SettingsView()
+                                .environmentObject(settingsCoordinator)
+                        }
+                    case .privacy:
+                        PrivacySettingsView()
+                    case .notifications:
+                        NotificationSettingsView()
                     }
                 }
         }
@@ -143,22 +160,22 @@ struct AppContentView: View {
 // MARK: - HomeView
 struct HomeView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Home View")
                 .font(.largeTitle)
-            
+
             Button("Go to Settings") {
                 appCoordinator.showSettings()
             }
             .buttonStyle(PrimaryButtonStyle())
-            
+
             Button("View Profile") {
                 appCoordinator.showProfile(for: 42) // Example user ID
             }
             .buttonStyle(PrimaryButtonStyle())
-            
+
             Button("View Product Detail") {
                 appCoordinator.showProductDetail(for: 101) // Example product ID
             }
@@ -172,41 +189,33 @@ struct HomeView: View {
 
 // MARK: - SettingsView
 struct SettingsView: View {
-    @EnvironmentObject var appCoordinator: AppCoordinator
-    
+    @EnvironmentObject var settingsCoordinator: SettingsCoordinator // Now using SettingsCoordinator
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Settings")
                 .font(.largeTitle)
-            
+
             Button("Privacy Settings") {
-                appCoordinator.settingsCoordinator?.push(SettingsCoordinator.SettingsPage.privacy)
+                settingsCoordinator.push(SettingsCoordinator.SettingsPage.privacy)
             }
             .buttonStyle(PrimaryButtonStyle())
-            
+
             Button("Notification Settings") {
-                appCoordinator.settingsCoordinator?.push(SettingsCoordinator.SettingsPage.notifications)
+                settingsCoordinator.push(SettingsCoordinator.SettingsPage.notifications)
             }
             .buttonStyle(PrimaryButtonStyle())
-        }
-        .navigationDestination(for: SettingsCoordinator.SettingsPage.self) { page in
-            switch page {
-            case .main:
-                SettingsView()
-            case .privacy:
-                PrivacySettingsView()
-            case .notifications:
-                NotificationSettingsView()
-            }
         }
         .padding()
+        .navigationTitle("Settings") // Add a title for SettingsView
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 // MARK: - ProfileView
 struct ProfileView: View {
     let userID: Int
-    
+
     var body: some View {
         VStack {
             Text("Profile View")
@@ -220,7 +229,7 @@ struct ProfileView: View {
 // MARK: - ProductDetailView
 struct ProductDetailView: View {
     let product: Product
-    
+
     var body: some View {
         VStack {
             Text("Product Detail")
@@ -241,6 +250,8 @@ struct PrivacySettingsView: View {
             // Privacy settings content goes here
         }
         .padding()
+        .navigationTitle("Privacy Settings") // Add a title
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -253,13 +264,15 @@ struct NotificationSettingsView: View {
             // Notification settings content goes here
         }
         .padding()
+        .navigationTitle("Notification Settings") // Add a title
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 //MARK: - PrimaryButtonStyle
 struct PrimaryButtonStyle: ButtonStyle {
     var backgroundColor: Color = .blue
-    
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity)
