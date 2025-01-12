@@ -28,6 +28,14 @@ class AppCoordinator: ObservableObject, Coordinator {
     @Published var navigationPath = NavigationPath()
     @Published var settingsCoordinator: SettingsCoordinator?
     
+    // Computed property to provide a Binding to navigationPath
+    var navigationBinding: Binding<NavigationPath> {
+        Binding(
+            get: { self.navigationPath },
+            set: { self.navigationPath = $0 }
+        )
+    }
+    
     func start() {
         // Start with the Home page
         push(AppPage.home)
@@ -47,7 +55,7 @@ class AppCoordinator: ObservableObject, Coordinator {
     
     // Example functions to handle specific navigation actions
     func showSettings() {
-        settingsCoordinator = SettingsCoordinator(navigationPath: $navigationPath)
+        settingsCoordinator = SettingsCoordinator(navigationPath: navigationBinding)
         settingsCoordinator?.start()
     }
     
