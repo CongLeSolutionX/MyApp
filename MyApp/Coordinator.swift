@@ -6,6 +6,8 @@
 //
 import SwiftUI
 
+
+// MARK: - Coordinator
 protocol Coordinator: AnyObject {
     var navigationPath: NavigationPath { get set }
     func start()
@@ -24,6 +26,8 @@ extension Coordinator {
     }
 }
 
+
+// MARK: - AppCoordinator
 class AppCoordinator: ObservableObject, Coordinator {
     @Published var navigationPath = NavigationPath()
     @Published var settingsCoordinator: SettingsCoordinator?
@@ -70,6 +74,7 @@ class AppCoordinator: ObservableObject, Coordinator {
 }
 
 
+// MARK: - SettingsCoordinator
 class SettingsCoordinator: ObservableObject, Coordinator {
     @Binding var navigationPath: NavigationPath
     
@@ -104,6 +109,7 @@ struct User: Hashable {
     let name: String
 }
 
+// MARK: - AppContentView
 struct AppContentView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     
@@ -134,6 +140,7 @@ struct AppContentView: View {
     }
 }
 
+// MARK: - HomeView
 struct HomeView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     
@@ -163,6 +170,7 @@ struct HomeView: View {
     }
 }
 
+// MARK: - SettingsView
 struct SettingsView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     
@@ -195,7 +203,7 @@ struct SettingsView: View {
     }
 }
 
-
+// MARK: - ProfileView
 struct ProfileView: View {
     let userID: Int
     
@@ -209,7 +217,7 @@ struct ProfileView: View {
     }
 }
 
-
+// MARK: - ProductDetailView
 struct ProductDetailView: View {
     let product: Product
     
@@ -224,7 +232,7 @@ struct ProductDetailView: View {
     }
 }
 
-
+// MARK: - PrivacySettingsView
 struct PrivacySettingsView: View {
     var body: some View {
         VStack {
@@ -236,6 +244,7 @@ struct PrivacySettingsView: View {
     }
 }
 
+// MARK: - NotificationSettingsView
 struct NotificationSettingsView: View {
     var body: some View {
         VStack {
@@ -247,6 +256,7 @@ struct NotificationSettingsView: View {
     }
 }
 
+//MARK: - PrimaryButtonStyle
 struct PrimaryButtonStyle: ButtonStyle {
     var backgroundColor: Color = .blue
     
