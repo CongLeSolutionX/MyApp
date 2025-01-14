@@ -112,15 +112,17 @@ struct User: Hashable {
 
 // MARK: - AppContentView
 struct AppContentView: View {
-    @StateObject var appCoordinator = AppCoordinator() // Use StateObject at the top level
+    @StateObject var appCoordinator = AppCoordinator()
 
     var body: some View {
         NavigationStack(path: $appCoordinator.navigationPath) {
+            // Initial view when the NavigationStack is created
             HomeView()
                 .environmentObject(appCoordinator)
                 .navigationDestination(for: AppCoordinator.AppPage.self) { page in
                     switch page {
                     case .home:
+                        // Re-provide HomeView, though it's already the root
                         HomeView()
                             .environmentObject(appCoordinator)
                     case .settings:
@@ -143,17 +145,12 @@ struct AppContentView: View {
                         }
                     case .privacy:
                         PrivacySettingsView()
-                            .environmentObject(appCoordinator.settingsCoordinator!) // Ensure it's not nil
                     case .notifications:
                         NotificationSettingsView()
-                            .environmentObject(appCoordinator.settingsCoordinator!) // Ensure it's not nil
                     }
                 }
         }
-        .environmentObject(appCoordinator) // Provide the coordinator to the hierarchy
-        .onAppear {
-            appCoordinator.start()
-        }
+        .environmentObject(appCoordinator)
         .onOpenURL { url in
             appCoordinator.handleDeepLink(url)
         }
