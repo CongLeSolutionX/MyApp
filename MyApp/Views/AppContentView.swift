@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
-
 struct AppContentView: View {
     @StateObject var appCoordinator = AppCoordinator()
-
+    
     var body: some View {
         NavigationStack(path: $appCoordinator.navigationPath) {
-            // Initial view when the NavigationStack is created
-            HomeView()
-                .environmentObject(appCoordinator)
+            Color.clear // An invisible, empty view as your temporary departure point
+                .onAppear {
+                    if appCoordinator.navigationPath.isEmpty {
+                        appCoordinator.push(AppCoordinator.AppPage.home)
+                    }
+                }
                 .navigationDestination(for: AppCoordinator.AppPage.self) { page in
                     switch page {
                     case .home:
-                        // Re-provide HomeView, though it's already the root
                         HomeView()
                             .environmentObject(appCoordinator)
                     case .settings:
