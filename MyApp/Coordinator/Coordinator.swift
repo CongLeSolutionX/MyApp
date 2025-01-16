@@ -3,12 +3,7 @@
 //  MyApp
 //
 //  Created by Cong Le on 1/11/25.
-//
-//
-//  MyApp
-//
-//  Created by Cong Le on 1/11/25.
-//
+
 import SwiftUI
 
 // MARK: - Coordinator
