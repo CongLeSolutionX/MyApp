@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2E0F602D38E37100BFC580 /* AppContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F5F2D38E37000BFC580 /* AppContentView.swift */; };
+		9A2E0F622D38E38F00BFC580 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F612D38E38F00BFC580 /* SettingsView.swift */; };
+		9A2E0F642D38E40700BFC580 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F632D38E40700BFC580 /* SettingsCoordinator.swift */; };
+		9A2E0F662D38E44F00BFC580 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F652D38E44E00BFC580 /* ProfileView.swift */; };
+		9A2E0F682D38E47F00BFC580 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F672D38E47D00BFC580 /* ProductDetailView.swift */; };
+		9A2E0F6A2D38E49600BFC580 /* PrivacySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F692D38E49500BFC580 /* PrivacySettingsView.swift */; };
+		9A2E0F6C2D38E4AB00BFC580 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F6B2D38E4AA00BFC580 /* NotificationSettingsView.swift */; };
+		9A2E0F6E2D38E4C200BFC580 /* PrimaryButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F6D2D38E4C100BFC580 /* PrimaryButtonStyle.swift */; };
+		9A2E0F712D38E4FA00BFC580 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F702D38E4F600BFC580 /* Product.swift */; };
+		9A2E0F732D38E51A00BFC580 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2E0F722D38E51800BFC580 /* User.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -18,6 +28,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A2E0F5F2D38E37000BFC580 /* AppContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContentView.swift; sourceTree = "<group>"; };
+		9A2E0F612D38E38F00BFC580 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9A2E0F632D38E40700BFC580 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		9A2E0F652D38E44E00BFC580 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		9A2E0F672D38E47D00BFC580 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		9A2E0F692D38E49500BFC580 /* PrivacySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsView.swift; sourceTree = "<group>"; };
+		9A2E0F6B2D38E4AA00BFC580 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		9A2E0F6D2D38E4C100BFC580 /* PrimaryButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonStyle.swift; sourceTree = "<group>"; };
+		9A2E0F702D38E4F600BFC580 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		9A2E0F722D38E51800BFC580 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -41,6 +61,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A2E0F6F2D38E4F000BFC580 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9A2E0F722D38E51800BFC580 /* User.swift */,
+				9A2E0F702D38E4F600BFC580 /* Product.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9A2E0F742D38F2BA00BFC580 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9A2E0F652D38E44E00BFC580 /* ProfileView.swift */,
+				9AC99F062D338D230057721C /* HomeView.swift */,
+				9A2E0F5F2D38E37000BFC580 /* AppContentView.swift */,
+				9A2E0F612D38E38F00BFC580 /* SettingsView.swift */,
+				9A2E0F672D38E47D00BFC580 /* ProductDetailView.swift */,
+				9A2E0F6B2D38E4AA00BFC580 /* NotificationSettingsView.swift */,
+				9A2E0F692D38E49500BFC580 /* PrivacySettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9A2E0F752D38F2DA00BFC580 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				9AC99F022D338CEC0057721C /* Coordinator.swift */,
+				9AC99F042D338D080057721C /* AppCoordinator.swift */,
+				9A2E0F632D38E40700BFC580 /* SettingsCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -60,12 +113,13 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A2E0F752D38F2DA00BFC580 /* Coordinator */,
+				9A2E0F742D38F2BA00BFC580 /* Views */,
+				9A2E0F6F2D38E4F000BFC580 /* Models */,
+				9A2E0F6D2D38E4C100BFC580 /* PrimaryButtonStyle.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9AC99F022D338CEC0057721C /* Coordinator.swift */,
-				9AC99F062D338D230057721C /* HomeView.swift */,
-				9AC99F042D338D080057721C /* AppCoordinator.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -151,11 +205,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2E0F6E2D38E4C200BFC580 /* PrimaryButtonStyle.swift in Sources */,
 				9AC99F032D338CF00057721C /* Coordinator.swift in Sources */,
+				9A2E0F712D38E4FA00BFC580 /* Product.swift in Sources */,
+				9A2E0F622D38E38F00BFC580 /* SettingsView.swift in Sources */,
+				9A2E0F732D38E51A00BFC580 /* User.swift in Sources */,
+				9A2E0F6A2D38E49600BFC580 /* PrivacySettingsView.swift in Sources */,
+				9A2E0F682D38E47F00BFC580 /* ProductDetailView.swift in Sources */,
+				9A2E0F662D38E44F00BFC580 /* ProfileView.swift in Sources */,
+				9A2E0F602D38E37100BFC580 /* AppContentView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A2E0F642D38E40700BFC580 /* SettingsCoordinator.swift in Sources */,
 				9AC99F052D338D080057721C /* AppCoordinator.swift in Sources */,
 				9AC99F072D338D240057721C /* HomeView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A2E0F6C2D38E4AB00BFC580 /* NotificationSettingsView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
