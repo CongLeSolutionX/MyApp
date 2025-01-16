@@ -8,33 +8,18 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var settingsCoordinator: SettingsCoordinator
+    @ObservedObject var settingsCoordinator = SettingsCoordinator()
 
     var body: some View {
-        NavigationStack(path: $settingsCoordinator.navigationPath) {
-            VStack(spacing: 20) {
-                Text("Settings")
-                    .font(.largeTitle)
-
-                Button("Privacy Settings") {
-                    settingsCoordinator.push(.privacy)
-                }
-
-                Button("Notification Settings") {
-                    settingsCoordinator.push(.notifications)
-                }
+        List {
+            NavigationLink(destination: settingsCoordinator.showPrivacySettings()) {
+                Text("Privacy Settings")
             }
-            .padding()
-            .navigationDestination(for: SettingsCoordinator.SettingsPage.self) { page in
-                switch page {
-                case .privacy:
-                    PrivacySettingsView()
-                case .notifications:
-                    NotificationSettingsView()
-                }
+            NavigationLink(destination: settingsCoordinator.showNotificationSettings()) {
+                Text("Notification Settings")
             }
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

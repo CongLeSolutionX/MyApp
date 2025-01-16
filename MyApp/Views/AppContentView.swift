@@ -14,22 +14,22 @@ struct AppContentView: View {
         NavigationStack(path: $appCoordinator.navigationPath) {
             HomeView()
                 .environmentObject(appCoordinator)
-                .navigationDestination(for: AppCoordinator.AppPage.self) { page in
-                    switch page {
+                .navigationDestination(for: AppRoute.self) { route in
+                    switch route {
                     case .home:
                         HomeView()
                             .environmentObject(appCoordinator)
-                    case .settings:
-                        if let settingsCoordinator = appCoordinator.settingsCoordinator {
-                            SettingsView()
-                                .environmentObject(settingsCoordinator)
-                        } else {
-                            Text("Settings not available")
-                        }
                     case .profile(let userID):
                         ProfileView(userID: userID)
                     case .productDetail(let product):
                         ProductDetailView(product: product)
+                    case .settings:
+                        SettingsView()
+                            .environmentObject(appCoordinator)
+                    case .privacySettings:
+                        PrivacySettingsView()
+                    case .notificationSettings:
+                        NotificationSettingsView()
                     }
                 }
         }

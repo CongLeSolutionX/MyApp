@@ -6,25 +6,18 @@
 //
 
 import SwiftUI
-class SettingsCoordinator: ObservableObject {
-    @Published var navigationPath: [SettingsPage] = []
 
-    enum SettingsPage: Hashable {
+class SettingsCoordinator: ObservableObject {
+    enum SettingsRoute: Hashable {
         case privacy
         case notifications
     }
 
-    func push(_ page: SettingsPage) {
-        navigationPath.append(page)
+    func showPrivacySettings() -> AnyView {
+        AnyView(PrivacySettingsView())
     }
 
-    func pop() {
-        if !navigationPath.isEmpty {
-            navigationPath.removeLast()
-        }
-    }
-
-    func popToRoot() {
-        navigationPath = []
+    func showNotificationSettings() -> AnyView {
+        AnyView(NotificationSettingsView())
     }
 }

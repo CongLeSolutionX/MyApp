@@ -10,22 +10,14 @@ import SwiftUI
 
 // MARK: - AppCoordinator
 class AppCoordinator: ObservableObject {
-    @Published var navigationPath: [AppPage] = []
-    @Published var settingsCoordinator: SettingsCoordinator?
-
-    enum AppPage: Hashable {
-        case home
-        case settings
-        case profile(userID: Int)
-        case productDetail(product: Product)
-    }
+    @Published var navigationPath: [AppRoute] = []
 
     func start() {
-        push(.home)
+        navigationPath = []
     }
 
-    func push(_ page: AppPage) {
-        navigationPath.append(page)
+    func push(_ route: AppRoute) {
+        navigationPath.append(route)
     }
 
     func pop() {
@@ -38,8 +30,8 @@ class AppCoordinator: ObservableObject {
         navigationPath = []
     }
 
+    // Navigation functions
     func showSettings() {
-        settingsCoordinator = SettingsCoordinator()
         push(.settings)
     }
 
@@ -51,12 +43,19 @@ class AppCoordinator: ObservableObject {
         let product = Product(id: productID, name: "Sample Product")
         push(.productDetail(product: product))
     }
+
+    func showPrivacySettings() {
+        push(.privacySettings)
+    }
+
+    func showNotificationSettings() {
+        push(.notificationSettings)
+    }
 }
 // MARK: - Extensions
 extension AppCoordinator {
     func handleDeepLink(_ url: URL) {
         // Parse the URL and determine the destination
-        // For example, if the URL is myapp://product/101
         if url.host == "product", let idString = url.pathComponents.last, let productID = Int(idString) {
             showProductDetail(for: productID)
         }
