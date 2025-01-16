@@ -13,7 +13,7 @@ import SwiftUI
 
 // MARK: - Coordinator
 protocol Coordinator: AnyObject {
-    var navigationPath: NavigationPath { get set }
+    var navigationPath: [AnyHashable] { get set }
     func start()
     func push<T: Hashable>(_ page: T)
     func pop()

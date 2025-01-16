@@ -6,28 +6,56 @@
 //
 
 import SwiftUI
-
-
 class SettingsCoordinator: ObservableObject, Coordinator {
-    @Binding var navigationPath: NavigationPath
-
-    init(navigationPath: Binding<NavigationPath>) {
+    @Binding var navigationPath: [AnyHashable]
+    
+    init(navigationPath: Binding<[AnyHashable]>) {
         self._navigationPath = navigationPath
     }
-
+    
     func start() {
         push(SettingsPage.main)
     }
-
+    
     func push<T: Hashable>(_ page: T) {
         navigationPath.append(page)
     }
-
+    
+    func pop() {
+        navigationPath.removeLast()
+    }
+    
+    func popToRoot() {
+        navigationPath = []
+    }
+    
     enum SettingsPage: Hashable {
         case main
         case privacy
         case notifications
-        // Add other settings pages as needed
     }
 }
+
+//class SettingsCoordinator: ObservableObject, Coordinator {
+//    @Binding var navigationPath: NavigationPath
+//
+//    init(navigationPath: Binding<NavigationPath>) {
+//        self._navigationPath = navigationPath
+//    }
+//
+//    func start() {
+//        push(SettingsPage.main)
+//    }
+//
+//    func push<T: Hashable>(_ page: T) {
+//        navigationPath.append(page)
+//    }
+//
+//    enum SettingsPage: Hashable {
+//        case main
+//        case privacy
+//        case notifications
+//        // Add other settings pages as needed
+//    }
+//}
 
