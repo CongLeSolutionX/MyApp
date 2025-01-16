@@ -16,7 +16,7 @@ import XCTest
 
 class SettingsCoordinatorTests: XCTestCase {
     
-    var settingsCoordinator: SettingsCoordinator!
+    var settingsCoordinator: SettingsCoordinator = SettingsCoordinator()
     
     override func setUp() {
         super.setUp()
@@ -24,7 +24,7 @@ class SettingsCoordinatorTests: XCTestCase {
     }
     
     override func tearDown() {
-        settingsCoordinator = nil
+        // Any cleanup if necessary
         super.tearDown()
     }
     
