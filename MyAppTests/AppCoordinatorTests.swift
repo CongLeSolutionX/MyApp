@@ -11,15 +11,15 @@ import XCTest
 
 class AppCoordinatorTests: XCTestCase {
 
-    var appCoordinator: AppCoordinator!
-
+    var appCoordinator: AppCoordinator = AppCoordinator()
+    
     override func setUp() {
         super.setUp()
-        appCoordinator = AppCoordinator()
+        appCoordinator = AppCoordinator() // Reset appCoordinator before each test
     }
-
+    
     override func tearDown() {
-        appCoordinator = nil
+        // Any cleanup if necessary
         super.tearDown()
     }
 
