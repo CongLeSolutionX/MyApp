@@ -9,52 +9,47 @@ import SwiftUI
 
 
 // MARK: - AppCoordinator
-class AppCoordinator: ObservableObject, Coordinator {
-    @Published var navigationPath: [AnyHashable] = []
+class AppCoordinator: ObservableObject {
+    @Published var navigationPath: [AppPage] = []
     @Published var settingsCoordinator: SettingsCoordinator?
-    
-    var navigationBinding: Binding<[AnyHashable]> {
-        Binding(
-            get: { self.navigationPath },
-            set: { self.navigationPath = $0 }
-        )
-    }
-    
-    func start() {
-        push(AppPage.home)
-    }
-    
-    func push<T: Hashable>(_ page: T) {
-        navigationPath.append(page)
-    }
-    
-    func pop() {
-        navigationPath.removeLast()
-    }
-    
-    func popToRoot() {
-        navigationPath = []
-    }
-    
+
     enum AppPage: Hashable {
         case home
         case settings
         case profile(userID: Int)
         case productDetail(product: Product)
     }
-    
+
+    func start() {
+        push(.home)
+    }
+
+    func push(_ page: AppPage) {
+        navigationPath.append(page)
+    }
+
+    func pop() {
+        if !navigationPath.isEmpty {
+            navigationPath.removeLast()
+        }
+    }
+
+    func popToRoot() {
+        navigationPath = []
+    }
+
     func showSettings() {
-        settingsCoordinator = SettingsCoordinator(navigationPath: navigationBinding)
-        settingsCoordinator?.start()
+        settingsCoordinator = SettingsCoordinator()
+        push(.settings)
     }
-    
+
     func showProfile(for userID: Int) {
-        push(AppPage.profile(userID: userID))
+        push(.profile(userID: userID))
     }
-    
+
     func showProductDetail(for productID: Int) {
         let product = Product(id: productID, name: "Sample Product")
-        push(AppPage.productDetail(product: product))
+        push(.productDetail(product: product))
     }
 }
 // MARK: - Extensions
