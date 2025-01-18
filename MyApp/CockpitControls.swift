@@ -4,7 +4,7 @@
 //
 //  Created by Cong Le on 1/17/25.
 //
-
+//
 import Foundation
 import SwiftUI
 
@@ -75,12 +75,143 @@ protocol FlightDataDisplaying: View {
 }
 
 
-/// Asynchronously fetches and displays flight data (as an Image).
+///// Asynchronously fetches and displays flight data (as an Image).
+//struct AsyncFlightDataDisplay: FlightDataDisplaying {
+//    // MARK: - Properties
+//
+//    /// The URL to fetch flight data from.
+//    let dataURL: URL?
+//
+//    /// The placeholder image to show when data is unavailable.
+//    let placeholderImage: Image
+//
+//    /// The error image to show when an error occurs.
+//    let errorImage: Image
+//
+//    /// The image fetcher used to fetch images.
+//    let imageFetcher: ImageFetcher
+//
+//    /// The fetched flight data image.
+//    @State private var flightData: Image?
+//
+//    /// The error message to display if an error occurs.
+//    @State private var errorMessage: String?
+//
+//    // MARK: - Initialization
+//
+//    /// Initializes a new `AsyncFlightDataDisplay`.
+//    /// - Parameters:
+//    ///   - dataURL: The URL to fetch flight data from.
+//    ///   - placeholderImage: An optional placeholder image.
+//    ///   - errorImage: An optional error image to display when an error occurs.
+//    ///   - imageFetcher: The image fetcher to use for fetching images.
+//    init(
+//        dataURL: URL?,
+//        placeholderImage: Image = Image(systemName: "photo"),
+//        errorImage: Image = Image(systemName: "exclamationmark.triangle"),
+//        imageFetcher: ImageFetcher = DefaultImageFetcher()
+//    ) {
+//        self.dataURL = dataURL
+//        self.placeholderImage = placeholderImage
+//        self.errorImage = errorImage
+//        self.imageFetcher = imageFetcher
+//    }
+//
+//    // MARK: - Body
+//
+//    var body: some View {
+//        Group {
+//            if let flightData = flightData {
+//                flightData
+//                    .resizable()
+//                    .scaledToFit()
+//            } else if let errorMessage = errorMessage {
+//                VStack {
+//                    errorImage
+//                        .resizable()
+//                        .scaledToFit()
+//                    Text(errorMessage)
+//                        .font(.caption)
+//                        .multilineTextAlignment(.center)
+//                        .padding(.horizontal, 4)
+//                }
+//            } else {
+//                placeholderImage
+//                    .resizable()
+//                    .scaledToFit()
+//            }
+//        }
+//        .task(id: dataURL) {
+//            await loadData()
+//        }
+//    }
+//
+//    // MARK: - Data Loading
+//
+//    /// Loads the image data asynchronously.
+//    @MainActor
+//    private func loadData() async {
+//        // Ensure the URL is valid.
+//        guard let url = dataURL else {
+//            errorMessage = FlightDataError.invalidUrl.localizedDescription
+//            return
+//        }
+//
+//        do {
+//            let uiImage = try await imageFetcher.fetchImage(from: url)
+//            flightData = Image(uiImage: uiImage)
+//        } catch {
+//            if let flightError = error as? FlightDataError {
+//                errorMessage = flightError.localizedDescription
+//            } else {
+//                errorMessage = error.localizedDescription
+//            }
+//        }
+//    }
+//}
+
+import Foundation
+import SwiftUI
+
+@MainActor
+class FlightDataViewModel: ObservableObject {
+    // MARK: - Published Properties
+    @Published var flightData: Image?
+    @Published var errorMessage: String?
+
+    // MARK: - Dependencies
+    let imageFetcher: ImageFetcher
+    let dataURL: URL?
+
+    // MARK: - Initialization
+    init(dataURL: URL?, imageFetcher: ImageFetcher) {
+        self.dataURL = dataURL
+        self.imageFetcher = imageFetcher
+    }
+
+    // MARK: - Data Loading
+    func loadData() async {
+        // Ensure the URL is valid.
+        guard let url = dataURL else {
+            errorMessage = FlightDataError.invalidUrl.localizedDescription
+            return
+        }
+
+        do {
+            let uiImage = try await imageFetcher.fetchImage(from: url)
+            flightData = Image(uiImage: uiImage)
+        } catch {
+            if let flightError = error as? FlightDataError {
+                errorMessage = flightError.localizedDescription
+            } else {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
+}
+/// Asynchronously fetches and displays flight data (as an Image) using MVVM architecture.
 struct AsyncFlightDataDisplay: FlightDataDisplaying {
     // MARK: - Properties
-
-    /// The URL to fetch flight data from.
-    let dataURL: URL?
 
     /// The placeholder image to show when data is unavailable.
     let placeholderImage: Image
@@ -88,14 +219,14 @@ struct AsyncFlightDataDisplay: FlightDataDisplaying {
     /// The error image to show when an error occurs.
     let errorImage: Image
 
+    /// The URL to fetch flight data from.
+    let dataURL: URL?
+
     /// The image fetcher used to fetch images.
     let imageFetcher: ImageFetcher
 
-    /// The fetched flight data image.
-    @State private var flightData: Image?
-
-    /// The error message to display if an error occurs.
-    @State private var errorMessage: String?
+    /// The ViewModel managing the data fetching logic.
+    @StateObject private var viewModel: FlightDataViewModel
 
     // MARK: - Initialization
 
@@ -115,17 +246,19 @@ struct AsyncFlightDataDisplay: FlightDataDisplaying {
         self.placeholderImage = placeholderImage
         self.errorImage = errorImage
         self.imageFetcher = imageFetcher
+        // Initialize the ViewModel with provided dependencies
+        _viewModel = StateObject(wrappedValue: FlightDataViewModel(dataURL: dataURL, imageFetcher: imageFetcher))
     }
 
     // MARK: - Body
 
     var body: some View {
         Group {
-            if let flightData = flightData {
+            if let flightData = viewModel.flightData {
                 flightData
                     .resizable()
                     .scaledToFit()
-            } else if let errorMessage = errorMessage {
+            } else if let errorMessage = viewModel.errorMessage {
                 VStack {
                     errorImage
                         .resizable()
@@ -142,34 +275,10 @@ struct AsyncFlightDataDisplay: FlightDataDisplaying {
             }
         }
         .task(id: dataURL) {
-            await loadData()
-        }
-    }
-
-    // MARK: - Data Loading
-
-    /// Loads the image data asynchronously.
-    @MainActor
-    private func loadData() async {
-        // Ensure the URL is valid.
-        guard let url = dataURL else {
-            errorMessage = FlightDataError.invalidUrl.localizedDescription
-            return
-        }
-
-        do {
-            let uiImage = try await imageFetcher.fetchImage(from: url)
-            flightData = Image(uiImage: uiImage)
-        } catch {
-            if let flightError = error as? FlightDataError {
-                errorMessage = flightError.localizedDescription
-            } else {
-                errorMessage = error.localizedDescription
-            }
+            await viewModel.loadData()
         }
     }
 }
-
 
 /// A reusable instrument panel view that styles its content in a consistent manner.
 struct InstrumentPanel<Content: View>: View {
@@ -232,13 +341,13 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
-
-
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
+
+
+//#Preview {
+//    ContentView()
+//}
