@@ -9,7 +9,7 @@
 import SwiftUI
 import PhotosUI
 
-struct Home: View {
+struct HomeView: View {
     @StateObject private var imageRemoverModel: ImageRemoverModel = .init()
     var body: some View {
         VStack(spacing: 15) {
@@ -76,6 +76,6 @@ struct Home: View {
 // MARK: - Preview
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        HomeView()
     }
 }
