@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-// Step 3: Embed in main app structure
 @main
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: Document.self)
+            
         }
     }
 }
