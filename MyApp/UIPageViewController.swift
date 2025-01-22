@@ -19,7 +19,8 @@ class PageViewController: UIPageViewController {
 
         dataSource = self
         delegate = self
-
+        
+        //TODO: Add legal policies for each page here
         // Create your view controllers here
         let page1 = UIViewController()
         page1.view.backgroundColor = .red
