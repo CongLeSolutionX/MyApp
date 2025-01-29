@@ -37,16 +37,6 @@ class WebViewController: UIViewController {
             // Should not reach here as webView is loaded in WebPage
             webPage.loadWebContent()
             self.view = webPage.webView
-            
-//            // Initialize WKWebView if not preloaded
-//            let webView = WKWebView()
-//            self.view = webView
-//            if let url = URL(string: webPage.urlString) {
-//                let request = URLRequest(url: url)
-//                webView.load(request)
-//            }
-//            webPage.webView = webView
-//            webPage.isLoaded = true
         }
     }
 }

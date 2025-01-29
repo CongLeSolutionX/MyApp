@@ -73,13 +73,6 @@ class PageViewController: UIPageViewController {
         let webPage = pages[index]
         if !webPage.isLoaded {
             webPage.loadWebContent()
-            // Using default cached policy
-//           webPage.webView = WKWebView()
-//            if let url = URL(string: webPage.urlString) {
-//                let request = URLRequest(url: url)
-//                webPage.webView?.load(request)
-//                webPage.isLoaded = true
-//            }
         }
     }
 }
