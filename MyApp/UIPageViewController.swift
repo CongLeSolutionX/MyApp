@@ -4,13 +4,24 @@
 //
 //  Created by Cong Le on 8/19/24.
 //
+//
+//  PageViewController.swift
+
 import UIKit
+import WebKit
 
 class PageViewController: UIPageViewController {
 
     // MARK: - Properties
 
     private var pages: [UIViewController] = []
+
+    // List of URLs to load
+    private let urlStrings = [
+        "https://www.apple.com",
+        "https://www.google.com",
+        "https://www.github.com"
+    ]
 
     // MARK: - Lifecycle
 
@@ -19,17 +30,12 @@ class PageViewController: UIPageViewController {
 
         dataSource = self
         delegate = self
-        
-        //TODO: Add legal policies for each page here
-        // Create your view controllers here
-        let page1 = UIViewController()
-        page1.view.backgroundColor = .red
-        let page2 = UIViewController()
-        page2.view.backgroundColor = .green
-        let page3 = UIViewController()
-        page3.view.backgroundColor = .blue
 
-        pages = [page1, page2, page3]
+        // Create WebViewControllers for each URL
+        for urlString in urlStrings {
+            let webVC = WebViewController(urlString: urlString)
+            pages.append(webVC)
+        }
 
         // Set initial view controller
         if let firstViewController = pages.first {
