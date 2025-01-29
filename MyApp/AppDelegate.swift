@@ -5,38 +5,44 @@
 //  Created by Cong Le on 11/22/24.
 //
 
+//
+//  AppDelegate.swift
 
 import UIKit
 
-@UIApplicationMain
+//@UIApplicationMain // No longer needed for SwiftUI apps with @main in MyApp.swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    // Example app-level data
+    var appData: String? = "Initial Data from AppDelegate"
 
     // MARK: - UIApplicationDelegate Methods
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("didFinishLaunchingWithOptions")
+        print("[AppDelegate] didFinishLaunchingWithOptions")
+        appData = "Data updated after launch" // Update data after launch
         return true
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        print("applicationDidBecomeActive")
+        print("[AppDelegate] applicationDidBecomeActive")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        print("applicationWillResignActive")
+        print("[AppDelegate] applicationWillResignActive")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        print("applicationDidEnterBackground")
+        print("[AppDelegate] applicationDidEnterBackground")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        print("applicationWillEnterForeground")
+        print("[AppDelegate] applicationWillEnterForeground")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        print("applicationWillTerminate")
+        print("[AppDelegate] applicationWillTerminate")
     }
 
     // MARK: - UISceneSession Lifecycle
@@ -44,9 +50,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        print("Configuring scene session")
+        print("[AppDelegate] Configuring scene session")
         // Create a new scene configuration.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-}
 
+    // MARK: - Scene Delegate Notification Methods (Example of communication)
+
+    func sceneWillConnectToScene() {
+        print("[AppDelegate] Notification: Scene will connect")
+    }
+
+    func sceneDidBecomeActive() {
+        print("[AppDelegate] Notification: Scene did become active")
+    }
+
+    func sceneWillResignActive() {
+        print("[AppDelegate] Notification: Scene will resign active")
+    }
+
+    func sceneDidEnterBackground() {
+        print("[AppDelegate] Notification: Scene did enter background")
+    }
+
+    func sceneWillEnterForeground() {
+        print("[AppDelegate] Notification: Scene will enter foreground")
+    }
+
+    func sceneDidDisconnect() {
+        print("[AppDelegate] Notification: Scene did disconnect")
+    }
+
+    // MARK: - Data Accessor for SceneDelegate (Example of data passing)
+    func getAppData() -> String {
+        return appData ?? "No App Data Available"
+    }
+}
