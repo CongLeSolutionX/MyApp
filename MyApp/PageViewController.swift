@@ -17,9 +17,9 @@ class PageViewController: UIPageViewController {
     
     // List of URLs to load
     private let urlStrings = [
-        "https://www.apple.com",
-        "https://www.google.com",
-        "https://www.github.com"
+        "https://openai.com/policies/row-terms-of-use",
+        "https://x.ai/legal/privacy-policy",
+        "https://ai.google.dev/gemini-api/docs"
     ]
     
     // MARK: - Lifecycle
@@ -72,12 +72,14 @@ class PageViewController: UIPageViewController {
     private func loadWebPage(at index: Int) {
         let webPage = pages[index]
         if !webPage.isLoaded {
-            webPage.webView = WKWebView()
-            if let url = URL(string: webPage.urlString) {
-                let request = URLRequest(url: url)
-                webPage.webView?.load(request)
-                webPage.isLoaded = true
-            }
+            webPage.loadWebContent()
+            // Using default cached policy
+//           webPage.webView = WKWebView()
+//            if let url = URL(string: webPage.urlString) {
+//                let request = URLRequest(url: url)
+//                webPage.webView?.load(request)
+//                webPage.isLoaded = true
+//            }
         }
     }
 }

@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A53C6F32D40452C00AE679D /* UIPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53C6F22D40452C00AE679D /* UIPageViewController.swift */; };
+		9A53C6F32D40452C00AE679D /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53C6F22D40452C00AE679D /* PageViewController.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE72D072D4A17F2003F2DC9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */; };
-		9AE72D092D4A1DD7003F2DC9 /* WKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D082D4A1DD6003F2DC9 /* WKWebView.swift */; };
+		9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A53C6F22D40452C00AE679D /* UIPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewController.swift; sourceTree = "<group>"; };
+		9A53C6F22D40452C00AE679D /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,7 +27,7 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		9AE72D082D4A1DD6003F2DC9 /* WKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebView.swift; sourceTree = "<group>"; };
+		9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A53C6F22D40452C00AE679D /* UIPageViewController.swift */,
+				9A53C6F22D40452C00AE679D /* PageViewController.swift */,
 				9AE72D0A2D4A1F5E003F2DC9 /* WebView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -83,7 +83,7 @@
 		9AE72D0A2D4A1F5E003F2DC9 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				9AE72D082D4A1DD6003F2DC9 /* WKWebView.swift */,
+				9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */,
 				9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */,
 			);
 			path = WebView;
@@ -162,9 +162,9 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
-				9AE72D092D4A1DD7003F2DC9 /* WKWebView.swift in Sources */,
+				9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */,
 				9AE72D072D4A17F2003F2DC9 /* WebViewController.swift in Sources */,
-				9A53C6F32D40452C00AE679D /* UIPageViewController.swift in Sources */,
+				9A53C6F32D40452C00AE679D /* PageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
