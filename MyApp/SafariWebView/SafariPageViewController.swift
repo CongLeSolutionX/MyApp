@@ -38,7 +38,7 @@ class SafariPageViewController: UIPageViewController {
         }
 
         // Set initial view controller
-        if let firstViewController = pages.first {
+        if let firstViewController = pages.last {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
     }
