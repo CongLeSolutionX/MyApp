@@ -10,6 +10,9 @@ import SwiftUI
 @main
 struct MyApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("useUIKitView") private var useUIKitView: Bool = false // Default to UIKit view
+
+
 
     // MARK: - Initialization
 
@@ -20,8 +23,16 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            UIKitViewControllerWrapper()
-             //ContentView() // Option to switch to pure SwiftUI view
+            let toggleView: () -> Void = {
+                 useUIKitView.toggle() // toggle the useUIKitView boolean state
+             }
+            
+            // Conditional view based on 'useUIKitView' state
+            if useUIKitView {
+                UIKitViewControllerWrapper(toggleViewCallback: toggleView) /// add `toggleCallback` to the `UIKitViewControllerWrapper`
+            } else {
+                ContentView()
+            }
         }
         .onChange(of: scenePhase, initial: true) { oldPhase, newPhase in // Include initial for first phase
             printLog("[MyApp] Scene phase changed from \(oldPhase) to \(newPhase)")

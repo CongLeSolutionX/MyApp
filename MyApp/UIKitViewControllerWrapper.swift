@@ -9,13 +9,17 @@ import SwiftUI
 import UIKit
 
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PageViewController
+    typealias UIViewControllerType = SafariPageViewController
+    
+    // Add the toggleViewCallback property
+      var toggleViewCallback: () -> Void /// to hold the callback function that the app will use to toggle the view.
 
-    func makeUIViewController(context: Context) -> PageViewController {
-        return PageViewController()
+    func makeUIViewController(context: Context) -> SafariPageViewController {
+        ///  pass the `toggleViewCallback` to the `SafariPageViewController` initializer
+        return SafariPageViewController(toggleViewCallback: toggleViewCallback)
     }
 
-    func updateUIViewController(_ uiViewController: PageViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: SafariPageViewController, context: Context) {
         // Update the view controller if needed (e.g., based on SwiftUI state changes)
     }
 }
@@ -53,7 +57,7 @@ class MyUIKitViewController: UIViewController {
 // MARK: - Previews
 struct UIKitViewControllerWrapper_Previews: PreviewProvider {
     static var previews: some View {
-        UIKitViewControllerWrapper()
+        UIKitViewControllerWrapper(toggleViewCallback: {})
     }
 }
 
