@@ -15,6 +15,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE72D072D4A17F2003F2DC9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */; };
 		9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */; };
+		9AE72D0E2D4B3668003F2DC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPage.swift; sourceTree = "<group>"; };
+		9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A53C6F22D40452C00AE679D /* PageViewController.swift */,
@@ -163,6 +166,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */,
+				9AE72D0E2D4B3668003F2DC9 /* AppDelegate.swift in Sources */,
 				9AE72D072D4A17F2003F2DC9 /* WebViewController.swift in Sources */,
 				9A53C6F32D40452C00AE679D /* PageViewController.swift in Sources */,
 			);
