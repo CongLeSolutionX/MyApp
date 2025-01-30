@@ -16,6 +16,8 @@
 		9AE72D072D4A17F2003F2DC9 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */; };
 		9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */; };
 		9AE72D0E2D4B3668003F2DC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */; };
+		9AE72D122D4B54C9003F2DC9 /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D112D4B54BD003F2DC9 /* SafariViewController.swift */; };
+		9AE72D142D4B55E5003F2DC9 /* SafariPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE72D132D4B55DC003F2DC9 /* SafariPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		9AE72D062D4A17F1003F2DC9 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		9AE72D082D4A1DD6003F2DC9 /* WebPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPage.swift; sourceTree = "<group>"; };
 		9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9AE72D112D4B54BD003F2DC9 /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
+		9AE72D132D4B55DC003F2DC9 /* SafariPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,8 @@
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A53C6F22D40452C00AE679D /* PageViewController.swift */,
+				9AE72D132D4B55DC003F2DC9 /* SafariPageViewController.swift */,
+				9AE72D112D4B54BD003F2DC9 /* SafariViewController.swift */,
 				9AE72D0A2D4A1F5E003F2DC9 /* WebView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -164,6 +170,8 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AE72D122D4B54C9003F2DC9 /* SafariViewController.swift in Sources */,
+				9AE72D142D4B55E5003F2DC9 /* SafariPageViewController.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE72D092D4A1DD7003F2DC9 /* WebPage.swift in Sources */,
 				9AE72D0E2D4B3668003F2DC9 /* AppDelegate.swift in Sources */,

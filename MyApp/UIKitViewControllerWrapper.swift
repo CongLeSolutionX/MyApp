@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PageViewController
+    typealias UIViewControllerType = SafariPageViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> PageViewController {
+    func makeUIViewController(context: Context) -> SafariPageViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return PageViewController()
+        return SafariPageViewController()
     }
     
-    func updateUIViewController(_ uiViewController: PageViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: SafariPageViewController, context: Context) {
         // Update the view controller if needed
     }
 }
