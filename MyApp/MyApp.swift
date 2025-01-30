@@ -69,5 +69,7 @@ struct MyApp: App {
 
 // Centralized logging function for consistency
 func printLog(_ message: String) {
+    #if DEBUG
     print(message) // Can be expanded to more sophisticated logging
+    #endif
 }

@@ -14,7 +14,7 @@ class WebViewController: UIViewController {
     // MARK: - Properties
 
     let webPage: WebPage // Made let as webPage is set once
-    var pageIndex: Int // Made let
+    let pageIndex: Int
     private var hasViewLoadedOnce: Bool = false // Track initial view load
 
     // MARK: - Initializer

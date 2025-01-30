@@ -10,8 +10,8 @@ import WebKit
 
 class WebPage {
     let urlString: String
-    var webView: WKWebView? // Use private(set) for controlled mutation from outside
-    var isLoaded: Bool = false
+    var webView: WKWebView?     /// Consider to use private(set) for controlled mutation from outside
+    var isLoaded: Bool = false  /// Consider to use private(set) for controlled mutation from outside
 
     init(urlString: String) {
         self.urlString = urlString
