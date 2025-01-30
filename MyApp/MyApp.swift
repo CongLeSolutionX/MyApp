@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct MyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("useUIKitView") private var useUIKitView: Bool = false // Default to UIKit view
 

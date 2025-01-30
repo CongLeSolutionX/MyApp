@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
-    @State private var appDelegateData: String = "No data yet"
     @State private var viewAppeared = false // Track view appearance
     @AppStorage("useUIKitView") private var useUIKitView: Bool = true // Access from AppStorage
 
@@ -20,17 +19,17 @@ struct ContentView: View {
             Text("Hello from ContentView (SwiftUI)")
             Text("Scene Phase: \(scenePhase)")
                 .padding(.bottom)
-            Text("AppDelegate Data: \(appDelegateData)")
+            
             
             Toggle(isOn: $useUIKitView) { // Toggle control that updates the AppStorage
-                            Text("Use UIKit View")
-                        }
+                Text("Use UIKit View")
+            }
+            .padding()
         }
         .onAppear {
             guard !viewAppeared else { return } // Prevent redundant calls
             viewAppeared = true
             printLog("[ContentView] View.onAppear()")
-            fetchAppDelegateData() // Encapsulate data fetching
         }
         .onDisappear {
             printLog("[ContentView] View.onDisappear()")
@@ -39,13 +38,6 @@ struct ContentView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             printLog("[ContentView] Scene Phase changed from \(oldPhase) to \(newPhase)")
             handleScenePhaseChange(newPhase) // Reuse scene phase change logic
-        }
-    }
-
-    private func fetchAppDelegateData() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-           let data = appDelegate.appData {
-            appDelegateData = data
         }
     }
 

@@ -9,7 +9,7 @@
 import UIKit
 
 
-class SafariPageViewController: UIPageViewController {
+class SafariPageViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -22,16 +22,27 @@ class SafariPageViewController: UIPageViewController {
         "https://www.github.com"
     ]
     
-    // Add the toggleViewCallback property
+    // Toggle callback
     var toggleViewCallback: (() -> Void)?
     
-    // Add new init method with the toggleViewCallback
+    private lazy var pageViewController: UIPageViewController = {
+        let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pageVC.dataSource = self
+        pageVC.delegate = self
+        
+        pageVC.view.translatesAutoresizingMaskIntoConstraints = false
+        return pageVC
+    }()
+    
+    // MARK: - Initializers
+    
     init(toggleViewCallback: (() -> Void)? = nil) {
         self.toggleViewCallback = toggleViewCallback
-        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
+        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -46,18 +57,24 @@ class SafariPageViewController: UIPageViewController {
     }
     
     private func setupPageViewController() {
-        dataSource = self
-        delegate = self
+        addChild(pageViewController)
+        view.addSubview(pageViewController.view)
+        NSLayoutConstraint.activate([
+            pageViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        pageViewController.didMove(toParent: self)
     }
     
     private func loadInitialPages() {
         safariViewControllers = urlStrings.enumerated().map { index, urlString in
-            let safariWebVC = SafariViewController(urlString: urlString)
-            safariWebVC.pageIndex = index
+            let safariWebVC = SafariViewController(urlString: urlString, pageIndex: index)
             return safariWebVC
         }
         if let firstViewController = safariViewControllers.first {
-            setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
+            pageViewController.setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
     }
     
@@ -69,19 +86,18 @@ class SafariPageViewController: UIPageViewController {
     
     //Add View toggle action
     @objc private func toggleViewButtonTapped() {
-        
         printLog("[SafariPageViewController] toggleViewButtonTapped()")
         toggleViewCallback?() // invoking the callback method passed from the UIKitWrapper.
     }
 }
 
-// MARK: - UIPageViewControllerDataSourceS
+// MARK: - UIPageViewControllerDataSource
 extension SafariPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let webVC = viewController as? SafariViewController else { return nil }
-        let index = webVC.pageIndex
+        guard let safariVC = viewController as? SafariViewController else { return nil }
+        let index = safariVC.pageIndex
         let previousIndex = index - 1
         guard previousIndex >= 0 else { return nil }
         return safariViewControllers[previousIndex]
@@ -89,8 +105,8 @@ extension SafariPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let webVC = viewController as? SafariViewController else { return nil }
-        let index = webVC.pageIndex
+        guard let safariVC = viewController as? SafariViewController else { return nil }
+        let index = safariVC.pageIndex
         let nextIndex = index + 1
         guard nextIndex < safariViewControllers.count else { return nil }
         return safariViewControllers[nextIndex]
@@ -99,5 +115,13 @@ extension SafariPageViewController: UIPageViewControllerDataSource {
 
 // MARK: - UIPageViewControllerDataSource
 extension SafariPageViewController: UIPageViewControllerDelegate {
-    // Implement delegate methods if needed
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController],
+                            transitionCompleted completed: Bool) {
+        if completed, let currentViewController = pageViewController.viewControllers?.first as? SafariViewController {
+            currentIndex = currentViewController.pageIndex
+            // Additional logic if needed
+        }
+    }
 }

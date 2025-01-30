@@ -7,17 +7,18 @@
 
 import UIKit
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate {
 
-    // Example app-level data (consider using App Storage for SwiftUI state persistence)
-    @Published var appData: String? = "Initial Data from AppDelegate" // Use @Published for observable data
+
+    // Example app-level data
+    var appData: String = "Initial Data from AppDelegate"
 
     // MARK: - UIApplicationDelegate Methods
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         printLog("[AppDelegate] didFinishLaunchingWithOptions")
-        appData = "Data updated after launch" // Update data after launch
+        appData = "Data updated after launch"
         return true
     }
 
@@ -59,33 +60,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Note: In SwiftUI with Scene-based apps, SceneDelegate handles much of this.
     // These methods in AppDelegate are more for app-level notifications.
-    func sceneWillConnectToScene() {
-        printLog("[AppDelegate] Notification: Scene will connect - App Level")
-    }
-
-    func sceneDidBecomeActive() {
-        printLog("[AppDelegate] Notification: Scene did become active - App Level")
-    }
-
-    func sceneWillResignActive() {
-        printLog("[AppDelegate] Notification: Scene will resign active - App Level")
-    }
-
-    func sceneDidEnterBackground() {
-        printLog("[AppDelegate] Notification: Scene did enter background - App Level")
-    }
-
-    func sceneWillEnterForeground() {
-        printLog("[AppDelegate] Notification: Scene will enter foreground - App Level")
-    }
-
-    func sceneDidDisconnect() {
-        printLog("[AppDelegate] Notification: Scene did disconnect - App Level")
-    }
-
-    // MARK: - Data Accessor for App Data (Observable with @Published if needed in SwiftUI)
-
-    func getAppData() -> String {
-        return appData ?? "No App Data Available"
-    }
+//    func sceneWillConnectToScene() {
+//        printLog("[AppDelegate] Notification: Scene will connect - App Level")
+//    }
+//
+//    func sceneDidBecomeActive() {
+//        printLog("[AppDelegate] Notification: Scene did become active - App Level")
+//    }
+//
+//    func sceneWillResignActive() {
+//        printLog("[AppDelegate] Notification: Scene will resign active - App Level")
+//    }
+//
+//    func sceneDidEnterBackground() {
+//        printLog("[AppDelegate] Notification: Scene did enter background - App Level")
+//    }
+//
+//    func sceneWillEnterForeground() {
+//        printLog("[AppDelegate] Notification: Scene will enter foreground - App Level")
+//    }
+//
+//    func sceneDidDisconnect() {
+//        printLog("[AppDelegate] Notification: Scene did disconnect - App Level")
+//    }
+//
+//    // MARK: - Data Accessor for App Data (Observable with @Published if needed in SwiftUI)
+//
+//    func getAppData() -> String {
+//        return appData ?? "No App Data Available"
+//    }
 }
