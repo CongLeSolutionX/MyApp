@@ -9,13 +9,13 @@ import SwiftUI
 import UIKit
 
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = PageViewController
 
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
-        return MyUIKitViewController()
+    func makeUIViewController(context: Context) -> PageViewController {
+        return PageViewController()
     }
 
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: PageViewController, context: Context) {
         // Update the view controller if needed (e.g., based on SwiftUI state changes)
     }
 }

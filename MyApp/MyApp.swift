@@ -20,8 +20,8 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            //UIKitViewControllerWrapper()
-             ContentView() // Option to switch to pure SwiftUI view
+            UIKitViewControllerWrapper()
+             //ContentView() // Option to switch to pure SwiftUI view
         }
         .onChange(of: scenePhase, initial: true) { oldPhase, newPhase in // Include initial for first phase
             printLog("[MyApp] Scene phase changed from \(oldPhase) to \(newPhase)")
