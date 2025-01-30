@@ -8,11 +8,16 @@
 
 import UIKit
 
+protocol SafariPageViewControllerNavigationDelegate: AnyObject {
+    func safariPageViewControllerDidRequestToggle(_ safariPageViewController: SafariPageViewController)
+}
 
 class SafariPageViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var navigationDelegate: SafariPageViewControllerNavigationDelegate?
+
     private var safariViewControllers: [SafariViewController] = []
     private var currentIndex: Int = 0
     
@@ -53,7 +58,8 @@ class SafariPageViewController: UIViewController {
         super.viewDidLoad()
         setupPageViewController()
         loadInitialPages()
-        configureNavigationBar()
+        //configureNavigationBar()
+        configureNavigationBarWithCoordinator()
     }
     
     private func setupPageViewController() {
@@ -89,6 +95,18 @@ class SafariPageViewController: UIViewController {
         printLog("[SafariPageViewController] toggleViewButtonTapped()")
         toggleViewCallback?() // invoking the callback method passed from the UIKitWrapper.
     }
+    
+    // MARK: - Navigation configuration for coordinator
+    
+    // Update navigation bar configuration
+     private func configureNavigationBarWithCoordinator() {
+         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Toggle to SwiftUI View", style: .plain, target: self, action: #selector(toggleViewButtonTappedForCoordinator))
+     }
+    
+    @objc private func toggleViewButtonTappedForCoordinator() {
+          printLog("[SafariPageViewController] Toggle to SwiftUI View Button Tapped")
+          navigationDelegate?.safariPageViewControllerDidRequestToggle(self)
+      }
 }
 
 // MARK: - UIPageViewControllerDataSource

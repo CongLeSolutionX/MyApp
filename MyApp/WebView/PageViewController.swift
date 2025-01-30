@@ -8,9 +8,15 @@
 import UIKit
 import WebKit
 
+protocol PageViewControllerNavigationDelegate: AnyObject {
+    func pageViewControllerDidRequestNavigationToSafari(_ pageViewController: PageViewController)
+}
+
 class PageViewController: UIPageViewController {
 
     // MARK: - Properties
+    
+    weak var navigationDelegate: PageViewControllerNavigationDelegate?
 
     private var webPages: [WebPage] = []
     private var currentIndex: Int = 0
@@ -27,6 +33,10 @@ class PageViewController: UIPageViewController {
         super.viewDidLoad()
         setupPageViewController()
         loadInitialPages()
+        
+        // Add a button to trigger navigation using coordinator
+        let navigateButton = UIBarButtonItem(title: "Go to Safari", style: .plain, target: self, action: #selector(navigateButtonTapped))
+        navigationItem.rightBarButtonItem = navigateButton
     }
 
     private func setupPageViewController() {
@@ -84,6 +94,11 @@ class PageViewController: UIPageViewController {
 
     private func isValidIndex(_ index: Int) -> Bool {
         return index >= 0 && index < webPages.count
+    }
+    
+    // MARK: - Navigation Delegate
+    @objc func navigateButtonTapped() {
+        navigationDelegate?.pageViewControllerDidRequestNavigationToSafari(self)
     }
 }
 

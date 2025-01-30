@@ -12,49 +12,54 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = UINavigationController
     
     // Toggle callback
-    var toggleViewCallback: () -> Void /// to hold the callback function that the app will use to toggle the view.
+    var toggleViewCallback: () -> Void
     
     func makeUIViewController(context: Context) -> UINavigationController {
-        ///  pass the `toggleViewCallback` to the `SafariPageViewController` initializer
-        let safariPageViewController = SafariPageViewController(toggleViewCallback: toggleViewCallback)
+        let navigationController = UINavigationController()
         
+        // Initialize PageViewController and set its delegate to the Coordinator
         let pageVC = PageViewController()
-        let navigationController = UINavigationController(rootViewController: pageVC)
+        pageVC.navigationDelegate = context.coordinator
+        
+        // Assign the navigation controller to the coordinator
+        context.coordinator.navigationController = navigationController
+        
+        // Set the root view controller
+        navigationController.viewControllers = [pageVC]
+        
         return navigationController
     }
     
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
-        // Update the view controller if needed (e.g., based on SwiftUI state changes)
-    }
-}
-
-// Example UIKit view controller
-class MyUIKitViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBlue
-        print("[MyUIKitViewController] viewDidLoad") // Lifecycle log
-        // Additional setup
+        // Handle updates if needed
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("[MyUIKitViewController] viewWillAppear") // Lifecycle log
+    func makeCoordinator() -> Coordinator {
+        Coordinator(toggleViewCallback: toggleViewCallback)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("[MyUIKitViewController] viewDidAppear") // Lifecycle log
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("[MyUIKitViewController] viewWillDisappear") // Lifecycle log
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        print("[MyUIKitViewController] viewDidDisappear") // Lifecycle log
+    // MARK: - Coordinator
+    class Coordinator: NSObject, PageViewControllerNavigationDelegate, SafariPageViewControllerNavigationDelegate {
+        var toggleViewCallback: () -> Void
+        weak var navigationController: UINavigationController?
+        
+        init(toggleViewCallback: @escaping () -> Void) {
+            self.toggleViewCallback = toggleViewCallback
+        }
+        
+        // MARK: - PageViewControllerNavigationDelegate Methods
+        
+        func pageViewControllerDidRequestNavigationToSafari(_ pageViewController: PageViewController) {
+            let safariPageVC = SafariPageViewController()
+            safariPageVC.navigationDelegate = self
+            navigationController?.pushViewController(safariPageVC, animated: true)
+        }
+        
+        // MARK: - SafariPageViewControllerNavigationDelegate Methods
+        
+        func safariPageViewControllerDidRequestToggle(_ safariPageViewController: SafariPageViewController) {
+            toggleViewCallback()
+        }
     }
 }
 

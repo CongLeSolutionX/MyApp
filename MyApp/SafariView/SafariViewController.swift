@@ -14,7 +14,7 @@ class SafariViewController: UIViewController {
     // MARK: - Properties
     
     let urlString: String // Made let as urlString is set once at init
-    var pageIndex: Int // Made let as pageIndex is set once at init
+    let pageIndex: Int
     private var safariViewController: SFSafariViewController?
     
     // MARK: - Initializer
