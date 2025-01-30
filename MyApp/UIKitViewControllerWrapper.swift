@@ -8,18 +8,15 @@
 import SwiftUI
 import UIKit
 
-// Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = SafariPageViewController
-    
-    // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> SafariPageViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
-        return SafariPageViewController()
+    typealias UIViewControllerType = MyUIKitViewController
+
+    func makeUIViewController(context: Context) -> MyUIKitViewController {
+        return MyUIKitViewController()
     }
-    
-    func updateUIViewController(_ uiViewController: SafariPageViewController, context: Context) {
-        // Update the view controller if needed
+
+    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+        // Update the view controller if needed (e.g., based on SwiftUI state changes)
     }
 }
 
@@ -52,3 +49,11 @@ class MyUIKitViewController: UIViewController {
         print("[MyUIKitViewController] viewDidDisappear") // Lifecycle log
     }
 }
+
+// MARK: - Previews
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitViewControllerWrapper()
+    }
+}
+

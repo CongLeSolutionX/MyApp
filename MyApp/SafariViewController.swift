@@ -5,62 +5,68 @@
 //  Created by Cong Le on 1/29/25.
 //
 
-//
-//  WebViewController.swift
 
 import UIKit
 import SafariServices
 
 class SafariViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
-    var urlString: String
-    var pageIndex: Int = 0
-    
-    // Reference to SFSafariViewController
+
+    let urlString: String // Made let as urlString is set once at init
+    var pageIndex: Int // Made let as pageIndex is set once at init
     private var safariViewController: SFSafariViewController?
-    
+
     // MARK: - Initializer
-    
+
     init(urlString: String) {
         self.urlString = urlString
+        self.pageIndex = 0 // Default value - consider if this should always be passed in
         super.init(nibName: nil, bundle: nil)
     }
-    
+
+    // Designated initializer to require pageIndex
+    init(urlString: String, pageIndex: Int) {
+        self.urlString = urlString
+        self.pageIndex = pageIndex
+        super.init(nibName: nil, bundle: nil)
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loadWebContent()
     }
-    
+
     // MARK: - Helper Methods
-    
+
     private func loadWebContent() {
-        guard let url = URL(string: urlString) else { return }
-        
+        guard let url = URL(string: urlString) else {
+            printLog("[SafariViewController] Error: Invalid URL string - \(urlString)") // Error logging
+            return // Handle invalid URL gracefully
+        }
+
         let safariConfig = SFSafariViewController.Configuration()
-        safariConfig.entersReaderIfAvailable = false // Set to true if you want to enter Reader mode when available
-        
+        safariConfig.entersReaderIfAvailable = false
+
         let safariVC = SFSafariViewController(url: url, configuration: safariConfig)
         safariVC.delegate = self
         safariVC.modalPresentationStyle = .fullScreen
-        
+
         safariVC.preferredControlTintColor = .yellow
-        safariVC.preferredBarTintColor = .black // Changes the background color of the navigation bar and toolbar
-        
-        // Add the Safari view controller as a child view controller
+        safariVC.preferredBarTintColor = .black
+
         addChild(safariVC)
         safariVC.view.frame = view.bounds
         view.addSubview(safariVC.view)
         safariVC.didMove(toParent: self)
-        
-        safariViewController = safariVC
+
+        self.safariViewController = safariVC // Use self for clarity
     }
 }
 

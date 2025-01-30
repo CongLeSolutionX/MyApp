@@ -1,5 +1,5 @@
 //
-//  UIPageViewController.swift
+//  PageViewController.swift
 //  MyApp
 //
 //  Created by Cong Le on 8/19/24.
@@ -9,82 +9,81 @@ import UIKit
 import WebKit
 
 class PageViewController: UIPageViewController {
-    
+
     // MARK: - Properties
-    
-    private var pages: [WebPage] = []
+
+    private var webPages: [WebPage] = []
     private var currentIndex: Int = 0
-    
-    // List of URLs to load
+
     private let urlStrings = [
         "https://openai.com/policies/row-terms-of-use",
         "https://x.ai/legal/privacy-policy",
         "https://ai.google.dev/gemini-api/docs"
     ]
-    
+
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupPageViewController()
+        loadInitialPages()
+    }
+
+    private func setupPageViewController() {
         dataSource = self
         delegate = self
-        
-        // Initialize WebPage models
-        for urlString in urlStrings {
-            let webPage = WebPage(urlString: urlString)
-            pages.append(webPage)
-        }
-        
-        // Set initial view controller
+    }
+
+    private func loadInitialPages() {
+        webPages = urlStrings.map { WebPage(urlString: $0) } // Use map for concise initialization
         if let firstViewController = viewControllerAtIndex(0) {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
-            // Preload adjacent pages
             preloadAdjacentPages(currentIndex: 0)
         }
     }
-    
-    // MARK: - Helper Methods
-    
+
+    // MARK: - Helper Methods (Navigation & Preloading)
+
     private func viewControllerAtIndex(_ index: Int) -> UIViewController? {
-        guard index >= 0 && index < pages.count else { return nil }
-        
-        let webPage = pages[index]
+        guard isValidIndex(index) else { return nil } // Use validation method
+        let webPage = webPages[index]
         let webVC = WebViewController(webPage: webPage)
         webVC.pageIndex = index
         return webVC
     }
-    
+
     private func preloadAdjacentPages(currentIndex: Int) {
-        // Preload previous page
-        let previousIndex = currentIndex - 1
-        if previousIndex >= 0 {
-            loadWebPage(at: previousIndex)
-        }
-        
-        // Preload next page
-        let nextIndex = currentIndex + 1
-        if nextIndex < pages.count {
-            loadWebPage(at: nextIndex)
-        }
+        preloadPage(at: currentIndex - 1)
+        preloadPage(at: currentIndex + 1)
     }
-    
+
+    private func preloadPage(at index: Int) {
+        guard isValidIndex(index) else { return }
+        loadWebPage(at: index)
+    }
+
+
     private func loadWebPage(at index: Int) {
-        let webPage = pages[index]
-        if !webPage.isLoaded {
-            webPage.loadWebContent()
+        guard isValidIndex(index), !webPages[index].isLoaded else { return } // Check if already loaded
+        webPages[index].loadWebContent()
+    }
+
+    private func unloadDistantPages(from index: Int) {
+        for (i, webPage) in webPages.enumerated() where abs(i - index) > 1 { // Use where clause for clarity
+            unloadWebPage(at: i)
         }
     }
-    
-    /// Frees up memory by unloading pages that are not adjacent to the current page
-    private func unloadDistantPages(from index: Int) {
-        for (i, webPage) in pages.enumerated() {
-            if abs(i - index) > 1 {
-                // Unload web views that are not adjacent to the current page
-                webPage.webView = nil
-                webPage.isLoaded = false
-            }
-        }
+
+    private func unloadWebPage(at index: Int) {
+        guard isValidIndex(index), webPages[index].isLoaded else { return } // Check if loaded before unloading
+        webPages[index].webView = nil
+        webPages[index].isLoaded = false
+    }
+
+    // MARK: - Index Validation Helper
+
+    private func isValidIndex(_ index: Int) -> Bool {
+        return index >= 0 && index < webPages.count
     }
 }
 

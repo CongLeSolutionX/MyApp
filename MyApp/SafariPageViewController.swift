@@ -5,17 +5,16 @@
 //  Created by Cong Le on 1/29/25.
 //
 
-//
+
 import UIKit
 
 class SafariPageViewController: UIPageViewController {
 
     // MARK: - Properties
 
-    private var pages: [SafariViewController] = []
+    private var safariViewControllers: [SafariViewController] = []
     private var currentIndex: Int = 0
 
-    // List of URLs to load
     private let urlStrings = [
         "https://www.apple.com",
         "https://www.google.com",
@@ -26,19 +25,22 @@ class SafariPageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPageViewController()
+        loadInitialPages()
+    }
 
+    private func setupPageViewController() {
         dataSource = self
         delegate = self
+    }
 
-        // Initialize SafariViewController instances
-        for (index, urlString) in urlStrings.enumerated() {
+    private func loadInitialPages() {
+        safariViewControllers = urlStrings.enumerated().map { index, urlString in // Using enumerated map
             let safariWebVC = SafariViewController(urlString: urlString)
             safariWebVC.pageIndex = index
-            pages.append(safariWebVC)
+            return safariWebVC
         }
-
-        // Set initial view controller
-        if let firstViewController = pages.first {
+        if let firstViewController = safariViewControllers.first {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
     }
@@ -53,7 +55,7 @@ extension SafariPageViewController: UIPageViewControllerDataSource {
         let index = webVC.pageIndex
         let previousIndex = index - 1
         guard previousIndex >= 0 else { return nil }
-        return pages[previousIndex]
+        return safariViewControllers[previousIndex]
     }
 
     func pageViewController(_ pageViewController: UIPageViewController,
@@ -61,8 +63,8 @@ extension SafariPageViewController: UIPageViewControllerDataSource {
         guard let webVC = viewController as? SafariViewController else { return nil }
         let index = webVC.pageIndex
         let nextIndex = index + 1
-        guard nextIndex < pages.count else { return nil }
-        return pages[nextIndex]
+        guard nextIndex < safariViewControllers.count else { return nil }
+        return safariViewControllers[nextIndex]
     }
 }
 

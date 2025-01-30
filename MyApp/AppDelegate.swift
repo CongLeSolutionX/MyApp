@@ -5,48 +5,45 @@
 //  Created by Cong Le on 1/29/25.
 //
 
-
 import UIKit
 
-//@UIApplicationMain // No longer needed for SwiftUI apps with @main in MyApp.swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    // Example app-level data
-    var appData: String? = "Initial Data from AppDelegate"
+    // Example app-level data (consider using App Storage for SwiftUI state persistence)
+    @Published var appData: String? = "Initial Data from AppDelegate" // Use @Published for observable data
 
     // MARK: - UIApplicationDelegate Methods
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("[AppDelegate] didFinishLaunchingWithOptions")
+        printLog("[AppDelegate] didFinishLaunchingWithOptions")
         appData = "Data updated after launch" // Update data after launch
-        
         return true
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        print("[AppDelegate] applicationDidBecomeActive")
+        printLog("[AppDelegate] applicationDidBecomeActive")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        print("[AppDelegate] applicationWillResignActive")
+        printLog("[AppDelegate] applicationWillResignActive")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        print("[AppDelegate] applicationDidEnterBackground")
+        printLog("[AppDelegate] applicationDidEnterBackground")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        print("[AppDelegate] applicationWillEnterForeground")
+        printLog("[AppDelegate] applicationWillEnterForeground")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        print("[AppDelegate] applicationWillTerminate")
+        printLog("[AppDelegate] applicationWillTerminate")
     }
-    
+
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         URLCache.shared.removeAllCachedResponses()
-        print("[AppDelegate] applicationDidReceiveMemoryWarning")
+        printLog("[AppDelegate] applicationDidReceiveMemoryWarning")
     }
 
     // MARK: - UISceneSession Lifecycle
@@ -54,38 +51,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        print("[AppDelegate] Configuring scene session")
-        // Create a new scene configuration.
+        printLog("[AppDelegate] Configuring scene session")
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
-    // MARK: - Scene Delegate Notification Methods (Example of communication)
+    // MARK: - Scene Delegate Notification Methods (Example - Consider SceneDelegate if needed)
 
+    // Note: In SwiftUI with Scene-based apps, SceneDelegate handles much of this.
+    // These methods in AppDelegate are more for app-level notifications.
     func sceneWillConnectToScene() {
-        print("[AppDelegate] Notification: Scene will connect")
+        printLog("[AppDelegate] Notification: Scene will connect - App Level")
     }
 
     func sceneDidBecomeActive() {
-        print("[AppDelegate] Notification: Scene did become active")
+        printLog("[AppDelegate] Notification: Scene did become active - App Level")
     }
 
     func sceneWillResignActive() {
-        print("[AppDelegate] Notification: Scene will resign active")
+        printLog("[AppDelegate] Notification: Scene will resign active - App Level")
     }
 
     func sceneDidEnterBackground() {
-        print("[AppDelegate] Notification: Scene did enter background")
+        printLog("[AppDelegate] Notification: Scene did enter background - App Level")
     }
 
     func sceneWillEnterForeground() {
-        print("[AppDelegate] Notification: Scene will enter foreground")
+        printLog("[AppDelegate] Notification: Scene will enter foreground - App Level")
     }
 
     func sceneDidDisconnect() {
-        print("[AppDelegate] Notification: Scene did disconnect")
+        printLog("[AppDelegate] Notification: Scene did disconnect - App Level")
     }
 
-    // MARK: - Data Accessor for SceneDelegate (Example of data passing)
+    // MARK: - Data Accessor for App Data (Observable with @Published if needed in SwiftUI)
+
     func getAppData() -> String {
         return appData ?? "No App Data Available"
     }

@@ -9,38 +9,53 @@ import SwiftUI
 
 @main
 struct MyApp: App {
-    // Monitor the app's scene phase (active, inactive, background)
     @Environment(\.scenePhase) private var scenePhase
 
+    // MARK: - Initialization
+
     init() {
-        // Equivalent to application(_:didFinishLaunchingWithOptions:)
-        print("[MyApp] App initialized (didFinishLaunchingWithOptions)")
-        
-        // Configure URLCache
+        Self.configureURLCache() // Use static method for configuration
+        printLog("[MyApp] App initialized (didFinishLaunchingWithOptions)")
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            //UIKitViewControllerWrapper()
+             ContentView() // Option to switch to pure SwiftUI view
+        }
+        .onChange(of: scenePhase, initial: true) { oldPhase, newPhase in // Include initial for first phase
+            printLog("[MyApp] Scene phase changed from \(oldPhase) to \(newPhase)")
+            handleScenePhaseChange(newPhase) // Extract phase change logic to a method
+        }
+    }
+
+    // MARK: - Private Static Methods
+
+    private static func configureURLCache() {
         let memoryCapacity = 50 * 1024 * 1024 // 50 MB
         let diskCapacity = 200 * 1024 * 1024 // 200 MB
         let cache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "webViewCache")
         URLCache.shared = cache
     }
 
-    var body: some Scene {
+    // MARK: - Private Methods
 
-        WindowGroup {
-             UIKitViewControllerWrapper()
-            // ContentView() // Option to switch to pure SwiftUI view
-        }
-        .onChange(of: scenePhase) { oldPhase, newPhase in
-            print("[MyApp] Scene phase changed from \(oldPhase) to \(newPhase)")
-            switch newPhase {
-            case .active:
-                print("[MyApp] Scene became active from MyApp")
-            case .inactive:
-                print("[MyApp] Scene became inactive from MyApp")
-            case .background:
-                print("[MyApp] Scene entered background from MyApp")
-            @unknown default:
-                print("[MyApp] Unknown scene phase from MyApp")
-            }
+    private func handleScenePhaseChange(_ phase: ScenePhase) {
+        switch phase {
+        case .active:
+            printLog("[MyApp] Scene became active from MyApp")
+        case .inactive:
+            printLog("[MyApp] Scene became inactive from MyApp")
+        case .background:
+            printLog("[MyApp] Scene entered background from MyApp")
+            // Perform background tasks if needed, e.g., save state
+        @unknown default:
+            printLog("[MyApp] Unknown scene phase from MyApp")
         }
     }
+}
+
+// Centralized logging function for consistency
+func printLog(_ message: String) {
+    print(message) // Can be expanded to more sophisticated logging
 }

@@ -7,56 +7,56 @@
 
 import SwiftUI
 
-// Use in SwiftUI view
 struct ContentView: View {
-    @Environment(\.scenePhase) var scenePhase // Observe scene phase
-
-    // Example of data passed from AppDelegate/SceneDelegate (optional)
+    @Environment(\.scenePhase) var scenePhase
     @State private var appDelegateData: String = "No data yet"
+    @State private var viewAppeared = false // Track view appearance
 
     var body: some View {
         VStack {
             Text("Hello, World!")
-            Text("Scene Phase: \(scenePhase)") // Display scene phase
+            Text("Scene Phase: \(scenePhase)")
                 .padding(.bottom)
-            Text("AppDelegate Data: \(appDelegateData)") // Display AppDelegate Data
+            Text("AppDelegate Data: \(appDelegateData)")
         }
         .onAppear {
-            print("[ContentView] View.onAppear()") // Lifecycle log
-            // Example: Fetch data when view appears (can be triggered or updated from AppDelegate/SceneDelegate)
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-               let data = appDelegate.appData {
-                appDelegateData = data
-            }
+            guard !viewAppeared else { return } // Prevent redundant calls
+            viewAppeared = true
+            printLog("[ContentView] View.onAppear()")
+            fetchAppDelegateData() // Encapsulate data fetching
         }
         .onDisappear {
-            print("[ContentView] View.onDisappear()") // Lifecycle log
+            printLog("[ContentView] View.onDisappear()")
+            viewAppeared = false // Reset flag
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
-            print("[ContentView] Scene Phase changed from \(oldPhase) to \(newPhase)") // Lifecycle log
-            switch newPhase {
-            case .active:
-                print("[ContentView] Scene became active from ContentView")
-            case .inactive:
-                print("[ContentView] Scene became inactive from ContentView")
-            case .background:
-                print("[ContentView] Scene entered background from ContentView")
-            @unknown default:
-                print("[ContentView] Unknown scene phase from ContentView")
-            }
+            printLog("[ContentView] Scene Phase changed from \(oldPhase) to \(newPhase)")
+            handleScenePhaseChange(newPhase) // Reuse scene phase change logic
+        }
+    }
+
+    private func fetchAppDelegateData() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+           let data = appDelegate.appData {
+            appDelegateData = data
+        }
+    }
+
+    private func handleScenePhaseChange(_ phase: ScenePhase) { // Consistent scene phase handling
+        switch phase {
+        case .active:
+            printLog("[ContentView] Scene became active from ContentView")
+        case .inactive:
+            printLog("[ContentView] Scene became inactive from ContentView")
+        case .background:
+            printLog("[ContentView] Scene entered background from ContentView")
+        @unknown default:
+            printLog("[ContentView] Unknown scene phase from ContentView")
         }
     }
 }
 
 // MARK: - Previews
-// After iOS 17, we can use this syntax for preview:
 #Preview {
     ContentView()
-}
-
-// Before iOS 17, use this syntax for preview UIKit view controller
-struct UIKitViewControllerWrapper_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerWrapper()
-    }
 }
