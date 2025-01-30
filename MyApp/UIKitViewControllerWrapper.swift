@@ -17,7 +17,9 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UINavigationController {
         ///  pass the `toggleViewCallback` to the `SafariPageViewController` initializer
         let safariPageViewController = SafariPageViewController(toggleViewCallback: toggleViewCallback)
-        let navigationController = UINavigationController(rootViewController: safariPageViewController)
+        
+        let pageVC = PageViewController()
+        let navigationController = UINavigationController(rootViewController: pageVC)
         return navigationController
     }
     
