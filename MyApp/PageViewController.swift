@@ -75,6 +75,17 @@ class PageViewController: UIPageViewController {
             webPage.loadWebContent()
         }
     }
+    
+    /// Frees up memory by unloading pages that are not adjacent to the current page
+    private func unloadDistantPages(from index: Int) {
+        for (i, webPage) in pages.enumerated() {
+            if abs(i - index) > 1 {
+                // Unload web views that are not adjacent to the current page
+                webPage.webView = nil
+                webPage.isLoaded = false
+            }
+        }
+    }
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -108,17 +119,6 @@ extension PageViewController: UIPageViewControllerDelegate {
             preloadAdjacentPages(currentIndex: currentIndex)
             // Unload distant pages
             unloadDistantPages(from: currentIndex)
-        }
-    }
-    
-    /// Frees up memory by unloading pages that are not adjacent to the current page
-    private func unloadDistantPages(from index: Int) {
-        for (i, webPage) in pages.enumerated() {
-            if abs(i - index) > 1 {
-                // Unload web views that are not adjacent to the current page
-                webPage.webView = nil
-                webPage.isLoaded = false
-            }
         }
     }
 }
