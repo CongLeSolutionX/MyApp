@@ -21,12 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("[AppDelegate] didFinishLaunchingWithOptions")
         appData = "Data updated after launch" // Update data after launch
         
-        // Configure URLCache
-        let memoryCapacity = 50 * 1024 * 1024 // 50 MB
-        let diskCapacity = 200 * 1024 * 1024 // 200 MB
-        let cache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "webViewCache")
-        URLCache.shared = cache
-
         return true
     }
 

@@ -15,6 +15,12 @@ struct MyApp: App {
     init() {
         // Equivalent to application(_:didFinishLaunchingWithOptions:)
         print("[MyApp] App initialized (didFinishLaunchingWithOptions)")
+        
+        // Configure URLCache
+        let memoryCapacity = 50 * 1024 * 1024 // 50 MB
+        let diskCapacity = 200 * 1024 * 1024 // 200 MB
+        let cache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "webViewCache")
+        URLCache.shared = cache
     }
 
     var body: some Scene {
