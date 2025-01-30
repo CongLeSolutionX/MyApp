@@ -47,8 +47,7 @@ class PageViewController: UIPageViewController {
     private func viewControllerAtIndex(_ index: Int) -> UIViewController? {
         guard isValidIndex(index) else { return nil } // Use validation method
         let webPage = webPages[index]
-        let webVC = WebViewController(webPage: webPage)
-        webVC.pageIndex = index
+        let webVC = WebViewController(webPage: webPage, pageIndex: index)
         return webVC
     }
 
@@ -71,6 +70,7 @@ class PageViewController: UIPageViewController {
     private func unloadDistantPages(from index: Int) {
         for (i, webPage) in webPages.enumerated() where abs(i - index) > 1 { // Use where clause for clarity
             unloadWebPage(at: i)
+            print(webPage.isLoaded)
         }
     }
 
@@ -94,6 +94,7 @@ extension PageViewController: UIPageViewControllerDataSource {
         guard let webVC = viewController as? WebViewController else { return nil }
         let index = webVC.pageIndex
         let previousIndex = index - 1
+        guard previousIndex >= 0 else { return nil }
         return viewControllerAtIndex(previousIndex)
     }
     
@@ -101,6 +102,7 @@ extension PageViewController: UIPageViewControllerDataSource {
         guard let webVC = viewController as? WebViewController else { return nil }
         let index = webVC.pageIndex
         let nextIndex = index + 1
+        guard nextIndex < webPages.count else { return nil }
         return viewControllerAtIndex(nextIndex)
     }
 }

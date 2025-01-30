@@ -11,7 +11,6 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @State private var appDelegateData: String = "No data yet"
     @State private var viewAppeared = false // Track view appearance
-//    @Binding var useUIKitView: Bool // Binding to control from ContentView
     @AppStorage("useUIKitView") private var useUIKitView: Bool = true // Access from AppStorage
 
 
@@ -41,14 +40,6 @@ struct ContentView: View {
             printLog("[ContentView] Scene Phase changed from \(oldPhase) to \(newPhase)")
             handleScenePhaseChange(newPhase) // Reuse scene phase change logic
         }
-        .toolbar { // Add a toolbar with a menu
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Menu("Switch View") {
-                    Button("Use UIKit View", action: { useUIKitView = true })
-                    Button("Use SwiftUI View", action: { useUIKitView = false })
-                }
-            }
-        }
     }
 
     private func fetchAppDelegateData() {
@@ -74,6 +65,5 @@ struct ContentView: View {
 
 // MARK: - Previews
 #Preview {
-    // Use .constant(false) for ContentView preview
     ContentView()
 }

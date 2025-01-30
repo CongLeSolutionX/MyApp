@@ -56,7 +56,6 @@ class SafariViewController: UIViewController {
 
         let safariVC = SFSafariViewController(url: url, configuration: safariConfig)
         safariVC.delegate = self
-        safariVC.modalPresentationStyle = .fullScreen
 
         safariVC.preferredControlTintColor = .yellow
         safariVC.preferredBarTintColor = .black

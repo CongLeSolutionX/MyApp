@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class SafariPageViewController: UIPageViewController {
     
     // MARK: - Properties
