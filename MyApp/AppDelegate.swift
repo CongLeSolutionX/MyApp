@@ -49,6 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         print("[AppDelegate] applicationWillTerminate")
     }
+    
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        URLCache.shared.removeAllCachedResponses()
+        print("[AppDelegate] applicationDidReceiveMemoryWarning")
+    }
 
     // MARK: - UISceneSession Lifecycle
 
