@@ -46,7 +46,7 @@ This project is licensed under the **MIT License**.
 ```
 MIT License
 
-Copyright (c) [Year] [Your Name]
+Copyright (c) 2025 Cong Le
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
