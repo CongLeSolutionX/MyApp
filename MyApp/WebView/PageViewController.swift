@@ -23,6 +23,8 @@ class PageViewController: UIPageViewController {
 
     private let urlStrings = [
         "https://conglesolutionx.github.io/MSE_CPSC-543-Software_Maintenance/",
+        "https://www.fullerton.edu/campusmap/#map",
+        
         "https://openai.com/policies/row-terms-of-use",
         "https://x.ai/legal/privacy-policy",
         "https://ai.google.dev/gemini-api/docs"
