@@ -75,8 +75,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonStackView)
         
-        let kermitButton = createButton(title: "Kermit")
-        kermitButton.addTarget(self, action: #selector(handleKermitTapped), for: .touchUpInside)
+        let kermitButton = createButton(title: "My-meme-original")
+        kermitButton.addTarget(self, action: #selector(handleMyMemeOriginalTapped), for: .touchUpInside)
+        
+//        let kermitButton = createButton(title: "Kermit")
+//        kermitButton.addTarget(self, action: #selector(handleKermitTapped), for: .touchUpInside)
         let batmanButton = createButton(title: "Batman")
         batmanButton.addTarget(self, action: #selector(handleBatmanTapped), for: .touchUpInside)
         let monkeyButton = createButton(title: "Monkey")
@@ -107,9 +110,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }
     
-    @objc private func handleKermitTapped() {
-        print("handleKermitTapped")
-        self.displayImageNamed("kermit")
+    @objc private func handleMyMemeOriginalTapped() {
+        print("handleMyMemeOriginalTapped")
+        self.displayImageNamed("MyMemeOriginal")
     }
     
     @objc private func handleBatmanTapped() {
