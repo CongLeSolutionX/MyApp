@@ -255,8 +255,8 @@ struct ErrorView: View {
 
 // Glitch Text Effect Components
 
-// Assuming we have access to the implementations of GlitchText, GlitchFrame, LinearKeyframe, etc.
-// For the purpose of this example, I'll provide simplified versions.
+// Assuming you have the full implementations of GlitchText, GlitchFrame, LinearKeyframe, etc.
+// For the purpose of this example, simplified versions are provided.
 
 struct GlitchText: View {
     let text: String
@@ -274,11 +274,13 @@ struct GlitchText: View {
 
     var body: some View {
         Text(text)
-            .foregroundColor(.white)
-            .shadow(color: shadowColor.opacity(keyframes[animationIndex].frame.shadowOpacity), radius: 0, x: keyframes[animationIndex].frame.center, y: 0)
-            .offset(x: keyframes[animationIndex].frame.top, y: keyframes[animationIndex].frame.bottom)
-            .onChange(of: trigger) { _ in
-                animateGlitch()
+            .foregroundColor(trigger ? .white : .primary)
+            .shadow(color: shadowColor.opacity(trigger ? keyframes[animationIndex].frame.shadowOpacity : 0), radius: 0, x: trigger ? keyframes[animationIndex].frame.center : 0, y: 0)
+            .offset(x: trigger ? keyframes[animationIndex].frame.top : 0, y: trigger ? keyframes[animationIndex].frame.bottom : 0)
+            .onAppear {
+                if trigger {
+                    animateGlitch()
+                }
             }
     }
 
@@ -396,13 +398,16 @@ struct LiveAPIView: View {
 
     var body: some View {
         VStack {
-            // Glitched Title
-            GlitchTextView("USCIS Case Status - Live API", trigger: triggerGlitch)
-                .font(.title2)
-                .padding()
-                .onAppear {
-                    triggerGlitch.toggle()
-                }
+            // Conditionally display title
+            if triggerGlitch {
+                GlitchTextView("USCIS Case Status - Live API", trigger: triggerGlitch)
+                    .font(.title2)
+                    .padding()
+            } else {
+                Text("USCIS Case Status - Live API")
+                    .font(.title2)
+                    .padding()
+            }
 
             TextField("Enter Receipt Number", text: $receiptNumber)
                 .padding()
@@ -411,6 +416,11 @@ struct LiveAPIView: View {
 
             Button("Get Case Status") {
                 apiError = nil
+                triggerGlitch = true
+                // Reset trigger after glitch effect duration
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    triggerGlitch = false
+                }
                 fetchCaseStatus()
             }
             .padding()
@@ -453,13 +463,16 @@ struct MockTestView: View {
 
     var body: some View {
         VStack {
-            // Glitched Title
-            GlitchTextView("USCIS Case Status - Mock Tests", trigger: triggerGlitch)
-                .font(.title2)
-                .padding()
-                .onAppear {
-                    triggerGlitch.toggle()
-                }
+            // Conditionally display title
+            if triggerGlitch {
+                GlitchTextView("USCIS Case Status - Mock Tests", trigger: triggerGlitch)
+                    .font(.title2)
+                    .padding()
+            } else {
+                Text("USCIS Case Status - Mock Tests")
+                    .font(.title2)
+                    .padding()
+            }
 
             Picker("Mock Error Scenario", selection: $mockErrorScenario) {
                 ForEach(MockErrorScenario.allCases) { scenario in
@@ -475,6 +488,11 @@ struct MockTestView: View {
 
             Button("Run Mock Test") {
                 apiError = nil
+                triggerGlitch = true
+                // Reset trigger after glitch effect duration
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    triggerGlitch = false
+                }
                 fetchCaseStatus()
             }
             .padding()
