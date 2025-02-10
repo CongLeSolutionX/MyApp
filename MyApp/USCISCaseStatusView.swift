@@ -253,6 +253,138 @@ struct ErrorView: View {
     }
 }
 
+// Glitch Text Effect Components
+
+// Assuming we have access to the implementations of GlitchText, GlitchFrame, LinearKeyframe, etc.
+// For the purpose of this example, I'll provide simplified versions.
+
+struct GlitchText: View {
+    let text: String
+    let trigger: Bool
+    let shadowColor: Color
+    let keyframes: [LinearKeyframe]
+    @State private var animationIndex: Int = 0
+
+    init(text: String, trigger: Bool, shadow: Color = .red, @GlitchKeyframeBuilder keyframes: () -> [LinearKeyframe]) {
+        self.text = text
+        self.trigger = trigger
+        self.shadowColor = shadow
+        self.keyframes = keyframes()
+    }
+
+    var body: some View {
+        Text(text)
+            .foregroundColor(.white)
+            .shadow(color: shadowColor.opacity(keyframes[animationIndex].frame.shadowOpacity), radius: 0, x: keyframes[animationIndex].frame.center, y: 0)
+            .offset(x: keyframes[animationIndex].frame.top, y: keyframes[animationIndex].frame.bottom)
+            .onChange(of: trigger) { _ in
+                animateGlitch()
+            }
+    }
+
+    func animateGlitch() {
+        guard !keyframes.isEmpty else { return }
+        animationIndex = 0
+        withAnimation(.linear(duration: keyframes[animationIndex].duration)) {
+            animationIndex = 0
+        }
+        for index in 1..<keyframes.count {
+            let delay = keyframes[0..<index].map { $0.duration }.reduce(0, +)
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                withAnimation(.linear(duration: keyframes[index].duration)) {
+                    animationIndex = index
+                }
+            }
+        }
+    }
+}
+
+struct GlitchFrame {
+    let top: CGFloat
+    let center: CGFloat
+    let bottom: CGFloat
+    let shadowOpacity: Double
+
+    init(top: CGFloat = 0, center: CGFloat = 0, bottom: CGFloat = 0, shadowOpacity: Double = 0) {
+        self.top = top
+        self.center = center
+        self.bottom = bottom
+        self.shadowOpacity = shadowOpacity
+    }
+}
+
+struct LinearKeyframe {
+    let frame: GlitchFrame
+    let duration: Double
+}
+
+@resultBuilder
+struct GlitchKeyframeBuilder {
+    static func buildBlock(_ keyframes: LinearKeyframe...) -> [LinearKeyframe] {
+        return keyframes
+    }
+}
+
+// GlitchTextView function
+@ViewBuilder
+func GlitchTextView(_ text: String, trigger: Bool) -> some View {
+    ZStack {
+        GlitchText(text: text, trigger: trigger, shadow: .red) {
+            LinearKeyframe(
+                frame: GlitchFrame(top: -5, center: 0, bottom: 0, shadowOpacity: 0.2),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: -5, center: -5, bottom: -5, shadowOpacity: 0.6),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: -5, center: -5, bottom: 5, shadowOpacity: 0.8),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 5, center: 5, bottom: 5, shadowOpacity: 0.4),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 5, center: 0, bottom: 5, shadowOpacity: 0.1),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(),
+                duration: 0.1
+            )
+        }
+
+        GlitchText(text: text, trigger: trigger, shadow: .green) {
+            LinearKeyframe(
+                frame: GlitchFrame(top: 0, center: 5, bottom: 0, shadowOpacity: 0.2),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 5, center: 5, bottom: 5, shadowOpacity: 0.3),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 5, center: 5, bottom: -5, shadowOpacity: 0.5),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 0, center: 5, bottom: -5, shadowOpacity: 0.6),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(top: 0, center: -5, bottom: 0, shadowOpacity: 0.3),
+                duration: 0.1
+            )
+            LinearKeyframe(
+                frame: GlitchFrame(),
+                duration: 0.1
+            )
+        }
+    }
+}
+
 // Views
 
 // Live API View
@@ -260,12 +392,17 @@ struct LiveAPIView: View {
     @State private var caseStatus: CaseStatus? = nil
     @State private var apiError: APIError? = nil
     @State private var receiptNumber: String = "EAC9999103402" // Default receipt number for testing
+    @State private var triggerGlitch: Bool = false // State variable to trigger glitch effect
 
     var body: some View {
         VStack {
-            Text("USCIS Case Status - Live API")
+            // Glitched Title
+            GlitchTextView("USCIS Case Status - Live API", trigger: triggerGlitch)
                 .font(.title2)
                 .padding()
+                .onAppear {
+                    triggerGlitch.toggle()
+                }
 
             TextField("Enter Receipt Number", text: $receiptNumber)
                 .padding()
@@ -312,12 +449,17 @@ struct MockTestView: View {
     @State private var apiError: APIError? = nil
     @State private var receiptNumber: String = "EAC9999103402"
     @State private var mockErrorScenario: MockErrorScenario = .none
+    @State private var triggerGlitch: Bool = false // State variable to trigger glitch effect
 
     var body: some View {
         VStack {
-            Text("USCIS Case Status - Mock Tests")
+            // Glitched Title
+            GlitchTextView("USCIS Case Status - Mock Tests", trigger: triggerGlitch)
                 .font(.title2)
                 .padding()
+                .onAppear {
+                    triggerGlitch.toggle()
+                }
 
             Picker("Mock Error Scenario", selection: $mockErrorScenario) {
                 ForEach(MockErrorScenario.allCases) { scenario in
