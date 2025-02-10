@@ -398,6 +398,7 @@ struct LiveAPIView: View {
 
     var body: some View {
         VStack {
+            Image("My-meme-original").resizable().frame(width: 400, height: 300)
             // Conditionally display title
             if triggerGlitch {
                 GlitchTextView("USCIS Case Status - Live API", trigger: triggerGlitch)
@@ -463,6 +464,7 @@ struct MockTestView: View {
 
     var body: some View {
         VStack {
+            Image("My-meme-original").resizable().frame(width: 400, height: 300)
             // Conditionally display title
             if triggerGlitch {
                 GlitchTextView("USCIS Case Status - Mock Tests", trigger: triggerGlitch)
