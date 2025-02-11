@@ -13,6 +13,7 @@
 		9A9B201B2D5B595F00666A66 /* EnumNavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */; };
 		9A9B201D2D5B59A800666A66 /* CodeDuplicationAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */; };
 		9A9B201F2D5B5A2800666A66 /* ProtocolNavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B201E2D5B5A2500666A66 /* ProtocolNavigationDestination.swift */; };
+		9A9B20252D5B69E400666A66 /* Environmental Solutions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B20242D5B69E400666A66 /* Environmental Solutions.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumNavigationDestination.swift; sourceTree = "<group>"; };
 		9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeDuplicationAccess.swift; sourceTree = "<group>"; };
 		9A9B201E2D5B5A2500666A66 /* ProtocolNavigationDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolNavigationDestination.swift; sourceTree = "<group>"; };
+		9A9B20242D5B69E400666A66 /* Environmental Solutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environmental Solutions.swift"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */,
 				9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */,
 				9A9B201E2D5B5A2500666A66 /* ProtocolNavigationDestination.swift */,
+				9A9B20242D5B69E400666A66 /* Environmental Solutions.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -164,6 +167,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9B201F2D5B5A2800666A66 /* ProtocolNavigationDestination.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A9B20252D5B69E400666A66 /* Environmental Solutions.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A9B20152D5B57D800666A66 /* Pre_and_Post_iOS16_NavigationView.swift in Sources */,
 				9A9B201B2D5B595F00666A66 /* EnumNavigationDestination.swift in Sources */,
