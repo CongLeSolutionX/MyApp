@@ -16,17 +16,28 @@ protocol NavigationDestinationProtocol: Hashable, Equatable, Identifiable { // N
 
 // Enum AccountDestinations now implements NavigationDestinationProtocol
 enum AccountDestinationsEnumProto: Hashable, Equatable, Identifiable { // AccountDestinations Enum - Implements Protocol
-    case details(Account)
-    case disclaimers(Account)
+    case details(AccountForProtocolNavigationView)
+    case disclaimers(AccountForProtocolNavigationView)
 
     var id: Self { self } // For Identifiable conformance
 }
+
+struct AccountForProtocolNavigation_DetailView: View {
+    let account: AccountForProtocolNavigationView
+
+    var body: some View {
+        Text("Account Details for \(account.name)")
+            .navigationTitle("Account Detail")
+    }
+}
+
+
 
 extension AccountDestinationsEnumProto: NavigationDestinationProtocol { // Conform enum to NavigationDestinationProtocol
     var view: some View { // Implementing the required 'view' property - View Building INSIDE Enum Now!
         switch self {
         case .details(let account):
-            AccountDetailView(account: account)
+            AccountForProtocolNavigation_DetailView(account: account)
         case .disclaimers(let account):
             Text("Disclaimers Protocol for \(account.name)")
                 .navigationTitle("Disclaimers Proto")
@@ -34,12 +45,17 @@ extension AccountDestinationsEnumProto: NavigationDestinationProtocol { // Confo
     }
 }
 
+struct AccountForProtocolNavigationView: Hashable {
+    let id = UUID()
+    let name: String
+}
+
 struct ProtocolNavigationDestinationView: View {
     @State private var selectedProtoDestination: AccountDestinationsEnumProto? = nil
 
     let accounts = [
-        Account(name: "Account Gamma"),
-        Account(name: "Account Delta")
+        AccountForProtocolNavigationView(name: "Account Gamma"),
+        AccountForProtocolNavigationView(name: "Account Delta")
     ]
 
     var body: some View {

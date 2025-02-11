@@ -9,13 +9,13 @@ import SwiftUI
 
 // MARK: - 2. Understanding navigationDestination & Value-Based Navigation
 
-struct Account: Hashable {
+struct AccountForValueBasedNavigation: Hashable {
     let id = UUID()
     let name: String
 }
 
-struct AccountDetailView: View {
-    let account: Account
+struct AccountForValueBasedNavigation_DetailView: View {
+    let account: AccountForValueBasedNavigation
 
     var body: some View {
         Text("Account Details for \(account.name)")
@@ -24,11 +24,11 @@ struct AccountDetailView: View {
 }
 
 struct ValueBasedNavigationView: View {
-    @State private var selectedAccount: Account? = nil
+    @State private var selectedAccount: AccountForValueBasedNavigation? = nil
 
     let accounts = [
-        Account(name: "Account 1"),
-        Account(name: "Account 2")
+        AccountForValueBasedNavigation(name: "Account 1"),
+        AccountForValueBasedNavigation(name: "Account 2")
     ]
 
     var body: some View {
@@ -36,8 +36,8 @@ struct ValueBasedNavigationView: View {
             List(accounts, id: \.id) { account in
                 NavigationLink(account.name, value: account) // 1. NavigationLink pushes Account value
             }
-            .navigationDestination(for: Account.self) { account in // 2. navigationDestination Modifier handles Account.self
-                AccountDetailView(account: account) // 4. Instantiate AccountDetailView
+            .navigationDestination(for: AccountForValueBasedNavigation.self) { account in // 2. navigationDestination Modifier handles Account.self
+                AccountForValueBasedNavigation_DetailView(account: account) // 4. Instantiate AccountDetailView
             }
             .navigationTitle("Accounts")
         }
