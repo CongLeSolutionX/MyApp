@@ -11,6 +11,7 @@
 		9A9B20172D5B589900666A66 /* ValueBasedNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B20162D5B589500666A66 /* ValueBasedNavigation.swift */; };
 		9A9B20192D5B591700666A66 /* OneHandlerProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B20182D5B591600666A66 /* OneHandlerProblemView.swift */; };
 		9A9B201B2D5B595F00666A66 /* EnumNavigationDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */; };
+		9A9B201D2D5B59A800666A66 /* CodeDuplicationAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		9A9B20162D5B589500666A66 /* ValueBasedNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueBasedNavigation.swift; sourceTree = "<group>"; };
 		9A9B20182D5B591600666A66 /* OneHandlerProblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneHandlerProblemView.swift; sourceTree = "<group>"; };
 		9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumNavigationDestination.swift; sourceTree = "<group>"; };
+		9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeDuplicationAccess.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				9A9B20162D5B589500666A66 /* ValueBasedNavigation.swift */,
 				9A9B20182D5B591600666A66 /* OneHandlerProblemView.swift */,
 				9A9B201A2D5B595C00666A66 /* EnumNavigationDestination.swift */,
+				9A9B201C2D5B59A500666A66 /* CodeDuplicationAccess.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -161,6 +164,7 @@
 				9A9B20152D5B57D800666A66 /* Pre_and_Post_iOS16_NavigationView.swift in Sources */,
 				9A9B201B2D5B595F00666A66 /* EnumNavigationDestination.swift in Sources */,
 				9A9B20172D5B589900666A66 /* ValueBasedNavigation.swift in Sources */,
+				9A9B201D2D5B59A800666A66 /* CodeDuplicationAccess.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
