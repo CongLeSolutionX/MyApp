@@ -7,12 +7,20 @@
 
 import SwiftUI
 
-// Step 3: Embed in main app structure
+
+//@available(iOS 18.0, *)
 @main
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
+            if #available(iOS 18.0, *) {
+                InvitesIntroPageView()
+                    .ignoresSafeArea(.all)
+                    .preferredColorScheme(.dark)
+            } else {
+                ContentView()
+            }
         }
     }
 }
