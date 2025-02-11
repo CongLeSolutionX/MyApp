@@ -1,6 +1,6 @@
 # MyApp - iOS Development Demo and Playground
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Welcome!**
 
@@ -41,7 +41,7 @@ This project is primarily intended for:
 
 This project is licensed under the **MIT License**.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ```
 MIT License
