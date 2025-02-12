@@ -14,13 +14,7 @@ struct Card: Identifiable, Hashable {
     var image: String
 }
 
-let cards: [Card] = [
-    .init(image: "Pic 1"),
-    .init(image: "Pic 6"),
-    .init(image: "Pic 7"),
-    .init(image: "Pic 8"),
-    .init(image: "Pic 9"),
-    .init(image: "Pic 10"),
-    .init(image: "Pic 11"),
-    .init(image: "Pic 12")
-]
+let numberOfCards = 49 // Or however many cards you need
+let cards: [Card] = (0...numberOfCards).map { index in
+    Card(image: "Pic \(index)")
+}

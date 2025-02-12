@@ -60,13 +60,13 @@ struct InvitesIntroPageView: View {
                         .foregroundStyle(.white.secondary)
                         .blurOpacityEffect(initialAnimation)
                     
-                    Text("Apple Invites")
+                    Text("Model Zoo")
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white)
                         .textRenderer(TitleTextRenderer(progress: titleProgress))
                         .padding(.bottom, 12)
                     
-                    Text("Create beautiful invitations for all your events.\nAnyone can receive invitations. Sending included\n with iCloud+.")
+                    Text("Select a AI model of your choice and explore its capabilities.\nSharing what you learn with others with iCloud+.")
                         .font(.callout)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white.secondary)
@@ -78,7 +78,7 @@ struct InvitesIntroPageView: View {
                     timer.upstream.connect().cancel()
                     //// YOUR CODE
                 } label: {
-                    Text("Create Event")
+                    Text("Enter the zoo")
                         .fontWeight(.semibold)
                         .foregroundStyle(.black)
                         .padding(.horizontal, 25)
