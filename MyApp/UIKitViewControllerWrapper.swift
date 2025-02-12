@@ -31,10 +31,25 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         // Additional setup
         
+        DemoDelegateExample()
+    }
+    
+    func DemoDelegateExample() {
+        
+        // Usage example (with optional WKWebView and button state update):
+        let webViewInstance = WKWebView()
+        let delegateExample = DelegateExample(webView: webViewInstance)
+        delegateExample.loadButtonEnabledStateChanged = { isEnabled in
+            // Update button enabled state on UI, e.g., myButton.isEnabled = isEnabled
+        }
+        delegateExample.startDataTaskWithDelegate()
+    }
+    
+    func DemoCompletionHandlerExample() {
         // Usage example (if you have a WKWebView instance):
-         let webViewInstance = WKWebView()
-         let example = CompletionHandlerExample(webView: webViewInstance)
-         example.startDataTaskWithCompletionHandler()
-
+        let webViewInstance = WKWebView()
+        let example = CompletionHandlerExample(webView: webViewInstance)
+        example.startDataTaskWithCompletionHandler()
+        
     }
 }
