@@ -7,14 +7,15 @@
 
 import SwiftUI
 import UIKit
+import WebKit
 
-// Step 1a: UIViewControllerRepresentable implementation
+// UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = MyUIKitViewController
     
-    // Step 1b: Required methods implementation
+    
     func makeUIViewController(context: Context) -> MyUIKitViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
+        // Instantiate and return the UIKit view controller
         return MyUIKitViewController()
     }
     
@@ -29,5 +30,11 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        // Usage example (if you have a WKWebView instance):
+         let webViewInstance = WKWebView()
+         let example = CompletionHandlerExample(webView: webViewInstance)
+         example.startDataTaskWithCompletionHandler()
+
     }
 }

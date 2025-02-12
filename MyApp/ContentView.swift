@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Step 2: Use in SwiftUI view
+// Use in SwiftUI view
 struct ContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
