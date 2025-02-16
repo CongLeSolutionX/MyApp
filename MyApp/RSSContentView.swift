@@ -30,6 +30,7 @@ struct RSSItem: Identifiable {
     var endPage: String = ""
     var fileSize: String = ""
     var authors: String = ""
+    var imageURL: String? // Add image URL property
 }
 
 // MARK: - RSS Parser
@@ -69,6 +70,11 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
         case "item":
             isInsideItem = true
             currentItem = RSSItem()
+        case "enclosure": // Check for enclosure tag, common for images
+            if isInsideItem, let urlString = attributes["url"], attributes["type"]?.starts(with: "image") == true {
+                // Assuming enclosure URL is image if type starts with "image"
+                currentItem?.imageURL = urlString
+            }
         default:
             break
         }
@@ -152,22 +158,54 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
     }
 }
 
-// MARK: - Card View for RSS Item
+// MARK: - Card View for RSS Item with Image
 
 struct RSSItemCardView: View {
     let item: RSSItem
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(item.title)
-                .font(.headline)
-                .foregroundColor(.primary)
-                .lineLimit(2)
+        HStack(spacing: 12) { // Horizontal layout for image and text
+            if let imageURLString = item.imageURL, let imageURL = URL(string: imageURLString) {
+                AsyncImage(url: imageURL) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView() // Placeholder while loading
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 80, height: 80) // Fixed size for image
+                            .clipped()
+                            .cornerRadius(8)
+                    case .failure:
+                        Image(systemName: "photo") // Placeholder on error
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.gray)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            } else {
+                Image(systemName: "photo.on.rectangle.angled") // Default image if no URL
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(.gray)
+            }
 
-            Text(item.description)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .lineLimit(3) // Adjust line limit as needed
+            VStack(alignment: .leading) {
+                Text(item.title)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .lineLimit(2)
+
+                Text(item.description)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .lineLimit(3)
+            }
         }
         .padding()
         .background(Color.white)
@@ -200,15 +238,15 @@ struct RSSContentView: View {
                 Section(header: Text("Items")) {
                     ForEach(parser.channel.items) { item in
                         NavigationLink(destination: ItemDetailView(item: item)) {
-                            RSSItemCardView(item: item) // Using Card View here
+                            RSSItemCardView(item: item) // Using Card View with Image
                         }
-                        .listRowSeparator(.hidden) // Hide default separator for cleaner card appearance
-                        .padding(.vertical, 4) // Add vertical padding between cards
+                        .listRowSeparator(.hidden)
+                        .padding(.vertical, 4)
                     }
                 }
             }
             .navigationTitle("RSS Feed")
-            .listStyle(.plain) // Use plain list style to remove default list background
+            .listStyle(.plain)
         }
         .onAppear {
             parser.fetchRSS(from: rssURL)
@@ -226,6 +264,32 @@ struct ItemDetailView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Title: \(item.title)")
                     .font(.headline)
+
+                // Display image in detail view as well, if URL exists
+                if let imageURLString = item.imageURL, let imageURL = URL(string: imageURLString) {
+                    AsyncImage(url: imageURL) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(8)
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    .frame(maxWidth: .infinity) // Make image take full width
+                    .padding(.bottom) // Add some space below image
+                }
+
+
                 Text("Link: \(item.link)")
                 Text("Publication Date: \(item.pubDate)")
                 Text("Volume: \(item.volume)")
