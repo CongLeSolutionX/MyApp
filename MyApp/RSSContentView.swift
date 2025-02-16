@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 2/16/25.
 //
-
 import SwiftUI
 import Foundation
 
@@ -37,17 +36,17 @@ struct RSSItem: Identifiable {
 
 class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
     @Published var channel = RSSChannel()
-    
+
     private var currentElement = ""
     private var currentValue = ""
     private var currentItem: RSSItem?
     private var isInsideChannel = false
     private var isInsideItem = false
-    
+
     // Fetch and parse RSS from a URL
     func fetchRSS(from urlString: String) {
         guard let url = URL(string: urlString) else { return }
-        
+
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self, let data = data, error == nil else { return }
             let parser = XMLParser(data: data)
@@ -56,14 +55,14 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
         }
         task.resume()
     }
-    
+
     // XMLParserDelegate Methods
-    
+
     func parser(_ parser: XMLParser, didStartElement elementName: String,
                 namespaceURI: String?, qualifiedName: String?,
                 attributes: [String : String] = [:]) {
         currentElement = elementName.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+
         switch currentElement {
         case "channel":
             isInsideChannel = true
@@ -73,19 +72,19 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
         default:
             break
         }
-        
+
         currentValue = ""
     }
-    
+
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
     }
-    
+
     func parser(_ parser: XMLParser, didEndElement elementName: String,
                 namespaceURI: String?, qualifiedName: String?) {
-        
+
         let trimmedValue = currentValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+
         if isInsideItem {
             switch elementName {
             case "title":
@@ -147,9 +146,33 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
                 break
             }
         }
-        
+
         currentElement = ""
         currentValue = ""
+    }
+}
+
+// MARK: - Card View for RSS Item
+
+struct RSSItemCardView: View {
+    let item: RSSItem
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(item.title)
+                .font(.headline)
+                .foregroundColor(.primary)
+                .lineLimit(2)
+
+            Text(item.description)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .lineLimit(3) // Adjust line limit as needed
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 3)
     }
 }
 
@@ -157,10 +180,10 @@ class RSSParser: NSObject, XMLParserDelegate, ObservableObject {
 
 struct RSSContentView: View {
     @StateObject private var parser = RSSParser()
-    
+
     // Provide the RSS URL here
     private let rssURL = "https://ieeexplore.ieee.org/rss/POP34.XML"
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -172,25 +195,20 @@ struct RSSContentView: View {
                     Text("Year: \(parser.channel.year)")
                     Text("Month: \(parser.channel.month)")
                 }
-                
+
                 // Items
                 Section(header: Text("Items")) {
                     ForEach(parser.channel.items) { item in
                         NavigationLink(destination: ItemDetailView(item: item)) {
-                            VStack(alignment: .leading) {
-                                Text(item.title)
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                Text(item.description)
-                                    .lineLimit(2)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                            }
+                            RSSItemCardView(item: item) // Using Card View here
                         }
+                        .listRowSeparator(.hidden) // Hide default separator for cleaner card appearance
+                        .padding(.vertical, 4) // Add vertical padding between cards
                     }
                 }
             }
             .navigationTitle("RSS Feed")
+            .listStyle(.plain) // Use plain list style to remove default list background
         }
         .onAppear {
             parser.fetchRSS(from: rssURL)
@@ -202,7 +220,7 @@ struct RSSContentView: View {
 
 struct ItemDetailView: View {
     let item: RSSItem
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
@@ -215,10 +233,10 @@ struct ItemDetailView: View {
                 Text("Pages: \(item.startPage) - \(item.endPage)")
                 Text("File Size: \(item.fileSize)")
                 Text("Authors: \(item.authors)")
-                
+
                 Text("Description:")
                     .fontWeight(.semibold)
-                
+
                 Text(item.description)
                     .multilineTextAlignment(.leading)
             }
