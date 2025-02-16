@@ -4,10 +4,9 @@
 //
 //  Created by Cong Le on 2/16/25.
 //
-
 import SwiftUI
 
-// MARK: - Data Model
+// MARK: - Data Model (No changes needed)
 
 struct Law360RSSItem: Identifiable {
     let id = UUID()
@@ -17,7 +16,7 @@ struct Law360RSSItem: Identifiable {
     var itemDescription: String
 }
 
-// MARK: - XML Parser Delegate
+// MARK: - XML Parser Delegate (No changes needed)
 
 final class Law360RSSParser: NSObject, XMLParserDelegate {
     private var currentElement = ""
@@ -25,7 +24,7 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
     private var currentLink = ""
     private var currentPubDate = ""
     private var currentDescription = ""
-    
+
     private var items: [Law360RSSItem] = []
     private var inItem = false
 
@@ -35,14 +34,14 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
         parser.parse()
         return items
     }
-    
+
     // Parser Callbacks
     func parser(_ parser: XMLParser, didStartElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?,
                 attributes attributeDict: [String : String] = [:]) {
-        
+
         currentElement = elementName
-        
+
         if elementName == "item" {
             inItem = true
             currentTitle = ""
@@ -51,10 +50,10 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
             currentDescription = ""
         }
     }
-    
+
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         guard inItem else { return }
-        
+
         switch currentElement {
         case "title":
             currentTitle += string
@@ -68,7 +67,7 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
             break
         }
     }
-    
+
     func parser(_ parser: XMLParser, didEndElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
@@ -85,27 +84,27 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
     }
 }
 
-// MARK: - View Model
+// MARK: - View Model (No changes needed)
 
 class Law360RSSViewModel: ObservableObject {
     @Published var rssItems: [Law360RSSItem] = []
-    
+
     func loadRSS() {
         guard let url = URL(string: "https://www.law360.com/ip/rss") else { return }
-        
+
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let error = error {
                 print("Error fetching RSS feed: \(error)")
                 return
             }
-            
+
             guard let data = data else {
                 return
             }
-            
+
             let parser = Law360RSSParser()
             let parsedItems = parser.parse(data: data)
-            
+
             DispatchQueue.main.async {
                 self?.rssItems = parsedItems
             }
@@ -113,28 +112,88 @@ class Law360RSSViewModel: ObservableObject {
     }
 }
 
-// MARK: - SwiftUI View
+// MARK: - Reusable Card View
+
+struct RSSCardView: View {
+    let item: Law360RSSItem
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(item.title)
+                .font(.headline)
+                .lineLimit(2)
+            Text(item.pubDate)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            Text(item.itemDescription)
+                .font(.body)
+                .lineLimit(3)
+                .padding(.top, 4)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 3)
+    }
+}
+
+// MARK: - Detail View
+
+struct Law360RSSDetailView: View {
+    let item: Law360RSSItem
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text(item.title)
+                    .font(.title)
+                    .padding(.bottom, 8)
+
+                Text(item.pubDate)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 16)
+
+                Text(item.itemDescription)
+                    .font(.body)
+
+                Spacer() // Push content to top and allow scroll
+
+                if let url = URL(string: item.link) {
+                    Link("Read Full Article", destination: url)
+                        .buttonStyle(.borderedProminent)
+                        .padding(.vertical, 20)
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("Article Detail")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - SwiftUI Content View
 
 struct Law360RSSContentView: View {
     @StateObject private var viewModel = Law360RSSViewModel()
-    
+
     var body: some View {
         NavigationView {
-            List(viewModel.rssItems) { item in
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(item.title)
-                        .font(.headline)
-                    Text(item.pubDate)
-                        .font(.subheadline)
-                    Text(item.itemDescription)
-                        .font(.body)
-                        .lineLimit(4)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 20)], spacing: 20) {
+                    ForEach(viewModel.rssItems) { item in
+                        NavigationLink(destination: Law360RSSDetailView(item: item)) {
+                            RSSCardView(item: item)
+                        }
+                        .buttonStyle(PlainButtonStyle()) // Make entire card tappable
+                    }
                 }
+                .padding()
             }
-            .navigationTitle("Law360 RSS")
-        }
-        .onAppear {
-            viewModel.loadRSS()
+            .navigationTitle("Law360 RSS Feed")
+            .onAppear {
+                viewModel.loadRSS()
+            }
         }
     }
 }
