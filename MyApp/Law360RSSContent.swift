@@ -5,6 +5,8 @@
 //  Created by Cong Le on 2/16/25.
 //
 import SwiftUI
+import SafariServices // Import SafariServices if you want to use SFSafariViewController
+
 
 // MARK: - Data Model (No changes needed)
 
@@ -114,7 +116,7 @@ class Law360RSSViewModel: ObservableObject {
 
 // MARK: - Reusable Card View
 
-struct RSSCardView: View {
+struct Law360RSSCardView: View {
     let item: Law360RSSItem
 
     var body: some View {
@@ -141,6 +143,7 @@ struct RSSCardView: View {
 
 struct Law360RSSDetailView: View {
     let item: Law360RSSItem
+    @State private var isSafariViewPresented = false // State to control SafariView presentation
 
     var body: some View {
         ScrollView {
@@ -159,10 +162,20 @@ struct Law360RSSDetailView: View {
 
                 Spacer() // Push content to top and allow scroll
 
-                if let url = URL(string: item.link) {
-                    Link("Read Full Article", destination: url)
-                        .buttonStyle(.borderedProminent)
-                        .padding(.vertical, 20)
+                Button("Read Full Article") {
+                    if let url = URL(string: item.link) {
+                        // UIApplication.shared.open(url) // Open in default browser (Edge, Safari App)
+
+                        // Optional: Present SFSafariViewController in-app
+                         isSafariViewPresented = true
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .padding(.vertical, 20)
+                .sheet(isPresented: $isSafariViewPresented) { // Optional: Present SFSafariViewController as a sheet
+                    if let url = URL(string: item.link) {
+                        SafariView(url: url) // Custom SafariView struct below
+                    }
                 }
             }
             .padding()
@@ -171,6 +184,20 @@ struct Law360RSSDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+// Optional: SwiftUI wrapper for SFSafariViewController if you prefer in-app browser
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
+       
+    }
+}
+
 
 // MARK: - SwiftUI Content View
 
@@ -183,7 +210,7 @@ struct Law360RSSContentView: View {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 20)], spacing: 20) {
                     ForEach(viewModel.rssItems) { item in
                         NavigationLink(destination: Law360RSSDetailView(item: item)) {
-                            RSSCardView(item: item)
+                            Law360RSSCardView(item: item)
                         }
                         .buttonStyle(PlainButtonStyle()) // Make entire card tappable
                     }
