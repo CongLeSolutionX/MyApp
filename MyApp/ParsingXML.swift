@@ -155,6 +155,7 @@ struct RSSContentView: View {
     <description>Popular Articles Alert for this Publication# 34 </description>
     <year>2025</year>
     <month>January </month>
+    
     <item>
     <title><![CDATA[ End-to-End Autonomous Driving: Challenges and Frontiers ]]></title>
     <link><![CDATA[ http://ieeexplore.ieee.org/document/10614862 ]]></link>
@@ -170,6 +171,24 @@ struct RSSContentView: View {
     <fileSize>2772</fileSize>
     <authors><![CDATA[ Li Chen;Penghao Wu;Kashyap Chitta;Bernhard Jaeger;Andreas Geiger;Hongyang Li; ]]></authors>
     </item>
+    
+        <item>
+        <title><![CDATA[ SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation ]]></title>
+        <link><![CDATA[ http://ieeexplore.ieee.org/document/7803544 ]]></link>
+        <description><![CDATA[
+         We present a novel and practical deep fully convolutional neural network architecture for semantic pixel-wise segmentation termed SegNet. This core trainable segmentation engine consists of an encoder network, a corresponding decoder network followed by a pixel-wise classification layer. The architecture of the encoder network is topologically identical to the 13 convolutional layers in the VGG16 network [1] . The role of the decoder network is to map the low resolution encoder feature maps to full input resolution feature maps for pixel-wise classification. The novelty of SegNet lies is in the manner in which the decoder upsamples its lower resolution input feature map(s). Specifically, the decoder uses pooling indices computed in the max-pooling step of the corresponding encoder to perform non-linear upsampling. This eliminates the need for learning to upsample. The upsampled maps are sparse and are then convolved with trainable filters to produce dense feature maps. We compare our proposed architecture with the widely adopted FCN [2] and also with the well known DeepLab-LargeFOV [3] , DeconvNet [4] architectures. This comparison reveals the memory versus accuracy trade-off involved in achieving good segmentation performance. SegNet was primarily motivated by scene understanding applications. Hence, it is designed to be efficient both in terms of memory and computational time during inference. It is also significantly smaller in the number of trainable parameters than other competing architectures and can be trained end-to-end using stochastic gradient descent. We also performed a controlled benchmark of SegNet and other architectures on both road scenes and SUN RGB-D indoor scene segmentation tasks. These quantitative assessments show that SegNet provides good performance with competitive inference time and most efficient inference memory-wise as compared to other architectures. We also provide a Caffe implementation of SegNet and a web demo at http://mi.eng.cam.ac.uk/projects/segnet/.
+        ]]></description>
+        <pubDate><![CDATA[ MON, 02 JAN 2017 08:01:06 -0400 ]]></pubDate>
+        <guid><![CDATA[ http://ieeexplore.ieee.org/document/7803544 ]]></guid>
+        <volume>39</volume>
+        <issue>12</issue>
+        <startPage>2481</startPage>
+        <endPage>2495</endPage>
+        <fileSize>1394</fileSize>
+        <authors><![CDATA[ Vijay Badrinarayanan;Alex Kendall;Roberto Cipolla; ]]></authors>
+        </item>
+    
+    
     <!-- More <item> blocks could appear here -->
     </channel>
     </rss>
