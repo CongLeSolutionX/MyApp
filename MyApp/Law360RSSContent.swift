@@ -27,8 +27,6 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
     private var currentDescription = ""
     
     private var items: [Law360RSSItem] = []
-    
-    // Track when we are inside an <item> element
     private var inItem = false
 
     func parse(data: Data) -> [Law360RSSItem] {
@@ -42,11 +40,11 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?,
                 attributes attributeDict: [String : String] = [:]) {
+        
         currentElement = elementName
         
         if elementName == "item" {
             inItem = true
-            // Reset item-level strings
             currentTitle = ""
             currentLink = ""
             currentPubDate = ""
@@ -75,7 +73,6 @@ final class Law360RSSParser: NSObject, XMLParserDelegate {
                 namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             inItem = false
-            // Add the fully collected item to the list
             let newItem = Law360RSSItem(
                 title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
                 link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -94,15 +91,25 @@ class Law360RSSViewModel: ObservableObject {
     @Published var rssItems: [Law360RSSItem] = []
     
     func loadRSS() {
-        // Convert the XML string to Data (in a real app, you might fetch from a URL)
-        guard let data = sampleXML.data(using: .utf8) else { return }
+        guard let url = URL(string: "https://www.law360.com/ip/rss") else { return }
         
-        let parser = Law360RSSParser()
-        let parsedItems = parser.parse(data: data)
-        
-        DispatchQueue.main.async {
-            self.rssItems = parsedItems
-        }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let error = error {
+                print("Error fetching RSS feed: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            let parser = Law360RSSParser()
+            let parsedItems = parser.parse(data: data)
+            
+            DispatchQueue.main.async {
+                self?.rssItems = parsedItems
+            }
+        }.resume()
     }
 }
 
@@ -121,39 +128,16 @@ struct Law360RSSContentView: View {
                         .font(.subheadline)
                     Text(item.itemDescription)
                         .font(.body)
-                        .lineLimit(2)
+                        .lineLimit(4)
                 }
             }
-            .navigationTitle("RSS Feed")
+            .navigationTitle("Law360 RSS")
         }
         .onAppear {
             viewModel.loadRSS()
         }
     }
 }
-
-// MARK: - Sample XML
-
-fileprivate let sampleXML = """
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Law360: Intellectual Property</title>
-    <link>https://www.law360.com/ip?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=section</link>
-    <description>Latest articles for: Intellectual Property</description>
-    <language>en-US</language>
-    <item>
-      <pubDate>Fri, 14 Feb 2025 23:01:48 +0000</pubDate>
-      <title>ITC Bans Some Power Converter Devices In Vicor Patent Case</title>
-      <link>https://www.law360.com/ip/articles/2298548?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=section</link>
-      <description>The U.S. International Trade Commission has issued a limited order...</description>
-    </item>
-    <!-- Additional <item> blocks truncated for brevity in this snippet -->
-  </channel>
-</rss>
-"""
-
-
 
 // MARK: - Preview
 #Preview {
