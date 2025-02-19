@@ -64,7 +64,7 @@ struct CircularSliderView: View {
                 .background(content: {
                     if pickerType == .normal {
                         Circle()
-                            .fill(.white.shadow(.drop(color: .black.opacity(0.2), radius: 5)))
+                            .fill(.yellow.shadow(.drop(color: .black.opacity(0.2), radius: 5)))
                             .frame(width: 85, height: 85)
                             .offset(y: -15)
                     }
@@ -102,12 +102,16 @@ struct CircularSliderView: View {
     }
 }
 
-#Preview {
-    CircularSliderView()
-}
-
 /// Slider Type
 enum TripPicker: String, CaseIterable {
     case scaled = "Scaled"
     case normal = "Normal"
+}
+
+
+
+// MARK: - Preview
+#Preview {
+    CircularSliderView()
+        .navigationTitle(Text("Circular Slider"))
 }
