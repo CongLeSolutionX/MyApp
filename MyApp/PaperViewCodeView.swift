@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 2/18/25.
 //
-
 import SwiftUI
 
 // MARK: - Data Model
@@ -45,17 +44,24 @@ struct PaperCardView: View {
             }
 
             // Links (Conditionally Displayed)
-            if let pdfURL = paper.paper_url_pdf, let url = URL(string: pdfURL) {
-                Link(destination: url) {
-                    Text("Read PDF")
-                }
-                .padding(.bottom, 2)
-            }
             if let repoURL = paper.repo_url, let url = URL(string: repoURL) {
-                Link(destination: url) {
+                Button(action: {
+                    UIApplication.shared.open(url)
+                }) {
                     Text("GitHub Repo")
                 }
+                .padding(.bottom, 2)  // Spacing after button
             }
+
+            if let pdfURL = paper.paper_url_pdf, let url = URL(string: pdfURL) {
+                Button(action: {
+                    UIApplication.shared.open(url)
+                }) {
+                    Text("Read PDF")
+                }
+                .padding(.bottom, 2)  // Spacing after button
+            }
+
 
             // Additional Details (Conditionally Displayed)
 
