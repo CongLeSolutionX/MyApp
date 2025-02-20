@@ -10,8 +10,10 @@ import SwiftUI
 
 struct CircularSliderView: View {
     /// View Properties
-    @State private var pickerType: AIModelPicker = .normal
-    @State private var activeID: Int?
+    @State private var pickerType: AIModelPicker = .chatWithMe
+    @State private var activeID: Int? = 0
+    let profiles = Array(0...15).map { "Profile_\($0)" } // Example Profile Names (local assets)
+    
     var body: some View {
         VStack {
             Picker("", selection: $pickerType) {
@@ -38,22 +40,22 @@ struct CircularSliderView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 70, height: 70)
                                 .clipShape(.circle)
-                                /// Shadow
+                            /// Shadow
                                 .shadow(color: .black.opacity(0.15), radius: 5, x: 5, y: 5)
                                 .visualEffect { view, proxy in
                                     view
                                         .offset(y: offset(proxy))
-                                        /// Option - 2:2
-                                        .scaleEffect(1 + (pickerType == .normal ? 0 : (scale(proxy) / 2)))
-                                        /// Option - 1:2
+                                    /// Option - 2:2
+                                        .scaleEffect(1 + (pickerType == .chatWithMe ? 0 : (scale(proxy) / 2)))
+                                    /// Option - 1:2
                                         .offset(y: scale(proxy) * 15)
                                 }
                                 .scrollTransition(.interactive, axis: .horizontal) { view, phase in
                                     view
-                                        /// Option - 1:1 (For More Check out the Video!)
-//                                        .offset(y: phase.isIdentity && activeID == index ? 15 : 0)
-                                        /// Option - 2:1
-                                        .scaleEffect(phase.isIdentity && activeID == index && pickerType == .scaled ? 1.5 : 1, anchor: .bottom)
+                                    /// Option - 1:1 (For More Check out the Video!)
+                                    //                                        .offset(y: phase.isIdentity && activeID == index ? 15 : 0)
+                                    /// Option - 2:1
+                                        .scaleEffect(phase.isIdentity && activeID == index && pickerType == .talkWithMe ? 1.5 : 1, anchor: .bottom)
                                 }
                         }
                     }
@@ -62,7 +64,7 @@ struct CircularSliderView: View {
                     .scrollTargetLayout()
                 }
                 .background(content: {
-                    if pickerType == .normal {
+                    if pickerType == .chatWithMe {
                         Circle()
                             .fill(.yellow.shadow(.drop(color: .black.opacity(0.2), radius: 5)))
                             .frame(width: 85, height: 85)
@@ -79,6 +81,19 @@ struct CircularSliderView: View {
             .frame(height: 200)
         }
         .ignoresSafeArea(.container, edges: .bottom)
+        .background( // Set background of the entire VStack based on activeID
+            Group { // Use Group to conditionally apply background
+                if let activeIndex = activeID, activeIndex >= 0 && activeIndex < profiles.count {
+                    Image(profiles[activeIndex]) // Background Image based on activeID
+                        .resizable()
+                        .scaledToFill()
+                        .opacity(0.4) // Adjust opacity for foreground visibility
+                        .ignoresSafeArea() // Make sure background extends to edges
+                } else {
+                    Color.clear // Default background if activeID is nil or invalid
+                }
+            }
+        )
     }
     
     /// Circular Slider View Offset
@@ -104,16 +119,15 @@ struct CircularSliderView: View {
 
 /// Slider Type
 enum AIModelPicker: String, CaseIterable {
-    case scaled = "Scaled"
-    case normal = "Normal"
+    case talkWithMe = "Talk With Me"
+    case chatWithMe = "Chat With Me"
 }
 
 
 
 // MARK: - Preview
 #Preview {
-    NavigationStack {
-        CircularSliderView()
-            .navigationTitle(Text("Circular Slider"))
-    }
+    CircularSliderView()
+        .navigationTitle(Text("Circular Slider"))
+    
 }
