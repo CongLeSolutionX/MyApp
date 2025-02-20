@@ -33,7 +33,7 @@ struct CircularSliderView: View {
                 ScrollView(.horizontal) {
                     HStack(spacing: 35) {
                         ForEach(1...15, id: \.self) { index in
-                            Image("Profile \(index)")
+                            Image("Profile_\(index)")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 70, height: 70)
@@ -51,9 +51,9 @@ struct CircularSliderView: View {
                                 .scrollTransition(.interactive, axis: .horizontal) { view, phase in
                                     view
                                         /// Option - 1:1 (For More Check out the Video!)
-                                        //.offset(y: phase.isIdentity && activeID == index ? 15 : 0)
+//                                        .offset(y: phase.isIdentity && activeID == index ? 15 : 0)
                                         /// Option - 2:1
-                                        //.scaleEffect(phase.isIdentity && activeID == index && pickerType == .scaled ? 1.5 : 1, anchor: .bottom)
+                                        .scaleEffect(phase.isIdentity && activeID == index && pickerType == .scaled ? 1.5 : 1, anchor: .bottom)
                                 }
                         }
                     }
@@ -112,6 +112,8 @@ enum AIModelPicker: String, CaseIterable {
 
 // MARK: - Preview
 #Preview {
-    CircularSliderView()
-        .navigationTitle(Text("Circular Slider"))
+    NavigationStack {
+        CircularSliderView()
+            .navigationTitle(Text("Circular Slider"))
+    }
 }
