@@ -5,7 +5,6 @@
 //  Created by Cong Le on 2/19/25.
 //
 
-
 import SwiftUI
 
 // MARK: - Model Picker Enum (as per Diagram 1 & Textual Explanation)
@@ -22,7 +21,7 @@ enum ModelPicker: String, CaseIterable, Identifiable {
 struct CircularSliderView_V2: View {
     @State private var pickerType: ModelPicker = .normal // State Variable (Diagram 1 - A1)
     @State private var activeID: Int? = 0 // State Variable to track active Image (Diagram 1 - A2 & Diagram 5)
-    let profiles = Array(1...15).map { "Profile_\($0)" } // Example Profile Array - Replace with actual URLs in a real app
+    let profiles = Array(1...15).map { "Profile_\($0)" } // Example Profile Names (local assets)
 
     var body: some View {
         VStack { // UI Composition - VStack (Diagram 1 - B1)
@@ -40,73 +39,25 @@ struct CircularSliderView_V2: View {
                 ScrollView(.horizontal, showsIndicators: false) { // ScrollView (.horizontal)  (Diagram 1 - B6 & Diagram 2)
                     HStack(spacing: 35) { // HStack (spacing: 35) (Diagram 1 - B7 & Diagram 2)
                         ForEach(profiles.indices, id: \.self) { index in // ForEach(profiles) & indices for ID (Diagram 1 - B8)
-                            // Asynchronous Image Loading with Error Handling (Diagram 6)
-                            AsyncImage(url: URL(string: "https://example.com/\(profiles[index]).png")) { phase in // Replace with your actual URL base
-                                switch phase {
-                                case .empty:
-                                    ProgressView() // Placeholder while loading
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .tag(index) // Tag for identification in ScrollView & activeID (Diagram 5)
-                                        .frame(width: 160, height: 160)
-                                        .clipShape(Circle()) // Modifier (Diagram 1 - B11)
-                                        .shadow(radius: 5)   // Modifier (Diagram 1 - B12)
-                                        .visualEffect { content, geometryProxy in // Modifier: visualEffect & GeometryProxy (Diagram 1 - B13 & Diagram 2)
-                                            content
-                                                .offset(y: offset(proxy: geometryProxy, index: index)) // Offset Animation (Diagram 3 & Text Explanation)
-                                                .scaleEffect(scale(proxy: geometryProxy, index: index)) // Scale Animation (Diagram 3 & Text Explanation)
-                                        }
-                                    // `.scrollTransition` for potential custom transitions (Diagram 4 & Text Explanation)
-                                        .scrollTransition { effect, phase in
-                                            effect
-                                                .scaleEffect(phase.isIdentity ? 1 : 0.9) // Example transition effect, can be customized further based on Diagram 4
-                                                .opacity(phase.isIdentity ? 1 : 0.5) // Example transition effect, can be customized further based on Diagram 4
-                                        }
-
-                                case .failure(let error):
-                                    // Error Handling - Display Placeholder + Log Error (Diagram 6 & Text Explanation)
-                                    
-                                    Circle() // Placeholder Circle (Diagram 6 - G)
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(width: 160, height: 160)
-                                        .overlay(Image(systemName: "photo.fill.on.rectangle.fill").foregroundColor(.white)) // Placeholder Icon
-                                        .tag(index)
-                                        .shadow(radius: 5)
-                                        .visualEffect { content, geometryProxy in
-                                            content
-                                                .offset(y: offset(proxy: geometryProxy, index: index))
-                                                .scaleEffect(scale(proxy: geometryProxy, index: index))
-                                        }
-                                        .scrollTransition { effect, phase in // Apply same `scrollTransition` even for placeholders for consistency
-                                            effect
-                                                .scaleEffect(phase.isIdentity ? 1 : 0.9)
-                                                .opacity(phase.isIdentity ? 1 : 0.5)
-                                        }
-
-                                @unknown default:
-                                    // Fallback for future cases
-                                    Image(systemName: "exclamationmark.triangle.fill") // Another placeholder
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                        .foregroundColor(.orange)
-                                        .tag(index)
-                                        .frame(width: 160, height: 160)
-                                        .shadow(radius: 5)
-                                        .visualEffect { content, geometryProxy in
-                                            content
-                                                .offset(y: offset(proxy: geometryProxy, index: index))
-                                                .scaleEffect(scale(proxy: geometryProxy, index: index))
-                                        }
-                                        .scrollTransition { effect, phase in // Consistent `scrollTransition` for fallback as well
-                                            effect
-                                                .scaleEffect(phase.isIdentity ? 1 : 0.9)
-                                                .opacity(phase.isIdentity ? 1 : 0.5)
-                                        }
+                            // Load Static Local Images - Directly from Asset Catalog
+                            Image(profiles[index]) // Image directly from asset catalog, using profile name (Diagram 6 - but simplified for local assets)
+                                .resizable()
+                                .scaledToFit()
+                                .tag(index) // Tag for identification in ScrollView & activeID (Diagram 5)
+                                .frame(width: 160, height: 160)
+                                .clipShape(Circle()) // Modifier (Diagram 1 - B11)
+                                .shadow(radius: 5)   // Modifier (Diagram 1 - B12)
+                                .visualEffect { content, geometryProxy in // Modifier: visualEffect & GeometryProxy (Diagram 1 - B13 & Diagram 2)
+                                    content
+                                        .offset(y: offset(proxy: geometryProxy, index: index)) // Offset Animation (Diagram 3 & Text Explanation)
+                                        .scaleEffect(scale(proxy: geometryProxy, index: index)) // Scale Animation (Diagram 3 & Text Explanation)
                                 }
-                            }
+                            // `.scrollTransition` for potential custom transitions (Diagram 4 & Text Explanation)
+                                .scrollTransition { effect, phase in
+                                    effect
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.9) // Example transition effect, can be customized further based on Diagram 4
+                                        .opacity(phase.isIdentity ? 1 : 0.5)     // Example transition effect, can be customized further based on Diagram 4
+                                }
                             .background(pickerType == .scaled ? Circle().fill(.orange.opacity(progressBackground(proxy: proxy, index: index))) : nil) // Background (conditional) - Diagram 1 - B14 & 'circle'
 
                         } // End ForEach profiles
@@ -124,11 +75,6 @@ struct CircularSliderView_V2: View {
     }
 
     // MARK: - Helper Functions (Diagram 1 - C & Diagram 3 & Diagram 2)
-    
-    func logErrorMessage(error: Any) {
-//        print("Image failed to load for \(profiles[index]) with error: \(error)") // Diagram 6 - H: Log Error
-        print("Image failed to load for with error: \(error)") // Diagram 6 - H: Log Error
-    }
 
     /// Calculates the scroll progress based on the GeometryProxy of the GeometryReader and ScrollView's bounds.
     /// - Parameter proxy: GeometryProxy of the GeometryReader.
@@ -208,5 +154,5 @@ struct CircularSliderView_V2: View {
 
 #Preview {
     CircularSliderView_V2()
-        .background(Color.gray.opacity(0.2))
+        .background(Color.yellow.opacity(0.2))
 }
