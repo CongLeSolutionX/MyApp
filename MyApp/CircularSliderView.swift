@@ -10,12 +10,12 @@ import SwiftUI
 
 struct CircularSliderView: View {
     /// View Properties
-    @State private var pickerType: TripPicker = .normal
+    @State private var pickerType: AIModelPicker = .normal
     @State private var activeID: Int?
     var body: some View {
         VStack {
             Picker("", selection: $pickerType) {
-                ForEach(TripPicker.allCases, id: \.rawValue) {
+                ForEach(AIModelPicker.allCases, id: \.rawValue) {
                     Text($0.rawValue)
                         .tag($0)
                 }
@@ -103,7 +103,7 @@ struct CircularSliderView: View {
 }
 
 /// Slider Type
-enum TripPicker: String, CaseIterable {
+enum AIModelPicker: String, CaseIterable {
     case scaled = "Scaled"
     case normal = "Normal"
 }
