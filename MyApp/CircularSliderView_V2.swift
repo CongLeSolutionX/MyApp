@@ -19,134 +19,115 @@ enum ModelPicker: String, CaseIterable, Identifiable {
 // MARK: - CircularSliderView Implementation
 
 struct CircularSliderView_V2: View {
-    @State private var pickerType: ModelPicker = .normal // State Variable (Diagram 1 - A1)
-    @State private var activeID: Int? = 0 // State Variable to track active Image (Diagram 1 - A2 & Diagram 5)
+    @State private var pickerType: ModelPicker = .normal
+    @State private var activeID: Int? = 0 // Initialize activeID to 0
     let profiles = Array(1...15).map { "Profile_\($0)" } // Example Profile Names (local assets)
 
     var body: some View {
-        VStack { // UI Composition - VStack (Diagram 1 - B1)
-            Picker("Picker Type", selection: $pickerType) { // Picker (Diagram 1 - B2)
-                ForEach(ModelPicker.allCases) { // ModelPicker.allCases (Diagram 1 - B3)
+        VStack { // Root VStack - will have the background image
+            Picker("Picker Type", selection: $pickerType) {
+                ForEach(ModelPicker.allCases) {
                     Text(String(describing: $0)).tag($0)
                 }
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            Spacer() // Spacer (Diagram 1 - B4)
+            Spacer()
 
-            GeometryReader { proxy in // GeometryReader (Diagram 1 - B5 & Diagram 2)
-                ScrollView(.horizontal, showsIndicators: false) { // ScrollView (.horizontal)  (Diagram 1 - B6 & Diagram 2)
-                    HStack(spacing: 35) { // HStack (spacing: 35) (Diagram 1 - B7 & Diagram 2)
-                        ForEach(profiles.indices, id: \.self) { index in // ForEach(profiles) & indices for ID (Diagram 1 - B8)
-                            // Load Static Local Images - Directly from Asset Catalog
-                            Image(profiles[index]) // Image directly from asset catalog, using profile name (Diagram 6 - but simplified for local assets)
+            GeometryReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 35) {
+                        ForEach(profiles.indices, id: \.self) { index in
+                            Image(profiles[index]) // Load Static Local Images
                                 .resizable()
                                 .scaledToFit()
-                                .tag(index) // Tag for identification in ScrollView & activeID (Diagram 5)
+                                .tag(index)
                                 .frame(width: 160, height: 160)
-                                .clipShape(Circle()) // Modifier (Diagram 1 - B11)
-                                .shadow(radius: 5)   // Modifier (Diagram 1 - B12)
-                                .visualEffect { content, geometryProxy in // Modifier: visualEffect & GeometryProxy (Diagram 1 - B13 & Diagram 2)
+                                .clipShape(Circle())
+                                .shadow(radius: 5)
+                                .visualEffect { content, geometryProxy in
                                     content
-                                        .offset(y: offset(proxy: geometryProxy, index: index)) // Offset Animation (Diagram 3 & Text Explanation)
-                                        .scaleEffect(scale(proxy: geometryProxy, index: index)) // Scale Animation (Diagram 3 & Text Explanation)
+                                        .offset(y: offset(proxy: geometryProxy, index: index))
+                                        .scaleEffect(scale(proxy: geometryProxy, index: index))
                                 }
-                            // `.scrollTransition` for potential custom transitions (Diagram 4 & Text Explanation)
                                 .scrollTransition { effect, phase in
                                     effect
-                                        .scaleEffect(phase.isIdentity ? 1 : 0.9) // Example transition effect, can be customized further based on Diagram 4
-                                        .opacity(phase.isIdentity ? 1 : 0.5)     // Example transition effect, can be customized further based on Diagram 4
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.9)
+                                        .opacity(phase.isIdentity ? 1 : 0.5)
                                 }
-                            .background(pickerType == .scaled ? Circle().fill(.orange.opacity(progressBackground(proxy: proxy, index: index))) : nil) // Background (conditional) - Diagram 1 - B14 & 'circle'
-
-                        } // End ForEach profiles
-                    } // End HStack
-                    .scrollTargetLayout() // Enable ScrollView snapping (Diagram 5 - Calculate Snapped Position)
-                } // End ScrollView
-                .scrollTargetBehavior(.viewAligned) //  ScrollView snapping behavior (Diagram 5 - Calculate Snapped Position)
-                .scrollPosition(id: $activeID) // Programmatic Scroll Control & Snapping (Diagram 5 - Programmatic Scroll Animation & activeID Update)
-            } // End GeometryReader
-            .frame(height: 200) // Fixed height for GeometryReader for illustration
-        } // End VStack
+                                .background(pickerType == .scaled ? Circle().fill(.orange.opacity(progressBackground(proxy: proxy, index: index))) : nil)
+                        }
+                    }
+                    .scrollTargetLayout()
+                }
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $activeID)
+            }
+            .frame(height: 200)
+        }
+        .background( // Set background of the entire VStack based on activeID
+            Group { // Use Group to conditionally apply background
+                if let activeIndex = activeID, activeIndex >= 0 && activeIndex < profiles.count {
+                    Image(profiles[activeIndex]) // Background Image based on activeID
+                        .resizable()
+                        .scaledToFill()
+                        .opacity(0.3) // Adjust opacity for foreground visibility
+                        .ignoresSafeArea() // Make sure background extends to edges
+                } else {
+                    Color.clear // Default background if activeID is nil or invalid
+                }
+            }
+        )
         .onAppear {
-            // Initial Active ID can be set here if needed, default is already 0
+            // Initial Active ID is set to 0 by default
         }
     }
 
-    // MARK: - Helper Functions (Diagram 1 - C & Diagram 3 & Diagram 2)
-
-    /// Calculates the scroll progress based on the GeometryProxy of the GeometryReader and ScrollView's bounds.
-    /// - Parameter proxy: GeometryProxy of the GeometryReader.
-    /// - Returns: Normalized scroll progress, where 0 is centered, negative is scrolled right, positive is scrolled left (Diagram 3 - B & Diagram 2 - minX).
+    // MARK: - Helper Functions (progress, offset, scale, progressBackground - no changes needed)
     private func progress(proxy: GeometryProxy) -> CGFloat {
-        guard let scrollViewBounds = proxy.bounds(of: .scrollView) else { return 0 } // Diagram 2 - ScrollView bounds
-
-        let minX = scrollViewBounds.minX // Diagram 2 - minX derivation
-        let viewWidth = proxy.size.width // Diagram 2 - viewWidth
-
-        return minX / viewWidth // Diagram 3 - B: Calculate Progress & Diagram 2 - minX in GeometryReader's Space
+        guard let scrollViewBounds = proxy.bounds(of: .scrollView) else { return 0 }
+        let minX = scrollViewBounds.minX
+        let viewWidth = proxy.size.width
+        return minX / viewWidth
     }
 
-
-    /// Calculates vertical offset for each image based on its position and scroll progress.
-    /// - Parameters:
-    ///   - proxy: GeometryProxy of the GeometryReader.
-    ///   - index: Index of the image in the profiles array.
-    /// - Returns: Vertical offset for the image (Diagram 3 - offset(proxy) Logic).
     private func offset(proxy: GeometryProxy, index: Int) -> CGFloat {
-        let progressValue = progress(proxy: proxy) // Diagram 3 - B: Calculate Progress
-       // Simplified logic for offset based on index position relative to scroll progress
-        let individualItemSpacingAndWidth: CGFloat = 160 + 35 // imageWidth + spacing
+        let progressValue = progress(proxy: proxy)
+        let individualItemSpacingAndWidth: CGFloat = 160 + 35
         let itemOffsetFromCenter = CGFloat(index) * individualItemSpacingAndWidth
-
         let scrollOffset =  itemOffsetFromCenter + progressValue * proxy.size.width
 
-        if scrollOffset < -50 { // Threshold can be tuned based on visual preference
-            return scrollOffset * -0.3 // Damping factor for further items
+        if scrollOffset < -50 {
+            return scrollOffset * -0.3
         } else if scrollOffset > 50 {
-            return scrollOffset * 0.3  // Damping factor for further items
+            return scrollOffset * 0.3
         }else {
-           return scrollOffset * 0.8 // Different damping for closer items
+           return scrollOffset * 0.8
         }
     }
 
-    /// Calculates scale factor for each image to create depth effect, based on scroll progress.
-    /// - Parameters:
-    ///   - proxy: GeometryProxy.
-    ///   - index: Index of the image.
-    /// - Returns: Scale factor for the image (Diagram 3 - scale(proxy) Logic).
     private func scale(proxy: GeometryProxy, index: Int) -> CGFloat {
-        let progressValue = progress(proxy: proxy) // Diagram 3 - B: Calculate Progress
-        let individualItemSpacingAndWidth: CGFloat = 160 + 35 // imageWidth + spacing
+        let progressValue = progress(proxy: proxy)
+        let individualItemSpacingAndWidth: CGFloat = 160 + 35
         let itemOffsetFromCenter = CGFloat(index) * individualItemSpacingAndWidth
-
         let scrollOffset =  itemOffsetFromCenter + progressValue * proxy.size.width
+        let clippedProgress = min(max(scrollOffset / proxy.size.width , -1), 1)
 
-        let clippedProgress = min(max(scrollOffset / proxy.size.width , -1), 1) // Diagram 3 - G: Clip Progress
-
-        if clippedProgress < 0 { // Diagram 3 - H & I: Conditional Scaling - clippedProgress < 0? Yes -> scale = 1 + clippedProgress
+        if clippedProgress < 0 {
             return 1 + clippedProgress
-        } else {        // Diagram 3 - H & J: Conditional Scaling - clippedProgress < 0? No  -> scale = 1 - clippedProgress
+        } else {
             return 1 - clippedProgress
         }
     }
 
-    /// Calculates the background circle's opacity based on position and scroll progress.
-    /// - Parameters:
-    ///   - proxy: GeometryProxy.
-    ///   - index: Index of the image.
-    /// - Returns: Opacity value for the background circle.
     private func progressBackground(proxy: GeometryProxy, index: Int) -> CGFloat {
         let progressValue = progress(proxy: proxy)
-        let individualItemSpacingAndWidth: CGFloat = 160 + 35 // imageWidth + spacing
+        let individualItemSpacingAndWidth: CGFloat = 160 + 35
         let itemOffsetFromCenter = CGFloat(index) * individualItemSpacingAndWidth
-
         let scrollOffset =  itemOffsetFromCenter + progressValue * proxy.size.width
-
         let clippedProgress = min(max(scrollOffset / proxy.size.width , -1), 1)
-
-        return  1 - abs(clippedProgress) // Opacity decreases as clippedProgress moves away from 0
+        return  1 - abs(clippedProgress)
     }
 }
 
@@ -154,5 +135,4 @@ struct CircularSliderView_V2: View {
 
 #Preview {
     CircularSliderView_V2()
-        .background(Color.yellow.opacity(0.2))
 }
