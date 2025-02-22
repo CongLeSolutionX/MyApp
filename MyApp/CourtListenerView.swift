@@ -4,6 +4,7 @@
 //
 //  Created by Cong Le on 2/21/25.
 //
+
 import SwiftUI
 
 // MARK: - Models
@@ -39,7 +40,7 @@ struct ClusterItem: Codable, Identifiable {
     }
 }
 
-/// A more detailed cluster structure (fetched from the cluster resource_uri).
+/// A more detailed cluster structure (fetched from the cluster's resource_uri).
 struct DetailedClusterItem: Codable {
     let resource_uri: String
     let id: Int
@@ -51,7 +52,6 @@ struct DetailedClusterItem: Codable {
     let case_name: String?
     let slug: String
     
-    // For demonstration, we'll just mirror the simpler structure here.
     init(from clusterItem: ClusterItem) {
         self.resource_uri = clusterItem.resource_uri
         self.id = clusterItem.id
@@ -66,17 +66,50 @@ struct DetailedClusterItem: Codable {
 }
 
 // MARK: - Docket Model
-/// A minimal docket structure for demonstration.
-/// Modify these fields based on what the docket response actually provides.
+/// Docket detail structure updated according to the provided JSON.
+/// Many fields are optional, allowing us to handle unexpected missing data.
 struct DocketDetailItem: Codable, Identifiable {
     let id: Int
     let resource_uri: String
+    let court: String?
+    let court_id: String?
+    let original_court_info: String?
+    let idb_data: String?
+    let clusters: [String]?
+    let audio_files: [String]?
+    let assigned_to: String?
+    let referred_to: String?
     let absolute_url: String?
+    let date_created: String?
     let date_modified: String?
-    // Add more fields from the docket endpoint as needed.
-
-    // If the JSON doesn't contain an "id" or other required fields,
-    // mark them optional or remove them, depending on the actual response.
+    let source: Int?
+    let appeal_from_str: String?
+    let assigned_to_str: String?
+    let referred_to_str: String?
+    let panel_str: String?
+    let date_last_index: String?
+    let date_cert_granted: String?
+    let date_cert_denied: String?
+    let date_argued: String?
+    let date_reargued: String?
+    let date_reargument_denied: String?
+    let date_filed: String?
+    let date_terminated: String?
+    let date_last_filing: String?
+    let case_name_short: String?
+    let case_name: String?
+    let case_name_full: String?
+    let slug: String?
+    let docket_number: String?
+    let docket_number_core: String?
+    let blocked: Bool?
+    let appeal_from: String?
+    let parent_docket: String?
+    let tags: [String]?
+    let panel: [String]?
+    
+    // Note: You may want to show more fields in the UI,
+    // so feel free to expand or reorganize as needed.
 }
 
 // MARK: - ViewModels
@@ -93,7 +126,7 @@ class CourtListenerViewModel: ObservableObject {
             return
         }
         
-        // Replace with your own CourteListener token
+        // Replace with your actual CourtListener token
         let token = "YOUR_TOKEN_API_HERE"
         var request = URLRequest(url: url)
         request.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
@@ -123,6 +156,7 @@ class CourtListenerViewModel: ObservableObject {
                 let decodedResponse = try JSONDecoder().decode(ClustersResponse.self, from: data)
                 DispatchQueue.main.async {
                     self?.clusters = decodedResponse.results
+                    //print(decodedResponse)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -146,6 +180,7 @@ class ClusterDetailViewModel: ObservableObject {
         self.clusterItem = item
     }
     
+    /// Fetch more detailed information for a single cluster item.
     func fetchDetails() {
         guard let url = URL(string: clusterItem.resource_uri) else {
             errorMessage = "Invalid detail URL."
@@ -195,7 +230,7 @@ class ClusterDetailViewModel: ObservableObject {
     }
 }
 
-/// View model for fetching the docket detail when a user taps the docket link.
+/// View model for docket details.
 class DocketDetailViewModel: ObservableObject {
     @Published var docketDetail: DocketDetailItem?
     @Published var errorMessage: String = ""
@@ -326,12 +361,10 @@ struct ClusterDetailView: View {
                                 .foregroundColor(detail.blocked ? .red : .green)
                         }
                         
-                        // 1) Make the docket clickable, opening a new DocketDetailView.
+                        // Hyperlink to the docket
                         NavigationLink(
                             destination: DocketDetailView(viewModel: DocketDetailViewModel(docketURL: detail.docket))
                         ) {
-                            // Display a link style.
-                            // You can adjust styling as desired.
                             Text("Docket: \(detail.docket)")
                                 .foregroundColor(.blue)
                                 .underline()
@@ -358,8 +391,7 @@ struct ClusterDetailView: View {
     }
 }
 
-/// A view to show details about a docket.
-/// It fetches the data from the docket URL and displays relevant fields.
+/// View for displaying the docket details.
 struct DocketDetailView: View {
     @ObservedObject var viewModel: DocketDetailViewModel
     
@@ -370,18 +402,53 @@ struct DocketDetailView: View {
             } else if let docket = viewModel.docketDetail {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Docket ID: \(docket.id)")
+                        // Show relevant data, using optional coalescing to avoid crashes.
+                        Text("Docket ID: \(String(docket.id))")
                             .font(.headline)
-                        Text("Resource URI: \(docket.resource_uri)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
                         
-                        if let absURL = docket.absolute_url {
-                            Text("Absolute URL: \(absURL)")
+                        Text("URI: \(docket.resource_uri)")
+                            .font(.subheadline)
+                        
+                        if let courtID = docket.court_id {
+                            Text("Court ID: \(courtID)")
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        if let docketNum = docket.docket_number {
+                            Text("Docket Number: \(docketNum)")
+                        } else {
+                            Text("Docket Number: N/A")
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        if let created = docket.date_created {
+                            Text("Date Created: \(created)")
                                 .font(.footnote)
                         }
-                        if let dateMod = docket.date_modified {
-                            Text("Date Modified: \(dateMod)")
+                        
+                        if let modified = docket.date_modified {
+                            Text("Date Modified: \(modified)")
+                                .font(.footnote)
+                        }
+                        
+                        if let docketCaseName = docket.case_name {
+                            Text("Case Name: \(docketCaseName)")
+                                .font(.body)
+                                .padding(.top, 6)
+                        }
+                        
+                        if let blocked = docket.blocked {
+                            HStack {
+                                Text("Blocked:")
+                                Text(blocked ? "Yes" : "No")
+                                    .foregroundColor(blocked ? .red : .green)
+                            }
+                            .font(.footnote)
+                        }
+                        
+                        if let slug = docket.slug {
+                            Text("Slug: \(slug)")
                                 .font(.footnote)
                         }
                     }
@@ -407,7 +474,6 @@ struct DocketDetailView: View {
 }
 
 // MARK: - Preview
-
 struct CourtListenerView_Previews: PreviewProvider {
     static var previews: some View {
         CourtListenerView()
