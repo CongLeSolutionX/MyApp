@@ -39,8 +39,7 @@ struct ClusterItem: Codable, Identifiable {
     }
 }
 
-/// A more detailed cluster structure. Adjust fields to match
-/// the JSON returned from each cluster's resource URI, if different.
+/// A more detailed cluster structure (fetched from the cluster resource_uri).
 struct DetailedClusterItem: Codable {
     let resource_uri: String
     let id: Int
@@ -51,9 +50,8 @@ struct DetailedClusterItem: Codable {
     let case_name_short: String?
     let case_name: String?
     let slug: String
-    // You can add more properties if the detail endpoint provides them.
     
-    // This initializer can map from a simpler item if needed.
+    // For demonstration, we'll just mirror the simpler structure here.
     init(from clusterItem: ClusterItem) {
         self.resource_uri = clusterItem.resource_uri
         self.id = clusterItem.id
@@ -65,6 +63,20 @@ struct DetailedClusterItem: Codable {
         self.case_name = clusterItem.case_name
         self.slug = clusterItem.slug
     }
+}
+
+// MARK: - Docket Model
+/// A minimal docket structure for demonstration.
+/// Modify these fields based on what the docket response actually provides.
+struct DocketDetailItem: Codable, Identifiable {
+    let id: Int
+    let resource_uri: String
+    let absolute_url: String?
+    let date_modified: String?
+    // Add more fields from the docket endpoint as needed.
+
+    // If the JSON doesn't contain an "id" or other required fields,
+    // mark them optional or remove them, depending on the actual response.
 }
 
 // MARK: - ViewModels
@@ -81,7 +93,8 @@ class CourtListenerViewModel: ObservableObject {
             return
         }
         
-        let token = "YOUR_TOKEN_API_HERE" // Replace with your own API key
+        // Replace with your own CourteListener token
+        let token = "YOUR_TOKEN_API_HERE"
         var request = URLRequest(url: url)
         request.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
@@ -110,7 +123,6 @@ class CourtListenerViewModel: ObservableObject {
                 let decodedResponse = try JSONDecoder().decode(ClustersResponse.self, from: data)
                 DispatchQueue.main.async {
                     self?.clusters = decodedResponse.results
-                    //print(decodedResponse)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -134,7 +146,6 @@ class ClusterDetailViewModel: ObservableObject {
         self.clusterItem = item
     }
     
-    /// Fetch more detailed information for a single cluster item.
     func fetchDetails() {
         guard let url = URL(string: clusterItem.resource_uri) else {
             errorMessage = "Invalid detail URL."
@@ -142,7 +153,7 @@ class ClusterDetailViewModel: ObservableObject {
             return
         }
         
-        let token = "06fc234206a7f21224e5ed49c6c5a110e736ed86" // Replace with your own API key
+        let token = "YOUR_TOKEN_API_HERE"
         var request = URLRequest(url: url)
         request.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
         
@@ -170,12 +181,9 @@ class ClusterDetailViewModel: ObservableObject {
             }
             
             do {
-                // If the detail JSON structure matches the same fields in DetailedClusterItem,
-                // we can decode directly. If it's different, adjust accordingly.
                 let decodedDetail = try JSONDecoder().decode(DetailedClusterItem.self, from: data)
                 DispatchQueue.main.async {
                     self?.detail = decodedDetail
-                    //print(decodedDetail)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -187,9 +195,70 @@ class ClusterDetailViewModel: ObservableObject {
     }
 }
 
+/// View model for fetching the docket detail when a user taps the docket link.
+class DocketDetailViewModel: ObservableObject {
+    @Published var docketDetail: DocketDetailItem?
+    @Published var errorMessage: String = ""
+    @Published var isLoading: Bool = false
+    @Published var showAlert: Bool = false
+    
+    private let docketURL: String
+    
+    init(docketURL: String) {
+        self.docketURL = docketURL
+    }
+    
+    func fetchDocket() {
+        guard let url = URL(string: docketURL) else {
+            errorMessage = "Invalid docket URL."
+            showAlert = true
+            return
+        }
+        
+        let token = "YOUR_TOKEN_API_HERE"
+        var request = URLRequest(url: url)
+        request.setValue("Token \(token)", forHTTPHeaderField: "Authorization")
+        
+        isLoading = true
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+            }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self?.errorMessage = "Request error: \(error.localizedDescription)"
+                    self?.showAlert = true
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    self?.errorMessage = "No data received."
+                    self?.showAlert = true
+                }
+                return
+            }
+            
+            do {
+                let decodedDocket = try JSONDecoder().decode(DocketDetailItem.self, from: data)
+                DispatchQueue.main.async {
+                    self?.docketDetail = decodedDocket
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self?.errorMessage = "Docket decoding error: \(error.localizedDescription)"
+                    self?.showAlert = true
+                }
+            }
+        }.resume()
+    }
+}
+
 // MARK: - Views
 
-/// Main list of cluster items.
 struct CourtListenerView: View {
     @StateObject private var viewModel = CourtListenerViewModel()
     
@@ -247,11 +316,26 @@ struct ClusterDetailView: View {
                         Text(detail.case_name_short ?? detail.case_name ?? "No Title")
                             .font(.title2)
                             .padding(.bottom, 4)
+                        
                         Text("ID: \(detail.id)")
-                        Text("Docket: \(detail.docket)")
-                        Text("Blocked: \(detail.blocked ? "Yes" : "No")")
                         Text("Date Filed: \(detail.date_filed)")
                         Text("Slug: \(detail.slug)")
+                        HStack {
+                            Text("Blocked:")
+                            Text(detail.blocked ? "Yes" : "No")
+                                .foregroundColor(detail.blocked ? .red : .green)
+                        }
+                        
+                        // 1) Make the docket clickable, opening a new DocketDetailView.
+                        NavigationLink(
+                            destination: DocketDetailView(viewModel: DocketDetailViewModel(docketURL: detail.docket))
+                        ) {
+                            // Display a link style.
+                            // You can adjust styling as desired.
+                            Text("Docket: \(detail.docket)")
+                                .foregroundColor(.blue)
+                                .underline()
+                        }
                     }
                     .padding()
                 }
@@ -271,6 +355,54 @@ struct ClusterDetailView: View {
             viewModel.fetchDetails()
         }
         .navigationTitle("Cluster Details")
+    }
+}
+
+/// A view to show details about a docket.
+/// It fetches the data from the docket URL and displays relevant fields.
+struct DocketDetailView: View {
+    @ObservedObject var viewModel: DocketDetailViewModel
+    
+    var body: some View {
+        VStack {
+            if viewModel.isLoading {
+                ProgressView("Loading docket...")
+            } else if let docket = viewModel.docketDetail {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Docket ID: \(docket.id)")
+                            .font(.headline)
+                        Text("Resource URI: \(docket.resource_uri)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        if let absURL = docket.absolute_url {
+                            Text("Absolute URL: \(absURL)")
+                                .font(.footnote)
+                        }
+                        if let dateMod = docket.date_modified {
+                            Text("Date Modified: \(dateMod)")
+                                .font(.footnote)
+                        }
+                    }
+                    .padding()
+                }
+            } else {
+                Text("No docket information available.")
+                    .padding()
+            }
+        }
+        .alert(isPresented: $viewModel.showAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text(viewModel.errorMessage),
+                dismissButton: .default(Text("OK"))
+            )
+        }
+        .navigationTitle("Docket Detail")
+        .onAppear {
+            viewModel.fetchDocket()
+        }
     }
 }
 
