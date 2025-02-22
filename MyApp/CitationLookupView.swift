@@ -86,7 +86,7 @@ struct CitationLookupView: View {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("Token YOUR_TOKEN_API_HERE", forHTTPHeaderField: "Authorization")
+        request.setValue("Token 06fc234206a7f21224e5ed49c6c5a110e736ed86", forHTTPHeaderField: "Authorization")
         // Commonly used when posting form data
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
