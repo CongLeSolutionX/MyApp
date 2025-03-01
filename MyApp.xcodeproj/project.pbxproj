@@ -12,6 +12,7 @@
 		9A12BE682D73502900DC8720 /* BookCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12BE672D73502300DC8720 /* BookCardView.swift */; };
 		9A12BE6A2D73509100DC8720 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12BE692D73509000DC8720 /* Book.swift */; };
 		9A12BE6C2D7350F900DC8720 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12BE6B2D7350F800DC8720 /* TransparentBlurView.swift */; };
+		9A12BE6E2D73637D00DC8720 /* GoogleBookVolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12BE6D2D73637700DC8720 /* GoogleBookVolumeView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		9A12BE672D73502300DC8720 /* BookCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardView.swift; sourceTree = "<group>"; };
 		9A12BE692D73509000DC8720 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		9A12BE6B2D7350F800DC8720 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		9A12BE6D2D73637700DC8720 /* GoogleBookVolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBookVolumeView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A12BE632D73416900DC8720 /* AppleBookView.swift */,
 				9A12BE652D734F2900DC8720 /* SearchView.swift */,
+				9A12BE6D2D73637700DC8720 /* GoogleBookVolumeView.swift */,
 				9A12BE672D73502300DC8720 /* BookCardView.swift */,
 				9A12BE692D73509000DC8720 /* Book.swift */,
 				9A12BE6B2D7350F800DC8720 /* TransparentBlurView.swift */,
@@ -165,6 +168,7 @@
 				9A12BE642D73416E00DC8720 /* AppleBookView.swift in Sources */,
 				9A12BE6C2D7350F900DC8720 /* TransparentBlurView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A12BE6E2D73637D00DC8720 /* GoogleBookVolumeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
