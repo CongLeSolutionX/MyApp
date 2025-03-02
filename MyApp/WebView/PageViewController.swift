@@ -27,8 +27,14 @@ class PageViewController: UIPageViewController {
         "https://github.com/CongLeSolutionX/AlgoVerse/blob/Ilya_Sutskever_Readings/Ilya_Sutskever_Readings/Links_to_Ilya_Sutskever_recommended_resources.md",
         "https://openai.com/policies/row-terms-of-use",
         "https://x.ai/legal/privacy-policy",
+        "https://www.markdownguide.org/api/v1/cheat-sheet.json",
         "https://ai.google.dev/gemini-api/docs"
     ]
+
+    // TODO:
+    /// Doc: `https://www.markdownguide.org/api/v1/`
+    /// `curl https://www.markdownguide.org/api/v1/cheat-sheet.json`
+
 
     // MARK: - Lifecycle
 
