@@ -64,6 +64,24 @@
 			path = SafariView;
 			sourceTree = "<group>";
 		};
+		9A88C36C2D759DF20072EA89 /* AIMethods */ = {
+			isa = PBXGroup;
+			children = (
+				9A88C3682D759A7A0072EA89 /* MethodListView.swift */,
+				9A88C36D2D759E080072EA89 /* Methods */,
+			);
+			path = AIMethods;
+			sourceTree = "<group>";
+		};
+		9A88C36D2D759E080072EA89 /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				9A88C36A2D759AD10072EA89 /* methods.json */,
+				9A88C3662D7598FA0072EA89 /* methods-long.json */,
+			);
+			path = Methods;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -83,14 +101,12 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9A88C36A2D759AD10072EA89 /* methods.json */,
-				9A88C3682D759A7A0072EA89 /* MethodListView.swift */,
-				9A88C3662D7598FA0072EA89 /* methods-long.json */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AE72D0D2D4B365D003F2DC9 /* AppDelegate.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A413C512D4C33820018D2D3 /* MyUIKitViewController.swift */,
+				9A88C36C2D759DF20072EA89 /* AIMethods */,
 				9A413C502D4B94320018D2D3 /* SafariView */,
 				9AE72D0A2D4A1F5E003F2DC9 /* WebView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,

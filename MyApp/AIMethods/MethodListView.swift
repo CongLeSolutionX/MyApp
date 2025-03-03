@@ -14,7 +14,7 @@ struct Method: Codable, Identifiable {
     var id: String { name }
     let url: String
     let name: String
-    let full_name: String
+    let full_name: String?
     let description: String
     let paper: Paper?
     let introduced_year: Int
@@ -45,7 +45,7 @@ class MethodsViewModel: ObservableObject {
     
     func loadMethods() {
         // Locate the JSON file bundled with the project.
-        guard let url = Bundle.main.url(forResource: "methods", withExtension: "json") else {
+        guard let url = Bundle.main.url(forResource: "methods-long", withExtension: "json") else {
             print("Unable to locate methods.json.")
             return
         }
@@ -73,7 +73,7 @@ struct MethodListView: View {
             List(viewModel.methods) { method in
                 VStack(alignment: .leading, spacing: 8) {
                     // Display the method title and introductory year.
-                    Text(method.full_name)
+                    Text(method.full_name ?? "NO FULL NAME")
                         .font(.headline)
                     Text("Introduced: \(method.introduced_year)")
                         .font(.subheadline)
