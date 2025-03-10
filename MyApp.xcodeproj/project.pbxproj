@@ -11,6 +11,7 @@
 		9A703C9F2D7EF12700B34936 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A703C9E2D7EF12700B34936 /* MainScreenView.swift */; };
 		9A703CA12D7EF2A000B34936 /* SingleSceneCaptureScreen_Full_Implementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A703CA02D7EF29F00B34936 /* SingleSceneCaptureScreen_Full_Implementation.swift */; };
 		9A703CA32D7EF54A00B34936 /* MultiSceneCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A703CA22D7EF54900B34936 /* MultiSceneCaptureView.swift */; };
+		9A703CA52D7EF68300B34936 /* ProcessingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A703CA42D7EF68200B34936 /* ProcessingScreen.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		9A703C9E2D7EF12700B34936 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
 		9A703CA02D7EF29F00B34936 /* SingleSceneCaptureScreen_Full_Implementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSceneCaptureScreen_Full_Implementation.swift; sourceTree = "<group>"; };
 		9A703CA22D7EF54900B34936 /* MultiSceneCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSceneCaptureView.swift; sourceTree = "<group>"; };
+		9A703CA42D7EF68200B34936 /* ProcessingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingScreen.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				9A703C9E2D7EF12700B34936 /* MainScreenView.swift */,
 				9A703CA02D7EF29F00B34936 /* SingleSceneCaptureScreen_Full_Implementation.swift */,
 				9A703CA22D7EF54900B34936 /* MultiSceneCaptureView.swift */,
+				9A703CA42D7EF68200B34936 /* ProcessingScreen.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -160,6 +163,7 @@
 				9A703C9D2D7EEF3700B34936 /* OnboardingFlow.swift in Sources */,
 				9A703CA32D7EF54A00B34936 /* MultiSceneCaptureView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A703CA52D7EF68300B34936 /* ProcessingScreen.swift in Sources */,
 				9A703CA12D7EF2A000B34936 /* SingleSceneCaptureScreen_Full_Implementation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
