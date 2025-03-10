@@ -78,7 +78,7 @@ struct MainScreenView: View {
     private func destinationView() -> some View {
         switch selectedMode {
         case .singleScene:
-            SingleSceneCaptureScreen()
+            SingleSceneCaptureScreen_Full_Implementation()
         case .multiScene:
             MultiSceneCaptureScreen()
         case .importPhotos:
@@ -90,18 +90,18 @@ struct MainScreenView: View {
 }
 
 // Stub view representing the Single Scene Capture screen.
-struct SingleSceneCaptureScreen: View {
-    var body: some View {
-        VStack {
-            Text("Single Scene Capture Screen")
-                .font(.title)
-                .padding()
-            // Implementation for live camera feed and guidance overlay would go here.
-            Spacer()
-        }
-        .navigationTitle("Single Scene Capture")
-    }
-}
+//struct SingleSceneCaptureScreen: View {
+//    var body: some View {
+//        VStack {
+//            Text("Single Scene Capture Screen")
+//                .font(.title)
+//                .padding()
+//            // Implementation for live camera feed and guidance overlay would go here.
+//            Spacer()
+//        }
+//        .navigationTitle("Single Scene Capture")
+//    }
+//}
 
 // Stub view representing the Multi-Scene Capture screen.
 struct MultiSceneCaptureScreen: View {
