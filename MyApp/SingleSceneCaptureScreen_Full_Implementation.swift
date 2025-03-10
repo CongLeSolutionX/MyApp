@@ -165,28 +165,57 @@ class CameraManager: ObservableObject {
     private var photoOutput = AVCapturePhotoOutput()
     
     init() {
-        configureSession()
+        // Request camera access and configure session upon success
+        requestCameraAccess { granted in
+            if granted {
+                self.configureSession()
+            } else {
+                print("Error: Camera access was not granted.")
+            }
+        }
     }
     
-    // Setup the session and add input and output
+    private func requestCameraAccess(completion: @escaping (Bool) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch status {
+        case .authorized:
+            completion(true)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        default:
+            // .denied or .restricted
+            completion(false)
+        }
+    }
+    
+    // Setup the session and add input and output if camera access is granted.
     private func configureSession() {
         sessionQueue.async {
             self.captureSession.beginConfiguration()
             self.captureSession.sessionPreset = .photo
             
-            // Set up the camera device (back camera)
             guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera,
                                                        for: .video,
-                                                       position: .back),
-                  let deviceInput = try? AVCaptureDeviceInput(device: camera),
-                  self.captureSession.canAddInput(deviceInput)
-            else {
+                                                       position: .back) else {
                 print("Error: Could not access the back camera.")
                 return
             }
-            self.captureSession.addInput(deviceInput)
             
-            // Configure photo output if available
+            do {
+                let deviceInput = try AVCaptureDeviceInput(device: camera)
+                if self.captureSession.canAddInput(deviceInput) {
+                    self.captureSession.addInput(deviceInput)
+                }
+            } catch {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            
             if self.captureSession.canAddOutput(self.photoOutput) {
                 self.captureSession.addOutput(self.photoOutput)
             }
@@ -195,7 +224,6 @@ class CameraManager: ObservableObject {
         }
     }
     
-    // Start the camera session
     func startSession() {
         sessionQueue.async {
             if !self.captureSession.isRunning {
@@ -204,7 +232,6 @@ class CameraManager: ObservableObject {
         }
     }
     
-    // Stop the camera session
     func stopSession() {
         sessionQueue.async {
             if self.captureSession.isRunning {
@@ -213,10 +240,7 @@ class CameraManager: ObservableObject {
         }
     }
     
-    // Simulated scene capture function.
-    // In a production app, implement proper capture and process the frame.
     func captureScene(completion: @escaping (Bool) -> Void) {
-        // This sample simply delays for a short period to simulate processing.
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
             DispatchQueue.main.async {
                 completion(true)
