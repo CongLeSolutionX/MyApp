@@ -34,6 +34,7 @@ struct BookDetailView: View {
                     .scaledToFit()
                     .cornerRadius(8)
                     .shadow(radius: 4)
+                    .background(Color.gray.opacity(0.2))
                 
                 // Title and Author
                 VStack(alignment: .leading, spacing: 4) {
@@ -46,6 +47,7 @@ struct BookDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
+                .background(Color.orange.opacity(0.5))
                 
                 // Progress Section
                 VStack(alignment: .leading, spacing: 4) {
@@ -58,6 +60,7 @@ struct BookDetailView: View {
                         .frame(height: 8)
                         .clipShape(Capsule())
                 }
+                .background(Color.red.opacity(0.5))
                 
                 // Category Tags (horizontal scroll)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -72,6 +75,7 @@ struct BookDetailView: View {
                         }
                     }
                 }
+                .background(Color.green.opacity(0.2))
                 
                 // Continue Reading Button
                 Button(action: {
@@ -82,11 +86,12 @@ struct BookDetailView: View {
                         .fontWeight(.medium)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(Color.blue.opacity(0.5))
                         .cornerRadius(10)
                 }
             }
             .padding()
+//            .background(Color.purple.opacity(0.2))
         }
         .navigationBarTitle("Book Details", displayMode: .inline)
         .navigationBarItems(
