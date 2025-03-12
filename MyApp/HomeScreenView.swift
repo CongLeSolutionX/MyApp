@@ -50,6 +50,7 @@ struct HomeScreenView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .background(Color.red.opacity(0.5))
                     }
                     
                     // MARK: Popular Section
@@ -61,6 +62,7 @@ struct HomeScreenView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .background(Color.orange.opacity(0.5))
                     }
                     
                     // MARK: Currently Reading Section
@@ -71,6 +73,7 @@ struct HomeScreenView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .background(Color.yellow.opacity(0.5))
                 }
                 .padding(.vertical)
             }
