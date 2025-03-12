@@ -11,6 +11,7 @@
 		9A98BC412D812D4C00BAB7DC /* ContinousScanModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC402D812D3E00BAB7DC /* ContinousScanModeView.swift */; };
 		9A98BC452D812E4F00BAB7DC /* ManualEntryModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC442D812E4600BAB7DC /* ManualEntryModeView.swift */; };
 		9A98BC472D81376B00BAB7DC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC462D81376700BAB7DC /* SettingsView.swift */; };
+		9A98BC492D81397800BAB7DC /* DataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC482D81397500BAB7DC /* DataFlow.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		9A98BC402D812D3E00BAB7DC /* ContinousScanModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinousScanModeView.swift; sourceTree = "<group>"; };
 		9A98BC442D812E4600BAB7DC /* ManualEntryModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryModeView.swift; sourceTree = "<group>"; };
 		9A98BC462D81376700BAB7DC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9A98BC482D81397500BAB7DC /* DataFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFlow.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				9A98BC462D81376700BAB7DC /* SettingsView.swift */,
+				9A98BC482D81397500BAB7DC /* DataFlow.swift */,
 				9A98BC442D812E4600BAB7DC /* ManualEntryModeView.swift */,
 				9A98BC402D812D3E00BAB7DC /* ContinousScanModeView.swift */,
 				9A98BC3E2D812C2100BAB7DC /* SingleScanView.swift */,
@@ -157,6 +160,7 @@
 				9A98BC472D81376B00BAB7DC /* SettingsView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A98BC3F2D812C2200BAB7DC /* SingleScanView.swift in Sources */,
+				9A98BC492D81397800BAB7DC /* DataFlow.swift in Sources */,
 				9A98BC412D812D4C00BAB7DC /* ContinousScanModeView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A98BC452D812E4F00BAB7DC /* ManualEntryModeView.swift in Sources */,
