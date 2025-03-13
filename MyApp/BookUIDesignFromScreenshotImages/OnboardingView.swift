@@ -11,33 +11,25 @@ struct OnboardingView: View {
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
-            
-            // Playful Illustration
             Image("onboardingIllustration")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: 300, maxHeight: 300)
                 .padding()
-            
-            // Welcome Title
             Text("Welcome to Bookly!")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color.primary)
                 .padding(.horizontal)
-            
-            // Description text
             Text("Discover new adventures in every book. Dive in and explore popular titles, curated recommendations, and more!")
                 .font(.title3)
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color.secondary)
                 .padding(.horizontal)
-            
             Spacer()
-            
-            // Get Started Button wrapped in a NavigationLink to transition to the home screen.
-            NavigationLink(destination: HomeView()) {
+            // Navigate directly to HomeScreenView
+            NavigationLink(destination: HomeScreenView()) {
                 Text("Get Started")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -55,18 +47,9 @@ struct OnboardingView: View {
     }
 }
 
-// A placeholder HomeView to demonstrate navigation from the onboarding screen.
-struct HomeView: View {
-    var body: some View {
-        Text("Home Screen")
-            .font(.largeTitle)
-            .padding()
-    }
-}
-
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {  // Embedding in NavigationView to enable NavigationLink functionality
+        NavigationView {
             OnboardingView()
         }
     }
