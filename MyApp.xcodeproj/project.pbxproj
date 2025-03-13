@@ -16,6 +16,7 @@
 		9A301AB72D8297ED008475CB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A301AB62D8297EC008475CB /* Models.swift */; };
 		9A301AB92D83209B008475CB /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A301AB82D832097008475CB /* HomeScreen.swift */; };
 		9A301ABB2D83225E008475CB /* BookDetailView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A301ABA2D832258008475CB /* BookDetailView2.swift */; };
+		9A301ABD2D8324B1008475CB /* SearchView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A301ABC2D8324AD008475CB /* SearchView2.swift */; };
 		9A98BC4F2D817DB400BAB7DC /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC4E2D817DB000BAB7DC /* HomeScreenView.swift */; };
 		9A98BC512D817FF000BAB7DC /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC502D817FEC00BAB7DC /* BookDetailView.swift */; };
 		9A98BC542D81820C00BAB7DC /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98BC532D81820600BAB7DC /* OnboardingView.swift */; };
@@ -36,6 +37,7 @@
 		9A301AB62D8297EC008475CB /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		9A301AB82D832097008475CB /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		9A301ABA2D832258008475CB /* BookDetailView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView2.swift; sourceTree = "<group>"; };
+		9A301ABC2D8324AD008475CB /* SearchView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView2.swift; sourceTree = "<group>"; };
 		9A98BC4E2D817DB000BAB7DC /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		9A98BC502D817FEC00BAB7DC /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		9A98BC532D81820600BAB7DC /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				9A301ABA2D832258008475CB /* BookDetailView2.swift */,
+				9A301ABC2D8324AD008475CB /* SearchView2.swift */,
 				9A301AB82D832097008475CB /* HomeScreen.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
@@ -206,6 +209,7 @@
 				9A12BE6C2D7350F900DC8720 /* TransparentBlurView.swift in Sources */,
 				9A98BC4F2D817DB400BAB7DC /* HomeScreenView.swift in Sources */,
 				9A98BC512D817FF000BAB7DC /* BookDetailView.swift in Sources */,
+				9A301ABD2D8324B1008475CB /* SearchView2.swift in Sources */,
 				9A98BC542D81820C00BAB7DC /* OnboardingView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A12BE6E2D73637D00DC8720 /* GoogleBookVolumeView.swift in Sources */,
