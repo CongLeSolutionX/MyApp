@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-// Unified Book2 struct
+// Unified Book2 model using Identifiable & UUID
 struct Book2: Identifiable {
-    let id = UUID() // Use UUID consistently
+    let id: UUID = UUID()
     let title: String
     let author: String
     let coverImageName: String

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct BookDetailView: View {
     @Environment(\.presentationMode) private var presentationMode
-    @State var book: Book2  // Use the unified Book2
+    @State var book: Book2  // unified Book2 model
 
-    // Placeholder for continue reading action
     @State private var continueReading = false
 
     var body: some View {
@@ -22,7 +21,7 @@ struct BookDetailView: View {
                     .scaledToFit()
                     .cornerRadius(8)
                     .shadow(radius: 4)
-
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text(book.title)
                         .font(.title)
@@ -32,7 +31,7 @@ struct BookDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
-
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Progress: \(book.currentPage) / \(book.totalPages) pages")
                         .font(.footnote)
@@ -41,24 +40,25 @@ struct BookDetailView: View {
                         .frame(height: 8)
                         .clipShape(Capsule())
                 }
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(book.categories, id: \.self) { category in
-                            Text(category)
-                                .font(.caption)
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 8)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(10)
+                
+                if !book.categories.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(book.categories, id: \.self) { category in
+                                Text(category)
+                                    .font(.caption)
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 8)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(10)
+                            }
                         }
                     }
                 }
-
-                Button(action: {
-                    // Placeholder for continue reading action
-                    continueReading.toggle() // Example: Toggle a state variable
-                }) {
+                
+                Button {
+                    continueReading.toggle() // Toggle continue reading state
+                } label: {
                     Text("Continue Reading")
                         .foregroundColor(.white)
                         .fontWeight(.medium)
@@ -72,18 +72,18 @@ struct BookDetailView: View {
         }
         .navigationBarTitle("Book Details", displayMode: .inline)
         .navigationBarItems(
-            leading: Button(action: {
+            leading: Button {
                 presentationMode.wrappedValue.dismiss()
-            }, label: {
+            } label: {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.blue)
-            }),
-            trailing: Button(action: {
+            },
+            trailing: Button {
                 book.isBookmarked.toggle()
-            }, label: {
+            } label: {
                 Image(systemName: book.isBookmarked ? "bookmark.fill" : "bookmark")
                     .foregroundColor(.blue)
-            })
+            }
         )
     }
 }
@@ -91,7 +91,7 @@ struct BookDetailView: View {
 struct BookDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BookDetailView(book: Book2(title: "The Great Book", author: "John Doe", coverImageName: "bookCoverSample", rating: 2.5, currentPage: 120, totalPages: 300, categories: ["Fiction", "Literary", "Adventure"], isBookmarked: false))
+            BookDetailView(book: Book2(title: "The Great Book", author: "John Doe", coverImageName: "bookCoverSample", rating: nil, currentPage: 120, totalPages: 300, categories: ["Fiction", "Adventure"], isBookmarked: false))
         }
     }
 }
