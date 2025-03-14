@@ -11,18 +11,49 @@ See the LICENSE.txt file for this sample’s licensing information.
 Abstract:
 The preview view for the app.
 */
+
 import UIKit
 import AVFoundation
 
 class PreviewView: UIView, UIGestureRecognizerDelegate {
 
     // MARK: - Types
+
     private enum ControlCorner {
         case none, topLeft, topRight, bottomLeft, bottomRight
     }
     
-    // MARK: - Initialization
+    // MARK: - Properties
+
+    // Controls for region of interest
+    private let regionOfInterestCornerTouchThreshold: CGFloat = 50
+    private var minimumRegionOfInterestSize: CGFloat { regionOfInterestCornerTouchThreshold }
+    private let regionOfInterestControlDiameter: CGFloat = 12.0
+    private var regionOfInterestControlRadius: CGFloat { regionOfInterestControlDiameter / 2.0 }
     
+    private let maskLayer = CAShapeLayer()
+    private let regionOfInterestOutline = CAShapeLayer()
+    
+    private let topLeftControl = CAShapeLayer()
+    private let topRightControl = CAShapeLayer()
+    private let bottomLeftControl = CAShapeLayer()
+    private let bottomRightControl = CAShapeLayer()
+    
+    // The current control corner that is used during resizing.
+    private var currentControlCorner: ControlCorner = .none
+
+    /// The region of interest (ROI) rectangle.
+    @objc private(set) dynamic var regionOfInterest = CGRect.null
+
+    // Gesture recognizer for resizing/moving the ROI.
+    private lazy var resizeRegionOfInterestGestureRecognizer: UIPanGestureRecognizer = {
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(resizeRegionOfInterestWithGestureRecognizer(_:)))
+        pan.delegate = self
+        return pan
+    }()
+
+    // MARK: - Initialization
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -34,16 +65,19 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
     }
     
     private func commonInit() {
+        // Configure mask layer.
         maskLayer.fillRule = .evenOdd
         maskLayer.fillColor = UIColor.black.cgColor
         maskLayer.opacity = 0.6
         layer.addSublayer(maskLayer)
         
+        // Configure ROI outline.
         regionOfInterestOutline.path = UIBezierPath(rect: regionOfInterest).cgPath
         regionOfInterestOutline.fillColor = UIColor.clear.cgColor
         regionOfInterestOutline.strokeColor = UIColor.yellow.cgColor
         layer.addSublayer(regionOfInterestOutline)
         
+        // Create the ROI controls.
         let controlRect = CGRect(x: 0, y: 0, width: regionOfInterestControlDiameter, height: regionOfInterestControlDiameter)
         for control in [topLeftControl, topRightControl, bottomLeftControl, bottomRightControl] {
             control.path = UIBezierPath(ovalIn: controlRect).cgPath
@@ -51,15 +85,14 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
             layer.addSublayer(control)
         }
         
-        resizeRegionOfInterestGestureRecognizer.delegate = self
         addGestureRecognizer(resizeRegionOfInterestGestureRecognizer)
     }
     
     // MARK: - AV Capture Properties
-    
+
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
-            fatalError("Expected AVCaptureVideoPreviewLayer type for layer. Check PreviewView.layerClass implementation.")
+            fatalError("Expected AVCaptureVideoPreviewLayer type. Check PreviewView.layerClass implementation.")
         }
         return layer
     }
@@ -69,71 +102,61 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
         set { videoPreviewLayer.session = newValue }
     }
     
-    // MARK: - Region of Interest
-    
-    private let regionOfInterestCornerTouchThreshold: CGFloat = 50
-    
-    /// Ensures the region of interest is not smaller than the threshold.
-    private var minimumRegionOfInterestSize: CGFloat { regionOfInterestCornerTouchThreshold }
-    
-    private let regionOfInterestControlDiameter: CGFloat = 12.0
-    private var regionOfInterestControlRadius: CGFloat { regionOfInterestControlDiameter / 2.0 }
-    
-    private let maskLayer = CAShapeLayer()
-    private let regionOfInterestOutline = CAShapeLayer()
-    
-    private var currentControlCorner: ControlCorner = .none
+    // MARK: - Region of Interest Methods
 
-    // Control layers.
-    private let topLeftControl = CAShapeLayer()
-    private let topRightControl = CAShapeLayer()
-    private let bottomLeftControl = CAShapeLayer()
-    private let bottomRightControl = CAShapeLayer()
-    
-    @objc private(set) dynamic var regionOfInterest = CGRect.null
-    
-    /// Updates the region of interest to ensure it remains within bounds.
+    /// Update the ROI ensuring it remains inside video preview bounds and honors minimum sizes.
     func setRegionOfInterestWithProposedRegionOfInterest(_ proposedROI: CGRect) {
         let videoPreviewRect = videoPreviewLayer.layerRectConverted(fromMetadataOutputRect: CGRect(x: 0, y: 0, width: 1, height: 1)).standardized
-        let visibleRect = videoPreviewRect.intersection(frame)
+        let visiblePreviewRect = videoPreviewRect.intersection(frame)
         let oldROI = regionOfInterest
         var newROI = proposedROI.standardized
         
+        // If not resizing using a corner, then move ROI inside the visible bounds.
         if currentControlCorner == .none {
             var xOffset: CGFloat = 0, yOffset: CGFloat = 0
-            if !visibleRect.contains(newROI.origin) {
-                xOffset = max(visibleRect.minX - newROI.minX, 0)
-                yOffset = max(visibleRect.minY - newROI.minY, 0)
+            if !visiblePreviewRect.contains(newROI.origin) {
+                xOffset = max(visiblePreviewRect.minX - newROI.minX, 0)
+                yOffset = max(visiblePreviewRect.minY - newROI.minY, 0)
             }
-            if !visibleRect.contains(CGPoint(x: visibleRect.maxX, y: visibleRect.maxY)) {
-                xOffset = min(visibleRect.maxX - newROI.maxX, xOffset)
-                yOffset = min(visibleRect.maxY - newROI.maxY, yOffset)
+            
+            if !visiblePreviewRect.contains(CGPoint(x: visiblePreviewRect.maxX, y: visiblePreviewRect.maxY)) {
+                xOffset = min(visiblePreviewRect.maxX - newROI.maxX, xOffset)
+                yOffset = min(visiblePreviewRect.maxY - newROI.maxY, yOffset)
             }
             newROI = newROI.offsetBy(dx: xOffset, dy: yOffset)
         }
         
-        newROI = visibleRect.intersection(newROI)
+        // Clamp ROI within bounds.
+        newROI = visiblePreviewRect.intersection(newROI)
         
-        // Clamp to minimum width.
+        // Enforce minimum width.
         if proposedROI.size.width < minimumRegionOfInterestSize {
             switch currentControlCorner {
             case .topLeft, .bottomLeft:
                 newROI.origin.x = oldROI.origin.x + oldROI.size.width - minimumRegionOfInterestSize
-            default:
+                newROI.size.width = minimumRegionOfInterestSize
+            case .topRight:
                 newROI.origin.x = oldROI.origin.x
+                newROI.size.width = minimumRegionOfInterestSize
+            default:
+                newROI.origin = oldROI.origin
+                newROI.size.width = minimumRegionOfInterestSize
             }
-            newROI.size.width = minimumRegionOfInterestSize
         }
         
-        // Clamp to minimum height.
+        // Enforce minimum height.
         if proposedROI.size.height < minimumRegionOfInterestSize {
             switch currentControlCorner {
             case .topLeft, .topRight:
                 newROI.origin.y = oldROI.origin.y + oldROI.size.height - minimumRegionOfInterestSize
-            default:
+                newROI.size.height = minimumRegionOfInterestSize
+            case .bottomLeft:
                 newROI.origin.y = oldROI.origin.y
+                newROI.size.height = minimumRegionOfInterestSize
+            default:
+                newROI.origin = oldROI.origin
+                newROI.size.height = minimumRegionOfInterestSize
             }
-            newROI.size.height = minimumRegionOfInterestSize
         }
         
         regionOfInterest = newROI
@@ -144,31 +167,28 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
         return resizeRegionOfInterestGestureRecognizer.state == .changed
     }
     
-    private lazy var resizeRegionOfInterestGestureRecognizer: UIPanGestureRecognizer = {
-        return UIPanGestureRecognizer(target: self, action: #selector(resizeRegionOfInterestWithGestureRecognizer(_:)))
-    }()
-    
     @objc
-    func resizeRegionOfInterestWithGestureRecognizer(_ gesture: UIPanGestureRecognizer) {
-        guard let viewForGesture = gesture.view else { return }
-        let touchLocation = gesture.location(in: viewForGesture)
+    func resizeRegionOfInterestWithGestureRecognizer(_ panGR: UIPanGestureRecognizer) {
+        guard let viewForGesture = panGR.view else { return }
+        let touchLocation = panGR.location(in: viewForGesture)
         let oldROI = regionOfInterest
         
-        switch gesture.state {
+        switch panGR.state {
         case .began:
             currentControlCorner = cornerOfRect(oldROI, closestToPointWithinTouchThreshold: touchLocation)
-        
         case .changed:
             willChangeValue(forKey: "regionOfInterest")
             var newROI = oldROI
             
             switch currentControlCorner {
             case .none:
-                let translation = gesture.translation(in: viewForGesture)
+                let translation = panGR.translation(in: viewForGesture)
+                // Move ROI if touch is inside.
                 if regionOfInterest.contains(touchLocation) {
                     newROI.origin.x += translation.x
                     newROI.origin.y += translation.y
                 }
+                // Restrict translation if touch is outside preview bounds.
                 let normalizedRect = CGRect(x: 0, y: 0, width: 1, height: 1)
                 if !normalizedRect.contains(videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: touchLocation)) {
                     if touchLocation.x < regionOfInterest.minX || touchLocation.x > regionOfInterest.maxX {
@@ -177,39 +197,35 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
                         newROI.origin.x += translation.x
                     }
                 }
-                gesture.setTranslation(.zero, in: viewForGesture)
-            
+                panGR.setTranslation(.zero, in: viewForGesture)
+                
             case .topLeft:
                 newROI = CGRect(x: touchLocation.x,
                                 y: touchLocation.y,
                                 width: oldROI.size.width + oldROI.origin.x - touchLocation.x,
                                 height: oldROI.size.height + oldROI.origin.y - touchLocation.y)
-            
             case .topRight:
                 newROI = CGRect(x: oldROI.origin.x,
                                 y: touchLocation.y,
                                 width: touchLocation.x - oldROI.origin.x,
                                 height: oldROI.size.height + oldROI.origin.y - touchLocation.y)
-            
             case .bottomLeft:
                 newROI = CGRect(x: touchLocation.x,
                                 y: oldROI.origin.y,
                                 width: oldROI.size.width + oldROI.origin.x - touchLocation.x,
                                 height: touchLocation.y - oldROI.origin.y)
-            
             case .bottomRight:
                 newROI = CGRect(x: oldROI.origin.x,
                                 y: oldROI.origin.y,
                                 width: touchLocation.x - oldROI.origin.x,
                                 height: touchLocation.y - oldROI.origin.y)
             }
-        
-            setRegionOfInterestWithProposedRegionOfInterest(newROI)
-            didChangeValue(forKey: "regionOfInterest")
-        
-        case .ended:
-            currentControlCorner = .none
             
+            self.setRegionOfInterestWithProposedRegionOfInterest(newROI)
+            didChangeValue(forKey: "regionOfInterest")
+            
+        case .ended, .cancelled, .failed:
+            currentControlCorner = .none
         default:
             break
         }
@@ -225,14 +241,13 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
             (.bottomRight, CGPoint(x: rect.maxX, y: rect.maxY))
         ]
         
-        for (corner, cornerPoint) in corners {
-            let distance = hypot(point.x - cornerPoint.x, point.y - cornerPoint.y)
+        for (corner, pt) in corners {
+            let distance = hypot(point.x - pt.x, point.y - pt.y)
             if distance < closestDistance {
                 closestDistance = distance
                 closestCorner = corner
             }
         }
-        
         return closestDistance > regionOfInterestCornerTouchThreshold ? .none : closestCorner
     }
     
@@ -244,19 +259,21 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
-        let path = UIBezierPath(rect: bounds)
-        path.append(UIBezierPath(rect: regionOfInterest))
-        path.usesEvenOddFillRule = true
-        maskLayer.path = path.cgPath
+        // Create mask path that uses the even-odd rule.
+        let outerPath = UIBezierPath(rect: bounds)
+        outerPath.append(UIBezierPath(rect: regionOfInterest))
+        outerPath.usesEvenOddFillRule = true
+        maskLayer.path = outerPath.cgPath
         
         regionOfInterestOutline.path = UIBezierPath(rect: regionOfInterest).cgPath
         
         let left = regionOfInterest.origin.x - regionOfInterestControlRadius
-        let top = regionOfInterest.origin.y - regionOfInterestControlRadius
         let right = regionOfInterest.origin.x + regionOfInterest.size.width - regionOfInterestControlRadius
+        let top = regionOfInterest.origin.y - regionOfInterestControlRadius
         let bottom = regionOfInterest.origin.y + regionOfInterest.size.height - regionOfInterestControlRadius
         
         topLeftControl.position = CGPoint(x: left, y: top)
@@ -266,11 +283,11 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
         
         CATransaction.commit()
     }
-
+    
     // MARK: - UIGestureRecognizerDelegate
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if gestureRecognizer === resizeRegionOfInterestGestureRecognizer {
+        if gestureRecognizer == resizeRegionOfInterestGestureRecognizer {
             let touchLocation = touch.location(in: gestureRecognizer.view)
             let paddedROI = regionOfInterest.insetBy(dx: -regionOfInterestCornerTouchThreshold, dy: -regionOfInterestCornerTouchThreshold)
             return paddedROI.contains(touchLocation)
@@ -278,11 +295,11 @@ class PreviewView: UIView, UIGestureRecognizerDelegate {
         return true
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer === resizeRegionOfInterestGestureRecognizer {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == resizeRegionOfInterestGestureRecognizer {
             let touchLocation = gestureRecognizer.location(in: gestureRecognizer.view)
-            return cornerOfRect(regionOfInterest, closestToPointWithinTouchThreshold: touchLocation) == .none
+            let closestCorner = cornerOfRect(regionOfInterest, closestToPointWithinTouchThreshold: touchLocation)
+            return closestCorner == .none
         }
         return false
     }

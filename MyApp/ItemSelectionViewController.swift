@@ -20,10 +20,12 @@ protocol ItemSelectionViewControllerDelegate: AnyObject {
 
 class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableViewController {
     weak var delegate: ItemSelectionViewControllerDelegate?
+    
     let identifier: String
     let allItems: [Item]
     var selectedItems: [Item]
     let allowsMultipleSelection: Bool
+    
     private let itemCellIdentifier = "Item"
     
     init(delegate: ItemSelectionViewControllerDelegate,
@@ -45,7 +47,7 @@ class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableVi
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("ItemSelectionViewController cannot be initialized from aDecoder.")
+        fatalError("ItemSelectionViewController cannot be initialized with init(coder:)")
     }
     
     @objc private func done() {
@@ -55,13 +57,11 @@ class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableVi
     
     // MARK: - UITableViewDataSource
     
-    override func tableView(_ tableView: UITableView,
-                            numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allItems.count
     }
     
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = allItems[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: itemCellIdentifier, for: indexPath)
         cell.tintColor = .black
@@ -72,8 +72,7 @@ class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableVi
     
     // MARK: - UITableViewDelegate
     
-    override func tableView(_ tableView: UITableView,
-                            didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = allItems[indexPath.row]
         if allowsMultipleSelection {
             if selectedItems.contains(item) {
@@ -84,13 +83,13 @@ class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableVi
             tableView.deselectRow(at: indexPath, animated: true)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         } else {
-            var indexPathsToReload = [IndexPath]()
-            if let previousIndex = allItems.firstIndex(of: selectedItems.first ?? item) {
+            var indexPathsToReload: [IndexPath] = []
+            if let previousIndex = allItems.firstIndex(where: { $0 == selectedItems.first }) {
                 indexPathsToReload.append(IndexPath(row: previousIndex, section: 0))
             }
-            selectedItems = [item]
             indexPathsToReload.append(indexPath)
-            
+
+            selectedItems = [item]
             tableView.deselectRow(at: indexPath, animated: true)
             tableView.reloadRows(at: indexPathsToReload, with: .automatic)
         }
