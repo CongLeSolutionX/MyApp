@@ -20,7 +20,6 @@
 		9A3902C62D842A2B00D4F707 /* CameraUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902C52D842A2B00D4F707 /* CameraUI.swift */; };
 		9A3902C82D8460B200D4F707 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902C72D8460AA00D4F707 /* ViewExtensions.swift */; };
 		9A3902D02D8463C500D4F707 /* PreviewCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902CF2D8463BB00D4F707 /* PreviewCameraModel.swift */; };
-		9A3902D42D84646D00D4F707 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3902D32D84646D00D4F707 /* Preview Assets.xcassets */; };
 		9A3902D62D8464F800D4F707 /* CaptureModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902D52D8464F700D4F707 /* CaptureModeView.swift */; };
 		9A3902D92D84653B00D4F707 /* LiveBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902D82D84653600D4F707 /* LiveBadge.swift */; };
 		9A3902DC2D84656D00D4F707 /* RecordingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902DB2D84656C00D4F707 /* RecordingTimeView.swift */; };
@@ -37,10 +36,11 @@
 		9A3902F62D84677600D4F707 /* CaptureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F52D84677600D4F707 /* CaptureExtensions.swift */; };
 		9A3902F82D8467B700D4F707 /* SPCObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F72D8467B600D4F707 /* SPCObserver.swift */; };
 		9A3902FA2D8467C400D4F707 /* DeviceLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F92D8467C300D4F707 /* DeviceLookup.swift */; };
+		9A3902FD2D846A6E00D4F707 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9A3902FC2D846A6E00D4F707 /* LICENSE.txt */; };
+		9A3903012D846AD400D4F707 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3903002D846AD400D4F707 /* Preview Assets.xcassets */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
-		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +58,6 @@
 		9A3902C52D842A2B00D4F707 /* CameraUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUI.swift; sourceTree = "<group>"; };
 		9A3902C72D8460AA00D4F707 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		9A3902CF2D8463BB00D4F707 /* PreviewCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCameraModel.swift; sourceTree = "<group>"; };
-		9A3902D32D84646D00D4F707 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9A3902D52D8464F700D4F707 /* CaptureModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModeView.swift; sourceTree = "<group>"; };
 		9A3902D82D84653600D4F707 /* LiveBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBadge.swift; sourceTree = "<group>"; };
 		9A3902DB2D84656C00D4F707 /* RecordingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTimeView.swift; sourceTree = "<group>"; };
@@ -75,12 +74,13 @@
 		9A3902F52D84677600D4F707 /* CaptureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExtensions.swift; sourceTree = "<group>"; };
 		9A3902F72D8467B600D4F707 /* SPCObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPCObserver.swift; sourceTree = "<group>"; };
 		9A3902F92D8467C300D4F707 /* DeviceLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLookup.swift; sourceTree = "<group>"; };
+		9A3902FC2D846A6E00D4F707 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		9A3903002D846AD400D4F707 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9AAC417F2C74668C00AC0A60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
-		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +107,7 @@
 				9A3902B72D8428BB00D4F707 /* Model */,
 				9A3902CA2D8460D800D4F707 /* Support */,
 				9A3902CB2D84639800D4F707 /* Preview Content */,
+				9A3902FB2D846A5F00D4F707 /* LICENSE */,
 			);
 			path = AVCameraApp;
 			sourceTree = "<group>";
@@ -158,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				9A3902CF2D8463BB00D4F707 /* PreviewCameraModel.swift */,
-				9A3902D32D84646D00D4F707 /* Preview Assets.xcassets */,
+				9A3903002D846AD400D4F707 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -220,6 +221,14 @@
 			path = Capture;
 			sourceTree = "<group>";
 		};
+		9A3902FB2D846A5F00D4F707 /* LICENSE */ = {
+			isa = PBXGroup;
+			children = (
+				9A3902FC2D846A6E00D4F707 /* LICENSE.txt */,
+			);
+			path = LICENSE;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -245,17 +254,8 @@
 				9A3902B32D8427ED00D4F707 /* AVCameraApp */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
-				9AAC41822C74668C00AC0A60 /* Preview Content */,
 			);
 			path = MyApp;
-			sourceTree = "<group>";
-		};
-		9AAC41822C74668C00AC0A60 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,8 +316,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
-				9A3902D42D84646D00D4F707 /* Preview Assets.xcassets in Resources */,
+				9A3902FD2D846A6E00D4F707 /* LICENSE.txt in Resources */,
+				9A3903012D846AD400D4F707 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,11 +492,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app need your permisison to access camera";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -531,11 +532,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"MyApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 99WD9D6Y46;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app need your permisison to access camera";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
