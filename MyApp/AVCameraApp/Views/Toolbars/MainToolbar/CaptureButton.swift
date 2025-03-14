@@ -55,13 +55,6 @@ struct CaptureButton<CameraModel: Camera>: View {
     }
 }
 
-#Preview("Photo") {
-    CaptureButton(camera: PreviewCameraModel(captureMode: .photo))
-}
-
-#Preview("Video") {
-    CaptureButton(camera: PreviewCameraModel(captureMode: .video))
-}
 
 private struct PhotoCaptureButton: View {
     private let action: () -> Void
@@ -135,4 +128,14 @@ private struct MovieCaptureButton: View {
             configuration.label
         }
     }
+}
+
+
+// MARK: - Preview
+#Preview("Photo") {
+    CaptureButton(camera: PreviewCameraModel(captureMode: .photo))
+}
+
+#Preview("Video") {
+    CaptureButton(camera: PreviewCameraModel(captureMode: .video))
 }

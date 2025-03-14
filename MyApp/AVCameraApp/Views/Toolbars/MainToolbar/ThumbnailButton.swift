@@ -45,3 +45,10 @@ struct ThumbnailButton<CameraModel: Camera>: View {
         }
     }
 }
+
+// MARK: - Preview
+#Preview {
+    Group {
+        ThumbnailButton(camera: PreviewCameraModel())
+    }
+}

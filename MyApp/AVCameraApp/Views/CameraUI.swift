@@ -95,6 +95,7 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
     }
 }
 
+// MARK: - Preview
 #Preview {
     CameraUI(camera: PreviewCameraModel(), swipeDirection: .constant(.left))
 }

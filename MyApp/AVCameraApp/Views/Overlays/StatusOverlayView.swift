@@ -63,6 +63,8 @@ struct StatusOverlayView: View {
     }
 }
 
+
+// MARK: - Previews
 #Preview("Interrupted") {
     CameraView(camera: PreviewCameraModel(status: .interrupted))
 }

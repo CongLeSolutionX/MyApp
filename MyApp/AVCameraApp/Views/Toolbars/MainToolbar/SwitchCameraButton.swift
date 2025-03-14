@@ -33,3 +33,10 @@ struct SwitchCameraButton<CameraModel: Camera>: View {
         .allowsHitTesting(!camera.isSwitchingVideoDevices)
     }
 }
+
+// MARK: - Preview
+#Preview {
+    Group {
+        SwitchCameraButton(camera: CameraModel())
+    }
+}

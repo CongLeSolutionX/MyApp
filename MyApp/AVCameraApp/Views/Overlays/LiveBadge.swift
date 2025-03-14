@@ -28,6 +28,7 @@ struct LiveBadge: View {
     }
 }
 
+// MARK: - Preview
 #Preview {
     LiveBadge()
         .padding()

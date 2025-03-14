@@ -44,6 +44,7 @@ extension TimeInterval {
     }
 }
 
+// MARK: - Preview
 #Preview {
     RecordingTimeView(time: TimeInterval(floatLiteral: 500))
         .background(Image("video_mode"))

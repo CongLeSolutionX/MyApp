@@ -50,6 +50,7 @@ struct CaptureModeView<CameraModel: Camera>: View {
     }
 }
 
+// MARK: - Preview
 #Preview {
     CaptureModeView(camera: PreviewCameraModel(), direction: .constant(.left))
 }

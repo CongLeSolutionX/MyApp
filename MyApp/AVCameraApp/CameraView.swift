@@ -73,13 +73,17 @@ struct CameraView<CameraModel: Camera>: PlatformView {
     }
 }
 
-#Preview {
-    CameraView(camera: PreviewCameraModel())
-}
-
 enum SwipeDirection {
     case left
     case right
     case up
     case down
+}
+
+
+
+// MARK: - Preview
+
+#Preview {
+    CameraView(camera: PreviewCameraModel())
 }
