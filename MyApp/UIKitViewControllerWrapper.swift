@@ -29,5 +29,8 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        let cameraVC = CameraViewController()
+        view.window?.rootViewController?.present(cameraVC, animated: true)
+//        self.present(cameraVC, animated: true)
     }
 }
