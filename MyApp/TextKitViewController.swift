@@ -4,11 +4,9 @@
 //
 //  Created by Cong Le on 3/14/25.
 //
-
 import UIKit
 
 // MARK: - Custom Text Attachment
-
 /// A custom text attachment that draws a colored box.
 class BoxAttachment: NSTextAttachment {
     let boxColor: UIColor
@@ -19,10 +17,11 @@ class BoxAttachment: NSTextAttachment {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        // Alternatively, you could implement coder support here.
+        return nil
     }
     
-    // Define the size of the attachment.
+    // Specify the size of the attachment.
     override func attachmentBounds(for textContainer: NSTextContainer?,
                                    proposedLineFragment lineFrag: CGRect,
                                    glyphPosition position: CGPoint,
@@ -30,47 +29,65 @@ class BoxAttachment: NSTextAttachment {
         return CGRect(x: 0, y: 0, width: 20, height: 20)
     }
     
-    // Draw the colored box.
+    // Draw the box image.
     override func image(forBounds imageBounds: CGRect,
                         textContainer: NSTextContainer?,
                         characterIndex charIndex: Int) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: imageBounds.size)
-        return renderer.image { context in
+        let image = renderer.image { context in
             boxColor.setFill()
             context.fill(imageBounds)
         }
+        return image
     }
 }
-
-// MARK: - Custom Layout Manager
-
-/// A custom NSTextLayoutManager that highlights the first paragraph.
+//
+//// MARK: - Custom Layout Manager
+///// A custom NSTextLayoutManager that highlights the first paragraph.
 //class HighlightFirstLineLayoutManager: NSTextLayoutManager {
-//    func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-////        super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
+//    override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+//        super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
+//
+//        // Ensure the textContentStorage exists.
+//        guard let textContentStorage = self.textContentStorage else { return }
+//        // Ensure there's at least one paragraph.
+//        guard let firstParagraphRange = textContentStorage.textParagraphRanges.first else { return }
+//        // Obtain the container safely.
+//        guard let container = self.textContainer(forGlyphAt: firstParagraphRange.location) else { return }
+//        // Get the glyph range corresponding to the first paragraph.
+//        let firstGlyphRange = self.glyphRange(for: firstParagraphRange)
 //        
-//        // Safely obtain the first paragraph range from NSTextContentStorage
-//        guard let textContentStorage = self.textContentStorage,
-//              let firstParagraphRange = textContentStorage.textParagraphRanges.first,
-//              let container = textContainer(forGlyphAt: firstParagraphRange.location),
-//              let firstGlyphRange = glyphRange(for: firstParagraphRange)
-//        else { return }
-//        
-//        let highlightRect = boundingRect(forGlyphRange: firstGlyphRange, in: container)
-//                            .offsetBy(dx: origin.x, dy: origin.y)
+//        let highlightRect = self.boundingRect(forGlyphRange: firstGlyphRange, in: container)
+//                              .offsetBy(dx: origin.x, dy: origin.y)
 //        UIColor.yellow.withAlphaComponent(0.3).setFill()
 //        UIBezierPath(rect: highlightRect).fill()
 //    }
 //}
 
 // MARK: - Main ViewController
-
-class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
+class ViewController: UIViewController, NSTextContentStorageDelegate {
     
-    private var textView: UITextView!
-    private var textStorage: NSTextContentStorage!
-    private var layoutManager: NSTextLayoutManager!
-    private var textContainer: NSTextContainer!
+    private lazy var textView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    private lazy var textStorage: NSTextContentStorage = {
+        let textStorage = NSTextContentStorage()
+        return textStorage
+    }()
+    
+    private lazy var layoutManager: NSTextLayoutManager = {
+        let layoutManager = NSTextLayoutManager()
+        return layoutManager
+    }()
+    
+    private lazy var textContainer: NSTextContainer = {
+        let textContainer = NSTextContainer()
+        textContainer.lineFragmentPadding = 0
+        return textContainer
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,17 +102,22 @@ class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
     }
     
     // MARK: - TextKit Setup
-    
     private func setupTextKit() {
+        // Use TextKit2's NSTextContentStorage.
         textStorage = NSTextContentStorage()
         textStorage.delegate = self
+        
+        // Create a custom layout manager.
 //        layoutManager = HighlightFirstLineLayoutManager()
         textStorage.addTextLayoutManager(layoutManager)
+        
+        // Create a text container.
         textContainer = NSTextContainer()
         layoutManager.textContainer = textContainer
     }
     
     private func setupTextView() {
+        // Use the textContainer from our setup.
         textView = UITextView(frame: .zero, textContainer: textContainer)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = true
@@ -111,8 +133,7 @@ class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
         ])
     }
     
-    // MARK: - Configure Attributed String
-    
+    // MARK: - Attributed String Configuration
     private func configureAttributedText() {
         let baseString = """
         TextKit2 Demo:
@@ -126,38 +147,40 @@ class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
             attributes: [.font: UIFont.preferredFont(forTextStyle: .body)]
         )
         
-        // Bold and blue for first four characters.
-        attributed.addAttributes([
-            .font: UIFont.boldSystemFont(ofSize: 24),
-            .foregroundColor: UIColor.blue
-        ], range: NSRange(location: 0, length: 4))
+        // Apply bold and blue to the first four characters.
+        if attributed.length >= 4 {
+            attributed.addAttributes([
+                .font: UIFont.boldSystemFont(ofSize: 24),
+                .foregroundColor: UIColor.blue
+            ], range: NSRange(location: 0, length: 4))
+        }
         
-        // Paragraph style with extra line spacing and justified alignment.
+        // Set up a paragraph style with extra line spacing and justified alignment.
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
         paragraphStyle.alignment = .justified
         attributed.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributed.length))
         
-        // Add kerning and ligatures to part of the text.
-        if attributed.length >= 30 {
+        // Add kerning and ligatures to a portion of the text.
+        if attributed.length >= 20 {
             attributed.addAttributes([
                 .kern: 2.0,
                 .ligature: 1
-            ], range: NSRange(location: 10, length: 10))
+            ], range: NSRange(location: 10, length: min(10, attributed.length - 10)))
         }
         
-        // Apply strikethrough and double underline for a sample range.
+        // Add strikethrough and underline for a sample range if available.
         if attributed.length >= 70 {
             attributed.addAttributes([
                 .strikethroughStyle: NSUnderlineStyle.single.rawValue,
                 .underlineStyle: NSUnderlineStyle.double.rawValue,
                 .underlineColor: UIColor.red
-            ], range: NSRange(location: 50, length: 15))
+            ], range: NSRange(location: 50, length: min(15, attributed.length - 50)))
         }
         
         // Add a link attribute.
         if let url = URL(string: "https://www.apple.com"), attributed.length >= 90 {
-            attributed.addAttribute(.link, value: url, range: NSRange(location: 80, length: 5))
+            attributed.addAttribute(.link, value: url, range: NSRange(location: 80, length: min(5, attributed.length - 80)))
         }
         
         // Append custom text attachments.
@@ -175,15 +198,13 @@ class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
     }
     
     // MARK: - Exclusion Path Setup
-    
     private func configureExclusionPath() {
-        // Create an oval exclusion path to force text to flow around it.
+        // Create an oval exclusion path so that the text flows around it.
         let exclusionOval = UIBezierPath(ovalIn: CGRect(x: 50, y: 150, width: 100, height: 100))
         textView.textContainer.exclusionPaths = [exclusionOval]
     }
     
-    // MARK: - Dynamic Type
-    
+    // MARK: - Dynamic Type Observation
     private func observeDynamicTypeChanges() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(dynamicTypeChanged),
@@ -195,27 +216,25 @@ class TextKitViewController: UIViewController, NSTextContentStorageDelegate {
         textView.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
-    // MARK: - Accessibility Configuration
-    
+    // MARK: - Accessibility
     private func configureAccessibility() {
         textView.isAccessibilityElement = true
         textView.accessibilityLabel = "Editable Text View"
     }
     
-    // MARK: - NSTextContentStorageDelegate (optional)
-    
+    // MARK: - NSTextContentStorageDelegate (Optional)
     func textContentStorage(_ textContentStorage: NSTextContentStorage,
                             textParagraphWith range: NSRange) -> NSTextParagraph? {
-        // Customize paragraph creation if needed.
-        return nil
+        return nil  // Custom paragraph creation can be implemented if needed.
     }
     
     func textContentStorage(_ textContentStorage: NSTextContentStorage,
 //                            didProcessEditing editedMask: NSTextContentStorageEditActions,
                             range: NSRange,
                             changeInLength delta: Int) {
-        // Optional: Handle character or attribute changes.
+        // Handle text changes for characters or attributes if required.
     }
 }
 
-/// To run this code, set` TextKitViewController` as the rootViewController in your AppDelegate or SceneDelegate.
+// To test this code, set ViewController as the root view controller
+// in your AppDelegate or SceneDelegate as appropriate.

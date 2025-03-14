@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = TextKitViewController
+    typealias UIViewControllerType = ViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> TextKitViewController {
+    func makeUIViewController(context: Context) -> ViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return TextKitViewController()
+        return ViewController()
     }
     
-    func updateUIViewController(_ uiViewController: TextKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
         // Update the view controller if needed
     }
 }
