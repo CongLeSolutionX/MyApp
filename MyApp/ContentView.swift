@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         UIKitViewControllerWrapper()
-            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+//            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
     }
 }
 
