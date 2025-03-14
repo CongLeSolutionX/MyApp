@@ -15,6 +15,8 @@
 		9A3902BB2D8428EE00D4F707 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902BA2D8428ED00D4F707 /* DataTypes.swift */; };
 		9A3902BD2D84290F00D4F707 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902BC2D84290900D4F707 /* CameraPreview.swift */; };
 		9A3902BF2D84296200D4F707 /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902BE2D84296200D4F707 /* MediaLibrary.swift */; };
+		9A3902C12D8429A200D4F707 /* CameraState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902C02D84299F00D4F707 /* CameraState.swift */; };
+		9A3902C32D8429B800D4F707 /* AVCamCaptureIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902C22D8429B800D4F707 /* AVCamCaptureIntent.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -31,6 +33,8 @@
 		9A3902BA2D8428ED00D4F707 /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		9A3902BC2D84290900D4F707 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		9A3902BE2D84296200D4F707 /* MediaLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
+		9A3902C02D84299F00D4F707 /* CameraState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraState.swift; sourceTree = "<group>"; };
+		9A3902C22D8429B800D4F707 /* AVCamCaptureIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCamCaptureIntent.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,11 +79,21 @@
 		9A3902B72D8428BB00D4F707 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9A3902C02D84299F00D4F707 /* CameraState.swift */,
 				9A3902BE2D84296200D4F707 /* MediaLibrary.swift */,
 				9A3902B82D8428BF00D4F707 /* Camera.swift */,
 				9A3902BA2D8428ED00D4F707 /* DataTypes.swift */,
+				9A3902C42D8429D300D4F707 /* Intent */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9A3902C42D8429D300D4F707 /* Intent */ = {
+			isa = PBXGroup;
+			children = (
+				9A3902C22D8429B800D4F707 /* AVCamCaptureIntent.swift */,
+			);
+			path = Intent;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -193,9 +207,11 @@
 				9A3902B92D8428C100D4F707 /* Camera.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A3902C32D8429B800D4F707 /* AVCamCaptureIntent.swift in Sources */,
 				9A3902BF2D84296200D4F707 /* MediaLibrary.swift in Sources */,
 				9A3902BB2D8428EE00D4F707 /* DataTypes.swift in Sources */,
 				9A3902B02D8418AB00D4F707 /* CameraModel.swift in Sources */,
+				9A3902C12D8429A200D4F707 /* CameraState.swift in Sources */,
 				9A3902BD2D84290F00D4F707 /* CameraPreview.swift in Sources */,
 				9A3902B22D8418DC00D4F707 /* CameraView.swift in Sources */,
 				9A3902AE2D84189A00D4F707 /* AVCamApp.swift in Sources */,
@@ -347,7 +363,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -386,7 +402,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
