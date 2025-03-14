@@ -83,3 +83,139 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
+
+
+import SwiftUI
+
+// MARK: - Sample Onboarding Step Model
+struct OnboardingStep {
+    let imageName: String
+    let title: String
+    let description: String
+}
+
+private let sampleOnboardingSteps: [OnboardingStep] = [
+    OnboardingStep(
+        imageName: "books.vertical.fill",
+        title: "Track Your Books",
+        description: "Keep a record of all your books in one easy-to-use place."
+    ),
+    OnboardingStep(
+        imageName: "magnifyingglass",
+        title: "Search & Discover",
+        description: "Find new books via online search with quick lookups."
+    ),
+    OnboardingStep(
+        imageName: "book.closed.fill",
+        title: "Stay Organized",
+        description: "Keep notes, update progress, and manage your reading lists."
+    )
+]
+
+// MARK: - OnboardingPage View
+struct OnboardingPage: View {
+    let step: OnboardingStep
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            Image(systemName: step.imageName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 200)
+                .padding()
+            
+            Text(step.title)
+                .font(.title)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            Text(step.description)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+    }
+}
+
+// MARK: - OnboardingView
+struct OnboardingView: View {
+    @AppStorage("isOnboardingComplete") private var isOnboardingComplete: Bool = false
+    
+    @State private var currentIndex = 0
+    
+    // Example onboarding steps
+    private let steps: [OnboardingStep] = sampleOnboardingSteps
+    
+    var body: some View {
+        VStack {
+            TabView(selection: $currentIndex) {
+                ForEach(0..<steps.count, id: \.self) { index in
+                    OnboardingPage(step: steps[index])
+                        .tag(index)
+                }
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+            
+            HStack {
+                // Skip button
+                Button(action: {
+                    // Immediately finalize onboarding
+                    isOnboardingComplete = true
+                }, label: {
+                    Text("Skip")
+                        .foregroundColor(.blue)
+                })
+                .opacity(currentIndex < steps.count - 1 ? 1.0 : 0.0)
+                
+                Spacer()
+                
+                // Next / Get Started button
+                Button(action: {
+                    if currentIndex < steps.count - 1 {
+                        // Move to the next page
+                        currentIndex += 1
+                    } else {
+                        // Final page: complete onboarding
+                        isOnboardingComplete = true
+                    }
+                }, label: {
+                    Text(currentIndex < steps.count - 1 ? "Next" : "Get Started")
+                        .foregroundColor(.white)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 20)
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                })
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 20)
+        }
+    }
+}
+
+// MARK: - Integration with main app
+// In a real app, you might place this logic in your @main App struct.
+
+struct ContentView: View {
+    @AppStorage("isOnboardingComplete") private var isOnboardingComplete: Bool = false
+    
+    var body: some View {
+        if isOnboardingComplete {
+            HomeScreenView()
+        } else {
+            OnboardingView()
+        }
+    }
+}
+
+// MARK: - Preview
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingView()
+    }
+}
