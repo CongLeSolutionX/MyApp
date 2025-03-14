@@ -35,6 +35,8 @@
 		9A3902F22D84672E00D4F707 /* MovieCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F12D84672D00D4F707 /* MovieCapture.swift */; };
 		9A3902F42D84674800D4F707 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F32D84674700D4F707 /* FoundationExtensions.swift */; };
 		9A3902F62D84677600D4F707 /* CaptureExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F52D84677600D4F707 /* CaptureExtensions.swift */; };
+		9A3902F82D8467B700D4F707 /* SPCObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F72D8467B600D4F707 /* SPCObserver.swift */; };
+		9A3902FA2D8467C400D4F707 /* DeviceLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3902F92D8467C300D4F707 /* DeviceLookup.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -71,6 +73,8 @@
 		9A3902F12D84672D00D4F707 /* MovieCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCapture.swift; sourceTree = "<group>"; };
 		9A3902F32D84674700D4F707 /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		9A3902F52D84677600D4F707 /* CaptureExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureExtensions.swift; sourceTree = "<group>"; };
+		9A3902F72D8467B600D4F707 /* SPCObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPCObserver.swift; sourceTree = "<group>"; };
+		9A3902F92D8467C300D4F707 /* DeviceLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLookup.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,8 +98,8 @@
 		9A3902B32D8427ED00D4F707 /* AVCameraApp */ = {
 			isa = PBXGroup;
 			children = (
-				9A3902EC2D8466D800D4F707 /* CaptureService.swift */,
 				9A3902AD2D84189900D4F707 /* AVCamApp.swift */,
+				9A3902EC2D8466D800D4F707 /* CaptureService.swift */,
 				9A3902B12D8418DB00D4F707 /* CameraView.swift */,
 				9A3902AF2D8418AB00D4F707 /* CameraModel.swift */,
 				9A3902EE2D8466ED00D4F707 /* Capture */,
@@ -208,6 +212,8 @@
 		9A3902EE2D8466ED00D4F707 /* Capture */ = {
 			isa = PBXGroup;
 			children = (
+				9A3902F92D8467C300D4F707 /* DeviceLookup.swift */,
+				9A3902F72D8467B600D4F707 /* SPCObserver.swift */,
 				9A3902F12D84672D00D4F707 /* MovieCapture.swift */,
 				9A3902EF2D8466F600D4F707 /* PhotoCapture.swift */,
 			);
@@ -325,6 +331,7 @@
 			files = (
 				9A3902B92D8428C100D4F707 /* Camera.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A3902F82D8467B700D4F707 /* SPCObserver.swift in Sources */,
 				9A3902F62D84677600D4F707 /* CaptureExtensions.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A3902DC2D84656D00D4F707 /* RecordingTimeView.swift in Sources */,
@@ -345,6 +352,7 @@
 				9A3902E52D8465E000D4F707 /* MainToolbar.swift in Sources */,
 				9A3902E92D84668200D4F707 /* ThumbnailButton.swift in Sources */,
 				9A3902B22D8418DC00D4F707 /* CameraView.swift in Sources */,
+				9A3902FA2D8467C400D4F707 /* DeviceLookup.swift in Sources */,
 				9A3902AE2D84189A00D4F707 /* AVCamApp.swift in Sources */,
 				9A3902F22D84672E00D4F707 /* MovieCapture.swift in Sources */,
 				9A3902ED2D8466D900D4F707 /* CaptureService.swift in Sources */,
