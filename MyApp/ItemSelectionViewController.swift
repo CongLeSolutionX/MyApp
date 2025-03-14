@@ -49,7 +49,7 @@ class ItemSelectionViewController<Item: Equatable & RawRepresentable>: UITableVi
         fatalError("`ItemSelectionViewController` cannot be initialized with `init(coder:)`")
     }
     
-    @IBAction private func done() {
+    @objc private func done() {
         // Notify the delegate that selecting items is finished.
         delegate?.itemSelectionViewController(self, didFinishSelectingItems: selectedItems)
         
