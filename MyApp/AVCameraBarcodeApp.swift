@@ -143,7 +143,7 @@ struct ItemSelectionView: View {
 
 // MARK: - ContentView
 // The main view that displays the camera preview, overlay controls, and navigation to the item selection screen.
-struct ContentView: View {
+struct AVCameraBarcodeContentView: View {
     @StateObject var cameraManager = CameraManager()
     @State private var showItemSelection = false
     
