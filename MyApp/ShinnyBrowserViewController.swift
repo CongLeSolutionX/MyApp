@@ -537,7 +537,7 @@ extension ShinnyBrowserViewController: WKNavigationDelegate {
         viewModel.webView(webView, didCommit: navigation)
     }
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+    private func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         viewModel.webView(webView, decidePolicyFor: navigationAction, decisionHandler: decisionHandler)
     }
 
