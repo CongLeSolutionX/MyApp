@@ -528,6 +528,28 @@ extension ShinnyBrowserViewController: UITextFieldDelegate {
         textField.resignFirstResponder() // Hide keyboard
         return true
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        guard var urlString = textField.text?.lowercased() else {
+            return
+        }
+
+        if !urlString.contains("://") {
+            if urlString.contains("localhost") || urlString.contains("127.0.0.1") {
+                urlString = "http://" + urlString
+            } else {
+                urlString = "https://" + urlString
+            }
+        }
+
+        if webView.url?.absoluteString == urlString {
+            return
+        }
+
+        if let targetURL = URL(string: urlString) {
+            webView.load(URLRequest(url: targetURL))
+        }
+    }
 }
 
 // MARK: - WKNavigationDelegate
