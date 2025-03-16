@@ -28,17 +28,39 @@ enum SearchEngine: String, CaseIterable {
     case google = "https://www.google.com/search?q="
     case duckDuckGo = "https://duckduckgo.com/?q="
     case bing = "https://www.bing.com/search?q="
-    
+    case brave = "https://search.brave.com/search?q="
+    case yahoo = "https://search.yahoo.com/search?p="
+    case ecosia = "https://www.ecosia.org/search?q="
+    case startpage = "https://www.startpage.com/do/search?query="
+    // Tor is not directly a search engine, it's a network.  You'd use a search engine *within* Tor.
+    // We can represent a common search engine used within Tor, like DuckDuckGo's onion address.
+    case duckDuckGoOnion = "https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q=" // Corrected DDG Onion URL
+
     var urlPrefix: String { rawValue }
-    
+
     //User-friendly names
     var displayName: String {
         switch self {
         case .google: return "Google"
         case .duckDuckGo: return "DuckDuckGo"
         case .bing: return "Bing"
+        case .brave: return "Brave Search"
+        case .yahoo: return "Yahoo Search"
+        case .ecosia: return "Ecosia"
+        case .startpage: return "Startpage"
+        case .duckDuckGoOnion: return "DuckDuckGo (Onion)"
         }
     }
+    
+    // A helper to check if the engine requires special handling (like the onion address).
+        var requiresSpecialHandling: Bool {
+            switch self {
+            case .duckDuckGoOnion:
+                return true
+            default:
+                return false
+            }
+        }
 }
 
 // MARK: - ViewModel
@@ -218,6 +240,15 @@ class BrowserViewModel {
         // Load the user's preferred search engine from UserDefaults, default to Google.
         let searchEngineString = UserDefaults.standard.string(forKey: searchEngineKey) ?? SearchEngine.google.rawValue
         let searchEngine = SearchEngine(rawValue: searchEngineString) ?? .google
+        
+        // Check if the selected engine requires special handling
+        if searchEngine.requiresSpecialHandling {
+            if searchEngine == .duckDuckGoOnion {
+                //  For .onion addresses, we *must* load it directly if the user selects it
+                //  (assuming the user has a Tor-enabled setup).  A normal browser won't open it.
+                return URL(string: searchEngine.urlPrefix + encodedQuery)
+            }
+        }
 
         return URL(string: searchEngine.urlPrefix + encodedQuery)
     }
@@ -269,6 +300,11 @@ class BrowserViewModel {
         let nsError = error as NSError
         if nsError.code != NSURLErrorCancelled {
             errorMessage = "Failed to load: \(error.localizedDescription)"  // More user-friendly message
+            // Special handling for .onion addresses (if not using a Tor-enabled browser/setup)
+            if let failingURL = (error as? URLError)?.failingURL,
+               failingURL.absoluteString.contains(".onion") && !webView.url!.absoluteString.contains(".onion") {
+                errorMessage = "Cannot load .onion addresses without a Tor-enabled connection."
+            }
         }
     }
 }
@@ -404,11 +440,6 @@ class ShinnyBrowserViewController: UIViewController {
         webViewContainer.addSubview(errorLabel) // Add the error label
 
         //Bind UI elements to the ViewModel
-//        viewModel.$urlString
-//            .receive(on: RunLoop.main)
-//            .assign(to: \.text, on: urlField)  // Correctly bind to urlField
-//            .store(in: &viewModel.cancellables)
-//        
         viewModel.$urlString
             .receive(on: RunLoop.main)
             .sink { [weak self] newURLString in
