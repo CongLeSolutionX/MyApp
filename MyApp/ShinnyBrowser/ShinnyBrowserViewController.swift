@@ -269,7 +269,7 @@ struct HistoryItem: Codable, Identifiable, Equatable {
     var id = UUID()
     let url: URL
     let title: String
-    let visitDate: Date = Date()
+    var visitDate: Date = Date()
     
     static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
         return lhs.url == rhs.url
@@ -307,7 +307,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         button.isEnabled = false
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
@@ -318,7 +318,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(goForward), for: .touchUpInside)
         button.isEnabled = false
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
@@ -328,7 +328,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
@@ -348,7 +348,7 @@ class ShinnyBrowserViewController: UIViewController {
         textField.delegate = self
         textField.returnKeyType = .go
         textField.clearButtonMode = .whileEditing
-        textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+//        textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return textField
     }()
     
@@ -359,7 +359,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.setImage(refreshImage, for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(reload), for: .touchUpInside)
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
@@ -369,7 +369,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.setImage(UIImage(systemName: "clock"), for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(showHistoryTapped), for: .touchUpInside)
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
@@ -416,9 +416,9 @@ class ShinnyBrowserViewController: UIViewController {
         // Toolbar for bottom buttons
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(toolbar)
+          view.addSubview(toolbar)
         
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
         let backButtonItem = UIBarButtonItem(customView: backButton)
         let forwardButtonItem = UIBarButtonItem(customView: forwardButton)
         let shareButtonItem = UIBarButtonItem(customView: shareButton)
@@ -567,7 +567,7 @@ extension ShinnyBrowserViewController: WKNavigationDelegate {
         viewModel.webView(webView, didCommit: navigation)
     }
     
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+    private func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         viewModel.webView(webView, decidePolicyFor: navigationAction, decisionHandler: decisionHandler)
     }
     
