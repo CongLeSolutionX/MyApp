@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 3/15/25.
 //
-
 import UIKit
 import WebKit
 import Combine
@@ -18,7 +17,8 @@ protocol BrowserViewDelegate: AnyObject {
     func didRequestShare(for url: URL)
     func didRequestAddToFavorites(for url: URL)
     func didRequestToggleContentMode(for url: URL, newMode: WKWebpagePreferences.ContentMode)
-    func didRequestShowHistory() // Added for showing history
+    func didRequestShowHistory()
+    func didFailToLoadURL(with input: String)
 }
 
 // MARK: - ViewModel
@@ -32,35 +32,39 @@ class BrowserViewModel {
     @Published var estimatedProgress: Double = 0.0
     @Published var isLoading: Bool = false
     @Published var currentContentMode: WKWebpagePreferences.ContentMode = .recommended
-    @Published var history: [HistoryItem] = [] // Add history tracking
+    @Published var history: [HistoryItem] = []
     
     private var contentModeToRequestForHost: [String: WKWebpagePreferences.ContentMode] = [:]
     var cancellables: Set<AnyCancellable> = []
     weak var delegate: BrowserViewDelegate?
     
     private let urlKey = "LastCommittedURLString"
-    private let historyKey = "BrowserHistory" // Key for UserDefaults
+    private let historyKey = "BrowserHistory"
     
-    private let webView: WKWebView
+    private var webView: WKWebView
     
     // MARK: - Initializers
     
     init(webView: WKWebView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())) {
         self.webView = webView
         
-        // Configure WKWebView
-        let configuration = self.webView.configuration
+        // Configure WKWebView before initialization
+        let configuration = WKWebViewConfiguration()
         configuration.applicationNameForUserAgent = "Version/17.2 Safari/605.1.15"
         configuration.allowsInlineMediaPlayback = true
         configuration.defaultWebpagePreferences.allowsContentJavaScript = true
+        
         if #available(iOS 14.0, *) {
             let webpagePreferences = WKWebpagePreferences()
             webpagePreferences.preferredContentMode = .recommended
             configuration.defaultWebpagePreferences = webpagePreferences
         }
         
+        // Reinitialize webView with the configured configuration
+        self.webView = WKWebView(frame: .zero, configuration: configuration)
+        
         setupBindings()
-        loadHistory() // Load history on initialization
+        loadHistory()
     }
     
     // MARK: - Bindings
@@ -91,17 +95,20 @@ class BrowserViewModel {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isLoading, on: self)
             .store(in: &cancellables)
+        
+        webView.publisher(for: \.title)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] title in
+                // Optionally handle title updates
+            }
+            .store(in: &cancellables)
     }
-    
     
     // MARK: - Public Methods (Actions from View)
     
     func loadURL(string: String) {
         guard let url = validatedURL(from: string) else {
-            if let url = URL(string: "gogole.com") {
-                delegate?.didRequestToggleContentMode(for: url, newMode: .recommended)
-                return
-            }
+            delegate?.didFailToLoadURL(with: string)
             return
         }
         
@@ -147,7 +154,7 @@ class BrowserViewModel {
     }
     
     func toggleContentMode() {
-        guard let url = webView.url, let host = url.host() else { return }
+        guard let url = webView.url, let host = url.host else { return }
         
         let nextMode: WKWebpagePreferences.ContentMode
         switch currentContentMode {
@@ -223,7 +230,7 @@ class BrowserViewModel {
     }
     
     func showHistory() {
-        delegate?.didRequestShowHistory() // Delegate call to show
+        delegate?.didRequestShowHistory()
     }
     
     // MARK: - WebView Delegate Forwarding
@@ -242,7 +249,7 @@ class BrowserViewModel {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         let preferences = WKWebpagePreferences()
         if #available(iOS 14.0, *) {
-            if let host = navigationAction.request.url?.host(),
+            if let host = navigationAction.request.url?.host,
                let requestedMode = contentModeToRequestForHost[host] {
                 preferences.preferredContentMode = requestedMode
                 currentContentMode = requestedMode
@@ -270,11 +277,33 @@ class BrowserViewModel {
 
 // MARK: - HistoryItem Struct
 
-struct HistoryItem: Codable, Identifiable {
+struct HistoryItem: Codable, Identifiable, Equatable {
     var id = UUID()
     let url: URL
     let title: String
-    let visitDate: Date = Date() // Add a timestamp
+    let visitDate: Date = Date()
+    
+    static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
+        return lhs.url == rhs.url
+    }
+}
+
+// MARK: - Extensions
+
+extension String {
+    func toValidURL() -> URL? {
+        var text = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if let url = URL(string: text), url.scheme != nil {
+            return url
+        }
+        
+        if !text.lowercased().hasPrefix("http://") && !text.lowercased().hasPrefix("https://") {
+            text = "https://" + text
+        }
+        
+        return URL(string: text)
+    }
 }
 
 // MARK: - ShinnyBrowserViewController
@@ -286,26 +315,26 @@ class ShinnyBrowserViewController: UIViewController {
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "arrow.backward"), for: .normal) // Updated icon
+        button.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         button.isEnabled = false
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal) // Hug content
+        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
     private lazy var forwardButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "arrow.forward"), for: .normal) // Updated icon
+        button.setImage(UIImage(systemName: "arrow.forward"), for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(goForward), for: .touchUpInside)
         button.isEnabled = false
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal) // Hug content
+        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
-    private lazy var shareButton: UIButton = { // Added share button
+    private lazy var shareButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
@@ -331,7 +360,7 @@ class ShinnyBrowserViewController: UIViewController {
         textField.delegate = self
         textField.returnKeyType = .go
         textField.clearButtonMode = .whileEditing
-        textField.setContentHuggingPriority(.defaultLow, for: .horizontal) // Allow stretching
+        textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return textField
     }()
     
@@ -342,16 +371,16 @@ class ShinnyBrowserViewController: UIViewController {
         button.setImage(refreshImage, for: .normal)
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(reload), for: .touchUpInside)
-        button.setContentHuggingPriority(.defaultHigh, for: .horizontal) // Hug content
+        button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
     
-    private lazy var showMoreButton: UIButton = { // Changed to show history
+    private lazy var showHistoryButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "clock"), for: .normal)  // Changed to clock icon
+        button.setImage(UIImage(systemName: "clock"), for: .normal)
         button.tintColor = .systemBlue
-        button.addTarget(self, action: #selector(showHistoryTapped), for: .touchUpInside) // Show history action
+        button.addTarget(self, action: #selector(showHistoryTapped), for: .touchUpInside)
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return button
     }()
@@ -362,15 +391,12 @@ class ShinnyBrowserViewController: UIViewController {
         return view
     }()
     
-    private lazy var progressBar: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBlue
-        view.isHidden = true
-        return view
+    private lazy var progressView: UIProgressView = {
+        let progress = UIProgressView(progressViewStyle: .default)
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        progress.isHidden = true
+        return progress
     }()
-    
-    private var progressBarWidthConstraint: NSLayoutConstraint!
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
@@ -399,7 +425,7 @@ class ShinnyBrowserViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        // Toolbar for bottom buttons (More flexible and looks better)
+        // Toolbar for bottom buttons
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolbar)
@@ -409,7 +435,7 @@ class ShinnyBrowserViewController: UIViewController {
         let forwardButtonItem = UIBarButtonItem(customView: forwardButton)
         let shareButtonItem = UIBarButtonItem(customView: shareButton)
         let refreshButtonItem = UIBarButtonItem(customView: refreshButton)
-        let historyButtonItem = UIBarButtonItem(customView: showMoreButton) // History
+        let historyButtonItem = UIBarButtonItem(customView: showHistoryButton)
         
         toolbar.items = [backButtonItem, flexibleSpace, forwardButtonItem, flexibleSpace, shareButtonItem, flexibleSpace, refreshButtonItem, flexibleSpace, historyButtonItem]
         
@@ -417,11 +443,15 @@ class ShinnyBrowserViewController: UIViewController {
         urlView.addSubview(urlField)
         view.addSubview(webViewContainer)
         webViewContainer.addSubview(webView)
-        view.addSubview(progressBar)
+        view.addSubview(progressView)
         
         // Bind UI elements to the ViewModel
         viewModel.$urlString
-            .receive(on: RunLoop.main)
+                  .receive(on: RunLoop.main)
+                  .sink { [weak self] newURLString in
+                      self?.urlField.text = newURLString
+                  }
+                  .store(in: &viewModel.cancellables)
         
         viewModel.$canGoBack
             .receive(on: RunLoop.main)
@@ -443,15 +473,13 @@ class ShinnyBrowserViewController: UIViewController {
         viewModel.$isLoading
             .receive(on: RunLoop.main)
             .map { !$0 }
-            .assign(to: \.isHidden, on: progressBar)
+            .assign(to: \.isHidden, on: progressView)
             .store(in: &viewModel.cancellables)
     }
     
     // MARK: - Constraints Setup
     
     private func setupConstraints() {
-        progressBarWidthConstraint = progressBar.widthAnchor.constraint(equalToConstant: 0)
-        
         NSLayoutConstraint.activate([
             // URL View
             urlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -459,7 +487,7 @@ class ShinnyBrowserViewController: UIViewController {
             urlView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             urlView.heightAnchor.constraint(equalToConstant: 44),
             
-            // URL Field (Now simpler, spans the urlView)
+            // URL Field
             urlField.leadingAnchor.constraint(equalTo: urlView.leadingAnchor, constant: 8),
             urlField.trailingAnchor.constraint(equalTo: urlView.trailingAnchor, constant: -8),
             urlField.topAnchor.constraint(equalTo: urlView.topAnchor, constant: 4),
@@ -469,7 +497,7 @@ class ShinnyBrowserViewController: UIViewController {
             webViewContainer.topAnchor.constraint(equalTo: urlView.bottomAnchor),
             webViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webViewContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44), // Adjusted for toolbar
+            webViewContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44),
             
             // WebView
             webView.topAnchor.constraint(equalTo: webViewContainer.topAnchor),
@@ -477,13 +505,13 @@ class ShinnyBrowserViewController: UIViewController {
             webView.trailingAnchor.constraint(equalTo: webViewContainer.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: webViewContainer.bottomAnchor),
             
-            // Progress Bar
-            progressBar.topAnchor.constraint(equalTo: urlView.bottomAnchor),
-            progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            progressBarWidthConstraint,
-            progressBar.heightAnchor.constraint(equalToConstant: 2),
+            // Progress View
+            progressView.topAnchor.constraint(equalTo: urlView.bottomAnchor),
+            progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            progressView.heightAnchor.constraint(equalToConstant: 2),
             
-            // Toolbar (Pinned to bottom)
+            // Toolbar
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -493,16 +521,8 @@ class ShinnyBrowserViewController: UIViewController {
     // MARK: - Progress Bar
     
     private func updateProgressBar(progress: Double) {
-        progressBarWidthConstraint.constant = view.frame.width * CGFloat(progress)
-        
-        if progress >= 1.0 {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.progressBar.alpha = 0.0
-            }) { _ in
-                self.progressBarWidthConstraint.constant = 0
-                self.progressBar.alpha = 1.0
-            }
-        }
+        progressView.progress = Float(progress)
+        progressView.isHidden = progress >= 1.0
     }
     
     // MARK: - Actions
@@ -519,45 +539,12 @@ class ShinnyBrowserViewController: UIViewController {
         viewModel.reload()
     }
     
-    @objc private func shareTapped() { // Handle share button tap
+    @objc private func shareTapped() {
         viewModel.shareCurrentPage()
     }
     
     @objc private func showHistoryTapped() {
         viewModel.showHistory()
-    }
-    
-    @objc private func showMore() {
-        let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
-            self?.viewModel.shareCurrentPage()
-        }
-        let addToFavoritesAction = UIAlertAction(title: "Add to Favorites", style: .default) { [weak self] _ in
-            self?.viewModel.addToFavorites()
-        }
-        let loadStartPageAction = UIAlertAction(title: "Load Start Page", style: .default) { [weak self] _ in
-            self?.viewModel.loadStartPage()
-        }
-        
-        let toggleContentAction = UIAlertAction(title: "Toggle Content", style: .default) {[weak self] _ in
-            self?.viewModel.toggleContentMode()
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(shareAction)
-        alertController.addAction(addToFavoritesAction)
-        alertController.addAction(loadStartPageAction)
-        alertController.addAction(toggleContentAction)
-        alertController.addAction(cancelAction)
-        
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = showMoreButton
-            popoverController.sourceRect = showMoreButton.bounds
-            popoverController.permittedArrowDirections = [.up, .down]
-        }
-        
-        present(alertController, animated: true)
     }
 }
 
@@ -573,25 +560,15 @@ extension ShinnyBrowserViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        guard var urlString = textField.text?.lowercased() else {
+        guard let urlString = textField.text?.toValidURL()?.absoluteString else {
             return
-        }
-        
-        if !urlString.contains("://") {
-            if urlString.contains("localhost") || urlString.contains("127.0.0.1") {
-                urlString = "http://" + urlString
-            } else {
-                urlString = "https://" + urlString
-            }
         }
         
         if webView.url?.absoluteString == urlString {
             return
         }
         
-        if let targetURL = URL(string: urlString) {
-            webView.load(URLRequest(url: targetURL))
-        }
+        viewModel.loadURL(string: urlString)
     }
 }
 
@@ -602,7 +579,7 @@ extension ShinnyBrowserViewController: WKNavigationDelegate {
         viewModel.webView(webView, didCommit: navigation)
     }
     
-    private func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         viewModel.webView(webView, decidePolicyFor: navigationAction, decisionHandler: decisionHandler)
     }
     
@@ -623,21 +600,24 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
     }
     
     func didTapBackButton() {
+        // Additional actions if needed
     }
     
     func didTapForwardButton() {
+        // Additional actions if needed
     }
     
     func didTapReloadButton() {
+        // Additional actions if needed
     }
     
     func didRequestShare(for url: URL) {
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
         
-        if let popoverPresentationController = activityViewController.popoverPresentationController {
-            popoverPresentationController.sourceView = self.view
-            popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverPresentationController.permittedArrowDirections = []
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
         }
         
         present(activityViewController, animated: true)
@@ -645,15 +625,15 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
     
     func didRequestAddToFavorites(for url: URL) {
         print("Add to Favorites: \(url.absoluteString)")
+        // Implement actual favorite addition logic here
     }
     
     func didRequestShowHistory() {
         let historyVC = HistoryViewController(history: viewModel.history) { [weak self] selectedURL in
             self?.viewModel.loadURL(string: selectedURL.absoluteString)
-            historyVC.dismiss(animated: true, completion: nil) // Dismiss after loading
+            historyVC.dismiss(animated: true, completion: nil)
         }
         
-        // Handle clearing history
         historyVC.onClearHistory = { [weak self] in
             self?.viewModel.clearHistory()
         }
@@ -661,59 +641,29 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
         let navController = UINavigationController(rootViewController: historyVC)
         present(navController, animated: true, completion: nil)
     }
+    
+    func didFailToLoadURL(with input: String) {
+        let alert = UIAlertController(title: "Invalid URL", message: "The URL \"\(input)\" is invalid. Please try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - HistoryViewController
 
-class HistoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, BrowserViewDelegate {
-    func didTapBackButton() {
-        print(#function)
-    }
-    
-    func didTapForwardButton() {
-        print(#function)
-    }
-    
-    func didTapReloadButton() {
-        print(#function)
-    }
-    
-    func didRequestShare(for url: URL) {
-        print(#function)
-    }
-    
-    func didRequestAddToFavorites(for url: URL) {
-        print(#function)
-    }
-    
-    func didRequestToggleContentMode(for url: URL, newMode: WKWebpagePreferences.ContentMode) {
-        print(#function)
-    }
-    
-    func didRequestShowHistory() {
-        print(#function)
-    }
-    
-    private let webView: WKWebView
-    
-    lazy var viewModel: BrowserViewModel = {
-        let vm = BrowserViewModel(webView: webView)
-        vm.delegate = self
-        return vm
-    }()
-    
+class HistoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private let history: [HistoryItem]
     private let onSelection: (URL) -> Void
-    var onClearHistory: (() -> Void)?  // Closure for clearing
+    var onClearHistory: (() -> Void)?
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(HistoryTableViewCell.self, forCellReuseIdentifier: "HistoryCell") // Register cell
-        return tableView
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.dataSource = self
+        table.delegate = self
+        table.register(HistoryTableViewCell.self, forCellReuseIdentifier: "HistoryCell")
+        return table
     }()
     
     init(history: [HistoryItem], onSelection: @escaping (URL) -> Void) {
@@ -725,19 +675,19 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
     private func setupUI() {
-        title = "Link history"
+        title = "History"
         view.backgroundColor = .white
         view.addSubview(tableView)
         
         // Add a "Clear All" button to the navigation bar
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear all", style: .plain, target: self, action: #selector(clearHistoryTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear All", style: .plain, target: self, action: #selector(clearHistoryTapped))
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -748,35 +698,34 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc private func clearHistoryTapped() {
-        onClearHistory?()  // Call the closure
-        tableView.reloadData() // Refresh to show empty state
+        let alert = UIAlertController(title: "Clear History", message: "Are you sure you want to clear your browsing history?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Clear", style: .destructive, handler: { [weak self] _ in
+            self?.onClearHistory?()
+            self?.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true)
     }
     
     // MARK: - UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return history.isEmpty ? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return history.isEmpty ? 1 : history.count // Show 1 cell for "No history"
+         return history.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if history.isEmpty {
-            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = "No history"
-            cell.textLabel?.textAlignment = .center
-            cell.selectionStyle = .none // Prevent selection
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCell", for: indexPath) as? HistoryTableViewCell else {
-                return UITableViewCell() // Fallback, should not happen
-            }
-            let item = history[indexPath.row]
-            cell.configure(with: item) // Configure the custom cell
-            return cell
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCell", for: indexPath) as? HistoryTableViewCell else {
+            return UITableViewCell()
         }
+        let item = history[indexPath.row]
+        cell.configure(with: item)
+        cell.delegate = self
+        return cell
     }
     
     // MARK: - UITableViewDelegate
@@ -784,71 +733,36 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if !history.isEmpty {
-            let selectedURL = history[indexPath.row].url
-            onSelection(selectedURL)
-        }
+        let selectedURL = history[indexPath.row].url
+        onSelection(selectedURL)
     }
     
-    // Add swipe-to-delete functionality
+    // Enable swipe-to-delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete && !history.isEmpty{
-            // Remove from history array
-            viewModel.history.remove(at: indexPath.row)
-            
-            // Update UserDefaults
-            viewModel.saveHistory()
-            
-            // Update table view
+        if editingStyle == .delete {
+            onClearHistory?()
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
-// MARK: - HistoryTableViewCell (Custom Cell)
+// MARK: - HistoryTableViewCellDelegate
 
-class HistoryTableViewCell: UITableViewCell, BrowserViewDelegate {
-    func didTapBackButton() {
-        print(#function)
-    }
+protocol HistoryTableViewCellDelegate: AnyObject {
+    func historyTableViewCellDidRequestDelete(_ cell: HistoryTableViewCell)
+}
+
+// MARK: - HistoryTableViewCell
+
+class HistoryTableViewCell: UITableViewCell {
     
-    func didTapForwardButton() {
-        print(#function)
-    }
-    
-    func didTapReloadButton() {
-        print(#function)
-    }
-    
-    func didRequestShare(for url: URL) {
-        print(#function)
-    }
-    
-    func didRequestAddToFavorites(for url: URL) {
-        print(#function)
-    }
-    
-    func didRequestToggleContentMode(for url: URL, newMode: WKWebpagePreferences.ContentMode) {
-        print(#function)
-    }
-    
-    func didRequestShowHistory() {
-        print(#function)
-    }
-    
-    private let webView: WKWebView
-    
-    lazy var viewModel: BrowserViewModel = {
-        let vm = BrowserViewModel(webView: webView)
-        vm.delegate = self
-        return vm
-    }()
+    weak var delegate: HistoryTableViewCellDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 2 // Allow multiline titles
+        label.numberOfLines = 2
         return label
     }()
     
@@ -860,67 +774,69 @@ class HistoryTableViewCell: UITableViewCell, BrowserViewDelegate {
         return label
     }()
     
-    private let closeButton: UIButton = {
+    private let deleteButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .systemGray
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = .systemRed
+        button.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         return button
     }()
     
+    // Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
+            setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    // Setup UI
     private func setupUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(urlLabel)
-        contentView.addSubview(closeButton) // Add the close button
+        contentView.addSubview(deleteButton)
         
-        // Constraints for labels and close button
         NSLayoutConstraint.activate([
+            // Title Label
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8), // Space from close button
+            titleLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -8),
             
+            // URL Label
             urlLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             urlLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            urlLabel.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: -8),
+            urlLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -8),
             urlLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
-            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            closeButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            closeButton.widthAnchor.constraint(equalToConstant: 30), // Size for button
-            closeButton.heightAnchor.constraint(equalToConstant: 30)
+            // Delete Button
+            deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            deleteButton.widthAnchor.constraint(equalToConstant: 24),
+            deleteButton.heightAnchor.constraint(equalToConstant: 24)
         ])
-        
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside) // Add target
     }
     
+    // Configure Cell
     func configure(with item: HistoryItem) {
         titleLabel.text = item.title
         urlLabel.text = item.url.absoluteString
     }
     
-    @objc private func closeButtonTapped() {
-        guard let tableView = superview as? UITableView,
-              let indexPath = tableView.indexPath(for: self) else { return }
-        
-        // Get the history item to be removed
-        let itemToRemove = viewModel.history[indexPath.row]
-        
-        // Remove the item from the history array
-        viewModel.history.removeAll { $0.id == itemToRemove.id }
-        
-        // Update UserDefaults
-        viewModel.saveHistory()
-        
-        // Update the table view
+    // Delete Action
+    @objc private func deleteTapped() {
+        delegate?.historyTableViewCellDidRequestDelete(self)
+    }
+}
+
+// MARK: - HistoryViewController Extension
+
+extension HistoryViewController: HistoryTableViewCellDelegate {
+    func historyTableViewCellDidRequestDelete(_ cell: HistoryTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        onClearHistory?()
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
