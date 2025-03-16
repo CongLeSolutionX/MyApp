@@ -10,6 +10,7 @@ import SwiftUI
 // Step 3: Embed in main app structure
 @main
 struct MyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate // Connect the delegate
     var body: some Scene {
         WindowGroup {
             //ContentView()
