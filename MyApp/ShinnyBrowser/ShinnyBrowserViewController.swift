@@ -5,6 +5,7 @@
 //  Created by Cong Le on 3/15/25.
 //
 
+
 import UIKit
 import WebKit
 import Combine
@@ -45,11 +46,11 @@ class BrowserViewModel {
     init(webView: WKWebView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())) {
         self.webView = webView
            
-        // Configure WKWebView (once, in init)
+        // Configure WKWebView
         let configuration = self.webView.configuration
-        configuration.applicationNameForUserAgent = "Version/17.2 Safari/605.1.15" //Good Practice
-        configuration.allowsInlineMediaPlayback = true //Good Practice
-        configuration.defaultWebpagePreferences.allowsContentJavaScript = true //Good Practice
+        configuration.applicationNameForUserAgent = "Version/17.2 Safari/605.1.15"
+        configuration.allowsInlineMediaPlayback = true
+        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         if #available(iOS 14.0, *) {
             let webpagePreferences = WKWebpagePreferences()
             webpagePreferences.preferredContentMode = .recommended
@@ -65,7 +66,7 @@ class BrowserViewModel {
         // Observe WKWebView properties and update @Published properties.
         webView.publisher(for: \.url)
             .compactMap { $0?.absoluteString }
-            .receive(on: DispatchQueue.main) // Ensure updates on main thread
+            .receive(on: DispatchQueue.main)
             .assign(to: \.urlString, on: self)
             .store(in: &cancellables)
 
@@ -95,7 +96,7 @@ class BrowserViewModel {
     
     func loadURL(string: String) {
         guard let url = validatedURL(from: string) else {
-            //TODO: Handle invalid URL (show error, etc.  ViewModel could have a @Published error property)
+            // Handle invalid URL
             if let url = URL(string: "gogole.com") {
                 delegate?.didRequestToggleContentMode(for: url, newMode: .recommended)
                 return
@@ -128,7 +129,7 @@ class BrowserViewModel {
 
     func loadStartPage() {
         guard let startURL = Bundle.main.url(forResource: "UserAgent", withExtension: "html") else {
-            // Handle missing start page (should not happen in a well-formed app)
+            // Handle missing start page
             return
         }
         
@@ -162,7 +163,7 @@ class BrowserViewModel {
             }
 
             contentModeToRequestForHost[host] = nextMode
-            currentContentMode = nextMode  // Update the stored mode immediately
+            currentContentMode = nextMode  // Update the stored mode
             webView.reloadFromOrigin()
             delegate?.didRequestToggleContentMode(for: url, newMode: nextMode)
         }
@@ -170,15 +171,15 @@ class BrowserViewModel {
     // MARK: - URL Handling
 
     func validatedURL(from input: String) -> URL? {
-        // Improved URL validation and formatting.
+        // Improved URL validation
         var text = input.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // Check if the input is already a valid URL
+        // Check if the input is a valid URL
         if let url = URL(string: text), url.scheme != nil {
             return url
         }
 
-        // If scheme is missing, try prepending "https://"
+        // Prepend "https://" if scheme is missing
         if !text.lowercased().hasPrefix("http://") && !text.lowercased().hasPrefix("https://") {
             text = "https://" + text
         }
@@ -187,40 +188,35 @@ class BrowserViewModel {
     }
     
     func loadLastVisitedPage() {
-        // Load the last visited URL from UserDefaults.
+        // Load last visited URL from UserDefaults.
         if let lastURLString = UserDefaults.standard.string(forKey: urlKey),
            let lastURL = URL(string: lastURLString) {
             urlString = lastURLString // Update the urlField.
             webView.load(URLRequest(url: lastURL))
         } else {
-            loadStartPage() // Load a default page if no saved URL.
+            loadStartPage() // Load default page if no saved URL.
         }
     }
     
     // MARK: - WebView Delegate Forwarding
     
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        // Save the last committed URL to UserDefaults.
+        // Save the last committed URL
         if let urlString = webView.url?.absoluteString {
             UserDefaults.standard.set(urlString, forKey: urlKey)
         }
-        
-        // Update current content mode
-//        if #available(iOS 14.0, *) {
-//            currentContentMode = webView.pagePreferences.preferredContentMode
-//        }
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
            let preferences = WKWebpagePreferences()
            if #available(iOS 14.0, *) {
-               // Apply custom content mode if set for this host.
+               // Apply custom content mode if set
                if let host = navigationAction.request.url?.host(),
                   let requestedMode = contentModeToRequestForHost[host] {
                    preferences.preferredContentMode = requestedMode
                    currentContentMode = requestedMode // Update current mode
                } else {
-                   preferences.preferredContentMode = currentContentMode // Use the current mode.
+                   preferences.preferredContentMode = currentContentMode // Use current mode.
                }
            }
            decisionHandler(.allow, preferences)
@@ -229,7 +225,7 @@ class BrowserViewModel {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         let nsError = error as NSError
         if nsError.code != NSURLErrorCancelled {
-            // Handle errors (ViewModel could expose an error state)
+            // Handle errors
             print("WebView failed to load: \(error.localizedDescription)")
         }
     }
@@ -237,7 +233,7 @@ class BrowserViewModel {
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         let nsError = error as NSError
         if nsError.code != NSURLErrorCancelled {
-             // Handle errors (ViewModel could expose an error state)
+            // Handle errors
             print("WebView failed provisional navigation: \(error.localizedDescription)")
         }
     }
@@ -272,7 +268,7 @@ class ShinnyBrowserViewController: UIViewController {
     private lazy var urlView: UIView = {  // Container for URL field and buttons
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray6 // Match the background
+        view.backgroundColor = .systemGray6
         return view
     }()
 
@@ -284,7 +280,7 @@ class ShinnyBrowserViewController: UIViewController {
         textField.placeholder = "Enter URL or Search"
         textField.delegate = self
         textField.returnKeyType = .go
-        textField.clearButtonMode = .whileEditing // Good UX practice
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
@@ -313,7 +309,7 @@ class ShinnyBrowserViewController: UIViewController {
         return view
     }()
 
-    private lazy var progressBar: UIView = { // Use a plain UIView for custom drawing
+    private lazy var progressBar: UIView = { // Custom drawing
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemBlue // Progress color
@@ -324,7 +320,7 @@ class ShinnyBrowserViewController: UIViewController {
     private var progressBarWidthConstraint: NSLayoutConstraint! // Constraint for progress bar width
 
     private lazy var webView: WKWebView = {
-        let webView = WKWebView() // Now simpler
+        let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
@@ -340,10 +336,10 @@ class ShinnyBrowserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        webView.navigationDelegate = self // Important for WKNavigationDelegate methods
+        webView.navigationDelegate = self // For WKNavigationDelegate methods
         setupUI()
         setupConstraints()
-        viewModel.loadLastVisitedPage() // Or loadStartPage() if no last page
+        viewModel.loadLastVisitedPage()
     }
 
     // MARK: - UI Setup
@@ -357,13 +353,11 @@ class ShinnyBrowserViewController: UIViewController {
         urlView.addSubview(showMoreButton)
         view.addSubview(webViewContainer)
         webViewContainer.addSubview(webView)
-        view.addSubview(progressBar) // Add the progress bar to the main view
+        view.addSubview(progressBar)
         
         //Bind UI elements to the ViewModel
         viewModel.$urlString
             .receive(on: RunLoop.main)
-//            .assign(to: \.text, on: urlField)
-//            .store(in: &viewModel.cancellables)
 
         viewModel.$canGoBack
             .receive(on: RunLoop.main)
@@ -392,7 +386,7 @@ class ShinnyBrowserViewController: UIViewController {
     // MARK: - Constraints Setup
 
     private func setupConstraints() {
-        // Progress bar width constraint (initially zero)
+        // Progress bar width constraint
         progressBarWidthConstraint = progressBar.widthAnchor.constraint(equalToConstant: 0)
 
         NSLayoutConstraint.activate([
@@ -400,7 +394,7 @@ class ShinnyBrowserViewController: UIViewController {
             urlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             urlView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             urlView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            urlView.heightAnchor.constraint(equalToConstant: 44), // Standard height
+            urlView.heightAnchor.constraint(equalToConstant: 44),
 
             // Back Button
             backButton.leadingAnchor.constraint(equalTo: urlView.leadingAnchor, constant: 8),
@@ -443,11 +437,11 @@ class ShinnyBrowserViewController: UIViewController {
             webView.trailingAnchor.constraint(equalTo: webViewContainer.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: webViewContainer.bottomAnchor),
 
-            // Progress Bar (anchored to top of webViewContainer)
+            // Progress Bar
             progressBar.topAnchor.constraint(equalTo: urlView.bottomAnchor),
             progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             progressBarWidthConstraint, // Use the constraint
-            progressBar.heightAnchor.constraint(equalToConstant: 2), // Fixed height
+            progressBar.heightAnchor.constraint(equalToConstant: 2),
         ])
     }
     
@@ -457,11 +451,11 @@ class ShinnyBrowserViewController: UIViewController {
         progressBarWidthConstraint.constant = view.frame.width * CGFloat(progress)
         
         if progress >= 1.0 {
-            // Animate hiding the progress bar
+            // Animate hiding
             UIView.animate(withDuration: 0.2, animations: {
                 self.progressBar.alpha = 0.0
             }) { _ in
-                // Reset constraint after animation for next load
+                // Reset constraint
                 self.progressBarWidthConstraint.constant = 0
                 self.progressBar.alpha = 1.0 // Reset alpha
             }
@@ -482,7 +476,7 @@ class ShinnyBrowserViewController: UIViewController {
     }
     
     @objc private func showMore() {
-        // Create action sheet options.
+        // Action sheet options.
         let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             self?.viewModel.shareCurrentPage()
         }
@@ -499,7 +493,7 @@ class ShinnyBrowserViewController: UIViewController {
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 
-        // Add actions to the alert controller.
+        // Add actions to alert controller.
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(shareAction)
         alertController.addAction(addToFavoritesAction)
@@ -507,11 +501,11 @@ class ShinnyBrowserViewController: UIViewController {
         alertController.addAction(toggleContentAction)
         alertController.addAction(cancelAction)
         
-        // iPad-specific presentation.
+        // iPad presentation.
         if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = showMoreButton // Anchor to the button
-            popoverController.sourceRect = showMoreButton.bounds // Show from the button
-            popoverController.permittedArrowDirections = [.up, .down] // Allow arrows
+            popoverController.sourceView = showMoreButton
+            popoverController.sourceRect = showMoreButton.bounds
+            popoverController.permittedArrowDirections = [.up, .down]
         }
 
         present(alertController, animated: true)
@@ -576,29 +570,29 @@ extension ShinnyBrowserViewController: WKNavigationDelegate {
 
 extension ShinnyBrowserViewController: BrowserViewDelegate {
     func didRequestToggleContentMode(for url: URL, newMode: WKWebpagePreferences.ContentMode) {
-        // Update UI or provide feedback to the user if needed
+        // Update UI
         print("Requested content mode \(newMode) for \(url.absoluteString)")
     }
     
     func didTapBackButton() {
-        //Update UI to show the back button
+        //Update UI
     }
     
     func didTapForwardButton() {
-        //Update UI to show the forward button
+        //Update UI
     }
     
     func didTapReloadButton() {
-        //Update UI to show the reload button
+        //Update UI
     }
     
     func didRequestShare(for url: URL) {
-         // Handle the share action, e.g., present a UIActivityViewController.
+        // Handle share action
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
            
-        // For iPad, present as a popover.
+        // iPad popover.
         if let popoverPresentationController = activityViewController.popoverPresentationController {
-            popoverPresentationController.sourceView = self.view // Or a relevant button
+            popoverPresentationController.sourceView = self.view
             popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             popoverPresentationController.permittedArrowDirections = []
         }
@@ -608,7 +602,7 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
     
     func didRequestAddToFavorites(for url: URL) {
         // Handle adding to favorites.
-        // You would typically save the URL to persistent storage (UserDefaults, Core Data, etc.)
-        print("Add to Favorites: \(url.absoluteString)") // Replace with actual saving logic
+        print("Add to Favorites: \(url.absoluteString)") // Replace with saving logic
     }
 }
+
