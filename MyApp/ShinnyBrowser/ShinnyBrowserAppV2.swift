@@ -114,7 +114,7 @@ class DownloadManager: NSObject, URLSessionDownloadDelegate {
 
     @Published var downloads: [Download] = []  // Now @Published
     private lazy var urlSession: URLSession = {
-        let configuration = URLSessionConfiguration.background(withIdentifier: "com.example.ShinnyBrowser.backgroundDownload")
+        let configuration = URLSessionConfiguration.background(withIdentifier: "tech.CongLeSolutionX.ShinnyBrowser.backgroundDownload")
         return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
     }()
 
@@ -280,7 +280,7 @@ class BrowserViewModel {
     func loadStartPage() {
         guard let startURL = Bundle.main.url(forResource: "UserAgent", withExtension: "html") else {
             // Handle missing start page (should not happen in a well-formed app)
-            browserError = .loadingError(underlyingError: NSError(domain: "com.example.ShinnyBrowser", code: 404, userInfo: [NSLocalizedDescriptionKey: "Start page not found."]))
+            browserError = .loadingError(underlyingError: NSError(domain: "tech.CongLeSolutionX.ShinnyBrowser", code: 404, userInfo: [NSLocalizedDescriptionKey: "Start page not found."]))
             return
         }
         
@@ -1192,8 +1192,9 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: - UITableViewDelegate
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           let favorite = viewModel.favorites[indexPath.row]
-          if let url = URL(string: favorite.url) {
+          if URL(string: favorite.url) != nil {
               viewModel.loadURL(string: favorite.url) // Load the URL
+              print(favorite.url)
           }
           dismiss(animated: true, completion: nil) // Dismiss after selection
       }
@@ -1279,8 +1280,9 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let historyEntry = viewModel.history[indexPath.row]
-        if let url = URL(string: historyEntry.url) {
+        if URL(string: historyEntry.url) != nil {
             viewModel.loadURL(string: historyEntry.url) // Load the URL
+            print(historyEntry.url)
         }
         dismiss(animated: true, completion: nil)  // Dismiss after selection
     }
