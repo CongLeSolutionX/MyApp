@@ -30,11 +30,11 @@ protocol BrowserViewDelegate: AnyObject {
 }
 
 // MARK: - HistoryEntry (Core Data)
-class HistoryEntry: NSManagedObject {
-    @NSManaged var url: String
-    @NSManaged var title: String?
-    @NSManaged var timestamp: Date
-}
+//class HistoryEntry: NSManagedObject {
+//    @NSManaged var url: String
+//    @NSManaged var title: String?
+//    @NSManaged var timestamp: Date
+//}
 //
 //// Add this extension to your HistoryEntry
 //extension HistoryEntry {
@@ -415,12 +415,12 @@ extension HistoryViewController: UITableViewDataSource, UITableViewDelegate {
         let entry = history[indexPath.row]
         cell.textLabel?.text = entry.title ?? entry.url
         let dateFormatter = DateFormatter(); dateFormatter.dateStyle = .short; dateFormatter.timeStyle = .short
-        cell.detailTextLabel?.text = dateFormatter.string(from: entry.timestamp)
+        cell.detailTextLabel?.text = dateFormatter.string(from: entry.timestamp ?? Date())
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = history[indexPath.row]
-        if let url = URL(string: entry.url) { viewModel.loadURL(string: entry.url) }
+        if let url = URL(string: entry.url ?? "No URL Link") { viewModel.loadURL(string: entry.url ?? "No URL link") }
         dismiss(animated: true)
     }
 }

@@ -23,11 +23,13 @@ struct MyApp: App {
 //  If you don't have PersistenceController, create one:
 struct PersistenceController {
     static let shared = PersistenceController()
-    
+
     let container: NSPersistentContainer
-    
+
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "MyAppCoreDataModel") // Replace with your .xcdatamodeld name
+        //  USE YOUR .xcdatamodeld FILE NAME HERE:
+        container = NSPersistentContainer(name: "MyAppCoreDataModel") // <--- REPLACE THIS!
+
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
@@ -36,5 +38,7 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        //NEW: Ensure the viewContext automatically merges changes from the parent context.
+        container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
