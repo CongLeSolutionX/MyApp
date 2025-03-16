@@ -7,14 +7,16 @@
 
 import SwiftUI
 import UIKit
+import CoreData
 
-// Step 1a: UIViewControllerRepresentable implementation
+// UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = ShinnyBrowserViewController
+    @Environment(\.managedObjectContext) var managedObjectContext // Get from environment
     
-    // Step 1b: Required methods implementation
+    // Required methods implementation
     func makeUIViewController(context: Context) -> ShinnyBrowserViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
+        // Instantiate and return the UIKit view controller
         return ShinnyBrowserViewController()
     }
     
