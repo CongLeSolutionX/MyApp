@@ -235,16 +235,16 @@ class BrowserViewModel {
     }
 
     private func loadHistory() {
-        let fetchRequest: NSFetchRequest<HistoryEntry> = HistoryEntry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)] // Sort by date
+            let fetchRequest = HistoryEntry.fetchRequest() as! NSFetchRequest<HistoryEntry>  // Force-cast
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
 
-        do {
-            history = try managedObjectContext.fetch(fetchRequest)
-        } catch {
-            print("Failed to load history: \(error)")
-            history = [] // Ensure history is initialized
+            do {
+                history = try managedObjectContext.fetch(fetchRequest)
+            } catch {
+                print("Failed to load history: \(error)")
+                history = []
+            }
         }
-    }
     
     func clearHistory() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = HistoryEntry.fetchRequest()
