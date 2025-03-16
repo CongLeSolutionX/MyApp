@@ -1,0 +1,1544 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0154BEF97E54B43D05CA8BAD4E56A2BE /* muxedit.c in Sources */ = {isa = PBXBuildFile; fileRef = B3481D47EB9C5A726600AF3FD7241E96 /* muxedit.c */; };
+		02B4D780715348E3A91A1D6FA1A50A5A /* ph_vp8i_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C0308FE26A6480B1C58AC16560C95D9 /* ph_vp8i_enc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0393727FD2C6FFC925BE854C34AEDC3A /* ph_vp8li_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CA9DFE81D91DBA5FC8DB808A2E16B51 /* ph_vp8li_enc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		053A952D58307CC01A44D92B67BA4BB8 /* PostHog.h in Headers */ = {isa = PBXBuildFile; fileRef = C1297671CE8BC505FE4FF5DBD471D315 /* PostHog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		055320D4B98D885CA7575507F2BF62BE /* tree_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 0F05191396657891097956471173FAD7 /* tree_enc.c */; };
+		06421158E737DD6566211C40D42EAA01 /* RRWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8460849D2A12F54DA89ED147E6BA39 /* RRWireframe.swift */; };
+		078C57806EB470E8F46A778A9A166363 /* PostHogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6144D42D657BE435139FCE71536C2F /* PostHogEvent.swift */; };
+		09401334025B9FF1BE80E93F07162018 /* RRStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B75A837B6C3D09269F99C3BCA7CDCE9 /* RRStyle.swift */; };
+		0DA633E46FB4A48B5EEA6171D68CAFFF /* token_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = D892D8C26EEB85C32195B82A576117C1 /* token_enc.c */; };
+		0DD2FED771C2150D9785FFE07F6FCDBD /* picture_rescale_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F0803FB288F694819BB525AD79B4CF3 /* picture_rescale_enc.c */; };
+		0E4EC2A4A9158BF1102C7AAA548AE8FA /* huffman_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = F6527062CFE040EC0312114E678EF9C6 /* huffman_utils.c */; };
+		10131E3ED38CC77E0EACDCAA04735644 /* PostHogNoMaskViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0986FDB7A5AA03FB2B78B7A0A0C3F141 /* PostHogNoMaskViewModifier.swift */; };
+		10C28043D02CCAD1FCA87B949DEC5F07 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B86C7369AE3D3FC4BD53AD57F4DA89 /* UIWindow+.swift */; };
+		14A10F7F03AF8A195D665481C7CFEA6C /* UUIDUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51070D57F0EDD63637278DC13A123F7A /* UUIDUtils.swift */; };
+		157BCD114FDF0BE45EF9AC010D9EA156 /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB5FC95961FD61B020F96C968484325 /* URLSessionExtension.swift */; };
+		16E8D45466F2651D0DE43651F0DAEEDA /* ph_muxi.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8A4676C9B97E79AD4714A62E0F2B3 /* ph_muxi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17117424CD5A56F99D02BABDDA5DAD9D /* PostHogMaskViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8B430365C9F9AF8BB34E89B1F1967D /* PostHogMaskViewModifier.swift */; };
+		1841144D19F6E120AF48E5A0382852CF /* ph_common_sse2.h in Headers */ = {isa = PBXBuildFile; fileRef = 11B40ABBE79497D4BB706CB0481DCAA9 /* ph_common_sse2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A0BAF01C4D14157C7720FEEDDDAEB1E /* ph_lossless_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 727AA1DA7051CA0E6D71511B1E40CAA0 /* ph_lossless_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1AA8F80B678E44C682A8EEA69F6BB68E /* ph_common_sse41.h in Headers */ = {isa = PBXBuildFile; fileRef = 621329804C20DC8DDB4404B12E9D7C9C /* ph_common_sse41.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B4EF631003772FC4CE744C291B478A9 /* ph_bit_reader_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 03082544ED28B0497F37BE30ACA4291C /* ph_bit_reader_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B578C400AD88BE7E1DC59D99C386B7C /* Hedgelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B362617353B800E3C335DB5F3D33A8D8 /* Hedgelog.swift */; };
+		1C4BD0EC31678A05F1A1A1407B5A217F /* ph_cpu.h in Headers */ = {isa = PBXBuildFile; fileRef = 427CB8D4DA777661E22002BA697C7352 /* ph_cpu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CF1D435531ABF3E32AA35DECA674822 /* UIColor+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6768584048E9083553790C4CB1E6AC0 /* UIColor+Util.swift */; };
+		1E3942F6FA65DEEEBF3EB42CD2888827 /* PostHogConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE7A7F4A5277E84D65D59F81EC80160 /* PostHogConfig.swift */; };
+		1E51154EF3B712AF4F4EDAFC6E50BC31 /* quant_levels_dec_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 0C3B7913DFAD74AE5E350631F8996BD5 /* quant_levels_dec_utils.c */; };
+		1F08747B018CB0CC77CEBB9897C5D9DD /* DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A609E27941C179BC48640E7A356B32B9 /* DI.swift */; };
+		216378401B1784B9AB1CDF366177E0B5 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F15C48B1749787BB9EAC80D0441B135 /* DateUtils.swift */; };
+		218D8F890589E2DFD4AB38F227E71AD3 /* backward_references_cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = CFA0C5F39B5EFDEF58162A7F2E010043 /* backward_references_cost_enc.c */; };
+		228C4DD04E223A1178F93AF423D35933 /* PostHogFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB43F0141F49666D43C2EED584BF018 /* PostHogFeatureFlags.swift */; };
+		24631B89CF42B9C9005567422A2891FC /* yuv.c in Sources */ = {isa = PBXBuildFile; fileRef = F7CCD2A49E272437837BE15C0E2AD785 /* yuv.c */; };
+		25147B20C76C7050082763BAF391B891 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A218999726F8EC69E727F6DE49D3A4B4 /* Data+Gzip.swift */; };
+		2656CF1820327BDB99F184B60CA7A7F1 /* UIView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E78BCC7BF0C97E0D3225E76B55842A /* UIView+Util.swift */; };
+		271D1B8DCBBDC1145CAC13731AF0C042 /* ph_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = 347D253267FC17B97B7122798FCED885 /* ph_encode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		28F5A52954C5A76CB4F270278ADBF8BA /* yuv_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = 364177C47EE48F4C768E2EAC0C795694 /* yuv_sse41.c */; };
+		2970227D7016505F0197563D19D9BFC7 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8233EAB18D98D0045D3290D9FDE4B458 /* UIApplication+.swift */; };
+		2ADF66A82E87B2C728116931EFF27E73 /* ph_random_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC748ADE05508FB256918EA0DD1276E /* ph_random_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B16D1EA44C7EA06B0B07DE8FAA56229 /* alpha_processing_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 421F29EFF4274BF86881AC0CA223C278 /* alpha_processing_sse2.c */; };
+		2C0BFA49559BF4E94A4D25E42D91FEF9 /* TimeBasedEpochGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DE1688F51F398438D0B5964A33F918 /* TimeBasedEpochGenerator.swift */; };
+		2CD7640F6B79A600BB13A8AC58274380 /* PostHogPersonProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5D079F9E60BFC255890CD1FB8D6752 /* PostHogPersonProfiles.swift */; };
+		2FDB9810EE7D007BD73727C14B0B0DD2 /* ph_vp8li_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 9093004B5C596B61CFAEEC31837B2B90 /* ph_vp8li_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30CC414F6487ADA43E5EF24DD171C775 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		31036012F910D08274B709D7FC4C052C /* ph_lossless.h in Headers */ = {isa = PBXBuildFile; fileRef = 9658C8C9818FADEC7CD13E20229659A4 /* ph_lossless.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3355F11B6D41A3FB4AD33659A8DCC27B /* dec_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 607F7620135959EEA3E7E651E6576919 /* dec_sse2.c */; };
+		33CA82AC938EB499AFA0CBDCC443BEAC /* ph_quant_levels_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB8F891C1AA81B6F379A88C69CD33EBF /* ph_quant_levels_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34F92A202DC4376C1124D5B70156C00D /* PostHogBatchUploadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9DE9F4A3C17635D8976BDB350CE30F /* PostHogBatchUploadInfo.swift */; };
+		35E900AD6F3BCE9A88DEDA2C30FAB7A2 /* UITextInputTraits+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD039254AA738CCDF2861C8CFED0540 /* UITextInputTraits+Util.swift */; };
+		38113CEE515BC332996F124B35A43095 /* View+PostHogLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2607DF938020F8E8853C5B4EFF6F1F5C /* View+PostHogLabel.swift */; };
+		3846E2436EAC9DC9BEED7F497E8DDC52 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F405F03A25D849818AC8BD71F6C8A0D /* cpu.c */; };
+		38BAF5778ED78F6E196CF4E0B425CB8B /* ph_dsp.h in Headers */ = {isa = PBXBuildFile; fileRef = BC2E4CF83C7F864882B9272D64004800 /* ph_dsp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		395D2BD9BA99C81B8A91E23387D5CD0B /* rescaler.c in Sources */ = {isa = PBXBuildFile; fileRef = B84D29A696C68CB21FE2CC285B154BC4 /* rescaler.c */; };
+		3BB99378656726AEFB2B2342D24133F5 /* ViewTreeSnapshotStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6F712CF968FC52F7AF048CD3621EDC /* ViewTreeSnapshotStatus.swift */; };
+		3CF6D51D1F66A07144083A39F983B3B7 /* ph_sharpyuv.h in Headers */ = {isa = PBXBuildFile; fileRef = D9FAB2FC1F988C4B29EDB26D6A30E522 /* ph_sharpyuv.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D32BD7A09218D1ECEC4195C40AE50FC /* filters_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 86956DAAD99AB2CD642881FA23A073F0 /* filters_sse2.c */; };
+		3DF35FC35E0870D1AA6489543513E4D3 /* muxinternal.c in Sources */ = {isa = PBXBuildFile; fileRef = 051A368035B696D0EFAD5F3D79B3B1AC /* muxinternal.c */; };
+		3ECB56829843C12CB8C8837945B1CAB0 /* picture_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 0C39932123124DAC95A994BE33B232AE /* picture_enc.c */; };
+		4119A31519024331C92DC91D130419A3 /* lossless.c in Sources */ = {isa = PBXBuildFile; fileRef = 706DE4FAE69AA3564743EB4B0CCB3452 /* lossless.c */; };
+		43C269F307A0BA1860D564AACDA2F1AF /* backward_references_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 1C10601DE0A9EB07AE133941AC357292 /* backward_references_enc.c */; };
+		43E9DEB38F246842549B7E22063CF368 /* alpha_processing.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F108B379B9194770C65F268B71E781 /* alpha_processing.c */; };
+		444037A290D3387E570098B19B69CBC3 /* lossless_enc_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E83D1CA0F436292FED3189AD73C59 /* lossless_enc_neon.c */; };
+		44ECEEC3ABDC8DFC4751DF3FB288D77F /* picture_psnr_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FF9E1488836F4DB98755898A541C327 /* picture_psnr_enc.c */; };
+		44F116C69E934FF4A3270538FD0ED139 /* ph_decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D60F37F329B34D9B230B2FCB86287B9 /* ph_decode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45F311D7B239F7FC68AB7C2778839DDC /* ph_format_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A5FA23118394F23FCEC03129B715F07 /* ph_format_constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4646CA68D00E096D401451A60322B9E2 /* upsampling.c in Sources */ = {isa = PBXBuildFile; fileRef = 65096202B889439A2238A3A1AC1A7DEA /* upsampling.c */; };
+		49988D5C8F8E1BA9A5A583B1D2F4DCD9 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02679512CBBD97E854887506564C26B6 /* Errors.swift */; };
+		49FC77B9732AECE11A9D24E5770CFC53 /* ph_color_cache_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 0677882175302A44C13F21B01336F0DC /* ph_color_cache_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4AE4F9AA44B06B1C96C0B89A564C0B9B /* PostHogApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5E0A60724192F719EC8D6B987128B2 /* PostHogApi.swift */; };
+		4B57961D9D15657969E98C42581B54FC /* Float+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCB632E4B62F15E4673101CE5A52DCE /* Float+Util.swift */; };
+		4B660A029BFE4AF5F01E21582641A7D7 /* PostHogExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4658CB4E47E7E49A0EDDADE6A2187060 /* PostHogExtensions.swift */; };
+		4D41558D85F29A8F7E8CD4A60A440A8A /* iterator_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 410EF12D8BE8DD784D78EAE3B118D83D /* iterator_enc.c */; };
+		4DE3B9D248942675827F29CB57D6F2EB /* Pods-MyApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5713757811ECB936D756398EB773705A /* Pods-MyApp-dummy.m */; };
+		4E5CAFF37F350AC95E0BC5DE4354F7AE /* ApplicationScreenViewPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C5EA0FFB6FE1E65A1A20E1B0AAA290 /* ApplicationScreenViewPublisher.swift */; };
+		4F333510AA65FAD8365F720C34517179 /* palette.c in Sources */ = {isa = PBXBuildFile; fileRef = D6C23AB82B9B08E13E398E1002EA67F1 /* palette.c */; };
+		4F7B065C95D80E846668023A9404A132 /* ph_sharpyuv_csp.h in Headers */ = {isa = PBXBuildFile; fileRef = 802F5190CAF37DD8A51C579E967A8D22 /* ph_sharpyuv_csp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F7E5A7F10F3046AC701B582A774D34 /* sharpyuv.c in Sources */ = {isa = PBXBuildFile; fileRef = 491A442B263BF69D2798CE4C225021B9 /* sharpyuv.c */; };
+		52438F8EBD9B89C53E094C2D8F0BC103 /* sharpyuv_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 78F5F4CE9ECF24CF1183F98734B05993 /* sharpyuv_sse2.c */; };
+		534B8D9BCA92B40F84C02D8EBF269A81 /* rescaler_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A6D3B6D484A1B18B12D02A887D12AC6 /* rescaler_sse2.c */; };
+		5622D5A0E7D292439973AAA1FF1BEBBA /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AE228BFE4D59529A7D574B76DB6EA7 /* ReadWriteLock.swift */; };
+		587E75343DA927FAD32C45E6E2B5F27D /* cost_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 44918F51DB63CD39FD2B21D7C6D37993 /* cost_sse2.c */; };
+		58F5B245E4CE9A085195476F556F01F1 /* dec_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = E1E3B500DE0C94DB096BCAEB9B94579A /* dec_sse41.c */; };
+		5923C24230E31395385D8AF0755F220F /* PostHogSwiftUIViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D9DCF15FD8E656420A4DFA52613B4 /* PostHogSwiftUIViewModifiers.swift */; };
+		593967BCD1398B1DBFE7B22F8C489249 /* sharpyuv_cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = C16FDD2803CEFB6B01532264B2736BFF /* sharpyuv_cpu.c */; };
+		59A594FC31024EB1092197B2991F2B82 /* rescaler_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D6CE03294B10075DCF1BF90C8B14C68 /* rescaler_utils.c */; };
+		5A83EDCAEC21BFA3CFF86CE2354D4250 /* filters.c in Sources */ = {isa = PBXBuildFile; fileRef = 4912E4CA7C28CCB896A85894786846E7 /* filters.c */; };
+		5B0C774B580A2ED824A79D0A91C2005A /* PostHog-PostHog in Resources */ = {isa = PBXBuildFile; fileRef = 42D87DCAF52175DC2D5C6B44419636A8 /* PostHog-PostHog */; };
+		5CAC7188ECE3FF0D60F78ECEEF041A0F /* sharpyuv_csp.c in Sources */ = {isa = PBXBuildFile; fileRef = BB16EFCFFFC802666E8A642185A71193 /* sharpyuv_csp.c */; };
+		5CC70B34B807A91423A3217D6A032593 /* PostHogConsumerPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB247EB585699605C1CAAB8B4B08690 /* PostHogConsumerPayload.swift */; };
+		5E0F61757E59DEF19FC9736540BF0FB9 /* bit_reader_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 93C9623A0A07FC351CFDB6F7B9D4C09D /* bit_reader_utils.c */; };
+		60A35D2B3673385C33E6028252516BCC /* ph_huffman_encode_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 26061D67120646530CC8E33368BCEB07 /* ph_huffman_encode_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60C52BE6376493AA0DC9225BA4E8738B /* lossless_enc_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = BAF78BE85742763F2E12E876B9414B33 /* lossless_enc_sse41.c */; };
+		61B00742E2D573595B0741FAD403F867 /* URLSessionInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488BDC2D7CC7DF47C0C95FCFE29C30BE /* URLSessionInterceptor.swift */; };
+		6247546CC7DF9B5C470EAA1DCC6DD0CD /* ForwardingPickerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75180746F2270ACB77ECB08B6D5DFE6F /* ForwardingPickerViewDelegate.swift */; };
+		640A71FA34BF5AC0ACD38C94B56874FA /* thread_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = FF9DF5350F5A724175395ED8A148095E /* thread_utils.c */; };
+		64FD9E3CE74C440C825E98C5A1562D48 /* alpha_processing_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = EA7FA5BA7CA0B39BFB96E4D8AC7994E8 /* alpha_processing_neon.c */; };
+		679CB4AF80C00079D7F5078136480E5B /* dec.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B8B1AFA6FFA6158D530241294923236 /* dec.c */; };
+		68AF31D4BB1E5DB596319B181A796F8F /* ph_webpi_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEAC4C4ACDEB6E41355FCDD1C830599 /* ph_webpi_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6920D1769C06AC007F7DDA3B9A48E5E1 /* Date+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3F924BAAB7765091061059EF5ACB8 /* Date+Util.swift */; };
+		6930EF8EA5DF6882BD715E05FCF42397 /* ApplicationEventPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C16EBFE7921E7BA3BD51088091D306 /* ApplicationEventPublisher.swift */; };
+		69A7DBC7960441EAC6E85F75D4F1A551 /* AutocaptureEventProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445006D3C65D65E2025D796BBE58AF9E /* AutocaptureEventProcessing.swift */; };
+		69B2E5A30DCC1E232475CEE0C47D8065 /* PostHogSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DCC4113DE5E62EF873E0B1CD7CD7A /* PostHogSDK.swift */; };
+		69FA2AE4B92F73CBB362C7D807CD7D4E /* ph_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F2124C0560923BEC834DFB648E8C68E /* ph_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6B0CB0C276F3D2EFDA06B508B1068C63 /* UIView+PostHogLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643EB63D90487111EBD09AF054B49166 /* UIView+PostHogLabel.swift */; };
+		6BA9F282A272EB36ED11B95FA6BB8E05 /* sharpyuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = C39082C3D39B819B263F28046B230077 /* sharpyuv_neon.c */; };
+		6C906145E55FBE41150745859922B4A9 /* Pods-MyApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B358A58C08224379DA5B58D6828FAE9 /* Pods-MyApp-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6CFEFECF24ECD8E332ACAAA95D2E8D2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		6D9EF6E6611DE105CBBBAB0720B6F96E /* NetworkSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7251BD4BF7E49E193EB81838FD4BBFFC /* NetworkSample.swift */; };
+		70F33D440F0B19D084FC839C6FCE35F4 /* rescaler_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC1CA49B0D7266C674BC128F91D404 /* rescaler_neon.c */; };
+		72CC5BF2FD14796AC4B869E602224803 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D913AD09ADC82D2869A0E06FFF28311E /* PrivacyInfo.xcprivacy */; };
+		734E25624E784BD2408C2E3EBD12DC69 /* CGSize+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886ED0B7A39FDFDA628214A49ECAE285 /* CGSize+Util.swift */; };
+		74A6BAF0A1D8DD3D4AB1BF24BBE97BB7 /* ssim_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = C61FCFA1B00874EA2484016B903AE631 /* ssim_sse2.c */; };
+		753F71C84FFCC9445723DE5D78FDFA88 /* config_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 12760CEC4E89F4AE33FF824943A5E6F1 /* config_enc.c */; };
+		75E7C5BDE6B1F6C2FE57505008649B80 /* PostHogFileBackedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94DF3DE954653F34BC4C9265B5A4137 /* PostHogFileBackedQueue.swift */; };
+		77E67DCD17364856A14BA9E4D17A8E05 /* ph_bit_writer_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 20BCD9AB8B12BDDD13F0CC79C5197D29 /* ph_bit_writer_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		78737A2C234DB35C7F61FB32A342895E /* ph_huffman_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A4AD99722F3E0E2E82169154F570FFC /* ph_huffman_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		798877A040577313C1A3393E9072EC38 /* ApplicationLifecyclePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014A1D01C568C388B123B68BA7A05428 /* ApplicationLifecyclePublisher.swift */; };
+		7B081F3E24C42FF2D5E618424738FE4D /* PostHogIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5476D5C78CD9B7B417844276628109 /* PostHogIntegration.swift */; };
+		7B8DACDFF47F84B9C216EFECE980616E /* sharpyuv_gamma.c in Sources */ = {isa = PBXBuildFile; fileRef = 631F4F5A70E1C1287BA09D3C269CE2BB /* sharpyuv_gamma.c */; };
+		7C03B9604B2D5E739014DF76C4C9F49C /* ph_histogram_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 5141CC0C042DF9108B5F07C063D36532 /* ph_histogram_enc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E312E2B65526B3EA44349F904011CB0 /* bit_writer_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 40666418C89D0ABACCA3D3B657C41EE1 /* bit_writer_utils.c */; };
+		807458B325B31A06AFDE276A62D3DDB3 /* PostHogTagViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D730BF05D2DE4AB5D4832DD1FCCDA7B /* PostHogTagViewModifier.swift */; };
+		80AE451860F91B6197E977DE4AF5EA97 /* String+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C21FE0AB6DDEDE91518A95EA982D70 /* String+Util.swift */; };
+		81AA10AE76E8D12143DEA9F62DE1788F /* ph_types.h in Headers */ = {isa = PBXBuildFile; fileRef = FBDC6A6030946B46853B08E86397BDFE /* ph_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83A624900EA7B995EDED81483056EF22 /* PostHog-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 46DF54EC922261838D7A11FC5929703B /* PostHog-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83E6A6E4BD847E8B293BD2E436F74F52 /* PostHogContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B6BC17A6F703B195766DAF5E792DE /* PostHogContext.swift */; };
+		84651C30797C2D8DF8AAA028EC71AD13 /* ph_sharpyuv_gamma.h in Headers */ = {isa = PBXBuildFile; fileRef = 862CD2B0D27C72134B478CAF3C1CACA2 /* ph_sharpyuv_gamma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		848B0B5EDF3C063EBD58674EB6450030 /* AssociatedKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B2E73121003598DC37E7A1F341109 /* AssociatedKeys.swift */; };
+		849A7BAEF137ED4D68CA1647A098C1BB /* PostHogVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254D4366A2168BB6C1AB4AECB6544DBF /* PostHogVersion.swift */; };
+		893B43EA372A9ACEF037E07E42DCEDF9 /* enc_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = 6EF213FA3F4305A59A402C2CE398D4ED /* enc_sse41.c */; };
+		89874BBAB89D37096772DB02871182C6 /* filters_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 9757094ED2C65CFB08A61153FF76D8AC /* filters_utils.c */; };
+		8AB341BBAB9BAC601E0E4841611998C5 /* ssim.c in Sources */ = {isa = PBXBuildFile; fileRef = 8836799621A331A7866A3AC0B8F282E2 /* ssim.c */; };
+		8BD5F1AB37B04988E7A78A75F027B521 /* picture_tools_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 89E96BCD0BEA7C0E992BA195508E1B86 /* picture_tools_enc.c */; };
+		8D88AA72109D8148E4177A9207C72B7E /* ph_vp8_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4448E83BDBAEA7CB4CBBD4169E28C865 /* ph_vp8_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9660C0827156451896E0BA93EC4947AC /* yuv_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D136F131AEA60AA3A5D1DD8BBEE144B /* yuv_sse2.c */; };
+		97A5E0FA52ABAA1287FBABA9400130DC /* PostHogLegacyQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FA318BBB67EF0EB129FDCA910E87D0 /* PostHogLegacyQueue.swift */; };
+		99402EFBAFB5C4F8A5D32D18A0015735 /* ph_cost_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 482B57DFE8B2A2630032F2313272CC8D /* ph_cost_enc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		99762E3CD4877FDC3E9C232E72225539 /* PostHogAutocaptureIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C342BD963D049DDE6998A86806E24D /* PostHogAutocaptureIntegration.swift */; };
+		9D0DFABFA20D5519DD8E6BAC24D052D4 /* URLSessionSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FF3F100BC7A341EEEA3767ECAB58E2 /* URLSessionSwizzler.swift */; };
+		A06F421D29BB4D06E0EBBFF291393DCB /* upsampling_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = 7310CC7F93196C88CEE0C76B9FEA5D59 /* upsampling_sse41.c */; };
+		A2289544705831F6FE51661B0416FE34 /* MethodSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCD5DC18A742F1DDD342FC4F4ED16CF /* MethodSwizzler.swift */; };
+		A4655B04E0EE72006CB5A1339115E9C2 /* lossless_enc_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 75A67E2033C217CCBF5ABFF216EBEC26 /* lossless_enc_sse2.c */; };
+		A4D8E305ED63BE786C890C87B86A1C5F /* UIImage+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2C74B22012E095393EFBE125A6AF1A /* UIImage+Util.swift */; };
+		A5B7DECBB51677730ED415CE0B35851D /* PostHogSessionReplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88643C555C7F9976CD046E2B02BBAEDF /* PostHogSessionReplayConfig.swift */; };
+		A749FE5D82C46C58FA50F7DC4309E544 /* lossless_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E64820500A8FA7C3EDDFC0413D67192 /* lossless_neon.c */; };
+		A7EFEEE9E0766AEAD577350E9BB01083 /* lossless_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = D86E64406DF21429BDCF03D59BCAF684 /* lossless_sse41.c */; };
+		A89F34B170E6E00245B94AACCF2D86A8 /* enc_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = CA5E2DFE54C746FA5C362F2BAEAA52CB /* enc_neon.c */; };
+		A96888DEBBCF23396A723DF095C25945 /* ph_endian_inl_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B02CD4AC41E51F9077E4621E00691D7 /* ph_endian_inl_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACB682CF0688E45043FE1B1F63FBD9CF /* histogram_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 13A39E4679DD1E6C08D6F6D8B16AB38B /* histogram_enc.c */; };
+		AD542B23BE0FA3D45B0FAE938DFE0C7F /* cost_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 325B5CF195D1B4CE50ECFE9D76F43297 /* cost_neon.c */; };
+		AD91D72B7388298A4794F561A8CC229F /* PostHogStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B1EE88DBDA7E7AA1E16480A5A74A7E /* PostHogStorage.swift */; };
+		AE764064C5DB695183A3350CE5BDD4AF /* huffman_encode_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B9E8A379EC1C119A432C4EA85D9C1FA /* huffman_encode_utils.c */; };
+		B0242E82B364E2136AD3441C4A3AB874 /* ph_rescaler_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A02ABF99EC2D37ABF49387AC99B973 /* ph_rescaler_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B042EFC2F4EA23D7B0F3852A3A9A4D41 /* quant_levels_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 643806E02046FF50F669CF11BDADC022 /* quant_levels_utils.c */; };
+		B0AF0866217E6EC3F7485A8FF4E0E2D4 /* enc_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC8A44E78C337FC7FC5F4CCCD8AB5C /* enc_sse2.c */; };
+		B14053F0265669A89149E811E212114B /* dec_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 3DD7C2417C80EB4DC0D449FF5A750E7F /* dec_neon.c */; };
+		B3018CA4EBA0B1688D54EAD9932CE3C3 /* upsampling_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = D08674B1C476D61691B4984EBE032E1F /* upsampling_neon.c */; };
+		B4A8A7B8D441F3337725EC3D6F36BA26 /* lossless_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 137808207523283E46E53BCE71AECADC /* lossless_sse2.c */; };
+		B9318EEB96DE888E3D69DF2B9538DCEE /* cost_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CC23CC054DC0C8F1BDCAC1B1B626AD5 /* cost_enc.c */; };
+		B938EDA4B0FB2A4445F28A30A2E70525 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF0C782AA7C65344AC67BFDC5876E29 /* Reachability.swift */; };
+		BA342B9D1954E789F6112B593CA331D9 /* ph_sharpyuv_cpu.h in Headers */ = {isa = PBXBuildFile; fileRef = CF938A364340D4BEC4872B1236C649C5 /* ph_sharpyuv_cpu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA47C420E42DAFA7A890B3BF4D4D4070 /* dec_clip_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = E8CE46D17F80E28B8680194AFB378D01 /* dec_clip_tables.c */; };
+		BA616DDBBEE44CC8B749E0F306EE5A68 /* ph_filters_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 32AEDD2532DAE1798BA5DD8D6F62AEFC /* ph_filters_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA82AB7CCA820F80CE0AF00F549E3FBC /* ph_mux_types.h in Headers */ = {isa = PBXBuildFile; fileRef = A21132F41A0DD7AF40BE9A28F4E8E913 /* ph_mux_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BB7D9672B9CCA782DA5417418BD75B0F /* PostHogAppLifeCycleIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BD43DCF0BCFECD8498AF7119069F0 /* PostHogAppLifeCycleIntegration.swift */; };
+		BC1793A324C1B15D9ACE3D623E7B93F7 /* CGColor+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2FF2CD60B15984D98A642907A8EE64 /* CGColor+Util.swift */; };
+		BD6660EB68BE694BBB1F130F19670EE5 /* ph_vp8i_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CE58E410A3463F4011F17A4D0FA4883 /* ph_vp8i_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BDE309D74BCD6512599D50AF5709CFF2 /* alpha_processing_sse41.c in Sources */ = {isa = PBXBuildFile; fileRef = 56099B24CD1B04FF5F3C9B9BABD4BEF5 /* alpha_processing_sse41.c */; };
+		BE0928C4E4371DC8241CBBB2D7C28CA0 /* yuv_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = F260BFC4592D6A893658F933FFA61974 /* yuv_neon.c */; };
+		BFDE8DBA10346D5DE646E32D49B48F77 /* lossless_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = C78046BB1232358AEA1BD6551847E6F3 /* lossless_enc.c */; };
+		C1228AE5E56AB69EBE0457E416E228CE /* UIImage+WebP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EFB4BFC8B28AD420C8499488DEE55 /* UIImage+WebP.swift */; };
+		C2D966E31F918080B409575434B1EDAA /* upsampling_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B6746C475DA0D033D73752004096D48 /* upsampling_sse2.c */; };
+		C3D35ACD77B4F282EC66000813055BB9 /* ph_neon.h in Headers */ = {isa = PBXBuildFile; fileRef = BFCC1ADF0E056A580BAD769D575E70EA /* ph_neon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4A460B8CC38DFE574030F077C0E16D2 /* muxread.c in Sources */ = {isa = PBXBuildFile; fileRef = 16B01844502F95AFC31275E8BDE18668 /* muxread.c */; };
+		C942612031E74AD8BDA0944FFC7278E6 /* ph_quant.h in Headers */ = {isa = PBXBuildFile; fileRef = 09C82EC0F217EDCC5CB75C72AAE1FF34 /* ph_quant.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA09E7D2CB118E05F7190D6952A90EEC /* PostHogSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0195DCCDAEA3985F10AD90FF175FA9 /* PostHogSwizzler.swift */; };
+		CA7D0CA9FA7B814B0338C4A26A76CCEF /* PostHogPropertiesSanitizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11CE0F132094B5F213087D36AEF1DA2 /* PostHogPropertiesSanitizer.swift */; };
+		CB19ABF34215166445A2F5D009B3B94C /* frame_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 94CDF3083D09597EA6557A4E7F3C0518 /* frame_enc.c */; };
+		CB292CE4C2AFE362C48012B2957E3872 /* PostHog-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B834801B44DF2E23E819D7D69961C52 /* PostHog-dummy.m */; };
+		D0E880B089F259FB48D76667B038643E /* ph_mux.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF69E691693BB27B36E31418414F5BB /* ph_mux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D1B5F7025D2B045A4ABFE00D68A51AAB /* DictUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D8F41226ABB8A088043C8C45E8BE8B /* DictUtils.swift */; };
+		D3312C15626328564FBD29A2C5CE4327 /* sharpyuv_dsp.c in Sources */ = {isa = PBXBuildFile; fileRef = 150E975BF1B78BE40E31258FA56F210B /* sharpyuv_dsp.c */; };
+		D3A53F43C929184D1E562C99D87C5686 /* picture_csp_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C57BB79EAE939E014C87F694A9D52F1 /* picture_csp_enc.c */; };
+		D7677709CE465C399A3FBFAE7B642AEA /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9883A8A18882574859A1E08D69103859 /* FileUtils.swift */; };
+		D8D4E3ABFB74ABDB9A1A30CA8FBBBA24 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B8D59BB54F4EDBB865CE98AF78AECA /* UIViewController.swift */; };
+		D8EAFC4F4768EB8659EFBBD845BA36BA /* quant_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC7ECD6426402C501F9D02B10E50878 /* quant_enc.c */; };
+		DA3FE3A1601E2680AD5C38A910C65090 /* analysis_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 21C4A08C54DA02A3B7AABAEB7315D83C /* analysis_enc.c */; };
+		DB2DB040FFF6B14CFD6A2E44C68EBE77 /* PostHogStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9296CC21CB378B832FD9340B907617A1 /* PostHogStorageManager.swift */; };
+		DB7A988F2943EE8827FC5492DED0470B /* color_cache_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = E4747792FA1A0CD46B7AA1ECCB900887 /* color_cache_utils.c */; };
+		DD9CF75FC405931B3D8D51356212D3D4 /* PostHogQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCC8CBCEBCAE57733C731B199B28F6C /* PostHogQueue.swift */; };
+		DDCF13AB5812002DD1384E0BB52BFD7D /* syntax_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A0B722A1CA9B5B68BDFBF314DFA0691 /* syntax_enc.c */; };
+		E064BF5BAFE4C364784B8E55B32AC1EF /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 848ECE443D1C596BCF0211D1A583347E /* utils.c */; };
+		E2B1A7D231E7265D8B7E07FD81888F48 /* PostHogReplayIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50D40900156F1718F875F884B0E8745 /* PostHogReplayIntegration.swift */; };
+		E33278DEC4D5F65FFBAF895A0FDA9A58 /* filter_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 6CCC0A0AA3D00E87B2057A770036C741 /* filter_enc.c */; };
+		E404F722B8DE57DC4782722F9E4F5AB5 /* ph_yuv.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EEEEBEA5683F199086F4EDC4A924601 /* ph_yuv.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E41C26CACF47AAD46D61671E5B498146 /* webp_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 01426BBF03627BA09D41305BB6E128F8 /* webp_enc.c */; };
+		E426D91854378D4F4EB7DD7B5958EA68 /* PostHogAutocaptureEventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BB98A0DB7CDB0E93D297A1BCC640B8 /* PostHogAutocaptureEventTracker.swift */; };
+		E4D95C665C6931367B175CDCB556158F /* PostHogSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3113211E086779A994F6C21A5F484A /* PostHogSessionManager.swift */; };
+		E7986D3AE323A80E7739B0FA0D595C2B /* random_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = CD1ABC86EB5688E2BAF067498AD0CE8A /* random_utils.c */; };
+		EDA2D26E997A064A466008E9CBD1601D /* ph_thread_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EFAA0C1CF99A9F4B59C3FA7C94CA420 /* ph_thread_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F01D5410085A78A9146CF3BAD8A37AEC /* near_lossless_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 860A802904A1D899EC53F7AB8C67A5F0 /* near_lossless_enc.c */; };
+		F13356E47D511DA49734E69463E60DAB /* ph_sharpyuv_dsp.h in Headers */ = {isa = PBXBuildFile; fileRef = AE43663EA9011DF84032BA9674556A7A /* ph_sharpyuv_dsp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4659E169EE3762116238539B7F06697 /* cost.c in Sources */ = {isa = PBXBuildFile; fileRef = 73DE000D1352FF812C2AE44331E1CBE8 /* cost.c */; };
+		F48AA49A329471F93F34FB89110542E6 /* ph_backward_references_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC609566A80F7410E2DBDB1853FEAB8 /* ph_backward_references_enc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F53807B8B15E9A4E523606D58B0586AA /* ph_palette.h in Headers */ = {isa = PBXBuildFile; fileRef = 74E46C32E43D79CA4DAF6EB72683926C /* ph_palette.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F63723D7F7B3F75F9212C25709029BCD /* PostHogScreenViewIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE2781704F36A20C96CAD3A122E65C9 /* PostHogScreenViewIntegration.swift */; };
+		FB1132CA052CF102BD4BA77F10A67FE2 /* vp8l_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = A83B8CB656FE04111BEF4B05E6953C05 /* vp8l_enc.c */; };
+		FC4BD94DE2AB734C22D0B194EF2B819A /* filters_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = E4005B321A4A0716899E437F7C55D66C /* filters_neon.c */; };
+		FDC5075DCBC477DEA81853D96247947D /* ViewLayoutTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5316151036517305CE1A984949E43B /* ViewLayoutTracker.swift */; };
+		FEFA0FEA56ABF4878C223CA7B266D852 /* alpha_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 426F82A6B85D5C9B97E3E262A8EC6189 /* alpha_enc.c */; };
+		FF4598F1D9FD2DBA9F47AB6AD9633135 /* enc.c in Sources */ = {isa = PBXBuildFile; fileRef = F404074E27EC96B592DF05D712EE3ED5 /* enc.c */; };
+		FF5A2CB2218BBD43387A132EB988CA8C /* ph_common_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 389C7757A4F4B3E8AEAC5D4036597B02 /* ph_common_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFCC2C93BE77FCE26623C6C47809CF2E /* predictor_enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 168C033DCE373B5E9C102DCAA28042AF /* predictor_enc.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		094F03F69F600A15A2BEC0A3E8796B1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E326EE08AE4CF9FA8C947B96B6F8AB07;
+			remoteInfo = "PostHog-PostHog";
+		};
+		864136BCBEF54173F113C47BC38798B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8879D5F28A55518ACFB247594F87F75A;
+			remoteInfo = PostHog;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01426BBF03627BA09D41305BB6E128F8 /* webp_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = webp_enc.c; path = vendor/libwebp/webp_enc.c; sourceTree = "<group>"; };
+		014A1D01C568C388B123B68BA7A05428 /* ApplicationLifecyclePublisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ApplicationLifecyclePublisher.swift; path = "PostHog/App Life Cycle/ApplicationLifecyclePublisher.swift"; sourceTree = "<group>"; };
+		02679512CBBD97E854887506564C26B6 /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = PostHog/Utils/Errors.swift; sourceTree = "<group>"; };
+		03082544ED28B0497F37BE30ACA4291C /* ph_bit_reader_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_bit_reader_utils.h; path = vendor/libwebp/ph_bit_reader_utils.h; sourceTree = "<group>"; };
+		051A368035B696D0EFAD5F3D79B3B1AC /* muxinternal.c */ = {isa = PBXFileReference; includeInIndex = 1; name = muxinternal.c; path = vendor/libwebp/muxinternal.c; sourceTree = "<group>"; };
+		0677882175302A44C13F21B01336F0DC /* ph_color_cache_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_color_cache_utils.h; path = vendor/libwebp/ph_color_cache_utils.h; sourceTree = "<group>"; };
+		08C5EA0FFB6FE1E65A1A20E1B0AAA290 /* ApplicationScreenViewPublisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ApplicationScreenViewPublisher.swift; path = "PostHog/Screen Views/ApplicationScreenViewPublisher.swift"; sourceTree = "<group>"; };
+		0986FDB7A5AA03FB2B78B7A0A0C3F141 /* PostHogNoMaskViewModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogNoMaskViewModifier.swift; path = PostHog/SwiftUI/PostHogNoMaskViewModifier.swift; sourceTree = "<group>"; };
+		09C82EC0F217EDCC5CB75C72AAE1FF34 /* ph_quant.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_quant.h; path = vendor/libwebp/ph_quant.h; sourceTree = "<group>"; };
+		0AFC8A44E78C337FC7FC5F4CCCD8AB5C /* enc_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = enc_sse2.c; path = vendor/libwebp/enc_sse2.c; sourceTree = "<group>"; };
+		0B6F712CF968FC52F7AF048CD3621EDC /* ViewTreeSnapshotStatus.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewTreeSnapshotStatus.swift; path = PostHog/Replay/ViewTreeSnapshotStatus.swift; sourceTree = "<group>"; };
+		0C2E83D1CA0F436292FED3189AD73C59 /* lossless_enc_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_enc_neon.c; path = vendor/libwebp/lossless_enc_neon.c; sourceTree = "<group>"; };
+		0C39932123124DAC95A994BE33B232AE /* picture_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = picture_enc.c; path = vendor/libwebp/picture_enc.c; sourceTree = "<group>"; };
+		0C3B7913DFAD74AE5E350631F8996BD5 /* quant_levels_dec_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = quant_levels_dec_utils.c; path = vendor/libwebp/quant_levels_dec_utils.c; sourceTree = "<group>"; };
+		0F05191396657891097956471173FAD7 /* tree_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = tree_enc.c; path = vendor/libwebp/tree_enc.c; sourceTree = "<group>"; };
+		0FCC8CBCEBCAE57733C731B199B28F6C /* PostHogQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogQueue.swift; path = PostHog/PostHogQueue.swift; sourceTree = "<group>"; };
+		0FF9E1488836F4DB98755898A541C327 /* picture_psnr_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = picture_psnr_enc.c; path = vendor/libwebp/picture_psnr_enc.c; sourceTree = "<group>"; };
+		11B40ABBE79497D4BB706CB0481DCAA9 /* ph_common_sse2.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_common_sse2.h; path = vendor/libwebp/ph_common_sse2.h; sourceTree = "<group>"; };
+		12760CEC4E89F4AE33FF824943A5E6F1 /* config_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = config_enc.c; path = vendor/libwebp/config_enc.c; sourceTree = "<group>"; };
+		137808207523283E46E53BCE71AECADC /* lossless_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_sse2.c; path = vendor/libwebp/lossless_sse2.c; sourceTree = "<group>"; };
+		13A39E4679DD1E6C08D6F6D8B16AB38B /* histogram_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = histogram_enc.c; path = vendor/libwebp/histogram_enc.c; sourceTree = "<group>"; };
+		150E975BF1B78BE40E31258FA56F210B /* sharpyuv_dsp.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_dsp.c; path = vendor/libwebp/sharpyuv_dsp.c; sourceTree = "<group>"; };
+		168C033DCE373B5E9C102DCAA28042AF /* predictor_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = predictor_enc.c; path = vendor/libwebp/predictor_enc.c; sourceTree = "<group>"; };
+		16B01844502F95AFC31275E8BDE18668 /* muxread.c */ = {isa = PBXFileReference; includeInIndex = 1; name = muxread.c; path = vendor/libwebp/muxread.c; sourceTree = "<group>"; };
+		1C10601DE0A9EB07AE133941AC357292 /* backward_references_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = backward_references_enc.c; path = vendor/libwebp/backward_references_enc.c; sourceTree = "<group>"; };
+		1CC23CC054DC0C8F1BDCAC1B1B626AD5 /* cost_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cost_enc.c; path = vendor/libwebp/cost_enc.c; sourceTree = "<group>"; };
+		1E5316151036517305CE1A984949E43B /* ViewLayoutTracker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewLayoutTracker.swift; path = PostHog/Replay/ViewLayoutTracker.swift; sourceTree = "<group>"; };
+		1F8B430365C9F9AF8BB34E89B1F1967D /* PostHogMaskViewModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogMaskViewModifier.swift; path = PostHog/SwiftUI/PostHogMaskViewModifier.swift; sourceTree = "<group>"; };
+		20BCD9AB8B12BDDD13F0CC79C5197D29 /* ph_bit_writer_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_bit_writer_utils.h; path = vendor/libwebp/ph_bit_writer_utils.h; sourceTree = "<group>"; };
+		21AE228BFE4D59529A7D574B76DB6EA7 /* ReadWriteLock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadWriteLock.swift; path = PostHog/Utils/ReadWriteLock.swift; sourceTree = "<group>"; };
+		21C4A08C54DA02A3B7AABAEB7315D83C /* analysis_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = analysis_enc.c; path = vendor/libwebp/analysis_enc.c; sourceTree = "<group>"; };
+		24B8D59BB54F4EDBB865CE98AF78AECA /* UIViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = PostHog/UIViewController.swift; sourceTree = "<group>"; };
+		254D4366A2168BB6C1AB4AECB6544DBF /* PostHogVersion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogVersion.swift; path = PostHog/PostHogVersion.swift; sourceTree = "<group>"; };
+		26061D67120646530CC8E33368BCEB07 /* ph_huffman_encode_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_huffman_encode_utils.h; path = vendor/libwebp/ph_huffman_encode_utils.h; sourceTree = "<group>"; };
+		2607DF938020F8E8853C5B4EFF6F1F5C /* View+PostHogLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "View+PostHogLabel.swift"; path = "PostHog/Autocapture/SwiftUI/View+PostHogLabel.swift"; sourceTree = "<group>"; };
+		267B6BC17A6F703B195766DAF5E792DE /* PostHogContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogContext.swift; path = PostHog/PostHogContext.swift; sourceTree = "<group>"; };
+		29B86C7369AE3D3FC4BD53AD57F4DA89 /* UIWindow+.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIWindow+.swift"; path = "PostHog/Utils/UIWindow+.swift"; sourceTree = "<group>"; };
+		2A0B722A1CA9B5B68BDFBF314DFA0691 /* syntax_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = syntax_enc.c; path = vendor/libwebp/syntax_enc.c; sourceTree = "<group>"; };
+		2AF0C782AA7C65344AC67BFDC5876E29 /* Reachability.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = PostHog/Utils/Reachability.swift; sourceTree = "<group>"; };
+		2BCD5DC18A742F1DDD342FC4F4ED16CF /* MethodSwizzler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MethodSwizzler.swift; path = PostHog/Replay/MethodSwizzler.swift; sourceTree = "<group>"; };
+		2C5D079F9E60BFC255890CD1FB8D6752 /* PostHogPersonProfiles.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogPersonProfiles.swift; path = PostHog/PostHogPersonProfiles.swift; sourceTree = "<group>"; };
+		2D60F37F329B34D9B230B2FCB86287B9 /* ph_decode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_decode.h; path = vendor/libwebp/ph_decode.h; sourceTree = "<group>"; };
+		2F2124C0560923BEC834DFB648E8C68E /* ph_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_utils.h; path = vendor/libwebp/ph_utils.h; sourceTree = "<group>"; };
+		2F405F03A25D849818AC8BD71F6C8A0D /* cpu.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cpu.c; path = vendor/libwebp/cpu.c; sourceTree = "<group>"; };
+		325B5CF195D1B4CE50ECFE9D76F43297 /* cost_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cost_neon.c; path = vendor/libwebp/cost_neon.c; sourceTree = "<group>"; };
+		32AEDD2532DAE1798BA5DD8D6F62AEFC /* ph_filters_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_filters_utils.h; path = vendor/libwebp/ph_filters_utils.h; sourceTree = "<group>"; };
+		347D253267FC17B97B7122798FCED885 /* ph_encode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_encode.h; path = vendor/libwebp/ph_encode.h; sourceTree = "<group>"; };
+		364177C47EE48F4C768E2EAC0C795694 /* yuv_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = yuv_sse41.c; path = vendor/libwebp/yuv_sse41.c; sourceTree = "<group>"; };
+		36A60AA62169A7D58D9D78E917A84BD6 /* PostHog */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PostHog; path = PostHog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		389C7757A4F4B3E8AEAC5D4036597B02 /* ph_common_dec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_common_dec.h; path = vendor/libwebp/ph_common_dec.h; sourceTree = "<group>"; };
+		38FA318BBB67EF0EB129FDCA910E87D0 /* PostHogLegacyQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogLegacyQueue.swift; path = PostHog/PostHogLegacyQueue.swift; sourceTree = "<group>"; };
+		3A6D3B6D484A1B18B12D02A887D12AC6 /* rescaler_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = rescaler_sse2.c; path = vendor/libwebp/rescaler_sse2.c; sourceTree = "<group>"; };
+		3B9E8A379EC1C119A432C4EA85D9C1FA /* huffman_encode_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = huffman_encode_utils.c; path = vendor/libwebp/huffman_encode_utils.c; sourceTree = "<group>"; };
+		3CA9DFE81D91DBA5FC8DB808A2E16B51 /* ph_vp8li_enc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_vp8li_enc.h; path = vendor/libwebp/ph_vp8li_enc.h; sourceTree = "<group>"; };
+		3DD7C2417C80EB4DC0D449FF5A750E7F /* dec_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = dec_neon.c; path = vendor/libwebp/dec_neon.c; sourceTree = "<group>"; };
+		3E64820500A8FA7C3EDDFC0413D67192 /* lossless_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_neon.c; path = vendor/libwebp/lossless_neon.c; sourceTree = "<group>"; };
+		3F0803FB288F694819BB525AD79B4CF3 /* picture_rescale_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = picture_rescale_enc.c; path = vendor/libwebp/picture_rescale_enc.c; sourceTree = "<group>"; };
+		40666418C89D0ABACCA3D3B657C41EE1 /* bit_writer_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = bit_writer_utils.c; path = vendor/libwebp/bit_writer_utils.c; sourceTree = "<group>"; };
+		410EF12D8BE8DD784D78EAE3B118D83D /* iterator_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = iterator_enc.c; path = vendor/libwebp/iterator_enc.c; sourceTree = "<group>"; };
+		421F29EFF4274BF86881AC0CA223C278 /* alpha_processing_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = alpha_processing_sse2.c; path = vendor/libwebp/alpha_processing_sse2.c; sourceTree = "<group>"; };
+		426F82A6B85D5C9B97E3E262A8EC6189 /* alpha_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = alpha_enc.c; path = vendor/libwebp/alpha_enc.c; sourceTree = "<group>"; };
+		427CB8D4DA777661E22002BA697C7352 /* ph_cpu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_cpu.h; path = vendor/libwebp/ph_cpu.h; sourceTree = "<group>"; };
+		42D87DCAF52175DC2D5C6B44419636A8 /* PostHog-PostHog */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "PostHog-PostHog"; path = PostHog.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		4448E83BDBAEA7CB4CBBD4169E28C865 /* ph_vp8_dec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_vp8_dec.h; path = vendor/libwebp/ph_vp8_dec.h; sourceTree = "<group>"; };
+		445006D3C65D65E2025D796BBE58AF9E /* AutocaptureEventProcessing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AutocaptureEventProcessing.swift; path = PostHog/Autocapture/AutocaptureEventProcessing.swift; sourceTree = "<group>"; };
+		44918F51DB63CD39FD2B21D7C6D37993 /* cost_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cost_sse2.c; path = vendor/libwebp/cost_sse2.c; sourceTree = "<group>"; };
+		4658CB4E47E7E49A0EDDADE6A2187060 /* PostHogExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogExtensions.swift; path = PostHog/PostHogExtensions.swift; sourceTree = "<group>"; };
+		46DF54EC922261838D7A11FC5929703B /* PostHog-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PostHog-umbrella.h"; sourceTree = "<group>"; };
+		482B57DFE8B2A2630032F2313272CC8D /* ph_cost_enc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_cost_enc.h; path = vendor/libwebp/ph_cost_enc.h; sourceTree = "<group>"; };
+		488BDC2D7CC7DF47C0C95FCFE29C30BE /* URLSessionInterceptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLSessionInterceptor.swift; path = PostHog/Replay/URLSessionInterceptor.swift; sourceTree = "<group>"; };
+		4912E4CA7C28CCB896A85894786846E7 /* filters.c */ = {isa = PBXFileReference; includeInIndex = 1; name = filters.c; path = vendor/libwebp/filters.c; sourceTree = "<group>"; };
+		491A442B263BF69D2798CE4C225021B9 /* sharpyuv.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv.c; path = vendor/libwebp/sharpyuv.c; sourceTree = "<group>"; };
+		4A4B2E73121003598DC37E7A1F341109 /* AssociatedKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssociatedKeys.swift; path = PostHog/Utils/AssociatedKeys.swift; sourceTree = "<group>"; };
+		4A5FA23118394F23FCEC03129B715F07 /* ph_format_constants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_format_constants.h; path = vendor/libwebp/ph_format_constants.h; sourceTree = "<group>"; };
+		4AEC1CA49B0D7266C674BC128F91D404 /* rescaler_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = rescaler_neon.c; path = vendor/libwebp/rescaler_neon.c; sourceTree = "<group>"; };
+		4CEAC4C4ACDEB6E41355FCDD1C830599 /* ph_webpi_dec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_webpi_dec.h; path = vendor/libwebp/ph_webpi_dec.h; sourceTree = "<group>"; };
+		4D136F131AEA60AA3A5D1DD8BBEE144B /* yuv_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = yuv_sse2.c; path = vendor/libwebp/yuv_sse2.c; sourceTree = "<group>"; };
+		4D730BF05D2DE4AB5D4832DD1FCCDA7B /* PostHogTagViewModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogTagViewModifier.swift; path = PostHog/SwiftUI/PostHogTagViewModifier.swift; sourceTree = "<group>"; };
+		4FCB632E4B62F15E4673101CE5A52DCE /* Float+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Float+Util.swift"; path = "PostHog/Replay/Float+Util.swift"; sourceTree = "<group>"; };
+		4FF529438D4715629B727361FE3479AE /* PostHog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PostHog.debug.xcconfig; sourceTree = "<group>"; };
+		51070D57F0EDD63637278DC13A123F7A /* UUIDUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UUIDUtils.swift; path = PostHog/Utils/UUIDUtils.swift; sourceTree = "<group>"; };
+		5141CC0C042DF9108B5F07C063D36532 /* ph_histogram_enc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_histogram_enc.h; path = vendor/libwebp/ph_histogram_enc.h; sourceTree = "<group>"; };
+		55C8A4676C9B97E79AD4714A62E0F2B3 /* ph_muxi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_muxi.h; path = vendor/libwebp/ph_muxi.h; sourceTree = "<group>"; };
+		56099B24CD1B04FF5F3C9B9BABD4BEF5 /* alpha_processing_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = alpha_processing_sse41.c; path = vendor/libwebp/alpha_processing_sse41.c; sourceTree = "<group>"; };
+		5713757811ECB936D756398EB773705A /* Pods-MyApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MyApp-dummy.m"; sourceTree = "<group>"; };
+		5A0195DCCDAEA3985F10AD90FF175FA9 /* PostHogSwizzler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogSwizzler.swift; path = PostHog/PostHogSwizzler.swift; sourceTree = "<group>"; };
+		5B834801B44DF2E23E819D7D69961C52 /* PostHog-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PostHog-dummy.m"; sourceTree = "<group>"; };
+		5C9DE9F4A3C17635D8976BDB350CE30F /* PostHogBatchUploadInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogBatchUploadInfo.swift; path = PostHog/PostHogBatchUploadInfo.swift; sourceTree = "<group>"; };
+		5D8D9DCF15FD8E656420A4DFA52613B4 /* PostHogSwiftUIViewModifiers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogSwiftUIViewModifiers.swift; path = PostHog/SwiftUI/PostHogSwiftUIViewModifiers.swift; sourceTree = "<group>"; };
+		5EFAA0C1CF99A9F4B59C3FA7C94CA420 /* ph_thread_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_thread_utils.h; path = vendor/libwebp/ph_thread_utils.h; sourceTree = "<group>"; };
+		607F7620135959EEA3E7E651E6576919 /* dec_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = dec_sse2.c; path = vendor/libwebp/dec_sse2.c; sourceTree = "<group>"; };
+		621329804C20DC8DDB4404B12E9D7C9C /* ph_common_sse41.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_common_sse41.h; path = vendor/libwebp/ph_common_sse41.h; sourceTree = "<group>"; };
+		626555CC466BEA4C3B4CAED1BE3F07B8 /* Pods-MyApp-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MyApp-frameworks.sh"; sourceTree = "<group>"; };
+		631F4F5A70E1C1287BA09D3C269CE2BB /* sharpyuv_gamma.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_gamma.c; path = vendor/libwebp/sharpyuv_gamma.c; sourceTree = "<group>"; };
+		643806E02046FF50F669CF11BDADC022 /* quant_levels_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = quant_levels_utils.c; path = vendor/libwebp/quant_levels_utils.c; sourceTree = "<group>"; };
+		643EB63D90487111EBD09AF054B49166 /* UIView+PostHogLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+PostHogLabel.swift"; path = "PostHog/Autocapture/UIView+PostHogLabel.swift"; sourceTree = "<group>"; };
+		65096202B889439A2238A3A1AC1A7DEA /* upsampling.c */ = {isa = PBXFileReference; includeInIndex = 1; name = upsampling.c; path = vendor/libwebp/upsampling.c; sourceTree = "<group>"; };
+		684625585B5002628DD733354DACB30F /* Pods-MyApp */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-MyApp"; path = Pods_MyApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CCC0A0AA3D00E87B2057A770036C741 /* filter_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = filter_enc.c; path = vendor/libwebp/filter_enc.c; sourceTree = "<group>"; };
+		6EF213FA3F4305A59A402C2CE398D4ED /* enc_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = enc_sse41.c; path = vendor/libwebp/enc_sse41.c; sourceTree = "<group>"; };
+		6F15C48B1749787BB9EAC80D0441B135 /* DateUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DateUtils.swift; path = PostHog/Utils/DateUtils.swift; sourceTree = "<group>"; };
+		706DE4FAE69AA3564743EB4B0CCB3452 /* lossless.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless.c; path = vendor/libwebp/lossless.c; sourceTree = "<group>"; };
+		7251BD4BF7E49E193EB81838FD4BBFFC /* NetworkSample.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkSample.swift; path = PostHog/Replay/NetworkSample.swift; sourceTree = "<group>"; };
+		727AA1DA7051CA0E6D71511B1E40CAA0 /* ph_lossless_common.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_lossless_common.h; path = vendor/libwebp/ph_lossless_common.h; sourceTree = "<group>"; };
+		7310CC7F93196C88CEE0C76B9FEA5D59 /* upsampling_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = upsampling_sse41.c; path = vendor/libwebp/upsampling_sse41.c; sourceTree = "<group>"; };
+		73DE000D1352FF812C2AE44331E1CBE8 /* cost.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cost.c; path = vendor/libwebp/cost.c; sourceTree = "<group>"; };
+		74C16EBFE7921E7BA3BD51088091D306 /* ApplicationEventPublisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ApplicationEventPublisher.swift; path = PostHog/Replay/ApplicationEventPublisher.swift; sourceTree = "<group>"; };
+		74E46C32E43D79CA4DAF6EB72683926C /* ph_palette.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_palette.h; path = vendor/libwebp/ph_palette.h; sourceTree = "<group>"; };
+		75180746F2270ACB77ECB08B6D5DFE6F /* ForwardingPickerViewDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ForwardingPickerViewDelegate.swift; path = PostHog/Autocapture/ForwardingPickerViewDelegate.swift; sourceTree = "<group>"; };
+		75A67E2033C217CCBF5ABFF216EBEC26 /* lossless_enc_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_enc_sse2.c; path = vendor/libwebp/lossless_enc_sse2.c; sourceTree = "<group>"; };
+		76C342BD963D049DDE6998A86806E24D /* PostHogAutocaptureIntegration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogAutocaptureIntegration.swift; path = PostHog/Autocapture/PostHogAutocaptureIntegration.swift; sourceTree = "<group>"; };
+		773EB72575E183AB407EA159AC147EA9 /* Pods-MyApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyApp.debug.xcconfig"; sourceTree = "<group>"; };
+		78F5F4CE9ECF24CF1183F98734B05993 /* sharpyuv_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_sse2.c; path = vendor/libwebp/sharpyuv_sse2.c; sourceTree = "<group>"; };
+		7B358A58C08224379DA5B58D6828FAE9 /* Pods-MyApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MyApp-umbrella.h"; sourceTree = "<group>"; };
+		7B8B1AFA6FFA6158D530241294923236 /* dec.c */ = {isa = PBXFileReference; includeInIndex = 1; name = dec.c; path = vendor/libwebp/dec.c; sourceTree = "<group>"; };
+		7BC748ADE05508FB256918EA0DD1276E /* ph_random_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_random_utils.h; path = vendor/libwebp/ph_random_utils.h; sourceTree = "<group>"; };
+		7C2C74B22012E095393EFBE125A6AF1A /* UIImage+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Util.swift"; path = "PostHog/Replay/UIImage+Util.swift"; sourceTree = "<group>"; };
+		7C8460849D2A12F54DA89ED147E6BA39 /* RRWireframe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RRWireframe.swift; path = PostHog/Replay/RRWireframe.swift; sourceTree = "<group>"; };
+		7CE58E410A3463F4011F17A4D0FA4883 /* ph_vp8i_dec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_vp8i_dec.h; path = vendor/libwebp/ph_vp8i_dec.h; sourceTree = "<group>"; };
+		7EAAF398E70C6EB55F272A9C1D0F65F0 /* ResourceBundle-PostHog-PostHog-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-PostHog-PostHog-Info.plist"; sourceTree = "<group>"; };
+		802F5190CAF37DD8A51C579E967A8D22 /* ph_sharpyuv_csp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_sharpyuv_csp.h; path = vendor/libwebp/ph_sharpyuv_csp.h; sourceTree = "<group>"; };
+		8233EAB18D98D0045D3290D9FDE4B458 /* UIApplication+.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIApplication+.swift"; path = "PostHog/Utils/UIApplication+.swift"; sourceTree = "<group>"; };
+		848ECE443D1C596BCF0211D1A583347E /* utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = utils.c; path = vendor/libwebp/utils.c; sourceTree = "<group>"; };
+		860A802904A1D899EC53F7AB8C67A5F0 /* near_lossless_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = near_lossless_enc.c; path = vendor/libwebp/near_lossless_enc.c; sourceTree = "<group>"; };
+		862CD2B0D27C72134B478CAF3C1CACA2 /* ph_sharpyuv_gamma.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_sharpyuv_gamma.h; path = vendor/libwebp/ph_sharpyuv_gamma.h; sourceTree = "<group>"; };
+		86956DAAD99AB2CD642881FA23A073F0 /* filters_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = filters_sse2.c; path = vendor/libwebp/filters_sse2.c; sourceTree = "<group>"; };
+		8836799621A331A7866A3AC0B8F282E2 /* ssim.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ssim.c; path = vendor/libwebp/ssim.c; sourceTree = "<group>"; };
+		88643C555C7F9976CD046E2B02BBAEDF /* PostHogSessionReplayConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogSessionReplayConfig.swift; path = PostHog/Replay/PostHogSessionReplayConfig.swift; sourceTree = "<group>"; };
+		886ED0B7A39FDFDA628214A49ECAE285 /* CGSize+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGSize+Util.swift"; path = "PostHog/Replay/CGSize+Util.swift"; sourceTree = "<group>"; };
+		89E96BCD0BEA7C0E992BA195508E1B86 /* picture_tools_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = picture_tools_enc.c; path = vendor/libwebp/picture_tools_enc.c; sourceTree = "<group>"; };
+		8B6746C475DA0D033D73752004096D48 /* upsampling_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = upsampling_sse2.c; path = vendor/libwebp/upsampling_sse2.c; sourceTree = "<group>"; };
+		8B75A837B6C3D09269F99C3BCA7CDCE9 /* RRStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RRStyle.swift; path = PostHog/Replay/RRStyle.swift; sourceTree = "<group>"; };
+		8C57BB79EAE939E014C87F694A9D52F1 /* picture_csp_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = picture_csp_enc.c; path = vendor/libwebp/picture_csp_enc.c; sourceTree = "<group>"; };
+		8D6CE03294B10075DCF1BF90C8B14C68 /* rescaler_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = rescaler_utils.c; path = vendor/libwebp/rescaler_utils.c; sourceTree = "<group>"; };
+		8E20612F2CFB5914BBB56EFE84756833 /* Pods-MyApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyApp-acknowledgements.plist"; sourceTree = "<group>"; };
+		8FDC603DEEFEEAC17040FD80488FA06B /* PostHog.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PostHog.modulemap; sourceTree = "<group>"; };
+		9093004B5C596B61CFAEEC31837B2B90 /* ph_vp8li_dec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_vp8li_dec.h; path = vendor/libwebp/ph_vp8li_dec.h; sourceTree = "<group>"; };
+		9296CC21CB378B832FD9340B907617A1 /* PostHogStorageManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogStorageManager.swift; path = PostHog/PostHogStorageManager.swift; sourceTree = "<group>"; };
+		92C21FE0AB6DDEDE91518A95EA982D70 /* String+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Util.swift"; path = "PostHog/Replay/String+Util.swift"; sourceTree = "<group>"; };
+		93C9623A0A07FC351CFDB6F7B9D4C09D /* bit_reader_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = bit_reader_utils.c; path = vendor/libwebp/bit_reader_utils.c; sourceTree = "<group>"; };
+		94CDF3083D09597EA6557A4E7F3C0518 /* frame_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = frame_enc.c; path = vendor/libwebp/frame_enc.c; sourceTree = "<group>"; };
+		95F108B379B9194770C65F268B71E781 /* alpha_processing.c */ = {isa = PBXFileReference; includeInIndex = 1; name = alpha_processing.c; path = vendor/libwebp/alpha_processing.c; sourceTree = "<group>"; };
+		9658C8C9818FADEC7CD13E20229659A4 /* ph_lossless.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_lossless.h; path = vendor/libwebp/ph_lossless.h; sourceTree = "<group>"; };
+		9757094ED2C65CFB08A61153FF76D8AC /* filters_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = filters_utils.c; path = vendor/libwebp/filters_utils.c; sourceTree = "<group>"; };
+		977DCC4113DE5E62EF873E0B1CD7CD7A /* PostHogSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogSDK.swift; path = PostHog/PostHogSDK.swift; sourceTree = "<group>"; };
+		9883A8A18882574859A1E08D69103859 /* FileUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileUtils.swift; path = PostHog/Utils/FileUtils.swift; sourceTree = "<group>"; };
+		99D0AC38D19FDF4E8D666ACCCB5B4CF5 /* Pods-MyApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyApp.release.xcconfig"; sourceTree = "<group>"; };
+		9A4AD99722F3E0E2E82169154F570FFC /* ph_huffman_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_huffman_utils.h; path = vendor/libwebp/ph_huffman_utils.h; sourceTree = "<group>"; };
+		9B02CD4AC41E51F9077E4621E00691D7 /* ph_endian_inl_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_endian_inl_utils.h; path = vendor/libwebp/ph_endian_inl_utils.h; sourceTree = "<group>"; };
+		9C0308FE26A6480B1C58AC16560C95D9 /* ph_vp8i_enc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_vp8i_enc.h; path = vendor/libwebp/ph_vp8i_enc.h; sourceTree = "<group>"; };
+		9CE2781704F36A20C96CAD3A122E65C9 /* PostHogScreenViewIntegration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogScreenViewIntegration.swift; path = "PostHog/Screen Views/PostHogScreenViewIntegration.swift"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9EEEEBEA5683F199086F4EDC4A924601 /* ph_yuv.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_yuv.h; path = vendor/libwebp/ph_yuv.h; sourceTree = "<group>"; };
+		A21132F41A0DD7AF40BE9A28F4E8E913 /* ph_mux_types.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_mux_types.h; path = vendor/libwebp/ph_mux_types.h; sourceTree = "<group>"; };
+		A218999726F8EC69E727F6DE49D3A4B4 /* Data+Gzip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Gzip.swift"; path = "PostHog/Utils/Data+Gzip.swift"; sourceTree = "<group>"; };
+		A609E27941C179BC48640E7A356B32B9 /* DI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DI.swift; path = PostHog/DI.swift; sourceTree = "<group>"; };
+		A7A40C92E424F5A9DAC453541162F98B /* Pods-MyApp-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyApp-Info.plist"; sourceTree = "<group>"; };
+		A83B8CB656FE04111BEF4B05E6953C05 /* vp8l_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = vp8l_enc.c; path = vendor/libwebp/vp8l_enc.c; sourceTree = "<group>"; };
+		AA5476D5C78CD9B7B417844276628109 /* PostHogIntegration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogIntegration.swift; path = PostHog/PostHogIntegration.swift; sourceTree = "<group>"; };
+		AAC609566A80F7410E2DBDB1853FEAB8 /* ph_backward_references_enc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_backward_references_enc.h; path = vendor/libwebp/ph_backward_references_enc.h; sourceTree = "<group>"; };
+		AB8F891C1AA81B6F379A88C69CD33EBF /* ph_quant_levels_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_quant_levels_utils.h; path = vendor/libwebp/ph_quant_levels_utils.h; sourceTree = "<group>"; };
+		ABACFAFCBB4119775F831676CB1164F5 /* PostHog-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PostHog-prefix.pch"; sourceTree = "<group>"; };
+		ABC7ECD6426402C501F9D02B10E50878 /* quant_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = quant_enc.c; path = vendor/libwebp/quant_enc.c; sourceTree = "<group>"; };
+		AE43663EA9011DF84032BA9674556A7A /* ph_sharpyuv_dsp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_sharpyuv_dsp.h; path = vendor/libwebp/ph_sharpyuv_dsp.h; sourceTree = "<group>"; };
+		AE7EFB4BFC8B28AD420C8499488DEE55 /* UIImage+WebP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+WebP.swift"; path = "PostHog/Utils/UIImage+WebP.swift"; sourceTree = "<group>"; };
+		B3481D47EB9C5A726600AF3FD7241E96 /* muxedit.c */ = {isa = PBXFileReference; includeInIndex = 1; name = muxedit.c; path = vendor/libwebp/muxedit.c; sourceTree = "<group>"; };
+		B362617353B800E3C335DB5F3D33A8D8 /* Hedgelog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Hedgelog.swift; path = PostHog/Utils/Hedgelog.swift; sourceTree = "<group>"; };
+		B4E78BCC7BF0C97E0D3225E76B55842A /* UIView+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Util.swift"; path = "PostHog/Replay/UIView+Util.swift"; sourceTree = "<group>"; };
+		B84D29A696C68CB21FE2CC285B154BC4 /* rescaler.c */ = {isa = PBXFileReference; includeInIndex = 1; name = rescaler.c; path = vendor/libwebp/rescaler.c; sourceTree = "<group>"; };
+		B96F2C6EFC49BD977D2DB532A1D241C6 /* Pods-MyApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MyApp-acknowledgements.markdown"; sourceTree = "<group>"; };
+		BAF78BE85742763F2E12E876B9414B33 /* lossless_enc_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_enc_sse41.c; path = vendor/libwebp/lossless_enc_sse41.c; sourceTree = "<group>"; };
+		BB16EFCFFFC802666E8A642185A71193 /* sharpyuv_csp.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_csp.c; path = vendor/libwebp/sharpyuv_csp.c; sourceTree = "<group>"; };
+		BC2E4CF83C7F864882B9272D64004800 /* ph_dsp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_dsp.h; path = vendor/libwebp/ph_dsp.h; sourceTree = "<group>"; };
+		BFCC1ADF0E056A580BAD769D575E70EA /* ph_neon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_neon.h; path = vendor/libwebp/ph_neon.h; sourceTree = "<group>"; };
+		C1297671CE8BC505FE4FF5DBD471D315 /* PostHog.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PostHog.h; path = PostHog/PostHog.h; sourceTree = "<group>"; };
+		C16FDD2803CEFB6B01532264B2736BFF /* sharpyuv_cpu.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_cpu.c; path = vendor/libwebp/sharpyuv_cpu.c; sourceTree = "<group>"; };
+		C2FF3F100BC7A341EEEA3767ECAB58E2 /* URLSessionSwizzler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLSessionSwizzler.swift; path = PostHog/Replay/URLSessionSwizzler.swift; sourceTree = "<group>"; };
+		C39082C3D39B819B263F28046B230077 /* sharpyuv_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sharpyuv_neon.c; path = vendor/libwebp/sharpyuv_neon.c; sourceTree = "<group>"; };
+		C61FCFA1B00874EA2484016B903AE631 /* ssim_sse2.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ssim_sse2.c; path = vendor/libwebp/ssim_sse2.c; sourceTree = "<group>"; };
+		C78046BB1232358AEA1BD6551847E6F3 /* lossless_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_enc.c; path = vendor/libwebp/lossless_enc.c; sourceTree = "<group>"; };
+		CA5E2DFE54C746FA5C362F2BAEAA52CB /* enc_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = enc_neon.c; path = vendor/libwebp/enc_neon.c; sourceTree = "<group>"; };
+		CAD039254AA738CCDF2861C8CFED0540 /* UITextInputTraits+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UITextInputTraits+Util.swift"; path = "PostHog/Replay/UITextInputTraits+Util.swift"; sourceTree = "<group>"; };
+		CD1ABC86EB5688E2BAF067498AD0CE8A /* random_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = random_utils.c; path = vendor/libwebp/random_utils.c; sourceTree = "<group>"; };
+		CF938A364340D4BEC4872B1236C649C5 /* ph_sharpyuv_cpu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_sharpyuv_cpu.h; path = vendor/libwebp/ph_sharpyuv_cpu.h; sourceTree = "<group>"; };
+		CFA0C5F39B5EFDEF58162A7F2E010043 /* backward_references_cost_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = backward_references_cost_enc.c; path = vendor/libwebp/backward_references_cost_enc.c; sourceTree = "<group>"; };
+		D08674B1C476D61691B4984EBE032E1F /* upsampling_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = upsampling_neon.c; path = vendor/libwebp/upsampling_neon.c; sourceTree = "<group>"; };
+		D11CE0F132094B5F213087D36AEF1DA2 /* PostHogPropertiesSanitizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogPropertiesSanitizer.swift; path = PostHog/PostHogPropertiesSanitizer.swift; sourceTree = "<group>"; };
+		D44BD43DCF0BCFECD8498AF7119069F0 /* PostHogAppLifeCycleIntegration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogAppLifeCycleIntegration.swift; path = "PostHog/App Life Cycle/PostHogAppLifeCycleIntegration.swift"; sourceTree = "<group>"; };
+		D5BB98A0DB7CDB0E93D297A1BCC640B8 /* PostHogAutocaptureEventTracker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogAutocaptureEventTracker.swift; path = PostHog/Autocapture/PostHogAutocaptureEventTracker.swift; sourceTree = "<group>"; };
+		D6768584048E9083553790C4CB1E6AC0 /* UIColor+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIColor+Util.swift"; path = "PostHog/Replay/UIColor+Util.swift"; sourceTree = "<group>"; };
+		D6C23AB82B9B08E13E398E1002EA67F1 /* palette.c */ = {isa = PBXFileReference; includeInIndex = 1; name = palette.c; path = vendor/libwebp/palette.c; sourceTree = "<group>"; };
+		D7D8F41226ABB8A088043C8C45E8BE8B /* DictUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DictUtils.swift; path = PostHog/Utils/DictUtils.swift; sourceTree = "<group>"; };
+		D86E64406DF21429BDCF03D59BCAF684 /* lossless_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = lossless_sse41.c; path = vendor/libwebp/lossless_sse41.c; sourceTree = "<group>"; };
+		D892D8C26EEB85C32195B82A576117C1 /* token_enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = token_enc.c; path = vendor/libwebp/token_enc.c; sourceTree = "<group>"; };
+		D913AD09ADC82D2869A0E06FFF28311E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = PostHog/Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D9FAB2FC1F988C4B29EDB26D6A30E522 /* ph_sharpyuv.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_sharpyuv.h; path = vendor/libwebp/ph_sharpyuv.h; sourceTree = "<group>"; };
+		DBB5FC95961FD61B020F96C968484325 /* URLSessionExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = URLSessionExtension.swift; path = PostHog/Replay/URLSessionExtension.swift; sourceTree = "<group>"; };
+		DCD3F924BAAB7765091061059EF5ACB8 /* Date+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+Util.swift"; path = "PostHog/Replay/Date+Util.swift"; sourceTree = "<group>"; };
+		DD3113211E086779A994F6C21A5F484A /* PostHogSessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogSessionManager.swift; path = PostHog/PostHogSessionManager.swift; sourceTree = "<group>"; };
+		E1E3B500DE0C94DB096BCAEB9B94579A /* dec_sse41.c */ = {isa = PBXFileReference; includeInIndex = 1; name = dec_sse41.c; path = vendor/libwebp/dec_sse41.c; sourceTree = "<group>"; };
+		E2DE1688F51F398438D0B5964A33F918 /* TimeBasedEpochGenerator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeBasedEpochGenerator.swift; path = PostHog/Utils/TimeBasedEpochGenerator.swift; sourceTree = "<group>"; };
+		E4005B321A4A0716899E437F7C55D66C /* filters_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = filters_neon.c; path = vendor/libwebp/filters_neon.c; sourceTree = "<group>"; };
+		E4747792FA1A0CD46B7AA1ECCB900887 /* color_cache_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = color_cache_utils.c; path = vendor/libwebp/color_cache_utils.c; sourceTree = "<group>"; };
+		E50D40900156F1718F875F884B0E8745 /* PostHogReplayIntegration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogReplayIntegration.swift; path = PostHog/Replay/PostHogReplayIntegration.swift; sourceTree = "<group>"; };
+		E8CE46D17F80E28B8680194AFB378D01 /* dec_clip_tables.c */ = {isa = PBXFileReference; includeInIndex = 1; name = dec_clip_tables.c; path = vendor/libwebp/dec_clip_tables.c; sourceTree = "<group>"; };
+		E94DF3DE954653F34BC4C9265B5A4137 /* PostHogFileBackedQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogFileBackedQueue.swift; path = PostHog/PostHogFileBackedQueue.swift; sourceTree = "<group>"; };
+		EA7FA5BA7CA0B39BFB96E4D8AC7994E8 /* alpha_processing_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = alpha_processing_neon.c; path = vendor/libwebp/alpha_processing_neon.c; sourceTree = "<group>"; };
+		EBF69E691693BB27B36E31418414F5BB /* ph_mux.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_mux.h; path = vendor/libwebp/ph_mux.h; sourceTree = "<group>"; };
+		EDB43F0141F49666D43C2EED584BF018 /* PostHogFeatureFlags.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogFeatureFlags.swift; path = PostHog/PostHogFeatureFlags.swift; sourceTree = "<group>"; };
+		F260BFC4592D6A893658F933FFA61974 /* yuv_neon.c */ = {isa = PBXFileReference; includeInIndex = 1; name = yuv_neon.c; path = vendor/libwebp/yuv_neon.c; sourceTree = "<group>"; };
+		F37986990BA8D9E23DCA1408157EC224 /* PostHog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PostHog.release.xcconfig; sourceTree = "<group>"; };
+		F3A02ABF99EC2D37ABF49387AC99B973 /* ph_rescaler_utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_rescaler_utils.h; path = vendor/libwebp/ph_rescaler_utils.h; sourceTree = "<group>"; };
+		F404074E27EC96B592DF05D712EE3ED5 /* enc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = enc.c; path = vendor/libwebp/enc.c; sourceTree = "<group>"; };
+		F5B1EE88DBDA7E7AA1E16480A5A74A7E /* PostHogStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogStorage.swift; path = PostHog/PostHogStorage.swift; sourceTree = "<group>"; };
+		F6527062CFE040EC0312114E678EF9C6 /* huffman_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = huffman_utils.c; path = vendor/libwebp/huffman_utils.c; sourceTree = "<group>"; };
+		F6E636F1FC6A0E69769F5E07CC52137F /* PostHog-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PostHog-Info.plist"; sourceTree = "<group>"; };
+		F7CCD2A49E272437837BE15C0E2AD785 /* yuv.c */ = {isa = PBXFileReference; includeInIndex = 1; name = yuv.c; path = vendor/libwebp/yuv.c; sourceTree = "<group>"; };
+		FBDC6A6030946B46853B08E86397BDFE /* ph_types.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ph_types.h; path = vendor/libwebp/ph_types.h; sourceTree = "<group>"; };
+		FD6144D42D657BE435139FCE71536C2F /* PostHogEvent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogEvent.swift; path = PostHog/Models/PostHogEvent.swift; sourceTree = "<group>"; };
+		FDB247EB585699605C1CAAB8B4B08690 /* PostHogConsumerPayload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogConsumerPayload.swift; path = PostHog/PostHogConsumerPayload.swift; sourceTree = "<group>"; };
+		FE5E0A60724192F719EC8D6B987128B2 /* PostHogApi.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogApi.swift; path = PostHog/PostHogApi.swift; sourceTree = "<group>"; };
+		FEDFF3F0120C40BF6E232681CA252E1D /* Pods-MyApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MyApp.modulemap"; sourceTree = "<group>"; };
+		FEE7A7F4A5277E84D65D59F81EC80160 /* PostHogConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostHogConfig.swift; path = PostHog/PostHogConfig.swift; sourceTree = "<group>"; };
+		FF2FF2CD60B15984D98A642907A8EE64 /* CGColor+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGColor+Util.swift"; path = "PostHog/Replay/CGColor+Util.swift"; sourceTree = "<group>"; };
+		FF9DF5350F5A724175395ED8A148095E /* thread_utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = thread_utils.c; path = vendor/libwebp/thread_utils.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		22DB1CAD2F1D21188CE7B51FD2D1C88C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CFEFECF24ECD8E332ACAAA95D2E8D2E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50926EE5A76753911F8780AC1B9A3279 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB248319825A6B5CA39190DB584034E7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30CC414F6487ADA43E5EF24DD171C775 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A0593A8464B4C335DF02A070777BE71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				684625585B5002628DD733354DACB30F /* Pods-MyApp */,
+				36A60AA62169A7D58D9D78E917A84BD6 /* PostHog */,
+				42D87DCAF52175DC2D5C6B44419636A8 /* PostHog-PostHog */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D80AEB952763804D35FF3F5031E85A2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8FDC603DEEFEEAC17040FD80488FA06B /* PostHog.modulemap */,
+				5B834801B44DF2E23E819D7D69961C52 /* PostHog-dummy.m */,
+				F6E636F1FC6A0E69769F5E07CC52137F /* PostHog-Info.plist */,
+				ABACFAFCBB4119775F831676CB1164F5 /* PostHog-prefix.pch */,
+				46DF54EC922261838D7A11FC5929703B /* PostHog-umbrella.h */,
+				4FF529438D4715629B727361FE3479AE /* PostHog.debug.xcconfig */,
+				F37986990BA8D9E23DCA1408157EC224 /* PostHog.release.xcconfig */,
+				7EAAF398E70C6EB55F272A9C1D0F65F0 /* ResourceBundle-PostHog-PostHog-Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/PostHog";
+			sourceTree = "<group>";
+		};
+		4BF311E0407251170FE4F53552D8520D /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B0F209544DBCFEEE033F5BD58BAD5F4 /* Pods-MyApp */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7B0F209544DBCFEEE033F5BD58BAD5F4 /* Pods-MyApp */ = {
+			isa = PBXGroup;
+			children = (
+				FEDFF3F0120C40BF6E232681CA252E1D /* Pods-MyApp.modulemap */,
+				B96F2C6EFC49BD977D2DB532A1D241C6 /* Pods-MyApp-acknowledgements.markdown */,
+				8E20612F2CFB5914BBB56EFE84756833 /* Pods-MyApp-acknowledgements.plist */,
+				5713757811ECB936D756398EB773705A /* Pods-MyApp-dummy.m */,
+				626555CC466BEA4C3B4CAED1BE3F07B8 /* Pods-MyApp-frameworks.sh */,
+				A7A40C92E424F5A9DAC453541162F98B /* Pods-MyApp-Info.plist */,
+				7B358A58C08224379DA5B58D6828FAE9 /* Pods-MyApp-umbrella.h */,
+				773EB72575E183AB407EA159AC147EA9 /* Pods-MyApp.debug.xcconfig */,
+				99D0AC38D19FDF4E8D666ACCCB5B4CF5 /* Pods-MyApp.release.xcconfig */,
+			);
+			name = "Pods-MyApp";
+			path = "Target Support Files/Pods-MyApp";
+			sourceTree = "<group>";
+		};
+		C641455587E373D99FE1FB228D871CCA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D913AD09ADC82D2869A0E06FFF28311E /* PrivacyInfo.xcprivacy */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				FA25267ACAD68490E4F34665AB7975D6 /* Pods */,
+				0A0593A8464B4C335DF02A070777BE71 /* Products */,
+				4BF311E0407251170FE4F53552D8520D /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4801F62A6B08CD9B5410329F1A18FDE /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DE87B6AA80369F4E80A4E42895E32445 /* PostHog */ = {
+			isa = PBXGroup;
+			children = (
+				426F82A6B85D5C9B97E3E262A8EC6189 /* alpha_enc.c */,
+				95F108B379B9194770C65F268B71E781 /* alpha_processing.c */,
+				EA7FA5BA7CA0B39BFB96E4D8AC7994E8 /* alpha_processing_neon.c */,
+				421F29EFF4274BF86881AC0CA223C278 /* alpha_processing_sse2.c */,
+				56099B24CD1B04FF5F3C9B9BABD4BEF5 /* alpha_processing_sse41.c */,
+				21C4A08C54DA02A3B7AABAEB7315D83C /* analysis_enc.c */,
+				74C16EBFE7921E7BA3BD51088091D306 /* ApplicationEventPublisher.swift */,
+				014A1D01C568C388B123B68BA7A05428 /* ApplicationLifecyclePublisher.swift */,
+				08C5EA0FFB6FE1E65A1A20E1B0AAA290 /* ApplicationScreenViewPublisher.swift */,
+				4A4B2E73121003598DC37E7A1F341109 /* AssociatedKeys.swift */,
+				445006D3C65D65E2025D796BBE58AF9E /* AutocaptureEventProcessing.swift */,
+				CFA0C5F39B5EFDEF58162A7F2E010043 /* backward_references_cost_enc.c */,
+				1C10601DE0A9EB07AE133941AC357292 /* backward_references_enc.c */,
+				93C9623A0A07FC351CFDB6F7B9D4C09D /* bit_reader_utils.c */,
+				40666418C89D0ABACCA3D3B657C41EE1 /* bit_writer_utils.c */,
+				FF2FF2CD60B15984D98A642907A8EE64 /* CGColor+Util.swift */,
+				886ED0B7A39FDFDA628214A49ECAE285 /* CGSize+Util.swift */,
+				E4747792FA1A0CD46B7AA1ECCB900887 /* color_cache_utils.c */,
+				12760CEC4E89F4AE33FF824943A5E6F1 /* config_enc.c */,
+				73DE000D1352FF812C2AE44331E1CBE8 /* cost.c */,
+				1CC23CC054DC0C8F1BDCAC1B1B626AD5 /* cost_enc.c */,
+				325B5CF195D1B4CE50ECFE9D76F43297 /* cost_neon.c */,
+				44918F51DB63CD39FD2B21D7C6D37993 /* cost_sse2.c */,
+				2F405F03A25D849818AC8BD71F6C8A0D /* cpu.c */,
+				A218999726F8EC69E727F6DE49D3A4B4 /* Data+Gzip.swift */,
+				DCD3F924BAAB7765091061059EF5ACB8 /* Date+Util.swift */,
+				6F15C48B1749787BB9EAC80D0441B135 /* DateUtils.swift */,
+				7B8B1AFA6FFA6158D530241294923236 /* dec.c */,
+				E8CE46D17F80E28B8680194AFB378D01 /* dec_clip_tables.c */,
+				3DD7C2417C80EB4DC0D449FF5A750E7F /* dec_neon.c */,
+				607F7620135959EEA3E7E651E6576919 /* dec_sse2.c */,
+				E1E3B500DE0C94DB096BCAEB9B94579A /* dec_sse41.c */,
+				A609E27941C179BC48640E7A356B32B9 /* DI.swift */,
+				D7D8F41226ABB8A088043C8C45E8BE8B /* DictUtils.swift */,
+				F404074E27EC96B592DF05D712EE3ED5 /* enc.c */,
+				CA5E2DFE54C746FA5C362F2BAEAA52CB /* enc_neon.c */,
+				0AFC8A44E78C337FC7FC5F4CCCD8AB5C /* enc_sse2.c */,
+				6EF213FA3F4305A59A402C2CE398D4ED /* enc_sse41.c */,
+				02679512CBBD97E854887506564C26B6 /* Errors.swift */,
+				9883A8A18882574859A1E08D69103859 /* FileUtils.swift */,
+				6CCC0A0AA3D00E87B2057A770036C741 /* filter_enc.c */,
+				4912E4CA7C28CCB896A85894786846E7 /* filters.c */,
+				E4005B321A4A0716899E437F7C55D66C /* filters_neon.c */,
+				86956DAAD99AB2CD642881FA23A073F0 /* filters_sse2.c */,
+				9757094ED2C65CFB08A61153FF76D8AC /* filters_utils.c */,
+				4FCB632E4B62F15E4673101CE5A52DCE /* Float+Util.swift */,
+				75180746F2270ACB77ECB08B6D5DFE6F /* ForwardingPickerViewDelegate.swift */,
+				94CDF3083D09597EA6557A4E7F3C0518 /* frame_enc.c */,
+				B362617353B800E3C335DB5F3D33A8D8 /* Hedgelog.swift */,
+				13A39E4679DD1E6C08D6F6D8B16AB38B /* histogram_enc.c */,
+				3B9E8A379EC1C119A432C4EA85D9C1FA /* huffman_encode_utils.c */,
+				F6527062CFE040EC0312114E678EF9C6 /* huffman_utils.c */,
+				410EF12D8BE8DD784D78EAE3B118D83D /* iterator_enc.c */,
+				706DE4FAE69AA3564743EB4B0CCB3452 /* lossless.c */,
+				C78046BB1232358AEA1BD6551847E6F3 /* lossless_enc.c */,
+				0C2E83D1CA0F436292FED3189AD73C59 /* lossless_enc_neon.c */,
+				75A67E2033C217CCBF5ABFF216EBEC26 /* lossless_enc_sse2.c */,
+				BAF78BE85742763F2E12E876B9414B33 /* lossless_enc_sse41.c */,
+				3E64820500A8FA7C3EDDFC0413D67192 /* lossless_neon.c */,
+				137808207523283E46E53BCE71AECADC /* lossless_sse2.c */,
+				D86E64406DF21429BDCF03D59BCAF684 /* lossless_sse41.c */,
+				2BCD5DC18A742F1DDD342FC4F4ED16CF /* MethodSwizzler.swift */,
+				B3481D47EB9C5A726600AF3FD7241E96 /* muxedit.c */,
+				051A368035B696D0EFAD5F3D79B3B1AC /* muxinternal.c */,
+				16B01844502F95AFC31275E8BDE18668 /* muxread.c */,
+				860A802904A1D899EC53F7AB8C67A5F0 /* near_lossless_enc.c */,
+				7251BD4BF7E49E193EB81838FD4BBFFC /* NetworkSample.swift */,
+				D6C23AB82B9B08E13E398E1002EA67F1 /* palette.c */,
+				AAC609566A80F7410E2DBDB1853FEAB8 /* ph_backward_references_enc.h */,
+				03082544ED28B0497F37BE30ACA4291C /* ph_bit_reader_utils.h */,
+				20BCD9AB8B12BDDD13F0CC79C5197D29 /* ph_bit_writer_utils.h */,
+				0677882175302A44C13F21B01336F0DC /* ph_color_cache_utils.h */,
+				389C7757A4F4B3E8AEAC5D4036597B02 /* ph_common_dec.h */,
+				11B40ABBE79497D4BB706CB0481DCAA9 /* ph_common_sse2.h */,
+				621329804C20DC8DDB4404B12E9D7C9C /* ph_common_sse41.h */,
+				482B57DFE8B2A2630032F2313272CC8D /* ph_cost_enc.h */,
+				427CB8D4DA777661E22002BA697C7352 /* ph_cpu.h */,
+				2D60F37F329B34D9B230B2FCB86287B9 /* ph_decode.h */,
+				BC2E4CF83C7F864882B9272D64004800 /* ph_dsp.h */,
+				347D253267FC17B97B7122798FCED885 /* ph_encode.h */,
+				9B02CD4AC41E51F9077E4621E00691D7 /* ph_endian_inl_utils.h */,
+				32AEDD2532DAE1798BA5DD8D6F62AEFC /* ph_filters_utils.h */,
+				4A5FA23118394F23FCEC03129B715F07 /* ph_format_constants.h */,
+				5141CC0C042DF9108B5F07C063D36532 /* ph_histogram_enc.h */,
+				26061D67120646530CC8E33368BCEB07 /* ph_huffman_encode_utils.h */,
+				9A4AD99722F3E0E2E82169154F570FFC /* ph_huffman_utils.h */,
+				9658C8C9818FADEC7CD13E20229659A4 /* ph_lossless.h */,
+				727AA1DA7051CA0E6D71511B1E40CAA0 /* ph_lossless_common.h */,
+				EBF69E691693BB27B36E31418414F5BB /* ph_mux.h */,
+				A21132F41A0DD7AF40BE9A28F4E8E913 /* ph_mux_types.h */,
+				55C8A4676C9B97E79AD4714A62E0F2B3 /* ph_muxi.h */,
+				BFCC1ADF0E056A580BAD769D575E70EA /* ph_neon.h */,
+				74E46C32E43D79CA4DAF6EB72683926C /* ph_palette.h */,
+				09C82EC0F217EDCC5CB75C72AAE1FF34 /* ph_quant.h */,
+				AB8F891C1AA81B6F379A88C69CD33EBF /* ph_quant_levels_utils.h */,
+				7BC748ADE05508FB256918EA0DD1276E /* ph_random_utils.h */,
+				F3A02ABF99EC2D37ABF49387AC99B973 /* ph_rescaler_utils.h */,
+				D9FAB2FC1F988C4B29EDB26D6A30E522 /* ph_sharpyuv.h */,
+				CF938A364340D4BEC4872B1236C649C5 /* ph_sharpyuv_cpu.h */,
+				802F5190CAF37DD8A51C579E967A8D22 /* ph_sharpyuv_csp.h */,
+				AE43663EA9011DF84032BA9674556A7A /* ph_sharpyuv_dsp.h */,
+				862CD2B0D27C72134B478CAF3C1CACA2 /* ph_sharpyuv_gamma.h */,
+				5EFAA0C1CF99A9F4B59C3FA7C94CA420 /* ph_thread_utils.h */,
+				FBDC6A6030946B46853B08E86397BDFE /* ph_types.h */,
+				2F2124C0560923BEC834DFB648E8C68E /* ph_utils.h */,
+				4448E83BDBAEA7CB4CBBD4169E28C865 /* ph_vp8_dec.h */,
+				7CE58E410A3463F4011F17A4D0FA4883 /* ph_vp8i_dec.h */,
+				9C0308FE26A6480B1C58AC16560C95D9 /* ph_vp8i_enc.h */,
+				9093004B5C596B61CFAEEC31837B2B90 /* ph_vp8li_dec.h */,
+				3CA9DFE81D91DBA5FC8DB808A2E16B51 /* ph_vp8li_enc.h */,
+				4CEAC4C4ACDEB6E41355FCDD1C830599 /* ph_webpi_dec.h */,
+				9EEEEBEA5683F199086F4EDC4A924601 /* ph_yuv.h */,
+				8C57BB79EAE939E014C87F694A9D52F1 /* picture_csp_enc.c */,
+				0C39932123124DAC95A994BE33B232AE /* picture_enc.c */,
+				0FF9E1488836F4DB98755898A541C327 /* picture_psnr_enc.c */,
+				3F0803FB288F694819BB525AD79B4CF3 /* picture_rescale_enc.c */,
+				89E96BCD0BEA7C0E992BA195508E1B86 /* picture_tools_enc.c */,
+				C1297671CE8BC505FE4FF5DBD471D315 /* PostHog.h */,
+				FE5E0A60724192F719EC8D6B987128B2 /* PostHogApi.swift */,
+				D44BD43DCF0BCFECD8498AF7119069F0 /* PostHogAppLifeCycleIntegration.swift */,
+				D5BB98A0DB7CDB0E93D297A1BCC640B8 /* PostHogAutocaptureEventTracker.swift */,
+				76C342BD963D049DDE6998A86806E24D /* PostHogAutocaptureIntegration.swift */,
+				5C9DE9F4A3C17635D8976BDB350CE30F /* PostHogBatchUploadInfo.swift */,
+				FEE7A7F4A5277E84D65D59F81EC80160 /* PostHogConfig.swift */,
+				FDB247EB585699605C1CAAB8B4B08690 /* PostHogConsumerPayload.swift */,
+				267B6BC17A6F703B195766DAF5E792DE /* PostHogContext.swift */,
+				FD6144D42D657BE435139FCE71536C2F /* PostHogEvent.swift */,
+				4658CB4E47E7E49A0EDDADE6A2187060 /* PostHogExtensions.swift */,
+				EDB43F0141F49666D43C2EED584BF018 /* PostHogFeatureFlags.swift */,
+				E94DF3DE954653F34BC4C9265B5A4137 /* PostHogFileBackedQueue.swift */,
+				AA5476D5C78CD9B7B417844276628109 /* PostHogIntegration.swift */,
+				38FA318BBB67EF0EB129FDCA910E87D0 /* PostHogLegacyQueue.swift */,
+				1F8B430365C9F9AF8BB34E89B1F1967D /* PostHogMaskViewModifier.swift */,
+				0986FDB7A5AA03FB2B78B7A0A0C3F141 /* PostHogNoMaskViewModifier.swift */,
+				2C5D079F9E60BFC255890CD1FB8D6752 /* PostHogPersonProfiles.swift */,
+				D11CE0F132094B5F213087D36AEF1DA2 /* PostHogPropertiesSanitizer.swift */,
+				0FCC8CBCEBCAE57733C731B199B28F6C /* PostHogQueue.swift */,
+				E50D40900156F1718F875F884B0E8745 /* PostHogReplayIntegration.swift */,
+				9CE2781704F36A20C96CAD3A122E65C9 /* PostHogScreenViewIntegration.swift */,
+				977DCC4113DE5E62EF873E0B1CD7CD7A /* PostHogSDK.swift */,
+				DD3113211E086779A994F6C21A5F484A /* PostHogSessionManager.swift */,
+				88643C555C7F9976CD046E2B02BBAEDF /* PostHogSessionReplayConfig.swift */,
+				F5B1EE88DBDA7E7AA1E16480A5A74A7E /* PostHogStorage.swift */,
+				9296CC21CB378B832FD9340B907617A1 /* PostHogStorageManager.swift */,
+				5D8D9DCF15FD8E656420A4DFA52613B4 /* PostHogSwiftUIViewModifiers.swift */,
+				5A0195DCCDAEA3985F10AD90FF175FA9 /* PostHogSwizzler.swift */,
+				4D730BF05D2DE4AB5D4832DD1FCCDA7B /* PostHogTagViewModifier.swift */,
+				254D4366A2168BB6C1AB4AECB6544DBF /* PostHogVersion.swift */,
+				168C033DCE373B5E9C102DCAA28042AF /* predictor_enc.c */,
+				ABC7ECD6426402C501F9D02B10E50878 /* quant_enc.c */,
+				0C3B7913DFAD74AE5E350631F8996BD5 /* quant_levels_dec_utils.c */,
+				643806E02046FF50F669CF11BDADC022 /* quant_levels_utils.c */,
+				CD1ABC86EB5688E2BAF067498AD0CE8A /* random_utils.c */,
+				2AF0C782AA7C65344AC67BFDC5876E29 /* Reachability.swift */,
+				21AE228BFE4D59529A7D574B76DB6EA7 /* ReadWriteLock.swift */,
+				B84D29A696C68CB21FE2CC285B154BC4 /* rescaler.c */,
+				4AEC1CA49B0D7266C674BC128F91D404 /* rescaler_neon.c */,
+				3A6D3B6D484A1B18B12D02A887D12AC6 /* rescaler_sse2.c */,
+				8D6CE03294B10075DCF1BF90C8B14C68 /* rescaler_utils.c */,
+				8B75A837B6C3D09269F99C3BCA7CDCE9 /* RRStyle.swift */,
+				7C8460849D2A12F54DA89ED147E6BA39 /* RRWireframe.swift */,
+				491A442B263BF69D2798CE4C225021B9 /* sharpyuv.c */,
+				C16FDD2803CEFB6B01532264B2736BFF /* sharpyuv_cpu.c */,
+				BB16EFCFFFC802666E8A642185A71193 /* sharpyuv_csp.c */,
+				150E975BF1B78BE40E31258FA56F210B /* sharpyuv_dsp.c */,
+				631F4F5A70E1C1287BA09D3C269CE2BB /* sharpyuv_gamma.c */,
+				C39082C3D39B819B263F28046B230077 /* sharpyuv_neon.c */,
+				78F5F4CE9ECF24CF1183F98734B05993 /* sharpyuv_sse2.c */,
+				8836799621A331A7866A3AC0B8F282E2 /* ssim.c */,
+				C61FCFA1B00874EA2484016B903AE631 /* ssim_sse2.c */,
+				92C21FE0AB6DDEDE91518A95EA982D70 /* String+Util.swift */,
+				2A0B722A1CA9B5B68BDFBF314DFA0691 /* syntax_enc.c */,
+				FF9DF5350F5A724175395ED8A148095E /* thread_utils.c */,
+				E2DE1688F51F398438D0B5964A33F918 /* TimeBasedEpochGenerator.swift */,
+				D892D8C26EEB85C32195B82A576117C1 /* token_enc.c */,
+				0F05191396657891097956471173FAD7 /* tree_enc.c */,
+				8233EAB18D98D0045D3290D9FDE4B458 /* UIApplication+.swift */,
+				D6768584048E9083553790C4CB1E6AC0 /* UIColor+Util.swift */,
+				7C2C74B22012E095393EFBE125A6AF1A /* UIImage+Util.swift */,
+				AE7EFB4BFC8B28AD420C8499488DEE55 /* UIImage+WebP.swift */,
+				CAD039254AA738CCDF2861C8CFED0540 /* UITextInputTraits+Util.swift */,
+				643EB63D90487111EBD09AF054B49166 /* UIView+PostHogLabel.swift */,
+				B4E78BCC7BF0C97E0D3225E76B55842A /* UIView+Util.swift */,
+				24B8D59BB54F4EDBB865CE98AF78AECA /* UIViewController.swift */,
+				29B86C7369AE3D3FC4BD53AD57F4DA89 /* UIWindow+.swift */,
+				65096202B889439A2238A3A1AC1A7DEA /* upsampling.c */,
+				D08674B1C476D61691B4984EBE032E1F /* upsampling_neon.c */,
+				8B6746C475DA0D033D73752004096D48 /* upsampling_sse2.c */,
+				7310CC7F93196C88CEE0C76B9FEA5D59 /* upsampling_sse41.c */,
+				DBB5FC95961FD61B020F96C968484325 /* URLSessionExtension.swift */,
+				488BDC2D7CC7DF47C0C95FCFE29C30BE /* URLSessionInterceptor.swift */,
+				C2FF3F100BC7A341EEEA3767ECAB58E2 /* URLSessionSwizzler.swift */,
+				848ECE443D1C596BCF0211D1A583347E /* utils.c */,
+				51070D57F0EDD63637278DC13A123F7A /* UUIDUtils.swift */,
+				2607DF938020F8E8853C5B4EFF6F1F5C /* View+PostHogLabel.swift */,
+				1E5316151036517305CE1A984949E43B /* ViewLayoutTracker.swift */,
+				0B6F712CF968FC52F7AF048CD3621EDC /* ViewTreeSnapshotStatus.swift */,
+				A83B8CB656FE04111BEF4B05E6953C05 /* vp8l_enc.c */,
+				01426BBF03627BA09D41305BB6E128F8 /* webp_enc.c */,
+				F7CCD2A49E272437837BE15C0E2AD785 /* yuv.c */,
+				F260BFC4592D6A893658F933FFA61974 /* yuv_neon.c */,
+				4D136F131AEA60AA3A5D1DD8BBEE144B /* yuv_sse2.c */,
+				364177C47EE48F4C768E2EAC0C795694 /* yuv_sse41.c */,
+				C641455587E373D99FE1FB228D871CCA /* Resources */,
+				3D80AEB952763804D35FF3F5031E85A2 /* Support Files */,
+			);
+			name = PostHog;
+			path = PostHog;
+			sourceTree = "<group>";
+		};
+		E4801F62A6B08CD9B5410329F1A18FDE /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		FA25267ACAD68490E4F34665AB7975D6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE87B6AA80369F4E80A4E42895E32445 /* PostHog */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		30032E427BEFC6E6B1AA2078787CD636 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C906145E55FBE41150745859922B4A9 /* Pods-MyApp-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E1212C231966608F42F02B3EB8DE838 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F48AA49A329471F93F34FB89110542E6 /* ph_backward_references_enc.h in Headers */,
+				1B4EF631003772FC4CE744C291B478A9 /* ph_bit_reader_utils.h in Headers */,
+				77E67DCD17364856A14BA9E4D17A8E05 /* ph_bit_writer_utils.h in Headers */,
+				49FC77B9732AECE11A9D24E5770CFC53 /* ph_color_cache_utils.h in Headers */,
+				FF5A2CB2218BBD43387A132EB988CA8C /* ph_common_dec.h in Headers */,
+				1841144D19F6E120AF48E5A0382852CF /* ph_common_sse2.h in Headers */,
+				1AA8F80B678E44C682A8EEA69F6BB68E /* ph_common_sse41.h in Headers */,
+				99402EFBAFB5C4F8A5D32D18A0015735 /* ph_cost_enc.h in Headers */,
+				1C4BD0EC31678A05F1A1A1407B5A217F /* ph_cpu.h in Headers */,
+				44F116C69E934FF4A3270538FD0ED139 /* ph_decode.h in Headers */,
+				38BAF5778ED78F6E196CF4E0B425CB8B /* ph_dsp.h in Headers */,
+				271D1B8DCBBDC1145CAC13731AF0C042 /* ph_encode.h in Headers */,
+				A96888DEBBCF23396A723DF095C25945 /* ph_endian_inl_utils.h in Headers */,
+				BA616DDBBEE44CC8B749E0F306EE5A68 /* ph_filters_utils.h in Headers */,
+				45F311D7B239F7FC68AB7C2778839DDC /* ph_format_constants.h in Headers */,
+				7C03B9604B2D5E739014DF76C4C9F49C /* ph_histogram_enc.h in Headers */,
+				60A35D2B3673385C33E6028252516BCC /* ph_huffman_encode_utils.h in Headers */,
+				78737A2C234DB35C7F61FB32A342895E /* ph_huffman_utils.h in Headers */,
+				31036012F910D08274B709D7FC4C052C /* ph_lossless.h in Headers */,
+				1A0BAF01C4D14157C7720FEEDDDAEB1E /* ph_lossless_common.h in Headers */,
+				D0E880B089F259FB48D76667B038643E /* ph_mux.h in Headers */,
+				BA82AB7CCA820F80CE0AF00F549E3FBC /* ph_mux_types.h in Headers */,
+				16E8D45466F2651D0DE43651F0DAEEDA /* ph_muxi.h in Headers */,
+				C3D35ACD77B4F282EC66000813055BB9 /* ph_neon.h in Headers */,
+				F53807B8B15E9A4E523606D58B0586AA /* ph_palette.h in Headers */,
+				C942612031E74AD8BDA0944FFC7278E6 /* ph_quant.h in Headers */,
+				33CA82AC938EB499AFA0CBDCC443BEAC /* ph_quant_levels_utils.h in Headers */,
+				2ADF66A82E87B2C728116931EFF27E73 /* ph_random_utils.h in Headers */,
+				B0242E82B364E2136AD3441C4A3AB874 /* ph_rescaler_utils.h in Headers */,
+				3CF6D51D1F66A07144083A39F983B3B7 /* ph_sharpyuv.h in Headers */,
+				BA342B9D1954E789F6112B593CA331D9 /* ph_sharpyuv_cpu.h in Headers */,
+				4F7B065C95D80E846668023A9404A132 /* ph_sharpyuv_csp.h in Headers */,
+				F13356E47D511DA49734E69463E60DAB /* ph_sharpyuv_dsp.h in Headers */,
+				84651C30797C2D8DF8AAA028EC71AD13 /* ph_sharpyuv_gamma.h in Headers */,
+				EDA2D26E997A064A466008E9CBD1601D /* ph_thread_utils.h in Headers */,
+				81AA10AE76E8D12143DEA9F62DE1788F /* ph_types.h in Headers */,
+				69FA2AE4B92F73CBB362C7D807CD7D4E /* ph_utils.h in Headers */,
+				8D88AA72109D8148E4177A9207C72B7E /* ph_vp8_dec.h in Headers */,
+				BD6660EB68BE694BBB1F130F19670EE5 /* ph_vp8i_dec.h in Headers */,
+				02B4D780715348E3A91A1D6FA1A50A5A /* ph_vp8i_enc.h in Headers */,
+				2FDB9810EE7D007BD73727C14B0B0DD2 /* ph_vp8li_dec.h in Headers */,
+				0393727FD2C6FFC925BE854C34AEDC3A /* ph_vp8li_enc.h in Headers */,
+				68AF31D4BB1E5DB596319B181A796F8F /* ph_webpi_dec.h in Headers */,
+				E404F722B8DE57DC4782722F9E4F5AB5 /* ph_yuv.h in Headers */,
+				053A952D58307CC01A44D92B67BA4BB8 /* PostHog.h in Headers */,
+				83A624900EA7B995EDED81483056EF22 /* PostHog-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4255925345F39757951D1D1864535DD4 /* Pods-MyApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0D5EBE9B7CC99BFBD393FDCB8E23213 /* Build configuration list for PBXNativeTarget "Pods-MyApp" */;
+			buildPhases = (
+				30032E427BEFC6E6B1AA2078787CD636 /* Headers */,
+				C564A294459BB754455225DC59159214 /* Sources */,
+				FB248319825A6B5CA39190DB584034E7 /* Frameworks */,
+				32206BD9400D407BBB9A85930E7537CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				37336BE349D1EA225EB644E24BA9C27B /* PBXTargetDependency */,
+			);
+			name = "Pods-MyApp";
+			productName = Pods_MyApp;
+			productReference = 684625585B5002628DD733354DACB30F /* Pods-MyApp */;
+			productType = "com.apple.product-type.framework";
+		};
+		8879D5F28A55518ACFB247594F87F75A /* PostHog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DF3420682AF0DF16005BA9432334A9C /* Build configuration list for PBXNativeTarget "PostHog" */;
+			buildPhases = (
+				9E1212C231966608F42F02B3EB8DE838 /* Headers */,
+				F34E1A37B5EB903775B57953A8DB0400 /* Sources */,
+				22DB1CAD2F1D21188CE7B51FD2D1C88C /* Frameworks */,
+				1AEB385FF3BE3AA12FD04A6F9E2708D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				638CFB3194EFEC7190BD91645C61D5DB /* PBXTargetDependency */,
+			);
+			name = PostHog;
+			productName = PostHog;
+			productReference = 36A60AA62169A7D58D9D78E917A84BD6 /* PostHog */;
+			productType = "com.apple.product-type.framework";
+		};
+		E326EE08AE4CF9FA8C947B96B6F8AB07 /* PostHog-PostHog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8DEDE0E6071A3FC69EF50E151CA7F1C5 /* Build configuration list for PBXNativeTarget "PostHog-PostHog" */;
+			buildPhases = (
+				2B88C1A0B05962528E01B1777096087F /* Sources */,
+				50926EE5A76753911F8780AC1B9A3279 /* Frameworks */,
+				22353FC32CB8BFCE5DCA04FFC5D9C5C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PostHog-PostHog";
+			productName = PostHog;
+			productReference = 42D87DCAF52175DC2D5C6B44419636A8 /* PostHog-PostHog */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0A0593A8464B4C335DF02A070777BE71 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4255925345F39757951D1D1864535DD4 /* Pods-MyApp */,
+				8879D5F28A55518ACFB247594F87F75A /* PostHog */,
+				E326EE08AE4CF9FA8C947B96B6F8AB07 /* PostHog-PostHog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AEB385FF3BE3AA12FD04A6F9E2708D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B0C774B580A2ED824A79D0A91C2005A /* PostHog-PostHog in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22353FC32CB8BFCE5DCA04FFC5D9C5C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72CC5BF2FD14796AC4B869E602224803 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32206BD9400D407BBB9A85930E7537CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2B88C1A0B05962528E01B1777096087F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C564A294459BB754455225DC59159214 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DE3B9D248942675827F29CB57D6F2EB /* Pods-MyApp-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F34E1A37B5EB903775B57953A8DB0400 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEFA0FEA56ABF4878C223CA7B266D852 /* alpha_enc.c in Sources */,
+				43E9DEB38F246842549B7E22063CF368 /* alpha_processing.c in Sources */,
+				64FD9E3CE74C440C825E98C5A1562D48 /* alpha_processing_neon.c in Sources */,
+				2B16D1EA44C7EA06B0B07DE8FAA56229 /* alpha_processing_sse2.c in Sources */,
+				BDE309D74BCD6512599D50AF5709CFF2 /* alpha_processing_sse41.c in Sources */,
+				DA3FE3A1601E2680AD5C38A910C65090 /* analysis_enc.c in Sources */,
+				6930EF8EA5DF6882BD715E05FCF42397 /* ApplicationEventPublisher.swift in Sources */,
+				798877A040577313C1A3393E9072EC38 /* ApplicationLifecyclePublisher.swift in Sources */,
+				4E5CAFF37F350AC95E0BC5DE4354F7AE /* ApplicationScreenViewPublisher.swift in Sources */,
+				848B0B5EDF3C063EBD58674EB6450030 /* AssociatedKeys.swift in Sources */,
+				69A7DBC7960441EAC6E85F75D4F1A551 /* AutocaptureEventProcessing.swift in Sources */,
+				218D8F890589E2DFD4AB38F227E71AD3 /* backward_references_cost_enc.c in Sources */,
+				43C269F307A0BA1860D564AACDA2F1AF /* backward_references_enc.c in Sources */,
+				5E0F61757E59DEF19FC9736540BF0FB9 /* bit_reader_utils.c in Sources */,
+				7E312E2B65526B3EA44349F904011CB0 /* bit_writer_utils.c in Sources */,
+				BC1793A324C1B15D9ACE3D623E7B93F7 /* CGColor+Util.swift in Sources */,
+				734E25624E784BD2408C2E3EBD12DC69 /* CGSize+Util.swift in Sources */,
+				DB7A988F2943EE8827FC5492DED0470B /* color_cache_utils.c in Sources */,
+				753F71C84FFCC9445723DE5D78FDFA88 /* config_enc.c in Sources */,
+				F4659E169EE3762116238539B7F06697 /* cost.c in Sources */,
+				B9318EEB96DE888E3D69DF2B9538DCEE /* cost_enc.c in Sources */,
+				AD542B23BE0FA3D45B0FAE938DFE0C7F /* cost_neon.c in Sources */,
+				587E75343DA927FAD32C45E6E2B5F27D /* cost_sse2.c in Sources */,
+				3846E2436EAC9DC9BEED7F497E8DDC52 /* cpu.c in Sources */,
+				25147B20C76C7050082763BAF391B891 /* Data+Gzip.swift in Sources */,
+				6920D1769C06AC007F7DDA3B9A48E5E1 /* Date+Util.swift in Sources */,
+				216378401B1784B9AB1CDF366177E0B5 /* DateUtils.swift in Sources */,
+				679CB4AF80C00079D7F5078136480E5B /* dec.c in Sources */,
+				BA47C420E42DAFA7A890B3BF4D4D4070 /* dec_clip_tables.c in Sources */,
+				B14053F0265669A89149E811E212114B /* dec_neon.c in Sources */,
+				3355F11B6D41A3FB4AD33659A8DCC27B /* dec_sse2.c in Sources */,
+				58F5B245E4CE9A085195476F556F01F1 /* dec_sse41.c in Sources */,
+				1F08747B018CB0CC77CEBB9897C5D9DD /* DI.swift in Sources */,
+				D1B5F7025D2B045A4ABFE00D68A51AAB /* DictUtils.swift in Sources */,
+				FF4598F1D9FD2DBA9F47AB6AD9633135 /* enc.c in Sources */,
+				A89F34B170E6E00245B94AACCF2D86A8 /* enc_neon.c in Sources */,
+				B0AF0866217E6EC3F7485A8FF4E0E2D4 /* enc_sse2.c in Sources */,
+				893B43EA372A9ACEF037E07E42DCEDF9 /* enc_sse41.c in Sources */,
+				49988D5C8F8E1BA9A5A583B1D2F4DCD9 /* Errors.swift in Sources */,
+				D7677709CE465C399A3FBFAE7B642AEA /* FileUtils.swift in Sources */,
+				E33278DEC4D5F65FFBAF895A0FDA9A58 /* filter_enc.c in Sources */,
+				5A83EDCAEC21BFA3CFF86CE2354D4250 /* filters.c in Sources */,
+				FC4BD94DE2AB734C22D0B194EF2B819A /* filters_neon.c in Sources */,
+				3D32BD7A09218D1ECEC4195C40AE50FC /* filters_sse2.c in Sources */,
+				89874BBAB89D37096772DB02871182C6 /* filters_utils.c in Sources */,
+				4B57961D9D15657969E98C42581B54FC /* Float+Util.swift in Sources */,
+				6247546CC7DF9B5C470EAA1DCC6DD0CD /* ForwardingPickerViewDelegate.swift in Sources */,
+				CB19ABF34215166445A2F5D009B3B94C /* frame_enc.c in Sources */,
+				1B578C400AD88BE7E1DC59D99C386B7C /* Hedgelog.swift in Sources */,
+				ACB682CF0688E45043FE1B1F63FBD9CF /* histogram_enc.c in Sources */,
+				AE764064C5DB695183A3350CE5BDD4AF /* huffman_encode_utils.c in Sources */,
+				0E4EC2A4A9158BF1102C7AAA548AE8FA /* huffman_utils.c in Sources */,
+				4D41558D85F29A8F7E8CD4A60A440A8A /* iterator_enc.c in Sources */,
+				4119A31519024331C92DC91D130419A3 /* lossless.c in Sources */,
+				BFDE8DBA10346D5DE646E32D49B48F77 /* lossless_enc.c in Sources */,
+				444037A290D3387E570098B19B69CBC3 /* lossless_enc_neon.c in Sources */,
+				A4655B04E0EE72006CB5A1339115E9C2 /* lossless_enc_sse2.c in Sources */,
+				60C52BE6376493AA0DC9225BA4E8738B /* lossless_enc_sse41.c in Sources */,
+				A749FE5D82C46C58FA50F7DC4309E544 /* lossless_neon.c in Sources */,
+				B4A8A7B8D441F3337725EC3D6F36BA26 /* lossless_sse2.c in Sources */,
+				A7EFEEE9E0766AEAD577350E9BB01083 /* lossless_sse41.c in Sources */,
+				A2289544705831F6FE51661B0416FE34 /* MethodSwizzler.swift in Sources */,
+				0154BEF97E54B43D05CA8BAD4E56A2BE /* muxedit.c in Sources */,
+				3DF35FC35E0870D1AA6489543513E4D3 /* muxinternal.c in Sources */,
+				C4A460B8CC38DFE574030F077C0E16D2 /* muxread.c in Sources */,
+				F01D5410085A78A9146CF3BAD8A37AEC /* near_lossless_enc.c in Sources */,
+				6D9EF6E6611DE105CBBBAB0720B6F96E /* NetworkSample.swift in Sources */,
+				4F333510AA65FAD8365F720C34517179 /* palette.c in Sources */,
+				D3A53F43C929184D1E562C99D87C5686 /* picture_csp_enc.c in Sources */,
+				3ECB56829843C12CB8C8837945B1CAB0 /* picture_enc.c in Sources */,
+				44ECEEC3ABDC8DFC4751DF3FB288D77F /* picture_psnr_enc.c in Sources */,
+				0DD2FED771C2150D9785FFE07F6FCDBD /* picture_rescale_enc.c in Sources */,
+				8BD5F1AB37B04988E7A78A75F027B521 /* picture_tools_enc.c in Sources */,
+				CB292CE4C2AFE362C48012B2957E3872 /* PostHog-dummy.m in Sources */,
+				4AE4F9AA44B06B1C96C0B89A564C0B9B /* PostHogApi.swift in Sources */,
+				BB7D9672B9CCA782DA5417418BD75B0F /* PostHogAppLifeCycleIntegration.swift in Sources */,
+				E426D91854378D4F4EB7DD7B5958EA68 /* PostHogAutocaptureEventTracker.swift in Sources */,
+				99762E3CD4877FDC3E9C232E72225539 /* PostHogAutocaptureIntegration.swift in Sources */,
+				34F92A202DC4376C1124D5B70156C00D /* PostHogBatchUploadInfo.swift in Sources */,
+				1E3942F6FA65DEEEBF3EB42CD2888827 /* PostHogConfig.swift in Sources */,
+				5CC70B34B807A91423A3217D6A032593 /* PostHogConsumerPayload.swift in Sources */,
+				83E6A6E4BD847E8B293BD2E436F74F52 /* PostHogContext.swift in Sources */,
+				078C57806EB470E8F46A778A9A166363 /* PostHogEvent.swift in Sources */,
+				4B660A029BFE4AF5F01E21582641A7D7 /* PostHogExtensions.swift in Sources */,
+				228C4DD04E223A1178F93AF423D35933 /* PostHogFeatureFlags.swift in Sources */,
+				75E7C5BDE6B1F6C2FE57505008649B80 /* PostHogFileBackedQueue.swift in Sources */,
+				7B081F3E24C42FF2D5E618424738FE4D /* PostHogIntegration.swift in Sources */,
+				97A5E0FA52ABAA1287FBABA9400130DC /* PostHogLegacyQueue.swift in Sources */,
+				17117424CD5A56F99D02BABDDA5DAD9D /* PostHogMaskViewModifier.swift in Sources */,
+				10131E3ED38CC77E0EACDCAA04735644 /* PostHogNoMaskViewModifier.swift in Sources */,
+				2CD7640F6B79A600BB13A8AC58274380 /* PostHogPersonProfiles.swift in Sources */,
+				CA7D0CA9FA7B814B0338C4A26A76CCEF /* PostHogPropertiesSanitizer.swift in Sources */,
+				DD9CF75FC405931B3D8D51356212D3D4 /* PostHogQueue.swift in Sources */,
+				E2B1A7D231E7265D8B7E07FD81888F48 /* PostHogReplayIntegration.swift in Sources */,
+				F63723D7F7B3F75F9212C25709029BCD /* PostHogScreenViewIntegration.swift in Sources */,
+				69B2E5A30DCC1E232475CEE0C47D8065 /* PostHogSDK.swift in Sources */,
+				E4D95C665C6931367B175CDCB556158F /* PostHogSessionManager.swift in Sources */,
+				A5B7DECBB51677730ED415CE0B35851D /* PostHogSessionReplayConfig.swift in Sources */,
+				AD91D72B7388298A4794F561A8CC229F /* PostHogStorage.swift in Sources */,
+				DB2DB040FFF6B14CFD6A2E44C68EBE77 /* PostHogStorageManager.swift in Sources */,
+				5923C24230E31395385D8AF0755F220F /* PostHogSwiftUIViewModifiers.swift in Sources */,
+				CA09E7D2CB118E05F7190D6952A90EEC /* PostHogSwizzler.swift in Sources */,
+				807458B325B31A06AFDE276A62D3DDB3 /* PostHogTagViewModifier.swift in Sources */,
+				849A7BAEF137ED4D68CA1647A098C1BB /* PostHogVersion.swift in Sources */,
+				FFCC2C93BE77FCE26623C6C47809CF2E /* predictor_enc.c in Sources */,
+				D8EAFC4F4768EB8659EFBBD845BA36BA /* quant_enc.c in Sources */,
+				1E51154EF3B712AF4F4EDAFC6E50BC31 /* quant_levels_dec_utils.c in Sources */,
+				B042EFC2F4EA23D7B0F3852A3A9A4D41 /* quant_levels_utils.c in Sources */,
+				E7986D3AE323A80E7739B0FA0D595C2B /* random_utils.c in Sources */,
+				B938EDA4B0FB2A4445F28A30A2E70525 /* Reachability.swift in Sources */,
+				5622D5A0E7D292439973AAA1FF1BEBBA /* ReadWriteLock.swift in Sources */,
+				395D2BD9BA99C81B8A91E23387D5CD0B /* rescaler.c in Sources */,
+				70F33D440F0B19D084FC839C6FCE35F4 /* rescaler_neon.c in Sources */,
+				534B8D9BCA92B40F84C02D8EBF269A81 /* rescaler_sse2.c in Sources */,
+				59A594FC31024EB1092197B2991F2B82 /* rescaler_utils.c in Sources */,
+				09401334025B9FF1BE80E93F07162018 /* RRStyle.swift in Sources */,
+				06421158E737DD6566211C40D42EAA01 /* RRWireframe.swift in Sources */,
+				51F7E5A7F10F3046AC701B582A774D34 /* sharpyuv.c in Sources */,
+				593967BCD1398B1DBFE7B22F8C489249 /* sharpyuv_cpu.c in Sources */,
+				5CAC7188ECE3FF0D60F78ECEEF041A0F /* sharpyuv_csp.c in Sources */,
+				D3312C15626328564FBD29A2C5CE4327 /* sharpyuv_dsp.c in Sources */,
+				7B8DACDFF47F84B9C216EFECE980616E /* sharpyuv_gamma.c in Sources */,
+				6BA9F282A272EB36ED11B95FA6BB8E05 /* sharpyuv_neon.c in Sources */,
+				52438F8EBD9B89C53E094C2D8F0BC103 /* sharpyuv_sse2.c in Sources */,
+				8AB341BBAB9BAC601E0E4841611998C5 /* ssim.c in Sources */,
+				74A6BAF0A1D8DD3D4AB1BF24BBE97BB7 /* ssim_sse2.c in Sources */,
+				80AE451860F91B6197E977DE4AF5EA97 /* String+Util.swift in Sources */,
+				DDCF13AB5812002DD1384E0BB52BFD7D /* syntax_enc.c in Sources */,
+				640A71FA34BF5AC0ACD38C94B56874FA /* thread_utils.c in Sources */,
+				2C0BFA49559BF4E94A4D25E42D91FEF9 /* TimeBasedEpochGenerator.swift in Sources */,
+				0DA633E46FB4A48B5EEA6171D68CAFFF /* token_enc.c in Sources */,
+				055320D4B98D885CA7575507F2BF62BE /* tree_enc.c in Sources */,
+				2970227D7016505F0197563D19D9BFC7 /* UIApplication+.swift in Sources */,
+				1CF1D435531ABF3E32AA35DECA674822 /* UIColor+Util.swift in Sources */,
+				A4D8E305ED63BE786C890C87B86A1C5F /* UIImage+Util.swift in Sources */,
+				C1228AE5E56AB69EBE0457E416E228CE /* UIImage+WebP.swift in Sources */,
+				35E900AD6F3BCE9A88DEDA2C30FAB7A2 /* UITextInputTraits+Util.swift in Sources */,
+				6B0CB0C276F3D2EFDA06B508B1068C63 /* UIView+PostHogLabel.swift in Sources */,
+				2656CF1820327BDB99F184B60CA7A7F1 /* UIView+Util.swift in Sources */,
+				D8D4E3ABFB74ABDB9A1A30CA8FBBBA24 /* UIViewController.swift in Sources */,
+				10C28043D02CCAD1FCA87B949DEC5F07 /* UIWindow+.swift in Sources */,
+				4646CA68D00E096D401451A60322B9E2 /* upsampling.c in Sources */,
+				B3018CA4EBA0B1688D54EAD9932CE3C3 /* upsampling_neon.c in Sources */,
+				C2D966E31F918080B409575434B1EDAA /* upsampling_sse2.c in Sources */,
+				A06F421D29BB4D06E0EBBFF291393DCB /* upsampling_sse41.c in Sources */,
+				157BCD114FDF0BE45EF9AC010D9EA156 /* URLSessionExtension.swift in Sources */,
+				61B00742E2D573595B0741FAD403F867 /* URLSessionInterceptor.swift in Sources */,
+				9D0DFABFA20D5519DD8E6BAC24D052D4 /* URLSessionSwizzler.swift in Sources */,
+				E064BF5BAFE4C364784B8E55B32AC1EF /* utils.c in Sources */,
+				14A10F7F03AF8A195D665481C7CFEA6C /* UUIDUtils.swift in Sources */,
+				38113CEE515BC332996F124B35A43095 /* View+PostHogLabel.swift in Sources */,
+				FDC5075DCBC477DEA81853D96247947D /* ViewLayoutTracker.swift in Sources */,
+				3BB99378656726AEFB2B2342D24133F5 /* ViewTreeSnapshotStatus.swift in Sources */,
+				FB1132CA052CF102BD4BA77F10A67FE2 /* vp8l_enc.c in Sources */,
+				E41C26CACF47AAD46D61671E5B498146 /* webp_enc.c in Sources */,
+				24631B89CF42B9C9005567422A2891FC /* yuv.c in Sources */,
+				BE0928C4E4371DC8241CBBB2D7C28CA0 /* yuv_neon.c in Sources */,
+				9660C0827156451896E0BA93EC4947AC /* yuv_sse2.c in Sources */,
+				28F5A52954C5A76CB4F270278ADBF8BA /* yuv_sse41.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		37336BE349D1EA225EB644E24BA9C27B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PostHog;
+			target = 8879D5F28A55518ACFB247594F87F75A /* PostHog */;
+			targetProxy = 864136BCBEF54173F113C47BC38798B3 /* PBXContainerItemProxy */;
+		};
+		638CFB3194EFEC7190BD91645C61D5DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "PostHog-PostHog";
+			target = E326EE08AE4CF9FA8C947B96B6F8AB07 /* PostHog-PostHog */;
+			targetProxy = 094F03F69F600A15A2BEC0A3E8796B1F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1941665D74A243B5EDE5994BDD7E7976 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F37986990BA8D9E23DCA1408157EC224 /* PostHog.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/PostHog/PostHog-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/PostHog/PostHog-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/PostHog/PostHog.modulemap";
+				PRODUCT_MODULE_NAME = PostHog;
+				PRODUCT_NAME = PostHog;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.3;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		1E0351616F3D98FA4EF981E1897B5CF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99D0AC38D19FDF4E8D666ACCCB5B4CF5 /* Pods-MyApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-MyApp/Pods-MyApp-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-MyApp/Pods-MyApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6A5C026ED62BBFE3380CD257EEFAEB20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		8A5840D8A961F290DA23187A4925AC47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F37986990BA8D9E23DCA1408157EC224 /* PostHog.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/PostHog";
+				IBSC_MODULE = PostHog;
+				INFOPLIST_FILE = "Target Support Files/PostHog/ResourceBundle-PostHog-PostHog-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_NAME = PostHog;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		9A115DFCB44CB223A0A273C14744DBBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FF529438D4715629B727361FE3479AE /* PostHog.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/PostHog";
+				IBSC_MODULE = PostHog;
+				INFOPLIST_FILE = "Target Support Files/PostHog/ResourceBundle-PostHog-PostHog-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_NAME = PostHog;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		9AA9DBA350DCE2B20AE80FD522960012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 773EB72575E183AB407EA159AC147EA9 /* Pods-MyApp.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-MyApp/Pods-MyApp-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-MyApp/Pods-MyApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D53F4DC74CA1EE348E78DCB7B6039ECB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FF529438D4715629B727361FE3479AE /* PostHog.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/PostHog/PostHog-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/PostHog/PostHog-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/PostHog/PostHog.modulemap";
+				PRODUCT_MODULE_NAME = PostHog;
+				PRODUCT_NAME = PostHog;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.3;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E873CA97BD124B21839AF13C9BE1CD18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A5C026ED62BBFE3380CD257EEFAEB20 /* Debug */,
+				E873CA97BD124B21839AF13C9BE1CD18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5DF3420682AF0DF16005BA9432334A9C /* Build configuration list for PBXNativeTarget "PostHog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53F4DC74CA1EE348E78DCB7B6039ECB /* Debug */,
+				1941665D74A243B5EDE5994BDD7E7976 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8DEDE0E6071A3FC69EF50E151CA7F1C5 /* Build configuration list for PBXNativeTarget "PostHog-PostHog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A115DFCB44CB223A0A273C14744DBBC /* Debug */,
+				8A5840D8A961F290DA23187A4925AC47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F0D5EBE9B7CC99BFBD393FDCB8E23213 /* Build configuration list for PBXNativeTarget "Pods-MyApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AA9DBA350DCE2B20AE80FD522960012 /* Debug */,
+				1E0351616F3D98FA4EF981E1897B5CF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
