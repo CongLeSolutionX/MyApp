@@ -41,14 +41,12 @@ class BrowserViewModel {
     private let urlKey = "LastCommittedURLString"
     private let historyKey = "BrowserHistory"
     
-    private var webView: WKWebView
+    private let webView: WKWebView
     
     // MARK: - Initializers
     
     init(webView: WKWebView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())) {
-        self.webView = webView
-        
-        // Configure WKWebView before initialization
+        // Configure WKWebViewConfiguration before initializing WKWebView
         let configuration = WKWebViewConfiguration()
         configuration.applicationNameForUserAgent = "Version/17.2 Safari/605.1.15"
         configuration.allowsInlineMediaPlayback = true
@@ -60,7 +58,7 @@ class BrowserViewModel {
             configuration.defaultWebpagePreferences = webpagePreferences
         }
         
-        // Reinitialize webView with the configured configuration
+        // Initialize WKWebView with the configured configuration
         self.webView = WKWebView(frame: .zero, configuration: configuration)
         
         setupBindings()
@@ -177,17 +175,7 @@ class BrowserViewModel {
     // MARK: - URL Handling
     
     func validatedURL(from input: String) -> URL? {
-        var text = input.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if let url = URL(string: text), url.scheme != nil {
-            return url
-        }
-        
-        if !text.lowercased().hasPrefix("http://") && !text.lowercased().hasPrefix("https://") {
-            text = "https://" + text
-        }
-        
-        return URL(string: text)
+        return input.toValidURL()
     }
     
     func loadLastVisitedPage() {
@@ -205,7 +193,7 @@ class BrowserViewModel {
     func addToHistory(url: URL, title: String?) {
         let newItem = HistoryItem(url: url, title: title ?? url.absoluteString)
         // Check for duplicates before adding
-        if !history.contains(where: { $0.url == url }) {
+        if !history.contains(newItem) {
             history.insert(newItem, at: 0) // Newest at the top
             saveHistory()
         }
@@ -423,7 +411,7 @@ class ShinnyBrowserViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemYellow
         
         // Toolbar for bottom buttons
         let toolbar = UIToolbar()
@@ -560,15 +548,15 @@ extension ShinnyBrowserViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        guard let urlString = textField.text?.toValidURL()?.absoluteString else {
+        guard let validURL = textField.text?.toValidURL()?.absoluteString else {
             return
         }
         
-        if webView.url?.absoluteString == urlString {
+        if webView.url?.absoluteString == validURL {
             return
         }
         
-        viewModel.loadURL(string: urlString)
+        viewModel.loadURL(string: validURL)
     }
 }
 
@@ -631,7 +619,7 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
     func didRequestShowHistory() {
         let historyVC = HistoryViewController(history: viewModel.history) { [weak self] selectedURL in
             self?.viewModel.loadURL(string: selectedURL.absoluteString)
-            historyVC.dismiss(animated: true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
         
         historyVC.onClearHistory = { [weak self] in
@@ -653,7 +641,7 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
 
 class HistoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    private let history: [HistoryItem]
+    private var history: [HistoryItem]
     private let onSelection: (URL) -> Void
     var onClearHistory: (() -> Void)?
     
@@ -701,7 +689,8 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
         let alert = UIAlertController(title: "Clear History", message: "Are you sure you want to clear your browsing history?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Clear", style: .destructive, handler: { [weak self] _ in
             self?.onClearHistory?()
-            self?.dismiss(animated: true, completion: nil)
+            self?.history.removeAll()
+            self?.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
@@ -740,6 +729,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     // Enable swipe-to-delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            history.remove(at: indexPath.row)
             onClearHistory?()
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -836,7 +826,8 @@ class HistoryTableViewCell: UITableViewCell {
 extension HistoryViewController: HistoryTableViewCellDelegate {
     func historyTableViewCellDidRequestDelete(_ cell: HistoryTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        onClearHistory?()
+        history.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
+        onClearHistory?()
     }
 }
