@@ -8,7 +8,7 @@
 //  Created by Cong Le on 3/15/25.
 //
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 import Combine
 
 // MARK: - Protocols
@@ -835,7 +835,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Extensions
-//
+// Note: This code cause infite loop
 //private extension URL {
 //    var host: String? {
 //        return self.host
