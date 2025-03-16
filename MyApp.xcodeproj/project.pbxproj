@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9A12E3AF2D867D21001F9C07 /* ShinnyBrowserAppV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A12E3AE2D867D1E001F9C07 /* ShinnyBrowserAppV2.swift */; };
 		9A4D2DBF2D8697D50091BE58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4D2DBE2D8697D40091BE58 /* AppDelegate.swift */; };
+		9A4D2DC12D8699910091BE58 /* HistoryEntry+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4D2DC02D86998E0091BE58 /* HistoryEntry+Extensions.swift */; };
 		9A94AEFB2D86431E0062D331 /* UserAgent.html in Resources */ = {isa = PBXBuildFile; fileRef = 9A94AEFA2D86431E0062D331 /* UserAgent.html */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		9A12E3AE2D867D1E001F9C07 /* ShinnyBrowserAppV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShinnyBrowserAppV2.swift; sourceTree = "<group>"; };
 		9A4D2DBE2D8697D40091BE58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9A4D2DC02D86998E0091BE58 /* HistoryEntry+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntry+Extensions.swift"; sourceTree = "<group>"; };
 		9A94AEFA2D86431E0062D331 /* UserAgent.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = UserAgent.html; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -44,6 +46,7 @@
 		9A94AEFC2D8643C60062D331 /* ShinnyBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				9A4D2DC02D86998E0091BE58 /* HistoryEntry+Extensions.swift */,
 				9A4D2DBE2D8697D40091BE58 /* AppDelegate.swift */,
 				9A12E3AE2D867D1E001F9C07 /* ShinnyBrowserAppV2.swift */,
 				9A94AEFA2D86431E0062D331 /* UserAgent.html */,
@@ -163,6 +166,7 @@
 				9A12E3AF2D867D21001F9C07 /* ShinnyBrowserAppV2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A4D2DC12D8699910091BE58 /* HistoryEntry+Extensions.swift in Sources */,
 				9A4D2DBF2D8697D50091BE58 /* AppDelegate.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);

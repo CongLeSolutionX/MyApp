@@ -37,7 +37,7 @@ class HistoryEntry: NSManagedObject {
 // MARK: - ViewModel
 
 class BrowserViewModel {
-
+    
     // MARK: - Properties
     @Published var urlString: String = ""
     @Published var canGoBack: Bool = false
@@ -46,24 +46,24 @@ class BrowserViewModel {
     @Published var isLoading: Bool = false
     @Published var currentContentMode: WKWebpagePreferences.ContentMode = .recommended
     @Published var history: [HistoryEntry] = [] // History entries
-
+    
     private var contentModeToRequestForHost: [String: WKWebpagePreferences.ContentMode] = [:]
     var cancellables: Set<AnyCancellable> = []
     weak var delegate: BrowserViewDelegate?
-
+    
     private let urlKey = "LastCommittedURLString" // UserDefaults key
-
+    
     private let webView: WKWebView
-
+    
     // Core Data context
     let managedObjectContext: NSManagedObjectContext
-
+    
     // MARK: - Initializers
-
+    
     init(webView: WKWebView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration()), managedObjectContext: NSManagedObjectContext) {
         self.webView = webView
         self.managedObjectContext = managedObjectContext
-
+        
         // Configure WKWebView (once, in init)
         let configuration = self.webView.configuration
         configuration.applicationNameForUserAgent = "Version/17.2 Safari/605.1.15"
@@ -74,13 +74,13 @@ class BrowserViewModel {
             webpagePreferences.preferredContentMode = .recommended
             configuration.defaultWebpagePreferences = webpagePreferences
         }
-
+        
         setupBindings()
         loadHistory() // Load history on initialization
     }
-
+    
     // MARK: - Bindings
-
+    
     private func setupBindings() {
         // Observe WKWebView properties and update @Published properties.
         webView.publisher(for: \.url)
@@ -88,31 +88,31 @@ class BrowserViewModel {
             .receive(on: DispatchQueue.main)
             .assign(to: \.urlString, on: self)
             .store(in: &cancellables)
-
+        
         webView.publisher(for: \.canGoBack)
             .receive(on: DispatchQueue.main)
             .assign(to: \.canGoBack, on: self)
             .store(in: &cancellables)
-
+        
         webView.publisher(for: \.canGoForward)
             .receive(on: DispatchQueue.main)
             .assign(to: \.canGoForward, on: self)
             .store(in: &cancellables)
-
+        
         webView.publisher(for: \.estimatedProgress)
             .receive(on: DispatchQueue.main)
             .assign(to: \.estimatedProgress, on: self)
             .store(in: &cancellables)
-
+        
         webView.publisher(for: \.isLoading)
             .receive(on: DispatchQueue.main)
             .assign(to: \.isLoading, on: self)
             .store(in: &cancellables)
     }
-
-
+    
+    
     // MARK: - Public Methods (Actions from View)
-
+    
     func loadURL(string: String) {
         guard let url = validatedURL(from: string) else {
             if let url = URL(string: "gogole.com") {
@@ -121,51 +121,51 @@ class BrowserViewModel {
             }
             return
         }
-
+        
         let request = URLRequest(url: url)
         webView.load(request)
     }
-
+    
     func goBack() {
         if webView.canGoBack {
             webView.goBack()
             delegate?.didTapBackButton()
         }
     }
-
+    
     func goForward() {
         if webView.canGoForward {
             webView.goForward()
             delegate?.didTapForwardButton()
         }
     }
-
+    
     func reload() {
         webView.reload()
         delegate?.didTapReloadButton()
     }
-
+    
     func loadStartPage() {
         guard let startURL = Bundle.main.url(forResource: "UserAgent", withExtension: "html") else {
             return
         }
-
+        
         webView.loadFileURL(startURL, allowingReadAccessTo: startURL.deletingLastPathComponent())
     }
-
+    
     func shareCurrentPage() {
         guard let url = webView.url else { return }
         delegate?.didRequestShare(for: url)
     }
-
+    
     func addToFavorites() {
         guard let url = webView.url else { return }
         delegate?.didRequestAddToFavorites(for: url)
     }
-
+    
     func toggleContentMode() {
         guard let url = webView.url, let host = url.host() else { return }
-
+        
         let nextMode: WKWebpagePreferences.ContentMode
         switch currentContentMode {
         case .recommended:
@@ -177,7 +177,7 @@ class BrowserViewModel {
         @unknown default:
             nextMode = .recommended
         }
-
+        
         contentModeToRequestForHost[host] = nextMode
         currentContentMode = nextMode
         webView.reloadFromOrigin()
@@ -187,23 +187,23 @@ class BrowserViewModel {
     func showHistory() {
         delegate?.didRequestShowHistory()
     }
-
+    
     // MARK: - URL Handling
-
+    
     func validatedURL(from input: String) -> URL? {
         var text = input.trimmingCharacters(in: .whitespacesAndNewlines)
-
+        
         if let url = URL(string: text), url.scheme != nil {
             return url
         }
-
+        
         if !text.lowercased().hasPrefix("http://") && !text.lowercased().hasPrefix("https://") {
             text = "https://" + text
         }
-
+        
         return URL(string: text)
     }
-
+    
     func loadLastVisitedPage() {
         if let lastURLString = UserDefaults.standard.string(forKey: urlKey),
            let lastURL = URL(string: lastURLString) {
@@ -213,19 +213,19 @@ class BrowserViewModel {
             loadStartPage()
         }
     }
-
+    
     // MARK: - History Management
-
+    
     func addHistoryEntry(url: URL, title: String?) {
         let newEntry = HistoryEntry(context: managedObjectContext)
         newEntry.url = url.absoluteString
         newEntry.title = title ?? url.host  // Use URL host as default title
         newEntry.timestamp = Date()
-
+        
         history.append(newEntry)
         saveHistory()
     }
-
+    
     private func saveHistory() {
         do {
             try managedObjectContext.save()
@@ -233,23 +233,23 @@ class BrowserViewModel {
             print("Failed to save history: \(error)")
         }
     }
-
+    
     private func loadHistory() {
-            let fetchRequest = HistoryEntry.fetchRequest() as! NSFetchRequest<HistoryEntry>  // Force-cast
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-
-            do {
-                history = try managedObjectContext.fetch(fetchRequest)
-            } catch {
-                print("Failed to load history: \(error)")
-                history = []
-            }
+        let fetchRequest = HistoryEntry.fetchRequest() // Use the static method
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        
+        do {
+            history = try managedObjectContext.fetch(fetchRequest)
+        } catch {
+            print("Failed to load history: \(error)")
+            history = []
         }
+    }
     
     func clearHistory() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = HistoryEntry.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
+        
         do {
             try managedObjectContext.execute(deleteRequest)
             history = [] // Clear the in-memory array
@@ -258,20 +258,20 @@ class BrowserViewModel {
             print("Failed to clear history: \(error)")
         }
     }
-
+    
     // MARK: - WebView Delegate Forwarding
-
+    
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         if let urlString = webView.url?.absoluteString {
             UserDefaults.standard.set(urlString, forKey: urlKey)
         }
-
+        
         // Add history entry *after* successful navigation.
         if let url = webView.url {
             addHistoryEntry(url: url, title: webView.title) // Capture the title
         }
     }
-
+    
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         let preferences = WKWebpagePreferences()
         if #available(iOS 14.0, *) {
@@ -285,14 +285,14 @@ class BrowserViewModel {
         }
         decisionHandler(.allow, preferences)
     }
-
+    
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         let nsError = error as NSError
         if nsError.code != NSURLErrorCancelled {
             print("WebView failed to load: \(error.localizedDescription)")
         }
     }
-
+    
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         let nsError = error as NSError
         if nsError.code != NSURLErrorCancelled {
@@ -304,9 +304,9 @@ class BrowserViewModel {
 // MARK: - ShinnyBrowserViewController
 
 class ShinnyBrowserViewController: UIViewController {
-
+    
     // MARK: - UI Elements
-
+    
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -316,7 +316,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
-
+    
     private lazy var forwardButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -326,14 +326,14 @@ class ShinnyBrowserViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
-
+    
     private lazy var urlView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemGray6
         return view
     }()
-
+    
     private lazy var urlField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -345,7 +345,7 @@ class ShinnyBrowserViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         return textField
     }()
-
+    
     private lazy var refreshButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -355,7 +355,7 @@ class ShinnyBrowserViewController: UIViewController {
         button.addTarget(self, action: #selector(reload), for: .touchUpInside)
         return button
     }()
-
+    
     private lazy var showMoreButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -364,13 +364,13 @@ class ShinnyBrowserViewController: UIViewController {
         button.addTarget(self, action: #selector(showMore), for: .touchUpInside)
         return button
     }()
-
+    
     private lazy var webViewContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     private lazy var progressBar: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -378,35 +378,35 @@ class ShinnyBrowserViewController: UIViewController {
         view.isHidden = true
         return view
     }()
-
+    
     private var progressBarWidthConstraint: NSLayoutConstraint!
-
+    
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
-
+    
     private lazy var viewModel: BrowserViewModel = {
-            // Pass the managed object context from the app delegate
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            let vm = BrowserViewModel(webView: webView, managedObjectContext: context)
-            vm.delegate = self
-            return vm
-        }()
-
+        // Pass the managed object context from the app delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let vm = BrowserViewModel(webView: webView, managedObjectContext: context)
+        vm.delegate = self
+        return vm
+    }()
+    
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         webView.navigationDelegate = self
         setupUI()
         setupConstraints()
         viewModel.loadLastVisitedPage()
     }
-
+    
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .white
@@ -419,95 +419,95 @@ class ShinnyBrowserViewController: UIViewController {
         view.addSubview(webViewContainer)
         webViewContainer.addSubview(webView)
         view.addSubview(progressBar)
-
+        
         viewModel.$urlString
             .receive(on: RunLoop.main)
             .sink { [weak self] newURLString in
                 self?.urlField.text = newURLString
             }
             .store(in: &viewModel.cancellables)
-
+        
         viewModel.$canGoBack
             .receive(on: RunLoop.main)
             .assign(to: \.isEnabled, on: backButton)
             .store(in: &viewModel.cancellables)
-
+        
         viewModel.$canGoForward
             .receive(on: RunLoop.main)
             .assign(to: \.isEnabled, on: forwardButton)
             .store(in: &viewModel.cancellables)
-
+        
         viewModel.$estimatedProgress
             .receive(on: RunLoop.main)
             .sink { [weak self] progress in
                 self?.updateProgressBar(progress: progress)
             }
             .store(in: &viewModel.cancellables)
-
+        
         viewModel.$isLoading
             .receive(on: RunLoop.main)
             .map { !$0 }
             .assign(to: \.isHidden, on: progressBar)
             .store(in: &viewModel.cancellables)
     }
-
+    
     // MARK: - Constraints Setup
-
+    
     private func setupConstraints() {
         progressBarWidthConstraint = progressBar.widthAnchor.constraint(equalToConstant: 0)
-
+        
         NSLayoutConstraint.activate([
             urlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             urlView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             urlView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             urlView.heightAnchor.constraint(equalToConstant: 44),
-
+            
             backButton.leadingAnchor.constraint(equalTo: urlView.leadingAnchor, constant: 8),
             backButton.centerYAnchor.constraint(equalTo: urlView.centerYAnchor),
             backButton.widthAnchor.constraint(equalToConstant: 44),
             backButton.heightAnchor.constraint(equalToConstant: 44),
-
+            
             forwardButton.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 8),
             forwardButton.centerYAnchor.constraint(equalTo: urlView.centerYAnchor),
             forwardButton.widthAnchor.constraint(equalToConstant: 44),
             forwardButton.heightAnchor.constraint(equalToConstant: 44),
-
+            
             urlField.leadingAnchor.constraint(equalTo: forwardButton.trailingAnchor, constant: 8),
             urlField.centerYAnchor.constraint(equalTo: urlView.centerYAnchor),
             urlField.trailingAnchor.constraint(equalTo: refreshButton.leadingAnchor, constant: -8),
-
+            
             refreshButton.trailingAnchor.constraint(equalTo: showMoreButton.leadingAnchor, constant: -8),
             refreshButton.centerYAnchor.constraint(equalTo: urlView.centerYAnchor),
             refreshButton.widthAnchor.constraint(equalToConstant: 44),
             refreshButton.heightAnchor.constraint(equalToConstant: 44),
-
+            
             showMoreButton.trailingAnchor.constraint(equalTo: urlView.trailingAnchor, constant: -8),
             showMoreButton.centerYAnchor.constraint(equalTo: urlView.centerYAnchor),
             showMoreButton.widthAnchor.constraint(equalToConstant: 44),
             showMoreButton.heightAnchor.constraint(equalToConstant: 44),
-
+            
             webViewContainer.topAnchor.constraint(equalTo: urlView.bottomAnchor),
             webViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webViewContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
+            
             webView.topAnchor.constraint(equalTo: webViewContainer.topAnchor),
             webView.leadingAnchor.constraint(equalTo: webViewContainer.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: webViewContainer.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: webViewContainer.bottomAnchor),
-
+            
             progressBar.topAnchor.constraint(equalTo: urlView.bottomAnchor),
             progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             progressBarWidthConstraint,
             progressBar.heightAnchor.constraint(equalToConstant: 2),
         ])
     }
-
+    
     // MARK: - Progress Bar
-
+    
     private func updateProgressBar(progress: Double) {
         progressBarWidthConstraint.constant = view.frame.width * CGFloat(progress)
-
+        
         if progress >= 1.0 {
             UIView.animate(withDuration: 0.2, animations: {
                 self.progressBar.alpha = 0.0
@@ -517,20 +517,20 @@ class ShinnyBrowserViewController: UIViewController {
             }
         }
     }
-
+    
     // MARK: - Actions
     @objc private func goBack() {
         viewModel.goBack()
     }
-
+    
     @objc private func goForward() {
         viewModel.goForward()
     }
-
+    
     @objc private func reload() {
         viewModel.reload()
     }
-
+    
     @objc private func showMore() {
         let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             self?.viewModel.shareCurrentPage()
@@ -541,7 +541,7 @@ class ShinnyBrowserViewController: UIViewController {
         let loadStartPageAction = UIAlertAction(title: "Load Start Page", style: .default) { [weak self] _ in
             self?.viewModel.loadStartPage()
         }
-
+        
         let toggleContentAction = UIAlertAction(title: "Toggle Content", style: .default) {[weak self] _ in
             self?.viewModel.toggleContentMode()
         }
@@ -550,9 +550,9 @@ class ShinnyBrowserViewController: UIViewController {
         let showHistoryAction = UIAlertAction(title: "Show History", style: .default) { [weak self] _ in
             self?.viewModel.showHistory()
         }
-
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-
+        
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(shareAction)
         alertController.addAction(addToFavoritesAction)
@@ -560,13 +560,13 @@ class ShinnyBrowserViewController: UIViewController {
         alertController.addAction(toggleContentAction)
         alertController.addAction(showHistoryAction) // Add history action
         alertController.addAction(cancelAction)
-
+        
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = showMoreButton
             popoverController.sourceRect = showMoreButton.bounds
             popoverController.permittedArrowDirections = [.up, .down]
         }
-
+        
         present(alertController, animated: true)
     }
 }
@@ -581,12 +581,12 @@ extension ShinnyBrowserViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
+    
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         guard var urlString = textField.text?.lowercased() else {
             return
         }
-
+        
         if !urlString.contains("://") {
             if urlString.contains("localhost") || urlString.contains("127.0.0.1") {
                 urlString = "http://" + urlString
@@ -594,11 +594,11 @@ extension ShinnyBrowserViewController: UITextFieldDelegate {
                 urlString = "https://" + urlString
             }
         }
-
+        
         if webView.url?.absoluteString == urlString {
             return
         }
-
+        
         if let targetURL = URL(string: urlString) {
             webView.load(URLRequest(url: targetURL))
         }
@@ -611,15 +611,15 @@ extension ShinnyBrowserViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         viewModel.webView(webView, didCommit: navigation)
     }
-
+    
     private func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         viewModel.webView(webView, decidePolicyFor: navigationAction, decisionHandler: decisionHandler)
     }
-
+    
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         viewModel.webView(webView, didFail: navigation, withError: error)
     }
-
+    
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         viewModel.webView(webView, didFailProvisionalNavigation: navigation, withError: error)
     }
@@ -631,31 +631,31 @@ extension ShinnyBrowserViewController: BrowserViewDelegate {
     func didRequestToggleContentMode(for url: URL, newMode: WKWebpagePreferences.ContentMode) {
         print("Requested content mode \(newMode) for \(url.absoluteString)")
     }
-
+    
     func didTapBackButton() {
         //Update UI for back button
     }
-
+    
     func didTapForwardButton() {
         //Update UI for forward button
     }
-
+    
     func didTapReloadButton() {
         //Update UI for reload button
     }
-
+    
     func didRequestShare(for url: URL) {
         let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-
+        
         if let popoverPresentationController = activityViewController.popoverPresentationController {
             popoverPresentationController.sourceView = self.view
             popoverPresentationController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             popoverPresentationController.permittedArrowDirections = []
         }
-
+        
         present(activityViewController, animated: true)
     }
-
+    
     func didRequestAddToFavorites(for url: URL) {
         print("Add to Favorites: \(url.absoluteString)") // Replace with saving logic
     }
