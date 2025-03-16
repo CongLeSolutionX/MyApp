@@ -835,9 +835,9 @@ class TabCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Extensions
-// Note: This code clock will cause an infite loop
-//private extension URL {
-//    var host: String? {
-//        return self.host
-//    }
-//}
+
+extension ShinnyBrowserViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print("Script message received: \(message.name)")
+    }
+}
