@@ -4,80 +4,16 @@
 //
 //  Created by Cong Le on 3/17/25.
 //
-
 import SwiftUI
 
 struct ScanView: View {
-    @State private var selection = 1 // For TabView
+    @State var selection = 0 // Changed initial selection to 0 (Home)
     
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("46")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.green)
-                            
-                            Spacer()
-                            
-                            Button(action: {}) {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding(.horizontal)
-                        
-                        HStack {
-                            Button(action: {}) {
-                                Text("Scan & pay")
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 16)
-                                    .background(Color.green)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(20)
-                            }
-                            
-                            Button(action: {}) {
-                                Text("Scan only")
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 16)
-                                    .background(Color.gray.opacity(0.2))
-                                    .foregroundColor(.black)
-                                    .cornerRadius(20)
-                            }
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                CardView()
-                                    .padding(.leading)
-                                // Add more cards if needed, mimicking the scrollable effect
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color.gray.opacity(0.2))
-                                    .frame(width: 300, height: 450)
-                                    .padding(.trailing)
-                            }
-                        }
-                        
-                        
-                        
-                        
-                        Spacer() // Push content to the top
-                    }
+                HomeView() // Encapsulated Home content in its own view
                     .navigationBarHidden(true)
-                    
-                }
-                
-                
             }
             .tabItem {
                 VStack {
@@ -87,23 +23,22 @@ struct ScanView: View {
             }
             .tag(0)
             
-            
-            
-            
-            
-            Text("Scan View") // Placeholder
-                .tabItem {
-                    VStack {
-                        
-                        Image(systemName: "qrcode.viewfinder")
-                            .resizable()
-                            .renderingMode(.template)
-                            .frame(width: 25, height: 25, alignment: .center)
-                        
-                        Text("Scan")
-                    }
+            NavigationView{ // Added NavigationView for ScanOnlyView
+                ScanOnlyView()
+                    .navigationBarHidden(true)
+            }
+            .tabItem {
+                VStack {
+                    
+                    Image(systemName: "qrcode.viewfinder")
+                        .resizable()
+                        .renderingMode(.template)
+                        .frame(width: 25, height: 25, alignment: .center)
+                    
+                    Text("Scan")
                 }
-                .tag(1)
+            }
+            .tag(1)
             
             Text("Order View") // Placeholder
                 .tabItem {
@@ -144,6 +79,77 @@ struct ScanView: View {
         }
         .accentColor(.green) // Set the tab bar icon color
         .edgesIgnoringSafeArea(.all) // For full-screen background color if needed
+    }
+}
+
+struct HomeView: View { // Separate HomeView
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("46")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.green)
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding(.horizontal)
+                
+                HStack {
+                    Button(action: {
+                        // Switch to the "Scan & pay" view (which is the first card in HomeView)
+                        // No action needed here because this is already the Scan & Pay view
+                    }) {
+                        Text("Scan & pay")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+                    
+                    Button(action: {
+                        // Switch to ScanOnlyView using the TabView's selection
+                        // Find the ContentView and change its selection
+                        if let rootView = UIApplication.shared.windows.first?.rootViewController as? UIHostingController<ScanView> {
+                            rootView.rootView.selection = 1 // Switch to ScanOnlyView (tag 1)
+                        }                    }) {
+                            Text("Scan only")
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(Color.gray.opacity(0.2))
+                                .foregroundColor(.black)
+                                .cornerRadius(20)
+                        }
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        CardView()
+                            .padding(.leading)
+                        // Add more cards if needed, mimicking the scrollable effect
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: 300, height: 450)
+                            .padding(.trailing)
+                    }
+                }
+                
+                Spacer() // Push content to the top
+            }
+        }
     }
 }
 
@@ -235,6 +241,127 @@ struct CardView: View {
             
         }
         .frame(width: 300, height: 450) // Set the card size
+    }
+}
+
+struct ScanOnlyView: View {
+    var body: some View {
+        
+        ScrollView{
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("46")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.green)
+                    
+                    Spacer()
+                    Text("Cong L.")
+                        .font(.title2)
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding(.horizontal)
+                
+                HStack {
+                    Button(action: {
+                        // Switch to the "Scan & pay" view (which is the first card in HomeView)
+                        if let rootView = UIApplication.shared.windows.first?.rootViewController as? UIHostingController<ScanView> {
+                            rootView.rootView.selection = 0 // Switch back to HomeView (tag 0)
+                        }
+                    }) {
+                        Text("Scan & pay")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                            .background(Color.gray.opacity(0.2))
+                            .foregroundColor(.black)
+                            .cornerRadius(20)
+                    }
+                    
+                    Button(action: {
+                        // Switch to ScanOnlyView using the TabView's selection
+                        // No action needed, already on Scan Only View
+                    }) {
+                        Text("Scan only")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                
+                
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white)
+                        .shadow(radius: 5)
+                    
+                    VStack {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.green.opacity(0.8))
+                                .frame(height: 180)
+                            
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .foregroundColor(.yellow)
+                                .frame(width: 60, height: 60)
+                        }
+                        
+                        
+                        
+                        Text("Scan to earn Stars")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top)
+                        
+                        Text("Earns 1★ per $1")
+                            .font(.caption)
+                            .padding(4)
+                            .background(Color.yellow.opacity(0.8))
+                            .cornerRadius(5)
+                        
+                        Image(systemName: "qrcode")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150) // Explicitly set width and height
+                        
+                        Button(action: {}) {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                Text("Make default")
+                            }
+                            .padding()
+                            .foregroundColor(.black)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
+                        }
+                    }
+                    .padding()
+                }
+                .padding()
+                
+                
+                Spacer() // Push content to the top
+                
+            }
+            
+        }
+        
+        
     }
 }
 
