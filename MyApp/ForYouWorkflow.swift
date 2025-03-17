@@ -125,19 +125,9 @@ struct ForYouContentView: View {
                                 FeedView(articles: $articles, selectedArticle: $selectedArticle)
                             }
                         }
-                         else if selectedTabIndex == 1 { // Placeholder content for "Episodes" tab
+                         else { // Placeholder content for other tabs
                             Spacer()
-                            Text("Episodes Content")
-                                .foregroundColor(Color("on-surface"))
-                            Spacer()
-                        } else if selectedTabIndex == 2 { // Placeholder content for "Saved" tab
-                            Spacer()
-                            Text("Saved Content")
-                                .foregroundColor(Color("on-surface"))
-                            Spacer()
-                        } else if selectedTabIndex == 3 { // Placeholder content for "Interests" tab
-                            Spacer()
-                            Text("Interests Content")
+                            Text(tabBarTitle(for: selectedTabIndex))
                                 .foregroundColor(Color("on-surface"))
                             Spacer()
                         }
@@ -151,6 +141,15 @@ struct ForYouContentView: View {
             .background(Color("background")) // Use named colors for better management
         }
     }
+    
+    private func tabBarTitle(for index: Int) -> String {
+            switch index {
+            case 1: return "Episodes Content"
+            case 2: return "Saved Content"
+            case 3: return "Interests Content"
+            default: return ""
+            }
+        }
 }
 
 // MARK: - AppBarView
@@ -191,13 +190,24 @@ struct AppBarView: View {
 // MARK: - Tab Bar View
 struct TabBarView: View {
     @Binding var selectedIndex: Int
+    
+    private let tabs: [(icon: String, label: String)] = [
+        ("house.fill", "For you"),
+        ("play.rectangle.fill", "Episodes"),
+        ("bookmark.fill", "Saved"),
+        ("tag.fill", "Interests")
+    ]
 
     var body: some View {
         HStack {
-            TabBarItem(index: 0, selectedIndex: $selectedIndex, icon: "house.fill", label: "For you")
-            TabBarItem(index: 1, selectedIndex: $selectedIndex, icon: "play.rectangle.fill", label: "Episodes")
-            TabBarItem(index: 2, selectedIndex: $selectedIndex, icon: "bookmark.fill", label: "Saved")
-            TabBarItem(index: 3, selectedIndex: $selectedIndex, icon: "tag.fill", label: "Interests")
+            ForEach(tabs.indices, id: \.self) { index in
+                TabBarItem(
+                    index: index,
+                    selectedIndex: $selectedIndex,
+                    icon: tabs[index].icon,
+                    label: tabs[index].label
+                )
+            }
         }
         .padding(.vertical, 8)
         .background(Color("background"))
