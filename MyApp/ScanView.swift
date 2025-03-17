@@ -167,6 +167,7 @@ struct CardView: View {
                     .frame(height: 180) // Adjust as needed
                     .clipped()
                     .cornerRadius(10)
+                    .background(Color.yellow.opacity(0.5))
                 
                 Text("$15.11")
                     .font(.title)
