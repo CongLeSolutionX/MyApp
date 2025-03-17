@@ -16,6 +16,7 @@
 		9ADCC98D2D88D218004BF2FB /* ReadingGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC98C2D88D20E004BF2FB /* ReadingGoalView.swift */; };
 		9ADCC98F2D88D395004BF2FB /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC98E2D88D390004BF2FB /* LibraryView.swift */; };
 		9ADCC9912D88D7F7004BF2FB /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC9902D88D7EF004BF2FB /* BookDetailView.swift */; };
+		9ADCC9932D88D92E004BF2FB /* BookDetailCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC9922D88D912004BF2FB /* BookDetailCarouselView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9ADCC98C2D88D20E004BF2FB /* ReadingGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingGoalView.swift; sourceTree = "<group>"; };
 		9ADCC98E2D88D390004BF2FB /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		9ADCC9902D88D7EF004BF2FB /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		9ADCC9922D88D912004BF2FB /* BookDetailCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailCarouselView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				9ADCC98C2D88D20E004BF2FB /* ReadingGoalView.swift */,
 				9ADCC98E2D88D390004BF2FB /* LibraryView.swift */,
 				9ADCC9902D88D7EF004BF2FB /* BookDetailView.swift */,
+				9ADCC9922D88D912004BF2FB /* BookDetailCarouselView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -156,6 +159,7 @@
 			files = (
 				9ADCC9892D88D09F004BF2FB /* SearchView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9ADCC9932D88D92E004BF2FB /* BookDetailCarouselView.swift in Sources */,
 				9ADCC98D2D88D218004BF2FB /* ReadingGoalView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9ADCC98F2D88D395004BF2FB /* LibraryView.swift in Sources */,

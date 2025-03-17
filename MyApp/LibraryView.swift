@@ -224,7 +224,7 @@ struct LibraryView: View {
 }
 
 // MARK: - Preview
-struct ContentView_Previews: PreviewProvider {
+struct LibraryContentView_Previews: PreviewProvider {
     static var previews: some View {
         LibraryView()
             .preferredColorScheme(.dark)
