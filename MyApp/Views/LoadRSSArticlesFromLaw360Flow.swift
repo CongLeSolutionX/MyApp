@@ -17,6 +17,7 @@ struct RSSItem: Identifiable {
     var pubDate: Date?
     var itemDescription: String
     var imageURL: String?
+    var localImageName: String? // Add a property for local image name
 }
 
 // MARK: - XML Parser
@@ -93,16 +94,11 @@ final class RSSParser: NSObject, XMLParserDelegate {
         guard inItem else { return }
         
         switch currentElement {
-        case "title":
-            currentTitle += string
-        case "link":
-            currentLink += string
-        case "pubDate":
-            currentPubDate += string
-        case "description":
-            currentDescription += string
-        default:
-            break
+        case "title":            currentTitle += string
+        case "link":            currentLink += string
+        case "pubDate":            currentPubDate += string
+        case "description":            currentDescription += string
+        default:            break
         }
     }
     
@@ -113,11 +109,9 @@ final class RSSParser: NSObject, XMLParserDelegate {
             let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
             var parsedDate: Date? = RSSParser.dateFormatter.date(from: trimmedPubDate)
             
-            if parsedDate == nil {
-                parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
+            if parsedDate == nil {                parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
             }
-            if parsedDate == nil {
-                parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
+            if parsedDate == nil {                parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
             }
             
             let newItem = RSSItem(
@@ -125,24 +119,22 @@ final class RSSParser: NSObject, XMLParserDelegate {
                 link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
                 pubDate: parsedDate,
                 itemDescription: currentDescription.trimmingCharacters(in: .whitespacesAndNewlines),
-                imageURL: currentImageURL.trimmingCharacters(in: .whitespacesAndNewlines)
+                imageURL: currentImageURL.trimmingCharacters(in: .whitespacesAndNewlines),
+                localImageName: nil // No local image for parsed items
             )
             items.append(newItem)
         }
         
-        if elementName == "media:content" || elementName == "enclosure" || elementName == "image" {
-            inImage = false
+        if elementName == "media:content" || elementName == "enclosure" || elementName == "image" {            inImage = false
         }
         
         currentElement = ""
     }
     
-    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        print("Parse error: \(parseError)")
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {        print("Parse error: \(parseError)")
     }
     
-    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
-        print("Validation error: \(validationError)")
+    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {        print("Validation error: \(validationError)")
     }
 }
 
@@ -153,10 +145,20 @@ class RSSViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     
-    private let staticRSSItems: [RSSItem] = [ // Static data for demonstration
-        RSSItem(title: "Static Article 1", link: "https://www.example.com/1", pubDate: Date(), itemDescription: "Description 1", imageURL: "placeholderImage1"),
-        RSSItem(title: "Static Article 2", link: "https://www.example.com/2", pubDate: Date().addingTimeInterval(-86400), itemDescription: "Description 2", imageURL: "https://via.placeholder.com/300x200.png?text=Static+2")
-    ]
+    init() {
+        loadStaticData() // Load static data during initialization
+    }
+    
+    private func loadStaticData() {
+        staticRSSItems = [
+            RSSItem(title: "Static Article 1", link: "https://www.example.com/1", pubDate: Date(), itemDescription: "Description 1", imageURL: nil, localImageName: "placeholderImage1"), // Use local image name
+            RSSItem(title: "Static Article 2", link: "https://www.example.com/2", pubDate: Date().addingTimeInterval(-86400), itemDescription: "Description 2", imageURL: "https://via.placeholder.com/300x200.png?text=Static+2", localImageName: nil) // keep remote URL
+        ]
+        rssItems = staticRSSItems
+    }
+    
+    private var staticRSSItems: [RSSItem] = []
+    
     
     func loadRSS() {
         isLoading = true
@@ -167,7 +169,7 @@ class RSSViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.errorMessage = "Invalid URL"
                 self.isLoading = false
-                self.rssItems = self.staticRSSItems // Fallback to static data
+                // No need to fallback, static data is already loaded
             }
             return
         }
@@ -182,7 +184,7 @@ class RSSViewModel: ObservableObject {
             if let error = error {
                 DispatchQueue.main.async {
                     self?.errorMessage = "Network error: \(error.localizedDescription)"
-                    self?.rssItems = self?.staticRSSItems ?? [] // Fallback
+                    // No need to fallback, static data is already loaded
                 }
                 return
             }
@@ -190,7 +192,7 @@ class RSSViewModel: ObservableObject {
             if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
                 DispatchQueue.main.async {
                     self?.errorMessage = "HTTP Error: \(httpResponse.statusCode)"
-                    self?.rssItems = self?.staticRSSItems ?? [] // Fallback
+                    // No need to fallback, static data is already loaded
                 }
                 return
             }
@@ -198,7 +200,7 @@ class RSSViewModel: ObservableObject {
             guard let data = data else {
                 DispatchQueue.main.async {
                     self?.errorMessage = "No data received"
-                    self?.rssItems = self?.staticRSSItems ?? [] // Fallback
+                    // No need to fallback, static data is already loaded
                 }
                 return
             }
@@ -207,9 +209,8 @@ class RSSViewModel: ObservableObject {
             let parsedItems = parser.parse(data: data)
             
             DispatchQueue.main.async {
-                // Combine static and dynamic data
-                self?.rssItems = self?.staticRSSItems ?? []  // Ensure static items are always there
-                self?.rssItems.append(contentsOf: parsedItems)  //Append to the static array.
+                // Combine static and dynamic data.  Append dynamic data.
+                self?.rssItems.append(contentsOf: parsedItems)
                 
                 // Sort by date (newest first), handling optional dates.
                 self?.rssItems.sort { (item1, item2) -> Bool in
@@ -279,7 +280,16 @@ struct RSSItemView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading) {
-                if let imageURLString = item.imageURL, let url = URL(string: imageURLString) {
+                // Display image (either local or remote)
+                if let localImageName = item.localImageName {
+                    // Load local image
+                    Image(localImageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
+                        .clipped()
+                } else if let imageURLString = item.imageURL, let url = URL(string: imageURLString) {
+                    // Load remote image using AsyncImage
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .empty:
@@ -297,6 +307,7 @@ struct RSSItemView: View {
                         }
                     }
                 } else {
+                    // Placeholder if no image
                     Image(systemName: "photo.fill").resizable().scaledToFit().foregroundColor(.gray)
                         .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
                         .background(Color.secondary.opacity(0.3))
@@ -339,7 +350,6 @@ struct RSSItemView: View {
             .onTapGesture {
                 if let url = URL(string: item.link) {
                     isSafariViewPresented = true
-                    print(url)
                 }
             }
             
@@ -436,11 +446,9 @@ struct ForYouView: View {
                 .background(Color.black.edgesIgnoringSafeArea(.all))
                 .navigationBarHidden(true)
                 .alert(isPresented: $isShowingAlert) { // Alert for errors
-                    Alert(title: Text("Error"),
-                          message: Text(rssViewModel.errorMessage ?? "Unknown error"),
-                          dismissButton: .default(Text("OK"))
-                    )
+                    Alert(title: Text("Error"), message: Text(rssViewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
                 }
+                
 //                // Tab Bar
 //                HStack {
 //                    TabBarButton(iconName: "waveform.path.ecg", label: "For you", isActive: true)
@@ -452,7 +460,7 @@ struct ForYouView: View {
             }
         }
         .onAppear {
-            rssViewModel.loadRSS()
+            rssViewModel.loadRSS() // Load dynamic data on appearance
         }
         .onChange(of: rssViewModel.errorMessage) { newValue in
             isShowingAlert = newValue != nil
