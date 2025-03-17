@@ -43,7 +43,7 @@ struct MusicPlayerView: View {
                 .foregroundColor(.white)
                 
                 // Album Art
-                Image("albumArt") // Replace with your image name
+                Image("My-meme-red-wine-glass") // Replace with your image name
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(15)
@@ -55,7 +55,7 @@ struct MusicPlayerView: View {
                     Text("Ngày Mưa Ấy")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.yellow)
                     Text("Vicky Nhung")
                         .font(.title2)
                         .foregroundColor(.gray)
@@ -152,5 +152,6 @@ struct MusicPlayerView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MusicPlayerView()
+            .preferredColorScheme(.dark)
     }
 }
