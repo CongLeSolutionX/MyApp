@@ -1,10 +1,9 @@
 //
-//  ForYouWorkFlow.swift
+//  ForYouWorkflow.swift
 //  MyApp
 //
 //  Created by Cong Le on 3/17/25.
 //
-
 import SwiftUI
 
 // MARK: - Models
@@ -34,46 +33,75 @@ struct Article: Identifiable {
     let updatesSinceLastViewed: Int
 }
 
-// MARK: - Data (Sample Data for Demonstration)
+// MARK: - Data (Placeholder and Fake Data)
 
-let sampleTopics: [Topic] = [
-    Topic(name: "Fernando", icon: "person.circle"),
-    Topic(name: "Alex", icon: "person.circle"),
-    Topic(name: "Sam", icon: "person.circle"),
-    Topic(name: "Lee", icon: "person.circle"),
-    Topic(name: "Accessibility", icon: "figure.walk"),
-    Topic(name: "Android TV", icon: "tv"),
-    Topic(name: "Android Auto", icon: "car"),
-    Topic(name: "Architecture", icon: "building.columns"),
-    Topic(name: "Android Studio", icon: "laptopcomputer"),
-    Topic(name: "Compose", icon: "pencil.tip.crop.circle")
+let placeholderTopics: [Topic] = [
+    Topic(name: "Technology", icon: "laptopcomputer"),
+    Topic(name: "Design", icon: "paintpalette"),
+    Topic(name: "Gaming", icon: "gamecontroller"),
+    Topic(name: "Mobile", icon: "iphone"),
+    Topic(name: "Web Dev", icon: "globe"),
+    Topic(name: "AI", icon: "brain"),
+    Topic(name: "Data Science", icon: "chart.bar"),
+    Topic(name: "UX/UI", icon: "person.crop.artframe"),
+    Topic(name: "Cloud", icon: "cloud"),
+    Topic(name: "Security", icon: "shield")
 ]
 
-let sampleAuthor = Author(name: "Author", imageName: "person.circle.fill")
+let placeholderAuthor = Author(name: "Jane Doe", imageName: "person.circle.fill") // SF Symbol
 
-let sampleArticle = Article(
-    title: "New Compose for Wear OS codelab",
-    date: "January 1, 2021",
-    author: sampleAuthor,
-    url: "developer.android.com",
-    imageName: "watchface",  // Placeholder.  Replace with actual asset name.
-    topics: [
-        Topic(name: "Topic", icon: "tag"),
-        Topic(name: "Compose", icon: "pencil.tip.crop.circle"),
-        Topic(name: "Events", icon: "calendar"),
-        Topic(name: "Performance", icon: "speedometer")
-    ],
-    isBookmarked: false,
-    updatesSinceLastViewed: 3
-)
+let placeholderArticles: [Article] = [
+    Article(
+        title: "The Future of Mobile Development",
+        date: "March 15, 2024",
+        author: placeholderAuthor,
+        url: "example.com/article1",
+        imageName: "placeholderImage1", // Replace with actual asset name
+        topics: [
+            placeholderTopics[0],
+            placeholderTopics[3],
+            placeholderTopics[4]
+        ],
+        isBookmarked: false,
+        updatesSinceLastViewed: 2
+    ),
+    Article(
+        title: "AI-Powered Design Tools",
+        date: "March 10, 2024",
+        author: Author(name: "John Smith", imageName: "person.circle.fill"),
+        url: "example.com/article2",
+        imageName: "placeholderImage2", // Replace with actual asset name
+        topics: [
+            placeholderTopics[1],
+            placeholderTopics[5],
+            placeholderTopics[7]
+        ],
+        isBookmarked: true,
+        updatesSinceLastViewed: 5
+    ),
+    Article(
+        title: "Mastering Cloud Security",
+        date: "February 28, 2024",
+        author: placeholderAuthor,
+        url: "example.com/article3",
+        imageName: "placeholderImage3",
+        topics: [
+            placeholderTopics[8],
+            placeholderTopics[9]
+        ],
+        isBookmarked: false,
+        updatesSinceLastViewed: 0
+    )
+]
 
 // MARK: - Main View
 
 struct ForYouContentView: View {
     @State private var selectedTopics: Set<Topic> = []
     @State private var isShowingOnboarding = true // Start with onboarding
-    @State private var selectedArticle: Article? = sampleArticle // For demonstration
+    @State private var selectedArticle: Article? = nil // No article selected initially
     @State private var selectedTabIndex = 0
+    @State private var articles: [Article] = placeholderArticles  // Use placeholder articles
 
     var body: some View {
         NavigationView {
@@ -82,31 +110,43 @@ struct ForYouContentView: View {
                 VStack {
                     // App Bar
                     AppBarView(selectedArticle: $selectedArticle)
-                    
+
                     if isShowingOnboarding {
-                        OnboardingView(topics: sampleTopics, selectedTopics: $selectedTopics) {
+                        OnboardingView(topics: placeholderTopics, selectedTopics: $selectedTopics) {
                             isShowingOnboarding = false
                         }
-                    } else if let article = selectedArticle {
-                        // Simplified Article View
-                        ArticleView(article: article)
-                        
+                    } else {
+                        // Main Feed (using placeholder articles)
+                        if selectedTabIndex == 0 { // "For you" tab
+                            // Show ArticleView if an article is selected, otherwise show the feed
+                            if let article = selectedArticle {
+                                ArticleView(article: article)
+                            } else {
+                                FeedView(articles: $articles, selectedArticle: $selectedArticle)
+                            }
+                        }
+                         else if selectedTabIndex == 1 { // Placeholder content for "Episodes" tab
+                            Spacer()
+                            Text("Episodes Content")
+                                .foregroundColor(Color("on-surface"))
+                            Spacer()
+                        } else if selectedTabIndex == 2 { // Placeholder content for "Saved" tab
+                            Spacer()
+                            Text("Saved Content")
+                                .foregroundColor(Color("on-surface"))
+                            Spacer()
+                        } else if selectedTabIndex == 3 { // Placeholder content for "Interests" tab
+                            Spacer()
+                            Text("Interests Content")
+                                .foregroundColor(Color("on-surface"))
+                            Spacer()
+                        }
                     }
-                    else
-                    {
-                        // Placeholder for the main feed (empty in this example)
-                        Spacer()
-                        Text("Main feed content would go here.")
-                        Spacer()
-                    }
-                    
+
                     // Tab Bar
-                    
                     TabBarView(selectedIndex: $selectedTabIndex)
                 }
-                
             }
-            
             .navigationBarHidden(true)
             .background(Color("background")) // Use named colors for better management
         }
@@ -117,7 +157,7 @@ struct ForYouContentView: View {
 
 struct AppBarView: View {
     @Binding var selectedArticle: Article?
-    
+
     var body: some View{
         HStack {
             Button(action: {
@@ -126,18 +166,18 @@ struct AppBarView: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(Color("on-surface"))
             }
-            
+
             Spacer()
-            
+
             Text("Now in Android")
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(Color("on-surface"))
-            
+
             Spacer()
-            
+
             Button(action: {
-                selectedArticle = selectedArticle == nil ? sampleArticle : nil
+                selectedArticle = selectedArticle == nil ? placeholderArticles.first : nil
             }) {
                 Image(systemName: "person.circle")
                     .foregroundColor(Color("on-surface"))
@@ -151,7 +191,7 @@ struct AppBarView: View {
 // MARK: - Tab Bar View
 struct TabBarView: View {
     @Binding var selectedIndex: Int
-    
+
     var body: some View {
         HStack {
             TabBarItem(index: 0, selectedIndex: $selectedIndex, icon: "house.fill", label: "For you")
@@ -170,7 +210,7 @@ struct TabBarItem: View {
     @Binding var selectedIndex: Int
     let icon: String
     let label: String
-    
+
     var body: some View {
         Button(action: {
             selectedIndex = index
@@ -193,7 +233,7 @@ struct OnboardingView: View {
     let topics: [Topic]
     @Binding var selectedTopics: Set<Topic>
     let onDone: () -> Void
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -202,17 +242,14 @@ struct OnboardingView: View {
                     .fontWeight(.bold)
                     .padding(.bottom)
                     .foregroundColor(Color("on-surface"))
-                
+
                 Text("Updates from interests you follow will appear here. Follow some things to get started.")
                     .foregroundColor(Color("on-surface"))
                     .padding(.bottom)
-                
-                
-                
+
                 // Topic Selection (using a flexible grid)
                 TopicGridView(topics: topics, selectedTopics: $selectedTopics)
-                
-                
+
                 Button(action: onDone) {
                     Text("Done")
                         .fontWeight(.bold)
@@ -223,7 +260,7 @@ struct OnboardingView: View {
                         .cornerRadius(8)
                 }
                 .padding(.vertical)
-                
+
                 Button(action: {
                     // Placeholder for "Browse topics"
                 }) {
@@ -245,17 +282,17 @@ struct TopicGridView: View {
     let topics: [Topic]
     @Binding var selectedTopics: Set<Topic>
     @State private var availableWidth: CGFloat = 0
-    
+
     var body: some View {
         GeometryReader { geometry in
             self.generateContent(in: geometry)
         }
     }
-    
+
     private func generateContent(in geometry: GeometryProxy) -> some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
-        
+
         return ZStack(alignment: .topLeading) {
             ForEach(topics, id: \.self) { topic in
                 TopicItemView(topic: topic, isSelected: selectedTopics.contains(topic)) {
@@ -297,7 +334,7 @@ struct TopicItemView: View {
     let topic: Topic
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             HStack {
@@ -321,11 +358,10 @@ struct TopicItemView: View {
 // MARK: - Article View (Simplified)
 struct ArticleView: View {
     let article: Article
-    
+
     @State private var selectedSortOption = 0 // 0: Newest First, 1: Oldest First
     let sortOptions = ["Newest first", "Oldest first"]
 
-    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -353,9 +389,9 @@ struct ArticleView: View {
                                 .stroke(Color("on-surface"), lineWidth: 1)
                         )
                     }
-                    
+
                     Spacer()
-                    
+
                     // Compact View Toggle
                     Button(action: {
                         // Toggle compact view
@@ -376,9 +412,9 @@ struct ArticleView: View {
                         )
                     }
                 }
-                
+
                 Divider()
-                
+
                 HStack{
                     Text("\(article.updatesSinceLastViewed) updates since you last vist")
                         .font(.caption).italic()
@@ -389,15 +425,13 @@ struct ArticleView: View {
                             .foregroundColor(Color("on-surface"))
                     }
                 }
-                
+
                 Image(article.imageName)
                     .resizable()
                     .scaledToFit()
                     .cornerRadius(8)
                     .frame(maxWidth: .infinity)
-                
-                
-                
+
                 HStack {
                     Image(systemName: article.author.imageName) // Use SF Symbol
                         .resizable()
@@ -409,22 +443,21 @@ struct ArticleView: View {
                         .foregroundColor(Color("on-surface"))
                     Spacer()
                 }
-                
-                
+
                 Text(article.title)
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(Color("on-surface"))
-                
+
                 Text("\(article.date) • \(article.url)")
                     .font(.caption)
                     .foregroundColor(Color("on-surface"))
-                
+
                 Text("In this codelab, you can learn how Wear OS can work with Compose, what Wear OS specific composables are available, and more!") // Placeholder
                     .font(.body)
                     .foregroundColor(Color("on-surface"))
                     .padding(.bottom)
-                
+
                 // Topic Tags
                 HStack {
                     ForEach(article.topics, id: \.self) { topic in
@@ -440,9 +473,9 @@ struct ArticleView: View {
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color("on-surface"), lineWidth: 1)
                                 )
-                            
+
                         }
-                        
+
                     }
                     Button(action:{}){
                         Image(systemName: "ellipsis")
@@ -450,8 +483,7 @@ struct ArticleView: View {
                     }
                 }
                 .padding(.bottom)
-                
-                
+
             }
             .padding()
         }
@@ -459,14 +491,67 @@ struct ArticleView: View {
     }
 }
 
+// MARK: - Feed View
+struct FeedView: View {
+    @Binding var articles: [Article]
+    @Binding var selectedArticle: Article?
+
+    var body: some View {
+        ScrollView {
+            LazyVStack { // Use LazyVStack for performance with lists
+                ForEach(articles) { article in
+                    Button(action: {
+                        selectedArticle = article
+                    }) {
+                        FeedItemView(article: article)
+                    }
+                    .buttonStyle(PlainButtonStyle()) // Remove button highlight
+                    Divider()
+                }
+            }
+        }
+        .background(Color("surface"))
+    }
+}
+
+// MARK: - Feed Item View (for list in FeedView)
+struct FeedItemView: View {
+    let article: Article
+
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(article.imageName)
+                .resizable()
+                .scaledToFill() // Use scaledToFill for consistent aspect ratio
+                .frame(width: 100, height: 100)
+                .clipped() // Clip to bounds after scaling
+                .cornerRadius(8)
+
+            VStack(alignment: .leading) {
+                Text(article.title)
+                    .font(.headline)
+                    .foregroundColor(Color("on-surface"))
+                    .lineLimit(2) // Limit to 2 lines for preview
+                Text("\(article.date) • \(article.author.name)")
+                    .font(.subheadline)
+                    .foregroundColor(Color.gray)
+                    .lineLimit(1)
+            }
+            Spacer() // Push content to the left
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+    }
+}
+
 // MARK: - Preview
-//
-//struct ForYouContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ForYouContentView()
-//            .preferredColorScheme(.light)
-//        
-//        ForYouContentView()
-//            .preferredColorScheme(.dark)
-//    }
-//}
+
+struct ForYouContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ForYouContentView()
+            .preferredColorScheme(.light)
+
+        ForYouContentView()
+            .preferredColorScheme(.dark)
+    }
+}

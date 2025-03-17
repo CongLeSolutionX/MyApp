@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "My-meme-original.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

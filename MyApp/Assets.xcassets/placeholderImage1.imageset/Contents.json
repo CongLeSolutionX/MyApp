@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "My-meme-heineken.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
