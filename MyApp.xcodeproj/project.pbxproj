@@ -22,6 +22,7 @@
 		9A6173CA2D888DB700DE08C7 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173C92D888DB600DE08C7 /* TabBarItem.swift */; };
 		9A6173CE2D888EC200DE08C7 /* RSSArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173CD2D888EB600DE08C7 /* RSSArticle.swift */; };
 		9A6173D02D88909000DE08C7 /* LoadingRSSArticleWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173CF2D88908000DE08C7 /* LoadingRSSArticleWorkflow.swift */; };
+		9A6173D22D88952E00DE08C7 /* Law360RSSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173D12D88952D00DE08C7 /* Law360RSSContentView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		9A6173C92D888DB600DE08C7 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		9A6173CD2D888EB600DE08C7 /* RSSArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSArticle.swift; sourceTree = "<group>"; };
 		9A6173CF2D88908000DE08C7 /* LoadingRSSArticleWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingRSSArticleWorkflow.swift; sourceTree = "<group>"; };
+		9A6173D12D88952D00DE08C7 /* Law360RSSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Law360RSSContentView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				9A6173B52D88891B00DE08C7 /* FeedView.swift */,
 				9A6173B32D88877300DE08C7 /* ForYouView.swift */,
 				9A6173CF2D88908000DE08C7 /* LoadingRSSArticleWorkflow.swift */,
+				9A6173D12D88952D00DE08C7 /* Law360RSSContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A6173C02D888B2C00DE08C7 /* TopicGridView.swift in Sources */,
+				9A6173D22D88952E00DE08C7 /* Law360RSSContentView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A6173BC2D888A5100DE08C7 /* TabBarView.swift in Sources */,
 				9A6173C22D888B9700DE08C7 /* TopicItemView.swift in Sources */,
