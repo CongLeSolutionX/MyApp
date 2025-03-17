@@ -151,8 +151,9 @@ class RSSViewModel: ObservableObject {
     
     private func loadStaticData() {
         staticRSSItems = [
-            RSSItem(title: "Static Article 1", link: "https://www.example.com/1", pubDate: Date(), itemDescription: "Description 1", imageURL: nil, localImageName: "placeholderImage1"), // Use local image name
-            RSSItem(title: "Static Article 2", link: "https://www.example.com/2", pubDate: Date().addingTimeInterval(-86400), itemDescription: "Description 2", imageURL: "https://via.placeholder.com/300x200.png?text=Static+2", localImageName: nil) // keep remote URL
+            RSSItem(title: "Rồi lát đi ka...!", link: "https://www.yelp.com/biz/x-o-karaoke-westminster", pubDate: Date(), itemDescription: "Description 1", imageURL: nil, localImageName: "placeholderImage3"), // Use local image name
+            RSSItem(title: "Static Article 2", link: "https://www.example.com/2", pubDate: Date().addingTimeInterval(-86400), itemDescription: "Description 2", imageURL: "https://via.placeholder.com/300x200.png?text=Static+2", localImageName: nil), // keep remote URL
+            RSSItem(title: "Cho a chai nữa ...!", link: "https://www.thecircleoc.com/", pubDate: Date(), itemDescription: "Description 1", imageURL: nil, localImageName: "placeholderImage1"), // Use local image name
         ]
         rssItems = staticRSSItems
     }
@@ -350,6 +351,7 @@ struct RSSItemView: View {
             .onTapGesture {
                 if let url = URL(string: item.link) {
                     isSafariViewPresented = true
+                    print(url)
                 }
             }
             
