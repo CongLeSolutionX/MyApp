@@ -4,9 +4,8 @@
 //
 //  Created by Cong Le on 3/17/25.
 //
-
-
 import SwiftUI
+import WebKit // Import WebKit for WebView
 
 // MARK: - Data Model
 
@@ -14,9 +13,9 @@ struct RSSItem: Identifiable {
     let id = UUID()
     var title: String
     var link: String
-    var pubDate: Date? // Changed to Date?
+    var pubDate: Date?
     var itemDescription: String
-    var imageURL: String? // Added for potential image
+    var imageURL: String?
 }
 
 // MARK: - XML Parser Delegate
@@ -31,33 +30,31 @@ final class RSSParser: NSObject, XMLParserDelegate {
 
     private var items: [RSSItem] = []
     private var inItem = false
-    private var inImage = false // Flag to check if we are in an image tag.
+    private var inImage = false
 
-    // Date formatter (static for performance)
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z" //RFC 822 format
-        formatter.locale = Locale(identifier: "en_US_POSIX") // Important for consistent parsing
-        return formatter
-    }()
-    
-    // Alternative date formatter, added more formats.
-    static let alternativeDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ" // ISO 8601
+        formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
-    
+
+    static let alternativeDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+
     static let alternativeDateFormatter2: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" // ISO 8601
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
 
     func parse(data: Data) -> [RSSItem] {
-        items = [] // Clear previous items
+        items = []
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
@@ -76,7 +73,6 @@ final class RSSParser: NSObject, XMLParserDelegate {
             currentImageURL = ""
         }
 
-        // Check for image URL in different possible tags.
         if inItem {
             if elementName == "media:content", let urlString = attributeDict["url"] {
                 currentImageURL = urlString
@@ -85,8 +81,7 @@ final class RSSParser: NSObject, XMLParserDelegate {
                 currentImageURL = urlString
                 inImage = true
             } else if elementName == "image", let urlString = attributeDict["href"] {
-                // Check the "href" attribute, commonly used in <image> tags.
-                currentImageURL = urlString;
+                currentImageURL = urlString
                 inImage = true
             }
         }
@@ -113,16 +108,13 @@ final class RSSParser: NSObject, XMLParserDelegate {
         if elementName == "item" {
             inItem = false
 
-            // Trim and parse date
             let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
             var parsedDate: Date? = RSSParser.dateFormatter.date(from: trimmedPubDate)
-            
-            // Try the alternative format if the first one fails.
+
             if parsedDate == nil {
                 parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
             }
-            
-            //Try the alternative format 2 if the previous one fails.
+
             if parsedDate == nil {
                 parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
             }
@@ -130,49 +122,48 @@ final class RSSParser: NSObject, XMLParserDelegate {
             let newItem = RSSItem(
                 title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
                 link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
-                pubDate: parsedDate, // Store the Date object
+                pubDate: parsedDate,
                 itemDescription: currentDescription.trimmingCharacters(in: .whitespacesAndNewlines),
                 imageURL: currentImageURL.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             items.append(newItem)
         }
-        
-        if elementName == "media:content" || elementName == "enclosure" || elementName == "image"{
+
+        if elementName == "media:content" || elementName == "enclosure" || elementName == "image" {
             inImage = false
         }
 
         currentElement = ""
     }
-    
-    // Error Handling
-      func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-          print("Parse error occurred: \(parseError)")
-      }
 
-      func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
-          print("Validation error occurred: \(validationError)")
-      }
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        print("Parse error occurred: \(parseError)")
+    }
+
+    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
+        print("Validation error occurred: \(validationError)")
+    }
 }
 
 // MARK: - View Model
 
 class RSSViewModel: ObservableObject {
     @Published var rssItems: [RSSItem] = []
-    @Published var isLoading = false // Loading indicator
-    @Published var errorMessage: String? = nil  // Error Message
+    @Published var isLoading = false
+    @Published var errorMessage: String? = nil
 
     func loadRSS() {
         guard let url = URL(string: "https://www.law360.com/ip/rss") else {
-            errorMessage = "Invalid URL" // Set error message
+            errorMessage = "Invalid URL"
             return
         }
 
-        isLoading = true  // Start loading
-        errorMessage = nil // Reset error message
+        isLoading = true
+        errorMessage = nil
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             defer {
                 DispatchQueue.main.async {
-                    self?.isLoading = false // Ensure loading is set to false.
+                    self?.isLoading = false
                 }
             }
 
@@ -183,8 +174,7 @@ class RSSViewModel: ObservableObject {
                 }
                 return
             }
-            
-            //Check for HTTP errors.
+
             if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
                 DispatchQueue.main.async {
                     self?.errorMessage = "HTTP Error: \(httpResponse.statusCode)"
@@ -198,9 +188,6 @@ class RSSViewModel: ObservableObject {
                 }
                 return
             }
-            
-            //Added print statement for debugging data received.
-            //print("Received data: \(String(data: data, encoding: .utf8) ?? "Invalid data")")
 
             let parser = RSSParser()
             let parsedItems = parser.parse(data: data)
@@ -212,64 +199,125 @@ class RSSViewModel: ObservableObject {
     }
 }
 
+// MARK: - WebView Representable
+
+struct WebView: UIViewRepresentable {
+    let url: URL
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.navigationDelegate = context.coordinator // Set the navigation delegate
+        return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        uiView.load(request)
+    }
+    
+    // Coordinator for handling navigation events
+    func makeCoordinator() -> Coordinator {
+          Coordinator(self)
+      }
+
+      class Coordinator: NSObject, WKNavigationDelegate {
+          var parent: WebView
+
+          init(_ parent: WebView) {
+              self.parent = parent
+          }
+          
+          //Handle navigation failures
+          func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+              print("Navigation failed: \(error.localizedDescription)")
+          }
+          
+          //Handle loading process failures
+          func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+                print("Loading failed: \(error.localizedDescription)")
+            }
+      }
+}
+
+// MARK: - Detail View (Displays WebView)
+
+struct ArticleDetailView: View {
+    let url: URL
+
+    var body: some View {
+        WebView(url: url)
+            .navigationBarTitleDisplayMode(.inline) // Keep the navigation bar clean
+    }
+}
+
 // MARK: - SwiftUI View
 
 struct RSSContentView: View {
     @StateObject private var viewModel = RSSViewModel()
-    @State private var isShowingAlert = false // State for showing the alert
-    
-    // Date formatter for display (static for performance)
-       static let displayDateFormatter: DateFormatter = {
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.timeStyle = .short
-           return formatter
-       }()
+    @State private var isShowingAlert = false
+    @State private var selectedItemURL: URL? // Store the URL to open
+    @State private var isShowingWebView = false // Control the presentation of WebView
+
+    static let displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
 
     var body: some View {
         NavigationView {
-            ZStack { // Use ZStack to overlay loading indicator and list
-                List(viewModel.rssItems) { item in
-                    VStack(alignment: .leading, spacing: 5) {
-                        if let imageURLString = item.imageURL, let url = URL(string: imageURLString) {
-                            AsyncImage(url: url) { phase in  //Use AsyncImage
-                                switch phase {
-                                case .empty:
-                                    ProgressView() // Show a loader while loading
-                                        .frame(maxWidth: .infinity, maxHeight: 200)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxWidth: .infinity, maxHeight: 200)
-                                case .failure:
-                                    Image(systemName: "photo") // Placeholder for failed image
-                                        .frame(maxWidth: .infinity, maxHeight: 200)
-                                @unknown default:
-                                    EmptyView()
+            ZStack {
+                List { // Use List with explicit ForEach
+                    ForEach(viewModel.rssItems) { item in
+                        VStack(alignment: .leading, spacing: 5) {
+                            if let imageURLString = item.imageURL, let url = URL(string: imageURLString) {
+                                AsyncImage(url: url) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(maxWidth: .infinity, maxHeight: 200)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity, maxHeight: 200)
+                                    case .failure:
+                                        Image(systemName: "photo")
+                                            .frame(maxWidth: .infinity, maxHeight: 200)
+                                    @unknown default:
+                                        EmptyView()
+                                    }
                                 }
                             }
+                            Text(item.title)
+                                .font(.headline)
+                            if let pubDate = item.pubDate {
+                                Text(RSSContentView.displayDateFormatter.string(from: pubDate))
+                                    .font(.subheadline)
+                            } else {
+                                Text("No date available")
+                                    .font(.subheadline)
+                            }
+
+                            Text(item.itemDescription)
+                                .font(.body)
+                                .lineLimit(4)
                         }
-                        Text(item.title)
-                            .font(.headline)
-                        if let pubDate = item.pubDate { // Safely unwrap the optional Date
-                            Text(RSSContentView.displayDateFormatter.string(from: pubDate)) // Use the display formatter
-                                .font(.subheadline)
-                        } else {
-                            Text("No date available")
-                                .font(.subheadline)
+                        .contentShape(Rectangle()) // Make the entire cell tappable
+                        .onTapGesture {
+                            if let url = URL(string: item.link) {
+                                self.selectedItemURL = url
+                                self.isShowingWebView = true // Show the sheet
+                            }
                         }
-                        
-                        Text(item.itemDescription)
-                            .font(.body)
-                            .lineLimit(4)
                     }
                 }
                 .navigationTitle("Law360 RSS")
-                .refreshable { // Add pull-to-refresh
+                .refreshable {
                     viewModel.loadRSS()
                 }
-                .alert(isPresented: $isShowingAlert) { // Alert for error
+                .alert(isPresented: $isShowingAlert) {
                     Alert(
                         title: Text("Error"),
                         message: Text(viewModel.errorMessage ?? "An unknown error occurred"),
@@ -277,10 +325,15 @@ struct RSSContentView: View {
                     )
                 }
 
-                if viewModel.isLoading { // Conditional loading indicator
+                if viewModel.isLoading {
                     ProgressView("Loading...")
                         .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                         .scaleEffect(1.5)
+                }
+            }
+            .sheet(isPresented: $isShowingWebView) { // Use sheet for modal presentation
+                if let url = selectedItemURL {
+                    ArticleDetailView(url: url)
                 }
             }
         }
@@ -289,21 +342,21 @@ struct RSSContentView: View {
         }
         .onChange(of: viewModel.errorMessage) { newValue in
             if newValue != nil {
-                isShowingAlert = true // Show alert when there's an error
+                isShowingAlert = true
             }
         }
     }
 }
-
 
 // MARK: - Combined ForYouView
 
 struct ForYouView: View {
     @State private var searchText: String = ""
     @State private var isCompactView: Bool = false
-    @StateObject private var rssViewModel = RSSViewModel() // ViewModel for RSS data
+    @StateObject private var rssViewModel = RSSViewModel()
     @State private var isShowingAlert = false
-
+    @State private var selectedItemURL: URL? // Store the URL to open
+    @State private var isShowingWebView = false  // Control the presentation of WebView
 
     var body: some View {
         NavigationView {
@@ -326,10 +379,9 @@ struct ForYouView: View {
                     // Filter Bar (Newest First, Compact View, More Options)
                     HStack {
                         Button(action: {
-                            // Handle sorting.  Sort by date, newest first.
                             rssViewModel.rssItems.sort { (item1, item2) -> Bool in
                                 guard let date1 = item1.pubDate, let date2 = item2.pubDate else {
-                                    return false // If dates are nil, don't change order
+                                    return false
                                 }
                                 return date1 > date2
                             }
@@ -363,9 +415,9 @@ struct ForYouView: View {
                     }
                     .padding(.horizontal)
 
-                    // Updates Notification (Placeholder - You can customize this)
+                    // Updates Notification
                     HStack {
-                        Image(systemName: "3.circle.fill") // Example notification
+                        Image(systemName: "3.circle.fill")
                             .foregroundColor(.red)
                         Text("updates since you last visit")
                             .font(.caption)
@@ -377,31 +429,36 @@ struct ForYouView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
-                    // Dynamic RSS Content Cards
-                   if rssViewModel.isLoading {
-                       ProgressView()
-                           .padding()
-                   } else if let errorMessage = rssViewModel.errorMessage {
-                       Text("Error: \(errorMessage)")
-                           .foregroundColor(.red)
-                           .padding()
-                   } else {
-                       ForEach(rssViewModel.rssItems) { item in
-                           RSSItemView(item: item, isCompact: isCompactView)
-                       }
-                   }
 
+                    // Dynamic RSS Content Cards
+                    if rssViewModel.isLoading {
+                        ProgressView()
+                            .padding()
+                    } else if let errorMessage = rssViewModel.errorMessage {
+                        Text("Error: \(errorMessage)")
+                            .foregroundColor(.red)
+                            .padding()
+                    } else {
+                        ForEach(rssViewModel.rssItems) { item in
+                            RSSItemView(item: item, isCompact: isCompactView)
+                                .contentShape(Rectangle()) // Make entire card tappable
+                                .onTapGesture {
+                                    if let url = URL(string: item.link) {
+                                        self.selectedItemURL = url
+                                        self.isShowingWebView = true
+                                    }
+                                }
+                        }
+                    }
                 }
                 .padding(.top)
             }
             .background(Color.black.edgesIgnoringSafeArea(.all))
             .navigationBarHidden(true)
-             //Alert for errors.
             .alert(isPresented: $isShowingAlert) {
                 Alert(title: Text("Error"), message: Text(rssViewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
             }
-            // Tab Bar (Remains the same)
+            // Tab Bar
             HStack {
                 TabBarButton(iconName: "waveform.path.ecg", label: "For you", isActive: true)
                 TabBarButton(iconName: "book", label: "Episodes")
@@ -412,13 +469,19 @@ struct ForYouView: View {
             .background(Color.black)
             .frame(maxWidth: .infinity)
             .border(Color.gray.opacity(0.3), width: 1)
+            
+            .sheet(isPresented: $isShowingWebView) { // Use sheet for modal presentation
+                if let url = selectedItemURL {
+                    ArticleDetailView(url: url)
+                }
+            }
         }
         .onAppear {
             rssViewModel.loadRSS()
         }
         .onChange(of: rssViewModel.errorMessage) { newValue in
             if newValue != nil {
-                isShowingAlert = true // Show alert when there's an error
+                isShowingAlert = true
             }
         }
     }
@@ -433,8 +496,7 @@ struct RSSItemView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(alignment: .leading) {
-                
-                // Display image if available
+
                 if let imageURLString = item.imageURL, let url = URL(string: imageURLString) {
                     AsyncImage(url: url) { phase in
                         switch phase {
@@ -444,24 +506,23 @@ struct RSSItemView: View {
                         case .success(let image):
                             image
                                 .resizable()
-                                .scaledToFill() // Use scaledToFill for better image display
+                                .scaledToFill()
                                 .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
-                                .clipped() // Clip the image to the frame
+                                .clipped()
                         case .failure:
-                            Image(systemName: "photo") // Placeholder for failed image
-                               .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
+                            Image(systemName: "photo")
+                                .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
                         @unknown default:
                             EmptyView()
                         }
                     }
                 } else {
-                    // Placeholder if no image
                     RoundedRectangle(cornerRadius: 25)
                         .fill(Color.gray.opacity(0.3))
-                        .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200) // Keep consistent height
+                        .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
                 }
 
-                if !isCompact{
+                if !isCompact {
                     Text(item.title)
                         .font(.title2)
                         .fontWeight(.bold)
@@ -474,7 +535,7 @@ struct RSSItemView: View {
                         .font(.system(size: 8))
                         .foregroundColor(.gray)
                     if let pubDate = item.pubDate {
-                        Text(RSSContentView.displayDateFormatter.string(from: pubDate)) //Consistent date format
+                        Text(RSSContentView.displayDateFormatter.string(from: pubDate))
                             .font(.caption)
                             .foregroundColor(.gray)
                     } else {
@@ -491,7 +552,6 @@ struct RSSItemView: View {
                     .lineLimit(isCompact ? 2 : 4)
                     .padding(.top, isCompact ? 1 : 2)
 
-                // Topic Tags (Placeholder - Adapt as needed)
                 if !isCompact {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
@@ -512,7 +572,7 @@ struct RSSItemView: View {
             .padding()
             .background(RoundedRectangle(cornerRadius: 25).fill(Color.black))
 
-            // Bookmark Icon (Placeholder - Implement bookmark functionality)
+            // Bookmark Icon
             Button(action: {
                 // Handle bookmark action
             }) {
@@ -526,8 +586,7 @@ struct RSSItemView: View {
     }
 }
 
-
-// MARK: - Helper Views (Remain the same, but made accessible)
+// MARK: - Helper Views
 
 struct TopicTag: View {
     let title: String
@@ -574,4 +633,3 @@ struct CombinedView_Previews: PreviewProvider {
             .preferredColorScheme(.dark)
     }
 }
-
