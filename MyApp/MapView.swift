@@ -15,6 +15,7 @@ struct MapView: View {
     @State private var searchText = ""
     @State private var selection = "Nearby"
     @State private var showFilter = false
+    @State private var orderType = 0 // 0 for Pickup, 1 for Delivery
 
     var body: some View {
         NavigationView {
@@ -31,8 +32,8 @@ struct MapView: View {
                 }
                 .background(Color(.systemGray6))
 
-                // Pickup/Delivery
-                Picker(selection: .constant(0), label: Text("Order Type")) {
+                // Pickup/Delivery - Now a segmented control bound to orderType
+                Picker(selection: $orderType, label: Text("Order Type")) {
                     Text("Pickup").tag(0)
                     Text("Delivery").tag(1)
                 }
@@ -41,86 +42,93 @@ struct MapView: View {
                 .background(Color(UIColor(red: 0.1, green: 0.4, blue: 0.1, alpha: 1.0)))
                 .foregroundColor(.white)
 
-                // Map View
-                Map(coordinateRegion: $region, showsUserLocation: true)
-                    .overlay(
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 15, height: 15)
-                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .offset(y: -2),
-                        alignment: .center
-                    )
-                    .overlay(
-                        VStack {
-                            Spacer()
-                            HStack {
+                // Conditional View: Delivery or Map/List
+                if orderType == 1 { // Delivery View
+                    DeliveryView()
+                } else { // Pickup View (Map and List)
+
+                    // Map View
+                    Map(coordinateRegion: $region, showsUserLocation: true)
+                        .overlay(
+                            Circle()
+                                .fill(Color.blue)
+                                .frame(width: 15, height: 15)
+                                .overlay(Circle().stroke(Color.white, lineWidth: 3))
+                                .offset(y: -2),
+                            alignment: .center
+                        )
+                        .overlay(
+                            VStack {
                                 Spacer()
-                                Button(action: {}) {
-                                    Image(systemName: "paperplane.circle.fill")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .foregroundColor(.white)
-                                        .background(Color.gray.opacity(0.5))
-                                        .clipShape(Circle())
-                                        .padding()
+                                HStack {
+                                    Spacer()
+                                    Button(action: {}) {
+                                        Image(systemName: "paperplane.circle.fill")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundColor(.white)
+                                            .background(Color.gray.opacity(0.5))
+                                            .clipShape(Circle())
+                                            .padding()
+                                    }
                                 }
                             }
-                        }
-                    )
-                    .overlay(
-                        VStack {
-                            Spacer()
-                            HStack {
+                        )
+                        .overlay(
+                            VStack {
                                 Spacer()
-                                Button(action: {
-                                    showFilter = true
-                                }) {
-                                    Text("Filter")
-                                        .padding()
-                                        .foregroundColor(.white)
-                                        .background(Color.gray.opacity(0.7))
-                                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        showFilter = true
+                                    }) {
+                                        Text("Filter")
+                                            .padding()
+                                            .foregroundColor(.white)
+                                            .background(Color.gray.opacity(0.7))
+                                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                                    }
+                                    .padding()
                                 }
-                                .padding()
                             }
-                        }
-                    )
+                        )
 
-                // Tab Bar
-                Picker(selection: $selection, label: Text("")) {
-                    Text("Nearby").tag("Nearby")
-                    Text("Previous").tag("Previous")
-                    Text("Favorites").tag("Favorites")
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.top)
-
-                // List of Stores
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 8) {
-                        if selection == "Nearby" {
-                            StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
-                            StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
-                            StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
-                            StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
-                            StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
-                            StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
-                            StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
-                            StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
-                            StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
-                            StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
-                            StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
-                            StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
-                        } else if selection == "Previous" {
-                            Text("Previous Orders Content")
-                        } else {
-                            Text("Favorite Orders Content")
-                        }
+                    // Tab Bar
+                    Picker(selection: $selection, label: Text("")) {
+                        Text("Nearby").tag("Nearby")
+                        Text("Previous").tag("Previous")
+                        Text("Favorites").tag("Favorites")
                     }
-                    .padding(.horizontal)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.top)
+
+                    // List of Stores
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 8) {
+                            if selection == "Nearby" {
+                                StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
+                                StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
+                                StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
+                                StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
+                                StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
+                                StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
+                                StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
+                                StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
+                                StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
+                                StoreRow(storeName: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", openUntil: "Open until 9:30 PM", inStore: true, driveThru: true)
+                                StoreRow(storeName: "Highland & Wilshire", address: "5020 Wilshire Blvd, Los Angeles", distance: "30.4 mi", openUntil: "Open until 7:00 PM", inStore: true, driveThru: false)
+                                StoreRow(storeName: "Chicago Roastery", address: "646 N. Michigan Avenue, Chicago", distance: "1741.6 mi", openUntil: "Open until 8:00 PM", inStore: false, driveThru: false, isNotAvailable: true)
+
+                            } else if selection == "Previous" {
+                                Text("Previous Orders Content")
+                            } else {
+                                Text("Favorite Orders Content")
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
 
                 // Bottom Navigation Bar
                 HStack {
@@ -137,7 +145,7 @@ struct MapView: View {
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarHidden(true)
             .sheet(isPresented: $showFilter) {
-                StoreFiltersView(isPresented: $showFilter, storeCount: 50) // Pass store count
+                StoreFiltersView(isPresented: $showFilter, storeCount: 50)
             }
         }
     }
@@ -204,12 +212,10 @@ struct BottomNavLink: View {
     }
 }
 
-// MARK: - StoreFiltersView
-
 struct StoreFiltersView: View {
     @Binding var isPresented: Bool
-    @State private var filters: [String: Bool] = [:] // Store filter states
-    let storeCount: Int  // Add storeCount
+    @State private var filters: [String: Bool] = [:]
+    let storeCount: Int
 
     var body: some View {
         NavigationView {
@@ -243,11 +249,9 @@ struct StoreFiltersView: View {
                     }
 
                     Button(action: {
-                        // Apply filters and dismiss
                         isPresented = false
-                        //applyFilters() // Call a function to apply the filters
                     }) {
-                        Text("Show \(storeCount) stores") // Use storeCount
+                        Text("Show \(storeCount) stores")
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()
@@ -266,33 +270,110 @@ struct StoreFiltersView: View {
                     .imageScale(.large)
                     .padding(.leading)
             })
-            .navigationBarTitle("", displayMode: .inline) // Keep title empty for layout
+            .navigationBarTitle("", displayMode: .inline)
         }
     }
 }
 
-// MARK: - FilterButton
-
 struct FilterButton: View {
     let label: String
-    @Binding var isSelected: Bool?  // Use optional Bool
+    @Binding var isSelected: Bool?
 
     var body: some View {
         Button(action: {
-            isSelected = !(isSelected ?? false) // Toggle, handle nil
+            isSelected = !(isSelected ?? false)
         }) {
             Text(label)
                 .font(.subheadline)
-                .foregroundColor((isSelected ?? false) ? .white : .green) // Handle nil
+                .foregroundColor((isSelected ?? false) ? .white : .green)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 12)
-                .background((isSelected ?? false) ? Color.green : Color.white) // Handle nil
+                .background((isSelected ?? false) ? Color.green : Color.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.green, lineWidth: 1)
                 )
                 .cornerRadius(20)
         }
+    }
+}
+
+// MARK: - DeliveryView
+
+struct DeliveryView: View {
+    var body: some View {
+        VStack {
+            GeometryReader { geometry in
+                ZStack {
+                    // Background Image (Gradient)
+                    LinearGradient(gradient: Gradient(colors: [
+                        Color(UIColor(red: 0.8, green: 0.85, blue: 0.8, alpha: 1.0)), // Light greenish-gray
+                        Color(UIColor(red: 0.1, green: 0.4, blue: 0.1, alpha: 1.0))  // Dark green
+                    ]), startPoint: .top, endPoint: .bottom)
+                    .frame(width: geometry.size.width, height: geometry.size.height / 2) // Half the screen
+                    .clipShape(RoundedRectangle(cornerRadius: 35))
+
+                    VStack {
+                        Spacer()
+                        // Placeholder image (bag and cups)
+                        Image(systemName: "bag.fill.badge.plus")  // Use a system image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height / 3) // Adjust size
+                            .foregroundColor(Color(UIColor(red: 0.1, green: 0.4, blue: 0.1, alpha: 1.0))) // Dark Green
+
+                        Text("Today deserves delivery")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.top)
+
+                        Button(action: {
+                            // Handle "Get started" action
+                        }) {
+                            Text("Get started")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color(UIColor(red: 0.1, green: 0.4, blue: 0.1, alpha: 1.0)))
+                                .cornerRadius(25)
+                        }
+                        .padding(.horizontal)
+
+                        Button(action: {
+                            // Handle "Delivery FAQs" action
+                        }) {
+                            Text("Delivery FAQs")
+                                .font(.headline)
+                                .foregroundColor(.green)
+                                .padding()
+                        }
+
+                        Spacer() // Push content to the top
+                    }
+                    .frame(width: geometry.size.width) // Ensure content respects width
+
+                }
+
+            }
+            // DoorDash attribution (outside GeometryReader)
+            VStack(alignment: .leading){
+                Text("POWERED BY")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    + Text("  ")
+                    + Text(Image(systemName: "arrow.up.right.circle.fill")) // DoorDash logo placeholder
+                    + Text(" DOORDASH")
+                        .font(.caption)
+                        .foregroundColor(.red)
+
+                Text("Menu limited. Menu pricing for delivery may be higher than posted in stores or as marked. Additional fees may apply. Delivery orders are not eligible for Starbucks® Rewards benefits at this time. Check our Delivery FAQs for additional help.")
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+            }
+            .padding()
+        }
+        .edgesIgnoringSafeArea(.top) // Ignore safe area at the top for the gradient
     }
 }
 
