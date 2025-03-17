@@ -5,14 +5,6 @@
 //  Created by Cong Le on 3/17/25.
 //
 
-
-//
-//  CombinedRSSView.swift
-//  MyApp
-//
-//  Created by Cong Le on 3/17/25.
-//
-
 import SwiftUI
 import SafariServices
 
@@ -101,11 +93,16 @@ final class RSSParser: NSObject, XMLParserDelegate {
         guard inItem else { return }
         
         switch currentElement {
-        case "title":            currentTitle += string
-        case "link":            currentLink += string
-        case "pubDate":            currentPubDate += string
-        case "description":            currentDescription += string
-        default:            break
+        case "title":
+            currentTitle += string
+        case "link":
+            currentLink += string
+        case "pubDate":
+            currentPubDate += string
+        case "description":
+            currentDescription += string
+        default:
+            break
         }
     }
     
@@ -116,9 +113,11 @@ final class RSSParser: NSObject, XMLParserDelegate {
             let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
             var parsedDate: Date? = RSSParser.dateFormatter.date(from: trimmedPubDate)
             
-            if parsedDate == nil {                parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
+            if parsedDate == nil {
+                parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
             }
-            if parsedDate == nil {                parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
+            if parsedDate == nil {
+                parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
             }
             
             let newItem = RSSItem(
@@ -131,16 +130,19 @@ final class RSSParser: NSObject, XMLParserDelegate {
             items.append(newItem)
         }
         
-        if elementName == "media:content" || elementName == "enclosure" || elementName == "image" {            inImage = false
+        if elementName == "media:content" || elementName == "enclosure" || elementName == "image" {
+            inImage = false
         }
         
         currentElement = ""
     }
     
-    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {        print("Parse error: \(parseError)")
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        print("Parse error: \(parseError)")
     }
     
-    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {        print("Validation error: \(validationError)")
+    func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
+        print("Validation error: \(validationError)")
     }
 }
 
@@ -152,7 +154,7 @@ class RSSViewModel: ObservableObject {
     @Published var errorMessage: String? = nil
     
     private let staticRSSItems: [RSSItem] = [ // Static data for demonstration
-        RSSItem(title: "Static Article 1", link: "https://www.example.com/1", pubDate: Date(), itemDescription: "Description 1", imageURL: "https://via.placeholder.com/300x200.png?text=Static+1"),
+        RSSItem(title: "Static Article 1", link: "https://www.example.com/1", pubDate: Date(), itemDescription: "Description 1", imageURL: "placeholderImage1"),
         RSSItem(title: "Static Article 2", link: "https://www.example.com/2", pubDate: Date().addingTimeInterval(-86400), itemDescription: "Description 2", imageURL: "https://via.placeholder.com/300x200.png?text=Static+2")
     ]
     
@@ -434,7 +436,10 @@ struct ForYouView: View {
                 .background(Color.black.edgesIgnoringSafeArea(.all))
                 .navigationBarHidden(true)
                 .alert(isPresented: $isShowingAlert) { // Alert for errors
-                    Alert(title: Text("Error"), message: Text(rssViewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Error"),
+                          message: Text(rssViewModel.errorMessage ?? "Unknown error"),
+                          dismissButton: .default(Text("OK"))
+                    )
                 }
 //                // Tab Bar
 //                HStack {
