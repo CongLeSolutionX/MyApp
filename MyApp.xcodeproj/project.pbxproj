@@ -28,6 +28,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9ADCC9852D88B502004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC9842D88B4F1004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9ADCC9842D88B4F1004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRSSArticlesFromLaw360Flow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				9A6173B32D88877300DE08C7 /* ForYouView.swift */,
 				9A6173CF2D88908000DE08C7 /* LoadingRSSArticleWorkflow.swift */,
 				9A6173D12D88952D00DE08C7 /* Law360RSSContentView.swift */,
+				9ADCC9842D88B4F1004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			files = (
 				9A6173C02D888B2C00DE08C7 /* TopicGridView.swift in Sources */,
 				9A6173D22D88952E00DE08C7 /* Law360RSSContentView.swift in Sources */,
+				9ADCC9852D88B502004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A6173BC2D888A5100DE08C7 /* TabBarView.swift in Sources */,
 				9A6173C22D888B9700DE08C7 /* TopicItemView.swift in Sources */,

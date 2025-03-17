@@ -9,7 +9,7 @@
 //
 //// MARK: - Data Model
 //
-//struct RSSItem: Identifiable {
+//struct RSSItem_V1: Identifiable {
 //    let id = UUID()
 //    var title: String
 //    var link: String
@@ -20,7 +20,7 @@
 //
 //// MARK: - XML Parser Delegate
 //
-//final class RSSParser: NSObject, XMLParserDelegate {
+//final class RSSParser_V1: NSObject, XMLParserDelegate {
 //    private var currentElement = ""
 //    private var currentTitle = ""
 //    private var currentLink = ""
@@ -28,7 +28,7 @@
 //    private var currentDescription = ""
 //    private var currentImageURL = ""
 //
-//    private var items: [RSSItem] = []
+//    private var items: [RSSItem_V1] = []
 //    private var inItem = false
 //    private var inImage = false // Flag to check if we are in an image tag.
 //
@@ -55,7 +55,7 @@
 //        return formatter
 //    }()
 //
-//    func parse(data: Data) -> [RSSItem] {
+//    func parse(data: Data) -> [RSSItem_V1] {
 //        items = [] // Clear previous items
 //        let parser = XMLParser(data: data)
 //        parser.delegate = self
@@ -114,19 +114,19 @@
 //
 //            // Trim and parse date
 //            let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
-//            var parsedDate: Date? = RSSParser.dateFormatter.date(from: trimmedPubDate)
+//            var parsedDate: Date? = RSSParser_V1.dateFormatter.date(from: trimmedPubDate)
 //            
 //            // Try the alternative format if the first one fails.
 //            if parsedDate == nil {
-//                parsedDate = RSSParser.alternativeDateFormatter.date(from: trimmedPubDate)
+//                parsedDate = RSSParser_V1.alternativeDateFormatter.date(from: trimmedPubDate)
 //            }
 //            
 //            //Try the alternative format 2 if the previous one fails.
 //            if parsedDate == nil {
-//                parsedDate = RSSParser.alternativeDateFormatter2.date(from: trimmedPubDate)
+//                parsedDate = RSSParser_V1.alternativeDateFormatter2.date(from: trimmedPubDate)
 //            }
 //
-//            let newItem = RSSItem(
+//            let newItem = RSSItem_V1(
 //                title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
 //                link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
 //                pubDate: parsedDate, // Store the Date object
@@ -156,7 +156,7 @@
 //// MARK: - View Model
 //
 //class RSSViewModel: ObservableObject {
-//    @Published var rssItems: [RSSItem] = []
+//    @Published var rssItems: [RSSItem_V1] = []
 //    @Published var isLoading = false // Loading indicator
 //    @Published var errorMessage: String? = nil  // Error Message
 //
@@ -201,7 +201,7 @@
 //            //Added print statement for debugging data received.
 //            //print("Received data: \(String(data: data, encoding: .utf8) ?? "Invalid data")")
 //
-//            let parser = RSSParser()
+//            let parser = RSSParser_V1()
 //            let parsedItems = parser.parse(data: data)
 //
 //            DispatchQueue.main.async {
@@ -426,7 +426,7 @@
 //// MARK: - RSS Item View (Reusable Card)
 //
 //struct RSSItemView: View {
-//    let item: RSSItem
+//    let item: RSSItem_V1
 //    var isCompact: Bool
 //    @State private var isImageLoaded = false // Track image loading state
 //
