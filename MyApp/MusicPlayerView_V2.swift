@@ -1,38 +1,38 @@
 //
-//  SpotifyMusicPlayerView.swift
+//  MusicPlayerView_V2.swift
 //  MyApp
 //
-//  Created by Cong Le on 3/16/25.
+//  Created by Cong Le on 3/17/25.
 //
+
 
 import SwiftUI
 
-struct MusicPlayerView: View {
+struct MusicPlayerView_V2: View {
     //Dummy data, replace with real data later
     @State private var progress: Double = 0.53
     @State private var isPlaying: Bool = false
-    
-    
+
     var body: some View {
         ZStack {
             // Background
             Color("BackgroundColor") // Assuming a custom color in Assets.xcassets
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Top Bar
                 HStack {
                     Button(action: {}) {
                         Image(systemName: "chevron.down")
                     }
-                    
+
                     Spacer()
-                    
+
                     Text("Ngày Mưa Ấy")
                         .font(.headline)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {}) {
                         Image(systemName: "ellipsis")
                     }
@@ -41,7 +41,7 @@ struct MusicPlayerView: View {
                 .padding(.top, 50) // Adjust for safe area
                 .padding(.bottom, 20)
                 .foregroundColor(.white)
-                
+
                 // Album Art
                 Image("My-meme-red-wine-glass") // Replace with your image name
                     .resizable()
@@ -49,20 +49,19 @@ struct MusicPlayerView: View {
                     .cornerRadius(15)
                     .padding(.horizontal, 30)
                     .padding(.bottom,20)
-                
+
                 // Track Info
                 VStack {
                     Text("Ngày Mưa Ấy")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.white)
                     Text("Vicky Nhung")
                         .font(.title2)
                         .foregroundColor(.gray)
                 }
                 .padding(.bottom, 20)
-                
-                
+
                 // Progress Bar
                 VStack {
                     Slider(value: $progress)
@@ -79,7 +78,7 @@ struct MusicPlayerView: View {
                     .padding(.horizontal)
                 }
                 .padding(.bottom, 30)
-                
+
                 // Controls
                 HStack(spacing: 50) {
                     Button(action: {}) {
@@ -101,9 +100,9 @@ struct MusicPlayerView: View {
                         Image(systemName: "repeat")
                     }
                 }
-                .foregroundColor(.green)
+                .foregroundColor(.white)
                 .padding(.bottom, 30)
-                
+
                 // Bottom Bar
                 HStack(spacing: 70) {
                     Button(action: {}) {
@@ -111,47 +110,78 @@ struct MusicPlayerView: View {
                             .font(.title2)
                     }
                     Spacer()
-                    
+
                     Button(action: {}){
                         Image(systemName: "square.and.arrow.up")
                             .font(.title2)
                     }
                     Spacer()
-                    
+
                     Button(action:{}){
                         Image(systemName: "line.3.horizontal")
                             .font(.title2)
                     }
                 }
                 .padding(.horizontal)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 .padding(.bottom, 20)
-                
-                //Explore Button
-                Button(action: {}){
+
+                // Explore Vicky Nhung Section
+                VStack(alignment: .leading) { // Align title to leading edge
                     Text("Explore Vicky Nhung")
                         .font(.headline)
-                        .fontWeight(.semibold)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity) // Full width button
-                        .background(Color.gray.opacity(0.5))
-                        .cornerRadius(10)
-                    
-                    
+                        .padding(.horizontal)
+                        .padding(.bottom, 10)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 15) { // Spacing between cards
+                            ExploreCardView(imageName: "exploreImage1", text: "Songs by\nVicky Nhung")
+                            ExploreCardView(imageName: "exploreImage2", text: "Similar to\nVicky Nhung")
+                            ExploreCardView(imageName: "exploreImage3", text: "ĐÀ LẠT\nSimilar to\nNgày Mưa Ấy")
+                        }
+                        .padding(.horizontal)
+                    }
                 }
-                .padding(.horizontal)
-                
-                
+                .padding(.bottom, 20)
+
                 Spacer() // Push content to the top
             }
         }
     }
 }
 
-struct MusicPlayerView_Previews: PreviewProvider {
+// Custom Card View for Explore Section
+struct ExploreCardView: View {
+    var imageName: String
+    var text: String
+
+    var body: some View {
+        HStack(alignment: .bottom) { // Align text to leading edge within card
+            Image(imageName) // Replace with your image names
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120, height: 180) // Adjust card image size
+                .cornerRadius(10)
+
+            Text(text)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .padding(.top, 8)
+                .frame(width: 120, alignment: .leading) // Match text width to image, align leading
+                .lineLimit(3) // Limit text lines to avoid overflow
+        }
+        .padding(0) // Padding within the card itself, adjust as needed
+        .background(Color(red: 50/255, green: 50/255, blue: 50/255)) // Dark gray background
+        .cornerRadius(10)
+    }
+}
+
+struct MusicPlayerView_V2_Previews: PreviewProvider {
     static var previews: some View {
-        MusicPlayerView()
-            .preferredColorScheme(.dark)
+        MusicPlayerView_V2()
+            .preferredColorScheme(.dark) // Ensure preview is in dark mode
     }
 }
