@@ -12,9 +12,10 @@ struct ImageUploadingContentView: View {
     @State private var showingImagePicker = false
     @State private var showingActionSheet = false
     @State private var inputImage: UIImage?
-    @State private var showingCamera = false // State to control camera presentation
+    @State private var showingCamera = false
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    @State private var selectedItem: PhotosPickerItem? = nil
+    // No need for selectedItem here anymore
+    // @State private var selectedItem: PhotosPickerItem? = nil
 
     var body: some View {
         NavigationView {
@@ -23,11 +24,11 @@ struct ImageUploadingContentView: View {
                 if let inputImage = inputImage {
                     Image(uiImage: inputImage)
                         .resizable()
-                        .scaledToFit() // Better than .scaleEffect for aspect ratio
-                        .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill available space
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    Rectangle() // Placeholder
-                        .fill(Color.gray.opacity(0.3)) // Light gray placeholder
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
 
@@ -35,40 +36,31 @@ struct ImageUploadingContentView: View {
                     showingActionSheet = true
                 }
                 .padding()
-                .background(Color.blue) // Blue background, matches the design
+                .background(Color.blue)
                 .foregroundColor(.white)
                 .font(.headline)
                 .cornerRadius(10)
             }
-            .navigationTitle("Upload Image") // Keep Navigation title
-            .navigationBarTitleDisplayMode(.inline) // Make sure it is inline and not large
+            .navigationTitle("Upload Image")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        //Handle dismiss.
+                        // Handle dismiss (if needed, e.g., clearing state)
+                        showingImagePicker = false // Dismiss if it was open
+                        showingCamera = false // Dismiss if it was open
                     }
                 }
             }
             .sheet(isPresented: $showingImagePicker) {
-                //Use the new photos picker.
-                PhotoPickerView(selectedItem: $selectedItem)
+                PhotoPickerView(image: $inputImage) // Pass the image binding directly
                     .ignoresSafeArea(.all, edges: .bottom)
             }
             .fullScreenCover(isPresented: $showingCamera) {
                 CameraView(image: $inputImage, sourceType: $sourceType)
                     .ignoresSafeArea(.all, edges: .bottom)
             }
-            .onChange(of: selectedItem) { _ in
-                Task {
-                    if let data = try? await selectedItem?.loadTransferable(type: Data.self) {
-                        if let uiImage = UIImage(data: data) {
-                            inputImage = uiImage
-                            return
-                        }
-                    }
-                    print("Failed to load image")
-                }
-            }
+            // No need for onChange here anymore
             .actionSheet(isPresented: $showingActionSheet) {
                 ActionSheet(title: Text("Select Source"), message: nil, buttons: [
                     .default(Text("Photo Gallery")) {
@@ -77,7 +69,7 @@ struct ImageUploadingContentView: View {
                     },
                     .default(Text("Camera")) {
                         sourceType = .camera
-                        showingCamera = true // Show the CameraView
+                        showingCamera = true
                     },
                     .cancel()
                 ])
@@ -86,7 +78,6 @@ struct ImageUploadingContentView: View {
     }
 }
 
-//Custom Camera View
 struct CameraView: UIViewControllerRepresentable {
     @Binding var image: UIImage?
     @Binding var sourceType: UIImagePickerController.SourceType
@@ -95,7 +86,7 @@ struct CameraView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
-        picker.sourceType = sourceType // Use the sourceType passed from ContentView
+        picker.sourceType = sourceType
         picker.allowsEditing = false
         return picker
     }
@@ -126,46 +117,51 @@ struct CameraView: UIViewControllerRepresentable {
     }
 }
 
-//Custom Photo Picker
 struct PhotoPickerView: UIViewControllerRepresentable {
-    @Binding var selectedItem: PhotosPickerItem?
+    @Binding var image: UIImage? // Directly bind to the image
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
-        var config = PHPickerConfiguration()
+        var config = PHPickerConfiguration(photoLibrary: .shared()) // Specify photo library
         config.filter = .images
         config.selectionLimit = 1
         let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
     }
-    
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
-        
-    }
-    
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: PhotoPickerView
-        
+
         init(_ parent: PhotoPickerView) {
             self.parent = parent
         }
-        
+
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
-            
+
             guard let provider = results.first?.itemProvider else { return }
-            
+
+            // Correctly load the UIImage
             if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    //Handle your image.
+                provider.loadObject(ofClass: UIImage.self) { [weak self] loadingResults, error in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            print("Error loading image: \(error)") // Better error handling
+                            return
+                        }
+                        // Cast to UIImage, update the binding
+                        if let uiImage = loadingResults as? UIImage {
+                            self?.parent.image = uiImage
+                        }
+                    }
                 }
             }
-            
-            parent.selectedItem = results.first
         }
     }
 }
