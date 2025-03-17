@@ -11,6 +11,7 @@ struct MusicPlayerView: View {
     //Dummy data, replace with real data later
     @State private var progress: Double = 0.53
     @State private var isPlaying: Bool = false
+    @State private var isShareSheetVisible: Bool = false // State for share sheet visibility
     
     
     var body: some View {
@@ -112,9 +113,14 @@ struct MusicPlayerView: View {
                     }
                     Spacer()
                     
-                    Button(action: {}){
+                    Button(action: {
+                        isShareSheetVisible = true // Show share sheet on button tap
+                    }){
                         Image(systemName: "square.and.arrow.up")
                             .font(.title2)
+                    }
+                    .sheet(isPresented: $isShareSheetVisible) { // Present the share sheet
+                        ShareSheetView()
                     }
                     Spacer()
                     
@@ -148,10 +154,13 @@ struct MusicPlayerView: View {
         }
     }
 }
-
+// MARK: - Preview
 struct MusicPlayerView_Previews: PreviewProvider {
     static var previews: some View {
         MusicPlayerView()
             .preferredColorScheme(.dark)
+        
+        MusicPlayerView()
+            .preferredColorScheme(.light)
     }
 }
