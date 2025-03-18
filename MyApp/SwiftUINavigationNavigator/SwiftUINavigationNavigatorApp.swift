@@ -22,9 +22,10 @@ struct Node: Hashable, Identifiable, Codable {
     var type: NodeType
     var children: [Node]?
     var details: String?
-    var creationDate: Date? // Added for "More Complex Data"
-    var size: Int?          // Added for "More Complex Data"
+    var creationDate: Date? // More complex data
+    var size: Int?          // More complex data
     
+    // Equatable & Hashable conformances are derived from the id
     static func == (lhs: Node, rhs: Node) -> Bool {
         return lhs.id == rhs.id
     }
@@ -41,9 +42,10 @@ class NavigationState: ObservableObject, Codable {
     @Published var columnVisibility: NavigationSplitViewVisibility = .automatic
     
     enum CodingKeys: String, CodingKey {
-        case path, selectedNode, columnVisibility, selectedSecondaryNode
+        case path, selectedNode, selectedSecondaryNode, columnVisibility
     }
     
+    // Custom decoding to unwrap values from the @Published wrappers.
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         path = try container.decode([Node].self, forKey: .path)
@@ -52,6 +54,7 @@ class NavigationState: ObservableObject, Codable {
         columnVisibility = try container.decode(NavigationSplitViewVisibility.self, forKey: .columnVisibility)
     }
     
+    // Custom encoding for the @Published values.
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(path, forKey: .path)
@@ -86,6 +89,7 @@ class NodeData: ObservableObject {
         ]
     }
     
+    // Returns children only if the node is a container.
     func children(of node: Node?) -> [Node] {
         guard let node = node, node.type == .container else {
             return []
@@ -93,6 +97,7 @@ class NodeData: ObservableObject {
         return node.children ?? []
     }
     
+    // If the node is "Array", returns a list of subchildren.
     func subChildren(of node: Node) -> [Node] {
         if node.name == "Array" {
             return [
@@ -115,40 +120,33 @@ struct NavigationNavigatorApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SwiftUINavigationNavigator_ContentView()
                 .environmentObject(navigationState)
                 .environmentObject(nodeData)
                 .task {
-                    // Restore state
+                    // Restore state if stored in SceneStorage.
                     if let data = navigationData {
                         do {
                             let decodedState = try JSONDecoder().decode(NavigationState.self, from: data)
                             navigationState.path = decodedState.path
                             navigationState.selectedNode = decodedState.selectedNode
+                            navigationState.selectedSecondaryNode = decodedState.selectedSecondaryNode
                             navigationState.columnVisibility = decodedState.columnVisibility
                         } catch {
                             print("Decoding error: \(error)")
                         }
                     }
                     
-                    // Persist state.  Use .values to get an AsyncSequence.
-                    Task { // Create a separate Task for observing changes
-                        for await _ in navigationState.$path.values {
-                            saveNavigationState()
-                        }
-                    }
-                    Task {
-                        for await _ in navigationState.$selectedNode.values {
-                            saveNavigationState()
-                        }
-                    }
-                    Task {
-                        for await _ in navigationState.$columnVisibility.values {
-                            saveNavigationState()
-                        }
+                    // Use a single combined Task to save when any of the @Published properties change.
+                    for await _ in Publishers.Merge3(
+                        navigationState.$path.map { _ in () },
+                        navigationState.$selectedNode.map { _ in () },
+                        navigationState.$columnVisibility.map { _ in () }
+                    ).values {
+                        saveNavigationState()
                     }
                 }
-                .onOpenURL { url in // Deeplinking
+                .onOpenURL { url in // Handle deep linking.
                     handleDeepLink(url: url)
                 }
         }
@@ -159,36 +157,42 @@ struct NavigationNavigatorApp: App {
             let encodedData = try JSONEncoder().encode(navigationState)
             navigationData = encodedData
         } catch {
-            print("Encoding Error \(error)")
+            print("Encoding error: \(error)")
         }
     }
     
     func handleDeepLink(url: URL) {
+        // Check for proper scheme.
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              components.scheme == "navigationnavigator" else { // Replace 'navigationnavigator'
+              components.scheme == "navigationnavigator" else {
             return
         }
         
         if components.host == "node" {
-            let pathComponents = components.path.split(separator: "/").map(String.init)
+            let pathComponents = components.path
+                .split(separator: "/")
+                .map(String.init)
             var currentNode: Node?
             var currentChildren = nodeData.rootNodes
             
+            // Traverse the path components to find the target node.
             for component in pathComponents {
                 if let foundNode = currentChildren.first(where: { $0.name == component }) {
                     currentNode = foundNode
-                    if let children = currentNode?.children {
-                        currentChildren = children
-                    }
+                    currentChildren = foundNode.children ?? []
                 } else {
-                    return // Invalid path
+                    return // Invalid path.
                 }
             }
             
             if let targetNode = currentNode {
-                navigationState.path = [targetNode] // For simplicity, use path for all
-                navigationState.selectedNode = targetNode // Also set for Split/ThreeColumn
-                // If navigating to a sub-child, set selectedSecondaryNode appropriately
+                // Update both the path and the secondary selection as appropriate.
+                navigationState.path = [targetNode]
+                navigationState.selectedNode = targetNode
+                // Optionally update selectedSecondaryNode if the target has children.
+                if let firstChild = targetNode.children?.first {
+                    navigationState.selectedSecondaryNode = firstChild
+                }
             }
         }
     }
@@ -199,28 +203,27 @@ struct NavigationNavigatorApp: App {
 struct SwiftUINavigationNavigator_ContentView: View {
     @State private var navigationStyle: NavigationStyle = .automatic
     @EnvironmentObject var navigationState: NavigationState
-    enum NavigationStyle: String, CaseIterable, Identifiable { // Make it Identifiable
-        case automatic, stack, split, threeColumn
-        var id: String { self.rawValue } // Implement id
-    }
     
+    enum NavigationStyle: String, CaseIterable, Identifiable {
+        case automatic, stack, split, threeColumn
+        var id: String { self.rawValue }
+    }
     
     var body: some View {
         Group {
-            if navigationStyle == .automatic {
+            switch navigationStyle {
+            case .automatic, .split:
                 SplitView()
-            } else if navigationStyle == .stack {
+            case .stack:
                 StackView()
-            } else if navigationStyle == .split{
-                SplitView()
-            } else {
-                ThreeColumnView()
+            case .threeColumn:
+                ThreeColumnView(navigationStyle: navigationStyle)
             }
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Picker("Navigation Style", selection: $navigationStyle) {
-                    ForEach(NavigationStyle.allCases) { style in // Use ForEach with Identifiable
+                    ForEach(NavigationStyle.allCases) { style in
                         Text(style.rawValue.capitalized).tag(style)
                     }
                 }
@@ -239,15 +242,13 @@ struct StackView: View {
             List {
                 ForEach(nodeData.rootNodes) { node in
                     NavigationLink(value: node) {
-                        withAnimation {
-                            NodeRow(node: node)
-                        }
+                        NodeRow(node: node)
                     }
                 }
             }
             .navigationTitle("Root Nodes")
             .navigationDestination(for: Node.self) { node in
-                NodeDetailView(node: node)
+                NodeDetailView(node: node, navigationStyle: .stack)
             }
         }
     }
@@ -261,16 +262,14 @@ struct SplitView: View {
         NavigationSplitView(columnVisibility: $navigationState.columnVisibility) {
             List(nodeData.rootNodes, selection: $navigationState.selectedNode) { node in
                 NavigationLink(value: node) {
-                    withAnimation {
-                        NodeRow(node: node)
-                    }
+                    NodeRow(node: node)
                 }
             }
             .navigationTitle("Root Nodes")
             .navigationSplitViewStyle(.balanced)
         } detail: {
             if let selectedNode = navigationState.selectedNode {
-                NodeDetailView(node: selectedNode)
+                NodeDetailView(node: selectedNode, navigationStyle: .split)
             } else {
                 Text("Select a node")
             }
@@ -281,14 +280,13 @@ struct SplitView: View {
 struct ThreeColumnView: View {
     @EnvironmentObject var navigationState: NavigationState
     @EnvironmentObject var nodeData: NodeData
+    let navigationStyle: SwiftUINavigationNavigator_ContentView.NavigationStyle
     
     var body: some View {
         NavigationSplitView(columnVisibility: $navigationState.columnVisibility) {
             List(nodeData.rootNodes, selection: $navigationState.selectedNode) { node in
                 NavigationLink(value: node) {
-                    withAnimation {
-                        NodeRow(node: node)
-                    }
+                    NodeRow(node: node)
                 }
             }
             .navigationTitle("Root Nodes")
@@ -296,9 +294,7 @@ struct ThreeColumnView: View {
             if let selectedNode = navigationState.selectedNode {
                 List(nodeData.children(of: selectedNode), selection: $navigationState.selectedSecondaryNode) { childNode in
                     NavigationLink(value: childNode) {
-                        withAnimation{
-                            NodeRow(node: childNode)
-                        }
+                        NodeRow(node: childNode)
                     }
                 }
                 .navigationTitle(selectedNode.name)
@@ -307,7 +303,7 @@ struct ThreeColumnView: View {
             }
         } detail: {
             if let selectedSecondaryNode = navigationState.selectedSecondaryNode {
-                NodeDetailView(node: selectedSecondaryNode, isSubDetail: true)
+                NodeDetailView(node: selectedSecondaryNode, isSubDetail: true, navigationStyle: navigationStyle)
             } else {
                 Text("Select a child node")
             }
@@ -325,7 +321,7 @@ struct NodeRow: View {
         }
     }
     
-    func iconName(for type: Node.NodeType) -> String {
+    private func iconName(for type: Node.NodeType) -> String {
         switch type {
         case .container: return "folder"
         case .primitive: return "p.circle"
@@ -339,12 +335,12 @@ struct NodeDetailView: View {
     var node: Node
     @EnvironmentObject var nodeData: NodeData
     var isSubDetail: Bool = false
-    @Environment(\.presentationMode) var presentationMode // For programmatic navigation
-    @EnvironmentObject var navigationState: NavigationState // Access navigationStyle
-    var navigationStyle: SwiftUINavigationNavigator_ContentView.NavigationStyle = .automatic
+    @EnvironmentObject var navigationState: NavigationState
+    // Accept the navigation style passed from the parent view.
+    var navigationStyle: SwiftUINavigationNavigator_ContentView.NavigationStyle
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Text(node.name)
                 .font(isSubDetail ? .title2 : .largeTitle)
             
@@ -354,7 +350,7 @@ struct NodeDetailView: View {
             if let details = node.details {
                 Text("Details: \(details)")
                     .padding()
-                    .transition(.slideAndFade) // Custom Transition
+                    .transition(.slideAndFade)
             }
             
             if let creationDate = node.creationDate {
@@ -382,7 +378,7 @@ struct NodeDetailView: View {
             if node.name == "Array" && !isSubDetail {
                 List {
                     ForEach(nodeData.subChildren(of: node)) { subChildNode in
-                        NavigationLink(value: subChildNode){
+                        NavigationLink(value: subChildNode) {
                             NodeRow(node: subChildNode)
                         }
                     }
@@ -390,11 +386,11 @@ struct NodeDetailView: View {
                 .navigationTitle("Sub Children of \(node.name)")
             }
             
-            //Programmatic Navigation Buttons
+            // Programmatic navigation buttons.
             if !isSubDetail {
-                HStack {
+                HStack(spacing: 16) {
                     Button("Go to Root") {
-                        withAnimation{
+                        withAnimation {
                             navigationState.path = []
                             navigationState.selectedNode = nil
                             navigationState.selectedSecondaryNode = nil
@@ -402,12 +398,10 @@ struct NodeDetailView: View {
                     }
                     if node.type == .container, let firstChild = nodeData.children(of: node).first {
                         Button("Go to First Child") {
-                            if navigationStyle == .stack {
-                                withAnimation {
+                            withAnimation {
+                                if navigationStyle == .stack {
                                     navigationState.path.append(firstChild)
-                                }
-                            } else {
-                                withAnimation {
+                                } else {
                                     navigationState.selectedNode = node
                                     navigationState.selectedSecondaryNode = firstChild
                                 }
@@ -418,12 +412,13 @@ struct NodeDetailView: View {
                 .buttonStyle(.borderedProminent)
             }
         }
+        .padding()
         .navigationTitle(node.name)
     }
 }
 
 // MARK: - Extensions
-//Custom transition
+
 extension AnyTransition {
     static var slideAndFade: AnyTransition {
         .asymmetric(
