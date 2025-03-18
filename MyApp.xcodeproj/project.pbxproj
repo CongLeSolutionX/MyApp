@@ -13,6 +13,7 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AC0892B2D895C1500AE2265 /* SwiftUINavigationNavigatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0892A2D895C1300AE2265 /* SwiftUINavigationNavigatorApp.swift */; };
+		9AC0892E2D89774300AE2265 /* TechNavigatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0892D2D89774200AE2265 /* TechNavigatorApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AC0892A2D895C1300AE2265 /* SwiftUINavigationNavigatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINavigationNavigatorApp.swift; sourceTree = "<group>"; };
 		9AC0892C2D896E1000AE2265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9AC0892D2D89774200AE2265 /* TechNavigatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechNavigatorApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AC0892D2D89774200AE2265 /* TechNavigatorApp.swift */,
 				9AC089272D895B6900AE2265 /* SwiftUINavigationNavigator */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -157,6 +160,7 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AC0892E2D89774300AE2265 /* TechNavigatorApp.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AC0892B2D895C1500AE2265 /* SwiftUINavigationNavigatorApp.swift in Sources */,
 			);
