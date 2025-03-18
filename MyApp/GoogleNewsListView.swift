@@ -4,23 +4,27 @@
 //
 //  Created by Cong Le on 3/18/25.
 //
-
 import SwiftUI
+import SafariServices // Import for SFSafariViewController
 
 struct GoogleNewsListView: View {
+    @State private var showingNLR = false
+    @State private var showingCBC = false
+    @State private var showingAxios = false
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    // Top Bar (Assuming this is part of the ScrollView for simplicity)
+                    // Top Bar
                     HStack {
-                        Image(systemName: "chevron.left") // Back button
+                        Image(systemName: "chevron.left")
                             .font(.title2)
                         Text("Full Coverage")
                             .font(.subheadline)
                         Spacer()
-                        Image(systemName: "square.and.arrow.up") // Share button
-                        Image(systemName: "ellipsis") // More options
+                        Image(systemName: "square.and.arrow.up")
+                        Image(systemName: "ellipsis")
                     }
                     .padding(.horizontal)
                     
@@ -35,60 +39,84 @@ struct GoogleNewsListView: View {
                         .padding(.horizontal)
                         .padding(.top)
                     
-                    // First News Item (Large Image)
-                    VStack(alignment: .leading) {
-                        Image("My-meme-red-wine-glass") // Placeholder image name.  Replace with actual asset name.
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 250)
-                            .clipped()
-                            .cornerRadius(10)
-                        
-                        HStack {
-                            Image("nlr_logo") // Placeholder logo
+                    // First News Item (Large Image) - with Navigation
+                    Button(action: {
+                        showingNLR = true
+                    }) {
+                        VStack(alignment: .leading) {
+                            Image("My-meme-red-wine-glass")
                                 .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                            Text("The National Law Review")
+                                .scaledToFill()
+                                .frame(height: 200)
+                                .clipped()
+                                .cornerRadius(10)
+                            
+                            HStack {
+                                Image("nlr_logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                Text("The National Law Review")
+                                    .font(.caption)
+                            }
+                            
+                            Text("USCIS Issues Regulation Requiring Alien Registration")
+                                .font(.headline)
+                            
+                            Text("Yesterday")
                                 .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            HStack {
+                                Spacer()
+                                Image(systemName: "ellipsis")
+                                    .padding(.trailing, 8)
+                            }
                         }
-                        
-                        Text("USCIS Issues Regulation Requiring Alien Registration")
-                            .font(.headline)
-                        
-                        Text("Yesterday")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        HStack {
-                            Spacer()
-                            Image(systemName: "ellipsis")
-                                .padding(.trailing,8)
-                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
-                    
+                    .buttonStyle(PlainButtonStyle()) // Remove button highlight
+                    .sheet(isPresented: $showingNLR) {
+                        SafariView(url: URL(string: "https://www.yahoo.com")!) // Replace with the actual URL
+                    }
                     
                     // Subsequent News Items (Smaller Image)
-                    NewsItem(
-                        logo: "cbc_logo", // Placeholder
-                        source: "CBC News",
-                        headline: "Canadians exempted from fingerprinting for U.S. travel under new Homeland Security rules",
-                        timeAgo: "6 days ago",
-                        image: "My-meme-heineken" // Placeholder
-                    )
                     
-                    NewsItem(
-                        logo: "axios_logo", // Placeholder
-                        source: "Axios",
-                        headline: "Canadian snowbirds will have to register with U.S. under new Trump rule",
-                        timeAgo: "4 days ago",
-                        image: "My-meme-cordyceps" // Placeholder
-                    )
+                    Button(action: {
+                        showingCBC = true
+                    }){
+                        NewsItem(
+                            logo: "cbc_logo",
+                            source: "CBC News",
+                            headline: "Canadians exempted from fingerprinting for U.S. travel under new Homeland Security rules",
+                            timeAgo: "6 days ago",
+                            image: "cbc_news_image"
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .sheet(isPresented: $showingCBC) {
+                        SafariView(url: URL(string: "https://www.google.com")!) // Replace with the actual URL
+                    }
                     
+                    
+                    Button(action: {
+                        showingAxios = true
+                    }){
+                        NewsItem(
+                            logo: "axios_logo",
+                            source: "Axios",
+                            headline: "Canadian snowbirds will have to register with U.S. under new Trump rule",
+                            timeAgo: "4 days ago",
+                            image: "axios_news_image"
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .sheet(isPresented: $showingAxios) {
+                        SafariView(url: URL(string: "https://www.apple.com")!) // Replace with the actual URL
+                    }
                 }
             }
-            .navigationBarHidden(true) // Hide the default navigation bar
+            .navigationBarHidden(true)
         }
     }
 }
@@ -106,7 +134,7 @@ struct NewsItem: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading){
                     HStack {
-                        Image(logo) // Placeholder logo
+                        Image(logo)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
@@ -114,16 +142,15 @@ struct NewsItem: View {
                             .font(.caption)
                     }
                     
-                    
                     Text(headline)
                         .font(.headline)
-                    
                     
                     Text(timeAgo)
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                Spacer() // Push image to the right
+                
+                Spacer()
                 
                 Image(image)
                     .resizable()
@@ -132,6 +159,7 @@ struct NewsItem: View {
                     .clipped()
                     .cornerRadius(10)
             }
+            
             HStack{
                 Spacer()
                 Image(systemName: "ellipsis")
@@ -142,7 +170,17 @@ struct NewsItem: View {
     }
 }
 
-// Preview (for Xcode Canvas)
+// SafariView (UIViewControllerRepresentable)
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+    
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
+}
+
 struct GoogleNewsListView_Previews: PreviewProvider {
     static var previews: some View {
         GoogleNewsListView()
