@@ -8,6 +8,7 @@
 import UIKit
 import AVKit
 import Vision
+import SwiftUI
 
 class YOLOCameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
@@ -437,5 +438,20 @@ class YOLOCameraViewController: UIViewController, AVCaptureVideoDataOutputSample
             self.previewLayer.frame = self.view.bounds
             
         }, completion: nil)
+    }
+}
+
+// MARK: - Preview
+struct ContentView: View {
+    var body: some View {
+        UIKitViewControllerWrapper()
+            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+    }
+}
+
+// Before iOS 17, use this syntax for preview UIKit view controller
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitViewControllerWrapper()
     }
 }
