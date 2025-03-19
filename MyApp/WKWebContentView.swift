@@ -49,7 +49,7 @@ struct WKWebContentView: View {
                     }) {
                         VStack(alignment: .leading) {
                             // ... (rest of the first news item content)
-                            Image("uscis")
+                            Image("My-meme-red-wine-glass")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(height: 200)
@@ -169,7 +169,7 @@ struct WKWebViewNewsItem: View {
     }
 }
 
-// WebView (UIViewControllerRepresentable)
+// MARK: - WebView (UIViewControllerRepresentable)
 struct WebView: UIViewRepresentable {
     let url: URL
 
@@ -184,6 +184,7 @@ struct WebView: UIViewRepresentable {
     }
 }
 
+// MARK: - Preview
 struct WKWebContentView_Previews: PreviewProvider {
     static var previews: some View {
         WKWebContentView()

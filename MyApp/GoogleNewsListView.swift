@@ -170,6 +170,7 @@ struct NewsItem: View {
     }
 }
 
+// MARK: - SafariView
 // SafariView (UIViewControllerRepresentable)
 struct SafariView: UIViewControllerRepresentable {
     let url: URL
@@ -180,7 +181,7 @@ struct SafariView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
 }
-
+// MARK: - Preview
 struct GoogleNewsListView_Previews: PreviewProvider {
     static var previews: some View {
         GoogleNewsListView()
