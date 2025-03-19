@@ -21,43 +21,22 @@ struct WKWebContentView: View {
                 VStack(alignment: .leading) {
                     // Top Bar
                     HStack {
-                        Image(systemName: "chevron.left")
-                            .font(.title2)
-                        Text("Full Coverage")
-                            .font(.subheadline)
+                        Image(systemName: "chevron.left").font(.title2)
+                        Text("Full Coverage").font(.subheadline)
                         Spacer()
                         Image(systemName: "square.and.arrow.up")
                         Image(systemName: "ellipsis")
                     }
                     .padding(.horizontal)
 
-                    Text("News about Canadians • US")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-
-                    Text("Top news")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .padding(.top)
+                    Text("News about Canadians • US").font(.title2).fontWeight(.bold).padding(.horizontal)
+                    Text("Top news").font(.title).fontWeight(.bold).padding(.horizontal).padding(.top)
 
                     // First News Item
                     Button(action: { showingNLR = true }) {
                         VStack(alignment: .leading) {
-                            Image("uscis")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 200)
-                                .clipped()
-                                .cornerRadius(10)
-                            HStack {
-                                Image("nlr_logo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                Text("The National Law Review").font(.caption)
-                            }
+                            Image("My-meme-red-wine-glass").resizable().scaledToFill().frame(height: 200).clipped().cornerRadius(10)
+                            HStack { Image("nlr_logo").resizable().scaledToFit().frame(width: 20, height: 20); Text("The National Law Review").font(.caption) }
                             Text("USCIS Issues Regulation Requiring Alien Registration").font(.headline)
                             Text("Yesterday").font(.caption).foregroundColor(.secondary)
                             HStack { Spacer(); Image(systemName: "ellipsis").padding(.trailing, 8) }
@@ -71,7 +50,7 @@ struct WKWebContentView: View {
 
                     // Subsequent News Items
                     Button(action: { showingCBC = true }) {
-                        WKWebViewNewsItem(logo: "cbc_logo", source: "CBC News", headline: "Canadians exempted from fingerprinting...", timeAgo: "6 days ago", image: "cbc_news_image")
+                        WKWebViewNewsItem(logo: "cbc_logo", source: "CBC News", headline: "Canadians exempted...", timeAgo: "6 days ago", image: "My-meme-red-wine-glass")
                     }
                     .buttonStyle(PlainButtonStyle())
                     .sheet(isPresented: $showingCBC) {
@@ -79,7 +58,7 @@ struct WKWebContentView: View {
                     }
 
                     Button(action: { showingAxios = true }) {
-                        WKWebViewNewsItem(logo: "axios_logo", source: "Axios", headline: "Canadian snowbirds will have to register...", timeAgo: "4 days ago", image: "axios_news_image")
+                        WKWebViewNewsItem(logo: "axios_logo", source: "Axios", headline: "Canadian snowbirds will have to register...", timeAgo: "4 days ago", image: "My-meme-red-wine-glass")
                     }
                     .buttonStyle(PlainButtonStyle())
                     .sheet(isPresented: $showingAxios) {
@@ -111,179 +90,173 @@ struct WKWebViewNewsItem: View {
     }
 }
 
-// Advanced WebView (UIViewControllerRepresentable) with WKNavigationDelegate
 struct AdvancedWebView: UIViewRepresentable {
     let url: URL
-    @State private var isLoading: Bool = true // Track loading state
+    @State private var isLoading: Bool = true
     @State private var canGoBack: Bool = false
     @State private var canGoForward: Bool = false
     @State private var estimatedProgress: Double = 0.0
     @State private var alertMessage: String? = nil
     @State private var isAlertPresented = false
-    
+    @State private var webView: WKWebView = WKWebView() // Store the WKWebView
+
     func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
+        webView.uiDelegate = context.coordinator  // Set uiDelegate
         webView.load(URLRequest(url: url))
-        
-        // Observe loading progress
+        webView.customUserAgent = "MyNewsApp/1.0 (iPad; iOS 17.0)"
+
+        // Add observers *here*, on the stored webView instance
         webView.addObserver(context.coordinator, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         webView.addObserver(context.coordinator, forKeyPath: #keyPath(WKWebView.canGoBack), options: .new, context: nil)
         webView.addObserver(context.coordinator, forKeyPath: #keyPath(WKWebView.canGoForward), options: .new, context: nil)
-        
-        // Set a custom user agent (optional, but good practice)
-        webView.customUserAgent = "MyNewsApp/1.0 (iPad; iOS 17.0)"
+
         return webView
     }
-    
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // No need to reload here; we handle navigation in the Coordinator
+    }
+
+      func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
-    // Inner Coordinator class to act as the WKNavigationDelegate
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {  // Added WKUIDelegate
+
+    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         var parent: AdvancedWebView
-        
+
         init(_ parent: AdvancedWebView) {
             self.parent = parent
         }
         
+        // Correct deinit: Remove observers from the *stored* webView
+        deinit {
+            parent.webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+            parent.webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack))
+            parent.webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward))
+        }
+
         // MARK: - WKNavigationDelegate Methods
-        
+
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.isLoading = true
         }
-        
+
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.isLoading = false
         }
-        
+
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             parent.isLoading = false
             parent.alertMessage = "Navigation Error: \(error.localizedDescription)"
-            parent.isAlertPresented = true // Show alert
+            parent.isAlertPresented = true
         }
-        
+
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
             parent.isLoading = false
-            // More specific error handling for provisional navigation failures
-            if (error as NSError).code == NSURLErrorCancelled {
-                // Ignore cancelled errors (e.g., user tapped back quickly)
-                return
-            }
+            if (error as NSError).code == NSURLErrorCancelled { return }
             parent.alertMessage = "Failed to Load: \(error.localizedDescription)"
-            parent.isAlertPresented = true // Show alert
-            
+            parent.isAlertPresented = true
         }
         
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            // Example: Handle different types of navigation actions
-            if navigationAction.navigationType == .linkActivated {
-                // Handle links opened by the user (e.g., open in a new tab/window)
+             if navigationAction.navigationType == .linkActivated {
                 if let url = navigationAction.request.url, url.host != parent.url.host {
-                    // Open external links in SFSafariViewController (for consistency)
-                    UIApplication.shared.open(url)
-                    decisionHandler(.cancel) // Prevent WKWebView from loading it
+                    UIApplication.shared.open(url) // Open external links in Safari
+                    decisionHandler(.cancel)
                     return
                 }
             }
-            decisionHandler(.allow) // Allow other navigation
+            decisionHandler(.allow)
         }
-        
-        
+
         // MARK: - KVO Observation
-        
+
         override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             if keyPath == #keyPath(WKWebView.estimatedProgress) {
-                if let progress = change?[.newKey] as? Double {
-                    parent.estimatedProgress = progress
-                }
+                parent.estimatedProgress = change?[.newKey] as? Double ?? 0.0
             } else if keyPath == #keyPath(WKWebView.canGoBack) {
-                if let canGoBack = change?[.newKey] as? Bool {
-                    parent.canGoBack = canGoBack
-                }
+                parent.canGoBack = change?[.newKey] as? Bool ?? false
             } else if keyPath == #keyPath(WKWebView.canGoForward) {
-                if let canGoForward = change?[.newKey] as? Bool {
-                    parent.canGoForward = canGoForward
-                }
+                parent.canGoForward = change?[.newKey] as? Bool ?? false
             }
         }
-        
-        // MARK: - WKUIDelegate Methods (for JavaScript alerts, confirms, prompts)
+
+        // MARK: - WKUIDelegate Methods
+
         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-            parent.alertMessage = message // Display JavaScript alert messages
+            parent.alertMessage = message
             parent.isAlertPresented = true
-            completionHandler() // Acknowledge the alert
-            
+            completionHandler()
         }
-        
+
         func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-            //  Basic implementation, always confirms. Ideally, show a custom alert.
-            completionHandler(true)
+             let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                completionHandler(false)
+            })
+            alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                completionHandler(true)
+            })
+            // Present from the root view controller
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootViewController = windowScene.windows.first?.rootViewController {
+                rootViewController.present(alertController, animated: true, completion: nil)
+            } else {
+                completionHandler(false) // Fallback if no root view controller
+            }
         }
-        
+
         func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-            //  Basic implementation, always returns the default text.
-            completionHandler(defaultText)
-        }
-        
-        //  Cleanup observers when deallocated
-        deinit {
-            if let webView = parent.makeUIView(context: .init(self)) as? WKWebView {
-                webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
-                webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.canGoBack))
-                webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.canGoForward))
+            let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+            alertController.addTextField { textField in
+                textField.text = defaultText
+            }
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                completionHandler(nil)
+            })
+            alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                let text = alertController.textFields?.first?.text
+                completionHandler(text)
+            })
+
+             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootViewController = windowScene.windows.first?.rootViewController {
+                 rootViewController.present(alertController, animated: true, completion: nil)
+            } else {
+                 completionHandler(nil)
             }
         }
     }
     
     // MARK: - View Content
     var webViewContent: some View {
-        ZStack { // Use ZStack to layer views
-            WebViewRepresentable(webView: makeUIView(context: .init(self)))  // Use the underlying webView
+        ZStack {
+             WebViewRepresentable(webView: webView) // Use the stored webView
 
-            if isLoading { // Show loading indicator
+            if isLoading {
                 ProgressView(value: estimatedProgress)
-                    .progressViewStyle(LinearProgressViewStyle()) // Use Linear style
+                    .progressViewStyle(LinearProgressViewStyle())
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.2)) // subtle background
+                    .background(Color.gray.opacity(0.2))
             }
 
-            VStack { // Navigation buttons at the bottom
+            VStack {
                 Spacer()
                 HStack {
-                    Button(action: {
-                        if let webView = makeUIView(context: .init(self)) as? WKWebView, webView.canGoBack {
-                            webView.goBack()
-                        }
-                    }) {
+                    Button(action: { if webView.canGoBack { webView.goBack() } }) {
                         Image(systemName: "chevron.left")
                     }
                     .disabled(!canGoBack)
-
                     Spacer()
-
-                    Button(action: {
-                        if let webView = makeUIView(context: .init(self)) as? WKWebView, webView.canGoForward {
-                            webView.goForward()
-                        }
-                    }) {
+                    Button(action: { if webView.canGoForward { webView.goForward() } }) {
                         Image(systemName: "chevron.right")
                     }
                     .disabled(!canGoForward)
-                    
                     Spacer()
-                    
-                    Button(action: {
-                        if let webView = makeUIView(context: .init(self)) as? WKWebView{
-                            webView.reload()
-                        }
-                    }){
+                    Button(action: { webView.reload() }) {
                         Image(systemName: "arrow.clockwise")
                     }
-                    
                 }
                 .padding()
                 .background(Color.gray.opacity(0.1))
@@ -305,9 +278,9 @@ struct WebViewRepresentable: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {}
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct WKWebContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        WKWebContentView()
             .previewDevice("iPad Pro (11-inch) (4th generation)")
     }
 }
