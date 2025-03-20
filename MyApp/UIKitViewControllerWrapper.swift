@@ -41,7 +41,7 @@ class MyUIKitViewController: UIViewController {
         let endX: Double
         let height: Double
     }
-    
+
     func solveConveyorChaos(N: Int, H: [Int], A: [Int], B: [Int]) -> Double {
         // 1. Data Representation and Sorting
         var belts: [ConveyorBelt] = []
@@ -49,30 +49,30 @@ class MyUIKitViewController: UIViewController {
             belts.append(ConveyorBelt(startX: Double(A[i]), endX: Double(B[i]), height: Double(H[i])))
         }
         belts.sort { $0.height > $1.height } // Sort by height, descending
-        
+
         let totalWidth = 1_000_000.0
         var minExpectedDistance = Double.infinity
-        
+
         // 2. Iterate through Belts and Directions
         for i in 0..<N {
             for direction in ["left", "right"] {
                 var memo: [Int: Double] = [:] // Memoization: x-coordinate -> expected distance
-                
+
                 func expectedDistance(x: Double, currentHeight: Double) -> Double {
                     // Base Case: Hit the ground
                     if currentHeight <= 0 {
                         return 0
                     }
-                    
+
                     // Check Memoization
                     let intX = Int(x)
                     if let cachedDistance = memo[intX] {
                         return cachedDistance
                     }
-                    
+
                     var totalDist = 0.0
-                    
-                    // Find the next belt below the current position
+
+                    // Find the *immediate* next belt below the current position
                     var nextBeltIndex: Int? = nil
                     for j in 0..<N {
                         if belts[j].height < currentHeight {
@@ -80,56 +80,53 @@ class MyUIKitViewController: UIViewController {
                             break
                         }
                     }
-                    
-                    // If no belt below, fall to the ground
+                    //If there is no next belt, return 0
                     guard let nextBeltIdx = nextBeltIndex else {
                         memo[intX] = 0
                         return 0
                     }
-                    
+
                     let nextBelt = belts[nextBeltIdx]
-                    
-                    // If not on any belt, just fall down to the next belt
+
+                    // If not on any belt, fall down to the *immediate* next belt
                     if x < nextBelt.startX || x > nextBelt.endX {
-                        totalDist = expectedDistance(x: x, currentHeight: nextBelt.height) // Corrected height
+                        totalDist = expectedDistance(x: x, currentHeight: nextBelt.height)
                     } else {
                         // On the next belt.  Consider both directions (50/50 chance)
                         let distToLeft = x - nextBelt.startX
                         let distToRight = nextBelt.endX - x
-                        
                         totalDist += 0.5 * (distToLeft + expectedDistance(x: nextBelt.startX, currentHeight: nextBelt.height))
                         totalDist += 0.5 * (distToRight + expectedDistance(x: nextBelt.endX, currentHeight: nextBelt.height))
                     }
-                    
+
                     memo[intX] = totalDist
                     return totalDist
                 }
-                
+
                 var currentExpectedDistance = 0.0
                 let currentBelt = belts[i]
+
                 // Calculate expected distance for the chosen belt and direction
-                
-                //Expected value on the current belt
-                let beltLength = currentBelt.endX - currentBelt.startX
-                if direction == "left"{
-                    currentExpectedDistance += (beltLength / 2.0) * (beltLength / totalWidth)
-                } else {
-                    currentExpectedDistance += (beltLength / 2.0) * (beltLength / totalWidth)
+                if direction == "left" {
+                    // Expected distance ON the chosen belt (going left)
+                    currentExpectedDistance += (currentBelt.endX - currentBelt.startX) / 2.0 * (currentBelt.endX - currentBelt.startX) / totalWidth
+
+                    // Expected distance for packages falling to the LEFT of the belt
+                    currentExpectedDistance += (currentBelt.startX / totalWidth) * expectedDistance(x: currentBelt.startX, currentHeight: currentBelt.height)
+
+                    // Expected distance for packages falling to the RIGHT of the belt
+                    currentExpectedDistance += ((totalWidth - currentBelt.endX) / totalWidth) * expectedDistance(x: currentBelt.endX, currentHeight: currentBelt.height)
+
+                } else { // direction == "right"
+                    // Expected distance ON the chosen belt (going right)
+                    currentExpectedDistance += (currentBelt.endX - currentBelt.startX) / 2.0 * (currentBelt.endX-currentBelt.startX) / totalWidth
+
+                    // Expected distance for packages falling to the LEFT of the belt
+                    currentExpectedDistance += (currentBelt.startX / totalWidth) * expectedDistance(x: currentBelt.startX, currentHeight: currentBelt.height)
+                    // Expected distance for packages falling to the RIGHT of the belt.
+                    currentExpectedDistance += ((totalWidth - currentBelt.endX) / totalWidth) * expectedDistance(x: currentBelt.endX, currentHeight: currentBelt.height)
                 }
-                
-                //Find height of the next belt.
-                var nextBeltHeight: Double = 0
-                for j in 0..<N {
-                    if belts[j].height < currentBelt.height{
-                        nextBeltHeight = belts[j].height
-                        break;
-                    }
-                }
-                
-                // Expected value of the sections to the left and right of the current belt.
-                currentExpectedDistance += (currentBelt.startX / totalWidth) * expectedDistance(x: currentBelt.startX, currentHeight: nextBeltHeight) // Corrected Height
-                currentExpectedDistance += ((totalWidth - currentBelt.endX) / totalWidth) * expectedDistance(x: currentBelt.endX, currentHeight: nextBeltHeight) //Corrected Height
-                
+
                 minExpectedDistance = min(minExpectedDistance, currentExpectedDistance)
             }
         }
