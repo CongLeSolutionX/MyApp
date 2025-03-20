@@ -4,115 +4,143 @@
 //
 //  Created by Cong Le on 8/19/24.
 //
-
 import SwiftUI
 import UIKit
 
-// Step 1a: UIViewControllerRepresentable implementation
+// MARK: - Custom Structures
+
+struct Point: Hashable {
+    let x: Int
+    let y: Int
+}
+
+struct LineSegment: Hashable {
+    let start: Point  // For horizontal segments, start.x <= end.x; for vertical segments, start.y <= end.y.
+    let end: Point
+}
+
+// MARK: - SwiftUI Wrapper for the UIKit View Controller
+
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = MyUIKitViewController
     
-    // Step 1b: Required methods implementation
     func makeUIViewController(context: Context) -> MyUIKitViewController {
-        // Step 1c: Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        MyUIKitViewController()
     }
     
     func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
-        // Update the view controller if needed
+        // Update if needed.
     }
 }
 
-// Example UIKit view controller
+// MARK: - Example UIKit View Controller
+
 class MyUIKitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
-        // Additional setup
         
-        self.runTheSolution()
+        // Run the solution once the view has loaded.
+        runTheSolution()
     }
     
-    
+    /// Counts the number of valid plus signs formed by the drawn lines.
+    /// - Parameters:
+    ///   - N: The number of segments.
+    ///   - L: The array of segment lengths.
+    ///   - D: A string that holds the direction for each segment (each character is one of "U", "D", "L", or "R").
+    /// - Returns: The number of plus signs.
     func countPlusSigns(N: Int, L: [Int], D: String) -> Int {
-        // Represent Lines (using tuples: (x1, y1, x2, y2))
-        var horizontalLines = Set<[Int]>()
-        var verticalLines = Set<[Int]>()
-        var horizontalPoints = Set<[Int]>() // Points on horizontal lines, stored as [x, y]
-        var verticalPoints = Set<[Int]>()   // Points on vertical lines, stored as [x, y]
+        // Use custom structs for lines and points.
+        var horizontalLines = Set<LineSegment>()
+        var verticalLines = Set<LineSegment>()
+        var horizontalPoints = Set<Point>()
+        var verticalPoints = Set<Point>()
         
-        // Draw Lines
-        var currentX = 0
-        var currentY = 0
+        var currentX = 0, currentY = 0
         
+        // Draw each segment.
         for i in 0..<N {
             let length = L[i]
-            let direction = D[i]
+            // Use the appropriate index in the string.
+            let directionChar = D[D.index(D.startIndex, offsetBy: i)]
             var nextX = currentX
             var nextY = currentY
             
-            switch direction {
+            switch directionChar {
             case "U":
                 nextY += length
-                verticalLines.insert([currentX, min(currentY, nextY), currentX, max(currentY, nextY)])
-                for y in min(currentY, nextY)...max(currentY, nextY) {
-                    verticalPoints.insert([currentX, y])
+                let ymin = min(currentY, nextY)
+                let ymax = max(currentY, nextY)
+                let segment = LineSegment(start: Point(x: currentX, y: ymin),
+                                          end: Point(x: currentX, y: ymax))
+                verticalLines.insert(segment)
+                for y in ymin...ymax {
+                    verticalPoints.insert(Point(x: currentX, y: y))
                 }
             case "D":
                 nextY -= length
-                verticalLines.insert([currentX, min(currentY, nextY), currentX, max(currentY, nextY)])
-                for y in min(currentY, nextY)...max(currentY, nextY) {
-                    verticalPoints.insert([currentX, y])
+                let ymin = min(currentY, nextY)
+                let ymax = max(currentY, nextY)
+                let segment = LineSegment(start: Point(x: currentX, y: ymin),
+                                          end: Point(x: currentX, y: ymax))
+                verticalLines.insert(segment)
+                for y in ymin...ymax {
+                    verticalPoints.insert(Point(x: currentX, y: y))
                 }
             case "L":
                 nextX -= length
-                horizontalLines.insert([min(currentX, nextX), currentY, max(currentX, nextX), currentY])
-                for x in min(currentX, nextX)...max(currentX, nextX) {
-                    horizontalPoints.insert([x, currentY])
+                let xmin = min(currentX, nextX)
+                let xmax = max(currentX, nextX)
+                let segment = LineSegment(start: Point(x: xmin, y: currentY),
+                                          end: Point(x: xmax, y: currentY))
+                horizontalLines.insert(segment)
+                for x in xmin...xmax {
+                    horizontalPoints.insert(Point(x: x, y: currentY))
                 }
             case "R":
                 nextX += length
-                horizontalLines.insert([min(currentX, nextX), currentY, max(currentX, nextX), currentY])
-                for x in min(currentX, nextX)...max(currentX, nextX) {
-                    horizontalPoints.insert([x, currentY])
+                let xmin = min(currentX, nextX)
+                let xmax = max(currentX, nextX)
+                let segment = LineSegment(start: Point(x: xmin, y: currentY),
+                                          end: Point(x: xmax, y: currentY))
+                horizontalLines.insert(segment)
+                for x in xmin...xmax {
+                    horizontalPoints.insert(Point(x: x, y: currentY))
                 }
             default:
                 break
             }
+            
             currentX = nextX
             currentY = nextY
         }
         
-        // Find potential intersections (points on BOTH types of lines)
+        // Identify points that lie on both horizontal and vertical drawn segments.
         let potentialIntersections = horizontalPoints.intersection(verticalPoints)
-        
         var plusCount = 0
+        
+        // For every intersection point, check for arms in all four directions.
         for point in potentialIntersections {
-            let x = point[0]
-            let y = point[1]
+            let x = point.x, y = point.y
+            var hasUp = false, hasDown = false, hasLeft = false, hasRight = false
             
-            var hasUp = false
-            var hasDown = false
-            var hasLeft = false
-            var hasRight = false
-            
-            // Optimized direction checks
-            for line in verticalLines {
-                if line[0] == x && line[1] < y && line[3] >= y + 1 {
-                    hasUp = true
+            // Check vertical lines for upward and downward extensions.
+            for segment in verticalLines {
+                if segment.start.x == x {
+                    if segment.start.y <= y && segment.end.y >= y + 1 { hasUp = true }
+                    if segment.start.y <= y - 1 && segment.end.y >= y { hasDown = true }
                 }
-                if line[0] == x && line[1] <= y - 1 && line[3] > y {
-                    hasDown = true
-                }
+                if hasUp && hasDown { break }
             }
             
-            for line in horizontalLines {
-                if line[1] == y && line[0] < x && line[2] >= x + 1 {
-                    hasRight = true
+            // Check horizontal lines for leftward and rightward extensions.
+            for segment in horizontalLines {
+                if segment.start.y == y {
+                    if segment.start.x <= x && segment.end.x >= x + 1 { hasRight = true }
+                    if segment.start.x <= x - 1 && segment.end.x >= x { hasLeft = true }
                 }
-                if line[1] == y && line[0] <= x - 1 && line[2] > x {
-                    hasLeft = true
-                }
+                if hasLeft && hasRight { break }
             }
             
             if hasUp && hasDown && hasLeft && hasRight {
@@ -123,13 +151,10 @@ class MyUIKitViewController: UIViewController {
         return plusCount
     }
     
+    /// Runs a suite of tests to validate the plus sign count.
     func runTheSolution() {
-        
-        
-        
-        // Test Cases (Adapted from Python)
         let testCases: [[String: Any]] = [
-            // Basic Cases (from the problem description)
+            // Basic Cases
             ["N": 9, "L": [6, 3, 4, 5, 1, 6, 3, 3, 4], "D": "ULDRULURD", "expected": 4],
             ["N": 8, "L": [1, 1, 1, 1, 1, 1, 1, 1], "D": "RDLUULDR", "expected": 1],
             ["N": 8, "L": [1, 2, 2, 1, 1, 2, 2, 1], "D": "UDUDLRLR", "expected": 1],
@@ -147,31 +172,30 @@ class MyUIKitViewController: UIViewController {
             ["N": 4, "L": [10,10,10,10], "D": "RDLU", "expected": 1],
             
             // Multiple Plus Signs
-            ["N": 5, "L": [1, 1, 1, 1, 1], "D": "RULDU", "expected": 1], // Forms a '+' and moves up
+            ["N": 5, "L": [1, 1, 1, 1, 1], "D": "RULDU", "expected": 1],
             ["N": 8, "L": [2, 2, 2, 2, 2, 2, 2, 2], "D": "RULDURDL", "expected": 2],
-            ["N": 9, "L": [1,1,1,1,1,1,1,1,1], "D": "RULDURDLU", "expected":2],
+            ["N": 9, "L": [1,1,1,1,1,1,1,1,1], "D": "RULDURDLU", "expected": 2],
             
-            
-            // Overlapping Lines (shouldn't affect plus sign count)
-            ["N": 5, "L": [1, 1, 1, 1, 2], "D": "RULD", "expected": 1],  // Overlap on last move
-            ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "RULDDU", "expected": 1],  // Overlapping vertical
-            ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "RURLDL", "expected": 1], // Overlapping horizontal.
+            // Overlapping Lines
+            ["N": 5, "L": [1, 1, 1, 1, 2], "D": "RULD", "expected": 1],
+            ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "RULDDU", "expected": 1],
+            ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "RURLDL", "expected": 1],
             
             // Large L Values
             ["N": 4, "L": [1000000, 1000000, 1000000, 1000000], "D": "RULD", "expected": 1],
             ["N": 2, "L": [1000000000, 1000000000], "D": "RU", "expected": 0],
             
-            // Zig-Zag Patterns (testing intersection logic)
+            // Zig-Zag Patterns
             ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "RURURU", "expected": 0],
             ["N": 6, "L": [1, 1, 1, 1, 1, 1], "D": "DRDRDR", "expected": 0],
             ["N": 7, "L": [1, 2, 1, 2, 1, 2, 1], "D": "RURURUR", "expected": 0],
             
             // Edge Cases
-            ["N": 2, "L": [1, 1], "D": "RU", "expected": 0],  // Minimum N
-            ["N": 2, "L": [1, 1], "D": "RD", "expected": 0], // Two segments
+            ["N": 2, "L": [1, 1], "D": "RU", "expected": 0],
+            ["N": 2, "L": [1, 1], "D": "RD", "expected": 0],
             ["N": 3, "L": [1,1,1], "D": "RUL", "expected": 0],
             
-            // Dense Grid (many intersections)
+            // Dense Grid
             ["N": 8, "L": [1, 1, 1, 1, 1, 1, 1, 1], "D": "RULDURDL", "expected": 2],
             ["N": 12, "L": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "D": "RULDURDLUULD", "expected": 3],
             
@@ -179,11 +203,11 @@ class MyUIKitViewController: UIViewController {
             ["N": 4, "L": [1000, 1, 1000, 1], "D": "RULD", "expected": 1],
             ["N": 4, "L": [1, 1000, 1, 1000], "D": "RULD", "expected": 1],
             
-            //Alternating short and long lines
+            // Alternating short and long lines
             [ "N": 8, "L": [1, 1000, 1, 1000, 1, 1000, 1, 1000], "D": "RULDURDL", "expected": 2],
             [ "N": 8, "L": [1000, 1, 1000, 1, 1000, 1, 1000, 1], "D": "RULDURDL", "expected": 2],
             
-            // Very large lines, only two, forming no intersections
+            // Very large lines, only two segments
             ["N": 2, "L": [999999999, 999999999], "D": "RU", "expected": 0],
             ["N": 2, "L": [999999999, 999999999], "D": "RL", "expected": 0],
             
@@ -192,13 +216,13 @@ class MyUIKitViewController: UIViewController {
             
             // Same start/end points but different lengths
             ["N": 5, "L": [1, 2, 1, 2, 2], "D": "RULDR", "expected": 1],
-            ["N": 5, "L": [2, 4, 3, 1, 1], "D":"URDLU", "expected": 0],
+            ["N": 5, "L": [2, 4, 3, 1, 1], "D": "URDLU", "expected": 0],
         ]
         
         for (index, testCase) in testCases.enumerated() {
             let N = testCase["N"] as! Int
             let L = testCase["L"] as! [Int]
-            let D = testCase["D"] as! [String]
+            let D = testCase["D"] as! String
             let expected = testCase["expected"] as! Int
             let result = countPlusSigns(N: N, L: L, D: D)
             if result == expected {
@@ -208,5 +232,4 @@ class MyUIKitViewController: UIViewController {
             }
         }
     }
-    
 }
