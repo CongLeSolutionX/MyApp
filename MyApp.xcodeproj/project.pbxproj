@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
+		9A5D8CF82D8C60D30037EF9B /* ProjectCloudExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D8CF72D8C60D30037EF9B /* ProjectCloudExampleApp.swift */; };
+		9A5D8CFA2D8C60E00037EF9B /* PointCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D8CF92D8C60E00037EF9B /* PointCloud.swift */; };
+		9A5D8CFC2D8C60EE0037EF9B /* ARManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D8CFB2D8C60ED0037EF9B /* ARManager.swift */; };
+		9A5D8CFE2D8C60FA0037EF9B /* PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D8CFD2D8C60F90037EF9B /* PixelBuffer.swift */; };
+		9A5D8D002D8C61070037EF9B /* YCBCRBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D8CFF2D8C61070037EF9B /* YCBCRBuffer.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
@@ -15,8 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A5D8CF72D8C60D30037EF9B /* ProjectCloudExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCloudExampleApp.swift; sourceTree = "<group>"; };
+		9A5D8CF92D8C60E00037EF9B /* PointCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCloud.swift; sourceTree = "<group>"; };
+		9A5D8CFB2D8C60ED0037EF9B /* ARManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARManager.swift; sourceTree = "<group>"; };
+		9A5D8CFD2D8C60F90037EF9B /* PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelBuffer.swift; sourceTree = "<group>"; };
+		9A5D8CFF2D8C61070037EF9B /* YCBCRBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YCBCRBuffer.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9AAC417F2C74668C00AC0A60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
@@ -35,6 +43,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A5D8D012D8C61170037EF9B /* ARCamera */ = {
+			isa = PBXGroup;
+			children = (
+				9A5D8CF72D8C60D30037EF9B /* ProjectCloudExampleApp.swift */,
+				9A5D8CF92D8C60E00037EF9B /* PointCloud.swift */,
+				9A5D8CFB2D8C60ED0037EF9B /* ARManager.swift */,
+				9A5D8CFD2D8C60F90037EF9B /* PixelBuffer.swift */,
+				9A5D8CFF2D8C61070037EF9B /* YCBCRBuffer.swift */,
+			);
+			path = ARCamera;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -54,9 +74,9 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A5D8D012D8C61170037EF9B /* ARCamera */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -142,9 +162,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5D8CFA2D8C60E00037EF9B /* PointCloud.swift in Sources */,
+				9A5D8D002D8C61070037EF9B /* YCBCRBuffer.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A5D8CFE2D8C60FA0037EF9B /* PixelBuffer.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
-				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A5D8CF82D8C60D30037EF9B /* ProjectCloudExampleApp.swift in Sources */,
+				9A5D8CFC2D8C60EE0037EF9B /* ARManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +305,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to access camera.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -320,6 +345,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to access camera.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
