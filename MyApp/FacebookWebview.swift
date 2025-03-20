@@ -139,7 +139,7 @@
 
 import SwiftUI
 @preconcurrency import WebKit
-import Combine // Import Combine for observing changes
+import Combine
 
 struct FacebookWebview: View {
     @StateObject var webViewModel = WebViewModel(url: URL(string: "https://www.quantamagazine.org/the-beautiful-mathematical-explorations-of-maryam-mirzakhani-20170228/")!)
@@ -154,16 +154,23 @@ struct FacebookWebview: View {
                     WebViewToolbar(viewModel: webViewModel)
                 }
                 .alert(item: $webViewModel.alertItem) { alertItem in
-                    Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+                    if let alert = alertItem.alert {
+                        alert  // Use pre-built alert if available
+                    } else {
+                        Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+                    }
+                }
+                .sheet(isPresented: $webViewModel.isFindInPageActive) { // Sheet for Find in Page
+                    FindInPageView(viewModel: webViewModel)
                 }
         }
-        .environmentObject(webViewModel) // Make the ViewModel available to child views
+        .environmentObject(webViewModel)
     }
 }
 
 struct CustomNavigationBar: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: WebViewModel // Observe changes in the ViewModel
+    @ObservedObject var viewModel: WebViewModel
 
     var body: some View {
         ZStack {
@@ -183,11 +190,11 @@ struct CustomNavigationBar: View {
                 Spacer()
 
                 VStack(alignment: .center) {
-                    Text(viewModel.title ?? "Loading...") // Display the page title
+                    Text(viewModel.title ?? "Loading...")
                         .font(.caption)
                         .foregroundColor(.white)
                         .lineLimit(1)
-                    Text(viewModel.url?.host() ?? "")  // Display the URL's host
+                    Text(viewModel.url?.host() ?? "")
                         .font(.caption)
                         .foregroundColor(.white)
                         .lineLimit(1)
@@ -200,51 +207,22 @@ struct CustomNavigationBar: View {
                     Button(action: { viewModel.reload() }) {
                         Label("Reload", systemImage: "arrow.clockwise")
                     }
-                    Button(action: { viewModel.takeSnapshot() }) { // Capture screenshot
+                    Button(action: { viewModel.takeSnapshot() }) {
                          Label("Take Snapshot", systemImage: "camera")
                      }
                     if let image = viewModel.snapshotImage {
                         ShareLink(item: Image(uiImage: image), preview: SharePreview("Snapshot", image: Image(uiImage: image)))
                     }
 
-                    Divider() // Add a visual separator
+                    Divider()
 
                     Button(action: { viewModel.findInPage() }) {
                         Label("Find in Page", systemImage: "magnifyingglass")
                     }
-                    
-//                    if viewModel.isFindInPageActive {
-//                        TextField("Search", text: $viewModel.searchText, onCommit: {
-//                            viewModel.findNext()
-//                        })
-//                        .textFieldStyle(.roundedBorder)
-//                        .frame(width: 150) // Set the width of text field.
-//                        .disableAutocorrection(true)
-//                        
-//                        HStack {
-//                            Button(action: {
-//                                viewModel.findPrevious()
-//                            }) {
-//                                Image(systemName: "chevron.up")
-//                            }
-//                            Button(action: {
-//                                viewModel.findNext()
-//                            }) {
-//                                Image(systemName: "chevron.down")
-//                            }
-//                            Button(action: {
-//                                viewModel.stopFindingInPage()
-//                            }) {
-//                                Image(systemName: "xmark.circle.fill")
-//                            }
-//                        }
-//                        .buttonStyle(.borderless)
-//                    }
 
-                    Divider() // Add a visual separator
+                    Divider()
 
-                    // Add more options here as needed (e.g., share, open in Safari)
-                    Button(action: { viewModel.openInSafari() }) { // Open in Safari
+                    Button(action: { viewModel.openInSafari() }) {
                         Label("Open in Safari", systemImage: "safari")
                     }
                     
@@ -266,7 +244,7 @@ struct WebViewToolbar: View {
     @State private var isSharing = false
 
     var body: some View {
-        if viewModel.isLoading { // Only show toolbar if not loading
+        if viewModel.isLoading {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                 .padding()
@@ -287,7 +265,7 @@ struct WebViewToolbar: View {
                 
                 Spacer()
                 
-                if let url = viewModel.url { // Pass the URL to ShareLink
+                if let url = viewModel.url {
                     ShareLink(item: url, preview: SharePreview(viewModel.title ?? "Webpage", image: Image(systemName: "globe")))
                 }
                 
@@ -310,15 +288,15 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
-        webView.uiDelegate = context.coordinator  // Set the UI delegate
-        viewModel.webView = webView // Important: Keep a reference in the ViewModel
+        webView.uiDelegate = context.coordinator
+        viewModel.webView = webView
         return webView
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let request = viewModel.navigationRequest { // Use a navigation request
+        if let request = viewModel.navigationRequest {
             uiView.load(request)
-            viewModel.navigationRequest = nil // Clear it after loading
+            viewModel.navigationRequest = nil
         }
     }
 
@@ -348,7 +326,6 @@ struct WebView: UIViewRepresentable {
            viewModel.canGoBack = webView.canGoBack
            viewModel.canGoForward = webView.canGoForward
 
-           // Inject JavaScript for customizations (if needed).
            let js = """
            // Example: Hide the header (replace with appropriate selector)
            // document.querySelector('header').style.display = 'none';
@@ -369,7 +346,6 @@ struct WebView: UIViewRepresentable {
             viewModel.canGoBack = webView.canGoBack
             viewModel.canGoForward = webView.canGoForward
 
-            // Check for specific error codes and provide user-friendly messages
              let nsError = error as NSError
              var errorMessage = "An error occurred: \(error.localizedDescription)"
              if nsError.domain == NSURLErrorDomain {
@@ -381,44 +357,38 @@ struct WebView: UIViewRepresentable {
                  case NSURLErrorCannotFindHost, NSURLErrorCannotConnectToHost:
                      errorMessage = "Could not connect to the server.  Please check the URL."
                  default:
-                     break // Use the generic error message
+                     break
                  }
              }
             viewModel.alertItem = AlertItem(title: Text("Error"), message: Text(errorMessage))
         }
         
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-             // Custom navigation handling (allow/cancel navigation, open in new window, etc.)
-
-             // Example: Open external links in Safari:
             if navigationAction.navigationType == .linkActivated, let url = navigationAction.request.url, !url.host!.contains("quantamagazine.org") {
                  UIApplication.shared.open(url)
-                 decisionHandler(.cancel) // Prevent WKWebView from loading it
+                 decisionHandler(.cancel)
              } else {
                  decisionHandler(.allow)
              }
          }
 
-        // MARK: - WKUIDelegate (for handling JavaScript alerts, prompts, etc.)
+        // MARK: - WKUIDelegate
 
         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-            // Present a native Swift alert for JavaScript alerts
             viewModel.alertItem = AlertItem(title: Text("Alert"), message: Text(message), dismissButton: .default(Text("OK"), action: completionHandler))
         }
 
         func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-             // Present a native Swift alert for JavaScript confirm dialogs.
              let alert = Alert(
                  title: Text("Confirm"),
                  message: Text(message),
                  primaryButton: .default(Text("OK"), action: { completionHandler(true) }),
                  secondaryButton: .cancel(Text("Cancel"), action: { completionHandler(false) })
              )
-             viewModel.alertItem = AlertItem(alert: alert) // Use AlertItem to present.
+             viewModel.alertItem = AlertItem(alert: alert)
          }
 
         func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-            //Present native Swift Alert for JavaScript text input.
             let alertController = UIAlertController(title: prompt, message: nil, preferredStyle: .alert)
 
             alertController.addTextField { textField in
@@ -435,7 +405,6 @@ struct WebView: UIViewRepresentable {
             }
             alertController.addAction(cancelAction)
 
-            // Find the top-most presented view controller to present the alert
             if var topController = UIApplication.shared.connectedScenes
                 .filter({$0.activationState == .foregroundActive})
                 .compactMap({$0 as? UIWindowScene})
@@ -448,13 +417,14 @@ struct WebView: UIViewRepresentable {
             }
         }
 
-        // MARK: - WKFindDelegate (for "Find in Page" functionality)
+        // MARK: - WKFindDelegate
+        @available(iOS 16.0, *)
         func find(_ webView: WKWebView, hasNextResult result: Bool, completionHandler: @escaping (Bool) -> Void) {
-              completionHandler(result) // Indicate if there are more results
+              completionHandler(result)
           }
-
+        
+        @available(iOS 16.0, *)
         func webView(_ webView: WKWebView, didFinishFindingInPage totalMatches: Int) {
-             // This is called when finding has finished.
              print("Total matches found: \(totalMatches)")
              viewModel.totalMatches = totalMatches
              if totalMatches == 0 {
@@ -472,24 +442,24 @@ class WebViewModel: ObservableObject {
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false
     @Published var title: String?
-    @Published var alertItem: AlertItem?  // Use for presenting alerts
-    @Published var navigationRequest: URLRequest? // Holds the URL request to load
+    @Published var alertItem: AlertItem?
+    @Published var navigationRequest: URLRequest?
     @Published var snapshotImage: UIImage?
     @Published var isFindInPageActive = false
     @Published var searchText: String = ""
     @Published var totalMatches: Int = 0
 
-    weak var webView: WKWebView? // Hold a weak reference to the WKWebView
+    weak var webView: WKWebView?
 
-    private var cancellables: Set<AnyCancellable> = [] // Store Combine subscriptions
+    private var cancellables: Set<AnyCancellable> = []
 
     init(url: URL) {
         self.url = url
-        self.navigationRequest = URLRequest(url: url) // Initialize the navigation request
+        self.navigationRequest = URLRequest(url: url)
     }
     
     deinit {
-        cancellables.forEach { $0.cancel() } // Cancel subscriptions on deinit
+        cancellables.forEach { $0.cancel() }
     }
 
     func goBack() {
@@ -508,13 +478,11 @@ class WebViewModel: ObservableObject {
         guard let webView = webView else { return }
 
         let configuration = WKSnapshotConfiguration()
-        // Customize snapshot configuration (optional)
-        // configuration.rect = CGRect(x: 0, y: 0, width: 500, height: 500)
 
         webView.takeSnapshot(with: configuration) { [weak self] image, error in
             guard let self = self else { return }
             if let image = image {
-                self.snapshotImage = image // Store the image
+                self.snapshotImage = image
             } else if let error = error {
                self.alertItem = AlertItem(title: Text("Snapshot Error"), message: Text(error.localizedDescription))
             }
@@ -531,45 +499,50 @@ class WebViewModel: ObservableObject {
           isFindInPageActive = true
       }
 
-//      func findNext() {
-//           guard let webView = webView, !searchText.isEmpty else { return }
-//           webView.find(searchText, configuration: .init(options: .caseInsensitive, wrap: true)) { [weak self] result in
-//               guard let self = self else { return }
-//               print("Find result: \(result)")
-//               if !result.found {
-//                   self.alertItem = AlertItem(title: Text("Not Found"), message: Text("No more matches found."))
-//               }
-//           }
-//       }
-//
-//       func findPrevious() {
-//           guard let webView = webView, !searchText.isEmpty else { return }
-//           let options: WKFindConfiguration.Options = [.caseInsensitive, .wrap, .backwards]
-//           webView.find(searchText, configuration: .init(options: options)) { [weak self] result in
-//               guard let self = self else { return }
-//               print("Find result: \(result)")
-//               if !result.found {
-//                   self.alertItem = AlertItem(title: Text("Not Found"), message: Text("No previous matches found."))
-//               }
-//           }
-//       }
-//
-//       func stopFindingInPage() {
-//           webView?.stopFindInPage() // Clear highlights
-//           isFindInPageActive = false
-//           searchText = "" // Clear the search text
-//           totalMatches = 0 // reset
-//       }
+    @available(iOS 16.0, *)
+      func findNext() {
+           guard let webView = webView, !searchText.isEmpty else { return }
+          webView.find(searchText, configuration: .init) { [weak self] result in
+               guard let self = self else { return }
+               print("Find result: \(result)")  // Debugging
+               if !result.found {
+                    // No (more) matches.  Could update UI to indicate this.
+                   self.alertItem = AlertItem(title: Text("Not Found"), message: Text("No more matches found."))
+               }
+           }
+       }
+
+    @available(iOS 16.0, *)
+       func findPrevious() {
+           guard let webView = webView, !searchText.isEmpty else { return }
+            // Note: .backwards is a valid option.
+           let options: WKFindConfiguration.Options = [.caseInsensitive, .wrap, .backwards]
+           webView.find(searchText, configuration: .init(options: options)) { [weak self] result in
+               guard let self = self else { return }
+               print("Find result: \(result)")  // Debugging
+               if !result.found {
+                    // No (more) matches.  Could update UI to indicate this.
+                    self.alertItem = AlertItem(title: Text("Not Found"), message: Text("No previous matches found."))
+               }
+           }
+       }
+
+       func stopFindingInPage() {
+           webView?.stopFindInPage() // Clears highlights.
+           isFindInPageActive = false
+           searchText = "" // Clear search
+           totalMatches = 0 // Reset match count
+       }
 }
 
-// MARK: - AlertItem (for presenting alerts easily)
+// MARK: - AlertItem
 
 struct AlertItem: Identifiable {
     let id = UUID()
     let title: Text
     let message: Text?
     let dismissButton: Alert.Button?
-    var alert: Alert? // Allow initializing directly with an Alert
+    var alert: Alert?
 
     init(title: Text, message: Text? = nil, dismissButton: Alert.Button? = nil) {
         self.title = title
@@ -577,12 +550,63 @@ struct AlertItem: Identifiable {
         self.dismissButton = dismissButton
     }
 
-    // Initialize from existing Alert instance.
     init(alert: Alert) {
       self.alert = alert
       self.title = Text("")
       self.message = nil
       self.dismissButton = nil
+    }
+}
+
+// MARK: - FindInPageView (Separate View for Find in Page)
+@available(iOS 16.0, *)
+struct FindInPageView: View {
+    @ObservedObject var viewModel: WebViewModel
+    @Environment(\.dismiss) private var dismiss // For dismissing the sheet
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                TextField("Search", text: $viewModel.searchText)
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .disableAutocorrection(true)
+                    .onSubmit { // Trigger search on submit (Return key)
+                        viewModel.findNext()
+                    }
+
+                HStack {
+                    Button(action: {
+                        viewModel.findPrevious()
+                    }) {
+                        Image(systemName: "chevron.up")
+                    }
+                    .disabled(viewModel.searchText.isEmpty)
+
+                    Button(action: {
+                        viewModel.findNext()
+                    }) {
+                        Image(systemName: "chevron.down")
+                    }
+                    .disabled(viewModel.searchText.isEmpty)
+                    
+                    Text("\(viewModel.totalMatches) matches") // Show match count
+                        .font(.caption)
+                        .foregroundColor(.gray)
+
+
+                    Button(action: {
+                        viewModel.stopFindingInPage()
+                        dismiss() // Dismiss on close
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                    }
+                }
+                .padding()
+            }
+            .navigationBarTitle("Find in Page", displayMode: .inline) // Title
+            .navigationBarItems(trailing: Button("Done") { dismiss() }) // Done button
+        }
     }
 }
 
