@@ -386,8 +386,9 @@ struct ForYouView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear { rssViewModel.loadRSS() }
-        .onChange(of: rssViewModel.errorMessage) { newValue in
+        .onChange(of: rssViewModel.errorMessage) { oldValue, newValue in
             isShowingAlert = newValue != nil
+            print(oldValue as Any, newValue as Any)
         }
     }
     
