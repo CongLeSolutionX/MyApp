@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 3/21/25.
 //
-
 import SwiftUI
 import AVFoundation
 
@@ -17,6 +16,7 @@ struct MultimodalView: View {
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVPlayer?
     @State private var audioData: Data?
+    @State private var isShowingImagePicker = false // Control the image picker presentation
 
     // Replace with your actual API key as needed for testing, but remove before production!
     // Ideally, API key should be loaded from environment config or securely stored, not hardcoded.
@@ -40,9 +40,15 @@ struct MultimodalView: View {
                 } else {
                     Button("Select Image") {
                         // Trigger image selection (implementation below)
-                        selectImage()
+                        isShowingImagePicker = true //Set true to show the sheet
                     }
                     .buttonStyle(.borderedProminent)
+                    .sheet(isPresented: $isShowingImagePicker) {  // Present ImagePicker as a sheet
+                           ImagePicker { image in
+                               self.selectedImage = image
+                               self.isShowingImagePicker = false // Dismiss the picker
+                           }
+                    }
 
                 }
 
@@ -110,41 +116,6 @@ struct MultimodalView: View {
 
         }
     }
-
-    func selectImage() {
-        // Present an image picker (using a custom struct for UIKit integration)
-        let imagePicker = ImagePicker { image in
-            self.selectedImage = image
-        }
-        // In a real app, this would present the imagePicker view, you need the wrapper.
-        // Since we are in the playground, we will simulate the image selection.
-        // For the example, let's generate or load a placeholder image:
-        self.selectedImage = generatePlaceholderImage() // Simulate image selection
-
-        // This part must be done using another struct that connects the UIKit framework to the SwiftUI.
-        //        UIApplication.shared.windows.first?.rootViewController?.present(imagePicker.makeCoordinator().controller, animated: true)
-    }
-
-    func generatePlaceholderImage() -> UIImage? {
-          let size = CGSize(width: 200, height: 100)
-          let renderer = UIGraphicsImageRenderer(size: size)
-          let image = renderer.image { ctx in
-              UIColor.lightGray.setFill()
-              ctx.fill(CGRect(origin: .zero, size: size))
-              let text = "Placeholder Image"
-              let attributes: [NSAttributedString.Key: Any] = [
-                  .font: UIFont.boldSystemFont(ofSize: 18),
-                  .foregroundColor: UIColor.black
-              ]
-              let textSize = text.size(withAttributes: attributes)
-              let textRect = CGRect(x: (size.width - textSize.width) / 2,
-                                    y: (size.height - textSize.height) / 2,
-                                    width: textSize.width,
-                                    height: textSize.height)
-              text.draw(in: textRect, withAttributes: attributes)
-          }
-          return image
-      }
 
     func startRecording() {
            let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.wav")
