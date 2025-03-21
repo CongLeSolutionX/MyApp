@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A129F992D8D23B700E0D21D /* LoadingRSSArticleAndOpenEachLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F982D8D23A600E0D21D /* LoadingRSSArticleAndOpenEachLink.swift */; };
 		9A2C29EB2D887796005FD762 /* ForYouWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C29EA2D88778F005FD762 /* ForYouWorkflow.swift */; };
 		9A6173B42D88877B00DE08C7 /* ForYouView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173B32D88877300DE08C7 /* ForYouView.swift */; };
 		9A6173B62D88891C00DE08C7 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6173B52D88891B00DE08C7 /* FeedView.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A129F982D8D23A600E0D21D /* LoadingRSSArticleAndOpenEachLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingRSSArticleAndOpenEachLink.swift; sourceTree = "<group>"; };
 		9A2C29EA2D88778F005FD762 /* ForYouWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouWorkflow.swift; sourceTree = "<group>"; };
 		9A6173B32D88877300DE08C7 /* ForYouView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouView.swift; sourceTree = "<group>"; };
 		9A6173B52D88891B00DE08C7 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		9A6173CB2D888E5500DE08C7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9A129F982D8D23A600E0D21D /* LoadingRSSArticleAndOpenEachLink.swift */,
 				9A6173C92D888DB600DE08C7 /* TabBarItem.swift */,
 				9A6173C32D888C0400DE08C7 /* ArticleView.swift */,
 				9A6173C52D888D1900DE08C7 /* FeedItemView.swift */,
@@ -217,6 +220,7 @@
 				9A6173C22D888B9700DE08C7 /* TopicItemView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A6173BE2D888AC100DE08C7 /* OnboardingView.swift in Sources */,
+				9A129F992D8D23B700E0D21D /* LoadingRSSArticleAndOpenEachLink.swift in Sources */,
 				9A6173CA2D888DB700DE08C7 /* TabBarItem.swift in Sources */,
 				9A2C29EB2D887796005FD762 /* ForYouWorkflow.swift in Sources */,
 				9A6173C62D888D1A00DE08C7 /* FeedItemView.swift in Sources */,
