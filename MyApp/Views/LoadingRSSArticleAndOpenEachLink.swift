@@ -1,8 +1,10 @@
 //
-//  LoadingRSSArticleAndOpenEachLink.swift
+//  FullRSSAndWebViewImplementation.swift
 //  MyApp
 //
 //  Created by Cong Le on 3/20/25.
+//
+
 //
 
 import SwiftUI
@@ -70,7 +72,7 @@ final class RSSParser: NSObject, XMLParserDelegate {
             currentDescription = ""
             currentImageURL = ""
         }
-        // Consolidate duplicate handling for image elements
+        // Handle image elements
         if inItem, ["media:content", "enclosure", "image"].contains(elementName) {
             let key = (elementName == "image") ? "href" : "url"
             if let urlString = attributeDict[key] {
@@ -183,6 +185,7 @@ class RSSViewModel: ObservableObject {
                     self?.errorMessage = "Error parsing RSS: \(parseError.localizedDescription)"
                 } else {
                     self?.rssItems = parsedItems
+                    print(parsedItems)
                 }
             }
         }.resume()
@@ -386,9 +389,8 @@ struct ForYouView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear { rssViewModel.loadRSS() }
-        .onChange(of: rssViewModel.errorMessage) { oldValue, newValue in
+        .onChange(of: rssViewModel.errorMessage) { _, newValue in
             isShowingAlert = newValue != nil
-            print(oldValue as Any, newValue as Any)
         }
     }
     
@@ -472,23 +474,24 @@ struct ForYouView: View {
 class AnotherCustomWebViewController: UIViewController, WKUIDelegate {
     lazy var webView: WKWebView! = {
         let configuration = WKWebViewConfiguration()
-        let webView = WKWebView(frame: .zero, configuration: configuration)
-        webView.navigationDelegate = self
-        webView.uiDelegate = self
-        return webView
+        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
+        let wv = WKWebView(frame: .zero, configuration: configuration)
+        wv.navigationDelegate = self
+        wv.uiDelegate = self
+        return wv
     }()
     lazy var progressView: UIProgressView! = {
-        let progressView = UIProgressView()
-        progressView.trackTintColor = .clear
-        progressView.progressTintColor = .systemBlue
-        return progressView
+        let pv = UIProgressView(progressViewStyle: .default)
+        pv.trackTintColor = .clear
+        pv.progressTintColor = .systemBlue
+        return pv
     }()
-
+    
     lazy var toolbar: UIToolbar! = {
-        let toolbar = UIToolbar()
-        toolbar.isTranslucent = false
-        toolbar.barStyle = .default
-        return toolbar
+        let tb = UIToolbar()
+        tb.isTranslucent = false
+        tb.barStyle = .default
+        return tb
     }()
     
     lazy var backButton: UIBarButtonItem = {
@@ -545,6 +548,7 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        // Load initial content (this could be an initial URL or simply a fallback)
         loadInitialContent()
         setupObservers()
     }
@@ -583,12 +587,11 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate {
     }
     
     private func setupWebView() {
-        let webConfiguration = WKWebViewConfiguration()
-        webConfiguration.defaultWebpagePreferences.allowsContentJavaScript = true
+        let configuration = WKWebViewConfiguration()
+        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         let contentController = WKUserContentController()
-        contentController.add(self, name: "jsHandler")
-        webConfiguration.userContentController = contentController
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        configuration.userContentController = contentController
+        webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
         view.addSubview(webView)
     }
@@ -624,18 +627,19 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate {
         NSLayoutConstraint.activate([
             progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            progressView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1)
+            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
     // MARK: - Content Loading
     
     private func loadInitialContent() {
+        // Initial content can be a default URL. Here, we use a placeholder URL.
         loadRemoteURL(urlString: "https://www.google.com")
     }
     
     func loadURL(urlString: String) {
+        // Dynamically load the given URL (i.e. from an RSS article)
         loadRemoteURL(urlString: urlString)
     }
     
@@ -731,7 +735,6 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate {
     }
     
     deinit {
-        // Safely remove observers by checking if webView is non-nil.
         if webView != nil {
             webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
             webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.title))
@@ -754,6 +757,7 @@ extension AnotherCustomWebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        // Example: Block navigation to a specific host if needed.
         if let host = navigationAction.request.url?.host, host.contains("example.com") {
             print("Navigation to example.com blocked.")
             decisionHandler(.cancel)
@@ -794,12 +798,13 @@ struct WebViewControllerWrapper: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> AnotherCustomWebViewController {
         let controller = AnotherCustomWebViewController()
+        // Load the article URL dynamically when the view is created.
         controller.loadURL(urlString: urlString)
         return controller
     }
     
     func updateUIViewController(_ uiViewController: AnotherCustomWebViewController, context: Context) {
-        // No updates needed – URL is loaded on creation.
+        // No dynamic updates are required here.
     }
 }
 
@@ -811,4 +816,3 @@ struct CombinedView_Previews: PreviewProvider {
             .preferredColorScheme(.dark)
     }
 }
-
