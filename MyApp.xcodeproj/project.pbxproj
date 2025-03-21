@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A129F9B2D8D64F300E0D21D /* NVIDIA_New_Model_Testing_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F9A2D8D64E900E0D21D /* NVIDIA_New_Model_Testing_View.swift */; };
+		9A129F9D2D8D6AF900E0D21D /* Phi4_Model_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F9C2D8D6AE800E0D21D /* Phi4_Model_View.swift */; };
 		9AA6100F2D87D2D100ADD329 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6100E2D87D2CA00ADD329 /* LoadingView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		9A129F9A2D8D64E900E0D21D /* NVIDIA_New_Model_Testing_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVIDIA_New_Model_Testing_View.swift; sourceTree = "<group>"; };
+		9A129F9C2D8D6AE800E0D21D /* Phi4_Model_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phi4_Model_View.swift; sourceTree = "<group>"; };
 		9AA6100E2D87D2CA00ADD329 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AA6100E2D87D2CA00ADD329 /* LoadingView.swift */,
 				9A129F9A2D8D64E900E0D21D /* NVIDIA_New_Model_Testing_View.swift */,
+				9A129F9C2D8D6AE800E0D21D /* Phi4_Model_View.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -151,6 +154,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A129F9B2D8D64F300E0D21D /* NVIDIA_New_Model_Testing_View.swift in Sources */,
 				9AA6100F2D87D2D100ADD329 /* LoadingView.swift in Sources */,
+				9A129F9D2D8D6AF900E0D21D /* Phi4_Model_View.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
@@ -289,6 +293,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to access camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs your access to microphone";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -328,6 +334,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to access camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs your access to microphone";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

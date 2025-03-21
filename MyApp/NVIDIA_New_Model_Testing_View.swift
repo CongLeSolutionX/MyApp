@@ -52,7 +52,7 @@ class ImageUploadViewModel: ObservableObject {
             return
         }
 
-        let apiKey = "API_KEY_REQUIRED_IF_EXECUTING_OUTSIDE_NGC" // Replace
+        let apiKey = "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" // Replace
         let headers = [
             "Authorization": "Bearer \(apiKey)",
             "Accept": "application/json"
