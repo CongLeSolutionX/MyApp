@@ -646,12 +646,11 @@
 //  CombinedApp.swift
 //  MyApp
 //
-//  Created by Cong Le on 3/20/25 (Refactored)
 //
 
 import SwiftUI
 @preconcurrency import WebKit
-@preconcurrency import UIKit
+import UIKit
 
 // MARK: - Data Model
 
@@ -834,7 +833,7 @@ class RSSViewModel: ObservableObject {
     }
 }
 
-// MARK: - Global Formatter
+// MARK: - Global Formatter for Dates
 
 private let displayDateFormatter: DateFormatter = {
     let formatter = DateFormatter()
@@ -915,8 +914,6 @@ struct TabBarButton: View {
     }
 }
 
-// MARK: - RSS Item View with Navigation
-
 struct RSSItemView: View {
     let item: RSSItem
     var isCompact: Bool
@@ -986,8 +983,6 @@ struct RSSItemView: View {
         }
     }
 }
-
-// MARK: - Main Views
 
 struct ForYouView: View {
     @State private var searchText = ""
@@ -1118,33 +1113,11 @@ struct ForYouView: View {
 // MARK: - Web View Controller (UIKit)
 
 class AnotherCustomWebViewController: UIViewController {
-    private lazy var webView: WKWebView = {
-        let configuration = WKWebViewConfiguration()
-        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
-        let contentController = WKUserContentController()
-        // 'self' must already conform to WKScriptMessageHandler & WKNavigationDelegate
-        contentController.add(self, name: "jsHandler")
-        configuration.userContentController = contentController
-        let wv = WKWebView(frame: .zero, configuration: configuration)
-        wv.navigationDelegate = self
-        return wv
-    }()
+    var webView: WKWebView!
+    var progressView: UIProgressView!
+    var toolbar: UIToolbar!
     
-    private lazy var progressView: UIProgressView = {
-        let pv = UIProgressView(progressViewStyle: .default)
-        pv.translatesAutoresizingMaskIntoConstraints = false
-        pv.progress = 0.0
-        pv.isHidden = true
-        return pv
-    }()
-    
-    private lazy var toolbar: UIToolbar = {
-        let tb = UIToolbar()
-        tb.translatesAutoresizingMaskIntoConstraints = false
-        return tb
-    }()
-    
-    private lazy var backButton: UIBarButtonItem = {
+    lazy var backButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(
             image: UIImage(systemName: "arrow.left"),
             style: .plain,
@@ -1155,7 +1128,7 @@ class AnotherCustomWebViewController: UIViewController {
         return btn
     }()
     
-    private lazy var forwardButton: UIBarButtonItem = {
+    lazy var forwardButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(
             image: UIImage(systemName: "arrow.right"),
             style: .plain,
@@ -1166,7 +1139,7 @@ class AnotherCustomWebViewController: UIViewController {
         return btn
     }()
     
-    private lazy var reloadButton: UIBarButtonItem = {
+    lazy var reloadButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(
             image: UIImage(systemName: "arrow.clockwise"),
             style: .plain,
@@ -1176,7 +1149,7 @@ class AnotherCustomWebViewController: UIViewController {
         return btn
     }()
     
-    private lazy var shareButton: UIBarButtonItem = {
+    lazy var shareButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(
             barButtonSystemItem: .action,
             target: self,
@@ -1185,7 +1158,7 @@ class AnotherCustomWebViewController: UIViewController {
         return btn
     }()
     
-    private lazy var openInSafariButton: UIBarButtonItem = {
+    lazy var openInSafariButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(
             image: UIImage(systemName: "safari"),
             style: .plain,
@@ -1255,37 +1228,6 @@ class AnotherCustomWebViewController: UIViewController {
             toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        backButton = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.left"),
-            style: .plain,
-            target: self,
-            action: #selector(goBack)
-        )
-        forwardButton = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.right"),
-            style: .plain,
-            target: self,
-            action: #selector(goForward)
-        )
-        reloadButton = UIBarButtonItem(
-            image: UIImage(systemName: "arrow.clockwise"),
-            style: .plain,
-            target: self,
-            action: #selector(reloadPage)
-        )
-        shareButton = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(shareTapped)
-        )
-        openInSafariButton = UIBarButtonItem(
-            image: UIImage(systemName: "safari"),
-            style: .plain,
-            target: self,
-            action: #selector(openInSafariTapped)
-        )
-        backButton.isEnabled = false
-        forwardButton.isEnabled = false
         toolbar.items = [
             backButton,
             .flexibleSpace(),
@@ -1302,6 +1244,8 @@ class AnotherCustomWebViewController: UIViewController {
     private func setupProgressView() {
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.progress = 0.0
+        progressView.isHidden = true
         view.addSubview(progressView)
         NSLayoutConstraint.activate([
             progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -1309,8 +1253,6 @@ class AnotherCustomWebViewController: UIViewController {
             progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             progressView.bottomAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 1)
         ])
-        progressView.isHidden = true
-        progressView.progress = 0.0
     }
     
     // MARK: - Content Loading
