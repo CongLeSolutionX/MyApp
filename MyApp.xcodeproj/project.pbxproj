@@ -10,6 +10,7 @@
 		9A129F912D8CD65300E0D21D /* SafariViewWithHistoryManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F902D8CD64500E0D21D /* SafariViewWithHistoryManagement.swift */; };
 		9A129F932D8CD87C00E0D21D /* FacebookWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F922D8CD87600E0D21D /* FacebookWebview.swift */; };
 		9A129F952D8D08D500E0D21D /* CustomWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F942D8D08C600E0D21D /* CustomWebview.swift */; };
+		9A129F972D8D1EA700E0D21D /* AnotherCustomWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A129F962D8D1EA100E0D21D /* AnotherCustomWebView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		9A129F902D8CD64500E0D21D /* SafariViewWithHistoryManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewWithHistoryManagement.swift; sourceTree = "<group>"; };
 		9A129F922D8CD87600E0D21D /* FacebookWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookWebview.swift; sourceTree = "<group>"; };
 		9A129F942D8D08C600E0D21D /* CustomWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWebview.swift; sourceTree = "<group>"; };
+		9A129F962D8D1EA100E0D21D /* AnotherCustomWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherCustomWebView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				9AC089312D8A595E00AE2265 /* WKWebContentView.swift */,
 				9A129F922D8CD87600E0D21D /* FacebookWebview.swift */,
 				9A129F942D8D08C600E0D21D /* CustomWebview.swift */,
+				9A129F962D8D1EA100E0D21D /* AnotherCustomWebView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -164,6 +167,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A129F912D8CD65300E0D21D /* SafariViewWithHistoryManagement.swift in Sources */,
+				9A129F972D8D1EA700E0D21D /* AnotherCustomWebView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
