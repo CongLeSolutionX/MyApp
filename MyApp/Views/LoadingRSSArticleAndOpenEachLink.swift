@@ -4,12 +4,11 @@
 //
 //  Created by Cong Le on 3/20/25.
 //
-
 import SwiftUI
-@preconcurrency import WebKit
+import WebKit
 @preconcurrency import UIKit
 
-// MARK: - Data Model (Unified)
+// MARK: - Data Model (No Changes)
 
 struct RSSItem: Identifiable {
     let id = UUID()
@@ -20,7 +19,7 @@ struct RSSItem: Identifiable {
     var imageURL: String?
 }
 
-// MARK: - RSS Parser (Enhanced Date Handling & Error Reporting)
+// MARK: - RSS Parser (No Changes)
 
 final class RSSParser: NSObject, XMLParserDelegate {
     private var currentElement = ""
@@ -33,13 +32,12 @@ final class RSSParser: NSObject, XMLParserDelegate {
     private var items: [RSSItem] = []
     private var inItem = false
     private var inImage = false
-    private var parseError: Error? // Store parse errors
+    private var parseError: Error?
 
-    // Date formatter (static for performance, combined formats)
     private static let dateFormats: [String] = [
-        "EEE, dd MMM yyyy HH:mm:ss Z",  // RFC 822
-        "yyyy-MM-dd'T'HH:mm:ss.SSSZ",   // ISO 8601 (with milliseconds)
-        "yyyy-MM-dd'T'HH:mm:ssZ"       // ISO 8601 (without milliseconds)
+        "EEE, dd MMM yyyy HH:mm:ss Z",
+        "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+        "yyyy-MM-dd'T'HH:mm:ssZ"
     ]
 
     private static let dateFormatter: DateFormatter = {
@@ -49,17 +47,16 @@ final class RSSParser: NSObject, XMLParserDelegate {
     }()
 
     func parse(data: Data) -> (items: [RSSItem], error: Error?) {
-        items = [] // Clear previous items
-        parseError = nil // Reset error
+        items = []
+        parseError = nil
         let parser = XMLParser(data: data)
         parser.delegate = self
         parser.parse()
-        return (items, parseError) // Return both items and error
+        return (items, parseError)
     }
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         currentElement = elementName
-
         if elementName == "item" {
             inItem = true
             currentTitle = ""
@@ -68,7 +65,6 @@ final class RSSParser: NSObject, XMLParserDelegate {
             currentDescription = ""
             currentImageURL = ""
         }
-
         if inItem {
             if elementName == "media:content", let urlString = attributeDict["url"] {
                 currentImageURL = urlString
@@ -85,7 +81,6 @@ final class RSSParser: NSObject, XMLParserDelegate {
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         guard inItem else { return }
-
         switch currentElement {
         case "title":       currentTitle += string
         case "link":        currentLink += string
@@ -98,18 +93,15 @@ final class RSSParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             inItem = false
-
             let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
             var parsedDate: Date?
-
             for format in RSSParser.dateFormats {
                 RSSParser.dateFormatter.dateFormat = format
                 if let date = RSSParser.dateFormatter.date(from: trimmedPubDate) {
                     parsedDate = date
-                    break // Exit loop once a valid date is found
+                    break
                 }
             }
-
             let newItem = RSSItem(
                 title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
                 link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -128,24 +120,24 @@ final class RSSParser: NSObject, XMLParserDelegate {
     }
 
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        self.parseError = parseError // Capture the error
+        self.parseError = parseError
         print("Parse error occurred: \(parseError)")
     }
 
     func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
-        self.parseError = validationError // Capture validation errors
+        self.parseError = validationError
         print("Validation error occurred: \(validationError)")
     }
 }
 
-// MARK: - View Model (Unified, Improved Error Handling)
+// MARK: - View Model (No Changes)
 
 class RSSViewModel: ObservableObject {
     @Published var rssItems: [RSSItem] = []
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
 
-    private let parser = RSSParser() // Use the unified parser
+    private let parser = RSSParser()
 
     func loadRSS(urlString: String = "https://www.law360.com/ip/rss") {
         guard let url = URL(string: urlString) else {
@@ -154,7 +146,7 @@ class RSSViewModel: ObservableObject {
         }
 
         isLoading = true
-        errorMessage = nil // Clear previous error
+        errorMessage = nil
 
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             defer {
@@ -193,9 +185,8 @@ class RSSViewModel: ObservableObject {
     }
 }
 
-// MARK: - SwiftUI Views (Streamlined, Shared Components)
+// MARK: - SwiftUI Views (Modified for Navigation)
 
-// Date formatter for display (static, shared)
 private let displayDateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
@@ -203,7 +194,6 @@ private let displayDateFormatter: DateFormatter = {
     return formatter
 }()
 
-// Reusable Async Image View with Placeholder
 struct RSSAsyncImage: View {
     let urlString: String?
     let isCompact: Bool
@@ -240,65 +230,64 @@ struct RSSAsyncImage: View {
     }
 }
 
-// Reusable RSS Item Card View
+// MARK: - RSSItemView (Modified to include NavigationLink)
 struct RSSItemView: View {
     let item: RSSItem
     var isCompact: Bool
-    var showImage = true // Control image visibility
+    var showImage = true
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(alignment: .leading) {
-                if showImage {
-                    RSSAsyncImage(urlString: item.imageURL, isCompact: isCompact)
-                }
-
-                if !isCompact {
-                    Text(item.title)
-                        .font(.title2).fontWeight(.bold).foregroundColor(.white)
-                        .padding(.top, 2)
-                }
-
-                HStack {
-                    Image(systemName: "circle.fill").font(.system(size: 8)).foregroundColor(.gray)
-                    if let pubDate = item.pubDate {
-                        Text(displayDateFormatter.string(from: pubDate)).font(.caption).foregroundColor(.gray)
-                    } else {
-                        Text("No date available").font(.caption).foregroundColor(.gray)
+        // Wrap the content in a NavigationLink
+        NavigationLink(destination: WebViewControllerWrapper(urlString: item.link)) {
+            ZStack(alignment: .topTrailing) {
+                VStack(alignment: .leading) {
+                    if showImage {
+                        RSSAsyncImage(urlString: item.imageURL, isCompact: isCompact)
                     }
-                }.padding(.top, 1)
-
-                Text(item.itemDescription)
-                    .font(isCompact ? .caption : .body)
-                    .foregroundColor(.gray)
-                    .lineLimit(isCompact ? 2 : 4)
-                    .padding(.top, isCompact ? 1 : 2)
-
-                if !isCompact {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            TopicTag(title: "Law")
-                            TopicTag(title: "IP")
-                            TopicTag(title: "Legal")
-                            Button(action: {}) { Image(systemName: "ellipsis").foregroundColor(.gray) }
-                        }.padding(.top, 8)
+                    if !isCompact {
+                        Text(item.title)
+                            .font(.title2).fontWeight(.bold).foregroundColor(.white)
+                            .padding(.top, 2)
+                    }
+                    HStack {
+                        Image(systemName: "circle.fill").font(.system(size: 8)).foregroundColor(.gray)
+                        if let pubDate = item.pubDate {
+                            Text(displayDateFormatter.string(from: pubDate)).font(.caption).foregroundColor(.gray)
+                        } else {
+                            Text("No date available").font(.caption).foregroundColor(.gray)
+                        }
+                    }.padding(.top, 1)
+                    Text(item.itemDescription)
+                        .font(isCompact ? .caption : .body)
+                        .foregroundColor(.gray)
+                        .lineLimit(isCompact ? 2 : 4)
+                        .padding(.top, isCompact ? 1 : 2)
+                    if !isCompact {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                TopicTag(title: "Law")
+                                TopicTag(title: "IP")
+                                TopicTag(title: "Legal")
+                                Button(action: {}) { Image(systemName: "ellipsis").foregroundColor(.gray) }
+                            }.padding(.top, 8)
+                        }
                     }
                 }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 25).fill(Color.black))
+                
+                Button(action: {}) { Image(systemName: "bookmark").font(.title2).foregroundColor(.white) }
+                    .padding(10)
             }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 25).fill(Color.black))
-
-            Button(action: {}) { Image(systemName: "bookmark").font(.title2).foregroundColor(.white) }
-                .padding(10)
+            .padding(.horizontal)
+            .buttonStyle(PlainButtonStyle()) // Remove default button styling from NavigationLink
         }
-        .padding(.horizontal)
     }
 }
 
-// Helper Views (Kept, but made accessible)
+
 struct TopicTag: View {
     let title: String
-
     var body: some View {
         Text(title)
             .font(.caption).fontWeight(.bold).foregroundColor(.white)
@@ -312,7 +301,6 @@ struct TabBarButton: View {
     let iconName: String
     let label: String
     var isActive: Bool = false
-
     var body: some View {
         Button(action: {}) {
             VStack {
@@ -323,17 +311,16 @@ struct TabBarButton: View {
     }
 }
 
-// MARK: - Main Views (Combined and Simplified)
-
+// MARK: - Main Views (Modified for Navigation)
 struct ForYouView: View {
     @State private var searchText: String = ""
     @State private var isCompactView: Bool = false
     @StateObject private var rssViewModel = RSSViewModel()
-    @State private var isShowingAlert = false // Control alert presentation
+    @State private var isShowingAlert = false
 
     var body: some View {
         NavigationView {
-            ZStack { // Use ZStack for loading indicator and error handling
+            ZStack {
                 ScrollView {
                     VStack(alignment: .leading) {
                         headerView
@@ -345,18 +332,15 @@ struct ForYouView: View {
                 }
                 .background(Color.black.edgesIgnoringSafeArea(.all))
                 .navigationBarHidden(true)
-                .alert(isPresented: $isShowingAlert) { // Centralized error alert
+                .alert(isPresented: $isShowingAlert) {
                     Alert(title: Text("Error"), message: Text(rssViewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
                 }
-
-                if rssViewModel.isLoading { // Centralized loading indicator
+                if rssViewModel.isLoading {
                     ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .white))
                 }
             }
-            
-            // Tab Bar (Remains at the bottom)
             VStack {
-                Spacer() // Push the tab bar to the bottom
+                Spacer()
                 HStack {
                     TabBarButton(iconName: "waveform.path.ecg", label: "For you", isActive: true)
                     TabBarButton(iconName: "book", label: "Episodes")
@@ -368,13 +352,13 @@ struct ForYouView: View {
                 .frame(maxWidth: .infinity)
                 .border(Color.gray.opacity(0.3), width: 1)
             }
-            .edgesIgnoringSafeArea(.bottom) // Make sure the tab bar sits correctly at the bottom
+            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
             rssViewModel.loadRSS()
         }
         .onChange(of: rssViewModel.errorMessage) { newValue in
-            isShowingAlert = newValue != nil // Show alert based on errorMessage
+            isShowingAlert = newValue != nil
         }
     }
 
@@ -419,10 +403,10 @@ struct ForYouView: View {
     private var rssContentView: some View {
         Group {
             if let errorMessage = rssViewModel.errorMessage {
-                Text("Error: \(errorMessage)").foregroundColor(.red).padding() // Display error
+                Text("Error: \(errorMessage)").foregroundColor(.red).padding()
             } else {
                 ForEach(rssViewModel.rssItems) { item in
-                    RSSItemView(item: item, isCompact: isCompactView)
+                    RSSItemView(item: item, isCompact: isCompactView) // Now includes NavigationLink
                 }
             }
         }
@@ -437,15 +421,14 @@ struct RSSContentView: View {
         NavigationView {
             ZStack {
                 List(viewModel.rssItems) { item in
-                    RSSItemView(item: item, isCompact: false, showImage: true) // Use the reusable view
-                        .listRowSeparator(.hidden) // Hide separators for custom look
+                    RSSItemView(item: item, isCompact: false, showImage: true)
+                        .listRowSeparator(.hidden)
                 }
                 .navigationTitle("Law360 RSS")
                 .refreshable { viewModel.loadRSS() }
                 .alert(isPresented: $isShowingAlert) {
                     Alert(title: Text("Error"), message: Text(viewModel.errorMessage ?? "An unknown error occurred"), dismissButton: .default(Text("OK")))
                 }
-
                 if viewModel.isLoading {
                     ProgressView("Loading...").progressViewStyle(CircularProgressViewStyle(tint: .blue)).scaleEffect(1.5)
                 }
@@ -458,7 +441,7 @@ struct RSSContentView: View {
     }
 }
 
-// MARK: - AnotherCustomWebViewController (Cleaned)
+// MARK: - AnotherCustomWebViewController (No Changes)
 
 class AnotherCustomWebViewController: UIViewController {
     private var webView: WKWebView!
@@ -473,7 +456,7 @@ class AnotherCustomWebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        loadInitialContent()
+        loadInitialContent()  //Will be updated
         setupObservers()
     }
 
@@ -492,7 +475,7 @@ class AnotherCustomWebViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
-        navigationItem.title = "Loading..." // Placeholder, updated via KVO
+        navigationItem.title = "Loading..."
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(menuTapped))
     }
 
@@ -516,7 +499,6 @@ class AnotherCustomWebViewController: UIViewController {
             toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
         backButton = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(goBack))
         forwardButton = UIBarButtonItem(image: UIImage(systemName: "arrow.right"), style: .plain, target: self, action: #selector(goForward))
         reloadButton = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(reloadPage))
@@ -524,7 +506,6 @@ class AnotherCustomWebViewController: UIViewController {
         openInSafariButton = UIBarButtonItem(image: UIImage(systemName: "safari"), style: .plain, target: self, action: #selector(openInSafariTapped))
         backButton.isEnabled = false
         forwardButton.isEnabled = false
-
         toolbar.items = [backButton, .flexibleSpace(), forwardButton, .flexibleSpace(), reloadButton, .flexibleSpace(), shareButton, .flexibleSpace(), openInSafariButton]
     }
 
@@ -541,11 +522,16 @@ class AnotherCustomWebViewController: UIViewController {
         progressView.isHidden = true
         progressView.progress = 0.0
     }
-
+    // MARK: - Content Loading (Modified to accept URL)
     private func loadInitialContent() {
-        loadRemoteURL(urlString: "https://arxiv.org/")
-    }
+           // Default URL or placeholder
+           loadRemoteURL(urlString: "https://www.example.com") // Default URL
+       }
 
+       // Updated method to load a specific URL
+       func loadURL(urlString: String) {
+           loadRemoteURL(urlString: urlString)
+       }
     private func loadRemoteURL(urlString: String) {
         guard let url = URL(string: urlString) else { print("Invalid URL: \(urlString)"); return }
         webView.load(URLRequest(url: url))
@@ -624,26 +610,27 @@ extension AnotherCustomWebViewController: WKNavigationDelegate {
         }
         decisionHandler(.allow)
     }
-
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("Page loading started")
-        progressView.isHidden = false
-    }
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { print("Page loading started"); progressView.isHidden = false }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { print("Page loading finished") }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { print("Page loading failed: \(error)"); progressView.isHidden = true }
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { print("Provisional navigation failed: \(error)"); progressView.isHidden = true }
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { print("Provisional navigation failed: \(error)"); progressView.isHidden = true}
 }
 
-// MARK: - SwiftUI Wrapper (Reusable)
+// MARK: - SwiftUI Wrapper (Modified to accept URL)
 
 struct WebViewControllerWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = AnotherCustomWebViewController
+    var urlString: String // Add a property for the URL
 
     func makeUIViewController(context: Context) -> AnotherCustomWebViewController {
-        return AnotherCustomWebViewController()
+        let webViewController = AnotherCustomWebViewController()
+        webViewController.loadURL(urlString: urlString) // Pass URL during creation
+        return webViewController
     }
 
-    func updateUIViewController(_ uiViewController: AnotherCustomWebViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: AnotherCustomWebViewController, context: Context) {
+       // No need to update if the URL is loaded during creation
+    }
 }
 
 // MARK: - Preview
@@ -652,8 +639,5 @@ struct CombinedView_Previews: PreviewProvider {
     static var previews: some View {
         ForYouView()
             .preferredColorScheme(.dark)
-        
-        WebViewControllerWrapper()
-            .previewDisplayName("Web View")
     }
 }
