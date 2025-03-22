@@ -15,7 +15,7 @@ enum DownloadState: Codable {
     case notStarted
     case inProgress(Double)
     case completed
-    case failed(String)
+    case failed(String) // Store error description
 
     private enum CodingKeys: String, CodingKey {
         case notStarted, inProgress, completed, failed
@@ -202,12 +202,24 @@ final class CIRTDataService: ObservableObject {
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
     private var downloadTasks: [UUID: URLSessionDownloadTask] = [:]
+    private let fileManager = FileManager.default // Use it directly
 
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.default
         let delegate = DownloadDelegate()
         return URLSession(configuration: config, delegate: delegate, delegateQueue: nil)
     }()
+    
+    // MARK: - App-Specific Directory
+        private func appSpecificDirectory() throws -> URL {
+            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+             // Creates our app directory
+            let appDirectory = documentsDirectory.appendingPathComponent("CIRTData", isDirectory: true)
+            if !fileManager.fileExists(atPath: appDirectory.path) {
+                try fileManager.createDirectory(at: appDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+            return appDirectory
+        }
 
     // MARK: - Token Management
 
@@ -378,27 +390,14 @@ final class CIRTDataService: ObservableObject {
             cirtData[index].downloadState = .notStarted
         }
     }
-
-    private func ensureDocumentsDirectoryExists() throws {
-        let fileManager = FileManager.default
-        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-
-        if !fileManager.fileExists(atPath: documentsDirectory.path) {
-            try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
-        }
-    }
     
 
     private func processDownloadedFile(at localURL: URL, for item: CIRTData, index: Int) {
-        let fileManager = FileManager.default
-        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = item.s3Uri?.components(separatedBy: "/").last ?? "downloadedFile.zip"
-        let destinationURL = documentsDirectory.appendingPathComponent("\(item.id)_\(fileName)")
-
         do {
-             // Ensure the Documents directory exists *before* moving the file.
-            try ensureDocumentsDirectoryExists()
-            
+            let appDirectory = try appSpecificDirectory() // Use the app-specific directory
+            let fileName = item.s3Uri?.components(separatedBy: "/").last ?? "downloadedFile.zip"
+            let destinationURL = appDirectory.appendingPathComponent("\(item.id)_\(fileName)")
+
             if fileManager.fileExists(atPath: destinationURL.path) {
                 try fileManager.removeItem(at: destinationURL)
             }
@@ -406,8 +405,9 @@ final class CIRTDataService: ObservableObject {
             try fileManager.moveItem(at: localURL, to: destinationURL)
             cirtData[index].downloadedFilePath = destinationURL // Store file path
 
+            // Unzip *within* the app's directory:
             let unzipSuccessful = SSZipArchive.unzipFile(atPath: destinationURL.path,
-                                                          toDestination: documentsDirectory.path)
+                                                         toDestination: appDirectory.path)
 
             if unzipSuccessful {
 
