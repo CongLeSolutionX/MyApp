@@ -215,6 +215,8 @@ final class CIRTDataService: ObservableObject {
             let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
              // Creates our app directory
             let appDirectory = documentsDirectory.appendingPathComponent("CIRTData", isDirectory: true)
+            print("App directory: \(appDirectory)")
+            
             if !fileManager.fileExists(atPath: appDirectory.path) {
                 try fileManager.createDirectory(at: appDirectory, withIntermediateDirectories: true, attributes: nil)
             }
@@ -397,7 +399,8 @@ final class CIRTDataService: ObservableObject {
             let appDirectory = try appSpecificDirectory() // Use the app-specific directory
             let fileName = item.s3Uri?.components(separatedBy: "/").last ?? "downloadedFile.zip"
             let destinationURL = appDirectory.appendingPathComponent("\(item.id)_\(fileName)")
-
+            print("Destination URL: \(destinationURL)")
+            
             if fileManager.fileExists(atPath: destinationURL.path) {
                 try fileManager.removeItem(at: destinationURL)
             }
