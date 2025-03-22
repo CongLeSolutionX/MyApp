@@ -12,6 +12,7 @@
 		9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */; };
 		9A53CC222D8F5A43004020E9 /* HousingIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC212D8F5A39004020E9 /* HousingIndicatorsView.swift */; };
 		9A53CC242D8F5D17004020E9 /* CIRTContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC232D8F5D11004020E9 /* CIRTContentView.swift */; };
+		9A53CC272D8F70BC004020E9 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 9A53CC262D8F70BC004020E9 /* ZipArchive */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A53CC272D8F70BC004020E9 /* ZipArchive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +133,9 @@
 				Base,
 			);
 			mainGroup = 9AAC416F2C74668B00AC0A60;
+			packageReferences = (
+				9A53CC252D8F70BC004020E9 /* XCRemoteSwiftPackageReference "ZipArchive" */,
+			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -387,6 +392,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9A53CC252D8F70BC004020E9 /* XCRemoteSwiftPackageReference "ZipArchive" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZipArchive/ZipArchive";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9A53CC262D8F70BC004020E9 /* ZipArchive */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A53CC252D8F70BC004020E9 /* XCRemoteSwiftPackageReference "ZipArchive" */;
+			productName = ZipArchive;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9AAC41702C74668B00AC0A60 /* Project object */;
 }
