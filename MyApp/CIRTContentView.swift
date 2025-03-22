@@ -7,33 +7,101 @@
 import SwiftUI
 import Combine
 import ZipArchive
-import QuickLook // Import QuickLook!
+import QuickLook
 
 // MARK: - Data Models
 
-enum DownloadState {
+enum DownloadState: Codable { // Conform to Codable
     case notStarted
-    case inProgress(Double) // Progress 0.0 to 1.0
+    case inProgress(Double)
     case completed
-    case failed(Error)
+    case failed(String) // Store error description
+
+    // CodingKeys for the enum cases
+    private enum CodingKeys: String, CodingKey {
+        case notStarted, inProgress, completed, failed
+    }
+
+    // Custom encoding
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .notStarted:
+            try container.encode(true, forKey: .notStarted)
+        case .inProgress(let progress):
+            try container.encode(progress, forKey: .inProgress)
+        case .completed:
+            try container.encode(true, forKey: .completed)
+        case .failed(let errorDescription):
+            try container.encode(errorDescription, forKey: .failed)
+        }
+    }
+
+    // Custom decoding
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let _ = try? container.decode(Bool.self, forKey: .notStarted) {
+            self = .notStarted
+        } else if let progress = try? container.decode(Double.self, forKey: .inProgress) {
+            self = .inProgress(progress)
+        } else if let _ = try? container.decode(Bool.self, forKey: .completed) {
+            self = .completed
+        } else if let errorDescription = try? container.decode(String.self, forKey: .failed) {
+            self = .failed(errorDescription)
+        } else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Invalid DownloadState"))
+        }
+    }
 }
 
-struct CIRTData: Identifiable, Codable { // Explicitly conform to Codable
-    let id = UUID()
+struct CIRTData: Identifiable, Codable {
+    let id: UUID // No longer initialized here
     let currentState: String?
     let s3Uri: String?
     let requestId: String?
     let stateEntryTimestamp: String?
-    var downloadState: DownloadState = .notStarted
-    var downloadedFilePath: URL? = nil
-    
+    var downloadState: DownloadState
+    var downloadedFilePath: URL?
+
+     // CodingKeys, including id
+    enum CodingKeys: String, CodingKey {
+        case id, currentState, s3Uri, requestId, stateEntryTimestamp, downloadState, downloadedFilePath
+    }
+     // Custom initializer (still needed, but for different reasons)
     init(from state: CirtRequestState) {
+        self.id = UUID() // Initialize id here
         self.currentState = state.currentState
         self.s3Uri = state.s3Uri
         self.requestId = state.requestId
         self.stateEntryTimestamp = state.stateEntryTimestamp
+        self.downloadState = .notStarted // Default value
+        self.downloadedFilePath = nil     // Default value
     }
+    // Init from Decoder
+    init(from decoder: Decoder) throws{
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        currentState = try container.decodeIfPresent(String.self, forKey: .currentState)
+        s3Uri = try container.decodeIfPresent(String.self, forKey: .s3Uri)
+        requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+        stateEntryTimestamp = try container.decodeIfPresent(String.self, forKey: .stateEntryTimestamp)
+        downloadState = try container.decode(DownloadState.self, forKey: .downloadState)
+        downloadedFilePath = try container.decodeIfPresent(URL.self, forKey: .downloadedFilePath)
+    }
+
+    // Implement encode(to:) since CIRTData also needs encoding
+     func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encodeIfPresent(currentState, forKey: .currentState)
+            try container.encodeIfPresent(s3Uri, forKey: .s3Uri)
+            try container.encodeIfPresent(requestId, forKey: .requestId)
+            try container.encodeIfPresent(stateEntryTimestamp, forKey: .stateEntryTimestamp)
+            try container.encode(downloadState, forKey: .downloadState)
+            try container.encodeIfPresent(downloadedFilePath, forKey: .downloadedFilePath)
+        }
 }
+
 
 
 struct CirtRequestState: Decodable {
@@ -291,7 +359,7 @@ final class CIRTDataService: ObservableObject {
                         }
                     } else if let error = error {
                         if let index = self.cirtData.firstIndex(where: { $0.id == item.id }) {
-                            self.cirtData[index].downloadState = .failed(error)
+                            self.cirtData[index].downloadState = .failed(CIRTApiError.unknown(error)) // Use specific errors
                         }
                     }
                 }
@@ -423,13 +491,13 @@ struct CIRTContentView: View {
                                             showingFilePicker = true
                                         }
                                     }
-                                case .failed(let error):
-                                    Text("Download Failed: \(error.localizedDescription)")
+                                case .failed(let errorString): // Use the String
+                                    Text("Download Failed: \(errorString)")
                                         .foregroundColor(.red)
-                                    Button("Retry") {
+                                     Button("Retry") {
                                         dataService.downloadData(for: item)
-                                    }
-                                    .buttonStyle(.bordered)
+                                     }
+                                     .buttonStyle(.bordered)
                                 }
                             }
                         }
