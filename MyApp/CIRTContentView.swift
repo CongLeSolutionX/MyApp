@@ -11,18 +11,16 @@ import QuickLook
 
 // MARK: - Data Models
 
-enum DownloadState: Codable { // Conform to Codable
+enum DownloadState: Codable {
     case notStarted
     case inProgress(Double)
     case completed
     case failed(String) // Store error description
 
-    // CodingKeys for the enum cases
     private enum CodingKeys: String, CodingKey {
         case notStarted, inProgress, completed, failed
     }
 
-    // Custom encoding
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
@@ -37,7 +35,6 @@ enum DownloadState: Codable { // Conform to Codable
         }
     }
 
-    // Custom decoding
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let _ = try? container.decode(Bool.self, forKey: .notStarted) {
@@ -55,7 +52,7 @@ enum DownloadState: Codable { // Conform to Codable
 }
 
 struct CIRTData: Identifiable, Codable {
-    let id: UUID // No longer initialized here
+    let id: UUID
     let currentState: String?
     let s3Uri: String?
     let requestId: String?
@@ -63,22 +60,21 @@ struct CIRTData: Identifiable, Codable {
     var downloadState: DownloadState
     var downloadedFilePath: URL?
 
-     // CodingKeys, including id
     enum CodingKeys: String, CodingKey {
         case id, currentState, s3Uri, requestId, stateEntryTimestamp, downloadState, downloadedFilePath
     }
-     // Custom initializer (still needed, but for different reasons)
+
     init(from state: CirtRequestState) {
-        self.id = UUID() // Initialize id here
+        self.id = UUID()
         self.currentState = state.currentState
         self.s3Uri = state.s3Uri
         self.requestId = state.requestId
         self.stateEntryTimestamp = state.stateEntryTimestamp
-        self.downloadState = .notStarted // Default value
-        self.downloadedFilePath = nil     // Default value
+        self.downloadState = .notStarted
+        self.downloadedFilePath = nil
     }
-    // Init from Decoder
-    init(from decoder: Decoder) throws{
+
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         currentState = try container.decodeIfPresent(String.self, forKey: .currentState)
@@ -89,20 +85,17 @@ struct CIRTData: Identifiable, Codable {
         downloadedFilePath = try container.decodeIfPresent(URL.self, forKey: .downloadedFilePath)
     }
 
-    // Implement encode(to:) since CIRTData also needs encoding
-     func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(id, forKey: .id)
-            try container.encodeIfPresent(currentState, forKey: .currentState)
-            try container.encodeIfPresent(s3Uri, forKey: .s3Uri)
-            try container.encodeIfPresent(requestId, forKey: .requestId)
-            try container.encodeIfPresent(stateEntryTimestamp, forKey: .stateEntryTimestamp)
-            try container.encode(downloadState, forKey: .downloadState)
-            try container.encodeIfPresent(downloadedFilePath, forKey: .downloadedFilePath)
-        }
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encodeIfPresent(currentState, forKey: .currentState)
+        try container.encodeIfPresent(s3Uri, forKey: .s3Uri)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
+        try container.encodeIfPresent(stateEntryTimestamp, forKey: .stateEntryTimestamp)
+        try container.encode(downloadState, forKey: .downloadState)
+        try container.encodeIfPresent(downloadedFilePath, forKey: .downloadedFilePath)
+    }
 }
-
-
 
 struct CirtRequestState: Decodable {
     let currentState: String?
@@ -355,11 +348,12 @@ final class CIRTDataService: ObservableObject {
 
                     if let localURL = localURL, error == nil {
                         if let index = self.cirtData.firstIndex(where: { $0.id == item.id }) {
-                            self.processDownloadedFile(at: localURL, for: item, index: index) // Pass index
+                            self.processDownloadedFile(at: localURL, for: item, index: index)
                         }
                     } else if let error = error {
                         if let index = self.cirtData.firstIndex(where: { $0.id == item.id }) {
-                            self.cirtData[index].downloadState = .failed(CIRTApiError.unknown(error)) // Use specific errors
+                             // Use localizedDescription here!
+                            self.cirtData[index].downloadState = .failed(error.localizedDescription)
                         }
                     }
                 }
@@ -397,7 +391,7 @@ final class CIRTDataService: ObservableObject {
             }
 
             try fileManager.moveItem(at: localURL, to: destinationURL)
-            cirtData[index].downloadedFilePath = destinationURL // Store file path
+            cirtData[index].downloadedFilePath = destinationURL
 
             let unzipSuccessful = SSZipArchive.unzipFile(atPath: destinationURL.path,
                                                           toDestination: documentsDirectory.path)
@@ -405,11 +399,13 @@ final class CIRTDataService: ObservableObject {
             if unzipSuccessful {
                 cirtData[index].downloadState = .completed
             } else {
-                cirtData[index].downloadState = .failed(CIRTApiError.unzippingFailed("Failed to unzip file."))
+                // Use localizedDescription here!
+                cirtData[index].downloadState = .failed(CIRTApiError.unzippingFailed("Failed to unzip file.").localizedDescription)
             }
 
         } catch {
-            cirtData[index].downloadState = .failed(CIRTApiError.fileManagementFailed(error.localizedDescription))
+            // Use localizedDescription here!
+            cirtData[index].downloadState = .failed(CIRTApiError.fileManagementFailed(error.localizedDescription).localizedDescription)
         }
     }
 
@@ -491,13 +487,13 @@ struct CIRTContentView: View {
                                             showingFilePicker = true
                                         }
                                     }
-                                case .failed(let errorString): // Use the String
+                                case .failed(let errorString):
                                     Text("Download Failed: \(errorString)")
                                         .foregroundColor(.red)
-                                     Button("Retry") {
+                                    Button("Retry") {
                                         dataService.downloadData(for: item)
-                                     }
-                                     .buttonStyle(.bordered)
+                                    }
+                                    .buttonStyle(.bordered)
                                 }
                             }
                         }
@@ -548,7 +544,6 @@ struct DocumentViewerView: UIViewControllerRepresentable {
 }
 
 // MARK: - Preview
-
 struct CIRTContentView_Previews: PreviewProvider {
     static var previews: some View {
         CIRTContentView()
