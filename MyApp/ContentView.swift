@@ -31,21 +31,23 @@ import Combine
 
 // MARK: - Data Models
 
+/// Represents a unified loan performance data item.
 struct LoanPerformanceData: Identifiable, Codable {
     let id = UUID()
     let s3Uri: String
     let year: Int?
     let quarter: String?
-    let effectiveDate: String? // For LphDetailResponse
-
-    // Custom initializer to handle both LphDetails and LphResponse
+    let effectiveDate: String?
+    
+    // Initializer for LphDetails (no effective date)
     init(from details: LphDetails) {
         self.s3Uri = details.s3Uri
         self.year = details.year
         self.quarter = details.quarter
-        self.effectiveDate = nil // Not applicable for individual details
+        self.effectiveDate = nil
     }
-
+    
+    // Initializer for LphResponse (has effective date only)
     init(from response: LphResponse) {
         self.s3Uri = response.s3Uri
         self.effectiveDate = response.effectiveDate
@@ -54,30 +56,33 @@ struct LoanPerformanceData: Identifiable, Codable {
     }
 }
 
-// Structs for API response decoding.  Mirrors the OpenAPI spec.
+/// Mirrors the API response where multiple loan detail entries are provided.
 struct LphDetailResponse: Decodable {
     let effectiveDate: String
     let lphResponse: [LphDetails]
 }
 
+/// Detail information for individual loan performance.
 struct LphDetails: Decodable {
     let s3Uri: String
     let year: Int?
     let quarter: String?
 }
 
+/// Single entry response.
 struct LphResponse: Decodable {
     let s3Uri: String
     let effectiveDate: String
 }
 
-// MARK: - Enums for API Endpoints
+// MARK: - API Endpoints
 
+/// Enumeration for API endpoints used in the service.
 enum APIEndpoint {
     case yearlyQuarterly(year: Int, quarter: String)
     case harp
     case primary
-
+    
     var path: String {
         switch self {
         case .yearlyQuarterly(let year, let quarter):
@@ -90,17 +95,17 @@ enum APIEndpoint {
     }
 }
 
+// MARK: - API Errors
 
-// MARK: - Error Handling
-
+/// API error definition for common network / decoding failures.
 enum APIError: Error, LocalizedError {
     case invalidURL
-    case requestFailed(String) // Include error message from API
+    case requestFailed(String)
     case decodingFailed
     case noData
     case authenticationFailed
     case unknown(Error)
-
+    
     var errorDescription: String? {
         switch self {
         case .invalidURL:
@@ -110,7 +115,7 @@ enum APIError: Error, LocalizedError {
         case .decodingFailed:
             return "Failed to decode the response."
         case .noData:
-            return "No data found for the given parameters."
+            return "No data was returned."
         case .authenticationFailed:
             return "Authentication failed. Please check your credentials."
         case .unknown(let error):
@@ -119,18 +124,16 @@ enum APIError: Error, LocalizedError {
     }
 }
 
-// MARK: - Authentication Data
+// MARK: - Authentication
 
-//  CRITICAL: In a production app, NEVER store client ID and secret directly in code.
-//  Use environment variables or, even better, a secure key management service.
-// This is ONLY for demonstration and MUST be replaced with a secure approach.
+/// IMPORTANT: In an actual production app, never hardcode client credentials.
+/// Use secure storage or environment variables instead.
 struct AuthCredentials {
     static let clientID = "clientIDKeyHere"
     static let clientSecret = "clientSecretKeyHere"
 }
 
-// MARK: - Token Response Model
-
+/// Model for the token response from the authentication API.
 struct TokenResponse: Decodable {
     let access_token: String
     let token_type: String
@@ -138,190 +141,175 @@ struct TokenResponse: Decodable {
     let scope: String
 }
 
+// MARK: - Data Service
 
-
-// MARK: - Data Service (with Network Requests)
-
-class LoanPerformanceDataService: ObservableObject {
+/// Service responsible for fetching and decoding loan performance data.
+final class LoanPerformanceDataService: ObservableObject {
     @Published var loanData: [LoanPerformanceData] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-
+    
     private let baseURLString = "https://api.fanniemae.com"
-    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"  // For token requests
+    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"
     private var accessToken: String?
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
-
+    
     // MARK: - Token Management
-
-        private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
-            // Check if we have a valid, unexpired token
-            if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
-                completion(.success(token))
-                return
-            }
-
-            // Prepare the request
-            guard let url = URL(string: tokenURL) else {
-                completion(.failure(.invalidURL))
-                return
-            }
-            
-            let credentials = "\(AuthCredentials.clientID):\(AuthCredentials.clientSecret)"
-            guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
-                completion(.failure(.authenticationFailed))
-                return // Could not encode.
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
-            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
-            request.httpBody = "grant_type=client_credentials".data(using: .utf8)
-            
-            URLSession.shared.dataTaskPublisher(for: request)
-                .tryMap { data, response in
-                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                         let responseString = String(data: data, encoding: .utf8) ?? ""
-                        throw APIError.requestFailed("Invalid response or status code. Response = \(responseString)")
-                    }
-                    return data
-                }
-            
-                .decode(type: TokenResponse.self, decoder: JSONDecoder())
-                .receive(on: DispatchQueue.main) // Switch back to the main thread for UI updates
-                .sink { [weak self] receiveCompletion in
-                    switch receiveCompletion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        if let apiError = error as? APIError {
-                                    self?.handleError(apiError)  // More specific
-                                    completion(.failure(apiError)) // Propagate
-                                } else {
-                                    let unknown = APIError.unknown(error)
-                                    self?.handleError(unknown)
-                                    completion(.failure(unknown))
-                                }
-                    }
-                } receiveValue: { [weak self] tokenResponse in
-                    self?.accessToken = tokenResponse.access_token
-                    // Calculate the expiration date (current time + expires_in seconds)
-                    self?.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
-                    completion(.success(tokenResponse.access_token))
-                }
-                .store(in: &cancellables) // Prevent memory leaks
+    
+    private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
+        // Return token if still valid.
+        if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
+            completion(.success(token))
+            return
         }
-
-
-    // MARK: - Public API Data Fetching Methods
-
+        
+        guard let url = URL(string: tokenURL) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        let credentials = "\(AuthCredentials.clientID):\(AuthCredentials.clientSecret)"
+        guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
+            completion(.failure(.authenticationFailed))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "grant_type=client_credentials".data(using: .utf8)
+        
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    let responseString = String(data: data, encoding: .utf8) ?? ""
+                    throw APIError.requestFailed("Invalid response. Response: \(responseString)")
+                }
+                return data
+            }
+            .decode(type: TokenResponse.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completionResult in
+                switch completionResult {
+                case .finished:
+                    break
+                case .failure(let error):
+                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    self?.handleError(apiError)
+                    completion(.failure(apiError))
+                }
+            } receiveValue: { [weak self] tokenResponse in
+                self?.accessToken = tokenResponse.access_token
+                self?.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
+                completion(.success(tokenResponse.access_token))
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Public API Data Fetching
+    
     func fetchData(for endpoint: APIEndpoint) {
         isLoading = true
         errorMessage = nil
-
+        
         getAccessToken { [weak self] result in
             guard let self = self else { return }
-
             switch result {
             case .success(let token):
-                // Now that you have the token, construct and make the data request.
                 self.makeDataRequest(endpoint: endpoint, accessToken: token)
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.isLoading = false
-                   self.handleError(error) // Display auth error to user.
+                    self.handleError(error)
                 }
             }
         }
     }
-
+    
     private func makeDataRequest(endpoint: APIEndpoint, accessToken: String) {
+        
         guard let url = URL(string: baseURLString + endpoint.path) else {
             handleError(.invalidURL)
             return
         }
-
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue(accessToken, forHTTPHeaderField: "x-public-access-token") // Correct header
-
-        URLSession.shared.dataTaskPublisher(for: request)
-        .tryMap { data, response in
-              guard let httpResponse = response as? HTTPURLResponse else {
-               throw APIError.requestFailed("Invalid response")
-
-                }
-                if httpResponse.statusCode == 401 { // Unauthorized
-                 throw APIError.authenticationFailed
-
-                 }
-
-                  guard (200...299).contains(httpResponse.statusCode) else {
-                      let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                       print("full data \(data)")
-                      throw APIError.requestFailed("HTTP Status Code: \(httpResponse.statusCode). Response: \(responseString)")
+        request.addValue(accessToken, forHTTPHeaderField: "x-public-access-token")
+        
+        let publisher: AnyPublisher<Decodable, Error>
+        
+        switch endpoint {
+        case .yearlyQuarterly:
+            publisher = URLSession.shared.dataTaskPublisher(for: request)
+                .tryMap { data, response in
+                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                        let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
+                        throw APIError.requestFailed("HTTP Status Code error. Response: (responseString)")
                     }
-                return data
-              }
-            .decode(type: self.determineResponseType(for: endpoint), decoder: JSONDecoder()) // Dynamic Decoding
-             .receive(on: DispatchQueue.main)
+                    return data
+                }
+                .decode(type: LphDetailResponse.self, decoder: JSONDecoder())
+                .eraseToAnyPublisher()
+        default:
+            publisher = URLSession.shared.dataTaskPublisher(for: request)
+                .tryMap { data, response in
+                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                        let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
+                        throw APIError.requestFailed("HTTP Status Code error. Response: (responseString)")
+                    }
+                    return data
+                }
+                .decode(type: LphResponse.self, decoder: JSONDecoder())
+                .eraseToAnyPublisher()
+        }
+        publisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return} // Ensure self is still valid
-             self.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                     if let apiError = error as? APIError {
-                        self.handleError(apiError) // Already handled.
-                      } else {
-                        self.handleError(.unknown(error))
-                      }
+                self?.isLoading = false
+                if case .failure(let error) = completion {
+                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    self?.handleError(apiError)
                 }
             } receiveValue: { [weak self] response in
-             guard let self = self else {return} // Ensure self is still valid
-                // Handle different response types.
-                switch response {
-                case let detailResponse as LphDetailResponse:
-                   self.loanData = detailResponse.lphResponse.map { LoanPerformanceData(from: $0) }
-                case let singleResponse as LphResponse:
-                   self.loanData = [LoanPerformanceData(from: singleResponse)]
-                default:
-                   print("Unexpected response type.")
-                   self.handleError(.decodingFailed)  //  This is important
-
+                guard let self = self else { return }
+                // Since we decoded to a concrete type, we can now map to our uniform model
+                if let detailResponse = response as? LphDetailResponse {
+                    self.loanData = detailResponse.lphResponse.map { LoanPerformanceData(from: $0) }
+                } else if let singleResponse = response as? LphResponse {
+                    self.loanData = [LoanPerformanceData(from: singleResponse)]
+                } else {
+                    self.handleError(.decodingFailed)
                 }
             }
             .store(in: &cancellables)
     }
-
-
-        private func determineResponseType(for endpoint: APIEndpoint) -> Decodable.Type {
-            switch endpoint {
-            case .yearlyQuarterly:
-                return LphDetailResponse.self
-            case .harp, .primary:
-                return LphResponse.self
-            }
+    
+    /// Determines the expected type for decoding based on the API endpoint.
+    private func determineResponseType(for endpoint: APIEndpoint) -> Decodable.Type {
+        switch endpoint {
+        case .yearlyQuarterly:
+            return LphDetailResponse.self
+        case .harp, .primary:
+            return LphResponse.self
         }
-
-
-
+    }
+    
+    // MARK: - Error Handling
+    
     private func handleError(_ error: APIError) {
         errorMessage = error.localizedDescription
-         print("API Error: \(error)") // Log for debugging.
-
+        print("API Error: \(error.localizedDescription)")
     }
-
-    //Clear local data.  For this example, it clears the fetched data. In a real app, might clear cached tokens.
+    
+    /// Clears any locally stored data.
     func clearLocalData() {
-        loanData = []
+        loanData.removeAll()
     }
 }
-
 
 // MARK: - SwiftUI Views
 
@@ -329,15 +317,14 @@ struct ContentView: View {
     @StateObject private var dataService = LoanPerformanceDataService()
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State private var selectedQuarter: String = "Q1"
+    
     private let quarters = ["Q1", "Q2", "Q3", "Q4", "All"]
-      private var availableYears: [Int] {
-           // Generate a range of years, e.g., from 2000 to the current year.
-           let startYear = 2000
-           let currentYear = Calendar.current.component(.year, from: Date())
-           return Array(startYear...currentYear)
-       }
-
-
+    private var availableYears: [Int] {
+        let startYear = 2000
+        let currentYear = Calendar.current.component(.year, from: Date())
+        return Array(startYear...currentYear)
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -347,52 +334,53 @@ struct ContentView: View {
                             Text("\(year)").tag(year)
                         }
                     }
-
                     Picker("Quarter", selection: $selectedQuarter) {
                         ForEach(quarters, id: \.self) { quarter in
                             Text(quarter).tag(quarter)
                         }
                     }
-
+                    
+                    // Buttons for different endpoints with consistent styling
                     Button("Fetch Yearly/Quarterly Data") {
                         dataService.fetchData(for: .yearlyQuarterly(year: selectedYear, quarter: selectedQuarter))
                     }
-
+                    .buttonStyle(.bordered)
+                    
                     Button("Fetch HARP Data") {
                         dataService.fetchData(for: .harp)
                     }
                     .buttonStyle(.bordered)
-
+                    
                     Button("Fetch Primary Data") {
                         dataService.fetchData(for: .primary)
                     }
                     .buttonStyle(.borderedProminent)
-
-
+                    
                     Button("Clear Data", role: .destructive) {
                         dataService.clearLocalData()
                     }
                 }
-
+                
                 Section(header: Text("Loan Performance Data")) {
                     if dataService.isLoading {
-                        ProgressView()
+                        ProgressView("Loading...")
                     } else if let errorMessage = dataService.errorMessage {
                         Text("Error: \(errorMessage)")
                             .foregroundColor(.red)
                     } else {
-                        List(dataService.loanData) { data in
-                            VStack(alignment: .leading) {
-                                Text("S3 URI: \(data.s3Uri)")
+                        // Display list of loan performance items.
+                        List(dataService.loanData) { item in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("S3 URI: \(item.s3Uri)")
                                     .font(.caption)
-                                if let year = data.year {
-                                      Text("Year:  \(String(describing: year))")
+                                if let year = item.year {
+                                    Text("Year: \(year)")
                                 }
-                                if let quarter = data.quarter {
+                                if let quarter = item.quarter {
                                     Text("Quarter: \(quarter)")
                                 }
-                                if let effectDate = data.effectiveDate {
-                                  Text("Effective Date: \(effectDate)")
+                                if let effectiveDate = item.effectiveDate {
+                                    Text("Effective Date: \(effectiveDate)")
                                 }
                             }
                         }
@@ -404,6 +392,7 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Preview
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
