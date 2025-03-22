@@ -240,52 +240,36 @@ final class LoanPerformanceDataService: ObservableObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(accessToken, forHTTPHeaderField: "x-public-access-token")
         
-        let publisher: AnyPublisher<Decodable, Error>
-        
+        let publisher: AnyPublisher<any Decodable, Error>
         switch endpoint {
         case .yearlyQuarterly:
             publisher = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap { data, response in
-                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                        throw APIError.requestFailed("HTTP Status Code error. Response: (responseString)")
+                        throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                     }
                     return data
                 }
                 .decode(type: LphDetailResponse.self, decoder: JSONDecoder())
+                .map { $0 as Decodable }
                 .eraseToAnyPublisher()
         default:
             publisher = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap { data, response in
-                    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                        throw APIError.requestFailed("HTTP Status Code error. Response: (responseString)")
+                        throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                     }
                     return data
                 }
                 .decode(type: LphResponse.self, decoder: JSONDecoder())
+                .map { $0 as any Decodable }
                 .eraseToAnyPublisher()
         }
-        publisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    let apiError = (error as? APIError) ?? APIError.unknown(error)
-                    self?.handleError(apiError)
-                }
-            } receiveValue: { [weak self] response in
-                guard let self = self else { return }
-                // Since we decoded to a concrete type, we can now map to our uniform model
-                if let detailResponse = response as? LphDetailResponse {
-                    self.loanData = detailResponse.lphResponse.map { LoanPerformanceData(from: $0) }
-                } else if let singleResponse = response as? LphResponse {
-                    self.loanData = [LoanPerformanceData(from: singleResponse)]
-                } else {
-                    self.handleError(.decodingFailed)
-                }
-            }
-            .store(in: &cancellables)
+        
     }
     
     /// Determines the expected type for decoding based on the API endpoint.
