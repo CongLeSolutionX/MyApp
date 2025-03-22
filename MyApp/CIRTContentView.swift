@@ -15,7 +15,7 @@ enum DownloadState: Codable {
     case notStarted
     case inProgress(Double)
     case completed
-    case failed(String) // Store error description
+    case failed(String)
 
     private enum CodingKeys: String, CodingKey {
         case notStarted, inProgress, completed, failed
@@ -197,7 +197,7 @@ final class CIRTDataService: ObservableObject {
     @Published var errorMessage: String?
 
     private let baseURLString = "https://api.fanniemae.com"
-    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token" // Verify
+    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"  // Verify this is correct for your API
     private var accessToken: String?
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
@@ -211,7 +211,7 @@ final class CIRTDataService: ObservableObject {
 
     // MARK: - Token Management
 
-    private func getAccessToken(completion: @escaping (Result<String, CIRTApiError>) -> Void) {
+   private func getAccessToken(completion: @escaping (Result<String, CIRTApiError>) -> Void) {
         if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
             completion(.success(token))
             return
@@ -323,6 +323,7 @@ final class CIRTDataService: ObservableObject {
             .store(in: &cancellables)
     }
 
+
     func downloadData(for item: CIRTData) {
         guard let s3URLString = item.s3Uri, let s3URL = URL(string: s3URLString) else { return }
         if downloadTasks[item.id] != nil { return }
@@ -352,7 +353,6 @@ final class CIRTDataService: ObservableObject {
                         }
                     } else if let error = error {
                         if let index = self.cirtData.firstIndex(where: { $0.id == item.id }) {
-                             // Use localizedDescription here!
                             self.cirtData[index].downloadState = .failed(error.localizedDescription)
                         }
                     }
@@ -361,7 +361,7 @@ final class CIRTDataService: ObservableObject {
         }
         downloadTask.resume()
     }
-
+    
 
     func setDownloadProgress(for item: CIRTData, progress: Double) {
         guard let index = cirtData.firstIndex(where: { $0.id == item.id }) else { return }
@@ -379,6 +379,16 @@ final class CIRTDataService: ObservableObject {
         }
     }
 
+    private func ensureDocumentsDirectoryExists() throws {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+        if !fileManager.fileExists(atPath: documentsDirectory.path) {
+            try fileManager.createDirectory(at: documentsDirectory, withIntermediateDirectories: true, attributes: nil)
+        }
+    }
+    
+
     private func processDownloadedFile(at localURL: URL, for item: CIRTData, index: Int) {
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -386,25 +396,27 @@ final class CIRTDataService: ObservableObject {
         let destinationURL = documentsDirectory.appendingPathComponent("\(item.id)_\(fileName)")
 
         do {
+             // Ensure the Documents directory exists *before* moving the file.
+            try ensureDocumentsDirectoryExists()
+            
             if fileManager.fileExists(atPath: destinationURL.path) {
                 try fileManager.removeItem(at: destinationURL)
             }
 
             try fileManager.moveItem(at: localURL, to: destinationURL)
-            cirtData[index].downloadedFilePath = destinationURL
+            cirtData[index].downloadedFilePath = destinationURL // Store file path
 
             let unzipSuccessful = SSZipArchive.unzipFile(atPath: destinationURL.path,
                                                           toDestination: documentsDirectory.path)
 
             if unzipSuccessful {
+
                 cirtData[index].downloadState = .completed
             } else {
-                // Use localizedDescription here!
                 cirtData[index].downloadState = .failed(CIRTApiError.unzippingFailed("Failed to unzip file.").localizedDescription)
             }
 
         } catch {
-            // Use localizedDescription here!
             cirtData[index].downloadState = .failed(CIRTApiError.fileManagementFailed(error.localizedDescription).localizedDescription)
         }
     }
@@ -501,7 +513,7 @@ struct CIRTContentView: View {
                 }
             }
             .navigationTitle("CIRT Data")
-            .sheet(isPresented: $showingFilePicker) {
+           .sheet(isPresented: $showingFilePicker) {
                 if let url = selectedFileURL {
                     DocumentViewerView(url: url)
                 }
