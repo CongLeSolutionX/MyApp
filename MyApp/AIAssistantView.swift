@@ -291,13 +291,8 @@ struct AIAssistantView: View {
     }
 }
 
-// MARK: - App Entry Point
+// MARK: - Preview
 
-@main
-struct AIAssistantApp: App {
-    var body: some Scene {
-        WindowGroup {
-            AIAssistantView()
-        }
-    }
+#Preview{
+    AIAssistantView()
 }
