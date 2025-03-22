@@ -331,6 +331,7 @@ final class CIRTDataService: ObservableObject {
                 guard let self = self else { return }
                 let newData = CIRTData(from: cirtRequestState)
                 if !self.cirtData.contains(where: { $0.s3Uri == newData.s3Uri }) {
+                    print(newData)
                     self.cirtData.append(newData)
                 }
             }
@@ -562,5 +563,7 @@ struct DocumentViewerView: UIViewControllerRepresentable {
 struct CIRTContentView_Previews: PreviewProvider {
     static var previews: some View {
         CIRTContentView()
+        
+        DocumentViewerView(url: URL(string: "google.com")!)
     }
 }
