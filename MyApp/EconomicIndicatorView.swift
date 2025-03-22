@@ -48,7 +48,7 @@ struct TimeSeriesDataPointQuarterDouble: Decodable, Equatable {
 }
 
 /// Represents the entire report containing multiple indicators.
-struct IndicatorsReport: Decodable {
+struct EconomicIndicatorsReport: Decodable {
     let indicators: [IndicatorTimeSeriesDouble]
 }
 /// Represents a time series of economic indicator data.
@@ -240,7 +240,7 @@ final class EconomicIndicatorDataService: ObservableObject {
                       }
                       return data
                   }
-                  .decode(type: IndicatorsReport.self, decoder: JSONDecoder())
+                  .decode(type: EconomicIndicatorsReport.self, decoder: JSONDecoder())
                   .map { report in
                     report.indicators.map { EconomicIndicatorData(from: $0) }
                     }
