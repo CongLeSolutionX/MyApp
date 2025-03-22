@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 // MARK: - Data Models
 
@@ -72,7 +73,28 @@ class LocalStorage: ObservableObject {
     }
 }
 
-// MARK: - Main Content View
+// MARK: - OpenAI API Models
+
+struct ChatMessage: Codable {
+    let role: String
+    let content: String
+}
+
+struct ChatAPIRequest: Codable {
+    let model: String
+    let messages: [ChatMessage]
+    let temperature: Double
+}
+
+struct ChatChoice: Codable {
+    let message: ChatMessage
+}
+
+struct ChatAPIResponse: Codable {
+    let choices: [ChatChoice]
+}
+
+// MARK: - Content View
 
 struct AIAssistantView: View {
     @State private var inputText: String = ""
@@ -96,7 +118,10 @@ struct AIAssistantView: View {
                 
                 // Button to trigger the intent handling.
                 Button(action: {
-                    processInput()
+                    // Launch async processing for intent handling.
+                    Task {
+                        await processInputAsync()
+                    }
                 }, label: {
                     HStack {
                         Spacer()
@@ -154,7 +179,7 @@ struct AIAssistantView: View {
         }
     }
     
-    // Helper function to format the date for display.
+    // Helper to format dates
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -162,24 +187,23 @@ struct AIAssistantView: View {
         return formatter.string(from: date)
     }
     
-    // MARK: - Intent Processing
-    
+    // MARK: - Intent Processing (Async Version)
     // This function simulates the "Intents/Request Handler" logic.
-    // It inspects the input and, based on keywords, decides what action to take.
-    func processInput() {
+    // It inspects the input and decides whether to handle locally or call OpenAI.
+    func processInputAsync() async {
         let lowerInput = inputText.lowercased()
-        responseMessage = "" // Clear previous response
         
-        // Schedule event intent: If the input mentions "schedule" or "meeting".
+        // Clear previous response on the main actor.
+        await MainActor.run {
+            responseMessage = ""
+        }
+        
         if lowerInput.contains("schedule") || lowerInput.contains("meeting") {
-            // In a real app, you would use natural language processing (NLP)
-            // to extract detailed information. This example uses fixed defaults.
             let title = "Meeting"
             var eventDate = Date()
             if lowerInput.contains("tomorrow") {
                 eventDate = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
             }
-            // Simple simulation: if time "2" is mentioned, set hour to 14 (2 PM).
             if lowerInput.contains("2") {
                 var components = Calendar.current.dateComponents([.year, .month, .day], from: eventDate)
                 components.hour = 14
@@ -187,38 +211,90 @@ struct AIAssistantView: View {
                 eventDate = Calendar.current.date(from: components) ?? eventDate
             }
             storage.addEvent(title: title, date: eventDate)
-            responseMessage = "Event scheduled: \(title) on \(formattedDate(eventDate))."
-            
-        // Reminder intent: When the input mentions "reminder" or "set reminder".
+            await MainActor.run {
+                responseMessage = "Event scheduled: \(title) on \(formattedDate(eventDate))."
+            }
         } else if lowerInput.contains("reminder") {
             let task = "Reminder Task"
-            // Set default reminder time to one hour later.
             let reminderDate = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
             storage.addReminder(task: task, date: reminderDate)
-            responseMessage = "Reminder set: \(task) at \(formattedDate(reminderDate))."
-            
-        // Email intent: Simulate email sending.
+            await MainActor.run {
+                responseMessage = "Reminder set: \(task) at \(formattedDate(reminderDate))."
+            }
         } else if lowerInput.contains("email") {
-            responseMessage = "Email intent recognized. (Email sending simulated in this prototype.)"
-            
-        // Music intent: Simulate music playback.
+            await MainActor.run {
+                responseMessage = "Email intent recognized. (Email sending simulated in this prototype.)"
+            }
         } else if lowerInput.contains("music") || lowerInput.contains("play") {
-            responseMessage = "Music intent recognized. (Music playback simulated in this prototype.)"
-            
-        // Unknown intent: Ask the user for clarification.
+            await MainActor.run {
+                responseMessage = "Music intent recognized. (Music playback simulated in this prototype.)"
+            }
         } else {
-            responseMessage = "I'm not sure what you mean. Could you please clarify your request?"
+            // For unknown intents or general queries, call the OpenAI API.
+            let aiResponse = await fetchOpenAIResponse(prompt: inputText)
+            await MainActor.run {
+                responseMessage = aiResponse
+            }
         }
         
-        // Clear input after processing.
-        inputText = ""
+        // Clear input after processing on the main thread.
+        await MainActor.run {
+            inputText = ""
+        }
+    }
+    
+    // MARK: - OpenAI API Integration
+    // This function calls OpenAI's Chat Completion endpoint asynchronously.
+    func fetchOpenAIResponse(prompt: String) async -> String {
+        guard let url = URL(string: "https://api.openai.com/v1/chat/completions") else {
+            return "Invalid API URL."
+        }
+        
+        // Construct the messages array with the user prompt.
+        let messages = [ChatMessage(role: "user", content: prompt)]
+        
+        // Create the API request payload.
+        let apiRequest = ChatAPIRequest(model: "gpt-3.5-turbo", messages: messages, temperature: 0.7)
+        
+        // Prepare the URLRequest.
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        // IMPORTANT: Replace "YOUR_OPENAI_API_KEY" with your actual key.
+        request.addValue("Bearer YOUR_OPENAI_API_KEY", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let encoder = JSONEncoder()
+        do {
+            request.httpBody = try encoder.encode(apiRequest)
+        } catch {
+            return "Failed to encode API request."
+        }
+        
+        do {
+            // Perform the network request.
+            let (data, response) = try await URLSession.shared.data(for: request)
+            // Optionally, check for HTTP errors.
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                return "OpenAI API error: \(httpResponse.statusCode)"
+            }
+            
+            let decoder = JSONDecoder()
+            let apiResponse = try decoder.decode(ChatAPIResponse.self, from: data)
+            if let reply = apiResponse.choices.first?.message.content {
+                return reply.trimmingCharacters(in: .whitespacesAndNewlines)
+            } else {
+                return "No response from OpenAI."
+            }
+        } catch {
+            return "Error calling OpenAI API: \(error.localizedDescription)"
+        }
     }
 }
 
 // MARK: - App Entry Point
 
 @main
-struct AIAssistantApps: App {
+struct AIAssistantApp: App {
     var body: some Scene {
         WindowGroup {
             AIAssistantView()
