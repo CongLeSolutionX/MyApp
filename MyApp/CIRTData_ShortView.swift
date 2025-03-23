@@ -160,7 +160,7 @@ class LoanDataViewModel: ObservableObject {
 }
 
 // 3. Main View
-struct CIRTDataView: View {
+struct CIRTData_ShortView: View {
     @ObservedObject var viewModel = LoanDataViewModel()
     
     var body: some View {
@@ -420,6 +420,6 @@ struct CIRTDataView: View {
 // Preview
 struct CIRTDataView_Previews: PreviewProvider {
     static var previews: some View {
-        CIRTDataView()
+        CIRTData_ShortView()
     }
 }
