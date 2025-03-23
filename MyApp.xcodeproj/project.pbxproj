@@ -10,6 +10,7 @@
 		9A51C19E2D8FFC91008E455A /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9A51C19D2D8FFC8D008E455A /* data.csv */; };
 		9A51C1A02D8FFCC6008E455A /* CSVChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C19F2D8FFCBB008E455A /* CSVChartView.swift */; };
 		9A51C1A22D8FFEDD008E455A /* data2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 9A51C1A12D8FFED7008E455A /* data2.csv */; };
+		9A51C1A42D9000A9008E455A /* CIRTDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1A32D90009F008E455A /* CIRTDataView.swift */; };
 		9A53CC1C2D8EA777004020E9 /* ConstructionSpendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */; };
 		9A53CC1E2D8F5359004020E9 /* EconomicIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */; };
 		9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */; };
@@ -27,6 +28,7 @@
 		9A51C19D2D8FFC8D008E455A /* data.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = data.csv; sourceTree = "<group>"; };
 		9A51C19F2D8FFCBB008E455A /* CSVChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVChartView.swift; sourceTree = "<group>"; };
 		9A51C1A12D8FFED7008E455A /* data2.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = data2.csv; sourceTree = "<group>"; };
+		9A51C1A32D90009F008E455A /* CIRTDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIRTDataView.swift; sourceTree = "<group>"; };
 		9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView.swift; sourceTree = "<group>"; };
 		9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomicIndicatorView.swift; sourceTree = "<group>"; };
 		9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeReadyEvaluationView.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				9A53CC212D8F5A39004020E9 /* HousingIndicatorsView.swift */,
 				9A53CC232D8F5D11004020E9 /* CIRTContentView.swift */,
 				9A51C19F2D8FFCBB008E455A /* CSVChartView.swift */,
+				9A51C1A32D90009F008E455A /* CIRTDataView.swift */,
 				9A51C19D2D8FFC8D008E455A /* data.csv */,
 				9A51C1A12D8FFED7008E455A /* data2.csv */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -177,6 +180,7 @@
 			files = (
 				9A51C1A02D8FFCC6008E455A /* CSVChartView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A51C1A42D9000A9008E455A /* CIRTDataView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A53CC242D8F5D17004020E9 /* CIRTContentView.swift in Sources */,
 				9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */,
