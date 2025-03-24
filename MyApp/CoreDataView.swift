@@ -17,8 +17,8 @@ func createCoreDataModel() -> NSManagedObjectModel {
     itemNameAttribute.name = "name"
     itemNameAttribute.attributeType = .stringAttributeType
     itemNameAttribute.isOptional = false
-//    itemNameAttribute.isIndexed = true
-    itemNameAttribute.index(ofAccessibilityElement: true)
+    // If you need to index this attribute in Core Data:
+    itemNameAttribute.isIndexed = true
 
     let itemTimestampAttribute = NSAttributeDescription()
     itemTimestampAttribute.name = "timestamp"
@@ -60,47 +60,52 @@ func createCoreDataModel() -> NSManagedObjectModel {
     itemToCategoryRelationship.deleteRule = .nullifyDeleteRule
     itemToCategoryRelationship.isOptional = true
 
-
     let categoryToItemsRelationship = NSRelationshipDescription()
     categoryToItemsRelationship.name = "items"
     categoryToItemsRelationship.deleteRule = .cascadeDeleteRule
-//    categoryToItemsRelationship.isToMany = true
+    categoryToItemsRelationship.isToMany = true // Ensure it is a to-many relationship
 
-
-    // --- Fetched Property Description ---
-    let itemHighQuantity = NSPredicate(format: "quantity > 50")
+    // --- Fetched Property Description (Optional) ---
+    // If you decide to use a fetched property:
     let highQuantityFetchedProperty = NSFetchedPropertyDescription()
     highQuantityFetchedProperty.name = "highQuantityItems"
-//    highQuantityFetchedProperty.predicate = itemHighQuantity
-    // You *must* set the entity for a fetched property after creating the entity itself.
-
+    // Example usage:
+    // let itemHighQuantity = NSPredicate(format: "quantity > 50")
+    // highQuantityFetchedProperty.predicate = itemHighQuantity
 
     // --- Entity Descriptions ---
     let itemEntity = NSEntityDescription()
     itemEntity.name = "Item"
     itemEntity.managedObjectClassName = "Item"
-    // Corrected: Set properties *after* creating the relationship objects
-    itemEntity.properties = [itemNameAttribute, itemTimestampAttribute, itemQuantityAttribute, itemIsFavoriteAttribute, itemNotesAttribute, itemToCategoryRelationship]
-
+    itemEntity.properties = [
+        itemNameAttribute,
+        itemTimestampAttribute,
+        itemQuantityAttribute,
+        itemIsFavoriteAttribute,
+        itemNotesAttribute,
+        itemToCategoryRelationship
+    ]
 
     let categoryEntity = NSEntityDescription()
     categoryEntity.name = "Category"
     categoryEntity.managedObjectClassName = "Category"
-    // Corrected: Set properties *after* creating the relationship objects.
-     categoryEntity.properties = [categoryNameAttribute,  categoryColorAttribute, categoryToItemsRelationship, highQuantityFetchedProperty]
+    categoryEntity.properties = [
+        categoryNameAttribute,
+        categoryColorAttribute,
+        categoryToItemsRelationship,
+        highQuantityFetchedProperty
+    ]
 
-
-    // --- Inverse Relationships (CRUCIAL) ---
+    // Inverse relationship
     itemToCategoryRelationship.destinationEntity = categoryEntity
     itemToCategoryRelationship.inverseRelationship = categoryToItemsRelationship
     categoryToItemsRelationship.destinationEntity = itemEntity
     categoryToItemsRelationship.inverseRelationship = itemToCategoryRelationship
 
-    // Corrected: MUST set the entity *after* the entity has been created
-//    highQuantityFetchedProperty.entity = categoryEntity
+    // If using the fetched property:
+    // highQuantityFetchedProperty.entity = categoryEntity
 
-
-    // --- Create the Model ---
+    // Create the Model
     let model = NSManagedObjectModel()
     model.entities = [itemEntity, categoryEntity]
     model.setEntities([itemEntity], forConfigurationName: "ItemsConfig")
@@ -109,10 +114,9 @@ func createCoreDataModel() -> NSManagedObjectModel {
     return model
 }
 
-
 // MARK: - NSManagedObject Subclasses
 
-class Item: NSManagedObject, Identifiable { // Conform to Identifiable
+class Item: NSManagedObject, Identifiable {
     @NSManaged var name: String
     @NSManaged var timestamp: Date
     @NSManaged var quantity: Int32
@@ -125,27 +129,23 @@ class Item: NSManagedObject, Identifiable { // Conform to Identifiable
         if name.isEmpty {
             name = "Unnamed Item"
         }
-//        if let notes = notes, notes.count > 1000 { // NO need for the check with external storage
-//             self.notes = String(notes.prefix(10))
-//        }
-
     }
+
     override func awakeFromInsert() {
-      super.awakeFromInsert()
-      setPrimitiveValue(Date(), forKey: "timestamp")
+        super.awakeFromInsert()
+        setPrimitiveValue(Date(), forKey: "timestamp")
     }
 
     static func fetchRequest() -> NSFetchRequest<Item> {
-        return NSFetchRequest<Item>(entityName: "Item")
+        NSFetchRequest<Item>(entityName: "Item")
     }
 }
 
-
-class Category: NSManagedObject, Identifiable { // Conform to Identifiable
+class Category: NSManagedObject, Identifiable {
     @NSManaged var name: String
     @NSManaged var color: String?
-    @NSManaged var items: Set<Item>? // Use Set, not NSSet
-    @NSManaged var highQuantityItems: [Item] // Already an array
+    @NSManaged var items: Set<Item>?
+    @NSManaged var highQuantityItems: [Item] // If you are actually using the fetched property
 
     @objc(addItemsObject:)
     @NSManaged public func addToItems(_ value: Item)
@@ -154,22 +154,19 @@ class Category: NSManagedObject, Identifiable { // Conform to Identifiable
     @NSManaged public func removeFromItems(_ value: Item)
 
     @objc(addItems:)
-    @NSManaged public func addToItems(_ values: NSSet) // Still need for some cases
+    @NSManaged public func addToItems(_ values: NSSet)
 
     @objc(removeItems:)
-    @NSManaged public func removeFromItems(_ values: NSSet) // Still need for some cases
+    @NSManaged public func removeFromItems(_ values: NSSet)
 
-      static func fetchRequest() -> NSFetchRequest<Category>{
-        return NSFetchRequest<Category>(entityName: "Category")
-      }
+    static func fetchRequest() -> NSFetchRequest<Category> {
+        NSFetchRequest<Category>(entityName: "Category")
+    }
 }
-
-
 
 // MARK: - Core Data Stack
 
-class CoreDataManager: ObservableObject {  // Make ObservableObject
-
+class CoreDataManager: ObservableObject {
     static let shared = CoreDataManager()
 
     let persistentContainer: NSPersistentContainer
@@ -179,24 +176,22 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
         let model = createCoreDataModel()
         persistentContainer = NSPersistentContainer(name: "MyModel", managedObjectModel: model)
 
-        let cloudKitContainerIdentifier = "iCloud.com.your.app.bundle.id" // Replace
+        let cloudKitContainerIdentifier = "iCloud.com.your.app.bundle.id"
 
         guard let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                fatalError("Could not determine documents directory")
-            }
+            fatalError("Could not determine documents directory")
+        }
         let storeURL = documentsDirectoryURL.appendingPathComponent("MyModel.sqlite")
 
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         storeDescription.shouldInferMappingModelAutomatically = true
         storeDescription.shouldMigrateStoreAutomatically = true
-
         storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: cloudKitContainerIdentifier)
-
-
+        storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(
+            containerIdentifier: cloudKitContainerIdentifier
+        )
 
         persistentContainer.persistentStoreDescriptions = [storeDescription]
-
         persistentContainer.loadPersistentStores { (description, error) in
             if let error = error {
                 self.logger.error("Core Data store failed to load: \(error.localizedDescription)")
@@ -204,57 +199,55 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
             }
             self.logger.info("Core Data stack loaded successfully.")
             self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-            self.persistentContainer.viewContext.mergePolicy =  NSMergePolicy.mergeByPropertyObjectTrump
+            self.persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
     }
 
-    // MARK: - Context Management
     var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
 
-      func childViewContext() -> NSManagedObjectContext {
+    // If you need a child context:
+    func childViewContext() -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.parent = viewContext
         return context
-      }
+    }
 
+    // If you need a private background context:
     func newBackgroundContext() -> NSManagedObjectContext {
-        return persistentContainer.newBackgroundContext()
+        persistentContainer.newBackgroundContext()
     }
 
     func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
         persistentContainer.performBackgroundTask(block)
     }
 
-    // MARK: - CRUD Operations
-      func fetch<T: NSManagedObject>(_ request: NSFetchRequest<T>) -> [T] {
+    func fetch<T: NSManagedObject>(_ request: NSFetchRequest<T>) -> [T] {
         do {
-            let results = try viewContext.fetch(request)
-            return results
+            return try viewContext.fetch(request)
         } catch {
             logger.error("Error fetching \(T.self): \(error.localizedDescription)")
             return []
         }
-      }
+    }
 
-       func saveContext() {
-        if viewContext.hasChanges {
-            do {
-                try viewContext.save()
-                logger.info("Main context saved successfully.")
-            } catch {
-               logger.error("Error saving main context\(error.localizedDescription)")
-
-                print("Error saving context: \(error)")
-            }
+    func saveContext() {
+        guard viewContext.hasChanges else { return }
+        do {
+            try viewContext.save()
+            logger.info("Main context saved successfully.")
+        } catch {
+            logger.error("Error saving main context: \(error.localizedDescription)")
         }
     }
 
-      func save(context: NSManagedObjectContext) throws{
-          guard context.hasChanges else { return }
-          try context.save()
-      }
+    func save(context: NSManagedObjectContext) throws {
+        guard context.hasChanges else { return }
+        try context.save()
+    }
+
+    // MARK: - Example CRUD
 
     func createItem(name: String, quantity: Int32, categoryName: String? = nil, isFavorite: Bool = false) {
         let newItem = Item(context: viewContext)
@@ -263,9 +256,8 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
         newItem.quantity = quantity
         newItem.isFavorite = isFavorite
 
-
-        if let categoryName = categoryName{
-           addCategory(named: categoryName)
+        if let categoryName = categoryName {
+            addCategory(named: categoryName)
             if let category = fetchCategory(named: categoryName) {
                 newItem.category = category
                 category.addToItems(newItem)
@@ -274,56 +266,50 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
         saveContext()
     }
 
-      func addCategory(named name: String){
+    func addCategory(named name: String) {
         let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
         fetchRequest.fetchLimit = 1
 
-        do{
-         let result = try viewContext.fetch(fetchRequest)
-            if result.isEmpty{
-              let newCategory = Category(context: viewContext)
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            if result.isEmpty {
+                let newCategory = Category(context: viewContext)
                 newCategory.name = name
                 try save(context: viewContext)
             }
+        } catch {
+            logger.error("Error adding category: \(error.localizedDescription)")
         }
-          catch{
-              logger.error("Error adding category \(error.localizedDescription)")
-              print("Error adding/creating category")
-          }
     }
 
-    func fetchCategory(named name: String) -> Category?{
+    func fetchCategory(named name: String) -> Category? {
         let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
         fetchRequest.fetchLimit = 1
 
-        do{
-            let categories = try viewContext.fetch(fetchRequest)
-            return categories.first
-        } catch{
-            logger.error("Error fetching category \(error.localizedDescription)")
+        do {
+            return try viewContext.fetch(fetchRequest).first
+        } catch {
+            logger.error("Error fetching category: \(error.localizedDescription)")
             return nil
-          }
-
+        }
     }
 
     func fetchAllItems(sortedBy: String? = "timestamp", ascending: Bool = false) -> [Item] {
-
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-         let predicate = NSPredicate(format: "quantity > %@", NSNumber(value: 0))
-        fetchRequest.predicate = predicate
+        fetchRequest.predicate = NSPredicate(format: "quantity > %@", NSNumber(value: 0))
 
         if let sortKey = sortedBy {
             let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: ascending)
             fetchRequest.sortDescriptors = [sortDescriptor]
         }
 
-       fetchRequest.fetchBatchSize = 20
+        fetchRequest.fetchBatchSize = 20
         return fetch(fetchRequest)
     }
 
-    func fetchItems(withName name: String) -> [Item]{
+    func fetchItems(withName name: String) -> [Item] {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@", name)
         return fetch(fetchRequest)
@@ -331,12 +317,11 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
 
     func updateItem(item: Item, newName: String, isFavorite: Bool? = nil) {
         item.name = newName
-        if let isFavorite = isFavorite{
+        if let isFavorite = isFavorite {
             item.isFavorite = isFavorite
         }
         saveContext()
     }
-
 
     func categorizeItem(item: Item, categoryName: String) {
         performBackgroundTask { context in
@@ -357,25 +342,23 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
         }
     }
 
-       func fetchCategory(named name: String, in context: NSManagedObjectContext) -> Category? {
-           let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
-           fetchRequest.predicate = NSPredicate(format: "name == %@", name)
-           fetchRequest.fetchLimit = 1
+    func fetchCategory(named name: String, in context: NSManagedObjectContext) -> Category? {
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        fetchRequest.fetchLimit = 1
 
-           do {
-               let categories = try context.fetch(fetchRequest)
-               return categories.first
-           } catch {
-               print("Error fetching category: \(error)")
-               return nil
-           }
-       }
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print("Error fetching category: \(error)")
+            return nil
+        }
+    }
 
     func deleteItem(item: Item) {
         viewContext.delete(item)
         saveContext()
     }
-
 
     func deleteAllItems() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Item")
@@ -386,13 +369,14 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
             do {
                 let result = try context.execute(batchDeleteRequest) as? NSBatchDeleteResult
                 if let objectIDs = result?.result as? [NSManagedObjectID] {
-                      NSManagedObjectContext.mergeChanges(fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs], into: [self.viewContext])
+                    NSManagedObjectContext.mergeChanges(
+                        fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs],
+                        into: [self.viewContext]
+                    )
                 }
-
                 try self.save(context: context)
             } catch {
                 self.logger.error("Error performing batch delete: \(error.localizedDescription)")
-                print("Error performing batch delete: \(error)")
             }
         }
     }
@@ -400,15 +384,19 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
     func markAllItemsAsFavorite() {
         let batchUpdateRequest = NSBatchUpdateRequest(entityName: "Item")
         batchUpdateRequest.propertiesToUpdate = ["isFavorite": true]
-        batchUpdateRequest.resultType = .updatedObjectsCountResultType
+        batchUpdateRequest.resultType = .updatedObjectIDsResultType
 
         do {
             let result = try viewContext.execute(batchUpdateRequest) as? NSBatchUpdateResult
+            if let objectIDs = result?.result as? [NSManagedObjectID] {
+                NSManagedObjectContext.mergeChanges(
+                    fromRemoteContextSave: [NSUpdatedObjectsKey: objectIDs],
+                    into: [viewContext]
+                )
+            }
             logger.info("\(result?.result as? Int ?? 0) items updated.")
-            print("\(result?.result as? Int ?? 0) items updated.")
         } catch {
-            logger.error("Error update items as favorite: \(error.localizedDescription)")
-            print("Error updating items: \(error)")
+            logger.error("Error updating items as favorite: \(error.localizedDescription)")
         }
     }
 
@@ -432,73 +420,49 @@ class CoreDataManager: ObservableObject {  // Make ObservableObject
         saveContext()
     }
 
-      enum CoreDataError: Error {
-        case fetchError(underlyingError: Error)
-        case saveError(underlyingError: Error)
-        case validationError(message: String)
-    }
-
-
     // MARK: - Combine
 
-    // Could use NSFetchedResultsController's publisher
-      private var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
-      func observeItemChanges() -> AnyPublisher<[Item], Never> {
-          NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)
-              .compactMap { notification -> [Item]? in
-                  return self.fetchAllItems()
-              }
-              .eraseToAnyPublisher()
-      }
-
-      @available(iOS 15, *)
-        func fetchAllItemsAsync() async throws -> [Item] {
-            let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-            
-            let asyncSequence = try viewContext.fetch(fetchRequest)
-            var fetchedItems: [Item] = []
-             for try await item in asyncSequence{
-                fetchedItems.append(item)
-             }
-            return fetchedItems
+    func observeItemChanges() -> AnyPublisher<[Item], Never> {
+        NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)
+            .map { _ in
+                self.fetchAllItems()
+            }
+            .eraseToAnyPublisher()
     }
 
-    // MARK: - Query Generations Example (CORRECTED)
+    @available(iOS 16, *)
+    func fetchAllItemsAsync() async throws -> [Item] {
+        // For an actual async sequence-based fetch in iOS 16+, use:
+        // return try await viewContext.perform {
+        //     try viewContext.fetch(Item.fetchRequest())
+        // }
+        // Below is a simplified version returning a normal array:
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        return try viewContext.fetch(request)
+    }
+
+    // MARK: - Query Generations Example
     func getCurrentQueryGenerationToken() {
-        // No need for performBackgroundTask if you're *only* getting the token
-        // and not doing any other Core Data operations.  It's safe on the main thread.
         do {
-            let token = try viewContext.currentQueryGenerationToken // Corrected Method
-            print("Current query token: \(String(describing: token))") // Corrected Display
+            let token = try viewContext.currentQueryGenerationToken
+            print("Current query token: \(String(describing: token))")
         } catch {
-            print("Cannot retrieve current token") // Or log using os_log
+            print("Cannot retrieve current token: \(error)")
         }
     }
 
-
-    // MARK: - Deinit
-      deinit {
+    deinit {
         cancellables.forEach { $0.cancel() }
     }
 }
 
-// MARK: - SwiftUI Integration
-
-// No `struct ContentView` re-declaration here.  See below.
-
-
-// MARK: - Preview (for SwiftUI)
-// Preview provider moved *OUTSIDE* of the other structs
-
-
-// MARK: - Corrected SwiftUI Views
+// MARK: - SwiftUI Views
 
 struct CoreDataContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    // Use the singleton, but don't create a new instance!  Environment will provide it.
-    
-    //Corrected: Use @FetchRequest, much simpler
+
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
@@ -509,15 +473,15 @@ struct CoreDataContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in // Corrected: `items` is already the FetchedResults
+                ForEach(items) { item in
                     HStack {
                         Text(item.name)
                         Spacer()
                         Text("Qty: \(item.quantity)")
-                        if item.isFavorite{
+                        if item.isFavorite {
                             Image(systemName: "star.fill")
                         }
-                        if let category = item.category { // Safely unwrap optional
+                        if let category = item.category {
                             Text("(\(category.name))")
                                 .font(.caption)
                                 .foregroundColor(.gray)
@@ -533,75 +497,74 @@ struct CoreDataContentView: View {
                         showingAddItemView = true
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading){
+                ToolbarItem(placement: .navigationBarLeading) {
                     EditButton()
                 }
             }
-            .sheet(isPresented: $showingAddItemView){
+            .sheet(isPresented: $showingAddItemView) {
                 AddItemView()
-                     .environment(\.managedObjectContext, viewContext) // Pass from the environment
+                    .environment(\.managedObjectContext, viewContext)
             }
         }
     }
+
     private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete) // Delete directly
-            CoreDataManager.shared.saveContext() // Save changes *after* the deletion
-        }
+        offsets.map { items[$0] }.forEach(viewContext.delete)
+        CoreDataManager.shared.saveContext()
     }
 }
 
 struct AddItemView: View {
     @Environment(\.managedObjectContext) private var viewContext
-@Environment (\.dismiss) var dismiss
+    @Environment(\.dismiss) var dismiss
 
-@State private var itemName: String = ""
-@State private var itemQuantity: Int = 1
-@State private var isFavorite: Bool = false
-@State private var selectedCategory: String = ""
+    @State private var itemName: String = ""
+    @State private var itemQuantity: Int = 1
+    @State private var isFavorite: Bool = false
+    @State private var selectedCategory: String = ""
 
-var body: some View {
-    NavigationView {
-        Form {
-            TextField("Item Name", text: $itemName)
-            Stepper("Quantity: \(itemQuantity)", value: $itemQuantity, in: 1...100)
-            Toggle("Favorite", isOn: $isFavorite)
-             TextField("Category Name", text: $selectedCategory)
-
-
-        }
-        .navigationTitle("Add Item")
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    CoreDataManager.shared.createItem(name: itemName, quantity: Int32(itemQuantity), categoryName: selectedCategory, isFavorite: isFavorite)
-                    dismiss()
-                }
-                .disabled(itemName.isEmpty)
+    var body: some View {
+        NavigationView {
+            Form {
+                TextField("Item Name", text: $itemName)
+                Stepper("Quantity: \(itemQuantity)", value: $itemQuantity, in: 1...100)
+                Toggle("Favorite", isOn: $isFavorite)
+                TextField("Category Name", text: $selectedCategory)
             }
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    dismiss()
+            .navigationTitle("Add Item")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        CoreDataManager.shared.createItem(
+                            name: itemName,
+                            quantity: Int32(itemQuantity),
+                            categoryName: selectedCategory,
+                            isFavorite: isFavorite
+                        )
+                        dismiss()
+                    }
+                    .disabled(itemName.isEmpty)
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
             }
         }
-
     }
 }
-}
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        // Corrected: Use the shared instance, and set up an in-memory store for previews
+        // In-memory store for previews
         CoreDataContentView()
             .environment(\.managedObjectContext, CoreDataManager.shared.persistentContainer.viewContext)
     }
 }
 
+// MARK: - Initialization
 
-//MARK: Initialization
-
-func initializeApp(){
-    let _ = CoreDataManager.shared // Initialize the singleton
+func initializeApp() {
+    _ = CoreDataManager.shared
 }
