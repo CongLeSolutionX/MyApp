@@ -42,7 +42,7 @@ struct HousingIndicatorsReport: Codable {
 // MARK: - API Endpoints
 
 /// Enumeration for API endpoints.  Includes associated values for dynamic path construction.
-enum APIEndpoint {
+enum HousingIndicatorsAPIEndpoint {
     case byIndicator(String)
     case forYear(Int)
     case forYearAndMonth(year: Int, month: Int)
@@ -87,7 +87,7 @@ enum APIEndpoint {
 // MARK: - API Errors
 
 /// Enum representing potential API errors, conforming to LocalizedError for user-friendly messages.
-enum APIError: Error, LocalizedError {
+enum HousingIndicatorsAPIError: Error, LocalizedError {
     case invalidURL
     case requestFailed(String)
     case decodingFailed
@@ -118,12 +118,12 @@ enum APIError: Error, LocalizedError {
 // Use secure storage (Keychain) or environment variables. This is a simplified approach
 // for demonstration purposes *only*.  The previous example's complete authentication
 // mechanism is reusable here.
-struct AuthCredentials {
+struct HousingIndicatorsAPIAuthCredentials {
     static let clientID = "clientIDKeyHere"  // Replace with your actual client ID
     static let clientSecret = "clientSecretKeyHere" // Replace with your actual client secret
 }
 
-struct TokenResponse: Decodable {
+struct HousingIndicatorsTokenResponse: Decodable {
     let access_token: String
     let token_type: String
     let expires_in: Int
@@ -136,7 +136,7 @@ final class HousingDataService: ObservableObject {
     @Published var housingData: [IndicatorTimeSeries] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
-    @Published var availableIndicators: [String] = APIEndpoint.validIndicators
+    @Published var availableIndicators: [String] = HousingIndicatorsAPIEndpoint.validIndicators
     
     private let baseURLString = "https://api.fanniemae.com"
     private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token" //Use correct URL, do not hardcode
@@ -146,7 +146,7 @@ final class HousingDataService: ObservableObject {
     
     // MARK: - Token Management
     
-    private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
+    private func getAccessToken(completion: @escaping (Result<String, HousingIndicatorsAPIError>) -> Void) {
         
         // Return token if still valid.
         if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
@@ -159,7 +159,7 @@ final class HousingDataService: ObservableObject {
             return
         }
         
-        let credentials = "\(AuthCredentials.clientID):\(AuthCredentials.clientSecret)"
+        let credentials = "\(HousingIndicatorsAPIAuthCredentials.clientID):\(HousingIndicatorsAPIAuthCredentials.clientSecret)"
         guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
             completion(.failure(.authenticationFailed))
             return
@@ -176,11 +176,11 @@ final class HousingDataService: ObservableObject {
                 guard let httpResponse = response as? HTTPURLResponse,
                       (200...299).contains(httpResponse.statusCode) else {
                     let responseString = String(data: data, encoding: .utf8) ?? ""
-                    throw APIError.requestFailed("Invalid response. Response: \(responseString)")
+                    throw HousingIndicatorsAPIError.requestFailed("Invalid response. Response: \(responseString)")
                 }
                 return data
             }
-            .decode(type: TokenResponse.self, decoder: JSONDecoder())
+            .decode(type: HousingIndicatorsTokenResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
                 switch completionResult {
@@ -189,7 +189,7 @@ final class HousingDataService: ObservableObject {
                     break
                 case .failure(let error):
                     // Downcast to APIError, or wrap as .unknown
-                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    let apiError = (error as? HousingIndicatorsAPIError) ?? HousingIndicatorsAPIError.unknown(error)
                     self?.handleError(apiError)  // centralized error handling
                     completion(.failure(apiError)) // Propagate error
                 }
@@ -204,7 +204,7 @@ final class HousingDataService: ObservableObject {
     
     
     // MARK: - Public API
-    func fetchData(for endpoint: APIEndpoint) {
+    func fetchData(for endpoint: HousingIndicatorsAPIEndpoint) {
         isLoading = true
         errorMessage = nil
         getAccessToken { [weak self] result in
@@ -222,7 +222,7 @@ final class HousingDataService: ObservableObject {
         }
     }
     
-    private func makeDataRequest(endpoint: APIEndpoint, accessToken: String) {
+    private func makeDataRequest(endpoint: HousingIndicatorsAPIEndpoint, accessToken: String) {
         
         guard let url = URL(string: baseURLString + endpoint.path) else {
             handleError(.invalidURL) // Use centralized error handling
@@ -239,7 +239,7 @@ final class HousingDataService: ObservableObject {
                 guard let httpResponse = response as? HTTPURLResponse,
                       (200...299).contains(httpResponse.statusCode) else {
                     let responseString = String(data: data, encoding: .utf8) ?? "No Response Body" //Provide meaningful string in case of nil.
-                    throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                    throw HousingIndicatorsAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                 }
                 return data
             }
@@ -252,7 +252,7 @@ final class HousingDataService: ObservableObject {
                 case .finished:
                     break
                 case .failure(let error):
-                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    let apiError = (error as? HousingIndicatorsAPIError) ?? HousingIndicatorsAPIError.unknown(error)
                     self.handleError(apiError)
                 }
             } receiveValue: { [weak self] report in
@@ -289,7 +289,7 @@ final class HousingDataService: ObservableObject {
     
     // MARK: - Error Handling
     
-    private func handleError(_ error: APIError) {
+    private func handleError(_ error: HousingIndicatorsAPIError) {
         errorMessage = error.localizedDescription
         print("API Error: \(error.localizedDescription)")  // Log the error
     }
@@ -306,7 +306,7 @@ final class HousingDataService: ObservableObject {
 
 struct ContentView: View {
     @StateObject private var dataService = HousingDataService()
-    @State private var selectedIndicator: String = APIEndpoint.validIndicators.first ?? ""
+    @State private var selectedIndicator: String = HousingIndicatorsAPIEndpoint.validIndicators.first ?? ""
     @State private var selectedYear: Int? = Calendar.current.component(.year, from: Date())
     @State private var selectedQuarter: String = "Q1"
     @State private var selectedMonth: Int? = Calendar.current.component(.month, from: Date())

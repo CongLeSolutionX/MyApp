@@ -78,7 +78,7 @@ struct MultiplePostResponse: Decodable {
 // MARK: - API Endpoints
 
 /// Enumeration for API endpoints.
-enum APIEndpointConstruction {
+enum ConstructionSpendingAPIEndpoint {
     case section(section: String)
     case sectionAndSector(section: String, sector: String)
     case sectionSectorAndSubsector(section: String, sector: String, subsector: String)
@@ -130,7 +130,7 @@ enum APIEndpointConstruction {
 // MARK: - API Errors
 
 /// API error definition.  Reuse the one from the previous example, or create a new one.
-enum APIErrorConstruction: Error, LocalizedError {
+enum ConstructionSpendingAPIError: Error, LocalizedError {
     case invalidURL
     case requestFailed(String)
     case decodingFailed
@@ -159,12 +159,12 @@ enum APIErrorConstruction: Error, LocalizedError {
 // MARK: - Authentication
 
 /// Reuse the AuthCredentials and TokenResponse from the previous example.
-struct AuthCredentialsConstruction {
+struct ConstructionSpendingAPIAuthCredentials {
     static let clientID = "clientIDKeyHere"
     static let clientSecret = "clientSecretKeyHere"
 }
 
-struct TokenResponseConstruction: Decodable {
+struct ConstructionSpendingAPITokenResponse: Decodable {
     let access_token: String
     let token_type: String
     let expires_in: Int
@@ -186,7 +186,7 @@ final class ConstructionSpendingService: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Token Management (Same as previous example, but using ConstructionSpending types)
-    private func getAccessToken(completion: @escaping (Result<String, APIErrorConstruction>) -> Void) {
+    private func getAccessToken(completion: @escaping (Result<String, ConstructionSpendingAPIError>) -> Void) {
             // Return token if still valid.
             if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
                 completion(.success(token))
@@ -198,7 +198,7 @@ final class ConstructionSpendingService: ObservableObject {
                 return
             }
             
-            let credentials = "\(AuthCredentialsConstruction.clientID):\(AuthCredentialsConstruction.clientSecret)"
+            let credentials = "\(ConstructionSpendingAPIAuthCredentials.clientID):\(ConstructionSpendingAPIAuthCredentials.clientSecret)"
             guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
                 completion(.failure(.authenticationFailed))
                 return
@@ -215,18 +215,18 @@ final class ConstructionSpendingService: ObservableObject {
                     guard let httpResponse = response as? HTTPURLResponse,
                           (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? ""
-                        throw APIErrorConstruction.requestFailed("Invalid response. Response: \(responseString)")
+                        throw ConstructionSpendingAPIError.requestFailed("Invalid response. Response: \(responseString)")
                     }
                     return data
                 }
-                .decode(type: TokenResponseConstruction.self, decoder: JSONDecoder())
+                .decode(type: ConstructionSpendingAPITokenResponse.self, decoder: JSONDecoder())
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] completionResult in
                     switch completionResult {
                     case .finished:
                         break
                     case .failure(let error):
-                        let apiError = (error as? APIErrorConstruction) ?? APIErrorConstruction.unknown(error)
+                        let apiError = (error as? ConstructionSpendingAPIError) ?? ConstructionSpendingAPIError.unknown(error)
                         self?.handleError(apiError)
                         completion(.failure(apiError))
                     }
@@ -239,7 +239,7 @@ final class ConstructionSpendingService: ObservableObject {
         }
     // MARK: - Public API
 
-        func fetchData(for endpoint: APIEndpointConstruction) {
+        func fetchData(for endpoint: ConstructionSpendingAPIEndpoint) {
             isLoading = true
             errorMessage = nil
             spendingData = [] // Clear previous data
@@ -258,12 +258,12 @@ final class ConstructionSpendingService: ObservableObject {
             }
         }
 
-        private func makeDataRequest(endpoint: APIEndpointConstruction, accessToken: String) {
+        private func makeDataRequest(endpoint: ConstructionSpendingAPIEndpoint, accessToken: String) {
             var request: URLRequest
 
             do {
                  request = try createRequest(endpoint: endpoint, accessToken: accessToken)
-            } catch let error as APIErrorConstruction {
+            } catch let error as ConstructionSpendingAPIError {
                 handleError(error)
                 return
             } catch {
@@ -280,7 +280,7 @@ final class ConstructionSpendingService: ObservableObject {
                     .tryMap { data, response in
                         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                             let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                            throw APIErrorConstruction.requestFailed("HTTP Status Code Error. Response: \(responseString)")
+                            throw ConstructionSpendingAPIError.requestFailed("HTTP Status Code Error. Response: \(responseString)")
                         }
                         return data
                     }
@@ -296,7 +296,7 @@ final class ConstructionSpendingService: ObservableObject {
                     .tryMap { data, response in
                         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                              let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                            throw APIErrorConstruction.requestFailed("HTTP Status Code Error. Response: \(responseString)")
+                            throw ConstructionSpendingAPIError.requestFailed("HTTP Status Code Error. Response: \(responseString)")
                         }
                         return data
                     }
@@ -320,7 +320,7 @@ final class ConstructionSpendingService: ObservableObject {
                   self.isLoading = false
                   switch completion {
                   case .failure(let error):
-                      if let apiError = error as? APIErrorConstruction {
+                      if let apiError = error as? ConstructionSpendingAPIError {
                           self.handleError(apiError)
                       } else {
                           self.handleError(.unknown(error))
@@ -335,10 +335,10 @@ final class ConstructionSpendingService: ObservableObject {
               .store(in: &cancellables)
         }
     
-    private func createRequest(endpoint: APIEndpointConstruction, accessToken: String) throws ->  URLRequest {
+    private func createRequest(endpoint: ConstructionSpendingAPIEndpoint, accessToken: String) throws ->  URLRequest {
         
         guard let baseURL = URL(string: baseURLString) else {
-            throw APIErrorConstruction.invalidURL
+            throw ConstructionSpendingAPIError.invalidURL
         }
         let fullURL = baseURL.appendingPathComponent(endpoint.path)
         var components = URLComponents(url: fullURL, resolvingAgainstBaseURL: false)
@@ -348,7 +348,7 @@ final class ConstructionSpendingService: ObservableObject {
         }
         
         guard let finalURL = components?.url else {
-            throw APIErrorConstruction.invalidURL
+            throw ConstructionSpendingAPIError.invalidURL
                }
                var request = URLRequest(url: finalURL)
                request.httpMethod = endpoint.httpMethod
@@ -359,7 +359,7 @@ final class ConstructionSpendingService: ObservableObject {
                    do {
                        request.httpBody = try JSONEncoder().encode(query)
                    } catch {
-                       throw APIErrorConstruction.requestFailed("Failed to encode request body: \(error.localizedDescription)")
+                       throw ConstructionSpendingAPIError.requestFailed("Failed to encode request body: \(error.localizedDescription)")
                    }
                }
         return request
@@ -367,7 +367,7 @@ final class ConstructionSpendingService: ObservableObject {
 
     // MARK: - Error Handling
 
-    private func handleError(_ error: APIErrorConstruction) {
+    private func handleError(_ error: ConstructionSpendingAPIError) {
         errorMessage = error.localizedDescription
         print("API Error: \(error.localizedDescription)")
     }

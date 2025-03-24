@@ -61,7 +61,7 @@ struct IndicatorTimeSeriesDouble: Decodable, Equatable {
 // MARK: - API Endpoints
 
 /// Enumerates the available API endpoints.
-enum APIEndpointEconomic {
+enum EconomicIndicatorAPIEndpoint {
     case indicatorByName(indicator: String)
     case indicatorForYear(year: Int)
     case indicatorForYearAndMonth(year: Int, month: Int)
@@ -88,7 +88,7 @@ enum APIEndpointEconomic {
 // MARK: - API Errors
 
 /// Defines the possible API errors.  Uses LocalizedError for user-friendly messages.
-enum APIErrorEconomic: Error, LocalizedError {
+enum EconomicIndicatorAPIError: Error, LocalizedError {
     case invalidURL
     case requestFailed(String)
     case decodingFailed
@@ -116,12 +116,12 @@ enum APIErrorEconomic: Error, LocalizedError {
 
 // MARK: - Authentication (Shared with Previous Example - Consider a separate file)
 
-struct AuthCredentialsEconomic {
+struct EconomicIndicatorAPIAuthCredentials {
     static let clientID = "clientIDKeyHere"
     static let clientSecret = "clientSecretKeyHere"
 }
 
-struct TokenResponseEconomic: Decodable {
+struct EconomicIndicatorTokenResponse: Decodable {
     let access_token: String
     let token_type: String
     let expires_in: Int
@@ -144,7 +144,7 @@ final class EconomicIndicatorDataService: ObservableObject {
     
     // MARK: - Token Management (Reused and adapted from previous example)
 
-     private func getAccessToken(completion: @escaping (Result<String, APIErrorEconomic>) -> Void) {
+     private func getAccessToken(completion: @escaping (Result<String, EconomicIndicatorAPIError>) -> Void) {
                // Return token if still valid.
            if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
                completion(.success(token))
@@ -156,7 +156,7 @@ final class EconomicIndicatorDataService: ObservableObject {
                return
            }
 
-           let credentials = "\(AuthCredentialsEconomic.clientID):\(AuthCredentialsEconomic.clientSecret)"
+           let credentials = "\(EconomicIndicatorAPIAuthCredentials.clientID):\(EconomicIndicatorAPIAuthCredentials.clientSecret)"
            guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
                completion(.failure(.authenticationFailed))
                return
@@ -173,18 +173,18 @@ final class EconomicIndicatorDataService: ObservableObject {
                    guard let httpResponse = response as? HTTPURLResponse,
                          (200...299).contains(httpResponse.statusCode) else {
                        let responseString = String(data: data, encoding: .utf8) ?? ""
-                       throw APIErrorEconomic.requestFailed("Invalid response.  Response: \(responseString)")
+                       throw EconomicIndicatorAPIError.requestFailed("Invalid response.  Response: \(responseString)")
                    }
                    return data
                }
-               .decode(type: TokenResponseEconomic.self, decoder: JSONDecoder())
+               .decode(type: EconomicIndicatorTokenResponse.self, decoder: JSONDecoder())
                .receive(on: DispatchQueue.main)
                .sink { [weak self] completionResult in
                 switch completionResult {
                 case .finished:
                     break // Handle successful completion if needed
                 case .failure(let error):
-                    let apiError = (error as? APIErrorEconomic) ?? APIErrorEconomic.unknown(error)
+                    let apiError = (error as? EconomicIndicatorAPIError) ?? EconomicIndicatorAPIError.unknown(error)
                     self?.handleError(apiError) // Use the common error handler
                     completion(.failure(apiError))
                 }
@@ -200,7 +200,7 @@ final class EconomicIndicatorDataService: ObservableObject {
     // MARK: - Public API
 
     /// Fetches data for the specified endpoint.
-    func fetchData(for endpoint: APIEndpointEconomic) {
+    func fetchData(for endpoint: EconomicIndicatorAPIEndpoint) {
         isLoading = true
         errorMessage = nil
         
@@ -220,7 +220,7 @@ final class EconomicIndicatorDataService: ObservableObject {
     
         
         
-    private func makeDataRequest(endpoint: APIEndpointEconomic, accessToken: String) {
+    private func makeDataRequest(endpoint: EconomicIndicatorAPIEndpoint, accessToken: String) {
               guard let url = URL(string: baseURLString + endpoint.path) else {
                   handleError(.invalidURL)
                   return
@@ -236,7 +236,7 @@ final class EconomicIndicatorDataService: ObservableObject {
                       guard let httpResponse = response as? HTTPURLResponse,
                             (200...299).contains(httpResponse.statusCode) else {
                           let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                          throw APIErrorEconomic.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                          throw EconomicIndicatorAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                       }
                       return data
                   }
@@ -252,7 +252,7 @@ final class EconomicIndicatorDataService: ObservableObject {
                       case .finished:
                           break
                       case .failure(let error):
-                          let apiError = (error as? APIErrorEconomic) ?? APIErrorEconomic.unknown(error)
+                          let apiError = (error as? EconomicIndicatorAPIError) ?? EconomicIndicatorAPIError.unknown(error)
                               self.handleError(apiError)
                       }
                   } receiveValue: { [weak self] unifiedData in
@@ -273,7 +273,7 @@ final class EconomicIndicatorDataService: ObservableObject {
     // MARK: - Error Handling
 
     /// Centralized error handling.
-    private func handleError(_ error: APIErrorEconomic) {
+    private func handleError(_ error: EconomicIndicatorAPIError) {
         errorMessage = error.localizedDescription
         print("API Error: \(error.localizedDescription)") // Log for debugging
     }
