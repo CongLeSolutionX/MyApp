@@ -10,18 +10,8 @@ import Combine
 
 // MARK: - Data Models
 
-struct LoanLimits: Decodable, Identifiable {
-    var id = UUID() // Add an ID for List
-    let loanLimit: [LoanLimit]
-    
-    // Implement Identifiable
-    static func == (lhs: LoanLimits, rhs: LoanLimits) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
 struct LoanLimit: Decodable, Identifiable {
-    var id = UUID()
+    let id = UUID() // Still needed for SwiftUI Lists
     let stateCode: String?
     let countyName: String?
     let reportingYear: Int?
@@ -30,12 +20,18 @@ struct LoanLimit: Decodable, Identifiable {
     let issuers: [Issuer]?
     
     // Implement Identifiable
-    static func == (lhs: LoanLimit, rhs: LoanLimit) -> Bool {
+    static func == (lhs: LoanLimit, rhs: LoanLimit) -> Bool { // Still needed for comparison
         return lhs.id == rhs.id
+    }
+    
+    // Optional: Custom CodingKeys if you want to handle different key names
+    enum CodingKeys: String, CodingKey {
+        case stateCode, countyName, reportingYear, cbsaNumber, fipsCode, issuers
+        // No mapping needed if JSON keys *exactly* match property names
     }
 }
 
-struct Issuer: Decodable, Identifiable {
+struct Issuer: Decodable, Identifiable {  // Identifiable is good practice for Lists
     var id = UUID()
     let issuerType: String?
     let oneUnitLimit: Int?
@@ -43,10 +39,11 @@ struct Issuer: Decodable, Identifiable {
     let threeUnitLimit: Int?
     let fourUnitLimit: Int?
     
-    // Implement Identifiable
+    
     static func == (lhs: Issuer, rhs: Issuer) -> Bool {
         return lhs.id == rhs.id
     }
+    
 }
 
 // MARK: - API Endpoints
@@ -113,126 +110,89 @@ struct LoanLimitsAPI_TokenResponse: Decodable {
 
 // MARK: - Data Service
 final class LoanLimitsService: ObservableObject {
-    @Published var loanLimits: [LoanLimits] = []
+    @Published var loanLimits: [LoanLimit] = []  // Now directly an array of LoanLimit
     @Published var isLoading = false
     @Published var errorMessage: String?
     
     private let baseURLString = "https://api.fanniemae.com"
-    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token" // Same as before
+    private let tokenURL = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"
     private var accessToken: String?
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Token Management
-    
-    private func getAccessToken(completion: @escaping (Result<String, LoanLimitsAPIError>) -> Void) {
-        // Return token if still valid.
-        if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
-            completion(.success(token))
-            return
-        }
-        
-        guard let url = URL(string: tokenURL) else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        let credentials = "\(LoanLimitsAuthCredentials.clientID):\(LoanLimitsAuthCredentials.clientSecret)"
-        guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
-            completion(.failure(.authenticationFailed))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "grant_type=client_credentials".data(using: .utf8)
-        
-        URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                    let responseString = String(data: data, encoding: .utf8) ?? ""
-                    throw LoanLimitsAPIError.requestFailed("Invalid response. Response: \(responseString)")
-                }
-                if let responseString = String(data: data, encoding: .utf8) {
-                    print("RAW JSON RESPONSE:\n\(responseString)\n")
-                }
-                
-                return data
+    // MARK: - Token Management (Corrected - Now uses Future)
+    // No changes to getAccessToken function.
+    private func getAccessToken() -> Future<String, LoanLimitsAPIError> {
+        return Future { promise in
+            // Return token if still valid.
+            if let token = self.accessToken, let expiration = self.tokenExpiration, Date() < expiration {
+                promise(.success(token))
+                return
             }
-            .decode(type: LoanLimitsAPI_TokenResponse.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completionResult in
-                switch completionResult {
-                case .finished:
-                    break
-                case .failure(let error):
-                    let apiError = (error as? LoanLimitsAPIError) ?? LoanLimitsAPIError.unknown(error)
-                    self?.handleError(apiError)
-                    completion(.failure(apiError))
-                }
-            } receiveValue: { [weak self] tokenResponse in
-                self?.accessToken = tokenResponse.access_token
-                self?.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
-                completion(.success(tokenResponse.access_token))
+            
+            guard let url = URL(string: self.tokenURL) else {
+                promise(.failure(.invalidURL))
+                return
             }
-            .store(in: &cancellables)
+            
+            let credentials = "\(LoanLimitsAuthCredentials.clientID):\(LoanLimitsAuthCredentials.clientSecret)"
+            guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
+                promise(.failure(.authenticationFailed))
+                return
+            }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpBody = "grant_type=client_credentials".data(using: .utf8)
+            
+            URLSession.shared.dataTaskPublisher(for: request)
+                .tryMap { data, response -> Data in
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200...299).contains(httpResponse.statusCode) else {
+                        let responseString = String(data: data, encoding: .utf8) ?? ""
+                        throw LoanLimitsAPIError.requestFailed("Invalid response. Response: \(responseString)")
+                    }
+                    return data
+                }
+                .decode(type: TokenResponse.self, decoder: JSONDecoder())
+                .receive(on: DispatchQueue.main)
+                .sink { completionResult in
+                    switch completionResult {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        let apiError = (error as? LoanLimitsAPIError) ?? LoanLimitsAPIError.unknown(error)
+                        self.handleError(apiError)
+                        promise(.failure(apiError)) // Fail the Future
+                    }
+                } receiveValue: { tokenResponse in
+                    self.accessToken = tokenResponse.access_token
+                    self.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
+                    promise(.success(tokenResponse.access_token)) // Resolve the Future
+                }
+                .store(in: &self.cancellables)
+        }
     }
     
-    // MARK: - Public API Data Fetching
+    // MARK: - Public API Data Fetching (Corrected)
     
     func fetchData(for endpoint: LoanLimitsAPIEndpoint) {
         isLoading = true
         errorMessage = nil
-        loanLimits.removeAll() // Clear previous data
+        loanLimits.removeAll() // Clear any previous data.
         
-        getAccessToken { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let token):
-                self.makeDataRequest(endpoint: endpoint, accessToken: token)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    
-                    self.isLoading = false
-                    self.handleError(error)
+        getAccessToken() // Now returns a Future
+            .flatMap { [weak self] token -> AnyPublisher<[LoanLimit], LoanLimitsAPIError> in // Corrected return type
+                guard let self = self else {
+                    return Fail(error: LoanLimitsAPIError.unknown(NSError(domain: "LoanLimitsService", code: -1, userInfo: nil))).eraseToAnyPublisher()
                 }
+                return self.makeDataRequest(endpoint: endpoint, accessToken: token) // Pass the token
             }
-        }
-    }
-    
-    private func makeDataRequest(endpoint: LoanLimitsAPIEndpoint, accessToken: String) {
-        guard let url = URL(string: baseURLString + endpoint.path) else {
-            handleError(.invalidURL)
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue(accessToken, forHTTPHeaderField: "x-public-access-token") // Use the token
-        
-        URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                    
-                    let responseString = String(data: data, encoding: .utf8) ?? "No response body"
-                    throw LoanLimitsAPIError.requestFailed("HTTP Status Code Error. Response: \(responseString)")
-                }
-                if let responseString = String(data: data, encoding: .utf8) {
-                    print("RAW JSON RESPONSE:\n\(responseString)\n")
-                }
-                
-                return data
-            }
-            .decode(type: [LoanLimits].self, decoder: JSONDecoder()) // Decode directly into an array
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
-                guard let self = self else {return}
+                guard let self = self else { return }
                 self.isLoading = false
                 switch completionResult {
                 case .finished:
@@ -241,17 +201,46 @@ final class LoanLimitsService: ObservableObject {
                     self.handleError((error as? LoanLimitsAPIError) ?? LoanLimitsAPIError.unknown(error))
                 }
             } receiveValue: { [weak self] loanLimits in
-                guard let self = self else {return}
-                //Remove any duplicates
-                var uniqueLoanLimits: [LoanLimits] = []
+                guard let self = self else { return }
+                var uniqueLoanLimits = [LoanLimit]()
                 for limit in loanLimits {
-                    if !uniqueLoanLimits.contains(where: {$0.id == limit.id}) {
+                    if !uniqueLoanLimits.contains(where: { $0.id == limit.id }) {
                         uniqueLoanLimits.append(limit)
                     }
                 }
-                self.loanLimits = uniqueLoanLimits
+                self.loanLimits = uniqueLoanLimits // Update on the main thread.
             }
             .store(in: &cancellables)
+    }
+    
+    private func makeDataRequest(endpoint: LoanLimitsAPIEndpoint, accessToken: String) -> AnyPublisher<[LoanLimit], LoanLimitsAPIError> {
+        guard let url = URL(string: baseURLString + endpoint.path) else {
+            return Fail(error: .invalidURL).eraseToAnyPublisher()
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(accessToken, forHTTPHeaderField: "x-public-access-token")
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    let responseString = String(data: data, encoding: .utf8) ?? "No response body"
+                    throw LoanLimitsAPIError.requestFailed("HTTP Status Code Error. Response: \(responseString)")
+                }
+                
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("RAW JSON RESPONSE:\n\(responseString)\n")
+                }
+                return data
+            }
+            .decode(type: [LoanLimit].self, decoder: JSONDecoder()) // Decode directly into [LoanLimit]
+            .mapError { error in
+                return (error as? LoanLimitsAPIError) ?? LoanLimitsAPIError.unknown(error)
+            }
+            .eraseToAnyPublisher()
     }
     
     // MARK: - Error Handling
@@ -260,12 +249,11 @@ final class LoanLimitsService: ObservableObject {
         print("API Error: \(error.localizedDescription)") // Log for debugging
     }
     
-    /// Clears any loan data and errors.
     func clearLocalData() {
         loanLimits.removeAll()
+        errorMessage = nil // Clear errors as well
     }
 }
-
 // MARK: - SwiftUI Views
 
 struct LoanLimitsView: View {
@@ -315,45 +303,43 @@ struct LoanLimitsView: View {
                         Text("Error: \(errorMessage)")
                             .foregroundColor(.red)
                     } else {
-                        List(dataService.loanLimits) { loanLimitsItem in
-                            ForEach(loanLimitsItem.loanLimit, id: \.id) { loanLimit in
-                                VStack(alignment: .leading) {
-                                    if let state = loanLimit.stateCode{
-                                        Text("State: \(state)")
-                                    }
-                                    if let county = loanLimit.countyName {
-                                        Text("County: \(county)")
-                                    }
-                                    
-                                    if let year = loanLimit.reportingYear{
-                                        Text("Year: \(year)")
-                                    }
-                                    
-                                    if let issuers = loanLimit.issuers{
-                                        ForEach(issuers, id: \.id) { issuer in
-                                            if let type = issuer.issuerType {
-                                                Text("Issuer Type: \(type)")
-                                                    .bold()
-                                            }
-                                            
-                                            if let one = issuer.oneUnitLimit{
-                                                Text("One Unit Limit: \(one)")
-                                            }
-                                            if let two = issuer.twoUnitLimit {
-                                                Text("Two Unit Limit: \(two)")
-                                            }
-                                            
-                                            if let three = issuer.threeUnitLimit{
-                                                Text("Three Unit Limit: \(three)")
-                                            }
-                                            if let four = issuer.fourUnitLimit{
-                                                Text("Four Unit Limit: \(four)")
-                                            }
-                                            
-                                        }
-                                    }
-                                    
+                        List(dataService.loanLimits, id: \.id) { loanLimit in // Directly use loanLimits
+                            VStack(alignment: .leading) {
+                                if let state = loanLimit.stateCode{
+                                    Text("State: \(state)")
                                 }
+                                if let county = loanLimit.countyName {
+                                    Text("County: \(county)")
+                                }
+                                
+                                if let year = loanLimit.reportingYear{
+                                    Text("Year: \(year)")
+                                }
+                                
+                                if let issuers = loanLimit.issuers{
+                                    ForEach(issuers) { issuer in // No change to ForEach
+                                        if let type = issuer.issuerType {
+                                            Text("Issuer Type: \(type)")
+                                                .bold()
+                                        }
+                                        
+                                        if let one = issuer.oneUnitLimit{
+                                            Text("One Unit Limit: \(one)")
+                                        }
+                                        if let two = issuer.twoUnitLimit {
+                                            Text("Two Unit Limit: \(two)")
+                                        }
+                                        
+                                        if let three = issuer.threeUnitLimit{
+                                            Text("Three Unit Limit: \(three)")
+                                        }
+                                        if let four = issuer.fourUnitLimit{
+                                            Text("Four Unit Limit: \(four)")
+                                        }
+                                        
+                                    }
+                                }
+                                
                             }
                         }
                     }
@@ -363,7 +349,6 @@ struct LoanLimitsView: View {
         }
     }
 }
-
 // MARK: - Preview
 
 struct LoanLimitsView_Previews: PreviewProvider {
