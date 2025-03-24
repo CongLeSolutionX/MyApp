@@ -68,6 +68,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A51C1B12D9113BB008E455A /* APICollection */ = {
+			isa = PBXGroup;
+			children = (
+				9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */,
+				9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */,
+				9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */,
+				9A53CC212D8F5A39004020E9 /* HousingIndicatorsView.swift */,
+				9A51C1A72D90DBC5008E455A /* SingleFamilyLoanPerformanceHistoryView.swift */,
+				9A51C1A92D90E4E5008E455A /* ConnecticutAvenueSecuritiesView.swift */,
+				9A51C1AB2D90E640008E455A /* GatewayServicesPublicView.swift */,
+				9A51C1AD2D90EC2E008E455A /* HERAView.swift */,
+				9A51C1AF2D90F2C8008E455A /* OpportunityZonesView.swift */,
+				9A53CC232D8F5D11004020E9 /* CIRTContentView.swift */,
+			);
+			path = APICollection;
+			sourceTree = "<group>";
+		};
+		9A51C1B22D9113EA008E455A /* DataViewer */ = {
+			isa = PBXGroup;
+			children = (
+				9A51C19F2D8FFCBB008E455A /* CSVChartView.swift */,
+				9A51C1A32D90009F008E455A /* CIRTData_ShortView.swift */,
+				9A51C1A52D906075008E455A /* CIRTData_LongView.swift */,
+				9A51C19D2D8FFC8D008E455A /* data.csv */,
+				9A51C1A12D8FFED7008E455A /* data2.csv */,
+			);
+			path = DataViewer;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -91,21 +120,8 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */,
-				9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */,
-				9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */,
-				9A53CC212D8F5A39004020E9 /* HousingIndicatorsView.swift */,
-				9A53CC232D8F5D11004020E9 /* CIRTContentView.swift */,
-				9A51C19F2D8FFCBB008E455A /* CSVChartView.swift */,
-				9A51C1A32D90009F008E455A /* CIRTData_ShortView.swift */,
-				9A51C1A52D906075008E455A /* CIRTData_LongView.swift */,
-				9A51C1A72D90DBC5008E455A /* SingleFamilyLoanPerformanceHistoryView.swift */,
-				9A51C1A92D90E4E5008E455A /* ConnecticutAvenueSecuritiesView.swift */,
-				9A51C1AB2D90E640008E455A /* GatewayServicesPublicView.swift */,
-				9A51C1AD2D90EC2E008E455A /* HERAView.swift */,
-				9A51C1AF2D90F2C8008E455A /* OpportunityZonesView.swift */,
-				9A51C19D2D8FFC8D008E455A /* data.csv */,
-				9A51C1A12D8FFED7008E455A /* data2.csv */,
+				9A51C1B22D9113EA008E455A /* DataViewer */,
+				9A51C1B12D9113BB008E455A /* APICollection */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
