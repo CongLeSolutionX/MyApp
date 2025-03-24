@@ -304,7 +304,7 @@ final class HousingDataService: ObservableObject {
 
 // MARK: - SwiftUI Views
 
-struct ContentView: View {
+struct HousingIndicators_ContentView: View {
     @StateObject private var dataService = HousingDataService()
     @State private var selectedIndicator: String = HousingIndicatorsAPIEndpoint.validIndicators.first ?? ""
     @State private var selectedYear: Int? = Calendar.current.component(.year, from: Date())
@@ -447,8 +447,8 @@ struct ContentView: View {
 
 // MARK: - Preview
 
-struct ContentView_Previews: PreviewProvider {
+struct HousingIndicators_ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HousingIndicators_ContentView()
     }
 }

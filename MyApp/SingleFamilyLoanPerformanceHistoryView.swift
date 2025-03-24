@@ -11,15 +11,15 @@ import Combine
 // MARK: - Data Models
 
 /// Unified model representing loan performance data.
-struct LoanPerformanceData: Identifiable, Codable {
-    let id = UUID()
+struct SingleFamilyLoanPerformanceHistory_LoanPerformanceData: Identifiable, Codable {
+    var id = UUID()
     let s3Uri: String
     let year: Int?
     let quarter: String?
     let effectiveDate: String?
 
     // Initializer for LphDetails (used with /years/{year}/quarters/{quarter})
-    init(from details: LphDetails) {
+    init(from details: SingleFamilyLoanPerformanceHistory_LphDetails) {
         self.s3Uri = details.s3Uri
         self.year = details.year
         self.quarter = details.quarter
@@ -27,7 +27,7 @@ struct LoanPerformanceData: Identifiable, Codable {
     }
 
     // Initializer for LphResponse (used with /harp-dataset and /primary-dataset)
-    init(from response: LphResponse) {
+    init(from response: SingleFamilyLoanPerformanceHistory_LphResponse) {
         self.s3Uri = response.s3Uri
         self.effectiveDate = response.effectiveDate
         self.year = nil
@@ -36,20 +36,20 @@ struct LoanPerformanceData: Identifiable, Codable {
 }
 
 /// Represents the API response for the /years/{year}/quarters/{quarter} endpoint.
-struct LphDetailResponse: Decodable {
+struct SingleFamilyLoanPerformanceHistory_LphDetailResponse: Decodable {
     let effectiveDate: String
-    let lphResponse: [LphDetails]
+    let lphResponse: [SingleFamilyLoanPerformanceHistory_LphDetails]
 }
 
 /// Represents individual loan details within the LphDetailResponse.
-struct LphDetails: Decodable {
+struct SingleFamilyLoanPerformanceHistory_LphDetails: Decodable {
     let s3Uri: String
     let year: Int?
     let quarter: String?
 }
 
 /// Represents the API response for the /harp-dataset and /primary-dataset endpoints.
-struct LphResponse: Decodable {
+struct SingleFamilyLoanPerformanceHistory_LphResponse: Decodable {
     let s3Uri: String
     let effectiveDate: String
 }
@@ -125,8 +125,8 @@ struct SingleFamilyLoanPerformanceHistoryTokenResponse: Decodable {
 // MARK: - Data Service
 
 /// Service class for fetching and managing loan performance data.
-final class LoanPerformanceDataService: ObservableObject {
-    @Published var loanData: [LoanPerformanceData] = []
+final class SingleFamilyLoanPerformanceHistory_LoanPerformanceDataService: ObservableObject {
+    @Published var loanData: [SingleFamilyLoanPerformanceHistory_LoanPerformanceData] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 
@@ -256,7 +256,7 @@ final class LoanPerformanceDataService: ObservableObject {
                       }
                     return data
                   }
-                 .decode(type: LphDetailResponse.self, decoder: JSONDecoder()) // Decode to LphDetailResponse
+                 .decode(type: SingleFamilyLoanPerformanceHistory_LphDetailResponse.self, decoder: JSONDecoder()) // Decode to LphDetailResponse
                  .map { $0 as Decodable } // Cast to Decodable for generic handling
                  .eraseToAnyPublisher() // Type erasure
          case .harp, .primary:
@@ -274,7 +274,7 @@ final class LoanPerformanceDataService: ObservableObject {
                         }
                       return data
                      }
-                     .decode(type: LphResponse.self, decoder: JSONDecoder())// Decode to LphResponse
+                     .decode(type: SingleFamilyLoanPerformanceHistory_LphResponse.self, decoder: JSONDecoder())// Decode to LphResponse
                      .map { $0 as any Decodable } // Cast to Decodable for generic handling
                      .eraseToAnyPublisher()  // Type erasure.
            }
@@ -295,15 +295,15 @@ final class LoanPerformanceDataService: ObservableObject {
                 guard let self = self else {return}
                 self.isLoading = false
                 switch decodedResponse {
-                        case let detailResponse as LphDetailResponse:
+                        case let detailResponse as SingleFamilyLoanPerformanceHistory_LphDetailResponse:
                           // Transform LphDetails into LoanPerformanceData
-                          let newData = detailResponse.lphResponse.map { LoanPerformanceData(from: $0) }
+                          let newData = detailResponse.lphResponse.map { SingleFamilyLoanPerformanceHistory_LoanPerformanceData(from: $0) }
                             self.loanData.append(contentsOf: newData) // Append new data
                   
 
-                         case let singleResponse as LphResponse:
+                         case let singleResponse as SingleFamilyLoanPerformanceHistory_LphResponse:
                              // Transform LphResponse into LoanPerformanceData
-                             let newData = LoanPerformanceData(from: singleResponse)
+                             let newData = SingleFamilyLoanPerformanceHistory_LoanPerformanceData(from: singleResponse)
                                 self.loanData.append(newData) // Append new data
                           default:
                               print("Unexpected response type: \(type(of: decodedResponse))")
@@ -336,7 +336,7 @@ final class LoanPerformanceDataService: ObservableObject {
 
 /// Main content view of the application.
 struct SingleFamilyLoanPerformanceHistoryView: View {
-    @StateObject private var dataService = LoanPerformanceDataService()
+    @StateObject private var dataService = SingleFamilyLoanPerformanceHistory_LoanPerformanceDataService()
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State private var selectedQuarter: String = "Q1"
     @State private var isFetching = false // Tracks if a fetch is in progress

@@ -157,7 +157,7 @@ struct HomeReadyEvaluationAPIAuthCredentials {
     static let clientSecret = "clientSecretKeyHere"  // Replace with your actual clientSecret
 }
 
-struct TokenResponse: Decodable {
+struct HomeReadyEvaluation_TokenResponse: Decodable {
     let access_token: String
     let token_type: String
     let expires_in: Int
@@ -211,7 +211,7 @@ final class HomeReadyEvaluationService: ObservableObject {
                 }
                 return data
             }
-            .decode(type: TokenResponse.self, decoder: JSONDecoder())
+            .decode(type: HomeReadyEvaluation_TokenResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
                 switch completionResult {

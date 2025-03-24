@@ -1,5 +1,5 @@
 //
-//  ConstructionSpendingVview.swift
+//  ConstructionSpendingView.swift
 //  MyApp
 //
 //  Created by Cong Le on 3/22/25.
@@ -379,7 +379,7 @@ final class ConstructionSpendingService: ObservableObject {
 
 // MARK: - SwiftUI Views (Example)
 
-struct ContentViewConstruction: View {
+struct ConstructionSpending_ContentView: View {
     @StateObject private var service = ConstructionSpendingService()
     @State private var selectedSection: String = "Total"
   @State private var selectedSector: String = ""
@@ -478,5 +478,5 @@ struct ContentViewConstruction: View {
 }
 
 #Preview {
-    ContentViewConstruction()
+    ConstructionSpending_ContentView()
 }
