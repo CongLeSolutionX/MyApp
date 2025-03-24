@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 3/23/25.
 //
-
 import SwiftUI
 import Combine
 
@@ -33,9 +32,9 @@ enum APIEndpoint {
     var path: String {
         switch self {
         case .getAllUsers:
-            return "/enterprise/gateway/gwservices-public/users"
+            return "/users"
         case .getUserByName(let lastName):
-            return "/enterprise/gateway/gwservices-public/user?lastName=\(lastName)"
+            return "/user?lastName=\(lastName)"
         }
     }
 }
@@ -83,7 +82,7 @@ final class GatewayService: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let baseURLString = "https://api-devl.fanniemae.com"
+    private let baseURLString = "https://api-devl.fanniemae.com/enterprise/gateway/gwservices-public" // Correct Base URL
     private let tokenURL = "YOUR_AUTH_TOKEN_ENDPOINT" // Replace with actual endpoint
     private var accessToken: String?
     private var tokenExpiration: Date?
@@ -91,7 +90,7 @@ final class GatewayService: ObservableObject {
 
     // MARK: - Token Management
 
-       private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
+    private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
         // Return token if still valid.
         if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
             completion(.success(token))
@@ -172,41 +171,42 @@ final class GatewayService: ObservableObject {
     }
 
     private func makeDataRequest(endpoint: APIEndpoint, accessToken: String) {
-           guard let url = URL(string: baseURLString + endpoint.path) else {
-               handleError(.invalidURL)
-               return
-           }
+        guard let url = URL(string: baseURLString + endpoint.path) else {
+            handleError(.invalidURL)
+            return
+        }
 
-           var request = URLRequest(url: url)
-           request.httpMethod = "GET"
-           request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-           request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization") // Use Bearer token
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization") // Use Bearer token
 
-           URLSession.shared.dataTaskPublisher(for: request)
-               .tryMap { data, response in
-                   guard let httpResponse = response as? HTTPURLResponse,
-                         (200...299).contains(httpResponse.statusCode) else {
-                       let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                       throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
-                   }
-                   return data
-               }
-               .decode(type: [User].self, decoder: JSONDecoder()) // Decode directly to [User]
-                .catch { [weak self] error -> AnyPublisher<[User], Never> in
-                                    if let apiError = error as? APIError {
-                                        self?.handleError(apiError)
-                                    } else {
-                                        self?.handleError(.unknown(error)) // For non-API errors
-                                    }
-                                    return Just([]).eraseToAnyPublisher() // Return empty array on error
-                                }
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] users in
-                   self?.isLoading = false
-                   self?.users = users
-               }
-               .store(in: &cancellables)
-       }
+        URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
+                    throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                }
+                return data
+            }
+            .decode(type: [User].self, decoder: JSONDecoder()) // Decode directly to [User]
+            .catch { [weak self] error -> AnyPublisher<[User], Never> in
+                if let apiError = error as? APIError {
+                    self?.handleError(apiError)
+                } else {
+                    self?.handleError(.unknown(error)) // For non-API errors
+                }
+                return Just([]).eraseToAnyPublisher() // Return empty array on error
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] users in
+                self?.isLoading = false
+                self?.users = users
+            }
+            .store(in: &cancellables)
+    }
+
 
     private func handleError(_ error: APIError) {
         DispatchQueue.main.async {
@@ -215,7 +215,7 @@ final class GatewayService: ObservableObject {
             print("API Error: \(error.localizedDescription)")
         }
     }
-       /// Clears any locally stored data.
+    /// Clears any locally stored data.
     func clearLocalData() {
         users.removeAll()
     }
@@ -231,21 +231,21 @@ struct GatewayServicesPublicView: View {
         NavigationView {
             VStack {
                 TextField("Enter Last Name", text: $searchLastName, onCommit: {
-                    if !searchLastName.isEmpty {
+                    if !searchLastName.isEmpty{
                         service.getUserByName(lastName: searchLastName)
                     }
                 })
-                .padding()
-                .textFieldStyle(.roundedBorder)
-                
-                HStack {
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+
+                HStack{
                     Button("Search by Last Name") {
                         if !searchLastName.isEmpty {
                             service.getUserByName(lastName: searchLastName)
                         }
                     }
                     .buttonStyle(.bordered)
-                    
+
                     Button("Get All Users") {
                         service.getAllUsers()
                     }
@@ -262,7 +262,7 @@ struct GatewayServicesPublicView: View {
                         UserView(user: user)
                     }
                 }
-                 Button("Clear Data", role: .destructive) {
+                Button("Clear Data", role: .destructive) {
                     service.clearLocalData()
                 }
             }
