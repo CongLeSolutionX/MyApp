@@ -15,6 +15,7 @@
 		9A51C1A82D90DBDB008E455A /* SingleFamilyLoanPerformanceHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1A72D90DBC5008E455A /* SingleFamilyLoanPerformanceHistoryView.swift */; };
 		9A51C1AA2D90E4EE008E455A /* ConnecticutAvenueSecuritiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1A92D90E4E5008E455A /* ConnecticutAvenueSecuritiesView.swift */; };
 		9A51C1AC2D90E650008E455A /* GatewayServicesPublicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1AB2D90E640008E455A /* GatewayServicesPublicView.swift */; };
+		9A51C1AE2D90EC33008E455A /* HERAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1AD2D90EC2E008E455A /* HERAView.swift */; };
 		9A53CC1C2D8EA777004020E9 /* ConstructionSpendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */; };
 		9A53CC1E2D8F5359004020E9 /* EconomicIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */; };
 		9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */; };
@@ -37,6 +38,7 @@
 		9A51C1A72D90DBC5008E455A /* SingleFamilyLoanPerformanceHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleFamilyLoanPerformanceHistoryView.swift; sourceTree = "<group>"; };
 		9A51C1A92D90E4E5008E455A /* ConnecticutAvenueSecuritiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnecticutAvenueSecuritiesView.swift; sourceTree = "<group>"; };
 		9A51C1AB2D90E640008E455A /* GatewayServicesPublicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayServicesPublicView.swift; sourceTree = "<group>"; };
+		9A51C1AD2D90EC2E008E455A /* HERAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HERAView.swift; sourceTree = "<group>"; };
 		9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView.swift; sourceTree = "<group>"; };
 		9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomicIndicatorView.swift; sourceTree = "<group>"; };
 		9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeReadyEvaluationView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				9A51C1A72D90DBC5008E455A /* SingleFamilyLoanPerformanceHistoryView.swift */,
 				9A51C1A92D90E4E5008E455A /* ConnecticutAvenueSecuritiesView.swift */,
 				9A51C1AB2D90E640008E455A /* GatewayServicesPublicView.swift */,
+				9A51C1AD2D90EC2E008E455A /* HERAView.swift */,
 				9A51C19D2D8FFC8D008E455A /* data.csv */,
 				9A51C1A12D8FFED7008E455A /* data2.csv */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -195,6 +198,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A51C1A42D9000A9008E455A /* CIRTData_ShortView.swift in Sources */,
 				9A51C1A62D906083008E455A /* CIRTData_LongView.swift in Sources */,
+				9A51C1AE2D90EC33008E455A /* HERAView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A53CC242D8F5D17004020E9 /* CIRTContentView.swift in Sources */,
 				9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */,
