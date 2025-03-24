@@ -156,6 +156,10 @@ final class LoanLimitsService: ObservableObject {
                     let responseString = String(data: data, encoding: .utf8) ?? ""
                     throw LoanLimitsAPIError.requestFailed("Invalid response. Response: \(responseString)")
                 }
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("RAW JSON RESPONSE:\n\(responseString)\n")
+                }
+                
                 return data
             }
             .decode(type: LoanLimitsAPI_TokenResponse.self, decoder: JSONDecoder())
@@ -219,6 +223,10 @@ final class LoanLimitsService: ObservableObject {
                     let responseString = String(data: data, encoding: .utf8) ?? "No response body"
                     throw LoanLimitsAPIError.requestFailed("HTTP Status Code Error. Response: \(responseString)")
                 }
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("RAW JSON RESPONSE:\n\(responseString)\n")
+                }
+                
                 return data
             }
             .decode(type: [LoanLimits].self, decoder: JSONDecoder()) // Decode directly into an array
