@@ -83,7 +83,7 @@ final class GatewayService: ObservableObject {
     @Published var errorMessage: String?
 
     private let baseURLString = "https://api-devl.fanniemae.com/enterprise/gateway/gwservices-public" // Correct Base URL
-    private let tokenURL = "YOUR_AUTH_TOKEN_ENDPOINT" // Replace with actual endpoint
+    private let tokenURL = "YOUR_AUTH_TOKEN_ENDPOINT" // Replace with actual endpoint, e.g "https://auth.pingone.com/oauth2/token"
     private var accessToken: String?
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
