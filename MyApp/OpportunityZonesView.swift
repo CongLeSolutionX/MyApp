@@ -68,7 +68,7 @@ struct OpportunityZoneCollection: Decodable {
 // MARK: - API Endpoints
 
 /// Enumerates the available API endpoints and their parameters.
-enum APIEndpoint {
+enum OpportunityZonesAPIEndpoint {
     case singleAddressCheck(number: String, street: String, city: String, state: String, zip: String)
     case bulkAddressCheck(addresses: [AddressCollection.Address])
     case censusTracts(state: String, county: String?)
@@ -119,7 +119,7 @@ enum APIEndpoint {
 // MARK: - API Errors
 
 /// Defines the possible errors, including a rate limit error.
-enum APIError: Error, LocalizedError {
+enum OpportunityZonesAPIError: Error, LocalizedError {
     case invalidURL
     case requestFailed(String)
     case decodingFailed
@@ -149,12 +149,12 @@ enum APIError: Error, LocalizedError {
 }
 
 // MARK: - Authentication
-struct AuthCredentials {
+struct OpportunityZonesAuthCredentials {
     static let clientID = "clientIDKeyHere"
     static let clientSecret = "clientSecretKeyHere"
 }
 
-struct TokenResponse: Decodable {
+struct OpportunityZonesAPI_TokenResponse: Decodable {
     let access_token: String
     let token_type: String
     let expires_in: Int
@@ -177,7 +177,7 @@ final class OpportunityZoneService: ObservableObject {
     
     // MARK: - Token Management
     /// Retrieves an access token, either from cache or by requesting a new one.
-    private func getAccessToken(completion: @escaping (Result<String, APIError>) -> Void) {
+    private func getAccessToken(completion: @escaping (Result<String, OpportunityZonesAPIError>) -> Void) {
         // Check if we have a valid cached token
         if let token = accessToken, let expiration = tokenExpiration, Date() < expiration {
             completion(.success(token))
@@ -190,7 +190,7 @@ final class OpportunityZoneService: ObservableObject {
         }
         
         // Encode credentials for Basic Authorization
-        let credentials = "\(AuthCredentials.clientID):\(AuthCredentials.clientSecret)"
+        let credentials = "\(OpportunityZonesAuthCredentials.clientID):\(OpportunityZonesAuthCredentials.clientSecret)"
         guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
             completion(.failure(.authenticationFailed))
             return
@@ -207,19 +207,19 @@ final class OpportunityZoneService: ObservableObject {
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    throw APIError.requestFailed("Invalid HTTP response")
+                    throw OpportunityZonesAPIError.requestFailed("Invalid HTTP response")
                 }
                 // Check for rate limit (HTTP 429)
                 if httpResponse.statusCode == 429 {
-                    throw APIError.rateLimitExceeded
+                    throw OpportunityZonesAPIError.rateLimitExceeded
                 }
                 guard (200...299).contains(httpResponse.statusCode) else {
                     let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                    throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                    throw OpportunityZonesAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                 }
                 return data
             }
-            .decode(type: TokenResponse.self, decoder: JSONDecoder())
+            .decode(type: OpportunityZonesAPI_TokenResponse.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
                 print(completionResult)
@@ -227,7 +227,7 @@ final class OpportunityZoneService: ObservableObject {
                 case .finished:
                     break
                 case .failure(let error):
-                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    let apiError = (error as? OpportunityZonesAPIError) ?? OpportunityZonesAPIError.unknown(error)
                     self?.handleError(apiError)
                     completion(.failure(apiError))
                 }
@@ -242,7 +242,7 @@ final class OpportunityZoneService: ObservableObject {
     
     // MARK: - Public API
     /// Public method to fetch data based on a specified endpoint
-    func fetchData(for endpoint: APIEndpoint) {
+    func fetchData(for endpoint: OpportunityZonesAPIEndpoint) {
         isLoading = true
         errorMessage = nil
         results = []           // Clear the previous results
@@ -263,7 +263,7 @@ final class OpportunityZoneService: ObservableObject {
     }
     
     /// Makes the actual API request using the provided access token.
-    private func makeDataRequest(endpoint: APIEndpoint, accessToken: String) {
+    private func makeDataRequest(endpoint: OpportunityZonesAPIEndpoint, accessToken: String) {
         
         var request: URLRequest
         
@@ -307,14 +307,14 @@ final class OpportunityZoneService: ObservableObject {
             publisher = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap { data, response in
                     guard let httpResponse = response as? HTTPURLResponse else {
-                        throw APIError.requestFailed("Invalid HTTP response")
+                        throw OpportunityZonesAPIError.requestFailed("Invalid HTTP response")
                     }
                     if httpResponse.statusCode == 429 {
-                        throw APIError.rateLimitExceeded
+                        throw OpportunityZonesAPIError.rateLimitExceeded
                     }
                     guard (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                        throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                        throw OpportunityZonesAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                     }
                     return data
                 }
@@ -325,14 +325,14 @@ final class OpportunityZoneService: ObservableObject {
             publisher = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap { data, response in
                     guard let httpResponse = response as? HTTPURLResponse else {
-                        throw APIError.requestFailed("Invalid HTTP response")
+                        throw OpportunityZonesAPIError.requestFailed("Invalid HTTP response")
                     }
                     if httpResponse.statusCode == 429 {
-                        throw APIError.rateLimitExceeded
+                        throw OpportunityZonesAPIError.rateLimitExceeded
                     }
                     guard (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                        throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                        throw OpportunityZonesAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                     }
                     return data
                 }
@@ -343,14 +343,14 @@ final class OpportunityZoneService: ObservableObject {
             publisher = URLSession.shared.dataTaskPublisher(for: request)
                 .tryMap{ data, response in
                     guard let httpResponse = response as? HTTPURLResponse else {
-                        throw APIError.requestFailed("Invalid HTTP response")
+                        throw OpportunityZonesAPIError.requestFailed("Invalid HTTP response")
                     }
                     if httpResponse.statusCode == 429 {
-                        throw APIError.rateLimitExceeded
+                        throw OpportunityZonesAPIError.rateLimitExceeded
                     }
                     guard (200...299).contains(httpResponse.statusCode) else {
                         let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                        throw APIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
+                        throw OpportunityZonesAPIError.requestFailed("HTTP Status Code error. Response: \(responseString)")
                     }
                     return data
                 }
@@ -368,7 +368,7 @@ final class OpportunityZoneService: ObservableObject {
                 case .finished:
                     break
                 case .failure(let error):
-                    let apiError = (error as? APIError) ?? APIError.unknown(error)
+                    let apiError = (error as? OpportunityZonesAPIError) ?? OpportunityZonesAPIError.unknown(error)
                     self.handleError(apiError)
                 }
             }, receiveValue: { [weak self] decodedResponse in
@@ -389,7 +389,7 @@ final class OpportunityZoneService: ObservableObject {
     }
     
     /// Helper method to build URLs with query parameters.
-    private func buildURL(for endpoint: APIEndpoint) -> URL? {
+    private func buildURL(for endpoint: OpportunityZonesAPIEndpoint) -> URL? {
         guard let baseURL = URL(string: baseURLString) else {
             return nil
         }
@@ -401,7 +401,7 @@ final class OpportunityZoneService: ObservableObject {
     
     // MARK: - Error Handling
     
-    private func handleError(_ error: APIError) {
+    private func handleError(_ error: OpportunityZonesAPIError) {
         errorMessage = error.localizedDescription
         print("API Error: \(error.localizedDescription)")  // Log for debugging
     }
