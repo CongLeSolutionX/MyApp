@@ -4,176 +4,185 @@
 //
 //  Created by Cong Le on 3/25/25.
 //
+
 import SwiftUI
 
 struct ContactDetailView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            // Set background based on color scheme
+            (colorScheme == .dark ? Color.black : Color.white)
+                .edgesIgnoringSafeArea(.all)
 
-            VStack {
-                // Top Bar
-                HStack {
-                    Button(action: {
-                        print("Back button tapped")
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
-                            .padding(.leading)
-                    }
-                    Spacer()
-                    Button(action: {
-                        print("Edit button tapped")
-                    }) {
-                        Text("Edit")
-                            .foregroundColor(.gray)
-                            .padding(.trailing)
-                    }
-
-                }
-                .padding(.top)
-
-                // Contact Initial
-                ZStack {
-                    Circle()
-                        .fill(Color(.systemGray4))
-                        .frame(width: 100, height: 100)
-                    Text("M")
-                        .font(.system(size: 50, weight: .bold, design: .default))
-                        .foregroundColor(.white)
-                }
-                .padding()
-
-                // Contact Name
-                Text("Mom")
-                    .font(.system(size: 36, weight: .regular, design: .default))
-                    .foregroundColor(.white)
-                    .padding(.bottom)
-
-                // Action Buttons
-                HStack(spacing: 20) {
-                    actionButton(iconName: "message.fill", text: "message", action: { print("Message tapped") })
-                    actionButton(iconName: "phone.fill", text: "call", action: { print("Call tapped") })
-                    actionButton(iconName: "video.fill", text: "video", action: { print("Video tapped") })
-                    actionButton(iconName: "envelope.fill", text: "mail", action: { print("Mail tapped") })
-                    actionButton(iconName: "dollarsign.circle.fill", text: "pay", action: { print("Pay tapped") })
-                }
-                .padding(.bottom)
-
-                // Today Section
-                roundedSection {
-                    VStack(alignment: .leading) {
-                        Text("Today")
-                            .foregroundColor(.white)
-                            .font(.headline)
-                            .padding(.bottom, 5)
-
-                        HStack {
-                            Text("3:10 PM")
+            ScrollView {
+                VStack {
+                    // Top Bar
+                    HStack {
+                        Button(action: {
+                            print("Back button tapped")
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .padding(.leading)
+                        }
+                        Spacer()
+                        Button(action: {
+                            print("Edit button tapped")
+                        }) {
+                            Text("Edit")
                                 .foregroundColor(.gray)
-                            Text("Incoming Call")
-                                .foregroundColor(.white)
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundColor(Color.green)
+                                .padding(.trailing)
                         }
 
-                        Text("29 seconds")
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 5)
+                    }
+                    .padding(.top)
 
-                        Text("Calls with a checkmark have been verified by the carrier.")
-                            .foregroundColor(.gray)
-                            .font(.subheadline)
+                    // Contact Initial
+                    ZStack {
+                        Circle()
+                            .fill(Color(.systemGray4))
+                            .frame(width: 100, height: 100)
+                        Text("M")
+                            .font(.system(size: 50, weight: .bold, design: .default))
+                            .foregroundColor(.white)
                     }
                     .padding()
-                }
 
-                // Contact Photo & Poster
-                roundedSection {
-                    Button(action: {
-                        print("Contact Photo & Poster tapped")
-                    }) {
-                        HStack {
-                            ZStack {
-                                Circle()
-                                    .fill(Color(.systemGray4))
-                                    .frame(width: 30, height: 30)
-                                Text("M")
-                                    .foregroundColor(.white)
-                                    .font(.headline)
-                            }
-                            Text("Contact Photo & Poster")
-                                .foregroundColor(.white)
-                        }
-                        .padding()
+                    // Contact Name
+                    Text("Mom")
+                        .font(.system(size: 36, weight: .regular, design: .default))
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                        .padding(.bottom)
+
+                    // Action Buttons
+                    HStack(spacing: 20) {
+                        actionButton(iconName: "message.fill", text: "message", action: { print("Message tapped") }, colorScheme: colorScheme)
+                        actionButton(iconName: "phone.fill", text: "call", action: { print("Call tapped") }, colorScheme: colorScheme)
+                        actionButton(iconName: "video.fill", text: "video", action: { print("Video tapped") }, colorScheme: colorScheme)
+                        actionButton(iconName: "envelope.fill", text: "mail", action: { print("Mail tapped") }, colorScheme: colorScheme)
+                        actionButton(iconName: "dollarsign.circle.fill", text: "pay", action: { print("Pay tapped") }, colorScheme: colorScheme)
                     }
-                }
+                    .padding(.bottom)
 
-                // Phone Number Section
-                roundedSection {
-                    Button(action: {
-                         print("Phone Number tapped")
-                    }) {
+                    // Today Section
+                    roundedSection(colorScheme: colorScheme) {
                         VStack(alignment: .leading) {
+                            Text("Today")
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .font(.headline)
+                                .padding(.bottom, 5)
+
                             HStack {
-                                Text("home")
-                                    .foregroundColor(.white)
-                                Text("RECENT")
-                                    .foregroundColor(.green)
-                                    .font(.caption)
-                                    .padding(2)
-                                    .background(Color.secondary.opacity(0.3))
-                                    .cornerRadius(3)
+                                Text("3:10 PM")
+                                    .foregroundColor(.gray)
+                                Text("Incoming Call")
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                Image(systemName: "checkmark.seal.fill")
+                                    .foregroundColor(Color.green)
                             }
-                            .padding(.bottom, 2)
 
-                            Text("(714) 660-8612")
-                                .foregroundColor(.blue)
-                                .font(.title3)
-                        }
-                        .padding()
-                    }
-                }
-
-                // FaceTime
-                roundedSection {
-                    Button(action: {
-                         print("FaceTime tapped")
-                    }) {
-                        HStack {
-                            Text("FaceTime")
-                                .foregroundColor(.white)
-                            Spacer()
-                            Image(systemName: "video.fill")
-                                .foregroundColor(.blue)
-                            Image(systemName: "phone.fill")
-                                .foregroundColor(.blue)
-                        }
-                        .padding()
-                    }
-                }
-
-                // Ringtone
-                roundedSection {
-                    Button(action: {
-                        print("Ringtone tapped")
-                    }) {
-                        HStack {
-                            Text("Ringtone")
-                                .foregroundColor(.white)
-                            Spacer()
-                            Text("Sound: Hey Mama")
-                                .foregroundColor(.blue)
-                            Image(systemName: "chevron.right")
+                            Text("29 seconds")
                                 .foregroundColor(.gray)
+                                .padding(.bottom, 5)
+
+                            Text("Calls with a checkmark have been verified by the carrier.")
+                                .foregroundColor(.gray)
+                                .font(.subheadline)
                         }
                         .padding()
                     }
-                }
 
-                Spacer()
-            }
-            .padding(.top, 20)
+                    // Contact Photo & Poster
+                    roundedSection(colorScheme: colorScheme) {
+                        Button(action: {
+                            print("Contact Photo & Poster tapped")
+                        }) {
+                            HStack {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color(.systemGray4))
+                                        .frame(width: 30, height: 30)
+                                    Text("M")
+                                        .foregroundColor(.white)
+                                        .font(.headline)
+                                }
+                                Text("Contact Photo & Poster")
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                            }
+                            .padding()
+                        }.foregroundColor(colorScheme == .dark ? .white : .black) // Ensure button text color adapts
+                    }
+
+                    // Phone Number Section
+                    roundedSection(colorScheme: colorScheme) {
+                        Button(action: {
+                             print("Phone Number tapped")
+                        }) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("home")
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                    Text("RECENT")
+                                        .foregroundColor(.green)
+                                        .font(.caption)
+                                        .padding(2)
+                                        .background(Color.secondary.opacity(0.3))
+                                        .cornerRadius(3)
+                                }
+                                .padding(.bottom, 2)
+
+                                Text("(714) 660-8612")
+                                    .foregroundColor(.blue)
+                                    .font(.title3)
+                            }
+                            .padding()
+                        }
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                    }
+
+                    // FaceTime
+                    roundedSection(colorScheme: colorScheme) {
+                        Button(action: {
+                             print("FaceTime tapped")
+                        }) {
+                            HStack {
+                                Text("FaceTime")
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                Spacer()
+                                Image(systemName: "video.fill")
+                                    .foregroundColor(.blue)
+                                Image(systemName: "phone.fill")
+                                    .foregroundColor(.blue)
+                            }
+                            .padding()
+                        }.foregroundColor(colorScheme == .dark ? .white : .black)
+                    }
+
+                    // Ringtone
+                    roundedSection(colorScheme: colorScheme) {
+                        Button(action: {
+                            print("Ringtone tapped")
+                        }) {
+                            HStack {
+                                Text("Ringtone")
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                Spacer()
+                                Text("Sound: Hey Mama")
+                                    .foregroundColor(.blue)
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                            .padding()
+                        }.foregroundColor(colorScheme == .dark ? .white : .black)
+
+                    }
+
+                }
+                .padding(.top, 20)
+                .padding(.bottom, 100) // Add padding to prevent content from being hidden by tab bar
+            } // End ScrollView
 
             // Tab Bar (Placeholder - Replace with proper TabView)
             VStack {
@@ -217,14 +226,14 @@ struct ContactDetailView: View {
                 }
                 .padding()
                 .background(Color(.secondarySystemBackground))
-            }.frame(maxHeight: .infinity)
+            }.frame(maxHeight: .infinity, alignment: .bottom)
 
         }
         .edgesIgnoringSafeArea(.bottom)
     }
 
     // Helper function for rounded sections
-    func roundedSection<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    func roundedSection<Content: View>(colorScheme: ColorScheme, @ViewBuilder content: () -> Content) -> some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(Color(.systemGray6))
             .overlay(content())
@@ -232,7 +241,7 @@ struct ContactDetailView: View {
     }
 
     // Updated helper function for action buttons
-    func actionButton(iconName: String, text: String, action: @escaping () -> Void) -> some View {
+    func actionButton(iconName: String, text: String, action: @escaping () -> Void, colorScheme: ColorScheme) -> some View {
          Button(action: action) {
             VStack {
                 ZStack {
@@ -243,7 +252,7 @@ struct ContactDetailView: View {
                         .foregroundColor(.white)
                 }
                 Text(text)
-                    .foregroundColor(.white)
+                    .foregroundColor( colorScheme == .dark ? .white : .gray)
                     .font(.caption)
             }
         }
@@ -253,5 +262,8 @@ struct ContactDetailView: View {
 struct ContactDetailView_Previews: PreviewProvider {
     static var previews: some View {
         ContactDetailView()
+            .preferredColorScheme(.dark) // Test dark mode
+        ContactDetailView()
+            .preferredColorScheme(.light) // Test light mode
     }
 }
