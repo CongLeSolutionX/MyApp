@@ -5,10 +5,18 @@
 //  Created by Cong Le on 3/25/25.
 //
 
-
 import SwiftUI
 
 struct ContactListView: View {
+    @State private var searchText = ""
+    @State private var isListActive = false
+    @State private var isFavoritesSelected = false
+    @State private var isRecentsSelected = false
+    @State private var isContactsSelected = true
+    @State private var isKeypadSelected = false
+    @State private var isVoicemailSelected = false
+    @State private var contacts: [String] = ["Huy 📺☎️🎲 - A Hai", "A Anh VN", "A Ba", "A Duc Nail", "A Duc Sua Xe", "A Dung Nha", "A Dung-ban nhau", "A Duong", "A Duy", "A Duy - Chi Nghi", "A Hai"]
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -17,12 +25,22 @@ struct ContactListView: View {
                 VStack {
                     // Top Bar
                     HStack {
-                        NavigationLink(destination: Text("Lists")) {
-                            Image(systemName: "chevron.left")
-                                .foregroundColor(.blue)
-                            Text("Lists")
-                                .foregroundColor(.blue)
+                        Button(action: {
+                            isListActive = true
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.blue)
+                                Text("Lists")
+                                    .foregroundColor(.blue)
+                            }
                         }
+                        .background(
+                            NavigationLink(destination: Text("Lists View"), isActive: $isListActive) {
+                                EmptyView()
+                            }
+                            .hidden()
+                        )
                         Spacer()
                         Text("Contacts")
                             .font(.largeTitle)
@@ -30,7 +48,8 @@ struct ContactListView: View {
                             .foregroundColor(.white)
                         Spacer()
                         Button(action: {
-                            // Action
+                            // TODO: Add action to add a new contact
+                            print("Add new contact button pressed")
                         }) {
                             Image(systemName: "plus")
                                 .foregroundColor(.blue)
@@ -40,9 +59,9 @@ struct ContactListView: View {
 
                     // Search Bar
                     HStack {
-                       Image(systemName: "magnifyingglass")
+                        Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
-                        TextField("Search", text: .constant(""))
+                        TextField("Search", text: $searchText)
                             .foregroundColor(.white)
                         Spacer()
                         Image(systemName: "mic")
@@ -76,18 +95,9 @@ struct ContactListView: View {
                                 .foregroundColor(.gray)
                                 .padding(.leading)
 
-                            ContactRow(name: "Huy 📺☎️🎲 - A Hai")// example how to add emojis in text field
-                            ContactRow(name: "A Anh VN")
-                            ContactRow(name: "A Ba")
-                            ContactRow(name: "A Duc Nail")
-                            ContactRow(name: "A Duc Sua Xe")
-                            ContactRow(name: "A Dung Nha")
-                            ContactRow(name: "A Dung-ban nhau")
-                            ContactRow(name: "A Duong")
-                            ContactRow(name: "A Duy")
-                            ContactRow(name: "A Duy - Chi Nghi")
-                            ContactRow(name: "A Hai")
-
+                            ForEach(contacts.filter { $0.lowercased().starts(with: "a") }, id: \.self) { contact in
+                                ContactRow(name: contact)
+                            }
                         }
                     }
 
@@ -95,11 +105,47 @@ struct ContactListView: View {
 
                     // Bottom Tab Bar
                     HStack {
-                        TabBarIcon(icon: "star", text: "Favorites", isSelected: false) // Set the initial selection
-                        TabBarIcon(icon: "clock", text: "Recents", isSelected: false)
-                        TabBarIcon(icon: "person.fill", text: "Contacts", isSelected: true)
-                        TabBarIcon(icon: "dialpad", text: "Keypad", isSelected: false)
-                        TabBarIcon(icon: "voicemail", text: "Voicemail", badgeCount: 37, isSelected: false)
+                        TabBarIcon(icon: "star", text: "Favorites", badgeCount: nil, isSelected: isFavoritesSelected) {
+                            isFavoritesSelected = true
+                            isRecentsSelected = false
+                            isContactsSelected = false
+                            isKeypadSelected = false
+                            isVoicemailSelected = false
+                            print("Favorite button pressed")
+                        }
+                        TabBarIcon(icon: "clock", text: "Recents", badgeCount: nil, isSelected: isRecentsSelected) {
+                            isFavoritesSelected = false
+                            isRecentsSelected = true
+                            isContactsSelected = false
+                            isKeypadSelected = false
+                            isVoicemailSelected = false
+                            print("Recents button pressed")
+
+                        }
+                        TabBarIcon(icon: "person.fill", text: "Contacts", badgeCount: nil, isSelected: isContactsSelected) {
+                            isFavoritesSelected = false
+                            isRecentsSelected = false
+                            isContactsSelected = true
+                            isKeypadSelected = false
+                            isVoicemailSelected = false
+                           print("Contacts button pressed")
+                        }
+                        TabBarIcon(icon: "dialpad", text: "Keypad", badgeCount: nil, isSelected: isKeypadSelected) {
+                            isFavoritesSelected = false
+                            isRecentsSelected = false
+                            isContactsSelected = false
+                            isKeypadSelected = true
+                            isVoicemailSelected = false
+                            print("Keypad button pressed")
+                        }
+                        TabBarIcon(icon: "voicemail", text: "Voicemail", badgeCount: 37, isSelected: isVoicemailSelected) {
+                            isFavoritesSelected = false
+                            isRecentsSelected = false
+                            isContactsSelected = false
+                            isKeypadSelected = false
+                            isVoicemailSelected = true
+                            print("Voicemail button pressed")
+                        }
                     }
                     .padding(.top, 8)
                     .frame(maxWidth: .infinity)
@@ -132,24 +178,17 @@ struct TabBarIcon: View {
     let icon: String
     let text: String
     let badgeCount: Int?
-    var isSelected: Bool
-
-    init(icon: String, text: String, badgeCount: Int? = nil, isSelected: Bool) {
-        self.icon = icon
-        self.text = text
-        self.badgeCount = badgeCount
-        self.isSelected = isSelected
-    }
-
+    @State var isSelected: Bool
+    let action: () -> Void
     var body: some View {
         Button(action: {
-            // TODO: Add tab selection logic
+            action() // Execute the button's action
         }) {
             VStack {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: icon)
                         .font(.title3)
-                        .foregroundColor(isSelected ? .blue : .gray)
+                        .foregroundColor(isSelected ? .blue : .gray) // change to variable isSelected
 
                     if let count = badgeCount, count > 0 {
                          Circle()
@@ -164,10 +203,17 @@ struct TabBarIcon: View {
                 }
                 Text(text)
                     .font(.caption)
-                   .foregroundColor(isSelected ? .blue : .gray)
+                   .foregroundColor(isSelected ? .blue : .gray) // change to variable isSelected
             }
            .frame(maxWidth: .infinity)
         }
+    }
+    init(icon: String, text: String, badgeCount: Int? = nil, isSelected: Bool, action: @escaping () -> Void) {
+        self.icon = icon
+        self.text = text
+        self.badgeCount = badgeCount
+        self._isSelected = State(initialValue: isSelected)
+        self.action = action
     }
 }
 
