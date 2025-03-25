@@ -6,6 +6,7 @@
 //  Created by Cong Le on 8/19/24.
 //
 //
+//
 import SwiftUI
 
 struct LoginView: View {
@@ -13,22 +14,26 @@ struct LoginView: View {
     @State private var password = ""
     @State private var saveUsername = false
 
+    // Rose Gold Color Definition
+    let roseGold = Color(red: 189/255, green: 143/255, blue: 123/255) // Slightly muted Rose Gold
+
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all) // Background color
+            // Dark Background
+            Color.black.edgesIgnoringSafeArea(.all)
 
             VStack {
                 // Top Bar
                 HStack {
-                    Text("Ask Maeve")
+                    Text("Nest Buddy")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 153/255, green: 51/255, blue: 204/255)) // Purple color
+                        .foregroundColor(roseGold) // Rose Gold Logo Color
                     Spacer()
                     Button("Call Us") {
                         // Action for call us
                     }
-                    .foregroundColor(Color(red: 153/255, green: 51/255, blue: 204/255))
+                    .foregroundColor(roseGold) // Rose Gold Button Color
                 }
                 .padding()
 
@@ -39,6 +44,7 @@ struct LoginView: View {
                 Text("Hello, Cong!")
                     .font(.system(size: 36, weight: .bold, design: .default))
                     .foregroundColor(.white)
+
                     .padding(.bottom, 30)
 
                 // Username Field
@@ -94,7 +100,7 @@ struct LoginView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 153/255, green: 51/255, blue: 204/255))
+                .background(roseGold) // Rose Gold Button Background
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .padding(.horizontal)
