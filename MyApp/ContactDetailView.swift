@@ -4,31 +4,39 @@
 //
 //  Created by Cong Le on 3/25/25.
 //
-
 import SwiftUI
 
 struct ContactDetailView: View {
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all) // Background Color
+            Color.black.edgesIgnoringSafeArea(.all)
 
             VStack {
                 // Top Bar
                 HStack {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                        .padding(.leading)
+                    Button(action: {
+                        print("Back button tapped")
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                            .padding(.leading)
+                    }
                     Spacer()
-                    Text("Edit")
-                        .foregroundColor(.gray)
-                        .padding(.trailing)
+                    Button(action: {
+                        print("Edit button tapped")
+                    }) {
+                        Text("Edit")
+                            .foregroundColor(.gray)
+                            .padding(.trailing)
+                    }
+
                 }
                 .padding(.top)
 
                 // Contact Initial
                 ZStack {
                     Circle()
-                        .fill(Color(.systemGray4)) // Light Gray
+                        .fill(Color(.systemGray4))
                         .frame(width: 100, height: 100)
                     Text("M")
                         .font(.system(size: 50, weight: .bold, design: .default))
@@ -44,11 +52,11 @@ struct ContactDetailView: View {
 
                 // Action Buttons
                 HStack(spacing: 20) {
-                    actionButton(iconName: "message.fill", text: "message")
-                    actionButton(iconName: "phone.fill", text: "call")
-                    actionButton(iconName: "video.fill", text: "video")
-                    actionButton(iconName: "envelope.fill", text: "mail")
-                    actionButton(iconName: "dollarsign.circle.fill", text: "pay")
+                    actionButton(iconName: "message.fill", text: "message", action: { print("Message tapped") })
+                    actionButton(iconName: "phone.fill", text: "call", action: { print("Call tapped") })
+                    actionButton(iconName: "video.fill", text: "video", action: { print("Video tapped") })
+                    actionButton(iconName: "envelope.fill", text: "mail", action: { print("Mail tapped") })
+                    actionButton(iconName: "dollarsign.circle.fill", text: "pay", action: { print("Pay tapped") })
                 }
                 .padding(.bottom)
 
@@ -82,93 +90,131 @@ struct ContactDetailView: View {
 
                 // Contact Photo & Poster
                 roundedSection {
-                    HStack {
-                        ZStack {
-                            Circle()
-                                .fill(Color(.systemGray4))
-                                .frame(width: 30, height: 30)
-                            Text("M")
+                    Button(action: {
+                        print("Contact Photo & Poster tapped")
+                    }) {
+                        HStack {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(.systemGray4))
+                                    .frame(width: 30, height: 30)
+                                Text("M")
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                            }
+                            Text("Contact Photo & Poster")
                                 .foregroundColor(.white)
-                                .font(.headline)
                         }
-                        Text("Contact Photo & Poster")
-                            .foregroundColor(.white)
+                        .padding()
                     }
-                    .padding()
                 }
 
                 // Phone Number Section
                 roundedSection {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("home")
-                                .foregroundColor(.white)
-                            Text("RECENT")
-                                .foregroundColor(.green)
-                                .font(.caption)
-                                .padding(2)
-                                .background(Color.secondary.opacity(0.3))
-                                .cornerRadius(3)
-                        }
-                        .padding(.bottom, 2)
+                    Button(action: {
+                         print("Phone Number tapped")
+                    }) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text("home")
+                                    .foregroundColor(.white)
+                                Text("RECENT")
+                                    .foregroundColor(.green)
+                                    .font(.caption)
+                                    .padding(2)
+                                    .background(Color.secondary.opacity(0.3))
+                                    .cornerRadius(3)
+                            }
+                            .padding(.bottom, 2)
 
-                        Text("(714) 660-8612")
-                            .foregroundColor(.blue)
-                            .font(.title3)
+                            Text("(714) 660-8612")
+                                .foregroundColor(.blue)
+                                .font(.title3)
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
 
                 // FaceTime
                 roundedSection {
-                    HStack {
-                        Text("FaceTime")
-                            .foregroundColor(.white)
-                        Spacer()
-                        Image(systemName: "video.fill")
-                            .foregroundColor(.blue)
-                        Image(systemName: "phone.fill")
-                            .foregroundColor(.blue)
+                    Button(action: {
+                         print("FaceTime tapped")
+                    }) {
+                        HStack {
+                            Text("FaceTime")
+                                .foregroundColor(.white)
+                            Spacer()
+                            Image(systemName: "video.fill")
+                                .foregroundColor(.blue)
+                            Image(systemName: "phone.fill")
+                                .foregroundColor(.blue)
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
 
                 // Ringtone
                 roundedSection {
-                    HStack {
-                        Text("Ringtone")
-                            .foregroundColor(.white)
-                        Spacer()
-                        Text("Sound: Hey Mama")
-                            .foregroundColor(.blue)
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
+                    Button(action: {
+                        print("Ringtone tapped")
+                    }) {
+                        HStack {
+                            Text("Ringtone")
+                                .foregroundColor(.white)
+                            Spacer()
+                            Text("Sound: Hey Mama")
+                                .foregroundColor(.blue)
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
 
-                Spacer() // Push content to the top
+                Spacer()
             }
-            .padding(.top, 20) // Add some padding to the overall content
+            .padding(.top, 20)
 
             // Tab Bar (Placeholder - Replace with proper TabView)
             VStack {
                 Spacer()
                 HStack {
-                    Image(systemName: "star.fill") // Favorites icon
-                    Image(systemName: "clock.fill")// Recents icon
-                    Image(systemName: "person.fill") // Contacts icon
-                    Image(systemName: "circle.grid.3x3.fill")// Keypad
-                    ZStack {
-                        Image(systemName: "oval.portrait") //Voicemail icon
-                        Circle()
-                            .fill(.red)
-                            .frame(width: 10, height: 10)
-                            .offset(x: 8, y: -8) // Position badge using negative offset for top right
+                    Button(action: {
+                        print("Favorites tapped")
+                    }) {
+                        Image(systemName: "star.fill") // Favorites icon
+                            .foregroundColor(.blue)
+                    }
+                    Button(action: {
+                        print("Recents tapped")
+                    }) {
+                        Image(systemName: "clock.fill")// Recents icon
+                            .foregroundColor(.blue)
+                    }
+                    Button(action: {
+                        print("Contacts tapped")
+                    }) {
+                        Image(systemName: "person.fill") // Contacts icon
+                            .foregroundColor(.blue)
+                    }
+                    Button(action: {
+                        print("Keypad tapped")
+                    }) {
+                        Image(systemName: "circle.grid.3x3.fill")// Keypad
+                            .foregroundColor(.blue)
+                    }
+                    Button(action: {
+                        print("Voicemail tapped")
+                    }) {
+                        ZStack {
+                            Image(systemName: "oval.portrait") //Voicemail icon
+                            Circle()
+                                .fill(.red)
+                                .frame(width: 10, height: 10)
+                                .offset(x: 8, y: -8) // Position badge using negative offset for top right
+                        }
                     }
                 }
-                .foregroundColor(.blue)
-
                 .padding()
                 .background(Color(.secondarySystemBackground))
             }.frame(maxHeight: .infinity)
@@ -185,19 +231,21 @@ struct ContactDetailView: View {
             .padding(.horizontal)
     }
 
-    // Helper function for action buttons
-    func actionButton(iconName: String, text: String) -> some View {
-        VStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(.systemGray6))
-                    .frame(width: 50, height: 50)
-                Image(systemName: iconName)
+    // Updated helper function for action buttons
+    func actionButton(iconName: String, text: String, action: @escaping () -> Void) -> some View {
+         Button(action: action) {
+            VStack {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(.systemGray6))
+                        .frame(width: 50, height: 50)
+                    Image(systemName: iconName)
+                        .foregroundColor(.white)
+                }
+                Text(text)
                     .foregroundColor(.white)
+                    .font(.caption)
             }
-            Text(text)
-                .foregroundColor(.white)
-                .font(.caption)
         }
     }
 }
