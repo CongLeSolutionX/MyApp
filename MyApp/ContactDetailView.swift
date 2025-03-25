@@ -10,229 +10,194 @@ import SwiftUI
 struct ContactDetailView: View {
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            Color.black.edgesIgnoringSafeArea(.all) // Background Color
 
-            ScrollView {
-                VStack {
-                    // Top Bar
-                    HStack {
-                        Image(systemName: "chevron.left")
+            VStack {
+                // Top Bar
+                HStack {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.white)
+                        .padding(.leading)
+                    Spacer()
+                    Text("Edit")
+                        .foregroundColor(.gray)
+                        .padding(.trailing)
+                }
+                .padding(.top)
+
+                // Contact Initial
+                ZStack {
+                    Circle()
+                        .fill(Color(.systemGray4)) // Light Gray
+                        .frame(width: 100, height: 100)
+                    Text("M")
+                        .font(.system(size: 50, weight: .bold, design: .default))
+                        .foregroundColor(.white)
+                }
+                .padding()
+
+                // Contact Name
+                Text("Mom")
+                    .font(.system(size: 36, weight: .regular, design: .default))
+                    .foregroundColor(.white)
+                    .padding(.bottom)
+
+                // Action Buttons
+                HStack(spacing: 20) {
+                    actionButton(iconName: "message.fill", text: "message")
+                    actionButton(iconName: "phone.fill", text: "call")
+                    actionButton(iconName: "video.fill", text: "video")
+                    actionButton(iconName: "envelope.fill", text: "mail")
+                    actionButton(iconName: "dollarsign.circle.fill", text: "pay")
+                }
+                .padding(.bottom)
+
+                // Today Section
+                roundedSection {
+                    VStack(alignment: .leading) {
+                        Text("Today")
                             .foregroundColor(.white)
-                            .padding(.leading)
-                        Spacer()
-                        Text("Edit")
-                            .foregroundColor(.gray)
-                            .padding(.trailing)
-                    }
-                    .padding(.top)
+                            .font(.headline)
+                            .padding(.bottom, 5)
 
-                    // Circle Avatar
-                    ZStack {
-                        Circle()
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 100, height: 100)
-                        Text("M")
-                            .font(.largeTitle)
+                        HStack {
+                            Text("3:10 PM")
+                                .foregroundColor(.gray)
+                            Text("Incoming Call")
+                                .foregroundColor(.white)
+                            Image(systemName: "checkmark.seal.fill")
+                                .foregroundColor(Color.green)
+                        }
+
+                        Text("29 seconds")
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 5)
+
+                        Text("Calls with a checkmark have been verified by the carrier.")
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
+                    }
+                    .padding()
+                }
+
+                // Contact Photo & Poster
+                roundedSection {
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(Color(.systemGray4))
+                                .frame(width: 30, height: 30)
+                            Text("M")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                        }
+                        Text("Contact Photo & Poster")
                             .foregroundColor(.white)
                     }
                     .padding()
-
-                    // Name
-                    Text("Mom")
-                        .font(.system(size: 36, weight: .regular,design: .default))
-                        .foregroundColor(.white)
-                        .padding(.bottom)
-
-                    // Action Buttons
-                    HStack(spacing: 20) {
-                        ActionButton(imageName: "message.fill", text: "message")
-                        ActionButton(imageName: "phone.fill", text: "call")
-                        ActionButton(imageName: "video.fill", text: "video")
-                        ActionButton(imageName: "envelope.fill", text: "mail")
-                        ActionButton(imageName: "dollarsign.circle.fill", text: "pay")
-                    }
-                    .padding(.bottom)
-
-                    // Today Section
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.secondary.opacity(0.2))
-                        .padding(.horizontal)
-                        .overlay(
-                            VStack(alignment: .leading) {
-                                Text("Today")
-                                    .foregroundColor(.white)
-                                    .font(.headline)
-                                    .padding(.top)
-                                Text("3:10 PM Incoming Call \u{2705}")
-                                    .foregroundColor(.white)
-                                    .font(.subheadline)
-                                Text("29 seconds")
-                                    .foregroundColor(.gray)
-                                    .font(.subheadline)
-                                Text("Calls with a checkmark have been verified by the carrier.")
-                                    .foregroundColor(.gray)
-                                    .font(.caption)
-                                    .padding(.bottom)
-                            }
-                            .padding()
-                            ,alignment: .topLeading
-                        )
-
-                    // Contact Photo & Poster
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.secondary.opacity(0.2))
-                        .padding(.horizontal)
-                        .overlay(
-                            HStack {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.gray.opacity(0.5))
-                                        .frame(width: 30, height: 30)
-                                    Text("M")
-                                        .foregroundColor(.white)
-                                        .font(.headline)
-                                }
-                                Text("Contact Photo & Poster")
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                            .padding()
-                            ,alignment: .topLeading
-                        )
-
-                    // Home Section
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.secondary.opacity(0.2))
-                        .padding(.horizontal)
-                        .overlay(
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("home")
-                                        .foregroundColor(.white)
-                                        .font(.headline)
-                                    Text("RECENT")
-                                        .foregroundColor(.gray)
-                                        .font(.caption)
-
-                                }
-                                Text("(714) 660-8612")
-                                    .foregroundColor(.blue)
-                                    .font(.system(size: 20, weight: .regular,design: .default))
-                            }
-                            .padding()
-                            ,alignment: .topLeading
-                      )
-                      
-                    //FaceTime Section
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.secondary.opacity(0.2))
-                        .padding(.horizontal)
-                        .overlay(
-                            HStack {
-                                Text("FaceTime")
-                                    .foregroundColor(.white)
-                                    .font(.headline)
-                                Spacer()
-                                Image(systemName: "video.fill")
-                                    .foregroundColor(.blue)
-                                Image(systemName: "phone.fill")
-                                    .foregroundColor(.blue)
-                            }
-                            .padding()
-                            ,alignment: .topLeading
-                      )
-
-                     //Ringtone Section
-                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.secondary.opacity(0.2))
-                        .padding(.horizontal)
-                        .overlay(
-                            HStack {
-                                VStack(alignment: .leading){
-                                    Text("Ringtone")
-                                        .foregroundColor(.white)
-                                        .font(.headline)
-                                    Text("Sound: Hey Mama")
-                                        .foregroundColor(.blue)
-                                        .font(.subheadline)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.gray)
-                            }
-                            .padding()
-                            ,alignment: .topLeading
-                      )
-                    Spacer()
                 }
-            }
 
+                // Phone Number Section
+                roundedSection {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("home")
+                                .foregroundColor(.white)
+                            Text("RECENT")
+                                .foregroundColor(.green)
+                                .font(.caption)
+                                .padding(2)
+                                .background(Color.secondary.opacity(0.3))
+                                .cornerRadius(3)
+                        }
+                        .padding(.bottom, 2)
+
+                        Text("(714) 660-8612")
+                            .foregroundColor(.blue)
+                            .font(.title3)
+                    }
+                    .padding()
+                }
+
+                // FaceTime
+                roundedSection {
+                    HStack {
+                        Text("FaceTime")
+                            .foregroundColor(.white)
+                        Spacer()
+                        Image(systemName: "video.fill")
+                            .foregroundColor(.blue)
+                        Image(systemName: "phone.fill")
+                            .foregroundColor(.blue)
+                    }
+                    .padding()
+                }
+
+                // Ringtone
+                roundedSection {
+                    HStack {
+                        Text("Ringtone")
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text("Sound: Hey Mama")
+                            .foregroundColor(.blue)
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                }
+
+                Spacer() // Push content to the top
+            }
+            .padding(.top, 20) // Add some padding to the overall content
+
+            // Tab Bar (Placeholder - Replace with proper TabView)
             VStack {
                 Spacer()
-                // Bottom Tab Bar
                 HStack {
-                    BottomBarButton(imageName: "star.fill", text: "Favorites", badgeCount: nil)
-                    BottomBarButton(imageName: "clock.fill", text: "Recents", badgeCount: nil)
-                    BottomBarButton(imageName: "person.fill", text: "Contacts", badgeCount: nil)
-                    BottomBarButton(imageName: "keypad", text: "Keypad", badgeCount: nil)
-                    BottomBarButton(imageName: "voicemail.fill", text: "Voicemail", badgeCount: 37)
+                    Image(systemName: "star.fill") // Favorites icon
+                    Image(systemName: "clock.fill")// Recents icon
+                    Image(systemName: "person.fill") // Contacts icon
+                    Image(systemName: "circle.grid.3x3.fill")// Keypad
+                    ZStack {
+                        Image(systemName: "oval.portrait") //Voicemail icon
+                        Circle()
+                            .fill(.red)
+                            .frame(width: 10, height: 10)
+                            .offset(x: 8, y: -8) // Position badge using negative offset for top right
+                    }
                 }
-                .padding(.top, 8)
-                .padding(.bottom, 30)
-                .background(Color.secondary.opacity(0.2))
-            }
+                .foregroundColor(.blue)
+
+                .padding()
+                .background(Color(.secondarySystemBackground))
+            }.frame(maxHeight: .infinity)
+
         }
+        .edgesIgnoringSafeArea(.bottom)
     }
-}
 
-struct ActionButton: View {
-    let imageName: String
-    let text: String
+    // Helper function for rounded sections
+    func roundedSection<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        RoundedRectangle(cornerRadius: 10)
+            .fill(Color(.systemGray6))
+            .overlay(content())
+            .padding(.horizontal)
+    }
 
-    var body: some View {
+    // Helper function for action buttons
+    func actionButton(iconName: String, text: String) -> some View {
         VStack {
             ZStack {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.secondary.opacity(0.2))
-                    .frame(width: 60, height: 60)
-                Image(systemName: imageName)
-                    .font(.title2)
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(.systemGray6))
+                    .frame(width: 50, height: 50)
+                Image(systemName: iconName)
                     .foregroundColor(.white)
             }
             Text(text)
                 .foregroundColor(.white)
                 .font(.caption)
-        }
-    }
-}
-
-struct BottomBarButton: View {
-    let imageName: String
-    let text: String
-    let badgeCount: Int?
-
-    var body: some View {
-        ZStack {
-            VStack {
-                Image(systemName: imageName)
-                    .font(.title3)
-                    .foregroundColor(.white)
-                Text(text)
-                    .foregroundColor(.white)
-                    .font(.system(size: 10))
-            }
-
-            if let count = badgeCount {
-                Circle()
-                    .fill(Color.red)
-                    .frame(width: 20, height: 20)
-                    .overlay(
-                        Text("\(count)")
-                            .foregroundColor(.white)
-                            .font(.system(size: 12))
-                    )
-                    .offset(x: 15, y: -10)
-            }
         }
     }
 }
