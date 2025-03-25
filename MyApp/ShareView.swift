@@ -4,73 +4,103 @@
 //
 //  Created by Cong Le on 3/25/25.
 //
-
 import SwiftUI
 
+
 struct ShareView: View {
+    @State private var selectedColor: Color = Color(red: 0.8, green: 0.5, blue: 0.2, opacity: 1.0) // Orange default
+    
+    
     var body: some View {
         ZStack {
             // Background Color
-            Color(red: 0.8, green: 0.5, blue: 0.2, opacity: 1.0) // Orange color
+            selectedColor
                 .edgesIgnoringSafeArea(.all)
             
             
             VStack {
-                Spacer() // Push content to the middle
+                Spacer()
                 
                 
                 // Media Card
                 MediaCardView()
-                    .padding(.bottom, 30) // Space between media card and color options
+                    .padding(.bottom, 30)
                 
                 
                 // Color Options & Share Button
                 HStack {
-                    ColorOption(color: .white)
-                    ColorOption(color: Color(red: 0.6, green: 0.4, blue: 0.2))
-                    ColorOption(color: .black)
-                    ShareButton()
+                    Button(action: {
+                        selectedColor = .white
+                    }) {
+                        ColorOption(color: .white)
+                    }
+                    
+                    
+                    Button(action: {
+                        selectedColor = Color(red: 0.6, green: 0.4, blue: 0.2) // Brown
+                    }) {
+                        ColorOption(color: Color(red: 0.6, green: 0.4, blue: 0.2))
+                    }
+                    
+                    
+                    Button(action: {
+                        selectedColor = .black
+                    }) {
+                        ColorOption(color: .black)
+                    }
+                    
+                    
+                    Button(action: {
+                        shareContent()
+                    }) {
+                        ShareButton()
+                    }
                 }
-                .padding(.bottom, 40) // Space between share options and social icons
+                .padding(.bottom, 40)
                 
                 
                 // Social Share Options
                 SocialShareOptions()
                 
                 
-                Spacer() // Equally push content up from the bottom
+                Spacer()
             }
         }
+    }
+    
+    
+    // Function to handle sharing
+    func shareContent() {
+        print("Content shared!")
+        // Add actual sharing logic here
     }
 }
 
 
-// Media Card View
 struct MediaCardView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.black.opacity(0.8)) // Dark background for the card
+                .fill(Color.black.opacity(0.8))
                 .frame(width: 250, height: 350)
             
             
             VStack {
-                Image("album_art") // Replace with actual image
+                Image(systemName: "music.note") // Default asset
                     .resizable()
-                    .frame(width: 200, height: 200)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.white)
                     .padding(.bottom, 10)
                 
                 
-                Text("Ngày Mưa Ấy")
+                Text("Title PlaceHolder")
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .padding(.bottom, 2)
                 
                 
-                Text("Vicky Nhung")
+                Text("Artist PlaceHolder")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.bottom, 10)
@@ -83,13 +113,13 @@ struct MediaCardView: View {
 }
 
 
-// Spotify Logo and Text
 struct SpotifyLogo: View {
     var body: some View {
         HStack {
-            Image("spotify_logo") // Replace with actual image
+            Image(systemName: "headphones") // Default asset
                 .resizable()
                 .frame(width: 20, height: 20)
+                .foregroundColor(.green)
             
             
             Text("Spotify")
@@ -101,7 +131,6 @@ struct SpotifyLogo: View {
 }
 
 
-// Color Option Button (White, Brown, Black)
 struct ColorOption: View {
     var color: Color
     
@@ -115,7 +144,6 @@ struct ColorOption: View {
 }
 
 
-// Share Button View (Icon in a Square)
 struct ShareButton: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 5)
@@ -129,34 +157,64 @@ struct ShareButton: View {
 }
 
 
-// Social Share Icons
 struct SocialShareOptions: View {
     var body: some View {
         HStack {
-            SocialIcon(imageName: "copy_link", label: "Copy link")
-            SocialIcon(imageName: "tiktok", label: "TikTok")
-            SocialIcon(imageName: "messages", label: "Messages")
-            SocialIcon(imageName: "stories", label: "Stories")
-            SocialIcon(imageName: "whatsapp", label: "WhatsApp")
-            SocialIcon(imageName: "instagram", label: "Instagram")
+            // Use Button to handle clicks
+            Button(action: { copyLink() }) {
+                SocialIcon(imageName: "link", systemImage: true, label: "Copy link")
+            }
+            Button(action: { shareToTikTok() }) {
+                SocialIcon(imageName: "music.note.tv", systemImage: true, label: "TikTok")
+            }
+            Button(action: { shareViaMessages() }) {
+                SocialIcon(imageName: "message", systemImage: true, label: "Messages")
+            }
+            Button(action: { shareToStories() }) {
+                SocialIcon(imageName: "book", systemImage: true, label: "Stories")
+            }
+            Button(action: { shareToWhatsApp() }) {
+                SocialIcon(imageName: "phone", systemImage: true, label: "WhatsApp")
+            }
+            Button(action: { shareToInstagram() }) {
+                SocialIcon(imageName: "camera", systemImage: true, label: "Instagram")
+            }
         }
     }
+    
+    
+    // Example actions for each social media
+    func copyLink() { print("Copy Link Tapped") }
+    func shareToTikTok() { print("TikTok Tapped") }
+    func shareViaMessages() { print("Messages Tapped") }
+    func shareToStories() { print("Stories Tapped") }
+    func shareToWhatsApp() { print("WhatsApp Tapped") }
+    func shareToInstagram() { print("Instagram Tapped") }
 }
 
 
-// Individual Social Icon with Label
 struct SocialIcon: View {
     var imageName: String
+    var systemImage: Bool // Flag to use systemName or assetName
     var label: String
     
     
     var body: some View {
         VStack {
-            Image(imageName) // Replace with actual image
-                .resizable()
-                .frame(width: 30, height: 30)
-                .background(Color.black)
-                .clipShape(Circle())
+            if systemImage {
+                Image(systemName: imageName) // Use SF Symbols
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(.white)
+                    .background(Color.gray)
+                    .clipShape(Circle())
+            } else {
+                Image(imageName) // Use asset
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .background(Color.black)
+                    .clipShape(Circle())
+            }
             
             
             Text(label)
@@ -167,7 +225,6 @@ struct SocialIcon: View {
 }
 
 
-// Preview
 struct ShareView_Previews: PreviewProvider {
     static var previews: some View {
         ShareView()
