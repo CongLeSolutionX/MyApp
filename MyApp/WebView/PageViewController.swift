@@ -22,6 +22,7 @@ class PageViewController: UIPageViewController {
     private var currentIndex: Int = 0
 
     private let urlStrings = [
+        "https://www.gutenberg.org/cache/epub/84/pg84.txt",
         "https://conglesolutionx.github.io/MSE_CPSC-543-Software_Maintenance/",
         "https://www.fullerton.edu/campusmap/#map",
         "https://github.com/CongLeSolutionX/AlgoVerse/blob/Ilya_Sutskever_Readings/Ilya_Sutskever_Readings/Links_to_Ilya_Sutskever_recommended_resources.md",
