@@ -11,9 +11,11 @@ struct GoogleNewsListView: View {
     @State private var showingNLR = false
     @State private var showingCBC = false
     @State private var showingAxios = false
+    @State private var showingGutenberg = false
     @State private var nlrURL = URL(string: "https://www.natlawreview.com")! // Make URLs properties
     @State private var cbcURL = URL(string: "https://www.cbc.ca")!
     @State private var axiosURL = URL(string: "https://www.axios.com")!
+    @State private var gutenbergURL = URL(string: "https://www.gutenberg.org/cache/epub/84/pg84.txt")!
 
     var body: some View {
         NavigationView {
@@ -119,6 +121,24 @@ struct GoogleNewsListView: View {
                     .buttonStyle(PlainButtonStyle())
                     .sheet(isPresented: $showingAxios) {
                         SafariView(url: axiosURL, entersReaderIfAvailable: true, customBarTintColor: .blue, customControlTintColor: .white) // Customize!
+                            .ignoresSafeArea()
+                    }
+                    
+                    Button(action: {
+                        showingGutenberg = true
+                    }) {
+                        NewsItem(
+                           // ... (rest of NewsItem) ...
+                            logo: "Gutenberg_logo",
+                            source: "Gutenberg",
+                            headline: "Gutenberg Project free ebook",
+                            timeAgo: "4 days ago",
+                            image: "Gutenberg_Project_image"
+                        )
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .sheet(isPresented: $showingGutenberg) {
+                        SafariView(url: gutenbergURL, entersReaderIfAvailable: true, customBarTintColor: .systemYellow, customControlTintColor: .white) // Customize!
                             .ignoresSafeArea()
                     }
                 }
