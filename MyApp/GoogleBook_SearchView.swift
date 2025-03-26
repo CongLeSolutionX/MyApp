@@ -337,7 +337,7 @@ final class GoogleBooksDataService: ObservableObject {
 
 // MARK: - SwiftUI Views
 
-struct GoogleBookView: View {
+struct GoogleBook_SearchView: View {
     @StateObject private var dataService = GoogleBooksDataService()
     @State private var searchQuery: String = ""
 
@@ -488,6 +488,6 @@ struct BookRowView: View {
 
 struct GoogleBookView_Previews: PreviewProvider {
     static var previews: some View {
-        GoogleBookView()
+        GoogleBook_SearchView()
     }
 }
