@@ -78,7 +78,8 @@ class SpotifyPlaylistService {
             throw ApiError.decodingError(error)
         }
     }
-    func getCurrentUserId(token: String) async throws -> String { try await fetchWebApi(endpoint: "/me", method: "GET", token: token).id }
+    func getCurrentUserId(token: String) async throws -> String { let user: SpotifyUser = try await fetchWebApi(endpoint: "/me", method: "GET", token: token)
+        return user.id }
     func createPlaylist(userId: String, name: String, description: String, isPublic: Bool, token: String) async throws -> SpotifyPlaylist { try await fetchWebApi(endpoint: "/users/\(userId)/playlists", method: "POST", body: CreatePlaylistPayload(name: name, description: description, public: isPublic), token: token) }
     func addTracksToPlaylist(playlistId: String, trackUris: [String], token: String) async throws -> SpotifySnapshotResponse { try await fetchWebApi(endpoint: "/playlists/\(playlistId)/tracks", method: "POST", body: AddTracksPayload(uris: trackUris), token: token) }
 }
@@ -263,6 +264,6 @@ struct PlaylistCreationAndPlayView_Previews: PreviewProvider {
 
         }
         // You can apply global modifiers to the Group if needed, e.g.,
-        // .previewLayout(.sizeThatFits)
+         .previewLayout(.sizeThatFits)
     }
 }
