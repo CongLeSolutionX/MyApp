@@ -11,7 +11,7 @@ import SwiftUI
 // WARNING: Hardcoding tokens is insecure and bad practice for production apps.
 // Obtain a token via Spotify's authorization flows for a real application.
 // See: https://developer.spotify.com/documentation/web-api/concepts/authorization
-let spotifyApiToken = "YOUR_SPOTIFY_API_TOKEN" // <--- REPLACE WITH YOUR ACTUAL TOKEN
+//let spotifyApiToken = "YOUR_SPOTIFY_API_TOKEN" // <--- REPLACE WITH YOUR ACTUAL TOKEN
 
 // --- Data Models (Matching Spotify API Response) ---
 
