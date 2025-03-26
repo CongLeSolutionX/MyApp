@@ -57,9 +57,9 @@ struct RetroCard: View {
     }
 }
 
-extension Color {
-    static let neonPink = Color(red: 1.0, green: 0.3, blue: 0.8)
-}
+//extension Color {
+//    static let neonPink = Color(red: 1.0, green: 0.3, blue: 0.8)
+//}
 
 #Preview {
     ContentView()
