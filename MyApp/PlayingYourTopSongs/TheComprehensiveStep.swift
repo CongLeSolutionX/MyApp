@@ -215,7 +215,6 @@ struct SpotifyPlaylistCreatorApp: App {
     var body: some Scene { WindowGroup { PlaylistCreationAndPlayView() } }
 }
 
-
 // --- Preview Provider --- FIXES APPLIED HERE ---
 struct PlaylistCreationAndPlayView_Previews: PreviewProvider {
     static var previews: some View {
@@ -223,35 +222,45 @@ struct PlaylistCreationAndPlayView_Previews: PreviewProvider {
         Group {
             // 1. Initial State
             PlaylistCreationAndPlayView()
-                // Apply modifier directly to the view inside the Group
                 .previewDisplayName("1. Initial State")
 
-            // 2. Player Shown State
-            // Create instance
-            let successView = PlaylistCreationAndPlayView()
-            // Modify state variables (now accessible because 'private' was removed)
-            // Use a known good Playlist ID for reliable preview rendering
-            successView.createdPlaylistId = "37i9dQZF1DXcBWIGoYBM5M" // Example: Spotify's "Today's Top Hits"
-            successView.createdPlaylistName = "Today's Top Hits"    // Matching name
-            successView.statusMessage = "Playlist ready!"           // Set status
-            // Return the configured view instance and apply modifiers
+            // --- 2. Player Shown State ---
+            // Configure the view *before* placing it in the Group
+            let successView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                // Modify state variables (now accessible because 'private' was removed)
+                view.createdPlaylistId = "37i9dQZF1DXcBWIGoYBM5M" // Example: Spotify's "Today's Top Hits"
+                view.createdPlaylistName = "Today's Top Hits"    // Matching name
+                view.statusMessage = "Playlist ready!"           // Set status
+                return view // Return the configured view
+            }() // Immediately invoke the closure
+            // Now place the fully configured view into the Group
             successView
-                .previewDisplayName("2. Player Active")
-                .environment(\.colorScheme, .dark) // Example modifier
+                 .previewDisplayName("2. Player Active")
+                 .environment(\.colorScheme, .dark) // Example modifier
 
-            // 3. Loading State
-            let loadingView = PlaylistCreationAndPlayView()
-            loadingView.isLoading = true                         // Set state
-            loadingView.statusMessage = "Adding tracks..."       // Set state
+
+            // --- 3. Loading State ---
+            let loadingView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.isLoading = true                         // Set state
+                view.statusMessage = "Adding tracks..."       // Set state
+                return view
+            }()
             loadingView
                 .previewDisplayName("3. Loading")
 
-            // 4. Error State
-            let errorView = PlaylistCreationAndPlayView()
-            errorView.errorMessage = "API request failed (401). Check token." // Set state
-            errorView.statusMessage = "Operation failed"                   // Set state
+
+            // --- 4. Error State ---
+            let errorView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.errorMessage = "API request failed (401). Check token." // Set state
+                view.statusMessage = "Operation failed"                   // Set state
+                return view
+            }()
             errorView
                 .previewDisplayName("4. Error State")
+
         }
         // You can apply global modifiers to the Group if needed, e.g.,
         // .previewLayout(.sizeThatFits)
