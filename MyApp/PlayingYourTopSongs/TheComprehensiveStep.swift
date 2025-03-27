@@ -221,54 +221,141 @@ struct SpotifyPlaylistCreatorApp: App {
     var body: some Scene { WindowGroup { PlaylistCreationAndPlayView() } }
 }
 
-// --- Preview Provider --- FIXES APPLIED HERE ---
+// --- Preview Provider --- WITH ENHANCED MOCK STATES ---
 struct PlaylistCreationAndPlayView_Previews: PreviewProvider {
     static var previews: some View {
-        // Use a Group to return a single container
+        // Use a Group to return a single container for multiple previews
         Group {
-            // 1. Initial State
+            // 1. Initial State - Before any action
             PlaylistCreationAndPlayView()
-                .previewDisplayName("1. Initial State")
+                .previewDisplayName("1. Initial - Ready")
 
-            // --- 2. Player Shown State ---
-            // Configure the view *before* placing it in the Group
+            // --- Loading States ---
+
+            // 2a. Loading State - Fetching User ID
+            let loadingUserView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.isLoading = true
+                view.statusMessage = "Fetching your User ID..."
+                return view
+            }()
+            loadingUserView
+                .previewDisplayName("2a. Loading - Fetching User")
+
+            // 2b. Loading State - Creating Playlist
+            let loadingCreateView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.isLoading = true
+                // Use the actual playlist name expected
+                view.statusMessage = "Creating playlist: 'My top tracks playlist'..."
+                return view
+            }()
+            loadingCreateView
+                .previewDisplayName("2b. Loading - Creating Playlist")
+
+            // 2c. Loading State - Adding Tracks
+            let loadingAddTracksView: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.isLoading = true
+                // Show how many tracks are being added
+                view.statusMessage = "Adding \(sampleTrackUris.count) tracks to playlist..."
+                return view
+            }()
+            loadingAddTracksView
+                .previewDisplayName("2c. Loading - Adding Tracks")
+
+
+            // --- Success State ---
+
+            // 3. Success State - Player Shown
             let successView: PlaylistCreationAndPlayView = {
                 let view = PlaylistCreationAndPlayView()
-                // Modify state variables (now accessible because 'private' was removed)
+                // Use a known good, stable playlist ID for visual consistency in previews
                 view.createdPlaylistId = "37i9dQZF1DXcBWIGoYBM5M" // Example: Spotify's "Today's Top Hits"
-                view.createdPlaylistName = "Today's Top Hits"    // Matching name
-                view.statusMessage = "Playlist ready!"           // Set status
-                return view // Return the configured view
-            }() // Immediately invoke the closure
-            // Now place the fully configured view into the Group
+                view.createdPlaylistName = "Today's Top Hits"    // Matching name for the example ID
+                view.statusMessage = "Playlist ready!"           // Final success status
+                // Simulate alert being ready to show (though it won't pop up in static preview)
+                // view.showCreationAlert = true // Optional: Set if UI changes based on this
+                return view
+            }()
             successView
-                 .previewDisplayName("2. Player Active")
-                 .environment(\.colorScheme, .dark) // Example modifier
+                 .previewDisplayName("3. Success - Player Active")
+                 .environment(\.colorScheme, .dark) // Show in dark mode
 
 
-            // --- 3. Loading State ---
-            let loadingView: PlaylistCreationAndPlayView = {
+            // --- Error States ---
+
+            // 4a. Error State - No Token Configured (Simulates guard check failure)
+            let errorNoTokenView: PlaylistCreationAndPlayView = {
                 let view = PlaylistCreationAndPlayView()
-                view.isLoading = true                         // Set state
-                view.statusMessage = "Adding tracks..."       // Set state
+                // Simulate the specific error message from the guard check
+                view.errorMessage = "Dev Error: API Token not set."
+                view.statusMessage = "Config Error."
+                view.isLoading = false // Ensure loading is off
                 return view
             }()
-            loadingView
-                .previewDisplayName("3. Loading")
+            errorNoTokenView
+                .previewDisplayName("4a. Error - No Token")
 
-
-            // --- 4. Error State ---
-            let errorView: PlaylistCreationAndPlayView = {
+            // 4b. Error State - Unauthorized (401)
+            let error401View: PlaylistCreationAndPlayView = {
                 let view = PlaylistCreationAndPlayView()
-                view.errorMessage = "API request failed (401). Check token." // Set state
-                view.statusMessage = "Operation failed"                   // Set state
+                // Use the actual formatted error message from your ApiError enum
+                view.errorMessage = "API Error (401). Check API token."
+                view.statusMessage = "Operation failed"
+                view.isLoading = false
                 return view
             }()
-            errorView
-                .previewDisplayName("4. Error State")
+            error401View
+                .previewDisplayName("4b. Error - Unauthorized (401)")
+
+            // 4c. Error State - Forbidden (403 - e.g., bad scopes)
+            let error403View: PlaylistCreationAndPlayView = {
+                let view = PlaylistCreationAndPlayView()
+                view.errorMessage = "API Error (403). Check token scopes."
+                view.statusMessage = "Operation failed"
+                view.isLoading = false
+                return view
+            }()
+            error403View
+                .previewDisplayName("4c. Error - Forbidden (403)")
+
+            // 4d. Error State - Not Found (404)
+             let error404View: PlaylistCreationAndPlayView = {
+                 let view = PlaylistCreationAndPlayView()
+                 view.errorMessage = "API Error (404). Resource not found." // Simulate incorrect User ID or Playlist ID
+                 view.statusMessage = "Operation failed"
+                 view.isLoading = false
+                 return view
+             }()
+             error404View
+                 .previewDisplayName("4d. Error - Not Found (404)")
+
+            // 4e. Error State - Generic Network Failure (Simulates ApiError.requestFailed)
+             let errorNetworkView: PlaylistCreationAndPlayView = {
+                 let view = PlaylistCreationAndPlayView()
+                 // Simulate a generic network error description
+                 view.errorMessage = "Network request failed. Check connection. (The request timed out.)"
+                 view.statusMessage = "Operation failed"
+                 view.isLoading = false
+                 return view
+             }()
+             errorNetworkView
+                 .previewDisplayName("4e. Error - Network Failure")
+
+            // 4f. Error State - Decoding Failure (Simulates ApiError.decodingError)
+             let errorDecodingView: PlaylistCreationAndPlayView = {
+                 let view = PlaylistCreationAndPlayView()
+                 view.errorMessage = "Failed to process server response." // Simulate bad JSON from API
+                 view.statusMessage = "Operation failed"
+                 view.isLoading = false
+                 return view
+             }()
+             errorDecodingView
+                 .previewDisplayName("4f. Error - Decoding Failure")
 
         }
-        // You can apply global modifiers to the Group if needed, e.g.,
-         .previewLayout(.sizeThatFits)
+        // Apply global modifiers to all previews within the Group if needed
+         .previewLayout(.sizeThatFits) // Example: Adjust layout behavior
     }
 }
