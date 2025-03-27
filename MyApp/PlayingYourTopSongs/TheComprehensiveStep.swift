@@ -90,9 +90,14 @@ struct WebView: UIViewRepresentable {
     let url: URL
     func makeUIView(context: Context) -> WKWebView { /* ... existing implementation ... */
         let config = WKWebViewConfiguration()
-        config.preferences.javaScriptEnabled = true
+//        config.preferences.javaScriptEnabled = true
         config.allowsInlineMediaPlayback = true
         let webView = WKWebView(frame: .zero, configuration: config)
+        
+        let webpagePrefs = WKWebpagePreferences()
+        webpagePrefs.allowsContentJavaScript = true
+        config.defaultWebpagePreferences = webpagePrefs
+        
         return webView
     }
     func updateUIView(_ uiView: WKWebView, context: Context) { /* ... existing implementation ... */
