@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Represents the status badges (Supported/Not supported)
-struct StatusBadge: View {
+struct Gemini_2_Flash_Lite_DetailsView_StatusBadge: View {
     let text: String
     let isSupported: Bool
 
@@ -24,20 +24,20 @@ struct StatusBadge: View {
 }
 
 // Represents a single item in the Capabilities grid
-struct CapabilityItem: View {
+struct Gemini_2_Flash_Lite_DetailsView_CapabilityItem: View {
     let name: String
     let isSupported: Bool
 
     var body: some View {
         VStack(alignment: .leading) {
             Text(name).font(.subheadline)
-            StatusBadge(text: isSupported ? "Supported" : "Not supported", isSupported: isSupported)
+            Gemini_2_Flash_Lite_DetailsView_StatusBadge(text: isSupported ? "Supported" : "Not supported", isSupported: isSupported)
         }
     }
 }
 
 // Main view representing the documentation page
-struct GeminiFlashLiteDetailsView: View {
+struct Gemini_2_Flash_Lite_DetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -77,7 +77,7 @@ struct GeminiFlashLiteDetailsView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     // --- Model code ---
-                    DetailRow(icon: "rectangle.on.rectangle.angled", title: "Model code") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "rectangle.on.rectangle.angled", title: "Model code") {
                         Text("models/gemini-2.0-flash-lite")
                             .font(.system(.body, design: .monospaced))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -86,7 +86,7 @@ struct GeminiFlashLiteDetailsView: View {
                     Divider().padding(.leading, 40) // Indent divider
 
                     // --- Supported data types ---
-                    DetailRow(icon: "doc.text.image", title: "Supported data types") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "doc.text.image", title: "Supported data types") {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Inputs").font(.caption.weight(.bold)).foregroundColor(.secondary)
                             Text("Audio, images, video, and text")
@@ -99,7 +99,7 @@ struct GeminiFlashLiteDetailsView: View {
                     Divider().padding(.leading, 40)
 
                     // --- Token limits ---
-                    DetailRow(icon: "target", title: "Token limits[*]") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "target", title: "Token limits[*]") {
                          VStack(alignment: .leading, spacing: 4) {
                              Text("Input token limit").font(.caption.weight(.bold)).foregroundColor(.secondary)
                              Text("1,048,576") // Consider using NumberFormatter for locale-specific display
@@ -129,22 +129,22 @@ struct GeminiFlashLiteDetailsView: View {
                         // Grid for capabilities layout
                          Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 12) {
                              GridRow {
-                                 CapabilityItem(name: "Structured outputs", isSupported: true)
-                                 CapabilityItem(name: "Caching", isSupported: false)
-                                 CapabilityItem(name: "Tuning", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Structured outputs", isSupported: true)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Caching", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Tuning", isSupported: false)
                              }
                              GridRow {
-                                 CapabilityItem(name: "Function calling", isSupported: false)
-                                 CapabilityItem(name: "Code execution", isSupported: false)
-                                 CapabilityItem(name: "Search", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Function calling", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Code execution", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Search", isSupported: false)
                              }
                              GridRow {
-                                 CapabilityItem(name: "Image generation", isSupported: false)
-                                 CapabilityItem(name: "Native tool use", isSupported: false)
-                                 CapabilityItem(name: "Audio generation", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Image generation", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Native tool use", isSupported: false)
+                                 Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Audio generation", isSupported: false)
                              }
                               GridRow {
-                                 CapabilityItem(name: "Live API", isSupported: false)
+                                  Gemini_2_Flash_Lite_DetailsView_CapabilityItem(name: "Live API", isSupported: false)
                                  // Add Spacer or empty views if needed to fill grid cells
                                  Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
                                  Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
@@ -158,7 +158,7 @@ struct GeminiFlashLiteDetailsView: View {
                     Divider().padding(.leading, 40)
 
                     // --- Versions ---
-                     DetailRow(icon: "number", title: "Versions") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "number", title: "Versions") {
                          VStack(alignment: .leading, spacing: 4) {
                              // Simulate link - actual Link view might be better
                              Text("Read the model version patterns for more details.")
@@ -185,7 +185,7 @@ struct GeminiFlashLiteDetailsView: View {
                     Divider().padding(.leading, 40)
 
                     // --- Latest update ---
-                    DetailRow(icon: "calendar", title: "Latest update") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "calendar", title: "Latest update") {
                         Text("February 2025")
                          .frame(maxWidth: .infinity, alignment: .leading)
                          .padding(.vertical, 8)
@@ -193,7 +193,7 @@ struct GeminiFlashLiteDetailsView: View {
                     Divider().padding(.leading, 40)
 
                     // --- Knowledge cutoff ---
-                    DetailRow(icon: "brain.head.profile", title: "Knowledge cutoff") {
+                    Gemini_2_Flash_Lite_DetailsView_DetailRow(icon: "brain.head.profile", title: "Knowledge cutoff") {
                          Text("August 2024")
                          .frame(maxWidth: .infinity, alignment: .leading)
                          .padding(.vertical, 8)
@@ -218,7 +218,7 @@ struct GeminiFlashLiteDetailsView: View {
 }
 
 // Helper View for consistent row layout (Icon, Title, Description Content)
-struct DetailRow<Content: View>: View {
+struct Gemini_2_Flash_Lite_DetailsView_DetailRow<Content: View>: View {
     let icon: String
     let title: String
     @ViewBuilder let content: () -> Content
@@ -250,8 +250,8 @@ struct DetailRow<Content: View>: View {
 }
 
 // Preview Provider
-struct GeminiFlashLiteDetailsView_Previews: PreviewProvider {
+struct Gemini_2_Flash_Lite_DetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        GeminiFlashLiteDetailsView()
+        Gemini_2_Flash_Lite_DetailsView()
     }
 }
