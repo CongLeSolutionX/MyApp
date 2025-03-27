@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Reusable view for displaying "Supported" / "Not supported" status
-struct StatusView: View {
+struct Gemini_2_5_Pro_Experimental_Model_StatusView: View {
     let isSupported: Bool
 
     var body: some View {
@@ -23,7 +23,7 @@ struct StatusView: View {
 }
 
 // Main view structure
-struct GeminiModelDetailView: View {
+struct Gemini_2_5_Pro_Experimental_Model_DetailView: View {
 
     // Simple struct to hold capability info
     struct Capability {
@@ -96,11 +96,11 @@ struct GeminiModelDetailView: View {
 
                 // --- Property List ---
                 VStack(alignment: .leading, spacing: 12) {
-                    PropertyRow(icon: "display", label: "Model code", value: modelCode)
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRow(icon: "display", label: "Model code", value: modelCode)
 
                     Divider()
 
-                     PropertyRowMultiLine(
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRowMultiLine(
                          icon: "square.stack.3d.up",
                          label: "Supported data types",
                          lines: [("Inputs", supportedInputs), ("Output", supportedOutputs)]
@@ -108,7 +108,7 @@ struct GeminiModelDetailView: View {
 
                     Divider()
 
-                    PropertyRowMultiLine(
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRowMultiLine(
                          icon: "arrow.clockwise.circle",
                          label: "Token limits [*]", // Matches the image note
                          lines: [("Input token limit", inputTokenLimit), ("Output token limit", outputTokenLimit)]
@@ -133,7 +133,7 @@ struct GeminiModelDetailView: View {
                                    ForEach(0..<3) { colIndex in
                                        let index = rowIndex * 3 + colIndex
                                        if index < capabilities.count {
-                                           CapabilityItemView(capability: capabilities[index])
+                                           Gemini_2_5_Pro_Experimental_Model_CapabilityItemView(capability: capabilities[index])
                                        } else {
                                            // Placeholder for empty grid cells if needed for alignment
                                            Color.clear
@@ -146,7 +146,7 @@ struct GeminiModelDetailView: View {
 
                     Divider()
 
-                    PropertyRowComplexValue(
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRowComplexValue(
                          icon: "list.number",
                          label: "Versions"
                     ) {
@@ -163,11 +163,11 @@ struct GeminiModelDetailView: View {
 
                     Divider()
 
-                    PropertyRow(icon: "calendar", label: "Latest update", value: latestUpdate)
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRow(icon: "calendar", label: "Latest update", value: latestUpdate)
 
                     Divider()
 
-                    PropertyRow(icon: "brain.head.profile", label: "Knowledge cutoff", value: knowledgeCutoff)
+                    Gemini_2_5_Pro_Experimental_Model_PropertyRow(icon: "brain.head.profile", label: "Knowledge cutoff", value: knowledgeCutoff)
 
                 } // End Property List VStack
             } // End Main VStack
@@ -179,7 +179,7 @@ struct GeminiModelDetailView: View {
 // --- Reusable Row Components ---
 
 // Simple Key-Value Row
-struct PropertyRow: View {
+struct Gemini_2_5_Pro_Experimental_Model_PropertyRow: View {
     let icon: String
     let label: String
     let value: String
@@ -202,7 +202,7 @@ struct PropertyRow: View {
 }
 
 // Row for properties with multiple titled lines (like Input/Output)
-struct PropertyRowMultiLine: View {
+struct Gemini_2_5_Pro_Experimental_Model_PropertyRowMultiLine: View {
     let icon: String
     let label: String
     let lines: [(String, String)] // Tuple of (Title, Value)
@@ -231,7 +231,7 @@ struct PropertyRowMultiLine: View {
 }
 
 // Row where the value part is a custom view builder content
-struct PropertyRowComplexValue<Content: View>: View {
+struct Gemini_2_5_Pro_Experimental_Model_PropertyRowComplexValue<Content: View>: View {
     let icon: String
     let label: String
     @ViewBuilder let valueContent: Content
@@ -251,13 +251,13 @@ struct PropertyRowComplexValue<Content: View>: View {
 }
 
 // View for a single item within the Capabilities Grid
-struct CapabilityItemView: View {
-    let capability: GeminiModelDetailView.Capability
+struct Gemini_2_5_Pro_Experimental_Model_CapabilityItemView: View {
+    let capability: Gemini_2_5_Pro_Experimental_Model_DetailView.Capability
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(capability.name).font(.subheadline)
-            StatusView(isSupported: capability.isSupported)
+            Gemini_2_5_Pro_Experimental_Model_StatusView(isSupported: capability.isSupported)
         }
         // Ensure minimum width if needed, or let the grid manage it
          // .frame(minWidth: 100, alignment: .leading)
@@ -266,5 +266,5 @@ struct CapabilityItemView: View {
 
 // --- Preview ---
 #Preview {
-    GeminiModelDetailView()
+    Gemini_2_5_Pro_Experimental_Model_DetailView()
 }
