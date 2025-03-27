@@ -221,7 +221,22 @@ struct SpotifyPlaylistCreatorApp: App {
     var body: some Scene { WindowGroup { PlaylistCreationAndPlayView() } }
 }
 
+
+// MARK: - Previews
 // --- Preview Provider --- WITH ENHANCED MOCK STATES ---
+
+#Preview("4f. Error - Decoding Failure") {
+    // 4f. Error State - Decoding Failure (Simulates ApiError.decodingError)
+     let errorDecodingView: PlaylistCreationAndPlayView = {
+         let view = PlaylistCreationAndPlayView()
+         view.errorMessage = "Failed to process server response." // Simulate bad JSON from API
+         view.statusMessage = "Operation failed"
+         view.isLoading = false
+         return view
+     }()
+    errorDecodingView
+}
+
 struct PlaylistCreationAndPlayView_Previews: PreviewProvider {
     static var previews: some View {
         // Use a Group to return a single container for multiple previews
