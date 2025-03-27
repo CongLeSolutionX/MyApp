@@ -9,7 +9,7 @@ import SwiftUI
 
 // --- Reusable Helper Views (Mostly Unchanged) ---
 
-struct StatusView: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView_StatusView: View {
     let isSupported: Bool
     // Unchanged from previous version
     var body: some View {
@@ -23,7 +23,7 @@ struct StatusView: View {
     }
 }
 
-struct PropertyRow: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRow: View {
     let icon: String
     let label: String
     let value: String
@@ -45,7 +45,7 @@ struct PropertyRow: View {
     }
 }
 
-struct PropertyRowMultiLine: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRowMultiLine: View {
     let icon: String
     let label: String
     let lines: [(String, String)]
@@ -73,7 +73,7 @@ struct PropertyRowMultiLine: View {
     }
 }
 
-struct PropertyRowComplexValue<Content: View>: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRowComplexValue<Content: View>: View {
     let icon: String
     let label: String
     @ViewBuilder let valueContent: Content
@@ -92,13 +92,13 @@ struct PropertyRowComplexValue<Content: View>: View {
     }
 }
 
-struct CapabilityItemView: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView_CapabilityItemView: View {
     let capability:         Gemini_2_5_Pro_Experimental_Model_CardView.Capability
     // Unchanged from previous version
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(capability.name).font(.subheadline)
-            StatusView(isSupported: capability.isSupported)
+            Gemini_2_5_Pro_Experimental_Model_CardView_StatusView(isSupported: capability.isSupported)
         }
     }
 }
@@ -106,7 +106,7 @@ struct CapabilityItemView: View {
 
 // --- Main Card-Based View ---
 
-struct         Gemini_2_5_Pro_Experimental_Model_CardView: View {
+struct Gemini_2_5_Pro_Experimental_Model_CardView: View {
     
     // --- Data Properties (Same as before) ---
     struct Capability {
@@ -172,15 +172,15 @@ struct         Gemini_2_5_Pro_Experimental_Model_CardView: View {
                 
                 // --- Card 2: Basic Properties ---
                 VStack(alignment: .leading, spacing: 12) {
-                    PropertyRow(icon: "display", label: "Model code", value: modelCode)
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRow(icon: "display", label: "Model code", value: modelCode)
                     Divider()
-                    PropertyRowMultiLine(
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRowMultiLine(
                         icon: "square.stack.3d.up",
                         label: "Supported data types",
                         lines: [("Inputs", supportedInputs), ("Output", supportedOutputs)]
                     )
                     Divider()
-                    PropertyRowMultiLine(
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRowMultiLine(
                         icon: "arrow.clockwise.circle",
                         label: "Token limits [*]",
                         lines: [("Input token limit", inputTokenLimit), ("Output token limit", outputTokenLimit)]
@@ -208,7 +208,7 @@ struct         Gemini_2_5_Pro_Experimental_Model_CardView: View {
                                 ForEach(0..<3) { colIndex in
                                     let index = rowIndex * 3 + colIndex
                                     if index < capabilities.count {
-                                        CapabilityItemView(capability: capabilities[index])
+                                        Gemini_2_5_Pro_Experimental_Model_CardView_CapabilityItemView(capability: capabilities[index])
                                     } else {
                                         Color.clear // Placeholder
                                     }
@@ -224,7 +224,7 @@ struct         Gemini_2_5_Pro_Experimental_Model_CardView: View {
                 
                 // --- Card 4: Metadata ---
                 VStack(alignment: .leading, spacing: 12) {
-                    PropertyRowComplexValue(
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRowComplexValue(
                         icon: "list.number",
                         label: "Versions"
                     ) {
@@ -238,9 +238,9 @@ struct         Gemini_2_5_Pro_Experimental_Model_CardView: View {
                         }
                     }
                     Divider()
-                    PropertyRow(icon: "calendar", label: "Latest update", value: latestUpdate)
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRow(icon: "calendar", label: "Latest update", value: latestUpdate)
                     Divider()
-                    PropertyRow(icon: "brain.head.profile", label: "Knowledge cutoff", value: knowledgeCutoff)
+                    Gemini_2_5_Pro_Experimental_Model_CardView_PropertyRow(icon: "brain.head.profile", label: "Knowledge cutoff", value: knowledgeCutoff)
                 }
                 .padding()
                 .background(Color(.secondarySystemGroupedBackground))
