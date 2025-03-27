@@ -213,4 +213,5 @@ struct Gemini_2_Flash_Model_DetailView: View {
 
 #Preview {
     Gemini_2_Flash_Model_DetailView()
+        .preferredColorScheme(.dark)
 }
