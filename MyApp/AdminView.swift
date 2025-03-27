@@ -914,27 +914,30 @@ struct AdminView: View {
                 }
                 
                 // MARK: System Status (Simulated)
-                Section("System Status") {
-                    VStack(alignment: .leading, spacing: 10) {
-                        StatusRow(label: "Backend Connection:", value: "Connected", statusColor: .green)
-                        StatusRow(label: "Database Size:", value: "15.2 MB", statusColor: .gray)
-                        StatusRow(label: "Last Backup:", value: "Today, 3:15 AM", statusColor: .gray)
-                    }
-                    .padding(.vertical, 5)
-                    
-                    Button {
-                        // Simulate refreshing status
-                        systemStatus = "Status Refreshed: \(Date(), style: .time). All systems nominal."
-                        print("Refresh System Status Tapped")
-                    } label: {
-                        Label("Refresh Live Status", systemImage: "arrow.clockwise")
-                    }
-                    
-                    Text(systemStatus)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.top, 5)
-                }
+//                Section("System Status") {
+//                    // The VStack containing StatusRows is one view within the Section
+//                    VStack(alignment: .leading, spacing: 10) {
+//                        StatusRow(label: "Backend Connection:", value: "Connected", statusColor: .green)
+//                        StatusRow(label: "Database Size:", value: "15.2 MB", statusColor: .gray)
+//                        StatusRow(label: "Last Backup:", value: "Today, 3:15 AM", statusColor: .gray)
+//                    }
+//                    // .padding(.vertical, 5)  // <-- REMOVE THIS LINE
+//
+//                    // The Button is the second view within the Section
+//                    Button {
+//                        // Simulate refreshing status
+//                        systemStatus = "Status Refreshed: \(Date(), style: .time). All systems nominal."
+//                        print("Refresh System Status Tapped")
+//                    } label: {
+//                        Label("Refresh Live Status", systemImage: "arrow.clockwise")
+//                    }
+//
+//                    // The Text is the third view within the Section
+//                    Text(systemStatus)
+//                        .font(.caption)
+//                        .foregroundColor(.secondary)
+//                        .padding(.top, 5) // Padding applied *here* to the Text is fine
+//                }
                 
                 // MARK: User Management (Conceptual/Placeholder)
                 Section("User Administration") {
