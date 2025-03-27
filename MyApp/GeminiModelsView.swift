@@ -113,7 +113,7 @@ struct Gemini_Models_View: View {
     // You could use a @State variable and Picker to switch between models
     let modelInfo: Gemini_Models_GeminiModelInfo = gemini25ProExperimentalData
     // let modelInfo: GeminiModelInfo = gemini15FlashData // Alternatively display Flash
-
+    
     var body: some View {
         // Using ScrollView directly without NavigationView for closer layout match
         ScrollView {
@@ -140,17 +140,17 @@ struct Gemini_Models_HeaderView: View {
     let description: String
     let tryLink: URL?
     @State private var showSafari: Bool = false
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.largeTitle)
                 .fontWeight(.semibold)
-
+            
             Text(description)
                 .font(.body)
                 .foregroundColor(.gray)
-
+            
             if let link = tryLink {
                 Button {
                     showSafari = true
@@ -171,29 +171,29 @@ struct Gemini_Models_HeaderView: View {
 
 struct Gemini_Models_ModelDetailsSection: View {
     let modelInfo: Gemini_Models_GeminiModelInfo
-
+    
     private var inputTokenFormatted: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: modelInfo.inputTokenLimit)) ?? "\(modelInfo.inputTokenLimit)"
     }
-
+    
     private var outputTokenFormatted: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: modelInfo.outputTokenLimit)) ?? "\(modelInfo.outputTokenLimit)"
     }
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Gemini_Models_SectionHeader(title: "Model details")
-
+            
             Gemini_Models_InfoRow(
                 icon: "barcode.viewfinder",
                 title: "Model code",
                 value: modelInfo.modelCode
             )
-
+            
             Gemini_Models_InfoRow(
                 icon: "doc.plaintext",
                 title: "Supported data types",
@@ -202,7 +202,7 @@ struct Gemini_Models_ModelDetailsSection: View {
                     ("Output", modelInfo.outputDataTypes)
                 ]
             )
-
+            
             Gemini_Models_InfoRow(
                 icon: "arrow.down.forward.and.arrow.up.backward.circle",
                 title: "Token limits",
@@ -211,7 +211,7 @@ struct Gemini_Models_ModelDetailsSection: View {
                     ("Output token limit", outputTokenFormatted)
                 ]
             )
-
+            
             // Conditionally display Audio/Visual Specs for models like Flash
             if let specs = modelInfo.audioVisualSpecs {
                 Gemini_Models_InfoRow(
@@ -232,11 +232,11 @@ struct Gemini_Models_CapabilitiesSection: View {
     let capabilities: [Gemini_Models_Capability]
     // Define grid columns, adapting based on screen size if needed
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3) // 3 columns like screenshot
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Gemini_Models_SectionHeader(title: "Capabilities")
-
+            
             LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
                 ForEach(capabilities) { capability in
                     Gemini_Models_CapabilityView(capability: capability)
@@ -250,35 +250,35 @@ struct Gemini_Models_VersionsSection: View {
     let versions: [String]
     let patternLink: URL?
     @State private var showSafari: Bool = false // For link
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Gemini_Models_InfoRow(
                 icon: "list.number",
                 title: "Versions",
-                customContent: {
+                content: {
                     VStack(alignment: .leading) {
                         Text("Read the model version patterns for more details.") // Consider making "model version patterns" a tappable link if URL provided
                             .font(.footnote)
                             .foregroundColor(.gray)
                             .padding(.bottom, 4)
-
+                        
                         // Display version list
                         ForEach(versions, id: \.self) { versionLine in
                             Text(versionLine)
                                 .font(.system(.body, design: .monospaced)) // Monospaced for version strings
                         }
-
+                        
                         // Example of adding a link
                         if let link = patternLink {
-                           Button("Learn about version patterns") {
-                               showSafari = true
-                           }
-                           .font(.footnote)
-                           .padding(.top, 2)
-                           .sheet(isPresented: $showSafari) {
-                               SafariView(url: link)
-                           }
+                            Button("Learn about version patterns") {
+                                showSafari = true
+                            }
+                            .font(.footnote)
+                            .padding(.top, 2)
+                            .sheet(isPresented: $showSafari) {
+                                SafariView(url: link)
+                            }
                         }
                     }
                 }
@@ -290,24 +290,24 @@ struct Gemini_Models_VersionsSection: View {
 struct Gemini_Models_MetadataSection: View {
     let latestUpdate: String
     let knowledgeCutoff: String?
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // SectionHeader(title: "Metadata") // Can omit header if desired
-
+            
             Gemini_Models_InfoRow(
                 icon: "calendar",
                 title: "Latest update",
                 value: latestUpdate
-             )
-
-             if let cutoff = knowledgeCutoff {
-                 Gemini_Models_InfoRow(
+            )
+            
+            if let cutoff = knowledgeCutoff {
+                Gemini_Models_InfoRow(
                     icon: "brain.head.profile",
                     title: "Knowledge cutoff",
                     value: cutoff
-                 )
-             }
+                )
+            }
         }
     }
 }
@@ -316,83 +316,89 @@ struct Gemini_Models_MetadataSection: View {
 
 struct Gemini_Models_SectionHeader: View {
     let title: String
-
+    
     var body: some View {
         Text(title)
             .font(.title3)
             .fontWeight(.medium)
-            // .foregroundColor(.secondary) // Optional: slightly muted color
+            .foregroundColor(.secondary) // Optional: slightly muted color
             .padding(.bottom, -4) // Adjust spacing if needed
     }
 }
-
-// InfoRow adapted for different value types (single string or key-value pairs)
+// MARK: - Helper Views
+// The core generic struct
 struct Gemini_Models_InfoRow<Content: View>: View {
     let icon: String
     let title: String
-    let customContent: Content // Use custom content for flexibility
-
-    // Initializer for simple value
-    init(icon: String, title: String, value: String) where Content == Text {
-        self.icon = icon
-        self.title = title
-        self.customContent = Text(value).font(.system(.body, design: .monospaced)) // Monospaced for codes/numbers
+    let content: Content
+    
+    // Common body
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(systemName: icon)
+                .frame(width: 25, alignment: .center)
+                .foregroundColor(.blue)
+                .padding(.top, 2)
+            
+            Text(title)
+                .frame(minWidth: 120, alignment: .leading)
+            
+            Spacer()
+            
+            content // The generic content
+        }
     }
+}
 
-    // Initializer for key-value pairs
-    init(icon: String, title: String, values: [(String, String)]) where Content == VStack<ForEach<[(String, String)], String, HStack<TupleView<(Text, Spacer, Text)>>>> {
-        self.icon = icon
-        self.title = title
-        
-        self.customContent = VStack(alignment: .leading) {
+// Separate simple content views
+struct SingleValueContent: View {
+    let value: String
+    var body: some View { Text(value).font(.system(.body, design: .monospaced)) }
+}
+
+struct KeyValueContent: View {
+    let values: [(String, String)]
+    var body: some View {
+        VStack(alignment: .leading) {
             ForEach(values, id: \.0) { key, value in
                 HStack {
-                    Text(key)
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                    Text(key).font(.caption).foregroundColor(.gray)
                     Spacer()
-                    Text(value)
-                        .font(.system(.body, design: .monospaced))
-                        .multilineTextAlignment(.trailing)
+                    Text(value).font(.system(.body, design: .monospaced)).multilineTextAlignment(.trailing)
                 }
             }
         }
     }
+}
 
-    // Initializer for fully custom content view
-     init(icon: String, title: String, @ViewBuilder customContent: () -> Content) {
-        self.icon = icon
-        self.title = title
-        self.customContent = customContent()
+// Extension providing the specific, distinct initializers
+extension Gemini_Models_InfoRow {
+    // Init for single String value
+    init(icon: String, title: String, value: String) where Content == SingleValueContent {
+        self.init(icon: icon, title: title, content: SingleValueContent(value: value))
     }
-
-    var body: some View {
-        HStack(alignment: .top) {
-            Image(systemName: icon)
-                .frame(width: 25, alignment: .center) // Align icons
-                .foregroundColor(.blue)
-                .padding(.top, 2) // Adjust icon vertical alignment
-
-            Text(title)
-                .frame(minWidth: 120, alignment: .leading) // Ensure title column has minimum width
-
-            Spacer()
-
-            customContent // Place the custom content here
-        }
+    
+    // Init for key-value pairs <<<--- THIS IS THE ONE YOU ARE USING
+    init(icon: String, title: String, values: [(String, String)]) where Content == KeyValueContent {
+        self.init(icon: icon, title: title, content: KeyValueContent(values: values))
+    }
+    
+    // Init for fully custom content view using @ViewBuilder
+    init(icon: String, title: String, @ViewBuilder content: () -> Content) {
+        self.init(icon: icon, title: title, content: content()) // Pass the built content
     }
 }
 
 struct Gemini_Models_CapabilityView: View {
     let capability: Gemini_Models_Capability
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(capability.name)
                 .font(.subheadline)
                 .lineLimit(2) // Allow wrapping
                 .fixedSize(horizontal: false, vertical: true) // Allow height to adjust
-
+            
             Gemini_Models_SupportStatusView(supported: capability.supported)
         }
         // Add a border or background for visual separation if needed
@@ -404,7 +410,7 @@ struct Gemini_Models_CapabilityView: View {
 
 struct Gemini_Models_SupportStatusView: View {
     let supported: Bool
-
+    
     var body: some View {
         Text(supported ? "Supported" : "Not supported")
             .font(.caption)
@@ -421,24 +427,24 @@ struct Gemini_Models_SupportStatusView: View {
 
 struct SafariView: UIViewControllerRepresentable {
     let url: URL
-
+    
     func makeUIViewController(context: Context) -> SFSafariViewController {
         return SFSafariViewController(url: url)
     }
-
+    
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
         // No update needed
     }
 }
 
 // MARK: - Preview
-
+// TODO - Add Dependencu Injection for each preview - TBD
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Gemini_Models_View() // Preview Pro
             .previewDisplayName("Gemini 2.5 Pro Exp")
-
-//        Gemini_Models_View(modelInfo: gemini15FlashData) // Preview Flash
-//            .previewDisplayName("Gemini 1.5 Flash")
+        
+        Gemini_Models_View() // Preview Flash
+            .previewDisplayName("Gemini 1.5 Flash")
     }
 }
