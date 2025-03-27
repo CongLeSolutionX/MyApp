@@ -14,6 +14,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9ACF24372D95E45600A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24362D95E45500A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift */; };
 		9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24382D95E78200A4238C /* Gemini_2_Flash_Model_DetailView.swift */; };
+		9ACF243B2D95EE1500A4238C /* Gemini_2_5_Pro_Experimental_Model_CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF243A2D95EE1300A4238C /* Gemini_2_5_Pro_Experimental_Model_CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9ACF24362D95E45500A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gemini_2_5_Pro_Experimental_Model_DetailView.swift; sourceTree = "<group>"; };
 		9ACF24382D95E78200A4238C /* Gemini_2_Flash_Model_DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gemini_2_Flash_Model_DetailView.swift; sourceTree = "<group>"; };
+		9ACF243A2D95EE1300A4238C /* Gemini_2_5_Pro_Experimental_Model_CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gemini_2_5_Pro_Experimental_Model_CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9ACF24362D95E45500A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift */,
+				9ACF243A2D95EE1300A4238C /* Gemini_2_5_Pro_Experimental_Model_CardView.swift */,
 				9ACF24382D95E78200A4238C /* Gemini_2_Flash_Model_DetailView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -153,6 +156,7 @@
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
 				9ACF24372D95E45600A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9ACF243B2D95EE1500A4238C /* Gemini_2_5_Pro_Experimental_Model_CardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
