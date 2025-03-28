@@ -11,7 +11,7 @@ import SwiftUI
 struct IndicatorsReport: Codable, Identifiable {
     let id = UUID()
     let indicators: [IndicatorTimeSeriesDouble]?
-
+    
     enum CodingKeys: String, CodingKey {
         case indicators
     }
@@ -24,7 +24,7 @@ struct IndicatorTimeSeriesDouble: Codable, Identifiable {
     let indicatorName: String?
     let points: [TimeSeriesDataPointQuarterDouble]?
     // let timeSeries: [TimeSeriesDataPointQuarterDouble]? // Still seems redundant
-
+    
     enum CodingKeys: String, CodingKey {
         case category
         case effectiveDate
@@ -36,11 +36,11 @@ struct IndicatorTimeSeriesDouble: Codable, Identifiable {
 }
 
 struct Indicator: Codable, Identifiable {
-    let id = UUID()
+    var id = UUID()
     let subjectArea: String?
     let dataSetType: String?
     let indicatorName: String?
-
+    
     // If JSON keys match property names exactly, CodingKeys isn't strictly needed
     // enum CodingKeys: String, CodingKey {
     //     case subjectArea, dataSetType, indicatorName
@@ -54,7 +54,7 @@ struct Quarter: Codable, Identifiable {
     let fullName: String?
     let quarterName: String? // Holds "Q1", "Q2", "EOY" etc. Mapped from JSON "quarter".
     let yearString: String?  // Holds "YYYY". Mapped from JSON "year".
-
+    
     // Explicit CodingKeys to map JSON keys potentially differing from property names
     enum CodingKeys: String, CodingKey {
         case fullName
@@ -73,7 +73,7 @@ struct TimeSeriesDataPointQuarterDouble: Codable, Identifiable {
     let value: Double?
     let unit: String?
     // No direct year/quarter properties here
-
+    
     // Derived properties for easier access (matching API description)
     var dataYear: Int? {
         guard let yearStr = slot?.yearString else { return nil }
@@ -82,7 +82,7 @@ struct TimeSeriesDataPointQuarterDouble: Codable, Identifiable {
     var dataQuarter: String? {
         slot?.quarterName // Get the quarter name from the slot
     }
-
+    
     // CodingKeys now match the actual properties defined in this struct
     enum CodingKeys: String, CodingKey {
         case slot, forecast, value, unit
@@ -132,18 +132,18 @@ struct HousingIndicatorAPIView: View {
     @State private var selectedQuarter: QuarterName? = .q1
     @State private var inputYear: String = "\(Calendar.current.component(.year, from: Date()))"
     @State private var inputMonth: String = "\(Calendar.current.component(.month, from: Date()))"
-
+    
     @State private var fetchedReport: IndicatorsReport? = nil
     @State private var errorMessage: String? = nil
     @State private var isLoading: Bool = false
-
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
                 Text("Query Fannie Mae Housing Indicators")
                     .font(.title2)
                     .padding(.bottom)
-
+                
                 Picker("Query Type", selection: $selectedQueryType) {
                     ForEach(QueryType.allCases) { type in
                         Text(type.rawValue).tag(type)
@@ -151,9 +151,9 @@ struct HousingIndicatorAPIView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding(.bottom)
-
+                
                 queryInputView
-
+                
                 Button {
                     fetchMockData()
                 } label: {
@@ -166,9 +166,9 @@ struct HousingIndicatorAPIView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .padding(.vertical)
-
+                
                 Divider()
-
+                
                 if let report = fetchedReport {
                     IndicatorsReportView(report: report)
                 } else if let error = errorMessage {
@@ -176,9 +176,9 @@ struct HousingIndicatorAPIView: View {
                         .foregroundColor(.red)
                         .padding()
                 } else if isLoading {
-                   Spacer()
-                   ProgressView("Loading...")
-                   Spacer()
+                    Spacer()
+                    ProgressView("Loading...")
+                    Spacer()
                 } else {
                     Spacer()
                     Text("Select parameters and fetch data.")
@@ -190,11 +190,11 @@ struct HousingIndicatorAPIView: View {
             .navigationTitle("Housing Indicators")
         }
     }
-
+    
     @ViewBuilder
     private var queryInputView: some View {
         // (This view logic remains the same as before)
-         VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             switch selectedQueryType {
             case .byIndicator:
                 Picker("Indicator", selection: $selectedIndicator) {
@@ -218,10 +218,10 @@ struct HousingIndicatorAPIView: View {
                         .textFieldStyle(.roundedBorder)
                 }
                 Picker("Quarter", selection: $selectedQuarter) {
-                     Text("Select Quarter").tag(QuarterName?(nil))
-                     ForEach(QuarterName.allCases) { q in
-                         Text(q.rawValue.uppercased()).tag(QuarterName?(q))
-                     }
+                    Text("Select Quarter").tag(QuarterName?(nil))
+                    ForEach(QuarterName.allCases) { q in
+                        Text(q.rawValue.uppercased()).tag(QuarterName?(q))
+                    }
                 }
             case .byReportYear:
                 HStack {
@@ -249,12 +249,12 @@ struct HousingIndicatorAPIView: View {
         }
         .animation(.default, value: selectedQueryType)
     }
-
+    
     func fetchMockData() {
         isLoading = true
         errorMessage = nil
         fetchedReport = nil
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             isLoading = false
             if selectedQueryType == .byIndicator && selectedIndicator == nil {
@@ -264,36 +264,36 @@ struct HousingIndicatorAPIView: View {
             }
         }
     }
-
+    
     // --- Mock Data Creation (CORRECTED Initializers) ---
     func createMockReport() -> IndicatorsReport {
         // Create Quarter instances using the corrected struct
         let q1_2023 = Quarter(fullName: "Q1 2023", quarterName: "Q1", yearString: "2023")
         let q2_2023 = Quarter(fullName: "Q2 2023", quarterName: "Q2", yearString: "2023")
         let q3_2023_f = Quarter(fullName: "Q3 2023", quarterName: "Q3", yearString: "2023")
-
+        
         // Create TimeSeriesDataPointQuarterDouble instances WITHOUT year/quarter args
         let point1 = TimeSeriesDataPointQuarterDouble(slot: q1_2023, forecast: false, value: 1450.5, unit: "thousands")
         let point2 = TimeSeriesDataPointQuarterDouble(slot: q2_2023, forecast: false, value: 1510.2, unit: "thousands")
         let point3 = TimeSeriesDataPointQuarterDouble(slot: q3_2023_f, forecast: true, value: 1550.0, unit: "thousands")
-
+        
         let indicatorCat = Indicator(subjectArea: "research", dataSetType: "housing-indicators", indicatorName: IndicatorName.totalHousingStarts.rawValue)
-
+        
         let timeSeries1 = IndicatorTimeSeriesDouble(category: indicatorCat,
                                                     effectiveDate: "2023-08-15T10:00:00Z",
                                                     indicatorName: IndicatorName.totalHousingStarts.rawValue,
                                                     points: [point1, point2, point3])
-
+        
         // Create more points WITHOUT year/quarter args
         let point4 = TimeSeriesDataPointQuarterDouble(slot: q1_2023, forecast: false, value: 4.5, unit: "%")
         let point5 = TimeSeriesDataPointQuarterDouble(slot: q2_2023, forecast: false, value: 4.8, unit: "%")
         let point6 = TimeSeriesDataPointQuarterDouble(slot: q3_2023_f, forecast: true, value: 5.1, unit: "%")
         let mortgageIndicatorCat = Indicator(subjectArea: "research", dataSetType: "economic-forecasts", indicatorName: IndicatorName.thirtyYearFixedRateMortgage.rawValue)
-         let timeSeries2 = IndicatorTimeSeriesDouble(category: mortgageIndicatorCat,
+        let timeSeries2 = IndicatorTimeSeriesDouble(category: mortgageIndicatorCat,
                                                     effectiveDate: "2023-08-15T10:00:00Z",
                                                     indicatorName: IndicatorName.thirtyYearFixedRateMortgage.rawValue,
                                                     points: [point4, point5, point6])
-
+        
         return IndicatorsReport(indicators: [timeSeries1, timeSeries2])
     }
 }
@@ -301,12 +301,12 @@ struct HousingIndicatorAPIView: View {
 // --- View to display the whole report ---
 struct IndicatorsReportView: View {
     let report: IndicatorsReport
-
+    
     var body: some View {
         List {
             // Use optional chaining safely
             if let indicators = report.indicators, !indicators.isEmpty {
-                 ForEach(indicators) { timeSeries in
+                ForEach(indicators) { timeSeries in
                     IndicatorTimeSeriesView(timeSeries: timeSeries)
                 }
             } else {
@@ -320,14 +320,14 @@ struct IndicatorsReportView: View {
 // --- View to display a single indicator's time series from one report ---
 struct IndicatorTimeSeriesView: View {
     let timeSeries: IndicatorTimeSeriesDouble
-
+    
     private func formattedDate(_ dateString: String?) -> String {
-         guard let dateString = dateString else { return "N/A" }
-         // Use ISO8601DateFormatter for reliable parsing
+        guard let dateString = dateString else { return "N/A" }
+        // Use ISO8601DateFormatter for reliable parsing
         let isoFormatter = ISO8601DateFormatter()
         // Common variations for internet date time
         isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds, .withColonSeparatorInTimeZone]
-
+        
         if let date = isoFormatter.date(from: dateString) {
             let displayFormatter = DateFormatter()
             displayFormatter.dateStyle = .medium
@@ -336,11 +336,11 @@ struct IndicatorTimeSeriesView: View {
         }
         return dateString // Fallback if parsing fails
     }
-
-     var body: some View {
+    
+    var body: some View {
         Section {
-             // Use optional chaining safely
-             ForEach(timeSeries.points ?? []) { point in
+            // Use optional chaining safely
+            ForEach(timeSeries.points ?? []) { point in
                 TimeSeriesDataPointView(dataPoint: point)
             }
         } header: {
@@ -359,37 +359,37 @@ struct IndicatorTimeSeriesView: View {
 // --- View to display a single data point ---
 struct TimeSeriesDataPointView: View {
     let dataPoint: TimeSeriesDataPointQuarterDouble
-
+    
     private var formattedValue: String {
         guard let value = dataPoint.value else { return "N/A" }
         // Format with 1 decimal place, adjust as needed
         return String(format: "%.1f", value)
     }
-
+    
     var body: some View {
         HStack {
             // Use computed properties dataYear/dataQuarter which now correctly derive from slot
             Text("\(dataPoint.dataYear.map(String.init) ?? "YYYY") \(dataPoint.dataQuarter ?? "Q?")")
                 .font(.caption)
                 .frame(width: 80, alignment: .leading)
-
+            
             Spacer()
-
+            
             Text(formattedValue)
                 .font(.body.monospacedDigit())
-
+            
             if let unit = dataPoint.unit, !unit.isEmpty {
-                 Text(unit)
+                Text(unit)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-
+            
             if dataPoint.forecast == true {
                 Image(systemName: "chart.line.uptrend.xyaxis")
                     .foregroundColor(.blue)
                     .help("Forecasted Value")
             } else {
-                 Image(systemName: "checkmark.circle")
+                Image(systemName: "checkmark.circle")
                     .foregroundColor(.green)
                     .help("Historical Value")
             }
