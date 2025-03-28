@@ -12,7 +12,7 @@ import Photos // Needed for Photo Library access
 struct ShareSheetView: View {
     // Environment variable to dismiss the sheet
     @Environment(\.dismiss) var dismiss
-
+    
     // --- Data Dependencies ---
     let articleTitle: String
     let articleURL: String
@@ -23,7 +23,7 @@ struct ShareSheetView: View {
     let mediumHandle: String
     let platformName: String
     // -------------------------
-
+    
     // --- State for Functionalities ---
     @State private var showShareSheet = false
     @State private var showSaveConfirmation = false
@@ -32,18 +32,18 @@ struct ShareSheetView: View {
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     @State private var imageToShare: UIImage? = nil // For sharing the rendered image
-
+    
     // Instance of the class handling photo saving completion
     private let photoSaver = PhotoSaver()
-
+    
     var body: some View {
         VStack(spacing: 0) {
             NavigationBarView(closeAction: {
                 dismiss() // Use dismiss environment action
             })
-
+            
             Spacer()
-
+            
             // Pass dynamic data to the card
             ArticlePreviewCard(
                 articleTitle: articleTitle,
@@ -55,9 +55,9 @@ struct ShareSheetView: View {
             )
             .padding(.horizontal)
             .id("articleCard") // Give it an ID if needed for rendering specific views later
-
+            
             Spacer()
-
+            
             ActionButtonsView(
                 copyLinkAction: copyLink,
                 friendLinkAction: copyFriendLink,
@@ -67,7 +67,7 @@ struct ShareSheetView: View {
             )
             .padding(.bottom)
             .padding(.top)
-
+            
         }
         .background(Color.black.opacity(0.9).edgesIgnoringSafeArea(.all))
         .foregroundColor(.white)
@@ -91,16 +91,16 @@ struct ShareSheetView: View {
             Text(errorMessage)
         }
     }
-
+    
     // MARK: - Action Handlers
-
+    
     private func copyLink() {
         UIPasteboard.general.string = articleURL
         confirmationMessage = "Article link copied!"
         showCopyConfirmation = true
         print("Copied: \(articleURL)")
     }
-
+    
     private func copyFriendLink() {
         guard let friendURL = friendLinkURL, !friendURL.isEmpty else {
             errorMessage = "Friend Link is not available for this article."
@@ -113,32 +113,32 @@ struct ShareSheetView: View {
         showCopyConfirmation = true
         print("Copied Friend Link: \(friendURL)")
     }
-
+    
     private func prepareStandardShare() {
         // Reset imageToShare, we only want URL and Title here
         imageToShare = nil
         showShareSheet = true
         print("Preparing standard share...")
     }
-
+    
     private func prepareImageShare() {
         Task {
             // Render the image first
             await renderCardImage()
             if imageToShare != nil {
-                 // Now trigger the share sheet
-                 showShareSheet = true
-                 print("Preparing image share...")
+                // Now trigger the share sheet
+                showShareSheet = true
+                print("Preparing image share...")
             }
             // Error handling for rendering is inside renderCardImage
         }
     }
-
+    
     // Determines what items go into the UIActivityViewController
     private func makeActivityItems() -> [Any] {
         if let image = imageToShare {
             // If we have an image, share primarily that (e.g., for Instagram)
-             // You could potentially add the URL too, but image is primary here
+            // You could potentially add the URL too, but image is primary here
             return [image, articleTitle] // Share image and title
         } else {
             // Standard share: URL and Title
@@ -150,9 +150,9 @@ struct ShareSheetView: View {
             return items
         }
     }
-
+    
     // MARK: - Image Rendering & Saving
-
+    
     @MainActor // Ensure UI operations are on the main thread
     private func renderCardImage() async {
         // Create the card view instance again for rendering
@@ -167,7 +167,7 @@ struct ShareSheetView: View {
         )
         // Define the desired size explicitely for rendering if needed
         // .frame(width: 350) // Example fixed width
-
+        
         if #available(iOS 16.0, *) {
             let renderer = ImageRenderer(content: cardView)
             // Configure the renderer if needed (e.g., scale)
@@ -191,67 +191,65 @@ struct ShareSheetView: View {
             self.imageToShare = nil
         }
     }
-
     private func saveCardImage() {
-         Task {
-             // Ensure we have the image rendered
-             await renderCardImage()
-
-             guard let image = imageToShare else {
-                 // Error already shown by renderCardImage if it failed
-                 print("Cannot save image: Rendering failed or image is nil.")
-                 return
-             }
-
-             // --- Check Photo Library Permissions ---
-             let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
-
-             switch status {
-             case .authorized, .limited:
-                 // Permission granted, proceed to save
-                 saveImageToLibrary(image)
-             case .notDetermined:
-                 // Request permission
-                 PHPhotoLibrary.requestAuthorization(for: .addOnly) { newStatus in
-                     DispatchQueue.main.async { // Update UI on main thread
-                         if newStatus == .authorized || newStatus == .limited {
-                             self.saveImageToLibrary(image)
-                         } else {
-                             self.errorMessage = "Photo Library access denied. Please enable it in Settings."
-                             self.showErrorAlert = true
-                             print("Photo Library permission denied after request.")
-                         }
-                     }
-                 }
-             case .denied, .restricted:
-                 // Permission denied or restricted, show error
-                 errorMessage = "Photo Library access denied. Please enable it in Settings."
-                 showErrorAlert = true
-                 print("Photo Library permission denied or restricted.")
-             @unknown default:
-                 errorMessage = "Unknown Photo Library authorization status."
-                 showErrorAlert = true
-                 print("Unknown Photo Library status.")
-             }
-         }
-     }
-
+        Task {
+            // Ensure we have the image rendered
+            await renderCardImage()
+            
+            guard let image = imageToShare else {
+                print("Cannot save image: Rendering failed or image is nil.")
+                return
+            }
+            
+            let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+            
+            switch status {
+            case .authorized, .limited:
+                saveImageToLibrary(image)
+            case .notDetermined:
+                // Request permission - REMOVE [weak self]
+                PHPhotoLibrary.requestAuthorization(for: .addOnly) { newStatus in
+                    DispatchQueue.main.async { // Update UI on main thread
+                        if newStatus == .authorized || newStatus == .limited {
+                            // Access self directly (no need for self?)
+                            saveImageToLibrary(image)
+                        } else {
+                            // Access self directly
+                            errorMessage = "Photo Library access denied. Please enable it in Settings."
+                            showErrorAlert = true
+                            print("Photo Library permission denied after request.")
+                        }
+                    }
+                }
+            case .denied, .restricted:
+                errorMessage = "Photo Library access denied. Please enable it in Settings."
+                showErrorAlert = true
+                print("Photo Library permission denied or restricted.")
+            @unknown default:
+                errorMessage = "Unknown Photo Library authorization status."
+                showErrorAlert = true
+                print("Unknown Photo Library status.")
+            }
+        }
+    }
+    
     // Saves the image using the helper class for completion handling
     private func saveImageToLibrary(_ image: UIImage) {
-        // Assign completion handlers to the PhotoSaver instance
+        // Assign completion handlers - REMOVE [weak self]
         photoSaver.completionHandler = { success, error in
-             DispatchQueue.main.async { // Ensure UI updates on main thread
+            DispatchQueue.main.async { // Ensure UI updates on main thread
                 if success {
-                    self.showSaveConfirmation = true
+                    // Access self directly
+                    showSaveConfirmation = true
                     print("Image successfully saved.")
                 } else {
-                    self.errorMessage = error?.localizedDescription ?? "Failed to save image."
-                    self.showErrorAlert = true
+                    // Access self directly
+                    errorMessage = error?.localizedDescription ?? "Failed to save image."
+                    showErrorAlert = true
                     print("Error saving image: \(error?.localizedDescription ?? "Unknown error")")
                 }
             }
         }
-        // Use the PhotoSaver instance's method which includes the Objective-C selector
         photoSaver.writeToPhotoAlbum(image: image)
     }
 }
@@ -259,7 +257,7 @@ struct ShareSheetView: View {
 // MARK: - Navigation Bar Component (No functional changes needed)
 struct NavigationBarView: View {
     var closeAction: () -> Void
-
+    
     var body: some View {
         HStack {
             Button(action: closeAction) {
@@ -268,20 +266,20 @@ struct NavigationBarView: View {
                     .foregroundColor(.gray)
             }
             // ... rest of the NavigationBarView code remains the same ...
-             Spacer()
-
-             Text("Share")
-                 .font(.headline)
-                 .foregroundColor(.white)
-
-             Spacer()
-
-             Image(systemName: "xmark")
-                 .font(.title2)
-                 .opacity(0)
-         }
-         .padding()
-         .frame(height: 50)
+            Spacer()
+            
+            Text("Share")
+                .font(.headline)
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Image(systemName: "xmark")
+                .font(.title2)
+                .opacity(0)
+        }
+        .padding()
+        .frame(height: 50)
     }
 }
 
@@ -294,82 +292,82 @@ struct ArticlePreviewCard: View {
     let readTime: String
     let mediumHandle: String
     let platformName: String
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             // Main Card Content
             VStack(alignment: .leading, spacing: 0) {
                 // Blurred Top Area Placeholder
-                 Rectangle()
-                     .fill(.gray.opacity(0.3))
-                     .frame(height: 180) // Adjust height as needed
-                     .blur(radius: 10)
-                     .overlay( // Simulate some subtle gradient/lighting
-                         LinearGradient(
-                             gradient: Gradient(colors: [.black.opacity(0.2), .clear, .black.opacity(0.1)]),
-                             startPoint: .topLeading,
-                             endPoint: .bottomTrailing
-                         )
-                     )
-                     .clipped() // Ensure overlay doesn't bleed
-
-                 // Text Content Area
-                 VStack(alignment: .leading, spacing: 12) {
-                     Text(readTime) // Use dynamic data
-                         .font(.caption)
-                         .foregroundColor(.gray)
-                         .padding(.top)
-
-                     Text(articleTitle) // Use dynamic data
-                         .font(.title)
-                         .fontWeight(.bold)
-                         .foregroundColor(.black)
-                         .lineLimit(3)
-                         .minimumScaleFactor(0.8)
-
-                     Text(articleSubtitle) // Use dynamic data
-                         .font(.body)
-                         .foregroundColor(.gray)
-                         .lineLimit(2)
-
-                     Divider()
-                         .padding(.vertical, 8)
-
-                     // Author Info Footer
-                     HStack {
-                         Image(systemName: "person.crop.circle.fill") // Placeholder
-                             .resizable()
-                             .frame(width: 40, height: 40)
-                             .clipShape(Circle())
-                             .foregroundColor(.purple)
-
-                         Text(authorName) // Use dynamic data
-                             .font(.footnote)
-                             .fontWeight(.medium)
-                             .foregroundColor(.black)
-
-                         Spacer()
-
-                         Text(platformName) // Use dynamic data
-                             .font(.footnote)
-                             .fontWeight(.bold)
-                             .foregroundColor(.black)
-                     }
-                 }
-                 .padding(.horizontal)
-                 .padding(.bottom)
-             }
-
+                Rectangle()
+                    .fill(.gray.opacity(0.3))
+                    .frame(height: 180) // Adjust height as needed
+                    .blur(radius: 10)
+                    .overlay( // Simulate some subtle gradient/lighting
+                        LinearGradient(
+                            gradient: Gradient(colors: [.black.opacity(0.2), .clear, .black.opacity(0.1)]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipped() // Ensure overlay doesn't bleed
+                
+                // Text Content Area
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(readTime) // Use dynamic data
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.top)
+                    
+                    Text(articleTitle) // Use dynamic data
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.8)
+                    
+                    Text(articleSubtitle) // Use dynamic data
+                        .font(.body)
+                        .foregroundColor(.gray)
+                        .lineLimit(2)
+                    
+                    Divider()
+                        .padding(.vertical, 8)
+                    
+                    // Author Info Footer
+                    HStack {
+                        Image(systemName: "person.crop.circle.fill") // Placeholder
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                            .foregroundColor(.purple)
+                        
+                        Text(authorName) // Use dynamic data
+                            .font(.footnote)
+                            .fontWeight(.medium)
+                            .foregroundColor(.black)
+                        
+                        Spacer()
+                        
+                        Text(platformName) // Use dynamic data
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+            
             // Vertical Text
-             Text(mediumHandle) // Use dynamic data
-                 .font(.caption2)
-                 .foregroundColor(.gray)
-                 .lineLimit(1)
-                 .fixedSize()
-                 .rotationEffect(.degrees(-90))
-                 .frame(width: 180, height: 20)
-                 .offset(x: 80, y: 100) // Adjust offset carefully
-
+            Text(mediumHandle) // Use dynamic data
+                .font(.caption2)
+                .foregroundColor(.gray)
+                .lineLimit(1)
+                .fixedSize()
+                .rotationEffect(.degrees(-90))
+                .frame(width: 180, height: 20)
+                .offset(x: 80, y: 100) // Adjust offset carefully
+            
         }
         .background(Color.white)
         .cornerRadius(12)
@@ -385,7 +383,7 @@ struct ActionButtonsView: View {
     var shareViaAction: () -> Void
     var saveImageAction: () -> Void
     var instaStoryAction: () -> Void
-
+    
     var body: some View {
         HStack(alignment: .top, spacing: 15) {
             ActionButton(iconName: "link", label: "Copy link", action: copyLinkAction)
@@ -403,22 +401,22 @@ struct ActionButton: View {
     let iconName: String
     let label: String
     let action: () -> Void // Action closure
-
+    
     var body: some View {
         Button(action: action) { // Execute the passed-in action
             VStack(spacing: 8) {
-                 Image(systemName: iconName)
-                     .font(.title2)
-                     .frame(height: 30)
-                     .foregroundColor(.white)
-
-                 Text(label)
-                     .font(.caption)
-                     .lineLimit(2)
-                     .multilineTextAlignment(.center)
-                     .foregroundColor(.gray)
-                     .frame(width: 70)
-             }
+                Image(systemName: iconName)
+                    .font(.title2)
+                    .frame(height: 30)
+                    .foregroundColor(.white)
+                
+                Text(label)
+                    .font(.caption)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .frame(width: 70)
+            }
         }
     }
 }
@@ -427,12 +425,12 @@ struct ActionButton: View {
 struct ShareSheet: UIViewControllerRepresentable {
     var activityItems: [Any]
     var applicationActivities: [UIActivity]? = nil
-
+    
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
         return controller
     }
-
+    
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
         // No update needed usually
     }
@@ -442,11 +440,11 @@ struct ShareSheet: UIViewControllerRepresentable {
 // Needs to be NSObject to use #selector
 class PhotoSaver: NSObject {
     var completionHandler: ((Bool, Error?) -> Void)?
-
+    
     func writeToPhotoAlbum(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
     }
-
+    
     @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         completionHandler?(error == nil, error)
     }
