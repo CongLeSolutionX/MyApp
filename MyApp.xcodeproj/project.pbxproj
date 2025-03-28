@@ -12,6 +12,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AC276BB2D96FF0900AD2AE4 /* ComprehensiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC276BA2D96FF0300AD2AE4 /* ComprehensiveView.swift */; };
 		9ACF24492D96022300A4238C /* BarCodeScanningItemManagementHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24482D96022000A4238C /* BarCodeScanningItemManagementHomeView.swift */; };
 		9ACF244D2D9606B300A4238C /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF244C2D9606AE00A4238C /* SettingView.swift */; };
 		9ACF244F2D96074C00A4238C /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF244E2D96074900A4238C /* AdminView.swift */; };
@@ -25,6 +26,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AC276BA2D96FF0300AD2AE4 /* ComprehensiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView.swift; sourceTree = "<group>"; };
 		9ACF24482D96022000A4238C /* BarCodeScanningItemManagementHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarCodeScanningItemManagementHomeView.swift; sourceTree = "<group>"; };
 		9ACF244C2D9606AE00A4238C /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		9ACF244E2D96074900A4238C /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				9ACF24482D96022000A4238C /* BarCodeScanningItemManagementHomeView.swift */,
 				9ACF244C2D9606AE00A4238C /* SettingView.swift */,
 				9ACF244E2D96074900A4238C /* AdminView.swift */,
+				9AC276BA2D96FF0300AD2AE4 /* ComprehensiveView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -154,6 +157,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9ACF244D2D9606B300A4238C /* SettingView.swift in Sources */,
 				9ACF244F2D96074C00A4238C /* AdminView.swift in Sources */,
+				9AC276BB2D96FF0900AD2AE4 /* ComprehensiveView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9ACF24492D96022300A4238C /* BarCodeScanningItemManagementHomeView.swift in Sources */,
