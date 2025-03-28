@@ -184,7 +184,6 @@ struct NationalHousingSurveyTokenResponse: Decodable {
     let scope: String? // Optional scope information
 }
 
-
 // MARK: - Data Service (ViewModel)
 final class NationalHousingSurveyService: ObservableObject {
     // MARK: Published Properties for UI Binding
@@ -194,8 +193,8 @@ final class NationalHousingSurveyService: ObservableObject {
     @Published var errorMessage: String?
 
     // MARK: Configuration
-    private let baseURLString = "https://api.fanniemae.com"
-    private let tokenURLString = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"
+    private let baseURLString = "https://api.fanniemae.com" // <-- TODO: Verify this matches the environment for your credentials
+    private let tokenURLString = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token" // <-- TODO: Verify this is the correct token endpoint for the API
     private let tokenHeader = "Authorization" // Standard Authorization header for Bearer token
 
     // MARK: State Management (In-Memory Cache for Token)
@@ -206,7 +205,6 @@ final class NationalHousingSurveyService: ObservableObject {
     // MARK: - Token Management
 
     /// Fetches a new OAuth access token or returns a cached one if valid.
-    /// Includes debug logging and explicit cache checks.
     private func getAccessToken(completion: @escaping (Result<String, NationalHousingSurveyViewAPIError>) -> Void) {
         print("[Network Debug] Checking for cached access token.")
 
@@ -216,11 +214,10 @@ final class NationalHousingSurveyService: ObservableObject {
             completion(.success(token))
             return
         } else if let expiration = tokenExpiration {
-             print("[Network Debug] Cached token expired at \(expiration) or is missing.")
+             print("[Network Debug] Cached token expired at \(expiration) or is missing/invalidated.")
         } else {
             print("[Network Debug] No token cached.")
         }
-
 
         // 2. Prepare token request
         print("[Network Debug] Requesting new access token from: \(tokenURLString)")
@@ -230,10 +227,14 @@ final class NationalHousingSurveyService: ObservableObject {
             return
         }
 
+        // --- TODO: CRITICAL - Verify Credentials ---
+        // Ensure NationalHousingSurvey_AuthCredentials.clientID and .clientSecret
+        // are correct for the target environment (matching baseURLString) and have
+        // the necessary permissions for the /v1/nhs/* endpoints.
         let credentials = "\(NationalHousingSurvey_AuthCredentials.clientID):\(NationalHousingSurvey_AuthCredentials.clientSecret)"
         guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
             print("[Network Debug] ERROR: Could not encode credentials.")
-            completion(.failure(.authenticationFailed)) // Indicate issue with credential setup
+            completion(.failure(.authenticationFailed))
             return
         }
 
@@ -256,7 +257,6 @@ final class NationalHousingSurveyService: ObservableObject {
                 guard (200...299).contains(httpResponse.statusCode) else {
                     let responseString = String(data: data, encoding: .utf8) ?? "No response body"
                     print("[Network Debug] ERROR: Token request failed with status \(httpResponse.statusCode). Response: \(responseString)")
-                    // Map specific errors if needed, otherwise generic auth failure
                     if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
                          throw NationalHousingSurveyViewAPIError.authenticationFailed
                     } else {
@@ -267,49 +267,46 @@ final class NationalHousingSurveyService: ObservableObject {
                 return data
             }
             .decode(type: NationalHousingSurveyTokenResponse.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main) // Switch to main thread for state updates
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
-                guard let self = self else { return }
-                switch completionResult {
-                case .finished:
-                    // Success is handled in receiveValue where the token is cached
-                    print("[Network Debug] Token request publisher finished.")
-                    break
-                case .failure(let error):
-                    // Log the specific error during token fetching
-                    print("[Network Debug] ERROR in token request pipeline: \(error)")
-                    let apiError: NationalHousingSurveyViewAPIError
-                    if let mappedError = error as? NationalHousingSurveyViewAPIError {
-                        apiError = mappedError
-                    } else if error is DecodingError {
-                        print("[Network Debug] ERROR: Failed to decode token response.")
-                        apiError = .decodingFailed // Specifically for token response decoding
-                    } else {
-                        apiError = .unknown(error)
-                    }
-                    self.handleError(apiError) // Update UI state
-                    completion(.failure(apiError)) // Propagate the failure
-                }
+                 guard let self = self else { return } // Added guard
+                 switch completionResult {
+                 case .finished:
+                     print("[Network Debug] Token request publisher finished.")
+                     break
+                 case .failure(let error):
+                     print("[Network Debug] ERROR in token request pipeline: \(error)")
+                     let apiError: NationalHousingSurveyViewAPIError
+                     if let mappedError = error as? NationalHousingSurveyViewAPIError {
+                          apiError = mappedError
+                     } else if error is DecodingError {
+                          print("[Network Debug] ERROR: Failed to decode token response.")
+                          apiError = .decodingFailed
+                     } else {
+                          apiError = .unknown(error)
+                     }
+                     DispatchQueue.main.async { // Ensure UI update on main thread
+                        self.handleError(apiError)
+                        completion(.failure(apiError)) // Call completion on main thread too
+                     }
+                 }
             } receiveValue: { [weak self] tokenResponse in
-                guard let self = self else { return }
-                // 4. Cache the new token and its expiration in memory
-                self.accessToken = tokenResponse.access_token
-                self.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
-                print("[Network Debug] Successfully received and cached new token. Expires: \(self.tokenExpiration!).")
-                // Callback with the new token after caching it
-                completion(.success(tokenResponse.access_token))
+                 guard let self = self else { return } // Added guard
+                 // 4. Cache the new token and its expiration
+                 self.accessToken = tokenResponse.access_token
+                 self.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
+                 print("[Network Debug] Successfully received and cached new token. Expires: \(self.tokenExpiration!).")
+                 completion(.success(tokenResponse.access_token)) // Callback AFTER caching
             }
-            .store(in: &cancellables) // Manage subscription lifecycle
+            .store(in: &cancellables)
     }
 
     // MARK: - Public API Data Fetching
-
-    /// Initiates fetching data for a given API endpoint.
     func fetchData(for endpoint: NationalHousingSurveyViewAPIEndpoint) {
+        // ... (Log, isLoading, clear data - same as before) ...
         print("[Network Debug] Initiating fetchData for endpoint: \(endpoint.path)")
         isLoading = true
         errorMessage = nil
-        // Clear previous data specific to the type of endpoint being fetched
         if case .nhsResults = endpoint {
             surveyData = []
         } else {
@@ -319,70 +316,74 @@ final class NationalHousingSurveyService: ObservableObject {
         // 1. Get a valid access token (checks cache first)
         getAccessToken { [weak self] result in
             guard let self = self else { return }
-            // Ensure UI updates related to token fetching failure happen on main thread
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
-                    // 2. If token is available (cached or newly fetched), make the actual data request
                     print("[Network Debug] Access token obtained successfully. Proceeding with data request.")
                     self.makeDataRequest(endpoint: endpoint, accessToken: token)
-                case .failure(let error):
-                    // If token fetching failed, update state and stop
+                case .failure(let error): // Error already handled in getAccessToken
                     print("[Network Debug] Failed to obtain access token. Aborting data request.")
-                    self.isLoading = false // Ensure loading is stopped
-                    // Error is already handled and logged within getAccessToken's failure path
-                    // self.handleError(error) // Already handled
+                    self.isLoading = false // Explicitly stop loading if token fails
+                    // Error message is already set by handleError called within getAccessToken
                 }
             }
         }
     }
 
-    // MARK: - Private Data Request Logic
 
-    /// Performs the actual data request using a valid access token. Logs request and response details.
+    // MARK: - Private Data Request Logic
     private func makeDataRequest(endpoint: NationalHousingSurveyViewAPIEndpoint, accessToken: String) {
         guard let url = URL(string: baseURLString + endpoint.path) else {
+            // ... (error handling - same as before) ...
             print("[Network Debug] ERROR: Invalid data request URL string: \(baseURLString + endpoint.path)")
-            handleError(.invalidURL)
-            isLoading = false
+            DispatchQueue.main.async {
+                self.handleError(.invalidURL)
+                self.isLoading = false
+            }
             return
         }
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        // Use the Bearer token standard
-        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: tokenHeader)
 
-        // Log request details (avoid logging full token in production)
-        let tokenSnippet = accessToken.prefix(8) // Log only the start of the token
+        // --- TODO: Verify Header ---
+        // Confirm with API documentation if "Authorization: Bearer <token>" is correct.
+        // If it expects "x-public-access-token: <token>", change the line below.
+        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: tokenHeader) // Using "Authorization" header
+
+        // ... (Log request details - same as before) ...
+        let tokenSnippet = accessToken.prefix(8)
         print("[Network Debug] Making data request: URL=\(url), Method=\(request.httpMethod!), Headers=\(request.allHTTPHeaderFields?.description ?? "None"), Token=\(tokenHeader): Bearer \(tokenSnippet)...")
 
-        // Execute data request using Combine
+
         URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, response -> Data in
+            .tryMap { [weak self] data, response -> Data in // Capture weak self
                 guard let httpResponse = response as? HTTPURLResponse else {
-                      print("[Network Debug] ERROR: No HTTP response received for data request.")
-                      throw NationalHousingSurveyViewAPIError.requestFailed("No HTTP response received for data request.")
+                    print("[Network Debug] ERROR: No HTTP response received for data request.")
+                    throw NationalHousingSurveyViewAPIError.requestFailed("No HTTP response received for data request.")
                 }
                 print("[Network Debug] Data Response Status: \(httpResponse.statusCode)")
 
-                // Handle HTTP status codes specifically
                 switch httpResponse.statusCode {
                 case 200...299:
                     print("[Network Debug] Data request successful (\(data.count) bytes received).")
-                    return data // Success
+                    return data
+                case 401:
+                    print("[Network Debug] ERROR: Authentication failed (401) during data request. Invalidating cached token.")
+                    // *** CHANGE: Invalidate the token used for this failed request ***
+                    DispatchQueue.main.async { // Ensure state mutation is on main thread
+                       self?.accessToken = nil
+                       self?.tokenExpiration = nil
+                    }
+                    // *****************************************************************
+                    throw NationalHousingSurveyViewAPIError.authenticationFailed // Propagate the specific error
+                // ... (Handle 400, 403, 404, 5xx - same as before) ...
                 case 400:
                     let pathComponents = endpoint.path.components(separatedBy: "/")
                     let invalidParamGuess = pathComponents.last(where: { $0.contains("{") == false }) ?? "Unknown"
                     print("[Network Debug] ERROR: Invalid parameter (400). Guessed parameter: \(invalidParamGuess)")
                     throw NationalHousingSurveyViewAPIError.invalidParameter(invalidParamGuess)
-                 case 401:
-                    print("[Network Debug] ERROR: Authentication failed (401). Token might have expired just now.")
-                    // Optionally: could clear the cached token here
-                    // self.accessToken = nil
-                    // self.tokenExpiration = nil
-                    throw NationalHousingSurveyViewAPIError.authenticationFailed
                  case 403:
                     print("[Network Debug] ERROR: Forbidden (403).")
                      throw NationalHousingSurveyViewAPIError.forbidden
@@ -399,65 +400,81 @@ final class NationalHousingSurveyService: ObservableObject {
                     throw NationalHousingSurveyViewAPIError.requestFailed("Unexpected HTTP Status Code: \(httpResponse.statusCode)")
                 }
             }
-            .receive(on: DispatchQueue.main) // Switch to main thread for UI updates
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] completionResult in
                 guard let self = self else { return }
                 print("[Network Debug] Data request publisher completed.")
-                // Stop loading indicator regardless of success or failure
-                self.isLoading = false
+                // Stop loading indicator ONLY AFTER ensuring all state updates are done
+                 if case .failure = completionResult {
+                      self.isLoading = false // Stop loading on failure
+                 }
+                // On success, isLoading should stop AFTER receiveValue processing ideally,
+                // but stopping here is simpler and often acceptable. Let's keep it here.
+                // We'll ensure isLoading=false happens on main thread anyway.
+                DispatchQueue.main.async {
+                    if self.isLoading { // Check might be redundant but safe
+                        self.isLoading = false
+                    }
+                }
+
+
                 switch completionResult {
                 case .finished:
-                    // Data successfully received and processed in receiveValue
                     print("[Network Debug] Data pipeline finished successfully.")
-                    break
+                    break // Success handled in receiveValue
                 case .failure(let error):
-                    // Log the specific error encountered during the data request/processing
-                     print("[Network Debug] ERROR in data request pipeline: \(error)")
+                    print("[Network Debug] ERROR in data request pipeline: \(error)")
+                     // Error should have already been mapped in tryMap or be an unknown error
                     let apiError = (error as? NationalHousingSurveyViewAPIError) ?? NationalHousingSurveyViewAPIError.unknown(error)
-                    self.handleError(apiError)
+                    self.handleError(apiError) // Update UI
                 }
             } receiveValue: { [weak self] data in
                 guard let self = self else { return }
-                // isLoading is set to false in the completion block
 
-                // Determine the expected response type based on the endpoint
                 let responseType = self.determineResponseType(for: endpoint)
                 print("[Network Debug] Attempting to decode \(data.count) bytes as \(responseType)...")
 
                 do {
                     let decoder = JSONDecoder()
-                    // Decode based on the determined type
                     if responseType == [NhsResults].self {
                         let decodedResponse = try decoder.decode([NhsResults].self, from: data)
                         self.surveyData = decodedResponse.map { SurveyData(from: $0) }
-                         self.hpsiData = [] // Clear other data type
+                        self.hpsiData = []
                         print("[Network Debug] Successfully decoded as [NhsResults]. Count: \(self.surveyData.count)")
-
                     } else if responseType == [HpsiData].self {
                         let decodedResponse = try decoder.decode([HpsiData].self, from: data)
                         self.hpsiData = decodedResponse.map { HpsiDataModel(from: $0) }
-                        self.surveyData = [] // Clear other data type
+                        self.surveyData = []
                         print("[Network Debug] Successfully decoded as [HpsiData]. Count: \(self.hpsiData.count)")
-
                     } else {
-                        print("[Network Debug] ERROR: Unknown response type determined. This indicates a logic error.")
-                        self.handleError(.decodingFailed)
+                        print("[Network Debug] ERROR: Unknown response type determined.")
+                        throw NationalHousingSurveyViewAPIError.decodingFailed // Throw to be caught below
                     }
-                    self.errorMessage = nil // Clear error message on successful decode
+                    self.errorMessage = nil // Clear error on successful decode
+                     // Ensure isLoading is false after successful processing on main thread
+                     DispatchQueue.main.async {
+                         if self.isLoading { self.isLoading = false }
+                     }
+
                 } catch {
-                    print("[Network Debug] ERROR: Decoding failed. Error: \(error)") // Log detailed decoding error
-                    // Provide more context if possible
+                    print("[Network Debug] ERROR: Decoding failed. Error: \(error)")
                     if let decodingError = error as? DecodingError {
                         print("[Network Debug] Decoding Error Details: \(decodingError)")
                     }
                     self.handleError(NationalHousingSurveyViewAPIError.decodingFailed)
+                    // Ensure isLoading is false after failed processing on main thread
+                    DispatchQueue.main.async {
+                         if self.isLoading { self.isLoading = false }
+                     }
                 }
             }
             .store(in: &cancellables)
     }
 
+    // ... (determineResponseType, clearLocalData, handleError - same as before) ...
     /// Helper to determine the expected Decodable type based on the endpoint.
     private func determineResponseType(for endpoint: NationalHousingSurveyViewAPIEndpoint) -> Decodable.Type {
+        // ... same implementation ...
         switch endpoint {
         case .nhsResults:
             return [NhsResults].self
@@ -467,11 +484,10 @@ final class NationalHousingSurveyService: ObservableObject {
         }
     }
 
-    // MARK: - Local Data Management
-
     /// Clears the locally held survey and HPSI data.
     func clearLocalData() {
-       DispatchQueue.main.async {
+       // ... same implementation ...
+        DispatchQueue.main.async {
             print("[Network Debug] Clearing local data arrays.")
            self.surveyData.removeAll()
            self.hpsiData.removeAll()
@@ -479,21 +495,18 @@ final class NationalHousingSurveyService: ObservableObject {
        }
     }
 
-    // MARK: - Error Handling
-
     /// Updates the errorMessage property for the UI and logs the error.
     private func handleError(_ error: NationalHousingSurveyViewAPIError) {
-        // Update the published property on the main thread
+        // ... ensure main thread - same implementation ...
         DispatchQueue.main.async {
-             // Only update if the message is different to avoid redundant UI updates
              if self.errorMessage != error.localizedDescription {
                  self.errorMessage = error.localizedDescription
              }
-            // Ensure error is always logged, even if message is the same
             print("[Error Handler] API Error: \(error.localizedDescription)")
         }
     }
-}
+
+} // End NationalHousingSurveyService
 
 // MARK: - SwiftUI View
 // ... (NationalHousingSurveyView struct - No functional changes needed, layout improvements kept) ...
