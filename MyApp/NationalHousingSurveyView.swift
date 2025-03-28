@@ -2,21 +2,16 @@
 //  NationalHousingSurveyView.swift
 //  MyApp
 //
-//  Created by Cong Le on 3/28/25.
-//
-
-//
-//  NationalHousingSurveyView.swift
-//  MyApp
-//
 //  Created by Cong Le on 3/24/25.
+//
+//  Updated with Debug Logging and Cache Clarification
 //
 
 import SwiftUI
 import Combine
 
 // MARK: - Internal Application Data Models
-
+// ... (SurveyData, HpsiDataModel, Question, Response - No changes) ...
 /// Unified data model for National Housing Survey results, used within the app's UI and logic.
 /// Maps from the API's `NhsResults` structure.
 struct SurveyData: Identifiable {
@@ -64,8 +59,9 @@ struct HpsiDataModel: Identifiable {
     }
 }
 
-// MARK: - API Response Decodable Models (Matching JSON structure)
 
+// MARK: - API Response Decodable Models (Matching JSON structure)
+// ... (NhsResults, NhsQuestion, NhsResponse, HpsiData - No changes) ...
 /// Decodable struct matching the `NhsResults` schema in the API response.
 struct NhsResults: Decodable {
     let date: String
@@ -91,8 +87,9 @@ struct HpsiData: Decodable {
     let date: String
 }
 
-// MARK: - API Endpoints
 
+// MARK: - API Endpoints
+// ... (NationalHousingSurveyViewAPIEndpoint enum - No changes) ...
 /// Enumeration defining the available API endpoints for type safety.
 enum NationalHousingSurveyViewAPIEndpoint {
     case nhsResults
@@ -131,8 +128,9 @@ enum NationalHousingSurveyViewAPIEndpoint {
     }
 }
 
-// MARK: - API Errors
 
+// MARK: - API Errors
+// ... (NationalHousingSurveyViewAPIError enum - No changes) ...
 /// Custom error enum for handling specific API and network related errors.
 enum NationalHousingSurveyViewAPIError: Error, LocalizedError {
     case invalidURL
@@ -166,8 +164,9 @@ enum NationalHousingSurveyViewAPIError: Error, LocalizedError {
     }
 }
 
-// MARK: - Authentication
 
+// MARK: - Authentication
+// ... (NationalHousingSurvey_AuthCredentials, NationalHousingSurveyTokenResponse - No changes) ...
 /// Placeholder for securely storing client credentials.
 struct NationalHousingSurvey_AuthCredentials {
     // !!! WARNING: Storing credentials directly in code is highly insecure! !!!
@@ -185,6 +184,7 @@ struct NationalHousingSurveyTokenResponse: Decodable {
     let scope: String? // Optional scope information
 }
 
+
 // MARK: - Data Service (ViewModel)
 final class NationalHousingSurveyService: ObservableObject {
     // MARK: Published Properties for UI Binding
@@ -195,11 +195,10 @@ final class NationalHousingSurveyService: ObservableObject {
 
     // MARK: Configuration
     private let baseURLString = "https://api.fanniemae.com"
-    // NOTE: Consider making the token URL configurable as well.
     private let tokenURLString = "https://auth.pingone.com/4c2b23f9-52b1-4f8f-aa1f-1d477590770c/as/token"
-    private let tokenHeader = "x-public-access-token" // Header name for the data request token
+    private let tokenHeader = "Authorization" // Standard Authorization header for Bearer token
 
-    // MARK: State Management
+    // MARK: State Management (In-Memory Cache for Token)
     private var accessToken: String?
     private var tokenExpiration: Date?
     private var cancellables = Set<AnyCancellable>()
@@ -207,23 +206,34 @@ final class NationalHousingSurveyService: ObservableObject {
     // MARK: - Token Management
 
     /// Fetches a new OAuth access token or returns a cached one if valid.
+    /// Includes debug logging and explicit cache checks.
     private func getAccessToken(completion: @escaping (Result<String, NationalHousingSurveyViewAPIError>) -> Void) {
-        // 1. Check cache: Return token if still valid (with a small buffer).
-        if let token = accessToken, let expiration = tokenExpiration, Date() < expiration.addingTimeInterval(-60) { // 60 sec buffer
+        print("[Network Debug] Checking for cached access token.")
+
+        // 1. Check In-Memory Cache: Return token if still valid (with a 60-second buffer).
+        if let token = accessToken, let expiration = tokenExpiration, Date() < expiration.addingTimeInterval(-60) {
+            print("[Network Debug] Using valid cached token (Expires: \(expiration)).")
             completion(.success(token))
             return
+        } else if let expiration = tokenExpiration {
+             print("[Network Debug] Cached token expired at \(expiration) or is missing.")
+        } else {
+            print("[Network Debug] No token cached.")
         }
 
+
         // 2. Prepare token request
+        print("[Network Debug] Requesting new access token from: \(tokenURLString)")
         guard let url = URL(string: tokenURLString) else {
+            print("[Network Debug] ERROR: Invalid token URL string.")
             completion(.failure(.invalidURL))
             return
         }
 
         let credentials = "\(NationalHousingSurvey_AuthCredentials.clientID):\(NationalHousingSurvey_AuthCredentials.clientSecret)"
         guard let base64Credentials = credentials.data(using: .utf8)?.base64EncodedString() else {
-            // This should ideally not happen if credentials are valid strings
-            completion(.failure(.authenticationFailed))
+            print("[Network Debug] ERROR: Could not encode credentials.")
+            completion(.failure(.authenticationFailed)) // Indicate issue with credential setup
             return
         }
 
@@ -233,17 +243,27 @@ final class NationalHousingSurveyService: ObservableObject {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = "grant_type=client_credentials".data(using: .utf8)
 
+        print("[Network Debug] Token Request Details: URL=\(request.url!), Method=\(request.httpMethod!), Headers=\(request.allHTTPHeaderFields ?? [:])")
+
         // 3. Execute token request using Combine
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
+                  print("[Network Debug] ERROR: No HTTP response received from token endpoint.")
                   throw NationalHousingSurveyViewAPIError.requestFailed("No HTTP response from token endpoint.")
                 }
+                print("[Network Debug] Token Response Status: \(httpResponse.statusCode)")
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    // Attempt to log response body for debugging
                     let responseString = String(data: data, encoding: .utf8) ?? "No response body"
-                    throw NationalHousingSurveyViewAPIError.authenticationFailed // Treat any non-2xx as auth failure
+                    print("[Network Debug] ERROR: Token request failed with status \(httpResponse.statusCode). Response: \(responseString)")
+                    // Map specific errors if needed, otherwise generic auth failure
+                    if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
+                         throw NationalHousingSurveyViewAPIError.authenticationFailed
+                    } else {
+                         throw NationalHousingSurveyViewAPIError.requestFailed("Token endpoint error (\(httpResponse.statusCode))")
+                    }
                 }
+                print("[Network Debug] Token response received data (\(data.count) bytes).")
                 return data
             }
             .decode(type: NationalHousingSurveyTokenResponse.self, decoder: JSONDecoder())
@@ -252,13 +272,17 @@ final class NationalHousingSurveyService: ObservableObject {
                 guard let self = self else { return }
                 switch completionResult {
                 case .finished:
-                    break // Token successfully received and decoded (handled in receiveValue)
+                    // Success is handled in receiveValue where the token is cached
+                    print("[Network Debug] Token request publisher finished.")
+                    break
                 case .failure(let error):
-                    // Map potential decoding or network errors to our custom APIError type
+                    // Log the specific error during token fetching
+                    print("[Network Debug] ERROR in token request pipeline: \(error)")
                     let apiError: NationalHousingSurveyViewAPIError
                     if let mappedError = error as? NationalHousingSurveyViewAPIError {
                         apiError = mappedError
                     } else if error is DecodingError {
+                        print("[Network Debug] ERROR: Failed to decode token response.")
                         apiError = .decodingFailed // Specifically for token response decoding
                     } else {
                         apiError = .unknown(error)
@@ -268,10 +292,12 @@ final class NationalHousingSurveyService: ObservableObject {
                 }
             } receiveValue: { [weak self] tokenResponse in
                 guard let self = self else { return }
-                // 4. Cache the new token and its expiration
+                // 4. Cache the new token and its expiration in memory
                 self.accessToken = tokenResponse.access_token
                 self.tokenExpiration = Date().addingTimeInterval(TimeInterval(tokenResponse.expires_in))
-                completion(.success(tokenResponse.access_token)) // Callback with the new token
+                print("[Network Debug] Successfully received and cached new token. Expires: \(self.tokenExpiration!).")
+                // Callback with the new token after caching it
+                completion(.success(tokenResponse.access_token))
             }
             .store(in: &cancellables) // Manage subscription lifecycle
     }
@@ -280,6 +306,7 @@ final class NationalHousingSurveyService: ObservableObject {
 
     /// Initiates fetching data for a given API endpoint.
     func fetchData(for endpoint: NationalHousingSurveyViewAPIEndpoint) {
+        print("[Network Debug] Initiating fetchData for endpoint: \(endpoint.path)")
         isLoading = true
         errorMessage = nil
         // Clear previous data specific to the type of endpoint being fetched
@@ -289,19 +316,22 @@ final class NationalHousingSurveyService: ObservableObject {
             hpsiData = []
         }
 
-
-        // 1. Get a valid access token (either cached or new)
+        // 1. Get a valid access token (checks cache first)
         getAccessToken { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async { // Ensure UI updates happen on the main thread
+            // Ensure UI updates related to token fetching failure happen on main thread
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
-                    // 2. If token is available, make the actual data request
+                    // 2. If token is available (cached or newly fetched), make the actual data request
+                    print("[Network Debug] Access token obtained successfully. Proceeding with data request.")
                     self.makeDataRequest(endpoint: endpoint, accessToken: token)
                 case .failure(let error):
                     // If token fetching failed, update state and stop
-                    self.isLoading = false
-                    self.handleError(error)
+                    print("[Network Debug] Failed to obtain access token. Aborting data request.")
+                    self.isLoading = false // Ensure loading is stopped
+                    // Error is already handled and logged within getAccessToken's failure path
+                    // self.handleError(error) // Already handled
                 }
             }
         }
@@ -309,95 +339,117 @@ final class NationalHousingSurveyService: ObservableObject {
 
     // MARK: - Private Data Request Logic
 
-    /// Performs the actual data request using a valid access token.
+    /// Performs the actual data request using a valid access token. Logs request and response details.
     private func makeDataRequest(endpoint: NationalHousingSurveyViewAPIEndpoint, accessToken: String) {
         guard let url = URL(string: baseURLString + endpoint.path) else {
-            // This should not happen if endpoint paths are correct
+            print("[Network Debug] ERROR: Invalid data request URL string: \(baseURLString + endpoint.path)")
             handleError(.invalidURL)
-            isLoading = false // Ensure loading state is reset
+            isLoading = false
             return
         }
 
         var request = URLRequest(url: url)
-        request.httpMethod = "GET" // All endpoints are GET
-        request.addValue("application/json", forHTTPHeaderField: "Accept") // Prefer JSON
-        // Use the specific header name required by the API
-        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization") // Standard Bearer token
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        // Use the Bearer token standard
+        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: tokenHeader)
+
+        // Log request details (avoid logging full token in production)
+        let tokenSnippet = accessToken.prefix(8) // Log only the start of the token
+        print("[Network Debug] Making data request: URL=\(url), Method=\(request.httpMethod!), Headers=\(request.allHTTPHeaderFields?.description ?? "None"), Token=\(tokenHeader): Bearer \(tokenSnippet)...")
 
         // Execute data request using Combine
         URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    throw NationalHousingSurveyViewAPIError.requestFailed("No HTTP response received.")
+                      print("[Network Debug] ERROR: No HTTP response received for data request.")
+                      throw NationalHousingSurveyViewAPIError.requestFailed("No HTTP response received for data request.")
                 }
+                print("[Network Debug] Data Response Status: \(httpResponse.statusCode)")
 
                 // Handle HTTP status codes specifically
                 switch httpResponse.statusCode {
                 case 200...299:
+                    print("[Network Debug] Data request successful (\(data.count) bytes received).")
                     return data // Success
                 case 400:
-                    // Try to determine which parameter was invalid from the endpoint path
                     let pathComponents = endpoint.path.components(separatedBy: "/")
                     let invalidParamGuess = pathComponents.last(where: { $0.contains("{") == false }) ?? "Unknown"
+                    print("[Network Debug] ERROR: Invalid parameter (400). Guessed parameter: \(invalidParamGuess)")
                     throw NationalHousingSurveyViewAPIError.invalidParameter(invalidParamGuess)
                  case 401:
-                     // This could mean the token expired *between* getAccessToken and this request
-                     throw NationalHousingSurveyViewAPIError.authenticationFailed
+                    print("[Network Debug] ERROR: Authentication failed (401). Token might have expired just now.")
+                    // Optionally: could clear the cached token here
+                    // self.accessToken = nil
+                    // self.tokenExpiration = nil
+                    throw NationalHousingSurveyViewAPIError.authenticationFailed
                  case 403:
+                    print("[Network Debug] ERROR: Forbidden (403).")
                      throw NationalHousingSurveyViewAPIError.forbidden
                  case 404:
+                     print("[Network Debug] No data found (404).")
                       throw NationalHousingSurveyViewAPIError.noData
                  case 500...599:
                      let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                     throw NationalHousingSurveyViewAPIError.requestFailed("Server Error (\(httpResponse.statusCode)): \(responseString)")
+                     print("[Network Debug] ERROR: Server Error (\(httpResponse.statusCode)). Response: \(responseString)")
+                     throw NationalHousingSurveyViewAPIError.requestFailed("Server Error (\(httpResponse.statusCode))")
                 default:
-                    // Catch-all for other unexpected status codes
                     let responseString = String(data: data, encoding: .utf8) ?? "No Response Body"
-                    throw NationalHousingSurveyViewAPIError.requestFailed("Unexpected HTTP Status Code: \(httpResponse.statusCode). Response: \(responseString)")
+                    print("[Network Debug] ERROR: Unexpected HTTP Status Code: \(httpResponse.statusCode). Response: \(responseString)")
+                    throw NationalHousingSurveyViewAPIError.requestFailed("Unexpected HTTP Status Code: \(httpResponse.statusCode)")
                 }
             }
             .receive(on: DispatchQueue.main) // Switch to main thread for UI updates
             .sink { [weak self] completionResult in
                 guard let self = self else { return }
-                // This block executes *after* receiveValue or on failure
-                self.isLoading = false // Always ensure loading is stopped on completion/failure
+                print("[Network Debug] Data request publisher completed.")
+                // Stop loading indicator regardless of success or failure
+                self.isLoading = false
                 switch completionResult {
                 case .finished:
-                    break // Data successfully received and processed (handled in receiveValue)
+                    // Data successfully received and processed in receiveValue
+                    print("[Network Debug] Data pipeline finished successfully.")
+                    break
                 case .failure(let error):
-                    // Map potential network or status code errors to our APIError
+                    // Log the specific error encountered during the data request/processing
+                     print("[Network Debug] ERROR in data request pipeline: \(error)")
                     let apiError = (error as? NationalHousingSurveyViewAPIError) ?? NationalHousingSurveyViewAPIError.unknown(error)
                     self.handleError(apiError)
                 }
             } receiveValue: { [weak self] data in
                 guard let self = self else { return }
-                // isLoading is set to false in the completion block now
+                // isLoading is set to false in the completion block
 
                 // Determine the expected response type based on the endpoint
                 let responseType = self.determineResponseType(for: endpoint)
+                print("[Network Debug] Attempting to decode \(data.count) bytes as \(responseType)...")
 
                 do {
                     let decoder = JSONDecoder()
                     // Decode based on the determined type
                     if responseType == [NhsResults].self {
                         let decodedResponse = try decoder.decode([NhsResults].self, from: data)
-                        // Map API models to internal App models
                         self.surveyData = decodedResponse.map { SurveyData(from: $0) }
                          self.hpsiData = [] // Clear other data type
+                        print("[Network Debug] Successfully decoded as [NhsResults]. Count: \(self.surveyData.count)")
 
                     } else if responseType == [HpsiData].self {
                         let decodedResponse = try decoder.decode([HpsiData].self, from: data)
-                        // Map API models to internal App models
                         self.hpsiData = decodedResponse.map { HpsiDataModel(from: $0) }
                         self.surveyData = [] // Clear other data type
+                        print("[Network Debug] Successfully decoded as [HpsiData]. Count: \(self.hpsiData.count)")
 
                     } else {
-                        // This case should not be reachable if determineResponseType is correct
-                        self.handleError(.decodingFailed) // Indicate a logic error
+                        print("[Network Debug] ERROR: Unknown response type determined. This indicates a logic error.")
+                        self.handleError(.decodingFailed)
                     }
                     self.errorMessage = nil // Clear error message on successful decode
                 } catch {
-                    print("Decoding Error: \(error)") // Log detailed decoding error
+                    print("[Network Debug] ERROR: Decoding failed. Error: \(error)") // Log detailed decoding error
+                    // Provide more context if possible
+                    if let decodingError = error as? DecodingError {
+                        print("[Network Debug] Decoding Error Details: \(decodingError)")
+                    }
                     self.handleError(NationalHousingSurveyViewAPIError.decodingFailed)
                 }
             }
@@ -408,10 +460,10 @@ final class NationalHousingSurveyService: ObservableObject {
     private func determineResponseType(for endpoint: NationalHousingSurveyViewAPIEndpoint) -> Decodable.Type {
         switch endpoint {
         case .nhsResults:
-            return [NhsResults].self // Expect an array of NhsResults
+            return [NhsResults].self
         case .hpsiData, .hpsiDataByAreaType, .hpsiDataByOwnershipStatus, .hpsiDataByHousingCostRatio,
              .hpsiDataByAgeGroup, .hpsiDataByCensusRegion, .hpsiDataByIncomeGroup, .hpsiDataByEducation:
-            return [HpsiData].self // Expect an array of HpsiData
+            return [HpsiData].self
         }
     }
 
@@ -420,26 +472,31 @@ final class NationalHousingSurveyService: ObservableObject {
     /// Clears the locally held survey and HPSI data.
     func clearLocalData() {
        DispatchQueue.main.async {
+            print("[Network Debug] Clearing local data arrays.")
            self.surveyData.removeAll()
            self.hpsiData.removeAll()
-           self.errorMessage = nil // Also clear any error messages
+           self.errorMessage = nil
        }
     }
 
     // MARK: - Error Handling
 
-    /// Updates the errorMessage property for the UI.
+    /// Updates the errorMessage property for the UI and logs the error.
     private func handleError(_ error: NationalHousingSurveyViewAPIError) {
         // Update the published property on the main thread
         DispatchQueue.main.async {
-            self.errorMessage = error.localizedDescription
-            print("API Error Encountered: \(error.localizedDescription)") // Log for debugging
+             // Only update if the message is different to avoid redundant UI updates
+             if self.errorMessage != error.localizedDescription {
+                 self.errorMessage = error.localizedDescription
+             }
+            // Ensure error is always logged, even if message is the same
+            print("[Error Handler] API Error: \(error.localizedDescription)")
         }
     }
 }
 
 // MARK: - SwiftUI View
-
+// ... (NationalHousingSurveyView struct - No functional changes needed, layout improvements kept) ...
 struct NationalHousingSurveyView: View {
     @StateObject private var dataService = NationalHousingSurveyService()
 
@@ -452,7 +509,7 @@ struct NationalHousingSurveyView: View {
     @State private var selectedIncomeGroup: String = "1" // Default: <$50K
     @State private var selectedEducation: String = "4" // Default: College/Grad School
 
-    // Data for Pickers (could be structs with display names)
+    // Data for Pickers (using Tuples for value and display name)
     let areaTypes = [("1", "Urban"), ("2", "Suburban"), ("3", "Rural")]
     let ownershipStatuses = [("1", "Owner"), ("2", "Renter")]
     let housingCostRatios = [("1", "Low"), ("2", "Mid"), ("3", "High")]
@@ -470,66 +527,85 @@ struct NationalHousingSurveyView: View {
                      Button { dataService.fetchData(for: .nhsResults) } label: {
                          Label("Fetch All NHS Results", systemImage: "list.bullet.clipboard")
                      }
+                     .buttonStyle(.borderedProminent) // Make primary actions stand out
 
                      Button { dataService.fetchData(for: .hpsiData) } label: {
                           Label("Fetch All HPSI Data", systemImage: "chart.line.uptrend.xyaxis")
                       }
+                     .buttonStyle(.borderedProminent)
 
                     // --- Filtered HPSI Data ---
                     DisclosureGroup("Fetch Filtered HPSI Data") {
-                        VStack {
+                        VStack(alignment: .leading, spacing: 10) { // Add spacing
                            createPicker(label: "Area Type", selection: $selectedAreaType, options: areaTypes) {
                                dataService.fetchData(for: .hpsiDataByAreaType(areaType: selectedAreaType))
                            }
+                            Divider() // Add separators between filters
                             createPicker(label: "Ownership Status", selection: $selectedOwnershipStatus, options: ownershipStatuses) {
                                 dataService.fetchData(for: .hpsiDataByOwnershipStatus(ownershipStatus: selectedOwnershipStatus))
                             }
+                             Divider()
                             createPicker(label: "Housing Cost Ratio", selection: $selectedHousingCostRatio, options: housingCostRatios) {
                                 dataService.fetchData(for: .hpsiDataByHousingCostRatio(housingCostRatio: selectedHousingCostRatio))
                             }
+                            Divider()
                             createPicker(label: "Age Group", selection: $selectedAgeGroup, options: ageGroups) {
                                 dataService.fetchData(for: .hpsiDataByAgeGroup(ageGroup: selectedAgeGroup))
                             }
+                             Divider()
                             createPicker(label: "Census Region", selection: $selectedCensusRegion, options: censusRegions) {
                                 dataService.fetchData(for: .hpsiDataByCensusRegion(censusRegion: selectedCensusRegion))
                             }
+                             Divider()
                              createPicker(label: "Income Group", selection: $selectedIncomeGroup, options: incomeGroups) {
                                  dataService.fetchData(for: .hpsiDataByIncomeGroup(incomeGroup: selectedIncomeGroup))
                              }
+                            Divider()
                             createPicker(label: "Education Level", selection: $selectedEducation, options: educationLevels) {
                                 dataService.fetchData(for: .hpsiDataByEducation(educationLevel: selectedEducation))
                             }
                         }
-                        .padding(.top, 5)
+                        .padding(.vertical, 5) // Add padding inside disclosure group
                     } // End DisclosureGroup
 
                     // Clear Data Button
-                    Button("Clear Displayed Data", role: .destructive) {
-                        dataService.clearLocalData()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    Button(role: .destructive) {
+                         dataService.clearLocalData()
+                     } label: {
+                         Label("Clear Displayed Data", systemImage: "xmark.bin")
+                             .frame(maxWidth: .infinity, alignment: .center) // Center align
+                     }
+                     .tint(.red) // Ensure destructive tint
 
                 } // End Section Fetch Data
 
                 // MARK: - Results Display
                 Section(header: Text("Results")) {
                     if dataService.isLoading {
-                        HStack {
+                        HStack(spacing: 8) { // Add spacing for ProgressView
                              ProgressView()
-                             Text("Loading...").padding(.leading, 5)
+                            Text("Loading...")
+                                .foregroundColor(.secondary) // Use secondary color
                          }
-                         .frame(maxWidth: .infinity)
+                         .frame(maxWidth: .infinity, alignment: .center) // Center align
+                         .padding(.vertical, 10) // Add padding
                     } else if let errorMessage = dataService.errorMessage {
-                         Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
-                             .foregroundColor(.red)
+                         Label {
+                             Text(errorMessage)
+                         } icon: {
+                              Image(systemName: "exclamationmark.triangle.fill")
+                         }
+                        .foregroundColor(.red)
+                        .padding(.vertical, 5)
                     } else if !dataService.surveyData.isEmpty {
                         // Display NHS Survey Results
-                         List {
+                         List { // Remove implicit List, let Form section handle it? Or keep for structure.
                             ForEach(dataService.surveyData) { survey in
                                 Section(header: Text("Survey Date: \(survey.date)")) {
                                      ForEach(survey.questions) { question in
                                          VStack(alignment: .leading, spacing: 5) {
                                              Text(question.description).font(.headline)
+                                              Divider().padding(.bottom, 3) // Add divider for clarity
                                              ForEach(question.responses) { response in
                                                  HStack {
                                                      Text("• \(response.description)").foregroundColor(.secondary)
@@ -540,33 +616,39 @@ struct NationalHousingSurveyView: View {
                                                  .font(.subheadline)
                                              }
                                          }
-                                         .padding(.vertical, 4)
+                                         .padding(.vertical, 6) // Add padding around each question block
                                      }
                                  }
                              }
                          }
-                         .listStyle(PlainListStyle()) // Use PlainListStyle within Form section
+                         .listStyle(InsetGroupedListStyle()) // Apply style within section if needed
                     } else if !dataService.hpsiData.isEmpty {
                          // Display HPSI Data
-                         List(dataService.hpsiData) { data in
-                             HStack {
-                                 Text(data.date)
-                                 Spacer()
-                                 Text("HPSI: \(String(format: "%.1f", data.hpsiValue))") // Format HPSI
-                                     .fontWeight(.semibold)
-                             }
+                         // Use ForEach directly in the section for better Form integration
+                        ForEach(dataService.hpsiData) { data in
+                            HStack {
+                                Text(data.date)
+                                    .font(.caption) // Smaller font for date?
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                Text("HPSI: \(String(format: "%.1f", data.hpsiValue))")
+                                    .fontWeight(.semibold)
+                            }
                          }
-                         .listStyle(PlainListStyle())
+                         // .listStyle(PlainListStyle()) // Not needed if ForEach is direct child
+
                     } else {
                         Text("No data fetched yet. Use controls above.")
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.gray) // Use gray for placeholder
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.vertical, 10)
                     }
                 } // End Section Results
             } // End Form
             .navigationTitle("NHS Data Explorer")
+            // .navigationBarTitleDisplayMode(.inline) // Optional: Adjust title display
         } // End NavigationView
-        .navigationViewStyle(StackNavigationViewStyle()) // Use stack style for broader compatibility
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     // Helper function to create Picker + Button Row
@@ -577,28 +659,33 @@ struct NationalHousingSurveyView: View {
         options: [(String, String)],
         fetchAction: @escaping () -> Void
     ) -> some View {
-        HStack {
-            Picker(label, selection: selection) {
-                 ForEach(options, id: \.0) { value, name in
-                     Text(name).tag(value) // Use value as tag, display name
+        // Use VStack for better alignment control if needed, or keep HStack
+            HStack {
+                Text(label) // Use a Text label for consistency if Picker label is hidden
+                    .frame(minWidth: 120, alignment: .leading) // Align labels
+
+                Picker(label, selection: selection) {
+                     ForEach(options, id: \.0) { value, name in
+                         Text(name).tag(value)
+                     }
                  }
-             }
-             // Limit picker style if needed for space
-             // .pickerStyle(.menu)
+                 .labelsHidden() // Hide the Picker's default label if using Text label
+                 .pickerStyle(.menu) // Use menu style for compactness in Form
 
-            Spacer() // Add Spacer for better layout
 
-            Button(action: fetchAction) {
-                 Image(systemName: "magnifyingglass") // Use SF Symbol for Fetch button
-             }
-             .buttonStyle(.bordered)
-             .tint(.accentColor) // Use accent color for fetch buttons
-        }
+                Spacer()
+
+                Button(action: fetchAction) {
+                     Image(systemName: "magnifyingglass")
+                 }
+                 .buttonStyle(.bordered)
+                 .tint(.accentColor)
+            }
     }
 }
 
-// MARK: - Preview
 
+// MARK: - Preview
 struct NationalHousingSurveyView_Previews: PreviewProvider {
     static var previews: some View {
         NationalHousingSurveyView()
