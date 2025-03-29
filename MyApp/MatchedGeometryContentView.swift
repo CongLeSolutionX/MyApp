@@ -102,7 +102,8 @@ struct MatchedGeometryContentView: View {
         }
          // Ensure the overall stack takes up space and provides a background
          .frame(maxWidth: .infinity, maxHeight: .infinity)
-         .background(Color(.secondarySystemBackground))
+//         .background(Color(.secondarySystemBackground))
+         .background(Image(uiImage: UIImage(named: "My-meme-original")!))
     }
 }
 
