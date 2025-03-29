@@ -4,349 +4,414 @@
 //
 //  Created by Cong Le on 3/29/25.
 //
-
 import SwiftUI
 
-// MARK: - Shared Extensions (Required for Styling)
+// MARK: - Shared Extensions (Required - Assumed Present)
+// extension Color { ... init(hex:) ... }
 
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0) // Default to black
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
-}
+// MARK: - Enhanced Gemini Model Profile Card View (Intuitive & Accessible)
 
-// MARK: - Combined Styled Gemini Model Card View
+struct EnhancedGeminiProfileCard: View {
 
-struct StyledGeminiModelCardView: View {
-
-    // --- Style Colors (from CardDesignView) ---
+    // --- Style Colors (Refined Palette) ---
     let cardBackground = Color(hex: "#212121")
-    let shadowLight = Color(hex: "#272727")
-    let shadowDark = Color(hex: "#1b1b1b")
-    let titleColor = Color(hex: "#b2eccf") // Use for primary text, headers, icons
-    let bodyColor = Color(hex: "#B8B8B8")  // Use for secondary text, values
-    let subtleDividerColor = Color(hex: "#313131") // Use for dividers instead of system default
+    let shadowLight = Color(hex: "#2C2C2C") // Slightly lighter outer shadow
+    let shadowDark = Color(hex: "#1A1A1A")  // Slightly darker outer shadow
+    let titleColor = Color(hex: "#C8F0E1") // Slightly adjusted green/cyan
+    let primaryTextColor = Color(hex: "#E0E0E0") // Main body text (off-white)
+    let secondaryTextColor = Color(hex: "#A0A0A0") // Less important text, labels
+    let accentColor = Color(hex: "#82D8FF") // Bluish accent for icons, links, buttons
+    let subtleDividerColor = Color(hex: "#353535") // Softer divider
+    let sectionBackgroundColor = Color(hex: "#282828").opacity(0.5) // Subtle bg for sections
 
-    // Text color for supported/unsupported status (adapted from CardDesignView palette)
-    let supportedTextColor = Color(hex: "#b2eccf") // Greenish title color
-    let supportedBackgroundColor = Color(hex: "#b2eccf").opacity(0.15)
-    let unsupportedTextColor = Color(hex: "#B3B3B3") // Footer color (greyish)
-    let unsupportedBackgroundColor = Color(hex: "#B3B3B3").opacity(0.15)
+    let imageBackground = Color(hex: "#313131")
+    let imageShadowLight = Color.white.opacity(0.08) // Subtler inset shadow
+    let imageShadowDark = Color.black.opacity(0.3)   // Subtler inset shadow
 
-    // --- Data Properties (from GeminiModelDetailView) ---
-    struct Capability: Identifiable { // Make identifiable for ForEach
+    // Status colors
+    let supportedTextColor = Color(hex: "#A5E8C2") // Soft green text
+    let supportedBackgroundColor = Color(hex: "#A5E8C2").opacity(0.15)
+    let unsupportedTextColor = Color(hex: "#B0B0B0") // Neutral grey text
+    let unsupportedBackgroundColor = Color(hex: "#B0B0B0").opacity(0.15)
+
+    // --- Data Properties (Adding Icons to Capabilities) ---
+    struct Capability: Identifiable {
         let id = UUID()
         let name: String
         let isSupported: Bool
+        let iconName: String // SF Symbol name relevant to the capability
     }
 
+    // ... (modelName, modelDescription, etc. - Same data as before)
     let modelName = "Gemini 2.5 Pro Experimental"
-    let modelDescription = "Gemini 2.5 Pro Experimental is our state-of-the-art thinking model, capable of reasoning over complex problems in code, math, and STEM, as well as analyzing large datasets, codebases, and documents using long context."
+    let modelDescription = "State-of-the-art thinking model for complex reasoning, analysis of large datasets, codebases, and long documents." // Slightly shortened for profile view
     let modelCode = "gemini-2.5-pro-exp-03-25"
-    let supportedInputs = "Audio, images, video, and text"
+    let supportedInputs = "Audio, images, video, text"
     let supportedOutputs = "Text"
     let inputTokenLimit = "1,048,576"
     let outputTokenLimit = "65,536"
     let latestUpdate = "March 2025"
     let knowledgeCutoff = "January 2025"
 
+    // Capabilities with mapped icons
     let capabilities: [Capability] = [
-        Capability(name: "Structured outputs", isSupported: true),
-        Capability(name: "Caching", isSupported: false),
-        Capability(name: "Tuning", isSupported: false),
-        Capability(name: "Function calling", isSupported: true),
-        Capability(name: "Code execution", isSupported: true),
-        Capability(name: "Search grounding", isSupported: true),
-        Capability(name: "Image generation", isSupported: false),
-        Capability(name: "Native tool use", isSupported: true),
-        Capability(name: "Audio generation", isSupported: false),
-        Capability(name: "Live API", isSupported: false),
-        Capability(name: "Thinking", isSupported: true)
+        Capability(name: "Structured outputs", isSupported: true, iconName: "arrow.down.doc"),
+        Capability(name: "Function calling", isSupported: true, iconName: "phone.arrow.up.right"),
+        Capability(name: "Code execution", isSupported: true, iconName: "play.rectangle.on.rectangle"),
+        Capability(name: "Search grounding", isSupported: true, iconName: "magnifyingglass"),
+        Capability(name: "Native tool use", isSupported: true, iconName: "wrench.and.screwdriver"),
+        Capability(name: "Thinking", isSupported: true, iconName: "brain.head.profile"),
+        Capability(name: "Caching", isSupported: false, iconName: "archivebox"),
+        Capability(name: "Tuning", isSupported: false, iconName: "slider.horizontal.3"),
+        Capability(name: "Image generation", isSupported: false, iconName: "photo"),
+        Capability(name: "Audio generation", isSupported: false, iconName: "waveform"),
+        Capability(name: "Live API", isSupported: false, iconName: "antenna.radiowaves.left.and.right"),
     ]
 
-    // Grid layout definition
+    // Layout Definition for Capabilities Grid (Adaptive)
     let capabilityGridLayout: [GridItem] = [
-        GridItem(.flexible(), alignment: .leading),
-        GridItem(.flexible(), alignment: .leading),
-        GridItem(.flexible(), alignment: .leading)
+        GridItem(.adaptive(minimum: 140), alignment: .leading) // Min width for chips
     ]
 
-    // --- State for Hover/Tap Effect (from CardDesignView) ---
-    @State private var isTapped = false // Renamed from isHovering for clarity on iOS
+    // --- State for Tap Effect ---
+    @State private var isTapped = false
 
-    // --- Body Combining Structure and Style ---
+    // --- Body with Enhanced Layout ---
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) { // Increased spacing between sections
+        VStack(alignment: .leading, spacing: 0) {
 
-            // --- Section 1: Header ---
-            VStack(alignment: .leading, spacing: 8) {
-                Text(modelName)
-                    .font(.system(size: 20, weight: .bold)) // Larger title
-                    .foregroundColor(titleColor)
+            // --- Top Profile Section ---
+            HStack(alignment: .top, spacing: 18) { // Increased spacing
+                profileImagePlaceholder() // Reusing the placeholder function slightly modified visually
+                    .padding(.leading, 0)
 
-                Text(modelDescription)
-                    .font(.system(size: 15))
-                    .foregroundColor(bodyColor)
-                    .lineLimit(nil) // Allow multiple lines
-
-                Button {
-                    print("Try in Google AI Studio tapped")
-                    // Add external link opening if needed
-                } label: {
-                    Label("Try in Google AI Studio", systemImage: "sparkles")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(.bordered) // Use bordered, not prominent
-                .tint(titleColor) // Tint the button border/text
-                .padding(.top, 8)
-            }
-            .padding(.bottom, 10) // Add padding below header section
-
-            // --- Section 2: Basic Properties ---
-            VStack(alignment: .leading, spacing: 12) {
-                StyledPropertyRow(icon: "display", label: "Model code", value: modelCode, titleColor: titleColor, bodyColor: bodyColor)
-                StyledDivider(color: subtleDividerColor)
-                StyledPropertyRowMultiLine(
-                    icon: "square.stack.3d.up",
-                    label: "Supported data types",
-                    lines: [("Inputs", supportedInputs), ("Output", supportedOutputs)],
-                    titleColor: titleColor, bodyColor: bodyColor
-                )
-                StyledDivider(color: subtleDividerColor)
-                StyledPropertyRowMultiLine(
-                    icon: "arrow.clockwise.circle",
-                    label: "Token limits [*]",
-                    lines: [("Input token limit", inputTokenLimit), ("Output token limit", outputTokenLimit)],
-                    titleColor: titleColor, bodyColor: bodyColor
-                )
-            }
-            .padding(.bottom, 10) // Add padding below properties section
-
-            // --- Section 3: Capabilities ---
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 8) {
-                    Image(systemName: "wrench.and.screwdriver")
-                        .foregroundColor(titleColor) // Use title color for icon
-                    Text("Capabilities")
-                        .font(.system(size: 18, weight: .semibold)) // Match CardView title style
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(modelName)
+                        .font(.system(size: 20, weight: .semibold)) // Make title stand out
                         .foregroundColor(titleColor)
-                }
+                        .lineLimit(2)
 
-                LazyVGrid(columns: capabilityGridLayout, alignment: .leading, spacing: 15) {
-                    ForEach(capabilities) { capability in
-                         StyledCapabilityItemView(
-                            capability: capability,
-                            supportedTextColor: supportedTextColor,
-                            supportedBackgroundColor: supportedBackgroundColor,
-                            unsupportedTextColor: unsupportedTextColor,
-                            unsupportedBackgroundColor: unsupportedBackgroundColor,
-                            bodyColor: bodyColor // Pass bodyColor for capability name text
-                         )
+                    Text(modelDescription)
+                        .font(.system(size: 14))
+                        .foregroundColor(primaryTextColor.opacity(0.9))
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Spacer()
+
+                    Button { print("Try in Google AI Studio tapped") } label: {
+                        Label("Try in Studio", systemImage: "sparkles")
+                            .font(.system(size: 13, weight: .medium))
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(accentColor) // Use accent color for button
+                    .controlSize(.regular) // Slightly larger touch target
+                    .padding(.top, 8)
+                }
+                Spacer() // Ensure text fills available space
+            }
+            .padding(.top, 20)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20) // Space before details
+
+            // --- Details Section - Visually Grouped ---
+            VStack(alignment: .leading, spacing: 18) { // Increased spacing between detail sections
+
+                // --- Core Properties ---
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Core Properties")
+                       .font(.system(size: 16, weight: .semibold))
+                       .foregroundColor(primaryTextColor)
+                       .padding(.bottom, 4)
+
+                    EnhancedPropertyRow(icon: "barcode", label: "Model ID", value: modelCode, primaryColor: primaryTextColor, secondaryColor: secondaryTextColor) // Changed Icon
+                    EnhancedDivider(color: subtleDividerColor)
+                    EnhancedPropertyRowMultiLine(
+                        icon: "arrow.left.arrow.right.square", // Changed Icon
+                        label: "Data Types",
+                        lines: [("Input", supportedInputs), ("Output", supportedOutputs)],
+                        primaryColor: primaryTextColor, secondaryColor: secondaryTextColor, keyColor: titleColor.opacity(0.8)
+                    )
+                    EnhancedDivider(color: subtleDividerColor)
+                    EnhancedPropertyRow(
+                        icon: "arrow.up.arrow.down.circle", // Changed Icon
+                        label: "Token Limits",
+                        value: "Input: \(inputTokenLimit)\nOutput: \(outputTokenLimit)", // Combine value for simpler row
+                        primaryColor: primaryTextColor, secondaryColor: secondaryTextColor,
+                        infoText: "Max units of text processed per request." // Info tooltip text
+                    )
+                }
+                .padding()
+                .background(sectionBackgroundColor) // Subtle background for grouping
+                .cornerRadius(12)
+
+                // --- Capabilities ---
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Capabilities")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(primaryTextColor)
+
+                    LazyVGrid(columns: capabilityGridLayout, alignment: .leading, spacing: 12) {
+                        ForEach(capabilities) { capability in
+                            CapabilityChipView( // Using the new Chip view
+                                capability: capability,
+                                supportedTextColor: supportedTextColor,
+                                supportedBackgroundColor: supportedBackgroundColor,
+                                unsupportedTextColor: unsupportedTextColor,
+                                unsupportedBackgroundColor: unsupportedBackgroundColor,
+                                chipBackgroundColor: cardBackground // Chip bg matches card bg for seamless look
+                            )
+                        }
                     }
                 }
+                 // No extra background needed if chips are distinct enough
+
+                // --- Metadata ---
+                VStack(alignment: .leading, spacing: 12) {
+                     Text("Metadata")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(primaryTextColor)
+                        .padding(.bottom, 4)
+
+                     // Make version row look more interactive/link-like
+                      HStack {
+                           Image(systemName: "list.bullet.clipboard") // Changed Icon
+                               .foregroundColor(accentColor.opacity(0.8))
+                               .frame(width: 20, alignment: .center)
+                           Text("Current Version")
+                                .font(.system(size: 14))
+                                .foregroundColor(primaryTextColor)
+                           Spacer()
+                           Button { print("Version patterns tapped") } label: {
+                               HStack(spacing: 4) {
+                                   Text(modelCode) // Show the version code directly
+                                    .font(.system(size: 14, weight: .light)) // Use light weight for value/link
+
+                                   Image(systemName: "link") // Link icon
+                                    .font(.system(size: 12))
+
+                               }
+                               .foregroundColor(accentColor) // Use Accent color for link
+                           }
+                          
+                      }
+                      EnhancedDivider(color: subtleDividerColor)
+                      EnhancedPropertyRow(
+                        icon: "calendar.badge.clock", // Changed Icon
+                        label: "Knowledge Cutoff",
+                        value: knowledgeCutoff,
+                        primaryColor: primaryTextColor, secondaryColor: secondaryTextColor,
+                        infoText: "Data used for training ends around this date."
+                      )
+                      EnhancedDivider(color: subtleDividerColor)
+                      EnhancedPropertyRow(icon: "sparkles.rectangle.stack", label: "Last Updated", value: latestUpdate, primaryColor: primaryTextColor, secondaryColor: secondaryTextColor) // Changed Icon
+
+                }
+                .padding()
+                .background(sectionBackgroundColor)
+                .cornerRadius(12)
+
+
             }
-            .padding(.bottom, 10) // Add padding below capabilities section
-
-            // --- Section 4: Metadata ---
-             VStack(alignment: .leading, spacing: 12) {
-                // Complex Value Example (Using Button for Action)
-                 StyledPropertyRowComplexValue(
-                     icon: "list.number",
-                     label: "Versions",
-                     titleColor: titleColor,
-                     bodyColor: bodyColor // Pass body color for potential nested text
-                 ) {
-                     VStack(alignment: .trailing, spacing: 4) {
-                         Button("Read version patterns >") {
-                             print("Version patterns tapped")
-                             // Add navigation or link opening
-                         }
-                         .font(.system(size: 13))
-                         .foregroundColor(titleColor.opacity(0.8)) // Slightly muted link
-
-                         Text("• Experimental: \(modelCode)")
-                             .font(.system(size: 13)) // Match footer style size
-                             .foregroundColor(bodyColor) // Use body color for value
-                             .multilineTextAlignment(.trailing)
-                     }
-                 }
-                 StyledDivider(color: subtleDividerColor)
-                 StyledPropertyRow(icon: "calendar", label: "Latest update", value: latestUpdate, titleColor: titleColor, bodyColor: bodyColor)
-                 StyledDivider(color: subtleDividerColor)
-                 StyledPropertyRow(icon: "brain.head.profile", label: "Knowledge cutoff", value: knowledgeCutoff, titleColor: titleColor, bodyColor: bodyColor)
-            }
-
-            Spacer() // Push content to top if card size is fixed or large
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
 
         }
-        .padding(25) // Slightly increased padding for more content
-        .frame(width: 350) // Slightly wider to accommodate grid if needed
-        // Remove fixed height or make it much larger: .frame(minHeight: 600)
         .background(cardBackground)
-        .cornerRadius(25) // Slightly larger corner radius
-        // Outer Shadows (Neumorphic Style)
-        .shadow(color: shadowDark, radius: 10, x: 6, y: 6) // Slightly larger shadow
+        .cornerRadius(20)
+        // Neumorphic Shadows
+        .shadow(color: shadowDark, radius: 10, x: 6, y: 6)
         .shadow(color: shadowLight, radius: 10, x: -6, y: -6)
-        // Tap Effect (Simulating Hover)
-        .scaleEffect(isTapped ? 1.03 : 1.0)
-        .offset(y: isTapped ? -10 : 0)
+        // Tap Effect
+        .scaleEffect(isTapped ? 1.02 : 1.0)
+        .offset(y: isTapped ? -5 : 0)
         .animation(.spring(response: 0.4, dampingFraction: 0.6), value: isTapped)
-        .onTapGesture {
-            isTapped.toggle()
+        .onTapGesture { isTapped.toggle() }
+    }
+
+    // MARK: - Modified Profile Image Placeholder
+    @ViewBuilder
+    private func profileImagePlaceholder() -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 12) // Slightly softer corners
+                .fill(imageBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(imageShadowDark, lineWidth: 2) // Thinner stroke
+                        .blur(radius: 2)
+                        .offset(x: 1.5, y: 1.5)
+                        .mask(RoundedRectangle(cornerRadius: 12))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(imageShadowLight, lineWidth: 2)
+                        .blur(radius: 2)
+                        .offset(x: -1.5, y: -1.5)
+                        .mask(RoundedRectangle(cornerRadius: 12))
+                )
+
+            Image(systemName: "brain.head.profile") // Gemini Icon
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(accentColor.opacity(0.8)) // Use accent color
+                .padding(16)
         }
+        .frame(width: 65, height: 65) // Slightly smaller placeholder
     }
 }
 
-// MARK: - Helper Views Adapted for Styling
 
-struct StyledDivider: View {
+// MARK: - Enhanced & New Helper Views
+
+struct EnhancedDivider: View {
     let color: Color
     var body: some View {
-        Rectangle()
-            .frame(height: 1)
-            .foregroundColor(color)
-            .padding(.vertical, 4) // Add some vertical space around divider
+        Divider().background(color).padding(.vertical, 2) // Use system divider with color tint
     }
 }
 
-struct StyledPropertyRow: View {
+// Simplified Row supporting optional info text
+struct EnhancedPropertyRow: View {
     let icon: String
     let label: String
     let value: String
-    let titleColor: Color
-    let bodyColor: Color
+    let primaryColor: Color
+    let secondaryColor: Color
+    var infoText: String? = nil // Optional info text
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) { // Add spacing
+        HStack(alignment: infoText == nil ? .center : .top, spacing: 10) { // Align top if info text exists
             Image(systemName: icon)
-                .foregroundColor(titleColor) // Use title color for icon
-                .frame(width: 20, alignment: .center)
-            Text(label)
-                .font(.system(size: 15, weight: .medium)) // Use styled font
-                .foregroundColor(titleColor) // Use title color for label
-                .frame(minWidth: 100, alignment: .leading) // Adjust minWidth if needed
+                .foregroundColor(primaryColor.opacity(0.7))
+                .font(.system(size: 18))
+                .frame(width: 25, alignment: .center)
+            VStack(alignment: .leading, spacing: 2) {
+                 Text(label)
+                     .font(.system(size: 14))
+                     .foregroundColor(primaryColor)
+
+                 // Display info text if provided
+                 if let info = infoText {
+                      HStack(spacing: 3) {
+                         Image(systemName: "info.circle")
+                              .font(.system(size: 11))
+                              .foregroundColor(secondaryColor.opacity(0.8))
+                          Text(info)
+                             .font(.system(size: 11))
+                             .foregroundColor(secondaryColor.opacity(0.8))
+                      }
+                 }
+            }
             Spacer()
             Text(value)
-                .font(.system(size: 15)) // Use styled font
-                .foregroundColor(bodyColor) // Use body color for value
+                .font(.system(size: 14, weight: .light)) // Lighter weight for value
+                .foregroundColor(secondaryColor)
                 .multilineTextAlignment(.trailing)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
 
-struct StyledPropertyRowMultiLine: View {
+// Simplified Multi-line version
+struct EnhancedPropertyRowMultiLine: View {
     let icon: String
     let label: String
     let lines: [(String, String)]
-    let titleColor: Color
-    let bodyColor: Color
+    let primaryColor: Color
+    let secondaryColor: Color
+    let keyColor: Color
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 10) {
             Image(systemName: icon)
-                .foregroundColor(titleColor)
-                .frame(width: 20, alignment: .center)
+                .foregroundColor(primaryColor.opacity(0.7))
+                .font(.system(size: 18))
+                .frame(width: 25, alignment: .center)
             Text(label)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(titleColor)
-                .frame(minWidth: 100, alignment: .leading)
+                .font(.system(size: 14))
+                .foregroundColor(primaryColor)
+                .padding(.top, 2) // Align label better with multi-line content
             Spacer()
-            VStack(alignment: .trailing, spacing: 5) { // Increased spacing
+            VStack(alignment: .trailing, spacing: 4) {
                 ForEach(lines, id: \.0) { lineItem in
-                    VStack(alignment: .trailing, spacing: 2) { // Reduced spacing in sub-VStack
-                        Text(lineItem.0) // Key (e.g., "Inputs")
-                           .font(.system(size: 13, weight: .semibold)) // Smaller, bold key
-                           .foregroundColor(titleColor.opacity(0.9)) // Slightly muted title color
-                        Text(lineItem.1) // Value
-                            .font(.system(size: 14)) // Slightly smaller value text
-                            .foregroundColor(bodyColor)
+                    HStack(spacing: 5) {
+                        Text(lineItem.0 + ":")
+                           .font(.system(size: 12, weight: .medium)) // Medium weight key
+                           .foregroundColor(keyColor) // Use specific key color
+                        Text(lineItem.1)
+                            .font(.system(size: 13, weight: .light)) // Lighter weight value
+                            .foregroundColor(secondaryColor)
                             .multilineTextAlignment(.trailing)
                     }
+                    .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
     }
 }
 
-struct StyledPropertyRowComplexValue<Content: View>: View {
-    let icon: String
-    let label: String
-    let titleColor: Color
-    let bodyColor: Color // Pass potentially for nested content styling
-    @ViewBuilder let valueContent: Content
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon)
-                .foregroundColor(titleColor)
-                .frame(width: 20, alignment: .center)
-            Text(label)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(titleColor)
-                .frame(minWidth: 100, alignment: .leading)
-            Spacer()
-            valueContent // Embed the custom view content
-        }
-    }
-}
-
-struct StyledCapabilityItemView: View {
-    typealias Capability = StyledGeminiModelCardView.Capability // Use outer type
+// New View for Capability Chips
+struct CapabilityChipView: View {
+    typealias Capability = EnhancedGeminiProfileCard.Capability
 
     let capability: Capability
     let supportedTextColor: Color
     let supportedBackgroundColor: Color
     let unsupportedTextColor: Color
     let unsupportedBackgroundColor: Color
-    let bodyColor: Color // For the capability name
+    let chipBackgroundColor: Color // To blend with card or section
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) { // Adjusted spacing
-            Text(capability.name)
-                .font(.system(size: 14)) // Use body font size
-                .foregroundColor(bodyColor) // Use body color for name
+        HStack(spacing: 8) {
+            Image(systemName: capability.iconName)
+                .foregroundColor(capability.isSupported ? supportedTextColor : unsupportedTextColor.opacity(0.7))
+                .font(.system(size: 14)) // Icon size within chip
+                .frame(width: 18, alignment: .center)
 
-            // Styled Status View Logic (Inlined for simplicity here)
-            Text(capability.isSupported ? "Supported" : "Not supported")
-                .font(.system(size: 11, weight: .medium)) // Smaller font for status
-                .padding(.horizontal, 6)
-                .padding(.vertical, 3)
+            Text(capability.name)
+                .font(.system(size: 13)) // Slightly smaller text in chip
                 .foregroundColor(capability.isSupported ? supportedTextColor : unsupportedTextColor)
-                .background(capability.isSupported ? supportedBackgroundColor : unsupportedBackgroundColor)
-                .cornerRadius(5)
+                .lineLimit(1)
+
+            Spacer() // Push status tag to the right if needed, or remove for compact chips
+
+             // Status indicator (optional, could be just color coding the chip/icon)
+             Circle()
+                 .fill(capability.isSupported ? supportedTextColor : unsupportedTextColor.opacity(0.5))
+                 .frame(width: 6, height: 6)
+
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(capability.isSupported ? supportedBackgroundColor : unsupportedBackgroundColor) // Use status bg for chip bg
+        .cornerRadius(15) // Pill shape
+        // Optional subtle border matching card background to lift it slightly
+         .overlay(
+             RoundedRectangle(cornerRadius: 15)
+              .stroke(chipBackgroundColor.opacity(0.5), lineWidth: 1)
+         )
     }
 }
 
-// MARK: - Preview for the Combined View
 
-struct StyledGeminiModelCardView_Previews: PreviewProvider {
+// MARK: - Preview
+
+struct EnhancedGeminiProfileCard_Previews: PreviewProvider {
     static var previews: some View {
-        // Need a dark background for the preview to see the neumorphic effect
         ZStack {
-            Color(hex: "#1E1E1E").edgesIgnoringSafeArea(.all) // Dark background like CardDesignView
-            StyledGeminiModelCardView()
+            Color(hex: "#1E1E1E").edgesIgnoringSafeArea(.all)
+            ScrollView {
+                VStack {
+                    EnhancedGeminiProfileCard()
+                        .padding() // Normal width
+
+                    EnhancedGeminiProfileCard()
+                        .frame(width: 320) // Constrained width example
+                        .padding()
+                }
+                .padding(.vertical)
+            }
         }
-        .preferredColorScheme(.dark) // Ensure dark mode elements if using system colors anywhere
+        .preferredColorScheme(.dark)
     }
 }
