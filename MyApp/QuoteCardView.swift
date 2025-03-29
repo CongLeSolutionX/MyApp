@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 3/29/25.
 //
-
 import SwiftUI
 
 // MARK: - Data Model (Simple Local Storage)
@@ -32,25 +31,22 @@ struct Quote {
 
 struct ContentView: View {
     // Sample quote data stored locally within the view
-    // In a real app, this might come from UserDefaults, Core Data, etc.
     @State private var currentQuote = Quote(
         text: "Fortune favors the bold.",
         author: "Virgil",
         description: "Latin poet",
-        isFavorite: true // Example initial state
+        isFavorite: false // Start as not favorite initially
     )
 
     var body: some View {
-//        WindowGroup {
-            ZStack {
-                // Dark background for the whole screen
-                Color(red: 0.15, green: 0.15, blue: 0.15)
-                    .edgesIgnoringSafeArea(.all)
+         ZStack { // Changed from Scene to View for easier composition
+            // Dark background for the whole screen
+            Color(red: 0.15, green: 0.15, blue: 0.15)
+                .edgesIgnoringSafeArea(.all)
 
-                // Center the Quote Card
-                QuoteCardView(quote: $currentQuote)
-            }
-//        }
+            // Center the Quote Card
+            QuoteCardView(quote: $currentQuote) // Pass the binding
+        }
     }
 }
 
@@ -58,6 +54,7 @@ struct ContentView: View {
 
 struct QuoteCardView: View {
     @Binding var quote: Quote // Use Binding to allow modification (like favorite status)
+    @State private var isAuthorVisible: Bool = false // State to control author visibility
 
     // Define custom colors based on the image/CSS
     let cardBackground = Color(red: 183/255, green: 226/255, blue: 25/255) // rgb(183, 226, 25)
@@ -97,50 +94,73 @@ struct QuoteCardView: View {
 
             Spacer() // Pushes attribution section down
 
-            // Attribution and Favorite Icon Area
-            HStack(alignment: .center) {
-                 Text("- by \(quote.author)\n(\(quote.description))")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(titleAuthorColor)
-                    .lineSpacing(3) // Spacing between author and description lines
+            // Attribution and Favorite Icon Area (Conditional Visibility)
+            // Use a minimum height to prevent layout collapse when hidden
+            Group {
+                if isAuthorVisible {
+                    HStack(alignment: .center) {
+                         Text("- by \(quote.author)\n(\(quote.description))")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(titleAuthorColor)
+                            .lineSpacing(3) // Spacing between author and description lines
+                            .transition(.opacity.combined(with: .move(edge: .bottom))) // Add transition
 
-                Spacer() // Pushes heart icon to the right
+                        Spacer() // Pushes heart icon to the right
 
-                // Favorite Button (Heart Icon)
-                Image(systemName: quote.isFavorite ? "heart.fill" : "heart")
-                    .foregroundColor(.black) // Black heart as in the image
-                    .font(.system(size: 20))
-                    .onTapGesture {
-                        // Toggle favorite status when tapped
-                        // In a real app, persist this change
-                        quote.isFavorite.toggle()
+                        // Favorite Button (Heart Icon)
+                        Image(systemName: quote.isFavorite ? "heart.fill" : "heart")
+                            .foregroundColor(.black) // Black heart as in the image
+                            .font(.system(size: 20))
+                            .transition(.opacity.combined(with: .move(edge: .bottom))) // Add transition
+                            .onTapGesture {
+                                // Important: Prevent the card's tap gesture from firing
+                                // when tapping ONLY the heart. Toggle favorite here.
+                                quote.isFavorite.toggle()
+                            }
                     }
+                    .padding(.horizontal, 30) // Horizontal padding for the attribution line
+                } else {
+                    // Placeholder to maintain space when hidden
+                    // Adjust height based on estimated height of the author section
+                     HStack { Spacer() }.frame(height: 40) // Adjust height as needed
+                }
             }
-             .padding(.horizontal, 30) // Horizontal padding for the attribution line
-             .padding(.bottom, 30) // Bottom padding for the card
+            .frame(height: 50) // Give the container a fixed height
+            .padding(.bottom, 30) // Bottom padding for the card content area
 
         }
         // Card Styling
-        .frame(width: 300, height: 420) // Adjusted frame size to better fit content based on image proportions
+        .frame(width: 300, height: 420) // Adjusted frame size
         .background(cardBackground)
         .cornerRadius(15) // Slightly larger corner radius
         .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5) // Optional shadow
+        .contentShape(Rectangle()) // Makes the entire area tappable, including transparent parts
+        .onTapGesture {
+            // Toggle author visibility when the card area (excluding heart) is tapped
+            withAnimation(.easeInOut(duration: 0.3)) { // Add animation
+                 isAuthorVisible.toggle()
+            }
+        }
+        // Optional: Reset visibility if the quote changes
+//        .onChange(of: quote.id) { _ in
+//            isAuthorVisible = false
+//        }
     }
 }
 
 // MARK: - Preview Provider
 
 struct ContentView_Previews: PreviewProvider {
-        @State static var previewQuote = Quote(
+     // Need to use @State for the preview binding
+     @State static var previewQuote = Quote(
         text: "Fortune favors the bold.",
         author: "Virgil",
         description: "Latin poet",
-        isFavorite: true
+        isFavorite: false
     )
 
     static var previews: some View {
          ZStack {
-            // Dark background for the preview
             Color(red: 0.15, green: 0.15, blue: 0.15)
                 .edgesIgnoringSafeArea(.all)
             QuoteCardView(quote: $previewQuote)
