@@ -69,7 +69,7 @@ struct ReadingView: View {
     @Environment(\.sizeCategory) var sizeCategory // For Dynamic Type
     @Environment(\.colorScheme) var systemColorScheme // To resolve .systemDefault theme
     @Environment(\.accessibilityReduceTransparency) var reduceTransparency
-    @Environment(\.accessibilityInvertColors) var increaseContrast
+    @Environment(\.accessibilityDifferentiateWithoutColor) var increaseContrast
     
     let articleContent: String // The text to display
     
