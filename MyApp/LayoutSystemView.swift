@@ -13,9 +13,6 @@ private struct MyHorizontalAlignmentID: AlignmentID {
     /// Provides the default value for the custom alignment guide.
     /// In this case, we position it at 25% of the view's width from the leading edge.
     static func defaultValue(in context: ViewDimensions) -> CGFloat {
-        // In LTR, leading edge is minX. Guide is at minX + 0.25 * width.
-        // ViewDimensions gives offsets relative to the view's origin (0,0).
-        // So, 0.25 * width is the offset from the origin.
         return context.width * 0.25
     }
 }
@@ -44,90 +41,93 @@ struct MyCustomVStackLayout: Layout {
     var spacing: CGFloat? = nil
 
     /// Calculates the size needed by the layout container.
-    /// - Parameters:
-    ///   - proposal: The proposed size offered by the parent view.
-    ///   - subviews: A collection of proxies for the subviews.
-    ///   - cache: A storage for caching intermediate calculations (not used here).
-    /// - Returns: The calculated size for the container.
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         guard !subviews.isEmpty else { return .zero }
 
-        // Use system default spacing if nil is provided.
-        let verticalSpacing = spacing ?? 8 // Default spacing if nil
-        // Propose width based on container proposal, height is flexible for subviews initially.
+        let verticalSpacing = spacing ?? 8
         let subviewProposal = ProposedViewSize(width: proposal.width, height: nil)
 
-        // Calculate the total height required by summing ideal heights and spacing.
         let totalHeight = subviews.indices.reduce(0) { total, index in
             let subview = subviews[index]
             let subviewHeight = subview.sizeThatFits(subviewProposal).height
-            // Only add spacing if it's not the last subview
             let spacing = (index == subviews.count - 1) ? 0 : verticalSpacing
             return total + subviewHeight + spacing
         }
 
-        // Find the maximum width required among all subviews based on the proposal.
         let maxWidth = subviews.reduce(0) { currentMax, subview in
             return max(currentMax, subview.sizeThatFits(subviewProposal).width)
         }
 
-        // Return the combined calculated size. The parent layout will handle clamping
-        // to the final proposal if necessary.
         return CGSize(
             width: maxWidth,
             height: totalHeight
         )
-        // ERROR FIX 1: Removed incorrect call to .replacingUnspecifiedDimensions on CGSize
     }
 
     /// Places the subviews within the given bounds.
-    /// - Parameters:
-    ///   - bounds: The bounds rectangle allocated to the container by its parent.
-    ///   - proposal: The size proposal used to calculate the bounds.
-    ///   - subviews: A collection of proxies for the subviews.
-    ///   - cache: A storage for caching intermediate calculations (not used here).
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         guard !subviews.isEmpty else { return }
 
-        let verticalSpacing = spacing ?? 8 // Use consistent spacing
+        let verticalSpacing = spacing ?? 8
         var currentY = bounds.minY
 
-        // Determine proposal for placing subviews (allow width flexibility if container allows)
+        // Proposal for placing subviews
         let subviewProposal = ProposedViewSize(width: proposal.width, height: nil)
 
-        // ERROR FIX 2: Get the container's target alignment guide offset within the bounds.
-        // This *should* work based on documentation for Layout.
-        // If this still errors, it might be an Xcode/Beta issue or deeper API nuance.
-        let containerGuideX = bounds[alignment]
+        // --- ERROR FIX ---
+        // Calculate the target X coordinate within the bounds based on the container's alignment.
+        // We cannot use bounds[alignment]. We must calculate it manually for known types.
+        let containerGuideXAnchorOffset: CGFloat
+        if alignment == .leading {
+            containerGuideXAnchorOffset = bounds.minX
+        } else if alignment == .trailing {
+            containerGuideXAnchorOffset = bounds.maxX
+        } else if alignment == .center {
+            containerGuideXAnchorOffset = bounds.midX
+        // } else if alignment == .myAlignment {
+            // Handling custom alignments for the *container's* guide within placeSubviews
+            // is tricky without ViewDimensions for the container itself.
+            // A robust way often involves calculating based on the subviews' desired positions,
+            // but for simplicity here, we might fallback or use a known proxy like center.
+            // Let's fallback to center for this example's custom alignment positioning
+            // *within the container*. This means .myAlignment on the container
+            // will behave like .center *for positioning subviews*.
+            // A better approach might involve implementing explicitAlignment for the container
+            // and reading that value if needed, though that's more complex.
+            // containerGuideXAnchorOffset = bounds.width * 0.25 // This assumes minX is 0, incorrect.
+            // Fallback to center:
+            // containerGuideXAnchorOffset = bounds.midX
+        } else {
+             // For truly custom alignments passed to the *container*, we need a default value.
+             // SwiftUI's mechanism for this isn't fully exposed. The AlignmentID.defaultValue
+             // needs ViewDimensions *of the view setting the default*.
+             // Here, we only have the container's bounds. Let's use the origin + default value calculated on *some* dimension.
+             // This is imperfect. The default behavior likely involves more complex internal merging.
+             // Using center as a fallback is often the most reasonable approach without more info.
+              containerGuideXAnchorOffset = bounds.midX // Fallback to center
+        }
+        // --- END ERROR FIX ---
+
 
         // Iterate through subviews to place them.
         for index in subviews.indices {
             let subview = subviews[index]
-
-            // Get dimensions using the placement proposal.
             let dimensions = subview.dimensions(in: subviewProposal)
-
-            // Read the custom layout value (demonstration purpose).
-            // We use it here to add an extra horizontal offset.
             let customXOffset = subview[MyCustomLayoutValueKey.self] ?? 0.0
 
-            // ERROR FIX 2: Get the subview's alignment guide offset relative to its own origin.
-            let subviewGuideX = dimensions[alignment]
+            // Get the subview's alignment guide offset relative to its own origin (0, 0)
+            let subviewGuideXOffset = dimensions[alignment]
 
-            // Calculate the subview's origin X coordinate so its guide matches the container's guide.
-            // subviewOriginX + subviewGuideX = bounds.minX + containerGuideX
-            let subviewOriginX = bounds.minX + containerGuideX - subviewGuideX
+            // Calculate the subview's origin X so its guide aligns with the container's guide anchor point
+            // subviewOriginX + subviewGuideXOffset = containerGuideXAnchorOffset
+            let subviewOriginX = containerGuideXAnchorOffset - subviewGuideXOffset
 
-            // Apply the custom offset read from the LayoutValueKey.
             let finalX = subviewOriginX + customXOffset
 
-            // Define the placement point (top-leading corner of the subview).
             let placementPoint = CGPoint(x: finalX, y: currentY)
 
-            // Place the subview.
             subview.place(at: placementPoint, anchor: .topLeading, proposal: subviewProposal)
 
-            // Update the Y position for the next subview.
             currentY += dimensions.height
             if index < subviews.count - 1 {
                 currentY += verticalSpacing
@@ -135,20 +135,15 @@ struct MyCustomVStackLayout: Layout {
         }
     }
 
-    // --- Optional Layout Protocol Methods ---
-
-    // Provide layout properties if needed (e.g., stack orientation).
+    // Optional methods remain the same
     static var layoutProperties: LayoutProperties {
         var properties = LayoutProperties()
-        properties.stackOrientation = .vertical // Indicate this behaves like a vertical stack
+        properties.stackOrientation = .vertical
         return properties
     }
 
-    // Provide custom spacing logic if needed. Default merges subview spacing.
     func spacing(subviews: Subviews, cache: inout ()) -> ViewSpacing {
-         // Calculate container spacing based on subviews (e.g., merge outer edges)
          var spacing = ViewSpacing()
-         // ERROR FIX 3: Use Edge.Set for edges parameter
          if let first = subviews.first {
              spacing.formUnion(first.spacing, edges: [.top, .leading, .trailing])
          }
@@ -158,17 +153,13 @@ struct MyCustomVStackLayout: Layout {
          return spacing
     }
 
-    // Provide explicit alignment guide values for the container itself.
-    // Default merges subview guides. Let's explicitly center the container's center guide.
      func explicitAlignment(of guide: HorizontalAlignment, in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGFloat? {
          if guide == .center {
-             return bounds.midX // Explicitly define the center guide
+             return bounds.midX
          }
-         // Return nil to use default merging for other guides
          return nil
      }
 
-    // Cache is not used in this simple example.
     func makeCache(subviews: Subviews) -> () { }
     func updateCache(_ cache: inout (), subviews: Subviews) { }
 }
@@ -176,7 +167,6 @@ struct MyCustomVStackLayout: Layout {
 // MARK: - 4. Helper View Modifier for Custom Layout Value
 
 extension View {
-    /// Sets the custom layout value for the view.
     func myCustomLayoutValue(_ value: CGFloat?) -> some View {
         layoutValue(key: MyCustomLayoutValueKey.self, value: value)
     }
@@ -194,59 +184,57 @@ struct ContentView: View {
                 .font(.title)
                 .padding(.bottom)
 
-            // --- Use the Custom Layout Container ---
             MyCustomVStackLayout(
-                alignment: useMyAlignment ? .myAlignment : .center, // Use custom or center alignment
+                alignment: useMyAlignment ? .myAlignment : .center,
                 spacing: 15
             ) {
-                // Subview 1: Basic Text
                 Text("Aligned Text 1")
                     .font(.headline)
                     .background(Color.yellow.opacity(0.3))
 
-                // Subview 2: Rectangle with custom Layout Value Key
                 Rectangle()
                     .fill(Color.blue.opacity(0.7))
                     .frame(height: 50)
-                    .myCustomLayoutValue(30) // Apply custom X offset via LayoutValueKey
+                    .myCustomLayoutValue(30)
                     .overlay(Text("Offset by LayoutValueKey").foregroundColor(.white))
 
-                // Subview 3: Image with overridden alignment guide
                 if showThird {
                     Image(systemName: "star.fill")
                         .font(.largeTitle)
                         .foregroundColor(.orange)
-                         // Override how this specific view aligns to .myAlignment guide
                         .alignmentGuide(.myAlignment) { d in
-                            // Align this view's *center* to the container's .myAlignment guide
                             d[HorizontalAlignment.center]
                         }
                         .background(Color.gray.opacity(0.2))
                 }
 
-
-                // Subview 4: Text aligned normally
                 Text("Longer text view to show alignment clearly")
-                    .multilineTextAlignment(useMyAlignment ? .leading : .center) // Text alignment *within* the view
+                    .multilineTextAlignment(textAlignmentForContainerAlignment(alignment: useMyAlignment ? .myAlignment : .center)) // Align text *within* the view based on container alignment
                     .background(Color.green.opacity(0.3))
-
-
             }
             .padding()
-            .border(Color.red) // Border around the custom layout container
+            .border(Color.red)
 
 
-            Spacer() // Push controls to bottom
+            Spacer()
 
-            // --- Controls to change layout parameters ---
             Toggle("Use Custom Alignment (.myAlignment)", isOn: $useMyAlignment.animation())
             Toggle("Show Star View", isOn: $showThird.animation())
-
         }
         .padding()
     }
-}
 
+    // Helper to map container alignment to TextAlignment
+    private func textAlignmentForContainerAlignment(alignment: HorizontalAlignment) -> TextAlignment {
+        if alignment == .leading {
+            return .leading
+        } else if alignment == .trailing {
+            return .trailing
+        } else {
+            return .center // Default for .center and custom alignments in this example
+        }
+    }
+}
 
 // MARK: - Preview
 #Preview {
