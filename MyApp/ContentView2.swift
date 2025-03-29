@@ -5,9 +5,23 @@
 //  Created by Cong Le on 3/28/25.
 //
 
+
 import SwiftUI
+import Combine // Needed for ObservableObject, PassthroughSubject
+import CoreGraphics // Needed for CGPoint, CGSize, CGRect, CGFloat, CGAffineTransform
+import Foundation // Needed for Date, URL, etc.
+// Import other necessary frameworks if specific examples require them (like Accessibility)
+import Accessibility
 
-
+// MARK: - Main Application Structure
+@main
+struct AnimationTransitionDemoApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
 
 // MARK: - Core SwiftUI Concepts Demonstrated
 
@@ -24,10 +38,13 @@ struct MyChartDescriptorRepresentable: AXChartDescriptorRepresentable {
      // Creates the initial descriptor
      func makeChartDescriptor() -> AXChartDescriptor {
          // Create an AXNumericDataAxisDescriptor for the Y-axis (values)
+         // Ensure min/max have defaults if dataPoints could be empty
+         let minY = dataPoints.min() ?? 0
+         let maxY = dataPoints.max() ?? 1
          let yAxis = AXNumericDataAxisDescriptor(
              title: "Value",
-             range: dataPoints.min()!...dataPoints.max()!, // Dynamically calculate range
-             gridlinePositions: []) { value in "\(value)" }
+             range: minY...maxY,
+             gridlinePositions: []) { value in "\(Int(value))" } // Format as Int for clarity
 
          // Create an AXCategoricalDataAxisDescriptor for the X-axis (indices/categories)
          let xAxis = AXCategoricalDataAxisDescriptor(
@@ -40,7 +57,8 @@ struct MyChartDescriptorRepresentable: AXChartDescriptorRepresentable {
              name: "Sample Data",
              isContinuous: false, // Bars are typically discrete
              dataPoints: dataPoints.enumerated().map { index, value in
-                 AXDataPoint(x: "Index \(index + 1)", y: value)
+                 // Ensure data point x value matches categoryOrder string
+                 AXDataPoint(x: ("Index \(index + 1)" as NSString) as String, y: value)
              }
          )
 
@@ -57,12 +75,22 @@ struct MyChartDescriptorRepresentable: AXChartDescriptorRepresentable {
 
      // Updates the descriptor if the environment or view state changes
      func updateChartDescriptor(_ descriptor: AXChartDescriptor) {
-         // Example: Update axis range if data changes or title based on type size
-         descriptor.yAxis?.range = dataPoints.min()!...dataPoints.max()!
-        descriptor.series[0].dataPoints = dataPoints.enumerated().map { index, value in
-             AXDataPoint(x: "Index \(index + 1)", y: value)
-        }
+         // Safely update axis range and series data
+         let minY = dataPoints.min() ?? 0
+         let maxY = dataPoints.max() ?? 1
+         // Update Y-axis range; cast to NSObject for AXNumericDataAxisDescriptor
+        if let yAxis = descriptor.yAxis as? AXNumericDataAxisDescriptor {
+             yAxis.range = minY...maxY
+         }
 
+         // Check if series exists before updating
+         if descriptor.series.indices.contains(0) {
+             descriptor.series[0].dataPoints = dataPoints.enumerated().map { index, value in
+                 AXDataPoint(x: ("Index \(index + 1)" as NSString) as String, y: value)
+             }
+         }
+
+         // Update title based on dynamic type size
          if dynamicTypeSize.isAccessibilitySize {
              descriptor.title = "Sample Chart (Large Text)"
          } else {
@@ -180,27 +208,67 @@ struct BounceAnimation: CustomAnimation {
 
         let progress = time / duration
         // Create a bounce effect using a scaled sine wave that dampens over time
-        let bounceFactor = CGFloat(pow(2, -10 * progress) * abs(sin(progress * .pi * CGFloat(bounceCount))))
+        // Ensure progress is not zero to avoid division issues or invalid calculations if needed
+        let safeProgress = max(progress, 0.001) // Avoid potential instability at t=0 depending on function
+        // Dampened sine wave: amplitude decreases exponentially
+        let amplitude = pow(2.0, -10 * safeProgress)
+        let oscillations = sin(safeProgress * .pi * 2.0 * CGFloat(bounceCount)) // Use 2*pi for full cycles
+        let bounceFactor = amplitude * oscillations
 
-        // Interpolate from zero (start) towards the target (value)
-        var result = V.zero
-        result.scale(by: 1 - bounceFactor) // Scale down the starting point (zero)
-        var targetContribution = value
-        targetContribution.scale(by: bounceFactor) // Scale up the target point
-        result += targetContribution
+        // Interpolate from zero (implicit start) towards the target ('value')
+        // Simple model: Move towards target and add the bounce offset relative to the target
+        let baseProgress = 1.0 - pow(1.0 - safeProgress, 3) // Ease-out curve towards target
 
-        return result
+        var currentPosition = V.zero
+        currentPosition.scale(by: 1.0 - baseProgress) // Contribution from start (zero)
+
+        var targetPosition = value
+        targetPosition.scale(by: baseProgress) // Contribution from end (value)
+
+        currentPosition += targetPosition // Base movement towards target
+
+        // Add the bounce displacement (relative to the final target 'value')
+        var bounceDisplacement = value
+        bounceDisplacement.scale(by: bounceFactor)
+        currentPosition += bounceDisplacement
+
+
+        // Clamping (optional but good practice for stability in simple models)
+        // This simple clamp just stops further movement once target is reached.
+         if time > 0 && currentPosition.magnitudeSquared >= value.magnitudeSquared && bounceFactor < 0.01 {
+            // If close to target and bounce is small, just return target
+            // return value
+         }
+
+        // This ensures that the value doesn't wildly exceed the target due to the bounceFactor addition.
+        // A proper physics model would naturally handle this.
+        // For simplicity here, we are just adding the bounce offset.
+        
+        print("Custom Time: \(time), Bounce Factor: \(bounceFactor), Base Progress: \(baseProgress)")
+
+
+        return currentPosition
     }
-    
-    // Required for Hashable conformance if struct isn't just basic types
-    func hash(into hasher: inout Hasher) {
-         hasher.combine(duration)
-         hasher.combine(bounceCount)
-     }
 
-    static func == (lhs: BounceAnimation, rhs: BounceAnimation) -> Bool {
-        lhs.duration == rhs.duration && lhs.bounceCount == rhs.bounceCount
+    // Optional: Implement velocity if needed for smooth transitions between animations
+    // func velocity<V>(...) -> V? { ... }
+
+    // Optional: Implement shouldMerge if this animation can smoothly take over
+    // from a previous instance of itself
+     func shouldMerge<V>(previous: Animation, value: V, time: TimeInterval, context: inout AnimationContext<V>) -> Bool where V : VectorArithmetic {
+         // Allow merging to preserve velocity if needed in a real scenario
+         return true // Simple merge for demonstration
      }
+     
+     // Required for Hashable conformance if struct isn't just basic types
+     func hash(into hasher: inout Hasher) {
+          hasher.combine(duration)
+          hasher.combine(bounceCount)
+      }
+
+     static func == (lhs: BounceAnimation, rhs: BounceAnimation) -> Bool {
+         lhs.duration == rhs.duration && lhs.bounceCount == rhs.bounceCount
+      }
 }
 
 /// Extension to make the custom animation easily accessible.
@@ -243,7 +311,8 @@ struct ContentView: View {
 
     // Keyframe Animator State
     @State private var triggerKeyframes: Bool = false
-    @State private var keyframeValues = KeyframeDemoValues() // Keep track of current values
+    // Note: `keyframeValues` state might not be needed if KeyframeAnimator manages its internal value display perfectly
+    // @State private var keyframeValues = KeyframeDemoValues()
 
     // Custom Animation State
     @State private var showBouncingView = false
@@ -260,14 +329,14 @@ struct ContentView: View {
                     Text("AXChartDescriptorRepresentable")
                         .font(.headline)
                     // Basic visual representation - ACCESSIBILITY is key here
-                    HStack {
+                    HStack(alignment: .bottom, spacing: 2) { // Align bars at bottom
                         ForEach(chartData.indices, id: \.self) { index in
                            Rectangle()
-                                .fill(.blue.opacity(chartData[index]/chartData.max()!))
-                                .frame(width: 20, height: chartData[index] * 5)
+                                .fill(.blue.opacity(max(0.1, (chartData[index]/(chartData.max() ?? 1))))) // Ensure some opacity
+                                .frame(width: 20, height: max(1, chartData[index] * 5)) // Ensure min height
                          }
                     }
-                    .frame(height: 100)
+                    .frame(height: 100, alignment: .bottom) // Frame alignment
                     // Apply the accessibility descriptor
                     .accessibilityChartDescriptor(MyChartDescriptorRepresentable(dataPoints: chartData))
 
@@ -282,7 +351,7 @@ struct ContentView: View {
                        .font(.headline)
                        .accessibilityHeading(.h1) // Set heading level
                    Text("This button has accessibility traits.")
-                        .accessibilityHeading(.h2)
+                       .accessibilityHeading(.h2)
                    Button("Selectable Button") { }
                        .accessibilityAddTraits([.isButton, .isSelected]) // Add traits
                 }
@@ -342,7 +411,7 @@ struct ContentView: View {
                     GeometryReader { geo in
                          Text("View size: \(Int(geo.size.width)) x \(Int(geo.size.height))")
                             .position(x: geo.size.width / 2, y: geo.size.height / 2)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity) // Allow positioning
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center) // Use alignment parameter
                      }
                      .frame(height: 100)
                      .border(Color.cyan)
@@ -366,21 +435,23 @@ struct ContentView: View {
                          .font(.headline)
                          ColorSchemeToggle(colorSchemeOverride: $colorSchemeOverride)
                      Text("Current scheme: \(colorSchemeOverride?.description ?? "System")")
-                         .environment(\.colorScheme, colorSchemeOverride ?? .light) // Example override
+                         // Setting Environment via .environment() applies to the Text view itself
+                         // For demo, we might apply it to a parent if needed.
+                         .environment(\.colorScheme, colorSchemeOverride ?? .light) // Example override on the Text view
                  }
-                .padding(.vertical)
+                 .padding(.vertical)
 
                  VStack(alignment: .leading) {
                      Text("StateObject & EnvironmentObject")
                          .font(.headline)
-                    // CounterView gets the model via @EnvironmentObject
+                    // CounterView gets the model via @EnvironmentObject provided below
                      CounterView()
                     Button("Increment Shared Counter") {
                         counterModel.increment() // Can increment from parent
                      }
                  }
                  .padding(.vertical)
-                 .environmentObject(counterModel) // Provide the model to the hierarchy
+                 .environmentObject(counterModel) // Provide the model down the hierarchy
             }
 
 
@@ -426,7 +497,7 @@ struct ContentView: View {
                             .transition(.move(edge: .bottom).combined(with: .opacity)) // Combine effects
                      }
                      Button("Toggle Transition View") {
-                         withAnimation(.snappy) {
+                         withAnimation(.snappy) { // Using a snappy spring animation
                              isShowingTransitionView.toggle()
                          }
                      }
@@ -441,13 +512,13 @@ struct ContentView: View {
                          Text("Different In/Out")
                              .padding()
                              .background(Color.mint)
-                             .transition(.asymmetric(insertion: .scale.animation(.bouncy), removal: .slide))
+                             .transition(.asymmetric(insertion: .scale.animation(.bouncy), removal: .slide.animation(.easeOut))) // Add animations
                     }
                     Button("Toggle Asymmetric View") {
                          withAnimation { isShowingAsymmetricView.toggle() }
                     }
                  }
-                .padding(.vertical)
+                 .padding(.vertical)
 
 
                 // --- Content Transition ---
@@ -455,10 +526,12 @@ struct ContentView: View {
                     Text("Content Transition")
                          .font(.headline)
                     Text(counterTitle)
-                        .font(.title)
+                        .font(.system(size: 30, weight: .bold, design: .rounded)) // Slightly smaller font
+                        .id("CounterText:\(counterModel.count)") // Add ID to ensure Text recreation triggers transition properly sometimes needed
+                        .frame(minWidth: 100, alignment: .center) // Give it some space
                         .contentTransition(.numericText(countsDown: counterModel.count < Int.random(in: -5...5))) // Dynamic countdown direction
                     Button("Increment for Content Transition") {
-                        withAnimation(.smooth) {
+                        withAnimation(.smooth(duration: 0.5)) { // Smoother animation
                              counterModel.increment()
                              counterTitle = "Count: \(counterModel.count)"
                         }
@@ -484,7 +557,7 @@ struct ContentView: View {
                          }
                     }
                     .frame(height: 60)
-                    // Button already exists to toggle isShowingAsymmetricView
+                    // Button already exists to toggle isShowingAsymmetricView used above
                  }
                  .padding(.vertical)
 
@@ -499,7 +572,7 @@ struct ContentView: View {
                              .scaleEffect(values.scale)
                              .rotationEffect(values.rotation)
                              .offset(x: values.offset.x, y: values.offset.y)
-                     } keyframes: { _ in // Start value captured implicitly if needed
+                     } keyframes: { initialValues in // Start value available here
                         KeyframeTrack(\.offset) {
                             CubicKeyframe(CGPoint(x: 50, y: 0), duration: 0.4)
                             SpringKeyframe(CGPoint(x: 0, y: 50), spring: .bouncy)
@@ -515,7 +588,7 @@ struct ContentView: View {
                             CubicKeyframe(1.3, duration: 0.4)
                             SpringKeyframe(1.0, spring: .snappy)
                         }
-                    }
+                     }
                     .frame(height: 70) // Ensure space for animation
 
                      Button("Run Keyframes") {
@@ -584,7 +657,7 @@ struct ContentView: View {
                         var resolvedText = context.resolve(Text("Canvas Text").font(.caption))
                         resolvedText.shading = .color(.white)
                         context.draw(resolvedText, at: CGPoint(x: size.width/2, y: size.height/2), anchor: .center)
-                        
+
                         // Draw resolved image (if needed)
                         // var resolvedImage = context.resolve(Image(systemName:"star"))
                         // context.draw(resolvedImage, at: ...)
@@ -660,11 +733,11 @@ struct ContentView: View {
                     DynamicTypeSizeView()
                 }
                 .padding(.vertical)
-                
+
                 VStack(alignment: .leading) {
                     Text("Image Rendering and Display")
                         .font(.headline)
-                    Image("LandscapePlaceholder") // Assumes an image named 'LandscapePlaceholder' exists in assets
+                    Image("LandscapePlaceholder") // Uses the DEBUG initializer below
                          .resizable()
                          .scaledToFit()
                          .frame(height: 100)
@@ -679,9 +752,10 @@ struct ContentView: View {
 
 
         } // End List
-        .listStyle(.plain)
+        .listStyle(.plain) // Use plain style for better spacing control in sections
     }
 }
+
 
 // MARK: - Helper Views for Demos
 
@@ -765,31 +839,39 @@ struct DynamicTypeSizeView: View {
      }
 }
 
-/// Simple extension for ColorScheme description
-extension ColorScheme: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .light: return "Light"
-        case .dark: return "Dark"
-        @unknown default: return "Unknown"
-        }
-    }
-}
-
 /// Simple extension for DynamicTypeSize description
 extension DynamicTypeSize: CustomStringConvertible {
     public var description: String { String(describing: self) } // Basic description
 }
 
-// Placeholder image resource if needed for previews/compilation
-// You should replace "LandscapePlaceholder" with an actual image in your assets
+
+/// Placeholder image resource if needed for previews/compilation
+/// You should replace "LandscapePlaceholder" with an actual image in your assets
 #if DEBUG
 extension Image {
-    init(_ name: String) where name == "LandscapePlaceholder" { // Hack to allow compilation without the asset
-        self.init(systemName: "photo") // Use SF Symbol as placeholder
+    /// Special initializer for DEBUG mode to handle the placeholder image name.
+    /// This specifically catches the "LandscapePlaceholder" StaticString literal.
+    init(_ name: StaticString) {
+        if name == "My-meme-original" {
+            // If the name matches the placeholder, use a system image instead.
+            self.init(systemName: "photo") // Use SF Symbol as placeholder
+        } else {
+            // Otherwise, convert the StaticString to a String and call the
+            // standard Image(name: String, bundle: Bundle?) initializer.
+            // This relies on overload resolution to pick the correct system init.
+            self.init(name.toString())
+        }
+    }
+
+    /// Helper to convert StaticString to String
+    func toString(_ staticString: StaticString) -> String {
+        return staticString.withUTF8Buffer { buffer in
+            String(decoding: buffer, as: UTF8.self)
+        }
     }
 }
 #endif
+
 
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
