@@ -302,34 +302,39 @@ extension ColorScheme: @retroactive CustomStringConvertible {
         }
     }
 }
-//
-///// Placeholder image resource if needed for previews/compilation
-//#if DEBUG
-//extension Image {
-//    /// Special initializer for DEBUG mode to handle the placeholder image name.
-//    init(_ name: StaticString) {
-//        if toString(name) == "My-meme-original" { // Use your actual placeholder string here
-//            self.init(systemName: "photo")
-//        } else {
-//            self.init(toString(name))
-//        }
-//    }
-//
-//    /// Helper to convert StaticString to String
-//    private func toString(_ staticString: StaticString) -> String {
-//        return staticString.withUTF8Buffer { buffer in
-//            // ** FIX: Correct guard condition **
-//            // Ensure buffer has a valid base address (is not nil) AND has contents
-//            guard buffer.baseAddress != nil, buffer.count > 0 else {
-//                return "" // Return empty string if buffer is invalid/empty
-//            }
-//            // Proceed only if guard passes
-//            return String(decoding: buffer, as: UTF8.self)
-//        }
-//    }
-//}
-//#endif
 
+#if DEBUG
+extension Image {
+    /// Special initializer for DEBUG mode to handle the placeholder image name.
+    /// This specifically catches the "LandscapePlaceholder" StaticString literal.
+    init(_ name: StaticString) {
+        // ** FIX: Call static helper **
+        let imageNameString = Image.toString(name) // Call static func
+
+        // Use your actual placeholder string here if different
+        if imageNameString == "My-meme-original" { // <-- Make sure this matches your placeholder name
+            // If the name matches the placeholder, use a system image instead.
+            self.init(systemName: "photo") // Use SF Symbol as placeholder
+        } else {
+            // Otherwise, use the converted string to call the standard init.
+            self.init(imageNameString) // Call Image(String) initializer
+        }
+    }
+
+    /// Helper to convert StaticString to String
+    // ** FIX: Make static **
+    private static func toString(_ staticString: StaticString) -> String {
+        return staticString.withUTF8Buffer { buffer in
+            // Ensure buffer has a valid base address (is not nil) AND has contents
+            guard buffer.baseAddress != nil, buffer.count > 0 else {
+                return "" // Return empty string if buffer is invalid/empty
+            }
+            // Proceed only if guard passes
+            return String(decoding: buffer, as: UTF8.self)
+        }
+    }
+}
+#endif
 
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
