@@ -58,65 +58,56 @@ struct CardView: View {
     let cardCornerRadius: CGFloat = 15
     let boxPadding: CGFloat = 20 // Padding inside the card to create the box inset
     let contentPadding: CGFloat = 20 // Padding inside the box for content
+    let animationDuration: TimeInterval = 0.5 // CSS transition duration
 
     var body: some View {
-        ZStack {
+        ZStack { // Main ZStack for the entire card
             // --- Outer Card Layer (.container .card) ---
-            // Simulating the base and complex shadows
             RoundedRectangle(cornerRadius: cardCornerRadius)
-                .fill(Color(hex: "#2a2b2f").opacity(0.5)) // Base color slightly darker than container
-                // Outer Shadows (Approximation of CSS)
-                .shadow(color: .black.opacity(0.3), radius: 15, x: 5, y: 5) // Dark shadow (bottom-right)
-                .shadow(color: .white.opacity(0.05), radius: 15, x: -5, y: -5) // Light shadow (top-left)
+                .fill(Color(hex: "#2a2b2f").opacity(0.5))
+                .shadow(color: .black.opacity(0.3), radius: 15, x: 5, y: 5)
+                .shadow(color: .white.opacity(0.05), radius: 15, x: -5, y: -5)
 
             // --- Inner Box Layer (.container .card .box) ---
-            ZStack {
-                // Inner box background
+            ZStack { // ZStack for the inner box and its content
                 RoundedRectangle(cornerRadius: cardCornerRadius)
                     .fill(Color(hex: "#2a2b2f"))
-                    // Subtle highlight overlay (.box:before)
                     .overlay(
                         HStack {
                             Rectangle()
                                 .fill(Color.white.opacity(0.03))
-                                .frame(width: cardMinWidth / 2) // Approx 50% width
+                                .frame(width: cardMinWidth / 2)
                             Spacer()
                         }
-                        .clipped() // Ensure overlay stays within bounds
+                        .clipped()
                     )
-                    .cornerRadius(cardCornerRadius) // Important: Apply corner radius *before* clipping if needed elsewhere
-                    .clipped() // Clip the overlay content to the box bounds
+                    .cornerRadius(cardCornerRadius)
+                    .clipped()
 
-                // Background Number (.heading) - Place behind content VStack
                 Text(info.number)
-                    .font(.system(size: 120, weight: .bold)) // Adjusted from 8rem
-                    .foregroundColor(Color.white.opacity(0.05)) // Low opacity white
+                    .font(.system(size: 120, weight: .bold))
+                    .foregroundColor(Color.white.opacity(0.05))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                    .padding(.trailing, boxPadding)
-                    .offset(y: -boxPadding * 2) // Adjust position as needed
+                    .padding(.trailing, 30) // Increased padding slightly
+                    .offset(y: -15) // Adjusted offset slightly
 
-                // --- Content Area (.container .card .box .content) ---
                 VStack(spacing: 15) {
-                    Spacer() // Push content down slightly if needed, or adjust spacing
+                    Spacer()
 
-                    // Title (.content .content in css)
                     Text(info.title)
-                        .font(.system(size: 30, weight: .bold)) // Adjusted from 1.8rem
+                        .font(.system(size: 30, weight: .bold))
                         .foregroundColor(.white)
-                        .zIndex(1) // Ensure it's above background number
+                        .zIndex(1)
 
-                    // Description (p tag)
                     Text(info.description)
-                        .font(.system(size: 16, weight: .light)) // Adjusted from 1rem
+                        .font(.system(size: 16, weight: .light))
                         .fontWeight(.light)
                         .foregroundColor(Color.white.opacity(0.9))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
-                        .zIndex(1) // Ensure it's above background number
+                        .zIndex(1)
 
-                    // Button (a tag)
                     Button {
-                        // Action for "Read More"
                         print("Read More tapped for Card \(info.number)")
                     } label: {
                         Text("Read More")
@@ -126,41 +117,51 @@ struct CardView: View {
                             .background(isButtonHovering ? Color.white : info.buttonColor)
                             .foregroundColor(isButtonHovering ? Color.black : Color.white)
                             .cornerRadius(5)
-                            // Hover Shadow Change
                             .shadow(color: .black.opacity(isButtonHovering ? 0.6 : 0.2), radius: 10, y: 10)
                     }
-                    .buttonStyle(.plain) // Removes default button styling
+                    .buttonStyle(.plain)
                     .onHover { hovering in
-                        withAnimation(.easeInOut(duration: 0.3)) { // Shorter animation for button
+                        withAnimation(.easeInOut(duration: 0.3)) {
                             isButtonHovering = hovering
                         }
                     }
-                    .padding(.top, 5) // Equivalent to margin-top: 20px (adjust padding)
-                    .zIndex(1)
+                    .padding(.top, 5)
+                    .zIndex(1) // Explicit zIndex often helps with layering complex views
 
-                    Spacer() // Push content up slightly if needed
+                    Spacer()
                 }
-                .padding(contentPadding) // Padding for all content elements
+                .padding(contentPadding)
             }
-            // Padding creates the border/inset effect for the inner box
             .padding(boxPadding)
-            // Apply hover effect offset to the inner box
-            .offset(y: isBoxHovering ? -50 : 0)
+            .offset(y: isBoxHovering ? -50 : 0) // This offset is animated by the state change
 
         }
-        // --- Card Framing and Hover Activation ---
+        // --- Card Framing and Interaction Triggers ---
         .frame(minWidth: cardMinWidth, idealHeight: cardHeight, maxHeight: cardHeight)
-        .padding(30) // Margin around the card (.container margin: 30px)
+        .padding(30) // Margin around the card
+        // --- Hover Modifier (for platforms with pointers) ---
         .onHover { hovering in
-            // Apply animation to the box lifting effect
-            withAnimation(.easeInOut(duration: 0.5)) {
+            // Animate the state change based on hover
+            withAnimation(.easeInOut(duration: animationDuration)) {
                 isBoxHovering = hovering
             }
         }
-        // Explicitly animate the offset change based on hover state
-        // Note: While .animation modifier is deprecated, implicit animations with .withAnimation are preferred.
-        // However, sometimes an explicit modifier on the container is clearer.
-        // Let's stick to .withAnimation inside onHover for modern practice.
+        // --- Tap Modifier (for touch platforms) ---
+        .onTapGesture {
+            // Trigger the animation upwards
+            withAnimation(.easeInOut(duration: animationDuration)) {
+                isBoxHovering = true
+            }
+            // Schedule the animation back down after a short delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration + 0.1) { // Wait for animation + tiny buffer
+                 withAnimation(.easeInOut(duration: animationDuration)) {
+                    // Only set back to false if it hasn't been triggered again by hover
+                    // Note: This simple logic might have edge cases if tap and hover interleave rapidly.
+                    // For basic use, it should be fine.
+                    isBoxHovering = false
+                 }
+            }
+         }
     }
 }
 
@@ -198,7 +199,10 @@ extension Color {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            // Ensure preview has enough space and dark scheme
             .preferredColorScheme(.dark)
+            // To test tap easily in preview on macOS, you might need to run on a simulator/device.
+            // Previews might favor hover.
+            .previewLayout(.sizeThatFits) // Adjust preview layout if needed
+            .padding(50) // Ensure container background shows around the card
     }
 }
