@@ -26,6 +26,7 @@
 		9A90C2562D98032F0032A5A5 /* QuoteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2552D9803240032A5A5 /* QuoteCardView.swift */; };
 		9A90C2582D9804A70032A5A5 /* ProjectCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2572D9804A60032A5A5 /* ProjectCardView.swift */; };
 		9A90C25A2D9806250032A5A5 /* WeatherCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2592D9806210032A5A5 /* WeatherCardView.swift */; };
+		9A90C25C2D98077C0032A5A5 /* CurrentWeatherCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C25B2D9807770032A5A5 /* CurrentWeatherCardView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		9A90C2552D9803240032A5A5 /* QuoteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCardView.swift; sourceTree = "<group>"; };
 		9A90C2572D9804A60032A5A5 /* ProjectCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCardView.swift; sourceTree = "<group>"; };
 		9A90C2592D9806210032A5A5 /* WeatherCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardView.swift; sourceTree = "<group>"; };
+		9A90C25B2D9807770032A5A5 /* CurrentWeatherCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCardView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				9A90C2532D9802290032A5A5 /* InfoCardView.swift */,
 				9A90C2552D9803240032A5A5 /* QuoteCardView.swift */,
 				9A90C2572D9804A60032A5A5 /* ProjectCardView.swift */,
+				9A90C25B2D9807770032A5A5 /* CurrentWeatherCardView.swift */,
 				9A90C2592D9806210032A5A5 /* WeatherCardView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -200,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A90C2542D98022D0032A5A5 /* InfoCardView.swift in Sources */,
+				9A90C25C2D98077C0032A5A5 /* CurrentWeatherCardView.swift in Sources */,
 				9A90C2562D98032F0032A5A5 /* QuoteCardView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A90C2502D97CFD80032A5A5 /* CardDisplayView.swift in Sources */,
