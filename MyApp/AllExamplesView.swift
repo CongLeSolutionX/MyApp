@@ -70,17 +70,17 @@ struct MiscellaneousExamplesView: View {
                     Text("Tap rect to rotate by 45 degrees.")
                         .font(.caption)
                     
-//                    Text("FillStyle & StrokeStyle").font(.headline)
-//                    HStack {
-//                        Circle()
-//                            .fill(.red, style: FillStyle(eoFill: true))
-//                            .frame(width: 50, height: 50)
-//                            .overlay(Text("eoFill"))
-//                        Circle()
-//                            .stroke(.blue, style: StrokeStyle(lineWidth: 5, dash: [10, 5]))
-//                            .frame(width: 50, height: 50)
-//                            .overlay(Text("dash"))
-//                    }
+                    Text("FillStyle & StrokeStyle").font(.headline)
+                    HStack {
+                        Circle()
+                            .fill(.red, style: FillStyle(eoFill: true))
+                            .frame(width: 50, height: 50)
+                            .overlay(Text("eoFill"))
+                        Circle()
+                            .stroke(.blue, style: StrokeStyle(lineWidth: 5, dash: [10, 5]))
+                            .frame(width: 50, height: 50)
+                            .overlay(Text("dash"))
+                    }
 //                    
 //                    Text("LocalizedStringKey").font(.headline)
 //                    Text("Hello, World!")
