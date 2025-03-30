@@ -29,6 +29,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AB336422D99D57600FC3A97 /* FullRSSAndWebViewImplementation_Refactored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB336412D99D57500FC3A97 /* FullRSSAndWebViewImplementation_Refactored.swift */; };
 		9ADCC9852D88B502004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADCC9842D88B4F1004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AB336412D99D57500FC3A97 /* FullRSSAndWebViewImplementation_Refactored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullRSSAndWebViewImplementation_Refactored.swift; sourceTree = "<group>"; };
 		9ADCC9842D88B4F1004BF2FB /* LoadRSSArticlesFromLaw360Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRSSArticlesFromLaw360Flow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				9A129F982D8D23A600E0D21D /* LoadingRSSArticleAndOpenEachLink.swift */,
+				9AB336412D99D57500FC3A97 /* FullRSSAndWebViewImplementation_Refactored.swift */,
 				9A6173C92D888DB600DE08C7 /* TabBarItem.swift */,
 				9A6173C32D888C0400DE08C7 /* ArticleView.swift */,
 				9A6173C52D888D1900DE08C7 /* FeedItemView.swift */,
@@ -230,6 +233,7 @@
 				9A6173B62D88891C00DE08C7 /* FeedView.swift in Sources */,
 				9A6173B82D8889C200DE08C7 /* MockData.swift in Sources */,
 				9A6173C82D888DAA00DE08C7 /* DataModels.swift in Sources */,
+				9AB336422D99D57600FC3A97 /* FullRSSAndWebViewImplementation_Refactored.swift in Sources */,
 				9A6173C42D888C0400DE08C7 /* ArticleView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A6173D02D88909000DE08C7 /* LoadingRSSArticleWorkflow.swift in Sources */,
