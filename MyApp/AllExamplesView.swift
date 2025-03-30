@@ -100,7 +100,7 @@ struct MiscellaneousExamplesView: View {
                             .font(.caption)
                     }
                     #endif
-//                    
+                    
 //                    #if os(iOS) || os(macOS)
 //                    if #available(iOS 15.0, macOS 12.0, *) {
 //                        Text("TextSelectability").font(.headline)
@@ -111,16 +111,17 @@ struct MiscellaneousExamplesView: View {
 //                            .font(.caption)
 //                    }
 //                    #endif
-//                    
-//                    #if swift(>=5.10)
-//                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-//                        Text("TextVariantPreference").font(.headline)
-//                        Text(Date.now, format: .dateTime.year().month().day())
-//                            .textVariant(.sizeDependent)
-//                        Text("Uses .sizeDependent text variant preference.")
-//                            .font(.caption)
-//                    }
-//                    #endif
+                    
+
+                    #if swift(>=5.10)
+                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+                        Text("TextVariantPreference").font(.headline)
+                        Text(Date.now, format: .dateTime.year().month().day())
+                            .textVariant(.sizeDependent)
+                        Text("Uses .sizeDependent text variant preference.")
+                            .font(.caption)
+                    }
+                    #endif
                 } // End Structs Group
             }
             .padding()
