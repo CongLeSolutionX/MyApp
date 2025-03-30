@@ -1123,7 +1123,8 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
          observers = [
              webView.observe(\.estimatedProgress, options: [.new]) { [weak self] _, change in
                  guard let self = self, let newProgress = change.newValue else { return }
-//                 self.progressView.setProgress(Float(newProgress), animated: newProgress > self.progressView.progress) // Animate only forward progress
+                 // Convert newProgress to Float for the comparison as well
+                 self.progressView.setProgress(Float(newProgress), animated: Float(newProgress) > self.progressView.progress) // Animate only forward progress
                  // Debounce hiding slightly to prevent flickering
                   DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                       self.progressView.isHidden = self.webView.estimatedProgress >= 1.0 || self.webView.estimatedProgress <= 0.0
