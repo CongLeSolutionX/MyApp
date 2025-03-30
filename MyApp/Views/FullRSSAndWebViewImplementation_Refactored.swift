@@ -5,20 +5,30 @@
 //  Created by Cong Le on 3/30/25.
 //
 
-
 import SwiftUI
 @preconcurrency import WebKit // Keep @preconcurrency if needed for specific compiler versions/warnings
 import UIKit
 
 // MARK: - Data Model
 
-struct RSSItem: Identifiable, Sendable { // Mark Sendable if Date were wrapped or not used across actors directly
+struct RSSItem: Identifiable, Sendable, Equatable, Hashable { // Added Equatable/Hashable for potential diffing/animation
     let id = UUID()
     var title: String
     var link: String
     var pubDate: Date? // Date is conditionally Sendable in Swift 5.7+
     var itemDescription: String
     var imageURL: String?
+
+    // Equatable conformance (based on ID or link usually sufficient for feeds)
+    static func == (lhs: RSSItem, rhs: RSSItem) -> Bool {
+        lhs.id == rhs.id || lhs.link == rhs.link
+    }
+
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(link) // Use link as part of identity if IDs can be unstable across fetches
+    }
 }
 
 // MARK: - RSS Parser
@@ -39,14 +49,16 @@ final class RSSParser: NSObject, XMLParserDelegate {
     private var parseError: Error?
 
     private static let dateFormats: [String] = [
-        "EEE, dd MMM yyyy HH:mm:ss Z",
-        "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
-        "yyyy-MM-dd'T'HH:mm:ssZ",
-        "EEE, dd MMM yyyy HH:mm:ss zzz", // Added lowercase 'zzz' timezone format
-        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", // ISO8601 format with timezone offset
-        "yyyy-MM-dd'T'HH:mm:ssXXX"
+        "EEE, dd MMM yyyy HH:mm:ss Z",       // Standard RSS date format
+        "yyyy-MM-dd'T'HH:mm:ss.SSSZ",       // ISO 8601 with milliseconds
+        "yyyy-MM-dd'T'HH:mm:ssZ",           // ISO 8601 without milliseconds
+        "EEE, dd MMM yyyy HH:mm:ss zzz",    // Format with timezone name (e.g., GMT, PST)
+        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",     // ISO 8601 with timezone offset (e.g., +00:00)
+        "yyyy-MM-dd'T'HH:mm:ssXXX",         // ISO 8601 with timezone offset without milliseconds
+        "dd MMM yyyy HH:mm:ss Z"            // Less common variation
     ]
 
+    // DateFormatter is not thread-safe if mutated. Creating statically and using consistently is okay here.
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX") // Essential for fixed-format dates
@@ -59,8 +71,12 @@ final class RSSParser: NSObject, XMLParserDelegate {
         parseError = nil
         let parser = XMLParser(data: data)
         parser.delegate = self
-        parser.parse()
-        // The returned [RSSItem] is Sendable if RSSItem is Sendable.
+        let success = parser.parse() // Check return value for early exit
+        if !success && parseError == nil {
+             // If parse() returns false but no specific error was set by the delegate, use the parser's error
+             parseError = parser.parserError ?? NSError(domain: "RSSParserError", code: -1, userInfo: [NSLocalizedDescriptionKey: "XML parsing failed."])
+        }
+        // The returned [RSSItem] is Sendable because RSSItem is Sendable.
         return (items, parseError)
     }
 
@@ -80,55 +96,57 @@ final class RSSParser: NSObject, XMLParserDelegate {
             currentPubDate = ""
             currentDescription = ""
             currentImageURL = ""
+            inImage = false // Reset image context for new item
         }
         // Handle common image elements within an item
-        if inItem, ["media:content", "enclosure", "image", "media:thumbnail"].contains(elementName) {
+        // Added 'media:thumbnail' and improved logic slightly
+        else if inItem, ["media:content", "enclosure", "image", "media:thumbnail"].contains(elementName) {
             // Determine the attribute key likely holding the URL
-            var urlAttributeKey : String?
+            var potentialUrl: String? = nil
+
             switch elementName {
-                case "media:content", "enclosure", "media:thumbnail":
-                    urlAttributeKey = attributeDict["url"]
-                case "image":
-                    urlAttributeKey = attributeDict["href"] // RSS <image> tag often uses href inside <channel>, not <item>
-                                                            // but some feeds might use it inside <item>
-                    // Check parent tag if needed (standard RSS <image> is child of <channel>)
-                    // For simplicity, only checking attributes here.
-                    // Also consider 'url' attribute for <image> potentially inside item from some conventions
-                     if urlAttributeKey == nil { urlAttributeKey = attributeDict["url"] }
-                default:
-                    urlAttributeKey = nil
-            }
-
-
-            if let urlString = urlAttributeKey, !urlString.isEmpty {
-                // Check enclosure type for non-images
-                if elementName == "enclosure", let type = attributeDict["type"], !type.hasPrefix("image") {
-                   // Skip this enclosure if it's not an image type
-                } else {
-                    // Only assign if we haven't found one yet in this item
-                    if currentImageURL.isEmpty {
-                       currentImageURL = urlString
+                case "media:content", "media:thumbnail":
+                    // Prioritize media tags if they specify image/* type
+                    if let type = attributeDict["type"], type.hasPrefix("image") {
+                        potentialUrl = attributeDict["url"]
+                    } else if attributeDict["type"] == nil { // Accept if no type specified
+                         potentialUrl = attributeDict["url"]
                     }
-                    inImage = true // Flag that we are inside an image tag context
-                }
+                    // Check medium attribute (common in media:content)
+                    if potentialUrl == nil && attributeDict["medium"] == "image" {
+                        potentialUrl = attributeDict["url"]
+                    }
+                case "enclosure":
+                    // Enclosure requires type starting with 'image'
+                    if let type = attributeDict["type"], type.hasPrefix("image") {
+                        potentialUrl = attributeDict["url"]
+                    }
+                case "image":
+                    // RSS <image> usually child of <channel>, but check attributes if inside <item>
+                    potentialUrl = attributeDict["href"] ?? attributeDict["url"]
+                default: break
             }
-             // Additionally check for <image><url>url_here</url></image> pattern inside item (non-standard but seen)
-             else if elementName == "image" {
-                 // Handled by foundCharacters if currentElement becomes "url" inside "image"
-                 inImage = true // Still consider it an image context
-             }
+
+            // Assign if found and currentImageURL is still empty for this item
+            if let urlString = potentialUrl, !urlString.isEmpty, currentImageURL.isEmpty {
+                currentImageURL = urlString
+            }
+            inImage = true // Flag that we are inside an image tag context (even if URL wasn't found here)
         }
          // Handle nested 'url' tag within 'image' tag (non-standard but possible)
          else if inItem && inImage && elementName == "url" {
-             currentElement = "imageURLNested" // Use a distinct state
+             // Prepare to capture characters if we are inside an <image> context
+             // This assumes the <image> tag itself didn't provide a URL attribute
+             if currentImageURL.isEmpty {
+                  currentElement = "imageURLNested" // Use a distinct state
+             }
          }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         guard inItem else { return }
-        let newCharacters = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !newCharacters.isEmpty else { return }
-
+        // Do not trim here, accumulate raw characters. Trimming happens at the end.
+        let newCharacters = string
         // Append characters to the current element's string buffer
         switch currentElement {
         case "title":             currentTitle += newCharacters
@@ -136,7 +154,6 @@ final class RSSParser: NSObject, XMLParserDelegate {
         case "pubDate":           currentPubDate += newCharacters // Accumulate date string fragments
         case "description":       currentDescription += newCharacters
         case "imageURLNested":    currentImageURL += newCharacters // Append to image URL if nested tag
-        // Add cases for other elements you might need to capture text from
         default:                  break
         }
     }
@@ -145,80 +162,106 @@ final class RSSParser: NSObject, XMLParserDelegate {
                 didEndElement elementName: String,
                 namespaceURI: String?,
                 qualifiedName qName: String?) {
+
         if elementName == "item" {
             inItem = false // Exiting the item scope
-            inImage = false // Reset image context when item ends
+            inImage = false // Reset image context
 
-            // Process the completed item
+            // --- Process the completed item ---
+
+            // 1. Date Parsing
             let trimmedPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
             var parsedDate: Date? = nil
-
-            // Attempt to parse the date using known formats
-            for format in RSSParser.dateFormats {
-                RSSParser.dateFormatter.dateFormat = format
-                if let date = RSSParser.dateFormatter.date(from: trimmedPubDate) {
-                    parsedDate = date
-                    break // Stop after the first successful parse
+            if !trimmedPubDate.isEmpty {
+                for format in RSSParser.dateFormats {
+                    // Must set dateFormat each time as DateFormatter caches it
+                    RSSParser.dateFormatter.dateFormat = format
+                    if let date = RSSParser.dateFormatter.date(from: trimmedPubDate) {
+                        parsedDate = date
+                        break // Stop after the first successful parse
+                    }
+                }
+                if parsedDate == nil {
+                    print("⚠️ Warning: Failed to parse date string '\(trimmedPubDate)' for item '\(currentTitle.prefix(50))...'")
                 }
             }
-            if parsedDate == nil {
-                print("Warning: Failed to parse date string: \(trimmedPubDate)")
+
+            // 2. Link Processing (ensure it's a valid URL)
+            let rawLink = currentLink.trimmingCharacters(in: .whitespacesAndNewlines)
+            let finalLink: String
+            if let url = URL(string: rawLink), url.scheme != nil, url.host != nil {
+                 finalLink = rawLink // Looks like a valid URL
+            } else {
+                 print("⚠️ Warning: Skipping item '\(currentTitle.prefix(50))...' due to invalid link: \(rawLink)")
+                 // Reset potentially accumulated values before next item starts
+                 currentPubDate = ""; currentDescription = ""; currentImageURL = ""; currentTitle = ""; currentLink = ""
+                 currentElement = ""
+                 return // Skip adding this item
             }
 
-            // Prepare imageURL, ensure it's trimmed and nil if empty
+            // 3. Image URL Processing
             let finalImageURL = currentImageURL.trimmingCharacters(in: .whitespacesAndNewlines)
 
-             // Simple HTML cleaning for description (basic example)
-             let cleanedDescription = currentDescription
-                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-                .replacingOccurrences(of: "&nbsp;", with: " ") // Replace non-breaking spaces
-                .replacingOccurrences(of: "&amp;", with: "&") // Replace ampersand
+            // 4. Description Cleaning (More robust HTML stripping)
+            let rawDescription = currentDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+            // Basic stripping (can be improved with libraries if needed)
+            let cleanedDescription = rawDescription
+                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil) // Strip tags
+                .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression) // Collapse whitespace
+                .replacingOccurrences(of: "&nbsp;", with: " ")
+                .replacingOccurrences(of: "&amp;", with: "&")
                 .replacingOccurrences(of: "&lt;", with: "<")
                 .replacingOccurrences(of: "&gt;", with: ">")
                 .replacingOccurrences(of: "&quot;", with: "\"")
                 .replacingOccurrences(of: "&#39;", with: "'")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
 
 
-            // Create and append the new RSSItem
+            // 5. Create and append the new RSSItem
             let newItem = RSSItem(
-                title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
-                link: currentLink.trimmingCharacters(in: .whitespacesAndNewlines),
+                title: currentTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Untitled" : currentTitle.trimmingCharacters(in: .whitespacesAndNewlines),
+                link: finalLink,
                 pubDate: parsedDate,
                 itemDescription: cleanedDescription,
                 imageURL: finalImageURL.isEmpty ? nil : finalImageURL
             )
             items.append(newItem)
-            // Reset for next item is handled in didStartElement("item")
+
+            // Reset accumulated values (done at start of next item, but good practice here too)
+             currentPubDate = ""; currentDescription = ""; currentImageURL = ""; currentTitle = ""; currentLink = ""
 
         } else if inItem, ["media:content", "enclosure", "image", "media:thumbnail"].contains(elementName) {
             inImage = false // Exiting an image-related tag
-        } else if elementName == "url" && currentElement == "imageURLNested" {
-             // Handled - nothing more needed here for this specific case
+        } else if inItem && inImage && elementName == "url" && currentElement == "imageURLNested" {
+             // Reset specific nested state if needed
         }
 
 
-        // Reset current element *unless* we are exiting item or image context
-        // to handle potential nested tags correctly if needed later.
-        // This simple reset might still be insufficient for deeply nested unknown structures.
-        if elementName != "item" && !["media:content", "enclosure", "image", "media:thumbnail"].contains(elementName) {
-             currentElement = ""
-        }
+        // Reset current element name after processing the closing tag helps avoid mis-appending characters
+        currentElement = ""
     }
 
     // Error Handling
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        self.parseError = parseError
-        // Log the error, maybe update UI state
-        print("Parse error occurred: \(parseError.localizedDescription)")
+        // Only set the error if one hasn't been set already (first error is usually most relevant)
+        if self.parseError == nil {
+            self.parseError = parseError
+        }
+        print("❌ Parse error occurred: \(parseError.localizedDescription) at line \(parser.lineNumber), column \(parser.columnNumber)")
         parser.abortParsing() // Stop parsing on critical error
     }
 
     func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
-        // Treat validation errors similarly to parse errors for now
-        self.parseError = validationError
-        print("Validation error occurred: \(validationError.localizedDescription)")
-        // Consider aborting parsing depending on severity
+        // Treat validation errors less severely, maybe log and continue?
+        if self.parseError == nil { // Don't overwrite a more critical parse error
+            // self.parseError = validationError // Optionally treat as fatal
+        }
+        print("⚠️ Validation error occurred: \(validationError.localizedDescription) at line \(parser.lineNumber), column \(parser.columnNumber)")
+        // parser.abortParsing() // Optionally abort
+    }
+
+    func parserDidEndDocument(_ parser: XMLParser) {
+         print("Finished parsing document.")
     }
 }
 
@@ -233,86 +276,141 @@ class RSSViewModel: ObservableObject {
 
     // This parser instance is bound to the Main Actor because RSSViewModel is @MainActor
     private let parser = RSSParser()
+    private var dataTask: URLSessionDataTask? // To allow cancelling
 
-    func loadRSS(urlString: String = "https://www.law360.com/ip/rss") { // Default URL
-        guard let url = URL(string: urlString) else {
-            // No need for Task{} here, already on Main Actor if called from UI
+    // Debounce mechanism to prevent rapid reloads
+    private var loadDebounceTimer: Timer?
+
+    func loadRSS(urlString: String = "https://www.law360.com/ip/rss", isRefresh: Bool = false) {
+        // Cancel previous timer if new load is requested quickly
+        loadDebounceTimer?.invalidate()
+
+        // Debounce refresh calls slightly
+        if isRefresh {
+            loadDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+                self?.performLoad(urlString: urlString, isRefresh: isRefresh)
+            }
+        } else {
+             // Load immediately if not a refresh
+             performLoad(urlString: urlString, isRefresh: isRefresh)
+        }
+    }
+
+    private func performLoad(urlString: String, isRefresh: Bool) {
+         print("Performing load for URL: \(urlString), Refresh: \(isRefresh)")
+         guard let url = URL(string: urlString) else {
             errorMessage = "Invalid URL"
             isLoading = false
             return
         }
 
-        // Set loading state immediately (already on Main Actor)
-        isLoading = true
-        errorMessage = nil
+        // Cancel ongoing task before starting a new one
+        dataTask?.cancel()
 
-        // Perform the network request on a background thread
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        // Set loading state only if not refreshing silently, or if item list is empty
+        if !isRefresh || rssItems.isEmpty {
+            isLoading = true
+        }
+        errorMessage = nil // Clear previous errors on new load attempt
+
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 30) // Force refresh
+        request.setValue("FeedFetcher-App/1.0", forHTTPHeaderField: "User-Agent") // Set user agent
+
+        dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             // --- This closure runs on a BACKGROUND THREAD ---
 
             // Ensure self is still available
-            guard let self = self else { return }
+            guard let self = self else {
+                 print("ViewModel deallocated before network task finished.")
+                 return
+             }
+
+            // Ensure task wasn't cancelled
+            if let error = error as? URLError, error.code == .cancelled {
+                print("Data task cancelled.")
+                // Don't modify state if cancelled, just return. isLoading will be handled by the new task.
+                return
+            }
 
             // Check for network errors first
             if let error = error {
-                // Switch to Main Actor to update state
+                print("❌ Network Error: \(error)")
                 Task { @MainActor in
-                    self.isLoading = false // Stop loading indicator
-                    self.errorMessage = "Error fetching RSS feed: \(error.localizedDescription)"
-                    print("Network Error: \(error)") // Log detailed error
+                    self.isLoading = false
+                    self.errorMessage = "Network Error: \(error.localizedDescription)"
                 }
                 return
             }
 
             // Check for HTTP status code errors
             if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-                // Switch to Main Actor to update state
+                 print("❌ HTTP Error: \(httpResponse.statusCode)")
                 Task { @MainActor in
-                    self.isLoading = false // Stop loading indicator
-                    self.errorMessage = "HTTP Error: \(httpResponse.statusCode)"
-                    print("HTTP Error: \(httpResponse.statusCode)") // Log status code
+                    self.isLoading = false
+                    self.errorMessage = "Server Error: \(httpResponse.statusCode)" // User-friendly message
                 }
                 return
             }
 
             // Ensure data is present
-            guard let data = data else {
-                // Switch to Main Actor to update state
+            guard let data = data, !data.isEmpty else {
+                print("❌ Error: No data received from URL.")
                 Task { @MainActor in
-                    self.isLoading = false // Stop loading indicator
-                    self.errorMessage = "No data received"
-                    print("Error: No data received from URL.")
+                    self.isLoading = false
+                    self.errorMessage = "No data received from server."
                 }
                 return
             }
 
-             // Optional: Log raw data snippet for debugging parsing issues
-             // print("Received data: \(String(data: data, encoding: .utf8)?.prefix(500) ?? "Unable to decode as UTF-8")")
+            // Attempt decoding for debugging (optional)
+            // print("Received \(data.count) bytes. Attempting decode...")
+            // print("Data snippet: \(String(data: data, encoding: .utf8)?.prefix(500) ?? "Unable to decode")")
 
 
             // --- SWITCH TO MAIN ACTOR to perform parsing and final UI updates ---
             Task { @MainActor in
-                // Now we are on the Main Actor, it's safe to access self.parser
-                // If parsing is very slow, consider the alternative approach (parse on background)
                 print("Starting parsing on Main Actor...")
-                let (parsedItems, parseError) = self.parser.parse(data: data)
+                // If parsing is very slow, consider the alternative approach (parse on background)
+                let (parsedItems, parseError) = self.parser.parse(data: data) // Access parser safely
                 print("Parsing finished.")
 
-                // Stop loading indicator *after* parsing is complete
-                self.isLoading = false
+                self.isLoading = false // Stop loading indicator regardless of outcome
 
-                // Update the rest of the UI state
                 if let parseError = parseError {
-                    self.errorMessage = "Error parsing RSS: \(parseError.localizedDescription)"
-                    self.rssItems = [] // Clear potentially stale items on error
-                    print("Parse Error: \(parseError)") // Log detailed parse error
+                    print("❌ Parse Error: \(parseError)")
+                    self.errorMessage = "Error reading feed: \(parseError.localizedDescription)"
+                    // Maybe don't clear items on parse error during refresh? User decision.
+                    // self.rssItems = []
                 } else {
-                    self.errorMessage = nil // Clear any previous error
-                    self.rssItems = parsedItems.sorted { ($0.pubDate ?? .distantPast) > ($1.pubDate ?? .distantPast) } // Sort by date initially
-                    print("Parsed and updated \(parsedItems.count) items.")
+                    print("✅ Parsed and updating \(parsedItems.count) items.")
+                    self.errorMessage = nil // Clear error on success
+                    // Update items - Diffing could be done here for smoother updates if needed
+                    let sortedItems = parsedItems.sorted { ($0.pubDate ?? .distantPast) > ($1.pubDate ?? .distantPast) }
+
+                    // Only update if the data has actually changed to prevent needless UI refreshes
+                     if self.rssItems != sortedItems {
+                         self.rssItems = sortedItems
+                         print("RSS items updated.")
+                     } else {
+                         print("Parsed items are the same as current items. No update needed.")
+                     }
                 }
             }
-        }.resume()
+        }
+        dataTask?.resume() // Start the task
+    }
+
+    // Function to cancel loading
+    func cancelLoading() {
+        dataTask?.cancel()
+        loadDebounceTimer?.invalidate()
+        // Only set isLoading to false if it was true
+        if isLoading {
+            Task { @MainActor in
+                 self.isLoading = false // Ensure UI update happens on main thread
+                 print("Loading cancelled by user.")
+            }
+        }
     }
 }
 
@@ -325,452 +423,540 @@ private let displayDateFormatter: DateFormatter = {
     return formatter
 }()
 
-// MARK: - SwiftUI Views
+// MARK: - SwiftUI Views (Redesigned)
 
 // Displays an image asynchronously with placeholder and error states.
 struct RSSAsyncImage: View {
     let urlString: String?
-    let isCompact: Bool // Determines the frame size
+    let targetHeight: CGFloat? // Allow specifying height
 
     var body: some View {
-        if let urlString = urlString, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    ZStack { // Use ZStack to overlay ProgressView
-                        Rectangle().fill(Color.secondary.opacity(0.1)) // Placeholder background
-                        ProgressView() // Show loading indicator
+        Group {
+            if let urlString = urlString, let url = URL(string: urlString) {
+                AsyncImage(url: url, transaction: Transaction(animation: .easeIn(duration: 0.3))) { phase in // Animate phase changes
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Rectangle().fill(.ultraThickMaterial) // Slightly visible placeholder bg
+                            ProgressView()
+                        }
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    case .failure(let error):
+                        let _ = print("AsyncImage failed for \(urlString): \(error)")
+                        defaultPlaceholder
+                    @unknown default:
+                        EmptyView()
                     }
-                    .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
-
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill() // Fill the frame, clipping excess
-                        .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
-                        .clipped() // Prevent image overflow
-//                        .transition(.opacity.animation(. RssItemView.animation(.easeIn))) // Added fade-in transition
-
-                case .failure(let error):
-                    // Log error and show placeholder
-                    let _ = print("AsyncImage failed for \(urlString): \(error)")
-                    defaultPlaceholder
-                @unknown default:
-                    EmptyView() // Handle future cases
                 }
+            } else {
+                defaultPlaceholder
             }
-        } else {
-            defaultPlaceholder // Show placeholder if URL is nil or invalid
         }
+        .frame(height: targetHeight)
+        .clipped() // Clip after frame is set
+        .contentShape(Rectangle()) // Define shape for gestures if needed later
     }
 
-    // Standard placeholder view
     private var defaultPlaceholder: some View {
         ZStack {
-            Rectangle().fill(Color.secondary.opacity(0.1))
-            Image(systemName: "photo.on.rectangle.angled") // Use a different icon
+            Rectangle().fill(.ultraThickMaterial)
+            Image(systemName: "photo.on.rectangle.angled")
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(.gray.opacity(0.5))
-                .padding(isCompact ? 20 : 40) // Add padding to the icon
+                .foregroundColor(.secondary)
+                .padding(targetHeight != nil ? targetHeight! * 0.2 : 40) // Scale padding
         }
-        .frame(maxWidth: .infinity, minHeight: isCompact ? 100 : 200)
-        .clipped()
     }
 }
 
-// Simple tag view for topics.
+// Simple tag view for topics
 struct TopicTag: View {
     let title: String
     var body: some View {
         Text(title)
             .font(.caption)
-            .fontWeight(.bold)
-            .foregroundColor(.white)
-            .padding(.vertical, 6) // Slightly reduced padding
+            .fontWeight(.medium) // Slightly less bold
+            .foregroundColor(.primary) // Adaptable color
+            .padding(.vertical, 5) // Fine-tuned padding
             .padding(.horizontal, 10)
-            .background(Color.purple.opacity(0.6)) // Slightly darker
-            .clipShape(Capsule()) // Use Capsule for rounded corners
+             .background(.quaternary.opacity(0.7), in: Capsule()) // Use semantic background color
+            //.background(Color.purple.opacity(0.6)) // Old style
+            //.clipShape(Capsule()) // Implicit from background modifier
     }
 }
 
-// Reusable button for the custom tab bar.
+// Reusable button for the custom tab bar
 struct TabBarButton: View {
     let iconName: String
     let label: String
     var isActive: Bool = false
-
-    // Add action closure
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) { // Use the provided action
-            VStack(spacing: 4) { // Adjust spacing
+        Button(action: action) {
+            VStack(spacing: 3) { // Reduced spacing
                 Image(systemName: iconName)
-                    .font(isActive ? .title3 : .headline) // Slightly larger when active
+                    .font(isActive ? .title3 : .headline) // Adjust emphasis
                     .imageScale(.medium)
+                     .symbolVariant(isActive ? .fill : .none) // Use fill variant when active
                 Text(label)
-                    .font(.caption)
+                    .font(.caption2) // Smaller caption
             }
-            .foregroundColor(isActive ? .pink : .gray) // Apply color to the whole VStack
-            .frame(maxWidth: .infinity) // Ensure it takes up available space
-            .contentShape(Rectangle()) // Make the whole area tappable
+            .foregroundColor(isActive ? .accentColor : .secondary) // Use accent/secondary colors
+            .frame(maxWidth: .infinity, minHeight: 44) // Ensure min height
+            .contentShape(Rectangle())
         }
-        .buttonStyle(PlainButtonStyle()) // Remove default button styling
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
-// Displays a single RSS item, adapting layout based on `isCompact`.
+
+// MARK: - Redesigned RSSItemView (Modern Card)
+
 struct RSSItemView: View {
     let item: RSSItem
-    var isCompact: Bool
-    var showImage = true // Control image visibility
+    var isCompact: Bool // Drives the layout change
 
-    @State private var isBookmarked: Bool = false // Example state
+    @State private var isBookmarked: Bool = false // Local state for demo
+
+    // Constants for geometry
+    private let cardCornerRadius: CGFloat = 16
+    private let imageMaxHeightFull: CGFloat = 220
+    // Compact view image size could be fixed or aspect ratio based
+    private let imageMaxHeightCompact: CGFloat? = nil // Let aspect ratio decide in compact? Or set fixed e.g. 80?
 
     var body: some View {
-        // Use NavigationLink to navigate to the web view
         NavigationLink(destination: WebViewControllerWrapper(urlString: item.link)) {
-            ZStack(alignment: .topTrailing) { // For bookmark button overlay
-                VStack(alignment: .leading, spacing: isCompact ? 6 : 10) { // Adjust spacing
-                    // Conditionally show image
-                    if showImage && item.imageURL != nil { // Check if image URL exists
-                        RSSAsyncImage(urlString: item.imageURL, isCompact: isCompact)
-                             .cornerRadius(isCompact ? 8 : 0) // Only round corners in compact mode for aesthetics
-                    } else if showImage {
-                        // Optional: Show a placeholder even if URL is nil, if design requires
-                        // RSSAsyncImage(urlString: nil, isCompact: isCompact)
-                        //  .cornerRadius(isCompact ? 8 : 0)
-                    }
+             if isCompact {
+                 compactLayout
+             } else {
+                 fullLayout
+             }
+        }
+        .buttonStyle(CardButtonStyle(cornerRadius: cardCornerRadius)) // Apply custom button style for interaction feedback
+    }
 
-                    // Content Padding applied selectively
-                    VStack(alignment: .leading, spacing: isCompact ? 4: 8) {
-                        // Title - always shown, adjust font
-                        Text(item.title)
-                            .font(isCompact ? .headline : .title3) // Slightly adjusted sizes
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .lineLimit(isCompact ? 2 : 3) // Limit title lines
+    // --- Full Card Layout ---
+    private var fullLayout: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Image Section (Optional)
+             if let url = item.imageURL {
+                 RSSAsyncImage(urlString: url, targetHeight: imageMaxHeightFull)
+                     // Clip image to top corners slightly less than card to avoid gaps with stroke
+                     .clipShape(RoundedRectangle(cornerRadius: cardCornerRadius - 1))
+                     .padding(.top, 1) // Offset for stroke
+                     .padding(.horizontal, 1)
+             }
 
-                        // Date display
-                        HStack(spacing: 4) {
-                            Image(systemName: "calendar.circle") // Use a calendar icon
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            if let pubDate = item.pubDate {
-                                Text(pubDate, style: .relative) + Text(" ago") // Relative date formatting
-                            } else {
-                                Text("Date unknown")
-                            }
-                        }
-                        .font(.caption)
-                        .foregroundColor(.gray)
+            // Content Section
+            VStack(alignment: .leading, spacing: 10) { // Increased spacing
+                Text(item.title)
+                    .font(.title3.weight(.semibold)) // Slightly bolder
+                    .lineLimit(3)
 
-                        // Description - Adjust line limit
-                        if !item.itemDescription.isEmpty {
-                             Text(item.itemDescription)
-                                 .font(isCompact ? .caption : .subheadline) // Adjusted font
-                                 .foregroundColor(.gray.opacity(0.9)) // Slightly less transparent
-                                 .lineLimit(isCompact ? 2 : 4)
-                                 .padding(.top, 2) // Small padding above description
-                        }
+                metadataView
 
-
-                        // Topic Tags - Show only in non-compact view
-                        if !isCompact {
-                            // Example tags - could be dynamic based on item data later
-                            let tags = ["Law", "IP", "Legal Tech", "Litigation", "Compliance"] // Example
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
-                                    ForEach(tags.prefix(4), id: \.self) { tag in // Limit displayed tags
-                                        TopicTag(title: tag)
-                                    }
-                                }
-                                .padding(.top, 4)
-                            }
-                        }
-                    }
-                    .padding(.horizontal) // Horizontal padding for text content
-                    .padding(.bottom) // Bottom padding for text content
-                    .padding(.top, (showImage && item.imageURL != nil) ? 0 : 8) // Add top padding only if no image shown
-
-
+                if !item.itemDescription.isEmpty {
+                    Text(item.itemDescription)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                // .padding() // Original Padding around the content - removed, applied selectively
-                .background(
-                    RoundedRectangle(cornerRadius: 12) // Unified corner radius
-                        .fill(Color(.systemGray6).opacity(0.2)) // Use system secondary background color
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 12)) // Clip the entire Vstack
 
+                topicTagsView
+                    .padding(.top, 4)
+            }
+            .padding() // Padding around the text content
+        }
+        .modifier(CardStyle(cornerRadius: cardCornerRadius))
+        .overlay(alignment: .topTrailing) { // Bookmark for full view
+             bookmarkButton
+                 .padding(12)
+         }
+    }
 
-                // Bookmark Button
-                Button {
-                    isBookmarked.toggle() // Toggle bookmark state
-                    // Add actual bookmark saving logic here
-                } label: {
-                    Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                        .font(.title3) // Slightly smaller
-                        .foregroundColor(isBookmarked ? .pink : .white) // Use theme color when active
-                        .padding(8)
-                        .background(.thinMaterial, in: Circle()) // Use material background
+    // --- Compact Card Layout ---
+    private var compactLayout: some View {
+        HStack(spacing: 12) {
+             // Optional Image on the left
+             if let url = item.imageURL {
+                RSSAsyncImage(urlString: url, targetHeight: imageMaxHeightCompact)
+                    .frame(width: 80) // Fixed width for compact image
+                     .clipShape(RoundedRectangle(cornerRadius: cardCornerRadius / 2)) // Softer corner radius for small image
+             }
+
+            // Text Content on the right
+            VStack(alignment: .leading, spacing: 5) {
+                Text(item.title)
+                    .font(.headline.weight(.medium))
+                    .lineLimit(2) // Allow two lines for title
+
+                 metadataView // Reuse metadata view
+
+                 // Optional: Show 1 line of description if space allows
+                 // Text(item.itemDescription)
+                 //    .font(.caption)
+                 //    .foregroundColor(.tertiary)
+                 //    .lineLimit(1)
+
+                Spacer() // Pushes content up if Vstack has extra space
+
+                 HStack { // Footer actions/info
+                    Text("Source: Law360") // Example
+                       .font(.caption2)
+                       .foregroundColor(.accentColor)
+                       .lineLimit(1)
+                    Spacer()
+                    bookmarkButton
                 }
-                 .padding([.top, .trailing], 10) // Padding outside the button
 
             }
-            .padding(.horizontal) // Horizontal padding for the whole card
-            .padding(.vertical, 6) // Vertical padding between cards
+             // Give text content flexible width
+             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .buttonStyle(PlainButtonStyle()) // Prevent list row selection style interference
+        .padding(12) // Padding inside the HStack
+        .modifier(CardStyle(cornerRadius: cardCornerRadius))
+    }
+
+
+    // --- Reusable Subviews ---
+
+    @ViewBuilder // Use ViewBuilder for conditional logic within view property
+    private var metadataView: some View {
+         HStack(spacing: 12) { // Increased spacing
+             // Date
+             HStack(spacing: 4) {
+                 Image(systemName: "calendar.circle")
+                 if let pubDate = item.pubDate {
+                      Text(pubDate, style: .relative) + Text(" ago")
+                 } else {
+                      Text("Date unknown")
+                 }
+             }
+
+             // Optional: Reading Time Placeholder?
+             // HStack(spacing: 4) {
+             //     Image(systemName: "book.circle")
+             //     Text("5 min read") // Example
+             // }
+         }
+         .font(.caption)
+         .foregroundColor(.secondary)
+    }
+
+    // Extracted Bookmark Button View
+    private var bookmarkButton: some View {
+        Button {
+            isBookmarked.toggle()
+            #if os(iOS)
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            #endif
+            // Add actual bookmark saving logic here...
+        } label: {
+            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                .font(.callout)
+                .foregroundColor(isBookmarked ? .pink : .secondary)
+                .padding(isCompact ? 4 : 8) // Smaller padding in compact
+                .background(
+                    // Use material background only in full view overlay for better contrast?
+                    .ultraThinMaterial.opacity(isCompact ? 0 : 1), // Invisible in compact for now
+                    in: Circle())
+                .contentShape(Circle()) // Ensure tappable area is circular
+        }
+        .buttonStyle(.plain)
+    }
+
+
+    // Extracted Tags View
+    private var topicTagsView: some View {
+        let tags = ["Law", "IP", "Legal Tech", "Litigation", "Compliance", "Regulation"] // Example
+        return ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(tags.prefix(5), id: \.self) { tag in // Limit displayed tags
+                    TopicTag(title: tag)
+                }
+            }
+        }
+         // Ensure scroll view doesn't take infinite height if empty
+         .frame(height: tags.isEmpty ? 0 : 30) // Adjust height based on tag size
+          .padding(.top, tags.isEmpty ? 0 : 4)
     }
 }
 
 
-// Main view for the "For You" tab, displaying the RSS feed.
+// MARK: - Supporting View Modifiers and Styles
+
+// ViewModifier for common card styling
+struct CardStyle: ViewModifier {
+    let cornerRadius: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(Color.primary.opacity(0.1), lineWidth: 1 / UIScreen.main.scale) // Use primary color for border adaptability
+            )
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+}
+
+// Custom ButtonStyle for visual feedback on card tap
+struct CardButtonStyle: ButtonStyle {
+    let cornerRadius: CGFloat
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+             // Scale down slightly when pressed
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+             // Optionally add a subtle overlay when pressed
+            // .overlay(
+            //      RoundedRectangle(cornerRadius: cornerRadius)
+            //          .fill(Color.black.opacity(configuration.isPressed ? 0.05 : 0))
+            // )
+            .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.7), value: configuration.isPressed)
+    }
+}
+
+
+// MARK: - Redesigned ForYouView (Container)
+
 struct ForYouView: View {
     @State private var isCompactView = false // Toggle between compact/full item views
     @StateObject private var rssViewModel = RSSViewModel()
-    @State private var isShowingAlert = false // Controls the error alert
-    @State private var selectedTab: Int = 0 // Example state for tab selection
+    @State private var isShowingAlert = false
+    @State private var selectedTab: Int = 0
 
-    // State for sorting
     enum SortOrder { case newest, oldest }
     @State private var sortOrder: SortOrder = .newest
 
     var body: some View {
-        // Use NavigationView for potential future navigation within tabs
         NavigationView {
-            ZStack(alignment: .bottom) { // Align ProgressView centrally, TabBar at bottom
-                // Main Content ScrollView
+            ZStack(alignment: .bottom) {
+                // Use system background for adaptability
+                Color(.systemGroupedBackground) // Or .systemBackground
+                    .edgesIgnoringSafeArea(.all)
+
+                // Main Scrollable Content
                 ScrollView {
-                    // LazyVStack for performance with many items
-                    LazyVStack(alignment: .leading, spacing: 0) { // Remove default spacing
+                     // Use standard spacing, adjust card padding if needed
+                    LazyVStack(spacing: 18) {
                         headerView
-                            .padding(.bottom) // Padding after header
 
                         filterBar
-                            .padding(.bottom) // Padding after filter
+                           .padding(.bottom, 6) // Less padding after filter
 
-                        // updatesNotification // This could be conditionally shown
-
-                        // Feed Content Section
-                        rssFeedContent
+                        contentSection // Feed or Empty/Error state
                     }
-                    .padding(.top) // Add padding at the top of the ScrollView content
-                    .padding(.bottom, 80) // Add padding at the bottom to avoid tab bar overlap
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .padding(.bottom, 80) // Space for tab bar
                 }
-                .refreshable { // Pull-to-refresh action
-                     print("Refreshing feed...")
-                     await refreshFeed()
-                }
-                .background(Color.black.edgesIgnoringSafeArea(.all)) // Background stretches edge-to-edge
-                .navigationBarHidden(true) // Hide default navigation bar
-                .alert("Error Loading Feed", isPresented: $isShowingAlert) { // Use newer alert syntax
-                    Button("Retry") {
-                        rssViewModel.loadRSS() // Retry loading on button tap
-                    }
+                // --- Modifiers for ScrollView ---
+                 .scrollDismissesKeyboard(.immediately) // Dismiss keyboard on scroll
+                .refreshable { await refreshFeed() } // Keep refreshable
+                .navigationBarHidden(true)
+                .alert("Error Loading Feed", isPresented: $isShowingAlert, actions: {
+                    Button("Retry") { rssViewModel.loadRSS() }
                     Button("OK", role: .cancel) {}
-                } message: {
+                }, message: {
                     Text(rssViewModel.errorMessage ?? "An unknown error occurred.")
+                })
+
+                // Loading Indicator Overlay (conditional)
+                if rssViewModel.isLoading && rssViewModel.rssItems.isEmpty {
+                    // Only show full overlay when initially loading
+                     loadingOverlay
                 }
 
-                // Loading Indicator centered (only shown when loading)
-                 if rssViewModel.isLoading {
-                     ZStack {
-                         Color.black.opacity(0.4).edgesIgnoringSafeArea(.all) // Dim background
-                         ProgressView("Loading Feed...")
-                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                             .padding()
-                             .background(Color.black.opacity(0.7).cornerRadius(10))
-                     }
-                 }
-
-
-                // Custom Tab Bar - Overlay at the bottom
-                 customTabBar
+                // Custom Tab Bar
+                customTabBar
             }
-            .edgesIgnoringSafeArea(.bottom) // Allow content/tabbar to go to screen bottom
+            .edgesIgnoringSafeArea(.bottom) // Allow tab bar to reach edge
         }
-        .onAppear {
-            // Load RSS feed when the view appears, if not already loaded
+        // --- Modifiers for NavigationView ---
+        .onAppear { // Load data when view appears
             if rssViewModel.rssItems.isEmpty && !rssViewModel.isLoading {
-                print("ForYouView appeared, loading initial RSS feed.")
                 rssViewModel.loadRSS()
             }
         }
-        .onChange(of: rssViewModel.errorMessage) { _, newValue in
-            // Show alert whenever an error message is set and we are not loading
+        .onChange(of: rssViewModel.errorMessage) { _, newValue in // Show error alert
+            // Only show alert if not loading (isLoading check might be redundant if error clears loading state)
             isShowingAlert = newValue != nil && !rssViewModel.isLoading
         }
-         .onChange(of: sortOrder) { _, newOrder in // React to sort order changes
-             sortItems(order: newOrder)
-         }
-        .preferredColorScheme(.dark) // Enforce dark mode for this view
+        .onChange(of: sortOrder) { _, newOrder in // Sort items when order changes
+            sortItems(order: newOrder)
+        }
+         // Removed preferredColorScheme - let system decide or use Appearance setting
     }
 
-     // Async function for refreshable
-     func refreshFeed() async {
-         // Use the existing load function. @MainActor ensures UI updates happen correctly.
-         rssViewModel.loadRSS()
-         // Since loadRSS handles its own async/await and MainActor updates,
-         // no explicit Task or await needed here unless loadRSS returned something awaitable.
-     }
+    // --- Async Refresh Function ---
+    func refreshFeed() async {
+         print("🔄 Refreshing feed...")
+         rssViewModel.loadRSS(isRefresh: true) // Call load with refresh flag
+    }
 
-    // MARK: - Subviews
+    // --- Subviews ---
 
     private var headerView: some View {
         HStack {
-            Image(systemName: "newspaper") // News icon
-                .foregroundColor(.pink) // Use theme color
-                .font(.title) // Adjust size if needed
-            Text("Feed") // Simplified Title
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.white) // Ensure text is visible
-            Spacer() // Pushes profile icon to the right
-            Button(action: { /* Add profile action */ }) {
-                Image(systemName: "person.crop.circle") // Standard profile icon
-                    .font(.largeTitle)
-                    .foregroundColor(.gray)
-            }
+            Text("Today's Feed")
+                .font(.largeTitle.weight(.bold))
+                .foregroundColor(.primary)
+            Spacer()
+            // Optional: Settings/Profile Button
+            // Button(action: { /* Settings action */ }) {
+            //     Image(systemName: "gearshape.circle")
+            //         .font(.title)
+            //         .foregroundColor(.secondary)
+            // }
         }
-        .padding(.horizontal)
+        // Padding is handled by LazyVStack's horizontal padding
     }
 
     private var filterBar: some View {
          HStack {
             // Sorting Menu
             Menu {
-                Button { sortOrder = .newest } label: {
-                    Label("Newest First", systemImage: sortOrder == .newest ? "checkmark" : "")
-                }
-                Button { sortOrder = .oldest } label: {
-                    Label("Oldest First", systemImage: sortOrder == .oldest ? "checkmark" : "")
-                }
-                // Add more sorting options if needed
+                Button { sortOrder = .newest } label: { Label("Newest First", systemImage: sortOrder == .newest ? "checkmark" : "") }
+                Button { sortOrder = .oldest } label: { Label("Oldest First", systemImage: sortOrder == .oldest ? "checkmark" : "") }
             } label: {
                  HStack(spacing: 4) {
-                    Text(sortOrder == .newest ? "Newest" : "Oldest") // Dynamic label
-                    Image(systemName: "chevron.down.circle") // Indicate dropdown
+                    Text(sortOrder == .newest ? "Newest" : "Oldest")
+                    Image(systemName: "chevron.down")
                  }
-                 .font(.caption)
-                 .foregroundColor(.white)
+                 .font(.subheadline.weight(.medium))
+                 .foregroundColor(.accentColor) // Use accent color for interactive element
                  .padding(.vertical, 8)
                  .padding(.horizontal, 12)
-                 .background(Color.gray.opacity(0.3))
-                 .clipShape(Capsule())
+                 // Use capsule shape for background/overlay
+                 .background(.ultraThinMaterial, in: Capsule())
+                 .overlay(Capsule().stroke(Color.secondary.opacity(0.2), lineWidth: 0.5))
             }
 
-            Spacer() // Pushes view options to the right
+            Spacer()
 
             // View Toggle Button
-            Button { isCompactView.toggle() } label: {
-                Image(systemName: isCompactView ? "list.bullet.rectangle.portrait" : "square.grid.2x2")
-                     .font(.title3)
-                     .frame(width: 44, height: 44) // Ensure tappable area
-                     .contentShape(Rectangle())
-            }
-            .foregroundColor(.gray)
-
-            // More Options Button placeholder
-            Button { /* Add more filter/view options */ } label: {
-                Image(systemName: "slider.horizontal.3")
-                    .font(.title3)
-                    .frame(width: 44, height: 44)
-                    .contentShape(Rectangle())
-            }
-            .foregroundColor(.gray)
-         }
-         .padding(.horizontal)
-    }
-
-    // Placeholder for potential future notification banner
-    // private var updatesNotification: some View { ... }
-
-
-    // Renamed view for clarity
-    private var rssFeedContent: some View {
-         Group {
-             // Use computed property or function for sorted items to avoid sorting in body
-             // ForEach(sortedRssItems) { item in ... }
-
-             // Only show items if not loading, no error, and items exist
-             if !rssViewModel.isLoading && rssViewModel.errorMessage == nil && !rssViewModel.rssItems.isEmpty {
-                 // Display the list of RSS items using the custom view
-                 ForEach(rssViewModel.rssItems) { item in
-                     RSSItemView(item: item, isCompact: isCompactView)
-                         .id(item.id) // Ensure ForEach identifies items correctly
+             Button {
+                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                      isCompactView.toggle()
                  }
-             }
-             // Handle empty state (after loading, no error, but no items)
-             else if !rssViewModel.isLoading && rssViewModel.errorMessage == nil && rssViewModel.rssItems.isEmpty {
-                  emptyStateView
-             }
-             // Error state is handled by the alert and potentially implicitly if loading hides content
-             // The ProgressView overlay handles the loading state visually
+             } label: {
+                Image(systemName: isCompactView ? "list.bullet" : "square.grid.2x2") // Simpler icons
+                     .font(.title3)
+                     .frame(width: 40, height: 40) // Slightly smaller tappable area
+                     .background(.ultraThinMaterial, in: Circle())
+                     .foregroundColor(.secondary)
+            }
+             .buttonStyle(.plain) // Ensure custom background works
+
          }
     }
 
-    // View for empty state
+    // Dynamically shows feed, empty state, or error hint
+    @ViewBuilder
+    private var contentSection: some View {
+         // Don't show content if initially loading (handled by overlay)
+         if !rssViewModel.isLoading || !rssViewModel.rssItems.isEmpty {
+             if !rssViewModel.rssItems.isEmpty {
+                 // --- Feed Items ---
+                 // Using item ID for ForEach stability during sorting/updates
+                 ForEach(rssViewModel.rssItems, id: \.id) { item in
+                     RSSItemView(item: item, isCompact: isCompactView)
+                         // Each card gets its own animation context if needed
+                         // .animation(.default, value: isCompactView) // Animate individual card layout changes
+                 }
+             } else if rssViewModel.errorMessage == nil {
+                 // --- Empty State ---
+                 emptyStateView
+             } else {
+                 // --- Error State Hint ---
+                  // The main error is shown in the alert.
+                  // Optionally show a minimal hint here too.
+                   // errorStateView
+             }
+         }
+         // The loading state when rssItems is empty is handled by the overlay
+    }
+
+    // Loading Overlay View
+    private var loadingOverlay: some View {
+         ZStack {
+             Rectangle().fill(.ultraThinMaterial).edgesIgnoringSafeArea(.all)
+             VStack(spacing: 10) {
+                 ProgressView().controlSize(.large)
+                 Text("Loading Feed...").foregroundColor(.secondary)
+             }
+             .padding(30)
+             .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 15))
+             .shadow(radius: 10)
+         }
+         .zIndex(10) // Ensure it's on top
+    }
+
+
+    // Empty State View
     private var emptyStateView: some View {
-        VStack(spacing: 10) {
-             Spacer(minLength: 100) // Push content down a bit
-             Image(systemName: "tray.fill") // Empty tray icon
+        VStack(spacing: 15) {
+             Spacer(minLength: 50) // Adjust spacing
+             Image(systemName: "tray.fill")
                  .font(.system(size: 50))
-                 .foregroundColor(.gray)
-             Text("No Articles Found")
-                 .font(.headline)
-                 .foregroundColor(.white)
-             Text("The feed is currently empty.\nPull down to refresh.")
-                 .font(.caption)
-                 .foregroundColor(.gray)
-                 .multilineTextAlignment(.center)
-                 .padding(.horizontal)
-              Spacer()
+                 .foregroundColor(.secondary).opacity(0.7)
+             VStack(spacing: 5) { // Tighter text spacing
+                 Text("Nothing Here Yet")
+                     .font(.title3.weight(.semibold))
+                     .foregroundColor(.primary)
+                 Text("Pull down to refresh the feed.")
+                     .font(.subheadline)
+                     .foregroundColor(.secondary)
+                     .multilineTextAlignment(.center)
+             }
+             Spacer()
          }
-         .frame(maxWidth: .infinity)
-         .padding()
+        .frame(maxWidth: .infinity)
+        .padding(40)
     }
 
-    // Tab Bar View
+    // Example Error view (if needed inline)
+    // private var errorStateView: some View { ... }
+
+    // Custom Tab Bar View
     private var customTabBar: some View {
         HStack {
-            TabBarButton(iconName: "newspaper", label: "Feed", isActive: selectedTab == 0) { // Changed icon
-                selectedTab = 0
-                // Add navigation or content switching logic here
-            }
-            TabBarButton(iconName: "play.square.stack", label: "Episodes", isActive: selectedTab == 1) { // Changed icon
-                 selectedTab = 1
-                 // Add navigation or content switching logic here
-            }
-            TabBarButton(iconName: "bookmark", label: "Saved", isActive: selectedTab == 2) {
-                 selectedTab = 2
-                 // Add navigation or content switching logic here
-            }
-            TabBarButton(iconName: "number.square", label: "Interests", isActive: selectedTab == 3) {
-                 selectedTab = 3
-                 // Add navigation or content switching logic here
-            }
+            TabBarButton(iconName: "newspaper", label: "Feed", isActive: selectedTab == 0) { selectedTab = 0 }
+            TabBarButton(iconName: "play.square.stack", label: "Episodes", isActive: selectedTab == 1) { selectedTab = 1 }
+            TabBarButton(iconName: "bookmark", label: "Saved", isActive: selectedTab == 2) { selectedTab = 2 }
+            TabBarButton(iconName: "number.square", label: "Interests", isActive: selectedTab == 3) { selectedTab = 3 }
         }
-        .padding(.vertical, 8) // Adjusted padding
+        .padding(.vertical, 5) // Less vertical padding
         .padding(.horizontal)
-        .background(.ultraThinMaterial) // Use material background
-        .overlay(Divider(), alignment: .top) // Add a subtle top divider
+        .padding(.bottom, UIApplication.shared.connectedScenes
+                    .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+                    .first?.safeAreaInsets.bottom ?? 0) // Adjust padding based on safe area
+        .background(.ultraThinMaterial)
+        .overlay(Divider().background(Color.black.opacity(0.2)), alignment: .top) // Darker divider
     }
 
-    // Helper function to sort items based on state
+    // Helper function to sort items with animation
     private func sortItems(order: SortOrder) {
-        switch order {
-            case .newest:
-                rssViewModel.rssItems.sort { ($0.pubDate ?? .distantPast) > ($1.pubDate ?? .distantPast) }
-            case .oldest:
-                rssViewModel.rssItems.sort { ($0.pubDate ?? .distantFuture) < ($1.pubDate ?? .distantFuture) }
-        }
+         withAnimation(.easeInOut(duration: 0.4)) {
+              switch order {
+              case .newest:
+                  rssViewModel.rssItems.sort { ($0.pubDate ?? .distantPast) > ($1.pubDate ?? .distantPast) }
+              case .oldest:
+                  rssViewModel.rssItems.sort { ($0.pubDate ?? .distantFuture) < ($1.pubDate ?? .distantFuture) }
+              }
+         }
     }
-
 }
 
+
 // MARK: - Web View Controller (UIKit Implementation - Refactored)
+// No changes to this section from the previous version
+
 
 class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
@@ -805,13 +991,11 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
     }
 
     deinit {
-        // Invalidate KVO observers explicitly
         observers.forEach { $0.invalidate() }
         observers.removeAll()
-        // WKWebView's delegate properties are weak, no need to nil them out manually usually,
-        // but setting them to nil can help ensure no lingering delegate calls attempt to happen.
         webView?.navigationDelegate = nil
         webView?.uiDelegate = nil
+        webView?.stopLoading() // Ensure loading stops
         print("AnotherCustomWebViewController deinitialized for URL: \(initialURLString ?? "nil")")
     }
 
@@ -821,58 +1005,62 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
         setupNavigationBar()
         setupWebView()
         setupToolbar()
-        setupProgressView()
-        configureToolbarItems() // Configure items after toolbar creation
+        setupProgressView() // Call after webview/toolbar are added to view
+        configureToolbarItems()
     }
 
     private func setupNavigationBar() {
-        navigationItem.largeTitleDisplayMode = .never // Prefer small title in webview
+        navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
             target: self,
             action: #selector(closeTapped)
         )
         navigationItem.title = "Loading..."
-        // Optional Menu Button
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
             target: self,
             action: #selector(menuTapped)
         )
-        // Style navigation bar appearance if needed
+        // Use modern appearance API
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
+        appearance.configureWithDefaultBackground() // Or .configureWithTransparentBackground() etc.
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance // For consistency if needed
     }
 
     private func setupWebView() {
         let preferences = WKPreferences()
-        preferences.javaScriptCanOpenWindowsAutomatically = false // Security enhancement
+        preferences.javaScriptCanOpenWindowsAutomatically = false
 
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
         configuration.defaultWebpagePreferences.allowsContentJavaScript = true
-        configuration.websiteDataStore = .nonPersistent() // Enhance privacy, clear cache/cookies on dismiss - adjust if login needed
+        // Use nonPersistent for better privacy unless logins are required
+        configuration.websiteDataStore = .nonPersistent()
 
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
         webView.uiDelegate = self
-        webView.allowsBackForwardNavigationGestures = true // Enable swipe gestures
+        webView.allowsBackForwardNavigationGestures = true
         webView.translatesAutoresizingMaskIntoConstraints = false
+        // Increase scroll deceleration rate for a slightly 'snappier' feel
+        webView.scrollView.decelerationRate = .normal
         view.addSubview(webView)
     }
 
     private func setupToolbar() {
         toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
-        // Use appearance for styling
+        // Use modern appearance API
         let appearance = UIToolbarAppearance()
         appearance.configureWithDefaultBackground()
         toolbar.standardAppearance = appearance
+        toolbar.compactAppearance = appearance // For consistency
          if #available(iOS 15.0, *) {
-            toolbar.scrollEdgeAppearance = appearance // For consistency
+            toolbar.scrollEdgeAppearance = appearance
          }
         view.addSubview(toolbar)
     }
@@ -882,35 +1070,32 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
          progressView.translatesAutoresizingMaskIntoConstraints = false
          progressView.progress = 0.0
          progressView.trackTintColor = .clear
-         progressView.progressTintColor = .systemBlue // Use theme color
+         progressView.progressTintColor = UIColor.systemBlue // Use UIColor for UIKit component
          progressView.isHidden = true
-         view.addSubview(progressView) // Add AFTER webview/toolbar potentially
+         view.addSubview(progressView) // Add AFTER webview/toolbar
 
           // --- Auto Layout Constraints ---
           NSLayoutConstraint.activate([
-              // WebView Constraints
               webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
               webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
               webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-              webView.bottomAnchor.constraint(equalTo: toolbar.topAnchor), // Connect webView bottom to toolbar top
+              webView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
 
-              // Toolbar Constraints
               toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
               toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
               toolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-              // ProgressView Constraints
-              progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor), // Pin below nav bar
+              // Pin progressView to top of safe area guide (below potential nav bar)
+              progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
               progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
               progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
           ])
      }
 
      private func configureToolbarItems() {
-          // Enable/Disable buttons initially based on webView state (which is initially nothing)
           backButton.isEnabled = false
           forwardButton.isEnabled = false
-
+          // Use flexible space for even distribution
           let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
           toolbar.items = [
               backButton, flexibleSpace,
@@ -923,37 +1108,36 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
 
     // Helper to create toolbar buttons consistently
     private func createToolbarButton(imageName: String, action: Selector) -> UIBarButtonItem {
-        let button = UIBarButtonItem(
+        return UIBarButtonItem(
             image: UIImage(systemName: imageName),
             style: .plain,
             target: self,
             action: action
         )
-        // Optionally disable initially
-        // button.isEnabled = false
-        return button
     }
 
 
     // --- KVO Setup ---
     private func setupObservers() {
+         // Use modern block-based KVO for safety and conciseness
          observers = [
-             webView.observe(\.estimatedProgress, options: .new) { [weak self] webView, change in
+             webView.observe(\.estimatedProgress, options: [.new]) { [weak self] _, change in
                  guard let self = self, let newProgress = change.newValue else { return }
-                 self.progressView.setProgress(Float(newProgress), animated: true)
-                 self.progressView.isHidden = newProgress >= 1.0 || newProgress <= 0.0
+//                 self.progressView.setProgress(Float(newProgress), animated: newProgress > self.progressView.progress) // Animate only forward progress
+                 // Debounce hiding slightly to prevent flickering
+                  DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                      self.progressView.isHidden = self.webView.estimatedProgress >= 1.0 || self.webView.estimatedProgress <= 0.0
+                  }
              },
-             webView.observe(\.title, options: .new) { [weak self] webView, change in
-                 guard let self = self, let newTitle = change.newValue else { return }
-                  self.navigationItem.title = newTitle?.isEmpty ?? true ? "Loading..." : newTitle
+             webView.observe(\.title, options: [.new]) { [weak self] _, change in
+                 guard let self = self, let newTitle = change.newValue as? String else { return }
+                  self.navigationItem.title = newTitle.isEmpty ? "Loading..." : newTitle
              },
-             webView.observe(\.canGoBack, options: .new) { [weak self] webView, change in
-                 guard let self = self, let canGoBack = change.newValue else { return }
-                 self.backButton.isEnabled = canGoBack
+             webView.observe(\.canGoBack, options: [.new]) { [weak self] _, change in
+                 self?.backButton.isEnabled = change.newValue ?? false
              },
-             webView.observe(\.canGoForward, options: .new) { [weak self] webView, change in
-                 guard let self = self, let canGoForward = change.newValue else { return }
-                 self.forwardButton.isEnabled = canGoForward
+             webView.observe(\.canGoForward, options: [.new]) { [weak self] _, change in
+                 self?.forwardButton.isEnabled = change.newValue ?? false
              }
          ]
     }
@@ -968,9 +1152,7 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
         }
     }
 
-    // Public function to load potentially different URL later
     func loadURL(urlString: String) {
-         // Prevent reloading same URL if called unnecessarily
          guard webView.url?.absoluteString != urlString else { return }
          loadRemoteURL(urlString: urlString)
     }
@@ -983,31 +1165,14 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
             return
         }
         print("Loading URL: \(url)")
-        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30) // Set timeout
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
         webView.load(request)
     }
 
     private func showErrorPage(message: String, detailedError: String? = nil) {
+         // Simple HTML error page, ensure viewport is set for mobile
          let html = """
-         <html>
-         <head>
-             <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
-             <style>
-                 body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 80vh; text-align: center; padding: 20px; color: #555; }
-                 .content { max-width: 80%; }
-                 h1 { color: #E57373; font-size: 1.5em; margin-bottom: 10px; } /* Reddish error color */
-                 p { font-size: 0.9em; margin-bottom: 5px; }
-                 .details { font-size: 0.7em; color: #999; }
-             </style>
-         </head>
-         <body>
-             <div class="content">
-                 <h1>Load Failed</h1>
-                 <p>\(message)</p>
-                 \(detailedError != nil ? "<p class='details'>(\(detailedError!))</p>" : "")
-             </div>
-         </body>
-         </html>
+         <!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'><style>body{font-family:-apple-system,sans-serif;display:flex;justify-content:center;align-items:center;height:80vh;text-align:center;padding:20px;color:#555;}.content{max-width:80%;}h1{color:#d32f2f;font-size:1.3em;margin-bottom:10px;}p{font-size:0.9em;margin-bottom:5px;}.details{font-size:0.7em;color:#999;word-break:break-all;}</style></head><body><div class='content'><h1>Load Failed</h1><p>\(message)</p>\(detailedError != nil ? "<p class='details'>(\(detailedError!))</p>" : "")</div></body></html>
          """
          webView.loadHTMLString(html, baseURL: nil)
      }
@@ -1015,28 +1180,26 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
 
     // --- Actions ---
     @objc private func closeTapped() {
-        // Check if presented modally or pushed onto navigation stack
-        if presentingViewController != nil {
+        if let navController = navigationController, navController.viewControllers.first !== self {
+            navController.popViewController(animated: true)
+        } else if presentingViewController != nil {
            dismiss(animated: true)
-       } else if let navController = navigationController, navController.viewControllers.count > 1 {
-           navController.popViewController(animated: true)
        } else {
-           // Fallback for unexpected scenarios, maybe just dismiss
-           dismiss(animated: true, completion: nil)
+           print("Could not determine how to dismiss WebViewController.")
+           // Fallback: attempt to dismiss if possible
+            dismiss(animated: true, completion: nil)
        }
     }
 
     @objc private func menuTapped() {
-         guard let url = webView.url else { // Ensure there's a URL to act upon
-             // Maybe show a limited menu or disable the button if no URL
-             return
-         }
+        guard let url = webView.url else { return } // Check URL exists
 
         let actionSheet = UIAlertController(title: webView.title, message: url.absoluteString, preferredStyle: .actionSheet)
 
         actionSheet.addAction(UIAlertAction(title: "Open in Safari", style: .default) { [weak self] _ in self?.openInSafari() })
         actionSheet.addAction(UIAlertAction(title: "Copy URL", style: .default) { _ in UIPasteboard.general.string = url.absoluteString })
         actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { [weak self] _ in self?.shareTapped() })
+
         if webView.isLoading {
             actionSheet.addAction(UIAlertAction(title: "Stop Loading", style: .destructive) { [weak self] _ in self?.webView?.stopLoading() })
         } else {
@@ -1044,46 +1207,33 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
         }
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-        // For iPad support
+        // iPad Popover Anchor
         if let popoverController = actionSheet.popoverPresentationController {
-            popoverController.barButtonItem = navigationItem.rightBarButtonItem // Anchor to the menu button
+            popoverController.barButtonItem = navigationItem.rightBarButtonItem
         }
         present(actionSheet, animated: true)
     }
 
-    @objc private func goBack() {
-        webView.goBack()
-    }
-
-    @objc private func goForward() {
-        webView.goForward()
-    }
-
-    @objc private func reloadPage() {
-         // Use reload() for standard reload, reloadFromOrigin() to bypass cache
-        webView.reload()
-    }
+    @objc private func goBack() { webView.goBack() }
+    @objc private func goForward() { webView.goForward() }
+    @objc private func reloadPage() { webView.reload() }
 
     @objc private func shareTapped() {
         guard let url = webView.url else { return }
-        let itemsToShare: [Any] = [url, webView.title ?? ""] // Share URL and Title
+        let itemsToShare: [Any] = [url, webView.title ?? ""]
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
 
-        // For iPad support
         if let popover = activityVC.popoverPresentationController {
-             popover.barButtonItem = shareButton // Anchor to the share button
+             popover.barButtonItem = shareButton
         }
         present(activityVC, animated: true)
     }
 
-     @objc private func openInSafariTapped() {
-         openInSafari()
-     }
+     @objc private func openInSafariTapped() { openInSafari() }
 
     private func openInSafari() {
         guard let url = webView.url, UIApplication.shared.canOpenURL(url) else {
-            print("Cannot open URL: \(webView.url?.absoluteString ?? "nil")")
-            // Optionally show an alert
+            print("Cannot open URL in Safari: \(webView.url?.absoluteString ?? "nil")")
             return
         }
         UIApplication.shared.open(url)
@@ -1091,121 +1241,101 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
 
     // --- JavaScript Injection Example ---
     func injectJavaScript(script: String, completion: ((Result<Any?, Error>) -> Void)? = nil) {
-        webView.evaluateJavaScript(script) { result, error in
-            if let error = error {
-                print("JavaScript Injection Error: \(error)")
-                completion?(.failure(error))
-            } else {
-                print("JavaScript executed. Result: \(result ?? "nil")")
-                completion?(.success(result))
+        // Ensure injection happens on main thread if called from elsewhere
+        DispatchQueue.main.async {
+             self.webView.evaluateJavaScript(script) { result, error in
+                if let error = error {
+                    print("JS Error: \(error)")
+                    completion?(.failure(error))
+                } else {
+                    print("JS Result: \(result ?? "nil")")
+                    completion?(.success(result))
+                }
             }
         }
     }
 
     // --- WKNavigationDelegate Methods ---
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-         // Example: Prevent navigating away from the initial domain if needed
-         // if let requestUrl = navigationAction.request.url,
-         //    let initialHost = URL(string: initialURLString ?? "")?.host,
-         //    requestUrl.host != initialHost {
-         //    decisionHandler(.cancel) // Cancel navigation
-         //    if UIApplication.shared.canOpenURL(requestUrl) {
-         //        UIApplication.shared.open(requestUrl) // Offer to open in Safari
-         //    }
-         //    return
-         // }
-
-        // Allow links intended to be opened in new tabs/windows to just load here
-        // (target="_blank"). WKUIDelegate handles actual window creation requests.
+        // Allow all navigation by default
         decisionHandler(.allow)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("Page loading started for: \(webView.url?.absoluteString ?? "unknown URL")")
-        // Progress bar updates via KVO
+        print("Did Start Provisional Navigation: \(webView.url?.absoluteString ?? "no url")")
     }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        // Page content starts arriving
-         print("Page commit for: \(webView.url?.absoluteString ?? "unknown URL")")
+        print("Did Commit Navigation: \(webView.url?.absoluteString ?? "no url")")
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("Page loading finished for: \(webView.url?.absoluteString ?? "unknown URL")")
-        // Progress bar updates via KVO
+        print("Did Finish Navigation: \(webView.url?.absoluteString ?? "no url")")
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        let nsError = error as NSError
-        // Ignore "Frame load interrupted" errors which often happen during normal navigation
-        if nsError.domain == WKError.errorDomain && nsError.code == WKError.webViewInvalidated.rawValue {
-            print("WebView invalidated error - ignoring.")
-            return
-        }
-         if nsError.domain == "NSURLErrorDomain" && nsError.code == NSURLErrorCancelled {
-            print("URL Loading cancelled - ignoring.")
-            return // Often happens when user navigates away quickly
-         }
-
-        print("Permanent navigation failed: \(error.localizedDescription)")
-        // Progress bar updates via KVO
-        showErrorPage(message: "Could not load the page.", detailedError: error.localizedDescription)
-    }
-
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    // Centralized error handling for navigation failures
+     private func handleNavigationError(_ error: Error, context: String) {
          let nsError = error as NSError
-         // Ignore cancellation errors
+         // Ignore cancellation and frame load interruptions
          if nsError.domain == "NSURLErrorDomain" && nsError.code == NSURLErrorCancelled {
-             print("Provisional navigation cancelled - ignoring.")
+             print("\(context) Navigation cancelled - ignoring.")
              return
          }
-        print("Provisional navigation failed: \(error.localizedDescription)")
-        // Progress bar updates via KVO
-        navigationItem.title = "Failed to Load"
-        showErrorPage(message: "Could not start loading the page.", detailedError: error.localizedDescription)
-    }
+        if nsError.domain == WKError.errorDomain && nsError.code == WKError.webViewInvalidated.rawValue {
+             print("\(context) WebView invalidated error - ignoring.")
+             return
+         }
+         // Ignore "Plug-in handled load" errors for certain content types
+         if nsError.domain == "WebKitPluginErrorDomain" && nsError.code == 102 {
+             print("\(context) Plug-in handled load - ignoring.")
+             return
+         }
 
-     // Handle redirects
+         print("❌ \(context) Navigation failed: \(error.localizedDescription)")
+         // Avoid showing error page for minor/ignored errors
+         if !(nsError.domain == "NSURLErrorDomain" && nsError.code == NSURLErrorCancelled) {
+             showErrorPage(message: "Could not load the page.", detailedError: error.localizedDescription)
+              if context == "Provisional" { navigationItem.title = "Failed to Load" }
+         }
+     }
+
+     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+         handleNavigationError(error, context: "Permanent")
+     }
+
+     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+         handleNavigationError(error, context: "Provisional")
+     }
+
      func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
          print("Redirect received for: \(webView.url?.absoluteString ?? "unknown URL")")
      }
 
-     // Handle Authentication Challenges (example: basic auth) - requires research for specific needs
      func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-         // Handle specific authentication methods if needed, e.g., HTTP Basic/Digest
-         // For default handling (like system prompts for certificates):
+         // Default handling is usually sufficient unless specific auth required
          completionHandler(.performDefaultHandling, nil)
+     }
+
+     // Process terminated (e.g., due to memory pressure)
+     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+         print("⚠️ Web Content Process Terminated. Reloading might be needed.")
+         // Optionally try reloading the page or show an error message asking the user to reload.
+         // You might want to reload automatically only once to avoid reload loops.
+         showErrorPage(message: "The page stopped responding. Please try reloading.")
      }
 
 
      // --- WKUIDelegate Methods ---
-     // Handle JavaScript alerts
      func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-         let alertController = UIAlertController(title: webView.url?.host, message: message, preferredStyle: .alert)
-         alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-             completionHandler()
-         })
-         // Ensure it's presented from the correct view controller
-          guard self.presentedViewController == nil else {
-              print("Alert suppressed: Another view controller is already presented.")
-              completionHandler() // Must call completion handler even if not shown
-              return
-          }
-         present(alertController, animated: true)
+         presentAlert(message: message, defaultActionTitle: "OK") { _ in completionHandler() }
      }
-     // Handle JavaScript confirm panels
+
      func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-          let alertController = UIAlertController(title: webView.url?.host, message: message, preferredStyle: .alert)
-          alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in completionHandler(true) })
-          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completionHandler(false) })
-          guard self.presentedViewController == nil else {
-              print("Confirm suppressed: Another view controller is already presented.")
-              completionHandler(false)
-              return
-          }
-          present(alertController, animated: true)
+         presentAlert(message: message, cancelActionTitle: "Cancel", defaultActionTitle: "OK") { confirmed in
+             completionHandler(confirmed)
+         }
      }
-     // Handle JavaScript prompt panels
+
       func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
           let alertController = UIAlertController(title: webView.url?.host, message: prompt, preferredStyle: .alert)
           alertController.addTextField { textField in
@@ -1215,95 +1345,224 @@ class AnotherCustomWebViewController: UIViewController, WKUIDelegate, WKNavigati
               completionHandler(alertController.textFields?.first?.text)
           })
           alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completionHandler(nil) })
-           guard self.presentedViewController == nil else {
-              print("Prompt suppressed: Another view controller is already presented.")
-              completionHandler(nil)
-              return
-          }
-          present(alertController, animated: true)
+          safePresent(alertController)
       }
 
-     // Handle requests to open new windows (e.g., target="_blank")
-     // Decide whether to load in the same webview, open externally, or block.
       func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-          // If the request is a user click (not programmatic)
+          // Handle target="_blank" or window.open requests
+          // Option 1: Load in the same view
           if navigationAction.targetFrame == nil {
-              // Open target="_blank" links in the same WKWebView
               webView.load(navigationAction.request)
           }
-           // Prevent opening new WKWebView instances window
+          // Option 2: Open externally if possible
+          // if let url = navigationAction.request.url, UIApplication.shared.canOpenURL(url) {
+          //     UIApplication.shared.open(url)
+          // }
+          // Option 3: Block new window creation
           return nil
       }
+
+     // --- Alert Presentation Helper ---
+     private func presentAlert(message: String, cancelActionTitle: String? = nil, defaultActionTitle: String, completion: @escaping (Bool) -> Void) {
+         let alertController = UIAlertController(title: webView.url?.host, message: message, preferredStyle: .alert)
+
+         if let cancelTitle = cancelActionTitle {
+             alertController.addAction(UIAlertAction(title: cancelTitle, style: .cancel) { _ in completion(false) })
+         }
+         alertController.addAction(UIAlertAction(title: defaultActionTitle, style: .default) { _ in completion(true) })
+
+         safePresent(alertController)
+     }
+
+     // Helper to prevent presenting while another alert/vc is already presented
+     private func safePresent(_ viewControllerToPresent: UIViewController) {
+         guard self.presentedViewController == nil else {
+             print("Alert/VC presentation suppressed: Another view controller is already presented.")
+             // If it was an alert needing a completion, call it with a default (e.g., false/nil)
+             return
+         }
+         present(viewControllerToPresent, animated: true)
+     }
 }
 
 
 // MARK: - SwiftUI Wrapper for WebViewController
 
 struct WebViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = UINavigationController // Wrap in a Nav Controller for title/buttons
-    let urlString: String // Use let if URL doesn't change after creation
+    typealias UIViewControllerType = UINavigationController
+    let urlString: String
 
     func makeUIViewController(context: Context) -> UINavigationController {
-        // Create the web view controller instance with the URL
         let webViewController = AnotherCustomWebViewController(urlString: urlString)
-
-        // Embed it within a UINavigationController
         let navigationController = UINavigationController(rootViewController: webViewController)
-        // Customize navigation bar appearance if needed here or in the VC itself
+        // Apply global appearance settings if needed
+        // navigationController.navigationBar.tintColor = .systemBlue
         return navigationController
     }
 
     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
-        // If the urlString could potentially change *after* this view is created
-        // and you want the WebView to react, you'd add logic here.
-        // Getting the existing webVC:
-        // if let webVC = uiViewController.viewControllers.first as? AnotherCustomWebViewController {
-        //     webVC.loadURL(urlString: urlString) // Call your public load method
-        // }
+        // No update logic needed here if URL is immutable after creation
     }
 }
 
-// MARK: - Preview
+
+// MARK: - PreviewProvider (Updated)
 
 struct CombinedView_Previews: PreviewProvider {
+
+    // Use a nested struct for managing preview state/helpers if it gets complex
+    struct PreviewContainer: View {
+         var initialCompactState: Bool = false
+         var initialItems: [RSSItem] = sampleItems
+         var initialIsLoading: Bool = false
+         var initialError: String? = nil
+
+         // Use @StateObject for the ViewModel in the preview container
+         @StateObject private var previewModel: RSSViewModel
+
+         init(items: [RSSItem] = sampleItems, isLoading: Bool = false, error: String? = nil, compact: Bool = false) {
+             self.initialCompactState = compact
+             // Create the ViewModel *once* for the preview container instance
+              let vm = RSSViewModel()
+              vm.rssItems = items.sorted { ($0.pubDate ?? .distantPast) > ($1.pubDate ?? .distantPast) }
+              vm.isLoading = isLoading
+              vm.errorMessage = error
+              _previewModel = StateObject(wrappedValue: vm)
+         }
+
+         var body: some View {
+             ForYouView(previewInitialCompactState: initialCompactState) // Pass initial state if needed
+                  .environmentObject(previewModel) // Provide the ViewModel to the environment
+         }
+    }
+
+    // Modify ForYouView slightly to accept initial preview state
+    struct ForYouView: View {
+        @State var isCompactView: Bool
+        // Remove @StateObject here, use @EnvironmentObject
+        @EnvironmentObject private var rssViewModel: RSSViewModel
+        @State private var isShowingAlert = false
+        @State private var selectedTab: Int = 0
+        @State private var sortOrder: SortOrder = .newest
+
+         enum SortOrder { case newest, oldest } // Define locally or globally
+
+        // Initializer for previews
+        init(previewInitialCompactState: Bool = false) {
+            self._isCompactView = State(initialValue: previewInitialCompactState)
+        }
+
+         // Main initializer (if needed) could differ slightly or just use the preview one
+
+         // --- Paste the entire body and subview content of ForYouView here ---
+         // --- Use `rssViewModel` directly (it's EnvironmentObject now) ----
+         var body: some View {
+             NavigationView {
+                 ZStack(alignment: .bottom) {
+                     Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)
+                     ScrollView {
+                         LazyVStack(spacing: 18) {
+                             headerView
+                             filterBar.padding(.bottom, 6)
+                             contentSection
+                         }
+                         .padding(.horizontal)
+                         .padding(.top)
+                         .padding(.bottom, 80)
+                     }
+                     .scrollDismissesKeyboard(.immediately)
+                     .refreshable { await refreshFeed() }
+                     .navigationBarHidden(true)
+                     .alert("Error Loading Feed", isPresented: $isShowingAlert, actions: {
+                         Button("Retry") { rssViewModel.loadRSS() }
+                         Button("OK", role: .cancel) {}
+                     }, message: { Text(rssViewModel.errorMessage ?? "An unknown error occurred.") })
+
+                     if rssViewModel.isLoading && rssViewModel.rssItems.isEmpty { loadingOverlay }
+                     customTabBar
+                 }
+                 .edgesIgnoringSafeArea(.bottom)
+             }
+             .onAppear { /* Load data logic */
+                 // This might cause issues in previews if loadRSS isn't mocked
+                 // Maybe disable onAppear loading specifically for previews if needed
+                 #if !DEBUG // Don't auto-load in previews maybe?
+                 if rssViewModel.rssItems.isEmpty && !rssViewModel.isLoading {
+                     rssViewModel.loadRSS()
+                 }
+                 #endif
+             }
+             .onChange(of: rssViewModel.errorMessage) { _, newVal in isShowingAlert = newVal != nil && !rssViewModel.isLoading }
+             .onChange(of: sortOrder) { _, newOrder in sortItems(order: newOrder) }
+         }
+
+         // --- Copy all subviews (headerView, filterBar, etc.) and helper funcs here ---
+         func refreshFeed() async { rssViewModel.loadRSS(isRefresh: true) }
+         var headerView: some View { /* ... */ Text("Today's Feed").font(.largeTitle.weight(.bold)) }
+         var filterBar: some View { /* ... */ HStack { Text("Filter Placeholder"); Spacer()} }
+         @ViewBuilder var contentSection: some View {
+             if !rssViewModel.isLoading || !rssViewModel.rssItems.isEmpty {
+                   if !rssViewModel.rssItems.isEmpty {
+                       ForEach(rssViewModel.rssItems, id: \.id) { item in
+                          RSSItemView(item: item, isCompact: isCompactView)
+                       }
+                   } else if rssViewModel.errorMessage == nil { emptyStateView }
+             }
+         }
+         var loadingOverlay: some View { /* ... */ ZStack { Text("Loading...") } }
+         var emptyStateView: some View { /* ... */ Text("Empty") }
+         var customTabBar: some View { /* ... */ HStack { Text("Tab Bar") } }
+         func sortItems(order: SortOrder) { /* ... */ }
+    }
+
+
+     // --- Static Previews ---
     static var previews: some View {
-        // Preview the main entry point of your UI
-        ForYouView()
-            // Optionally add mock data to the view model for previewing states:
-            .environmentObject(previewViewModel(items: sampleItems, isLoading: false, error: nil)) // Example: Populated
-            .previewDisplayName("Populated Feed")
+        Group {
+            PreviewContainer(items: sampleItems, isLoading: false, error: nil, compact: false)
+                .previewDisplayName("Feed (Full)")
 
-         ForYouView()
-            .environmentObject(previewViewModel(items: [], isLoading: true, error: nil))
-            .previewDisplayName("Loading State")
+            PreviewContainer(items: sampleItems, isLoading: false, error: nil, compact: true)
+               .previewDisplayName("Feed (Compact)")
 
-         ForYouView()
-            .environmentObject(previewViewModel(items: [], isLoading: false, error: "Network connection failed."))
-            .previewDisplayName("Error State")
+            PreviewContainer(items: [], isLoading: true, error: nil)
+               .previewDisplayName("Loading State")
 
-        ForYouView()
-            .environmentObject(previewViewModel(items: [], isLoading: false, error: nil))
-            .previewDisplayName("Empty State")
+            PreviewContainer(items: [], isLoading: false, error: "Network connection failed.")
+               .previewDisplayName("Error State")
+
+            PreviewContainer(items: [], isLoading: false, error: nil)
+               .previewDisplayName("Empty State")
+
+            // Preview individual card states in different contexts
+             ScrollView { // Embed in ScrollView for context
+                 VStack(spacing: 20) {
+                     RSSItemView(item: sampleItems[0], isCompact: false) // Image
+                     RSSItemView(item: sampleItems[2], isCompact: false) // No image
+                     RSSItemView(item: sampleItems[1], isCompact: true) // Compact w/ Image
+                     RSSItemView(item: sampleItems[2], isCompact: true) // Compact w/o Image
+                 }
+                  .padding()
+             }
+              .background(Color(.systemGroupedBackground))
+              .previewDisplayName("Card Samples")
 
 
-        // Preview the WebView Wrapper directly if needed
-         WebViewControllerWrapper(urlString: "https://apple.com")
-             .previewDisplayName("Web View")
+            // Preview the WebView directly if needed
+            // WebViewControllerWrapper(urlString: "https://apple.com")
+            //     .previewDisplayName("Web View")
+
+        }
+        // Apply environment settings for previews if needed
+        // .environment(\.colorScheme, .dark)
     }
 
-    // Helper function for creating preview view models
-    @MainActor static func previewViewModel(items: [RSSItem], isLoading: Bool, error: String?) -> RSSViewModel {
-        let vm = RSSViewModel()
-        vm.rssItems = items
-        vm.isLoading = isLoading
-        vm.errorMessage = error
-        return vm
-    }
 
-    // Sample data for previews
-    static let sampleItems: [RSSItem] = [
-        RSSItem(title: "Sample Article 1: The Future of Swift", link: "https://example.com/1", pubDate: Date().addingTimeInterval(-3600), itemDescription: "A look into the upcoming features and directions for the Swift programming language. Performance, concurrency, and more.", imageURL: "https://via.placeholder.com/600x400/FFA07A/ffffff?text=Swift+Future"),
-        RSSItem(title: "Sample Article 2: Mastering SwiftUI Layout", link: "https://example.com/2", pubDate: Date().addingTimeInterval(-7200), itemDescription: "Deep dive into stacks, grids, and alignment guides in SwiftUI to create complex and responsive user interfaces.", imageURL: "https://via.placeholder.com/600x400/20B2AA/ffffff?text=SwiftUI+Layout"),
-        RSSItem(title: "Sample Article 3: What's New in Combine", link: "https://example.com/3", pubDate: Date().addingTimeInterval(-10800), itemDescription: "Exploring the latest operators and techniques for reactive programming with Apple's Combine framework.", imageURL: nil) // Example with no image
+    // Sample data used in previews
+    @MainActor static let sampleItems: [RSSItem] = [
+        RSSItem(title: "Apple Vision Pro: A Developer's First Impressions", link: "https://example.com/1", pubDate: Date().addingTimeInterval(-3600*2), itemDescription: "Exploring the possibilities and challenges of building apps for Apple's new spatial computing platform. What works, what needs improvement?", imageURL: "https://images.unsplash.com/photo-1676158629141-86b369ad2dea?q=80&w=800&auto=format&fit=crop"), // Placeholder image
+        RSSItem(title: "Swift 6 Concurrency Deep Dive: Actors, Sendable & Data Races", link: "https://example.com/2", pubDate: Date().addingTimeInterval(-3600*5), itemDescription: "Understanding Actors, Sendable, and the intricate details of Swift's modern concurrency model to prevent data races and build robust asynchronous code.", imageURL: "https://images.unsplash.com/photo-1638208194042-cabdbe9175c9?q=80&w=800&auto=format&fit=crop"), // Placeholder image
+        RSSItem(title: "The Rise of Declarative UIs", link: "https://example.com/3", pubDate: Date().addingTimeInterval(-3600*24), itemDescription: "Comparing the developer experience and performance of SwiftUI with modern web frameworks like React and Svelte.", imageURL: nil), // No image
+        RSSItem(title: "Optimizing Core Data Performance in Large Scale Apps", link: "https://example.com/4", pubDate: Date().addingTimeInterval(-3600*48), itemDescription: "Techniques for efficient fetching using predicates, batching updates for performance, and managing object graph complexity in Core Data applications.", imageURL: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop") // Placeholder image
     ]
 }
