@@ -51,14 +51,26 @@ struct ScrollFeaturesDemoView: View {
         // Update scrollPositionController when scrolledID changes (if needed for edge cases)
         // Usually, just setting scrolledID is enough for ID-based scrolling.
         // This syncs the controller state if the user scrolls manually to a new ID.
-        .onChange(of: scrolledID) { _, newID in
-            if let newID = newID, scrollPositionController.viewID(type: Int.self) != newID {
-                 // Keep the controller slightly in sync if needed,
-                 // but its primary use here is for edge/point scrolls.
-                  scrollPositionController.scrollTo(id: newID)
+        .onChange(of: scrolledID) { oldValue, newValue in // Use new signature
+            if let newID = newValue, scrollPositionController.viewID(type: Int.self) != newID {
+                 // Keep the controller slightly in sync if needed.
+                 // It's primary use here is for edge/point scrolls.
+                 // A scrollTo might cause animation jumpiness if `scrolledID` is also bound.
+                 // Consider if this explicit sync is necessary for your exact use case.
+                 // scrollPositionController.scrollTo(id: newID, anchor: .top)
+                 // Or just update its internal state without causing a scroll:
+                 updateControllerWithoutScrolling(newID: newID)
             }
         }
     }
+    
+    // Function to update controller state without triggering a scroll action
+    private func updateControllerWithoutScrolling(newID: Int) {
+        // Recreate the controller focused on the new ID. This avoids
+        // triggering a scroll action from the onChange itself.
+        scrollPositionController = ScrollPosition(id: newID, anchor: .top)
+    }
+    
 
     // MARK: - Computed View Properties (Sub-expressions)
 
@@ -97,23 +109,25 @@ struct ScrollFeaturesDemoView: View {
     // Container for the main ScrollView and its modifiers
     @ViewBuilder
     private var scrollViewContainer: some View {
-         // No ScrollViewReader needed when using .scrollPosition primarily
-         ScrollView(/* Removed incorrect pinsViews parameter */) { // Pinning is automatic for Section headers
+         ScrollView() { // Pinning is automatic for Section headers
             scrollViewContent // Extracted inner content of ScrollView
          }
-         // CORRECTION: Binding to $scrolledID of type Binding<Int?>
+         // Bind $scrolledID for ID-based observation/control
          .scrollPosition(id: $scrolledID.animation(), anchor: .top)
-         .onScrollPhaseChange { oldPhase, newPhase, context in // Correct closure signature (optional context)
+         .onScrollPhaseChange { oldPhase, newPhase, context in
             currentPhase = newPhase
          }
-         // CORRECTION: Correct closure signature for onScrollGeometryChange
-         .onScrollGeometryChange(for: CGPoint.self) { newOffset in
-             // Example: track the content offset
-             currentOffset = newOffset
-         } coordinateSpace: .local // Keep coordinateSpace parameter
-         // CORRECTION: Bind scrollPositionController for edge/point scrolls
-         .scrollPosition(position: $scrollPositionController)
+         // CORRECTION: Closure receives ScrollGeometry, extract offset inside
+//         .onScrollGeometryChange(for: CGPoint.self) { newGeometry in
+             // The closure receives the full ScrollGeometry...
+             // ...but is only triggered when the specified value (CGPoint offset) changes.
+//             currentOffset = newGeometry.contentOffset // Extract the CGPoint here
+//         }
+//        coordinateSpace: .local // Keep coordinateSpace parameter
+         // Bind $scrollPositionController for edge/point control
+//         .scrollPosition(position: $scrollPositionController)
     }
+
 
     // Extracted content FOR the ScrollView (LazyVStack part)
     private var scrollViewContent: some View {
@@ -141,7 +155,6 @@ struct ScrollFeaturesDemoView: View {
         HStack {
             Button("Top") {
                 withAnimation {
-                    // CORRECTION: Use the controller state for edge/point scrolls
                     scrollPositionController.scrollTo(edge: .top)
                 }
             }
@@ -153,7 +166,6 @@ struct ScrollFeaturesDemoView: View {
             Button("Item A5") {
                 withAnimation {
                      if let targetID = findItemID(prefix: "A", index: 5) {
-                           // CORRECTION: Set the ID state directly
                            scrolledID = targetID
                      }
                 }
@@ -161,14 +173,12 @@ struct ScrollFeaturesDemoView: View {
             Button("Item C10") {
                 withAnimation {
                      if let targetID = findItemID(prefix: "C", index: 10) {
-                           // CORRECTION: Set the ID state directly
                            scrolledID = targetID
                     }
                 }
             }
             Button("Offset 500") {
                  withAnimation {
-                      // CORRECTION: Use the controller state for edge/point scrolls
                       scrollPositionController.scrollTo(y: 500)
                  }
             }
@@ -183,12 +193,9 @@ struct ScrollFeaturesDemoView: View {
         VStack(alignment: .leading) {
             Text("Phase: \(currentPhase.description)")
             Text("Offset: \(formattedOffset(currentOffset))")
-            // CORRECTION: Read the current ID from the dedicated state var
             Text("Current ID: \(scrolledID.map(String.init) ?? "N/A")")
-            // Read positioning status from the controller or infer from scrolledID
             Text("User Positioned: \(scrollPositionController.isPositionedByUser ? "Yes" : "No (or programmatic)")")
-            // Optionally show edge/point if scrolledID is nil and controller has edge/point set
-             if scrolledID == nil {
+             if scrolledID == nil { // Show edge/point only if not ID-focused
                  if let edge = scrollPositionController.edge {
                      Text("At Edge: \(edgeDescription(edge))")
                  } else if let point = scrollPositionController.point {
@@ -211,7 +218,6 @@ struct ScrollFeaturesDemoView: View {
             .frame(maxWidth: .infinity)
             .background(.quaternary) // Use system adaptive colors/materials
             .cornerRadius(5)
-            // .listRowInsets(EdgeInsets()) // Often needed for correct header pinning appearance in List/ScrollView
     }
 
     // View for section footers
@@ -252,7 +258,7 @@ struct ScrollFeaturesDemoView: View {
     private func formattedOffset(_ point: CGPoint) -> String {
         String(format: "(x: %.1f, y: %.1f)", point.x, point.y)
     }
-    
+
     // Helper to describe Edge
      private func edgeDescription(_ edge: Edge) -> String {
          switch edge {
