@@ -81,16 +81,16 @@ struct MiscellaneousExamplesView: View {
                             .frame(width: 50, height: 50)
                             .overlay(Text("dash"))
                     }
-//                    
-//                    Text("LocalizedStringKey").font(.headline)
-//                    Text("Hello, World!")
-//                        .font(.body)
-//                    
-//                    let key = LocalizedStringKey("greeting_key")
-//                    Text(key)
-//                        .font(.body)
-//                    Text("Uses Localizable.strings if key exists.")
-//                        .font(.caption)
+                    
+                    Text("LocalizedStringKey").font(.headline)
+                    Text("Hello, World!")
+                        .font(.body)
+                    
+                    let key = LocalizedStringKey("greeting_key")
+                    Text(key)
+                        .font(.body)
+                    Text("Uses Localizable.strings if key exists.")
+                        .font(.caption)
 //                    
 //                    #if swift(>=5.10)
 //                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
