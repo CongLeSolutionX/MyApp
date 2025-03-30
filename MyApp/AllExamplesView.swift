@@ -91,15 +91,15 @@ struct MiscellaneousExamplesView: View {
                         .font(.body)
                     Text("Uses Localizable.strings if key exists.")
                         .font(.caption)
-//                    
-//                    #if swift(>=5.10)
-//                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-//                        Text("TimeDataSource").font(.headline)
-//                        Text(.currentDate, format: .dateTime)
-//                        Text("Displays live updating time.")
-//                            .font(.caption)
-//                    }
-//                    #endif
+                    
+                    #if swift(>=5.10)
+                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+                        Text("TimeDataSource").font(.headline)
+                        Text(.currentDate, format: .dateTime)
+                        Text("Displays live updating time.")
+                            .font(.caption)
+                    }
+                    #endif
 //                    
 //                    #if os(iOS) || os(macOS)
 //                    if #available(iOS 15.0, macOS 12.0, *) {
