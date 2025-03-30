@@ -688,7 +688,7 @@ struct SignInWithAppleButtonView: UIViewRepresentable {
             case let passwordCredential as ASPasswordCredential:
                 // Handle sign-in using existing iCloud Keychain credentials
                 let username = passwordCredential.user
-                let password = passwordCredential.password // Use this to log in to your backend
+                _ = passwordCredential.password // Use this to log in to your backend
                 
                 print("Password Credential Received:")
                 print("- Username: \(username)")
