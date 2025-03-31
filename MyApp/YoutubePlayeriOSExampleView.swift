@@ -944,10 +944,10 @@ struct YouTubePlayerSwiftUIApp: App {
 }
 
 // Optional: If you needed an AppDelegate for specific setup
-// class AppDelegate: NSObject, UIApplicationDelegate {
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        print("App Delegate: Did finish launching")
-//        // Perform any initial setup here if needed
-//        return true
-//    }
-// }
+ class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        print("App Delegate: Did finish launching")
+        // Perform any initial setup here if needed
+        return true
+    }
+ }
