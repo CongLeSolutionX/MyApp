@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WebKit
+@preconcurrency import WebKit
 import Combine // Needed for NSNotificationCenter publisher
 
 // --- Enums (Matching ObjC version) ---
