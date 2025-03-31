@@ -13,7 +13,6 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE8F8292D9A492F0010BC63 /* YoutubePlayeriOSExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8F8282D9A49140010BC63 /* YoutubePlayeriOSExampleView.swift */; };
-		9AE8F82B2D9A57670010BC63 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8F82A2D9A57640010BC63 /* Helper.swift */; };
 		9AE8F82D2D9A583F0010BC63 /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = 9AE8F82C2D9A583F0010BC63 /* YTPlayerView-iframe-player.html */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +25,6 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE8F8282D9A49140010BC63 /* YoutubePlayeriOSExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayeriOSExampleView.swift; sourceTree = "<group>"; };
-		9AE8F82A2D9A57640010BC63 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		9AE8F82C2D9A583F0010BC63 /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +62,6 @@
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AE8F8282D9A49140010BC63 /* YoutubePlayeriOSExampleView.swift */,
-				9AE8F82A2D9A57640010BC63 /* Helper.swift */,
 				9AE8F82C2D9A583F0010BC63 /* YTPlayerView-iframe-player.html */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -154,7 +151,6 @@
 			files = (
 				9AE8F8292D9A492F0010BC63 /* YoutubePlayeriOSExampleView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
-				9AE8F82B2D9A57670010BC63 /* Helper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
