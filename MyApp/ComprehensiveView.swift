@@ -1,6 +1,6 @@
 //
-//import SwiftUI
-//import UIKit // Needed for UIApplication and UIWindowScene
+import SwiftUI
+import UIKit // Needed for UIApplication and UIWindowScene
 //
 //// MARK: - Main App Entry (Assume App entry point is defined elsewhere)
 //struct MainTabView: View {
@@ -640,6 +640,7 @@
 //    }
 //}
 //
+
 //// Showcase Article Row for Newsstand card
 //struct ShowcaseArticleRowView: View {
 //    let article: ShowcaseArticle
@@ -672,7 +673,7 @@
 //                }
 //                Spacer()
 //                 // Use custom image initializer
-//                Image(name: article.imageName, defaultSymbol: "photo.fill")
+//                Image(article.imageName)
 //                    .resizable()
 //                    .scaledToFill()
 //                    .frame(width: 70, height: 70) // Slightly smaller image for row
@@ -757,31 +758,7 @@
 //    }
 //}
 //
-//// Source Category Section Header for Newsstand
-//struct SourceCategorySectionHeader: View {
-//    let categoryName: String
-//    var categoryTapAction: () -> Void = { print("Category Tapped") }
-//    var body: some View {
-//        HStack {
-//            Button(action: categoryTapAction) {
-//                HStack(spacing: 4) {
-//                    Text(categoryName)
-//                        .font(.title3)
-//                        .fontWeight(.semibold)
-//                    Image(systemName: "chevron.right")
-//                        .font(.callout.weight(.semibold))
-//                        .foregroundColor(.gray)
-//                }
-//            }
-//            .buttonStyle(.plain) // Make the text tappable
-//            .foregroundColor(.white) // Ensure text color is white
-//            Spacer()
-//        }
-//        .padding(.horizontal)
-//        .padding(.top, 20) // More top padding for category sections
-//        .padding(.bottom, 8) // Space below header
-//    }
-//}
+//s
 //
 //// Source Tile for Newsstand
 //struct SourceTileView: View {
