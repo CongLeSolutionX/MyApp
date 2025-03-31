@@ -278,6 +278,7 @@ struct SourceTileView: View {
 
 struct NewsstandView: View {
     @State private var currentTab: Int = 3 // Default to Newsstand tab (index 3)
+    @State private var showingProfileSheet = false // State to control sheet presentation
 
     // Placeholder Data
     let showcaseSources = [
@@ -318,7 +319,27 @@ struct NewsstandView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TopBarNewsstand()
+//            TopBarNewsstand()
+            
+            // --- Top Bar Area ---
+             HStack {
+                 TopBarNewsstand() // Reusable part of top bar
+                       // Add profile image here with gesture
+                       .overlay(alignment: .topTrailing) { // Position profile image
+                           Image("profile_placeholder") // Your profile image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.gray, lineWidth: 0.5))
+                                .padding(.trailing) // Add padding to position it from the edge
+                                .padding(.top, 7) // Adjust vertical position to align with icons
+                                .onTapGesture {
+                                    showingProfileSheet = true // Show the sheet on tap
+                                }
+                       }
+              }
+             .frame(height: 75) // Adjust height if needed to contain both parts
 
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 10) { // Add some spacing between sections
@@ -362,6 +383,149 @@ struct NewsstandView: View {
         .foregroundColor(.white) // Default text color
         .ignoresSafeArea(.keyboard)
          .tint(.blue) // Set accent color for buttons / selected tab
+            .sheet(isPresented: $showingProfileSheet) {
+                 ProfileSettingsView()
+                     .preferredColorScheme(.dark) // Ensure sheet is dark
+             }
+    }
+}
+
+// --- NEW: Profile Settings Modal View ---
+
+struct ProfileSettingsView: View {
+    @Environment(\.dismiss) var dismiss // Environment value to dismiss the sheet
+
+    var body: some View {
+        NavigationView { // Often useful for sheet structure, even without navigation bar visible
+            VStack(alignment: .leading, spacing: 0) {
+
+                // 1. Profile Info Section
+                HStack(spacing: 15) {
+                    ZStack(alignment: .bottomTrailing) { // For the camera icon overlay
+                        Image("profile_placeholder") // Use the actual profile image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 45, height: 45)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+
+                        // Camera Icon Overlay (Optional Decoration)
+                        Image(systemName: "camera.circle.fill")
+                            .font(.system(size: 16))
+                           // .foregroundColor(Color(UIColor.darkGray)) // Adjust color
+                            .background(Circle().fill(.white)) // White background makes it pop
+                            .offset(x: 5, y: 5) // Adjust offset
+                             .foregroundColor(.black) // Set icon color explicitly if needed
+
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text("Cong Le") // Replace with actual user name
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Text("longchik@gmail.com") // Replace with actual user email
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.down.circle.fill") // Dropdown arrow indicator
+                        .font(.title2)
+                        .foregroundColor(.gray)
+                }
+                .padding() // Padding around the profile section
+
+                // 2. Manage Account Button
+                Button("Manage your Google Account") {
+                    // Action for managing account
+                    print("Manage Google Account Tapped")
+                }
+                .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle for custom look
+                .padding(.vertical, 10)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity) // Make button background span width if desired
+                .background(Capsule().stroke(Color.gray)) // Google-style capsule border
+                .foregroundColor(.white)
+                .padding(.horizontal)
+                .padding(.bottom)
+
+                Divider().background(Color.gray.opacity(0.5))
+
+                // 3. Action List
+                VStack(alignment: .leading, spacing: 0) {
+                    actionRow(icon: "bell", text: "Notifications & shared")
+                    actionRow(icon: "clock.arrow.circlepath", text: "My Activity") // Changed icon
+                }
+
+                Divider().background(Color.gray.opacity(0.5))
+
+                VStack(alignment: .leading, spacing: 0) {
+                    actionRow(icon: "gearshape", text: "News settings") // Changed icon
+                    actionRow(icon: "questionmark.circle", text: "Help & feedback")
+                }
+
+                 Divider().background(Color.gray.opacity(0.5))
+
+
+                Spacer() // Push footer to bottom
+
+                // 4. Footer
+                HStack {
+                    Button("Privacy Policy") { /* Action */ }
+                    Text("·").foregroundColor(.gray)
+                    Button("Terms of Service") { /* Action */ }
+                }
+                .font(.caption)
+                .foregroundColor(.gray) // Apply gray to buttons as well if needed
+                .buttonStyle(PlainButtonStyle())
+                .frame(maxWidth: .infinity, alignment: .center) // Center the footer
+                .padding(.bottom)
+
+
+            }
+             .background(Color(UIColor.systemGray5).ignoresSafeArea()) // Dark background for the sheet content
+            // .background(Color.black.opacity(0.9).ignoresSafeArea()) // Alternative very dark bg
+            .foregroundColor(.white) // Default text color
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button { dismiss() } label: { // Close Button
+                      Image(systemName: "xmark")
+                           .foregroundColor(.white)
+                           .font(.title2)
+                },
+                trailing: Text("Google") // Use principal for centered title
+                     .font(.title3) // Adjust font size if needed
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white) // Set title color
+           )
+             .toolbarBackground( // Customize toolbar background
+                  Color(UIColor.systemGray5), // Match Vstack background
+                  for: .navigationBar)
+             .toolbarBackground(.visible, for: .navigationBar)
+
+        }
+         .accentColor(.white) // Set accent color for buttons inside NavigationView if needed
+    }
+
+    // Helper for creating action rows
+    @ViewBuilder
+    private func actionRow(icon: String, text: String) -> some View {
+        Button {
+            // Action for the specific row
+            print("\(text) Tapped")
+        } label: {
+            HStack(spacing: 20) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundColor(.gray)
+                    .frame(width: 25) // Align icons
+                Text(text)
+                    .foregroundColor(.white)
+                Spacer()
+            }
+            .padding() // Padding inside each row
+        }
     }
 }
 
