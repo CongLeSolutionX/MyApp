@@ -314,7 +314,7 @@ struct VideoRow: View {
                        height: CGFloat(item.snippet?.thumbnails.default?.height ?? Int(90.0)))
                 .clipped() // Clip if image is larger than frame
                  .cornerRadius(4)
-            } else if let thumbnailUrl = item.snippet?.thumbnails.default?.url {
+            } else if (item.snippet?.thumbnails.default?.url) != nil {
                  // Fallback for older iOS (You'd need a custom image loader)
                  Rectangle()
                      .fill(.gray.opacity(0.3))
