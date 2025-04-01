@@ -18,6 +18,7 @@
 		9AB611052D9C4C200079256E /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB611042D9C4C200079256E /* ActivityViewController.swift */; };
 		9AB611072D9C4FB00079256E /* SpotifyMusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB611062D9C4FAC0079256E /* SpotifyMusicPlayerView_V2.swift */; };
 		9AB611092D9C72A90079256E /* SpotifyMusicPlayerView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB611082D9C72A70079256E /* SpotifyMusicPlayerView_V3.swift */; };
+		9AB6110B2D9C741B0079256E /* SpotifyMusicPlayerView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB6110A2D9C74190079256E /* SpotifyMusicPlayerView_V4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		9AB611042D9C4C200079256E /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		9AB611062D9C4FAC0079256E /* SpotifyMusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9AB611082D9C72A70079256E /* SpotifyMusicPlayerView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView_V3.swift; sourceTree = "<group>"; };
+		9AB6110A2D9C74190079256E /* SpotifyMusicPlayerView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView_V4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				9AB610FE2D9C41AC0079256E /* SpotifyMusicPlayerView.swift */,
 				9AB611062D9C4FAC0079256E /* SpotifyMusicPlayerView_V2.swift */,
 				9AB611082D9C72A70079256E /* SpotifyMusicPlayerView_V3.swift */,
+				9AB6110A2D9C74190079256E /* SpotifyMusicPlayerView_V4.swift */,
 				9AB611002D9C44420079256E /* ShareSheetView.swift */,
 				9AB611042D9C4C200079256E /* ActivityViewController.swift */,
 				9AB611022D9C4B170079256E /* Previews.swift */,
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB6110B2D9C741B0079256E /* SpotifyMusicPlayerView_V4.swift in Sources */,
 				9AB611072D9C4FB00079256E /* SpotifyMusicPlayerView_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
