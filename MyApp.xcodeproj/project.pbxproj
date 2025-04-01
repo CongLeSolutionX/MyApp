@@ -42,6 +42,7 @@
 		9AB6110C2D9C76730079256E /* LinkView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V1.swift; sourceTree = "<group>"; };
 		9AB6110E2D9C78080079256E /* LinkView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V2.swift; sourceTree = "<group>"; };
 		9AB611102D9C788A0079256E /* LinkView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V3.swift; sourceTree = "<group>"; };
+		9AB611122D9C79400079256E /* LinkView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 				9AB611082D9C72A70079256E /* SpotifyMusicPlayerView_V3.swift */,
 				9AB6110A2D9C74190079256E /* SpotifyMusicPlayerView_V4.swift */,
 				9AB611002D9C44420079256E /* ShareSheetView.swift */,
+				9AB611122D9C79400079256E /* LinkView_V4.swift */,
 				9AB611102D9C788A0079256E /* LinkView_V3.swift */,
 				9AB6110C2D9C76730079256E /* LinkView_V1.swift */,
 				9AB6110E2D9C78080079256E /* LinkView_V2.swift */,
