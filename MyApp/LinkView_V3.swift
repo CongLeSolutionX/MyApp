@@ -156,10 +156,18 @@
 //    @StateObject private var viewModel: LinkViewModel
 //    @State private var itemToShare: RecipeLink? // Tracks item for share sheet activation
 //    
+//    // Initializer for dependency injection (used by previews or other containers)
+//    // This initializer *receives* an already-initialized viewModel.
 //    init(viewModel: LinkViewModel = LinkViewModel()) {
+//        // ** FIX **
+//        // We use the _viewModel syntax to set the underlying StateObject wrapper
+//        // with the provided (or default *newly created*) viewModel instance.
+//        // The creation of the *default* LinkViewModel() *still* happens here,
+//        // but it's now directly managed by @StateObject which handles the actor context correctly.
+//        // If a viewModel is *passed in* (like from Previews), that instance is used instead.
 //        _viewModel = StateObject(wrappedValue: viewModel)
+//        print("ContentView init: ViewModel initialized.")
 //    }
-//    
 //    var body: some View {
 //        NavigationView {
 //            List {

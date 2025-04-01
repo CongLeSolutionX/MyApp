@@ -1,0 +1,22 @@
+[
+    {
+        "originalURL": "https://www.apple.com",
+        "title": "Apple Official Site"
+    },
+    {
+        "originalURL": "https://developer.apple.com/tutorials/swiftui",
+        "title": "SwiftUI Tutorials"
+    },
+    {
+        "originalURL": "https://www.hackingwithswift.com",
+        "title": "Hacking with Swift"
+    },
+    {
+        "originalURL": "https://example.com/this-page-might-not-exist",
+        "title": "Example Page (Possibly Invalid)"
+    },
+    {
+        "originalURL": "https://my-internal-app.com/recipe/pasta-dish",
+        "title": "Grandma's Famous Pasta (Manual)"
+    }
+]

@@ -1,5 +1,5 @@
 ////
-////  LinkView.swift
+////  LinkView_V5.swift
 ////  MyApp
 ////
 ////  Created by Cong Le on 4/1/25.
@@ -25,9 +25,8 @@
 //    @Published var items: [RecipeLink] = []
 //    private var metadataCache: [URL: LPLinkMetadata] = [:] // Simple in-memory cache
 //    private let metadataProvider = LPMetadataProvider()
-//
+//    
 //    init() {
-//        print("LinkViewModel: Initializing on main thread: \(Thread.isMainThread)")
 //        // 1. Populate with placeholder URLs
 //        let urls = [
 //            URL(string: "https://www.apple.com")!,
@@ -38,16 +37,16 @@
 //            // URL(fileURLWithPath: Bundle.main.path(forResource: "YourDocument", ofType: "pdf") ?? "/invalid/path")
 //        ]
 //        self.items = urls.map { RecipeLink(originalURL: $0) }
-//
+//        
 //        // 2. Fetch metadata for initial items
 //        fetchAllMetadata()
-//
+//        
 //        // 3. Add an item with manually created metadata
 //        addManualItem()
 //    }
-//
+//    
 //    // MARK: - Metadata Fetching
-//
+//    
 //    func fetchAllMetadata() {
 //        for index in items.indices {
 //            // Check cache before fetching
@@ -60,23 +59,22 @@
 //            fetchMetadata(for: items[index].originalURL, at: index)
 //        }
 //    }
-//
+//    
 //    private func fetchMetadata(for url: URL, at index: Int) {
 //        print("Starting fetch for: \(url)")
-//
+//        
 //        // LPMetadataProvider handles both web URLs and local file URLs
 //        metadataProvider.startFetchingMetadata(for: url) { [weak self] fetchedMetadata, error in
-//            // Ensure UI updates run on main thread (already guaranteed by @MainActor on the class,
-//            // but explicit DispatchQueue.main.async is also safe if needed elsewhere)
-//            // DispatchQueue.main.async { // Not strictly needed here due to @MainActor
+//            // Ensure UI updates run on the main thread
+//            DispatchQueue.main.async {
 //                guard let self = self else { return }
-//
+//                
 //                // Check that the item still exists at the same index
 //                guard self.items.indices.contains(index), self.items[index].originalURL == url else {
 //                    print("Item at index \(index) changed before fetch completed for \(url)")
 //                    return
 //                }
-//
+//                
 //                if let error = error {
 //                    print("❌ Failed to fetch metadata for \(url): \(error.localizedDescription)")
 //                    let fallback = self.createFallbackMetadata(for: url)
@@ -84,7 +82,7 @@
 //                    self.metadataCache[url] = fallback // Cache fallback metadata too
 //                    return
 //                }
-//
+//                
 //                if let metadata = fetchedMetadata {
 //                    print("✅ Successfully fetched metadata for \(url)")
 //                    self.items[index].metadata = metadata
@@ -95,10 +93,10 @@
 //                    self.items[index].metadata = fallback
 //                    self.metadataCache[url] = fallback
 //                }
-//            // } // End of DispatchQueue.main.async if used
+//            }
 //        }
 //    }
-//
+//    
 //    // Create basic fallback metadata in case fetching fails
 //    private func createFallbackMetadata(for url: URL) -> LPLinkMetadata {
 //        let fallbackMetadata = LPLinkMetadata()
@@ -108,36 +106,36 @@
 //        // Optionally, add a placeholder icon here.
 //        return fallbackMetadata
 //    }
-//
+//    
 //    // MARK: - Manual Metadata Creation
-//
+//    
 //    private func addManualItem() {
 //        let manualURL = URL(string: "https://my-internal-app.com/recipe/pasta-dish")!
 //        let manualMetadata = LPLinkMetadata()
-//
+//        
 //        // Essential: Set originalURL and url
 //        manualMetadata.originalURL = manualURL
 //        manualMetadata.url = manualURL
-//
+//        
 //        // Populate with existing data
 //        manualMetadata.title = "Grandma's Famous Pasta (Manual)"
-//
+//        
 //        // Example: Adding an icon (using an SF Symbol)
 //        if let iconImage = UIImage(systemName: "fork.knife.circle.fill") {
 //            manualMetadata.iconProvider = NSItemProvider(object: iconImage)
 //            // Optionally, also set imageProvider:
 //            // manualMetadata.imageProvider = NSItemProvider(object: iconImage)
 //        }
-//
+//        
 //        // Create the RecipeLink item and append it
 //        let manualItem = RecipeLink(originalURL: manualURL, metadata: manualMetadata, isManuallyCreated: true)
 //        self.items.append(manualItem)
 //        self.metadataCache[manualURL] = manualMetadata // Also cache manually created metadata
 //        print("Added manually created item for: \(manualURL)")
 //    }
-//
+//    
 //    // MARK: - Helper for Sharing
-//
+//    
 //    func metadataForSharing(url: URL) -> LPLinkMetadata? {
 //        // Prioritize cache; otherwise, check the items array
 //        return metadataCache[url] ?? items.first { $0.originalURL == url }?.metadata
@@ -147,25 +145,10 @@
 //// MARK: - SwiftUI View
 //
 //struct ContentView: View {
-//    // Use the standard @StateObject initializer for default creation.
-//    // SwiftUI ensures this initialization happens correctly on the main actor.
-//    @StateObject private var viewModel: LinkViewModel
-//
+//    @StateObject private var viewModel = LinkViewModel() // View model is created internally
+//    
 //    @State private var itemToShare: RecipeLink? // Tracks item for share sheet activation
-//
-//    // Initializer for dependency injection (used by previews or other containers)
-//    // This initializer *receives* an already-initialized viewModel.
-//    init(viewModel: LinkViewModel = LinkViewModel()) {
-//         // ** FIX **
-//         // We use the _viewModel syntax to set the underlying StateObject wrapper
-//         // with the provided (or default *newly created*) viewModel instance.
-//         // The creation of the *default* LinkViewModel() *still* happens here,
-//         // but it's now directly managed by @StateObject which handles the actor context correctly.
-//         // If a viewModel is *passed in* (like from Previews), that instance is used instead.
-//        _viewModel = StateObject(wrappedValue: viewModel)
-//         print("ContentView init: ViewModel initialized.")
-//    }
-//
+//    
 //    var body: some View {
 //        NavigationView {
 //            List {
@@ -185,9 +168,9 @@
 //                                    .foregroundColor(.gray)
 //                                    .lineLimit(1)
 //                            }
-//                            .frame(minHeight: 50) // Maintain consistent height
+//                            .frame(minHeight: 50)
 //                        }
-//
+//                        
 //                        // Display a small note for manually created items
 //                        if item.isManuallyCreated {
 //                            Text(" (Manually Created Metadata)")
@@ -208,11 +191,11 @@
 //            .navigationTitle("Recipe Links")
 //            .listStyle(.plain)
 //            .sheet(item: $itemToShare) { item in
-//                // Present the share sheet with required data
-//                ShareSheetView(linkItem: item, viewModel: viewModel)
+//                // Present the share sheet with required data; now the view model is injected via the environment
+//                ShareSheetView(linkItem: item)
+//                    .environmentObject(viewModel)
 //            }
 //        }
-//         // Use NavigationStack on iOS 16+ for more features
 //    }
 //}
 //
@@ -220,12 +203,12 @@
 //
 //struct LinkViewRepresentable: UIViewRepresentable {
 //    let metadata: LPLinkMetadata // Expects valid metadata
-//
+//    
 //    func makeUIView(context: Context) -> LPLinkView {
 //        // Create LPLinkView with the provided metadata.
 //        return LPLinkView(metadata: metadata)
 //    }
-//
+//    
 //    func updateUIView(_ uiView: LPLinkView, context: Context) {
 //        // Update LPLinkView if metadata changes.
 //        if uiView.metadata != metadata {
@@ -238,67 +221,52 @@
 //
 //struct ShareSheetView: UIViewControllerRepresentable {
 //    let linkItem: RecipeLink
-//    // Use @ObservedObject if the viewModel passed in could change *during* the sheet's presentation
-//    // For simple passing, let is fine.
-//    let viewModel: LinkViewModel
-//
+//    // Instead of passing viewModel via initializer, we now obtain it from the environment.
+//    @EnvironmentObject var viewModel: LinkViewModel
+//    
 //    func makeUIViewController(context: Context) -> UIActivityViewController {
 //        // Create a custom item source for sharing.
 //        let itemSource = ShareActivityItemSource(link: linkItem, viewModel: viewModel)
 //        let controller = UIActivityViewController(
-//            activityItems: [itemSource], // Pass the item source
+//            activityItems: [itemSource],
 //            applicationActivities: nil
 //        )
 //        return controller
 //    }
-//
+//    
 //    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-//        // No dynamic updates typically required.
+//        // No dynamic updates required.
 //    }
 //}
 //
 //// Custom UIActivityItemSource to provide rich link metadata to the share sheet.
-//// Mark with @preconcurrency if needed for older delegate methods, but UIActivityItemSource is generally fine.
 //class ShareActivityItemSource: NSObject, UIActivityItemSource {
 //    let link: RecipeLink
-//    weak var viewModel: LinkViewModel? // Use weak to avoid retain cycles
-//
+//    // Retain the view model (passed from the view) using a weak reference.
+//    weak var viewModel: LinkViewModel?
+//    
 //    init(link: RecipeLink, viewModel: LinkViewModel) {
 //        self.link = link
 //        self.viewModel = viewModel
 //        super.init()
 //    }
-//
-//    // Required: Provide a placeholder (URL is often suitable)
+//    
 //    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
 //        return link.originalURL
 //    }
-//
-//    // Required: Provide the actual item for sharing (usually the URL)
+//    
 //    func activityViewController(_ activityViewController: UIActivityViewController,
 //                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
 //        return link.originalURL
 //    }
-//
-//    // Key method: Provide rich link metadata for the share sheet. Must be MainActor.
-//    @MainActor
-//    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+//    
+//    @MainActor func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
 //        print("Share Sheet requesting metadata for: \(link.originalURL)")
-//        // Fetch the *latest* metadata from the ViewModel's cache or the item itself
-//        guard let vm = viewModel else {
-//             print("ViewModel reference lost in ShareActivityItemSource, using potentially stale item metadata.")
-//             return link.metadata // Fallback to metadata stored in the item
-//        }
-//
-//        let metadata = vm.metadataForSharing(url: link.originalURL)
-//
+//        let metadata = viewModel?.metadataForSharing(url: link.originalURL) ?? link.metadata
 //        if metadata != nil {
 //            print("✅ Providing pre-fetched/manual metadata to Share Sheet.")
 //        } else {
-//            // This case means the VM didn't have it cached *and* the item didn't have it (e.g., fetch failed or pending)
-//            print("⚠️ No metadata available for Share Sheet; OS will fetch default preview.")
-//            // You could potentially try a last-minute fallback creation here, but often letting the OS handle it is fine.
-//            // return vm.createFallbackMetadata(for: link.originalURL) // Example fallback
+//            print("⚠️ No metadata available for Share Sheet; default preview will be used.")
 //        }
 //        return metadata
 //    }
@@ -306,101 +274,82 @@
 //
 //// MARK: - Dummy Metadata Helper (for Previews)
 //
-//// Helper function to easily create dummy LPLinkMetadata for previews
-//@MainActor // Ensure metadata creation happens on main actor if it interacts with UI elements indirectly
 //func dummyMetadata(title: String, urlString: String = "https://www.example.com") -> LPLinkMetadata {
 //    let metadata = LPLinkMetadata()
-//    guard let url = URL(string: urlString) else {
-//        // Return empty metadata or handle error appropriately if URL is invalid
-//        print("Error: Invalid URL string for dummy metadata: \(urlString)")
-//        return metadata // Return minimally configured metadata
-//    }
+//    let url = URL(string: urlString)!
 //    metadata.originalURL = url
 //    metadata.url = url
 //    metadata.title = title
-//    // Optionally add dummy icons/images here too
-//    // if let iconImage = UIImage(systemName: "link") {
-//    //     metadata.iconProvider = NSItemProvider(object: iconImage)
-//    // }
 //    return metadata
 //}
 //
 //// MARK: - Previews
-//
-//// Use MainActor for the PreviewProvider if it directly initializes the @MainActor ViewModel
-//@MainActor
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            // 1. Preview for Loaded Metadata State
-//            ContentView(viewModel: {
-//                let vm = LinkViewModel()
-//                // Override items with dummy data where metadata is available
-//                vm.items = [
-//                    RecipeLink(originalURL: URL(string: "https://www.apple.com")!,
-//                               metadata: dummyMetadata(title: "Apple", urlString: "https://www.apple.com"),
-//                               isManuallyCreated: false),
-//                    RecipeLink(originalURL: URL(string: "https://developer.apple.com")!,
-//                               metadata: dummyMetadata(title: "Developer Site", urlString: "https://developer.apple.com"),
-//                               isManuallyCreated: false)
-//                ]
-//                return vm
-//            }())
-//            .previewDisplayName("Loaded Metadata State")
-//
-//            // 2. Preview for Loading State (metadata is nil)
-//            ContentView(viewModel: {
-//                let vm = LinkViewModel()
-//                vm.items = [
-//                    RecipeLink(originalURL: URL(string: "https://www.loading-example.com")!, metadata: nil, isManuallyCreated: false)
-//                ]
-//                return vm
-//            }())
-//            .previewDisplayName("Loading (Nil Metadata) State")
-//
-//            // 3. Preview for Manually Created Metadata State
-//            ContentView(viewModel: {
-//                let vm = LinkViewModel()
-//                vm.items = [
-//                    RecipeLink(originalURL: URL(string: "https://my-internal-app.com/recipe/pasta-dish")!,
-//                               metadata: dummyMetadata(title: "Grandma's Famous Pasta (Manual)", urlString: "https://my-internal-app.com/recipe/pasta-dish"),
-//                               isManuallyCreated: true)
-//                ]
-//                return vm
-//            }())
-//            .previewDisplayName("Manually Created State")
-//        }
-//    }
-//}
-//
-//// Also mark LinkViewRepresentable previews with @MainActor if they use the dummyMetadata helper
-//@MainActor
-//struct LinkViewRepresentable_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            // Preview with valid dummy metadata
-//            LinkViewRepresentable(metadata: dummyMetadata(title: "Preview LPLinkView"))
-//                .previewLayout(.sizeThatFits)
-//                .padding()
-//                .previewDisplayName("LinkViewRepresentable – Loaded")
-//
-//            // Example: Preview an empty/fallback state if needed
-//            // LinkViewRepresentable(metadata: LPLinkMetadata()) // Might show nothing
-//            //     .previewLayout(.sizeThatFits)
-//            //     .padding()
-//            //     .previewDisplayName("LinkViewRepresentable – Empty")
-//
-//        }
-//    }
-//}
-//
+////
+////struct ContentView_Previews: PreviewProvider {
+////    static var previews: some View {
+////        Group {
+////            // 1. Preview for Loaded Metadata State
+////            ContentView()
+////                .environmentObject({
+////                    let vm = LinkViewModel()
+////                    // Override items with dummy data where metadata is available
+////                    vm.items = [
+////                        RecipeLink(originalURL: URL(string: "https://www.apple.com")!,
+////                                   metadata: dummyMetadata(title: "Apple", urlString: "https://www.apple.com"),
+////                                   isManuallyCreated: false),
+////                        RecipeLink(originalURL: URL(string: "https://www.developer.apple.com")!,
+////                                   metadata: dummyMetadata(title: "Developer Site", urlString: "https://developer.apple.com"),
+////                                   isManuallyCreated: false)
+////                    ]
+////                    return vm
+////                }())
+////                .previewDisplayName("Loaded Metadata State")
+////            
+////            // 2. Preview for Loading State (metadata is nil)
+////            ContentView()
+////                .environmentObject({
+////                    let vm = LinkViewModel()
+////                    vm.items = [
+////                        RecipeLink(originalURL: URL(string: "https://www.loading-example.com")!, metadata: nil, isManuallyCreated: false)
+////                    ]
+////                    return vm
+////                }())
+////                .previewDisplayName("Loading (Nil Metadata) State")
+////            
+////            // 3. Preview for Manually Created Metadata State
+////            ContentView()
+////                .environmentObject({
+////                    let vm = LinkViewModel()
+////                    vm.items = [
+////                        RecipeLink(originalURL: URL(string: "https://my-internal-app.com/recipe/pasta-dish")!,
+////                                   metadata: dummyMetadata(title: "Grandma's Famous Pasta (Manual)", urlString: "https://my-internal-app.com/recipe/pasta-dish"),
+////                                   isManuallyCreated: true)
+////                    ]
+////                    return vm
+////                }())
+////                .previewDisplayName("Manually Created State")
+////        }
+////    }
+////}
+////
+////struct LinkViewRepresentable_Previews: PreviewProvider {
+////    static var previews: some View {
+////        Group {
+////            // Preview with valid dummy metadata
+////            LinkViewRepresentable(metadata: dummyMetadata(title: "Preview LPLinkView"))
+////                .previewLayout(.sizeThatFits)
+////                .padding()
+////                .previewDisplayName("LinkViewRepresentable – Loaded")
+////        }
+////    }
+////}
+////    
 //// MARK: - App Entry Point
 //
 //@main
 //struct RichLinksApp: App {
 //    var body: some Scene {
 //        WindowGroup {
-//            // This now correctly uses the @StateObject default initializer implicitly
 //            ContentView()
 //        }
 //    }

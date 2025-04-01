@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2FB8D72D9C7ADC00D777A2 /* LinkView_V5.swift in Resources */ = {isa = PBXBuildFile; fileRef = 9A2FB8D62D9C7ADC00D777A2 /* LinkView_V5.swift */; };
+		9A2FB8D92D9C7BE800D777A2 /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2FB8D82D9C7BE600D777A2 /* metadata.json */; };
+		9A2FB8DB2D9C7C0A00D777A2 /* LinkView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2FB8DA2D9C7C0700D777A2 /* LinkView_V6.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -25,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A2FB8D62D9C7ADC00D777A2 /* LinkView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V5.swift; sourceTree = "<group>"; };
+		9A2FB8D82D9C7BE600D777A2 /* metadata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = metadata.json; sourceTree = "<group>"; };
+		9A2FB8DA2D9C7C0700D777A2 /* LinkView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView_V6.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,8 +87,11 @@
 				9AB610FE2D9C41AC0079256E /* SpotifyMusicPlayerView.swift */,
 				9AB611062D9C4FAC0079256E /* SpotifyMusicPlayerView_V2.swift */,
 				9AB611082D9C72A70079256E /* SpotifyMusicPlayerView_V3.swift */,
+				9A2FB8D82D9C7BE600D777A2 /* metadata.json */,
 				9AB6110A2D9C74190079256E /* SpotifyMusicPlayerView_V4.swift */,
 				9AB611002D9C44420079256E /* ShareSheetView.swift */,
+				9A2FB8D62D9C7ADC00D777A2 /* LinkView_V5.swift */,
+				9A2FB8DA2D9C7C0700D777A2 /* LinkView_V6.swift */,
 				9AB611122D9C79400079256E /* LinkView_V4.swift */,
 				9AB611102D9C788A0079256E /* LinkView_V3.swift */,
 				9AB6110C2D9C76730079256E /* LinkView_V1.swift */,
@@ -162,7 +171,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2FB8D72D9C7ADC00D777A2 /* LinkView_V5.swift in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
+				9A2FB8D92D9C7BE800D777A2 /* metadata.json in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB6110B2D9C741B0079256E /* SpotifyMusicPlayerView_V4.swift in Sources */,
+				9A2FB8DB2D9C7C0A00D777A2 /* LinkView_V6.swift in Sources */,
 				9AB611072D9C4FB00079256E /* SpotifyMusicPlayerView_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
