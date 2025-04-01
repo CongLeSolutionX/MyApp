@@ -14,6 +14,7 @@ struct MusicPlayerView: View {
     @State private var isLiked: Bool = true    // Example: Song is liked
     @State private var isShuffling: Bool = true // Example: Shuffle is active
     @State private var repeatMode: Int = 0     // Example: 0 = no repeat, 1 = repeat one, 2 = repeat all
+    @State private var isShowingShareSheet = false // State to control the share sheet
     
     // Computed properties for display times (replace with actual logic)
     var currentTime: String {
@@ -66,6 +67,15 @@ struct MusicPlayerView: View {
                 
                 Spacer(minLength: 10) // Push lyrics section up slightly from bottom
             }
+            // Modifier to present the sheet
+                .sheet(isPresented: $isShowingShareSheet) {
+                    // Configure sheet presentation if needed (e.g., background)
+                    ShareSheetView()
+                        // Optional: Apply presentation detents if you want a half-sheet option
+                        // .presentationDetents([.medium, .large])
+                        // Optional: Set background color for the sheet itself
+                        .preferredColorScheme(.dark) // Ensures sheet content uses dark mode appearance
+                }
             .foregroundColor(.white) // Default text/icon color
             .padding(.horizontal)
         }
