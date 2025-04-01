@@ -216,35 +216,38 @@ struct MusicPlayerView: View {
     }
     
     private var lyricsSection: some View {
-        // Use a GeometryReader to size the background relative to available space if needed
-        // For simplicity, using padding and a fixed corner radius here
-        HStack {
-            Text("Lyrics")
-                .font(.headline)
-                .fontWeight(.bold)
-            
-            Spacer()
-            
-            Button {} label: {
-                Image(systemName: "square.and.arrow.up")
-                    .font(.callout)
-                    .foregroundColor(.white.opacity(0.7))
+            HStack {
+                Text("Lyrics")
+                    .font(.headline)
+                    .fontWeight(.bold)
+
+                Spacer()
+
+                // --- MODIFIED SHARE BUTTON ---
+                Button {
+                    isShowingShareSheet = true // Toggle the state to show the sheet
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                       .font(.callout)
+                       .foregroundColor(.white.opacity(0.7))
+                }
+                .padding(.trailing, 5)
+                // --- END MODIFICATION ---
+
+                Button {} label: {
+                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                       .font(.callout)
+                       .foregroundColor(.white.opacity(0.7))
+                }
             }
-            .padding(.trailing, 5) // Space between icons
-            
-            Button {} label: {
-                Image(systemName: "arrow.up.left.and.arrow.down.right") // Fullscreen/Expand icon
-                    .font(.callout)
-                    .foregroundColor(.white.opacity(0.7))
-            }
-        }
-        .padding() // Padding inside the rounded rectangle
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.1)) // Slightly lighter background
-        )
-        .padding(.top) // Space above the lyrics section
-    }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white.opacity(0.1))
+            )
+            .padding(.top)
+       }
+    
 }
 
 // MARK: - Preview
