@@ -323,7 +323,7 @@ struct ShareSheetView: View {
         }
 }
 
-struct ShareSheetView_Previews: PreviewProvider {
+struct ShareSheetViewWithEdit_Previews: PreviewProvider {
     static var previews: some View {
         // Preview in both states
         VStack {
