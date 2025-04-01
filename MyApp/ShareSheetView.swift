@@ -144,7 +144,7 @@ struct ShareSheetView: View {
                         .padding(.horizontal, isEditing ? 8 : 20)
                         .foregroundColor(isEditing ? .black : .white) // Text color changes
                     
-                    Text("Kai Dinh, MIN, GREY D")
+                    Text("CongLeSolutionX")
                         .font(.subheadline)
                         .foregroundColor(isEditing ? .black.opacity(0.7) : .gray) // Text color changes
                         .padding(.bottom, isEditing ? 0 : 10)
