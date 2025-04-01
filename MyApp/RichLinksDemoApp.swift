@@ -140,7 +140,7 @@ class LinkViewModel: ObservableObject {
 
 // MARK: - SwiftUI View
 
-struct ContentView: View {
+struct RichLinkView: View {
     @StateObject private var viewModel = LinkViewModel() // View model is created internally
     
     @State private var itemToShare: RecipeLink? // Tracks item for share sheet activation
@@ -227,7 +227,7 @@ struct ShareSheetView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) { }
 }
 
-class ShareActivityItemSource: NSObject, UIActivityItemSource {
+class ShareActivityItemSource: NSObject, @preconcurrency UIActivityItemSource {
     let link: RecipeLink
     weak var viewModel: LinkViewModel?
     
@@ -275,7 +275,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             // Loaded Metadata state preview
-            ContentView()
+            RichLinkView()
                 .environmentObject({
                     let vm = LinkViewModel()
                     vm.items = [
@@ -291,7 +291,7 @@ struct ContentView_Previews: PreviewProvider {
                 .previewDisplayName("Loaded Metadata State")
             
             // Loading state preview (nil metadata)
-            ContentView()
+            RichLinkView()
                 .environmentObject({
                     let vm = LinkViewModel()
                     vm.items = [
@@ -302,7 +302,7 @@ struct ContentView_Previews: PreviewProvider {
                 .previewDisplayName("Loading (Nil Metadata) State")
                 
             // Manually Created Metadata state preview
-            ContentView()
+            RichLinkView()
                 .environmentObject({
                     let vm = LinkViewModel()
                     vm.items = [
@@ -325,17 +325,6 @@ struct LinkViewRepresentable_Previews: PreviewProvider {
                 .previewLayout(.sizeThatFits)
                 .padding()
                 .previewDisplayName("LinkViewRepresentable – Loaded")
-        }
-    }
-}
-    
-// MARK: - App Entry Point
-
-@main
-struct RichLinksApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
         }
     }
 }
