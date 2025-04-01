@@ -1,0 +1,22 @@
+[
+    {
+        "originalURL": "https://www.apple.com",
+        "title": "Apple Official Site",
+        "subtitle": "The Official Homepage for Apple",
+        "summary": "Apple is known for its innovative technology…",
+        "iconName": "My-meme-original",
+        "imageURL": "https://www.apple.com/ac/structured-data/images/open_graph_logo.png?202307141322",
+        "remoteVideoURL": null,
+        "localImageAsset": "My-meme-original"
+    },
+    {
+        "originalURL": "https://developer.apple.com/tutorials/swiftui",
+        "title": "SwiftUI Tutorials",
+        "subtitle": null,
+        "summary": null,
+        "iconName": null,
+        "imageURL": null,
+        "remoteVideoURL": null,
+        "localImageAsset": null
+    }
+]

@@ -12,6 +12,7 @@
 		9A2FB8E12D9C811900D777A2 /* metadata_V2.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2FB8E02D9C811700D777A2 /* metadata_V2.json */; };
 		9A2FB8E32D9C814100D777A2 /* RichLinksDemoApp_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2FB8E22D9C813800D777A2 /* RichLinksDemoApp_V2.swift */; };
 		9A2FB8E52D9C832B00D777A2 /* RichLinksDemoApp_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2FB8E42D9C832900D777A2 /* RichLinksDemoApp_V3.swift */; };
+		9A2FB8E72D9C836400D777A2 /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2FB8E62D9C835E00D777A2 /* metadata.json */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		9A2FB8E02D9C811700D777A2 /* metadata_V2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = metadata_V2.json; sourceTree = "<group>"; };
 		9A2FB8E22D9C813800D777A2 /* RichLinksDemoApp_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichLinksDemoApp_V2.swift; sourceTree = "<group>"; };
 		9A2FB8E42D9C832900D777A2 /* RichLinksDemoApp_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichLinksDemoApp_V3.swift; sourceTree = "<group>"; };
+		9A2FB8E62D9C835E00D777A2 /* metadata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = metadata.json; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A2FB8DE2D9C7ED700D777A2 /* metadata_basic.json */,
 				9A2FB8E02D9C811700D777A2 /* metadata_V2.json */,
+				9A2FB8E62D9C835E00D777A2 /* metadata.json */,
 				9A2FB8E22D9C813800D777A2 /* RichLinksDemoApp_V2.swift */,
 				9A2FB8E42D9C832900D777A2 /* RichLinksDemoApp_V3.swift */,
 				9A2FB8DC2D9C7EC500D777A2 /* RichLinksDemoApp.swift */,
@@ -147,6 +150,7 @@
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9A2FB8DF2D9C7ED700D777A2 /* metadata_basic.json in Resources */,
+				9A2FB8E72D9C836400D777A2 /* metadata.json in Resources */,
 				9A2FB8E12D9C811900D777A2 /* metadata_V2.json in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
