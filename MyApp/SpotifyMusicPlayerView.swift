@@ -16,6 +16,14 @@ struct MusicPlayerView: View {
     @State private var repeatMode: Int = 0     // Example: 0 = no repeat, 1 = repeat one, 2 = repeat all
     @State private var isShowingShareSheet = false // State to control the share sheet
     
+    
+    // --- Add Placeholder Data for Sharing ---
+    // Replace these with your actual data source for the current song
+    let songTitle = "để tôi ôm em bằng giai điệu này"
+    let artistName = "CongLeSolutionX"
+    let songURL: URL? = URL(string: "https://open.spotify.com/track/example-track-id") // Replace with actual URL
+
+    
     // Computed properties for display times (replace with actual logic)
     var currentTime: String {
         // Placeholder calculation based on progress
@@ -69,19 +77,55 @@ struct MusicPlayerView: View {
             }
             // Modifier to present the sheet
                 .sheet(isPresented: $isShowingShareSheet) {
-                    // Configure sheet presentation if needed (e.g., background)
-                    ShareSheetView()
-                        // Optional: Apply presentation detents if you want a half-sheet option
-                        // .presentationDetents([.medium, .large])
-                        // Optional: Set background color for the sheet itself
-                        .preferredColorScheme(.dark) // Ensures sheet content uses dark mode appearance
+//                    // ---- OPTION 1 FOR SHARESHEET VIEW
+//                    // Configure sheet presentation if needed (e.g., background)
+//                    ShareSheetView()
+//                        // Optional: Apply presentation detents if you want a half-sheet option
+//                        // .presentationDetents([.medium, .large])
+//                        // Optional: Set background color for the sheet itself
+//                        .preferredColorScheme(.dark) // Ensures sheet content uses dark mode appearance
+//                    
+//                    
+//                    // ------- ----------
+                    // ---- OPTION 2 FOR SHARESHEET VIEW
+//                    // Prepare items to share
+                    var itemsToShare: [Any] = []
+//                    let shareText = "\(songTitle) - \(artistName)" // Example text
+//                    itemsToShare.append(shareText)
+//
+//                    if let url = songURL {
+//                        itemsToShare.append(url) // Add the URL
+//                    }
+                    // Optionally add an image (e.g., album art)
+                    // if let image = UIImage(named: "album_art_placeholder") {
+                    //     itemsToShare.append(image)
+                    // }
+
+                    if !itemsToShare.isEmpty {
+                         // Present the standard iOS Share Sheet via our wrapper
+                        ActivityViewController(activityItems: itemsToShare)
+                            // Optional: Exclude specific actions if needed
+                            // .excludedActivityTypes([.addToReadingList, .assignToContact])
+                    } else {
+                        // Fallback if there's nothing to share (optional)
+                         Text("Nothing to share")
+                            .padding()
+                            .onAppear {
+                                // Optionally dismiss automatically if nothing to share
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    isShowingShareSheet = false
+                                }
+                            }
+                    }
+                }
+                // --- END MODIFICATION ---
                 }
             .foregroundColor(.white) // Default text/icon color
             .padding(.horizontal)
         }
         // Hide the system status bar if desired for a more immersive look
         // .statusBar(hidden: true)
-    }
+//    }
     
     // MARK: - UI Components
     
