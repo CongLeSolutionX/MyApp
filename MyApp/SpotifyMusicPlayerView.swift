@@ -14,7 +14,7 @@ struct MusicPlayerView: View {
     @State private var isLiked: Bool = true    // Example: Song is liked
     @State private var isShuffling: Bool = true // Example: Shuffle is active
     @State private var repeatMode: Int = 0     // Example: 0 = no repeat, 1 = repeat one, 2 = repeat all
-
+    
     // Computed properties for display times (replace with actual logic)
     var currentTime: String {
         // Placeholder calculation based on progress
@@ -24,7 +24,7 @@ struct MusicPlayerView: View {
         let seconds = Int(current) % 60
         return String(format: "%d:%02d", minutes, seconds)
     }
-
+    
     var remainingTime: String {
         // Placeholder calculation based on progress
         let totalSeconds: Double = 254 // Example total duration
@@ -33,38 +33,38 @@ struct MusicPlayerView: View {
         let seconds = Int(remaining) % 60
         return String(format: "-%d:%02d", minutes, seconds)
     }
-
+    
     var body: some View {
         ZStack {
             // Background Color
             Color(red: 0.18, green: 0.20, blue: 0.18) // Approximate dark green/grey
                 .ignoresSafeArea()
-
+            
             VStack(spacing: 20) {
                 Spacer(minLength: 10) // Push content down slightly from top status bar
-
+                
                 // 1. Top Bar
                 topBar
-
+                
                 // 2. Album Art
                 albumArt
-
+                
                 // 3. Song Info & Like Button
                 songInfo
-
+                
                 // 4. Progress Bar
                 progressBar
-
+                
                 // 5. Playback Controls
                 playbackControls
-
+                
                 // 6. Device/Share/Queue Controls
                 bottomControls
-
+                
                 // 7. Lyrics Section
                 lyricsSection
-
-                 Spacer(minLength: 10) // Push lyrics section up slightly from bottom
+                
+                Spacer(minLength: 10) // Push lyrics section up slightly from bottom
             }
             .foregroundColor(.white) // Default text/icon color
             .padding(.horizontal)
@@ -72,9 +72,9 @@ struct MusicPlayerView: View {
         // Hide the system status bar if desired for a more immersive look
         // .statusBar(hidden: true)
     }
-
+    
     // MARK: - UI Components
-
+    
     private var topBar: some View {
         HStack {
             Button {} label: {
@@ -87,21 +87,21 @@ struct MusicPlayerView: View {
             Spacer()
             Button {} label: {
                 Image(systemName: "ellipsis")
-                 .font(.body.weight(.semibold))
+                    .font(.body.weight(.semibold))
             }
         }
         .padding(.vertical, 5)
     }
-
+    
     private var albumArt: some View {
         Image("My-meme-microphone") // Replace with actual image loading
             .resizable()
             .aspectRatio(1.0, contentMode: .fit) // Make it square
             .cornerRadius(8)
             .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
-             .padding(.vertical) // Add some vertical space around the art
+            .padding(.vertical) // Add some vertical space around the art
     }
-
+    
     private var songInfo: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -124,14 +124,14 @@ struct MusicPlayerView: View {
             }
         }
     }
-
+    
     private var progressBar: some View {
         VStack(spacing: 4) {
             Slider(value: $progressValue, in: 0...1)
-                // Custom styling to match screenshot
+            // Custom styling to match screenshot
                 .accentColor(.white) // Color for the track to the left of the thumb
-                 // Requires more custom implementation for different track/thumb colors if needed
-
+            // Requires more custom implementation for different track/thumb colors if needed
+            
             HStack {
                 Text(currentTime) // Use calculated current time
                 Spacer()
@@ -142,7 +142,7 @@ struct MusicPlayerView: View {
         }
         .padding(.vertical)
     }
-
+    
     private var playbackControls: some View {
         HStack(spacing: 25) { // Adjust spacing as needed
             Button {
@@ -152,13 +152,13 @@ struct MusicPlayerView: View {
                     .font(.title2)
                     .foregroundColor(isShuffling ? .green : .white.opacity(0.7)) // Green when active
             }
-
+            
             Button {} label: {
                 Image(systemName: "backward.fill")
                     .font(.title) // Larger than shuffle/repeat
                     .fontWeight(.bold)
             }
-
+            
             Button {
                 isPlaying.toggle()
             } label: {
@@ -168,72 +168,72 @@ struct MusicPlayerView: View {
                     .frame(width: 70, height: 70) // Large central button
                     .foregroundColor(.white)
             }
-
+            
             Button {} label: {
                 Image(systemName: "forward.fill")
                     .font(.title) // Larger than shuffle/repeat
                     .fontWeight(.bold)
             }
-
+            
             Button {
                 // Cycle through repeat modes: 0 -> 1 -> 2 -> 0
                 repeatMode = (repeatMode + 1) % 3
             } label: {
-                 Image(systemName: repeatMode == 1 ? "repeat.1" : "repeat")
+                Image(systemName: repeatMode == 1 ? "repeat.1" : "repeat")
                     .font(.title2)
                     .foregroundColor(repeatMode != 0 ? .green : .white.opacity(0.7)) // Green when active
             }
         }
     }
-
-     private var bottomControls: some View {
+    
+    private var bottomControls: some View {
         HStack {
-             // Device connection icon (approximation)
+            // Device connection icon (approximation)
             Button {} label: {
-                 Image(systemName: "hifispeaker.and.appletv") // Or "airplayaudio", "speaker.wave.2.fill"
+                Image(systemName: "hifispeaker.and.appletv") // Or "airplayaudio", "speaker.wave.2.fill"
                     .font(.callout)
                     .foregroundColor(.white.opacity(0.7))
             }
             Spacer()
-             // Queue/List icon
-             Button {} label: {
-                 Image(systemName: "list.bullet")
+            // Queue/List icon
+            Button {} label: {
+                Image(systemName: "list.bullet")
                     .font(.callout)
                     .foregroundColor(.white.opacity(0.7))
-             }
+            }
         }
         .padding(.top, 10) // Add some space above this row
     }
-
-     private var lyricsSection: some View {
+    
+    private var lyricsSection: some View {
         // Use a GeometryReader to size the background relative to available space if needed
         // For simplicity, using padding and a fixed corner radius here
-         HStack {
-             Text("Lyrics")
-                 .font(.headline)
-                 .fontWeight(.bold)
-
-             Spacer()
-
-             Button {} label: {
-                 Image(systemName: "square.and.arrow.up")
+        HStack {
+            Text("Lyrics")
+                .font(.headline)
+                .fontWeight(.bold)
+            
+            Spacer()
+            
+            Button {} label: {
+                Image(systemName: "square.and.arrow.up")
                     .font(.callout)
                     .foregroundColor(.white.opacity(0.7))
-             }
-             .padding(.trailing, 5) // Space between icons
-
-             Button {} label: {
-                 Image(systemName: "arrow.up.left.and.arrow.down.right") // Fullscreen/Expand icon
+            }
+            .padding(.trailing, 5) // Space between icons
+            
+            Button {} label: {
+                Image(systemName: "arrow.up.left.and.arrow.down.right") // Fullscreen/Expand icon
                     .font(.callout)
                     .foregroundColor(.white.opacity(0.7))
-             }
-         }
-         .padding() // Padding inside the rounded rectangle
-         .background(
-             RoundedRectangle(cornerRadius: 12)
-                 .fill(Color.white.opacity(0.1)) // Slightly lighter background
-         )
-         .padding(.top) // Space above the lyrics section
+            }
+        }
+        .padding() // Padding inside the rounded rectangle
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white.opacity(0.1)) // Slightly lighter background
+        )
+        .padding(.top) // Space above the lyrics section
     }
 }
 
