@@ -32,6 +32,7 @@ import SwiftUI
 struct GeminiModel: Identifiable, Equatable {
     let id = UUID()
     let name: String
+    let imageName: String?
     let identifier: String
     let inputs: String
     let outputs: String
@@ -44,56 +45,56 @@ struct GeminiModel: Identifiable, Equatable {
 }
 let geminiModelsData: [GeminiModel] = [
     GeminiModel(
-        name: "Gemini 2.5 Pro Experimental",
+        name: "Gemini 2.5 Pro Experimental", imageName: nil,
         identifier: "gemini-2.5-pro-exp-03-25",
         inputs: "Audio, images, videos, and text",
         outputs: "Text",
         optimizedFor: "Enhanced thinking and reasoning, multimodal understanding, advanced coding, and more"
     ),
     GeminiModel(
-        name: "Gemini 2.0 Flash",
+        name: "Gemini 2.0 Flash", imageName: nil,
         identifier: "gemini-2.0-flash",
         inputs: "Audio, images, videos, and text",
         outputs: "Text, images (experimental), and audio (coming soon)",
         optimizedFor: "Next generation features, speed, thinking, realtime streaming, and multimodal generation"
     ),
     GeminiModel(
-        name: "Gemini 2.0 Flash-Lite",
+        name: "Gemini 2.0 Flash-Lite", imageName: nil,
         identifier: "gemini-2.0-flash-lite",
         inputs: "Audio, images, videos, and text",
         outputs: "Text",
         optimizedFor: "Cost efficiency and low latency"
     ),
     GeminiModel(
-        name: "Gemini 1.5 Flash",
+        name: "Gemini 1.5 Flash", imageName: nil,
         identifier: "gemini-1.5-flash",
         inputs: "Audio, images, videos, and text",
         outputs: "Text",
         optimizedFor: "Fast and versatile performance across a diverse variety of tasks"
     ),
     GeminiModel(
-        name: "Gemini 1.5 Flash-8B",
+        name: "Gemini 1.5 Flash-8B", imageName: nil,
         identifier: "gemini-1.5-flash-8b",
         inputs: "Audio, images, videos, and text",
         outputs: "Text",
         optimizedFor: "High volume and lower intelligence tasks"
     ),
     GeminiModel(
-        name: "Gemini 1.5 Pro",
+        name: "Gemini 1.5 Pro", imageName: nil,
         identifier: "gemini-1.5-pro",
         inputs: "Audio, images, videos, and text",
         outputs: "Text",
         optimizedFor: "Complex reasoning tasks requiring more intelligence"
     ),
     GeminiModel(
-        name: "Gemini Embedding",
+        name: "Gemini Embedding", imageName: nil,
         identifier: "gemini-embedding-exp",
         inputs: "Text",
         outputs: "Text embeddings",
         optimizedFor: "Measuring the relatedness of text strings"
     ),
     GeminiModel(
-        name: "Imagen 3",
+        name: "Imagen 3", imageName: nil,
         identifier: "imagen-3.0-generate-002",
         inputs: "Text",
         outputs: "Images",
@@ -136,6 +137,19 @@ struct GeminiCardView: View {
             }
         }
     }
+}
+
+#Preview("Preview CongLeSolutionX Experimental Model") {
+    let geminiModel = GeminiModel(
+        name: "CongLeSolutionX Experimental",
+        imageName: nil,
+        identifier: "gemini-2.5-pro-exp-03-25",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Enhanced thinking and reasoning, multimodal understanding, advanced coding, and more"
+    )
+    
+    GeminiCardView(model: geminiModel, isMinimized: .constant(false))
 }
 
 // MARK: - Looping Stack Implementation (REVISED)
