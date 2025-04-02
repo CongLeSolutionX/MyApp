@@ -120,7 +120,7 @@ struct ModelRowView: View {
 
 // MARK: - Main Content View
 
-struct GeminiModelVariantsView: View {
+struct GeminiModelVariantsView_V1: View {
     let models: [GeminiModel] = geminiModels // Use the populated data
     let headerMinWidth: CGFloat = 80 // Match min width for alignment if needed
 
@@ -185,5 +185,5 @@ struct GeminiModelVariantsView: View {
 // MARK: - Preview
 
 #Preview {
-    GeminiModelVariantsView()
+    GeminiModelVariantsView_V1()
 }
