@@ -152,9 +152,9 @@ struct GiftCardContentView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     // Placeholder cards - replace with actual data/images
-                    GiftCardImage(imageName: "placeholder_flower_card", isLarge: true)
-                    GiftCardImage(imageName: "placeholder_yellow_card", isLarge: true)
-                    GiftCardImage(imageName: "placeholder_generic_card", isLarge: true)
+                    GiftCardImage(imageName: "My-meme-red-wine-glass", isLarge: true)
+                    GiftCardImage(imageName: "My-meme-heineken", isLarge: true)
+                    GiftCardImage(imageName: "My-meme-microphone", isLarge: true)
                 }
                 .padding(.horizontal) // Padding for the content inside scroll view
                 .padding(.bottom) // Padding below the scroll view
@@ -174,9 +174,9 @@ struct GiftCardContentView: View {
              ScrollView(.horizontal, showsIndicators: false) {
                  HStack(spacing: 15) {
                      // Placeholder cards - replace with actual data/images
-                     GiftCardImage(imageName: "placeholder_birthday_cake_card", isLarge: false)
-                     GiftCardImage(imageName: "placeholder_happy_bday_card", isLarge: false)
-                     GiftCardImage(imageName: "placeholder_generic_card_small", isLarge: false)
+                     GiftCardImage(imageName: "My-meme-red-wine-glass", isLarge: false)
+                     GiftCardImage(imageName: "My-meme-heineken", isLarge: false)
+                     GiftCardImage(imageName: "My-meme-microphone", isLarge: false)
                  }
                  .padding(.horizontal) // Padding for the content inside scroll view
                  .padding(.bottom) // Padding below the scroll view
@@ -201,7 +201,7 @@ struct GiftCardImage: View {
                 .frame(width: isLarge ? 280 : 180, height: isLarge ? 180 : 110)
                 .clipped() // Clip the image to the frame
 
-            Image("starbucks_logo_white") // Assume a white logo asset exists
+            Image("My-meme-original") // starbucks_logo_white // Assume a white logo asset exists
                 .resizable()
                 .scaledToFit()
                 .frame(width: isLarge ? 35 : 25, height: isLarge ? 35 : 25)
