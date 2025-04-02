@@ -7,6 +7,56 @@
 
 import SwiftUI // Make sure this is at the top
 
+// --- Main View ---
+struct HomeView: View {
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            // Main scrolling content
+            ScrollView {
+                // Use LazyVStack for better performance with many items
+                LazyVStack(alignment: .leading, spacing: 16) {
+                    GreetingView(name: "Cong")
+                        .padding(.horizontal)
+
+                    QuickActionsView()
+                        .padding(.horizontal)
+
+                    Divider()
+                        .padding(.horizontal)
+
+//                    RewardsSection
+//                        .padding(.horizontal)
+
+                    // --- Initial Featured Card ---
+                    FeaturedCardView()
+                        .padding(.horizontal)
+                        // No bottom padding here if more content follows directly
+
+                    // --- Additional Promo Cards ---
+                    ForEach(promoItemsData) { item in
+                        PromoCardView(item: item)
+                            .padding(.horizontal)
+                            // Add vertical padding between cards if needed:
+                            // .padding(.vertical, 8)
+                    }
+
+                    // Add final bottom padding to avoid TabView overlap
+                    Spacer(minLength: 80) // Or Color.clear.frame(height: 80)
+
+                }
+                .padding(.top) // Padding for the top of the scroll content
+            }
+            .background(Color(UIColor.systemGray6)) // Background for the scrollable area
+        }
+        TabBarView()
+    }
+}
+
+#Preview() {
+    HomeView()
+}
+
+
 // --- Data Structures ---
 
 struct PromoItem: Identifiable {
@@ -83,91 +133,6 @@ struct PromoCardView: View {
     PromoCardView(item: promoItem2)
 }
 
-
-import SwiftUI
-
-// --- Main View ---
-//
-//struct HomeView: View {
-//    var body: some View {
-////        ZStack(alignment: .bottom) {
-//            // Main scrolling content
-//            ScrollView {
-//                VStack(alignment: .leading, spacing: 16) {
-//                    GreetingView(name: "Cong")
-//                        .padding(.horizontal)
-//
-//                    QuickActionsView()
-//                        .padding(.horizontal)
-//
-//                    Divider()
-//                        .padding(.horizontal) // Apply padding to divider itself
-//
-//                    RewardsSection(starBalance: 46, currentStars: 46)
-//                        .padding(.horizontal)
-//
-//                    FeaturedCardView()
-//                        .padding(.horizontal)
-//                        .padding(.bottom, 80) // Add padding to avoid overlap with TabView
-//                }
-//                .padding(.top) // Padding for the top of the scroll content
-//                // .border(Color.red) // REMOVE THIS DEBUG BORDER
-//            }
-//            .background(Color(UIColor.systemGray6)) // Background for the scrollable area
-//            // .border(Color.blue) // REMOVE THIS DEBUG BORDER
-//
-////            // Custom Tab Bar View
-////            TabBarView()
-////        }
-//        .edgesIgnoringSafeArea(.bottom) // Allow TabView to sit at the very bottom
-//    }
-//}
-// --- Main View ---
-struct HomeView: View {
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            // Main scrolling content
-            ScrollView {
-                // Use LazyVStack for better performance with many items
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    GreetingView(name: "Cong")
-                        .padding(.horizontal)
-
-                    QuickActionsView()
-                        .padding(.horizontal)
-
-                    Divider()
-                        .padding(.horizontal)
-
-//                    RewardsSection
-//                        .padding(.horizontal)
-
-                    // --- Initial Featured Card ---
-                    FeaturedCardView()
-                        .padding(.horizontal)
-                        // No bottom padding here if more content follows directly
-
-                    // --- Additional Promo Cards ---
-                    ForEach(promoItemsData) { item in
-                        PromoCardView(item: item)
-                            .padding(.horizontal)
-                            // Add vertical padding between cards if needed:
-                            // .padding(.vertical, 8)
-                    }
-
-                    // Add final bottom padding to avoid TabView overlap
-                    Spacer(minLength: 80) // Or Color.clear.frame(height: 80)
-
-                }
-                .padding(.top) // Padding for the top of the scroll content
-            }
-            .background(Color(UIColor.systemGray6)) // Background for the scrollable area
-        }
-        TabBarView()
-    }
-    
-}
-
 // --- Reusable Components & Sections (Keep all previous ones) ---
 
 //struct GreetingView: View { /* ... */ }
@@ -190,14 +155,6 @@ struct HomeView: View {
 //struct PromoItem: Identifiable { /* ... */ }
 //let promoItemsData: [PromoItem] = [ /* ... */ ] // (Code from Step 1)
 
-// --- Preview ---
-#Preview { // Or #if DEBUG / struct HomeView_Previews: PreviewProvider
-    HomeView()
-}
-
-#Preview() {
-    HomeView()
-}
 
 // --- Reusable Components & Sections ---
 
