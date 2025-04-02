@@ -25,9 +25,9 @@ struct FeedPost: Identifiable {
     let postText: String
     let postImageNames: [String] // Can have multiple images
     // Add counts later if needed:
-    // let likeCount: Int
-    // let commentCount: Int
-    // let shareCount: Int
+     let likeCount: Int
+     let commentCount: Int
+     let shareCount: Int
 }
 
 // Enum for Tab Bar Items
@@ -89,9 +89,9 @@ let storiesData: [Story] = [
 ]
 
 let feedPostsData: [FeedPost] = [
-    FeedPost(userName: "Raymond de Lacaze", profileImageName: "profile_raymond", timestamp: "17m", postText: "Don't Believe the Vibe: Best Practices for Coding with AI Agents (Pascal Biese, April 2025)... See more", postImageNames: ["post_ai_1", "post_ai_2"]),
-    FeedPost(userName: "Jane Doe", profileImageName: "person.crop.circle.fill", timestamp: "1h", postText: "Just enjoying a beautiful sunset! #nofilter", postImageNames: ["placeholder_image_1"]),
-     FeedPost(userName: "John Appleseed", profileImageName: "person.circle", timestamp: "3h", postText: "Thinking about the weekend.", postImageNames: []) // Text only post
+    FeedPost(userName: "Raymond de Lacaze", profileImageName: "profile_raymond", timestamp: "17m", postText: "Don't Believe the Vibe: Best Practices for Coding with AI Agents (Pascal Biese, April 2025)... See more", postImageNames: ["post_ai_1", "post_ai_2"], likeCount: 10000, commentCount: 1000, shareCount: 10),
+    FeedPost(userName: "Jane Doe", profileImageName: "person.crop.circle.fill", timestamp: "1h", postText: "Just enjoying a beautiful sunset! #nofilter", postImageNames: ["placeholder_image_1"], likeCount: 10000, commentCount: 1000, shareCount: 10),
+     FeedPost(userName: "John Appleseed", profileImageName: "person.circle", timestamp: "3h", postText: "Thinking about the weekend.", postImageNames: [], likeCount: 10000, commentCount: 1000, shareCount: 10) // Text only post
 ]
 
 // MARK: - Reusable & Component Views
@@ -595,7 +595,7 @@ struct FacebookMainView: View {
 
     init() {
         // Optional: Hide the system tab bar if you were embedding in a TabView
-        // UITabBar.appearance().isHidden = true
+         UITabBar.appearance().isHidden = true
     }
 
     var body: some View {
