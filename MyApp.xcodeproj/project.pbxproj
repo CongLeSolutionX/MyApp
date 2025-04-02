@@ -36,7 +36,7 @@
 		9AEBC5E12D9CE97100756CE5 /* GeminiEmbedingView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */; };
 		9AEBC5E32D9CEA4700756CE5 /* GeminiEmbedingView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */; };
 		9AEBC5E52D9CEC1200756CE5 /* GeminiEmbedingView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E42D9CEC1100756CE5 /* GeminiEmbedingView_V3.swift */; };
-		9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView.swift */; };
+		9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView_V1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,7 +71,7 @@
 		9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V1.swift; sourceTree = "<group>"; };
 		9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V2.swift; sourceTree = "<group>"; };
 		9AEBC5E42D9CEC1100756CE5 /* GeminiEmbedingView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V3.swift; sourceTree = "<group>"; };
-		9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AQAModelDetailView.swift; sourceTree = "<group>"; };
+		9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AQAModelDetailView_V1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +132,7 @@
 				9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */,
 				9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */,
 				9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */,
-				9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView.swift */,
+				9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView_V1.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -234,7 +234,7 @@
 				9A406DC52D99F48C004FEE68 /* Imagen_3_Model_Detail_View.swift in Sources */,
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
 				9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */,
-				9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView.swift in Sources */,
+				9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView_V1.swift in Sources */,
 				9ACF24372D95E45600A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift in Sources */,
 				9AEBC5E32D9CEA4700756CE5 /* GeminiEmbedingView_V2.swift in Sources */,
 				9ACF24472D96000A00A4238C /* GoogleAIStudioView.swift in Sources */,

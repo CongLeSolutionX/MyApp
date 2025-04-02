@@ -1,5 +1,5 @@
 //
-//  AQAModelDetailView.swift
+//  AQAModelDetailView_V1.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/1/25.
@@ -17,7 +17,7 @@ struct AQAModel_ModelProperty: Identifiable {
 }
 
 // The main view displaying the AQA model details
-struct AQAModelDetailView: View {
+struct AQAModelDetailView_V1: View {
     // Array containing the properties from the screenshot
     let properties: [AQAModel_ModelProperty] = [
         AQAModel_ModelProperty(iconName: "number.square", propertyName: "Model code", description: "models/aqa", descriptionDetail: nil),
@@ -150,7 +150,7 @@ struct AQAModel_PropertyRow: View {
 // Preview Provider for Xcode Canvas
 struct AQAModelDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        AQAModelDetailView()
+        AQAModelDetailView_V1()
     }
 }
 
