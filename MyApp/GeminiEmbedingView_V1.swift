@@ -40,7 +40,7 @@ struct PropertyRow<DescriptionContent: View>: View {
 }
 
 // Main view to display the Gemini Embedding details
-struct GeminiEmbeddingView: View {
+struct GeminiEmbeddingView_V1: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Header Section
@@ -151,7 +151,7 @@ struct GeminiEmbeddingView: View {
 // Preview Provider
 struct GeminiEmbeddingView_Previews: PreviewProvider {
     static var previews: some View {
-        GeminiEmbeddingView()
+        GeminiEmbeddingView_V1()
             .previewLayout(.sizeThatFits) // Adjust preview size
     }
 }
