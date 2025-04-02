@@ -20,6 +20,7 @@
 		9AB5418A2D9CC93D004E402E /* SwiftUIFoundationsCoreImprovements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541892D9CC93C004E402E /* SwiftUIFoundationsCoreImprovements.swift */; };
 		9AB5418C2D9CCA8F004E402E /* MyOldExplicitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5418B2D9CCA8E004E402E /* MyOldExplicitView.swift */; };
 		9AB5418E2D9CCACF004E402E /* InteroperabilityPlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5418D2D9CCACE004E402E /* InteroperabilityPlaceholders.swift */; };
+		9AB541902D9CCC2D004E402E /* ScrollGeometryExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		9AB541892D9CC93C004E402E /* SwiftUIFoundationsCoreImprovements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIFoundationsCoreImprovements.swift; sourceTree = "<group>"; };
 		9AB5418B2D9CCA8E004E402E /* MyOldExplicitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOldExplicitView.swift; sourceTree = "<group>"; };
 		9AB5418D2D9CCACE004E402E /* InteroperabilityPlaceholders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteroperabilityPlaceholders.swift; sourceTree = "<group>"; };
+		9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollGeometryExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				9AB541852D9CC6F6004E402E /* GestureAndAnimationInteroperability.swift */,
 				9AB541872D9CC8A6004E402E /* PresentationSizingUnification.swift */,
 				9AB541892D9CC93C004E402E /* SwiftUIFoundationsCoreImprovements.swift */,
+				9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */,
 				9AB5418D2D9CCACE004E402E /* InteroperabilityPlaceholders.swift */,
 				9AB5418B2D9CCA8E004E402E /* MyOldExplicitView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -167,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB5418A2D9CC93D004E402E /* SwiftUIFoundationsCoreImprovements.swift in Sources */,
+				9AB541902D9CCC2D004E402E /* ScrollGeometryExample.swift in Sources */,
 				9AB541842D9CC59B004E402E /* LoungeView.swift in Sources */,
 				9AB5418C2D9CCA8F004E402E /* MyOldExplicitView.swift in Sources */,
 				9AB5418E2D9CCACF004E402E /* InteroperabilityPlaceholders.swift in Sources */,
