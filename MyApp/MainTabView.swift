@@ -21,9 +21,9 @@ struct PromoItem: Identifiable {
 // MARK: - Sample Data
 
 let promoItemsData: [PromoItem] = [
-    PromoItem(imageName: "promo1", title: "Chill Blends, Chiller Prices", description: "Recharge with a $4 Venti Cold Brew or Nitro Cold Brew after 12 p.m.**", buttonText: "Order now"),
-    PromoItem(imageName: "promo2", title: "Buy One Get One is Back!", description: "Enjoy a BOGO handcrafted drink every Wednesday in June from 2–6 p.m.", buttonText: "Find a store"),
-    PromoItem(imageName: "promo3", title: "Earn Double Stars", description: "Earn 2★ per $1 spent when you pay with a linked PayPal account May 29–June 4.*", buttonText: "Learn more")
+    PromoItem(imageName: "My-meme-red-wine-glass", title: "Chill Blends, Chiller Prices", description: "Recharge with a $4 Venti Cold Brew or Nitro Cold Brew after 12 p.m.**", buttonText: "Order now"),
+    PromoItem(imageName: "My-meme-heineken", title: "Buy One Get One is Back!", description: "Enjoy a BOGO handcrafted drink every Wednesday in June from 2–6 p.m.", buttonText: "Find a store"),
+    PromoItem(imageName: "My-meme-microphone", title: "Earn Double Stars", description: "Earn 2★ per $1 spent when you pay with a linked PayPal account May 29–June 4.*", buttonText: "Learn more")
 ]
 
 // MARK: - Custom Styles & Colors
@@ -284,7 +284,7 @@ struct RewardsProgressView: View {
 struct FeaturedCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Image("featured_promo") // Replace with your actual image name
+            Image("My-meme-original") // featured_promo // Replace with your actual image name
                 .resizable()
                 .aspectRatio(contentMode: .fill) // Fill width, adjust height
                 .frame(maxWidth: .infinity)
