@@ -292,33 +292,7 @@ struct StarbucksOrderView: View {
     }
 }
 
-// MARK: - TabView Wrapper (Unchanged)
-//struct MainTabView: View {
-//    @State private var selectedTab = 2
-//
-//    init() {
-//       let appearance = UITabBarAppearance()
-//       appearance.configureWithOpaqueBackground()
-//       appearance.backgroundColor = UIColor.systemGray6
-//       UITabBar.appearance().standardAppearance = appearance
-//       if #available(iOS 15.0, *) {
-//           UITabBar.appearance().scrollEdgeAppearance = appearance
-//       }
-//    }
-//
-//    var body: some View {
-//        TabView(selection: $selectedTab) {
-//            Text("Home Screen").tabItem { Label("Home", systemImage: "house.fill") }.tag(0)
-//            Text("Scan Screen").tabItem { Label("Scan", systemImage: "qrcode.viewfinder") }.tag(1)
-//            StarbucksOrderView().tabItem { Label("Order", systemImage: "cup.and.saucer.fill") }.tag(2)
-//            Text("Gift Screen").tabItem { Label("Gift", systemImage: "gift.fill") }.tag(3)
-//            Text("Offers Screen").tabItem { Label("Offers", systemImage: "star.fill") }.tag(4)
-//        }
-//        .tint(StarbucksOrderView.starbucksGreen)
-//    }
-//}
-
-// MARK: - Preview Provider (Unchanged)
+// MARK: - Preview Provider
 struct StarbucksOrderView_Previews: PreviewProvider {
     static var previews: some View {
          MainTabView()

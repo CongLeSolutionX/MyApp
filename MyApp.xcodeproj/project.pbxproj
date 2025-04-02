@@ -12,8 +12,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
-		9AEBC5F52D9D85A800756CE5 /* StarbucksScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */; };
-		9AEBC5F72D9D876500756CE5 /* StarbucksScanView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */; };
+		9AEBC5F72D9D876500756CE5 /* StarbucksScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F62D9D876200756CE5 /* StarbucksScanView.swift */; };
 		9AEBC5F92D9D893D00756CE5 /* StarbucksHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */; };
 		9AEBC5FB2D9D8B3300756CE5 /* OfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */; };
 		9AEBC5FD2D9D8BE300756CE5 /* StarbucksOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5FC2D9D8BE300756CE5 /* StarbucksOrderView.swift */; };
@@ -28,8 +27,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
-		9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksScanView.swift; sourceTree = "<group>"; };
-		9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksScanView_V2.swift; sourceTree = "<group>"; };
+		9AEBC5F62D9D876200756CE5 /* StarbucksScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksScanView.swift; sourceTree = "<group>"; };
 		9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksHistoryView.swift; sourceTree = "<group>"; };
 		9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferView.swift; sourceTree = "<group>"; };
 		9AEBC5FC2D9D8BE300756CE5 /* StarbucksOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksOrderView.swift; sourceTree = "<group>"; };
@@ -69,8 +67,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */,
-				9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */,
+				9AEBC5F62D9D876200756CE5 /* StarbucksScanView.swift */,
 				9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */,
 				9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */,
 				9AEBC5FC2D9D8BE300756CE5 /* StarbucksOrderView.swift */,
@@ -162,8 +159,7 @@
 			files = (
 				9AEBC5F92D9D893D00756CE5 /* StarbucksHistoryView.swift in Sources */,
 				9AEBC5FB2D9D8B3300756CE5 /* OfferView.swift in Sources */,
-				9AEBC5F72D9D876500756CE5 /* StarbucksScanView_V2.swift in Sources */,
-				9AEBC5F52D9D85A800756CE5 /* StarbucksScanView.swift in Sources */,
+				9AEBC5F72D9D876500756CE5 /* StarbucksScanView.swift in Sources */,
 				9AEBC5FD2D9D8BE300756CE5 /* StarbucksOrderView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
