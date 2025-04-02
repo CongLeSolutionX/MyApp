@@ -42,16 +42,74 @@ struct GeminiModel: Identifiable, Equatable {
         return Color(hue: hue, saturation: 0.7, brightness: 0.8)
     }
 }
-let geminiModelsData: [GeminiModel] = [ /* ... Same data ... */ ]
-
+let geminiModelsData: [GeminiModel] = [
+    GeminiModel(
+        name: "Gemini 2.5 Pro Experimental",
+        identifier: "gemini-2.5-pro-exp-03-25",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Enhanced thinking and reasoning, multimodal understanding, advanced coding, and more"
+    ),
+    GeminiModel(
+        name: "Gemini 2.0 Flash",
+        identifier: "gemini-2.0-flash",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text, images (experimental), and audio (coming soon)",
+        optimizedFor: "Next generation features, speed, thinking, realtime streaming, and multimodal generation"
+    ),
+    GeminiModel(
+        name: "Gemini 2.0 Flash-Lite",
+        identifier: "gemini-2.0-flash-lite",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Cost efficiency and low latency"
+    ),
+    GeminiModel(
+        name: "Gemini 1.5 Flash",
+        identifier: "gemini-1.5-flash",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Fast and versatile performance across a diverse variety of tasks"
+    ),
+    GeminiModel(
+        name: "Gemini 1.5 Flash-8B",
+        identifier: "gemini-1.5-flash-8b",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "High volume and lower intelligence tasks"
+    ),
+    GeminiModel(
+        name: "Gemini 1.5 Pro",
+        identifier: "gemini-1.5-pro",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Complex reasoning tasks requiring more intelligence"
+    ),
+    GeminiModel(
+        name: "Gemini Embedding",
+        identifier: "gemini-embedding-exp",
+        inputs: "Text",
+        outputs: "Text embeddings",
+        optimizedFor: "Measuring the relatedness of text strings"
+    ),
+    GeminiModel(
+        name: "Imagen 3",
+        identifier: "imagen-3.0-generate-002",
+        inputs: "Text",
+        outputs: "Images",
+        optimizedFor: "Our most advanced image generation model"
+    )
+]
 // MARK: - View Model (Unchanged)
 @MainActor
 class CardStackViewModel: ObservableObject {
-    @Published var models: [GeminiModel] = []
+    @Published var models: [GeminiModel] = [] // Initialize empty temporarily? NO - Use initial value.
     @Published var changeSize: Bool = false
-    init(initialModels: [GeminiModel] = geminiModelsData) {
+
+    init(initialModels: [GeminiModel] = geminiModelsData) { // Default parameter uses the data
         print("CardStackViewModel Initialized on Main Actor")
-        self.models = initialModels
+        self.models = initialModels // Assign data SYNCHRONOUSLY
+        print("ViewModel Init: Assigned \(self.models.count) models.") // Add confirmation log
     }
 }
 
