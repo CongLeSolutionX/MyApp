@@ -161,11 +161,11 @@ struct StarbucksScanPayCardView: View {
                     .frame(height: 180)
                     .clipped()
 
-                Image("starbucks-logo") // Placeholder logo name
+                Image("My-meme-red-wine-glass") // Placeholder logo name
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .background(Color.white.opacity(0.8))
+                    .frame(width: 100, height: 100)
+                    .background(Color.yellow.opacity(0.8))
                     .clipShape(Circle())
                     .padding(8)
             }
@@ -230,10 +230,10 @@ struct StarbucksScanOnlyCardView: View {
      var body: some View {
         VStack(alignment: .center, spacing: 20) { // Center alignment for content
             // Card Image Area
-            Image("starbucks-scan-only-card") // Placeholder for the dark green card image
+            Image("My-meme-original") // Placeholder for the dark green card image
                 .resizable()
                 .aspectRatio(contentMode: .fill) // Or .fit depending on the asset
-                .frame(height: 180)
+                .frame(height: 200)
                 .background(Color.starbucksDarkGreen) // Background color if image is transparent/smaller
                 .clipped() // Clip to bounds
 
