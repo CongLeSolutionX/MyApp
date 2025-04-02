@@ -25,6 +25,7 @@
 		9AB541942D9CCCE9004E402E /* ShaderPrecompileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */; };
 		9AB541962D9CCDB4004E402E /* LyricViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541952D9CCDB4004E402E /* LyricViews.swift */; };
 		9AB541982D9CCE2D004E402E /* SongRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541972D9CCE2C004E402E /* SongRowView.swift */; };
+		9AB5419A2D9CCF5E004E402E /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541992D9CCF5E004E402E /* ToggleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderPrecompileView.swift; sourceTree = "<group>"; };
 		9AB541952D9CCDB4004E402E /* LyricViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricViews.swift; sourceTree = "<group>"; };
 		9AB541972D9CCE2C004E402E /* SongRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRowView.swift; sourceTree = "<group>"; };
+		9AB541992D9CCF5E004E402E /* ToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				9AB541872D9CC8A6004E402E /* PresentationSizingUnification.swift */,
 				9AB541952D9CCDB4004E402E /* LyricViews.swift */,
 				9AB541892D9CC93C004E402E /* SwiftUIFoundationsCoreImprovements.swift */,
+				9AB541992D9CCF5E004E402E /* ToggleView.swift */,
 				9AB541972D9CCE2C004E402E /* SongRowView.swift */,
 				9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */,
 				9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */,
@@ -187,6 +190,7 @@
 				9AB541922D9CCC9D004E402E /* ColorMixingExample.swift in Sources */,
 				9AB5418C2D9CCA8F004E402E /* MyOldExplicitView.swift in Sources */,
 				9AB5418E2D9CCACF004E402E /* InteroperabilityPlaceholders.swift in Sources */,
+				9AB5419A2D9CCF5E004E402E /* ToggleView.swift in Sources */,
 				9AB541982D9CCE2D004E402E /* SongRowView.swift in Sources */,
 				9AB541822D9CC4CA004E402E /* LyricsView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
