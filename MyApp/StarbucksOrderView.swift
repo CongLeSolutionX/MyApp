@@ -130,31 +130,31 @@ struct NoItemsView: View {
     }
 }
 
-// MARK: - Main Order View (Updated)
+// MARK: - Main Order View
 
 struct StarbucksOrderView: View {
-    // State variables
+    // State variables (Unchanged)
     @State private var selectedOrderType = 0 // 0: Pickup, 1: Delivery
     @State private var selectedStoreListTab = 0 // 0: Nearby, 1: Previous, 2: Favorites
     @State private var mapRegion = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 33.74, longitude: -117.99), // Approx. Garden Grove
+        center: CLLocationCoordinate2D(latitude: 33.74, longitude: -117.99),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
 
-    // Sample Data
+    // Sample Data (Unchanged)
     @State private var nearbyStores: [Store] = [
         Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil),
         Store(name: "Target Garden Grove 193", address: "13831 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 8:00 PM", services: [.inStore], isFavorite: false, bannerText: "Order ahead not available"),
         Store(name: "Magnolia & Trask", address: "13471 Magnolia St, Garden Grove", distance: "1.2 mi", hours: "Open until 8:30 PM", services: [.inStore, .driveThru], isFavorite: false, bannerText: nil)
     ]
-    @State private var previousStores: [Store] = [] // Empty for now
-    @State private var favoriteStores: [Store] = [ // ADDED SAMPLE FAVORITES
-        Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil), // Already favorite
-        Store(name: "Harbor & Chapman", address: "1290 S Harbor Blvd, Anaheim", distance: "2.5 mi", hours: "Open until 10:00 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil) // Assume this was favorited elsewhere
+    @State private var previousStores: [Store] = []
+    @State private var favoriteStores: [Store] = [
+        Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil),
+        Store(name: "Harbor & Chapman", address: "1290 S Harbor Blvd, Anaheim", distance: "2.5 mi", hours: "Open until 10:00 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil)
     ]
 
-    // Constants for colors
-    static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278) // #006241
+    // Constants (Unchanged)
+    static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278)
     static let groupedBackground = Color(.systemGroupedBackground)
     static let systemBackground = Color(.systemBackground)
 
@@ -163,14 +163,14 @@ struct StarbucksOrderView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                // --- Top Bar (Unchanged) ---
+            VStack(spacing: 0) { // Main container VStack
+                // --- Top Bar (Picker + Search/Skip) ---
                 HStack(spacing: 12) {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                         .imageScale(.large)
 
-                    Picker("Order Type", selection: $selectedOrderType) {
+                    Picker("Order Type", selection: $selectedOrderType.animation()) { // Add animation
                         ForEach(0..<orderTypes.count, id: \.self) { index in
                             Text(orderTypes[index]).tag(index)
                         }
@@ -179,9 +179,9 @@ struct StarbucksOrderView: View {
                     .background(
                          Capsule().stroke(Self.starbucksGreen, lineWidth: 1)
                     )
-                    .frame(maxWidth: 200) // Keep a reasonable width
+                    .frame(maxWidth: 200)
 
-                    Spacer() // Pushes Skip button to the right
+                    Spacer()
 
                     Button("Skip") { /* TODO: Skip action */ }
                         .foregroundColor(Self.starbucksGreen)
@@ -189,109 +189,122 @@ struct StarbucksOrderView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(Self.systemBackground) // Use system background for top bar
+                .background(Self.systemBackground) // White background for top bar
 
-                // --- Map Area (Unchanged) ---
-                ZStack(alignment: .bottomTrailing) {
-                    Map(coordinateRegion: $mapRegion, showsUserLocation: true)
-                         .overlay( // Center marker overlay
-                             Circle()
-                                 .fill(.blue)
-                                 .opacity(0.7)
-                                 .frame(width: 15, height: 15)
-                                 .overlay(Circle().stroke(.white, lineWidth: 2))
-                         )
-                         // Add annotations for stores if needed based on selected tab
-
-                    VStack(spacing: 12) {
-                         // Center Map Button
-                        Button { /* TODO: Center map */ } label: {
-                            Image(systemName: "location.fill")
-                                .padding(12)
-                                .background(.thinMaterial) // Use material for frosting effect
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
-                        }
-
-                        // Filter Button
-                        Button { /* TODO: Show Filter */ } label: {
-                             Text("Filter")
-                                .fontWeight(.medium)
-                                .padding(.horizontal, 25)
-                                .padding(.vertical, 10)
-                                .background(.thinMaterial) // Use material
-                                .clipShape(Capsule())
-                                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
-                        }
-                    }
-                    .padding(16)
-                    .foregroundColor(Self.starbucksGreen) // Apply tint to buttons
-                }
-                 .frame(height: 250) // Fixed height for the map
-
-                // --- Store List Tabs (Unchanged) ---
-                Picker("Stores", selection: $selectedStoreListTab) {
-                   ForEach(0..<storeListTabs.count, id: \.self) { index in
-                       Text(storeListTabs[index]).tag(index)
-                   }
-               }
-               .pickerStyle(.segmented) // Standard segmented control
-               .padding(.horizontal, 16) // Consistent horizontal padding
-               .padding(.vertical, 10)    // Vertical padding around the picker
-               .background(Self.groupedBackground) // Background matches the list area
-
-                // --- Conditional Content Area (List or Message) ---
-                // Use a switch statement for clarity
-                switch selectedStoreListTab {
-                case 0: // Nearby
-                    storeListView(for: nearbyStores)
-                case 1: // Previous
-                    if previousStores.isEmpty {
-                        // Use the reusable NoItemsView
-                        NoItemsView(
-                            title: "No previous stores",
-                            message: "Once you order from a store, it will be here for you to choose."
-                        )
-                    } else {
-                        storeListView(for: previousStores)
-                    }
-                case 2: // Favorites
-                    if favoriteStores.isEmpty {
-                        // Use the reusable NoItemsView
-                         NoItemsView(
-                             title: "No favorite stores",
-                             message: "Tap the heart icon on a store detail page to add it here." // Updated message
-                         )
-                    } else {
-                         storeListView(for: favoriteStores) // Display list of favorites
-                    }
-                default:
-                    EmptyView() // Should not happen
+                // --- Conditional Content Area ---
+                if selectedOrderType == 0 { // PICKUP VIEW
+                    pickupView   // Show the map and store list UI
+                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))) // Slide transition
+                } else { // DELIVERY VIEW
+                    DeliveryInfoView() // Show the new delivery info screen
+                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))) // Slide transition
                 }
             }
-             .background(Self.groupedBackground) // Ensure overall grouped background
-             .navigationBarHidden(true) // Hide the default navigation bar
-             // .ignoresSafeArea(edges: .bottom) // Let MainTabView handle safe area
+            .background(selectedOrderType == 0 ? Self.groupedBackground : Self.systemBackground) // Adjust background based on view
+            .navigationBarHidden(true)
+            // .ignoresSafeArea(edges: .bottom) // Consider if MainTabView handles safe area
         }
     }
 
-    // Helper function to create the store list view to avoid repetition
+    // --- Extracted Pickup View ---
+    // Encapsulates the Map + Store List UI for better organization
+    private var pickupView: some View {
+        VStack(spacing: 0) {
+            // --- Map Area ---
+            ZStack(alignment: .bottomTrailing) {
+                Map(coordinateRegion: $mapRegion, showsUserLocation: true)
+                    .overlay( // Center marker overlay
+                        Circle()
+                            .fill(.blue)
+                            .opacity(0.7)
+                            .frame(width: 15, height: 15)
+                            .overlay(Circle().stroke(.white, lineWidth: 2))
+                    )
+
+                VStack(spacing: 12) {
+                    Button { /* TODO: Center map */ } label: {
+                        Image(systemName: "location.fill")
+                            .padding(12)
+                            .background(.thinMaterial)
+                            .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
+                    }
+
+                    Button { /* TODO: Show Filter */ } label: {
+                        Text("Filter")
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 25)
+                            .padding(.vertical, 10)
+                            .background(.thinMaterial)
+                            .clipShape(Capsule())
+                            .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
+                    }
+                }
+                .padding(16)
+                .foregroundColor(Self.starbucksGreen)
+            }
+            .frame(height: 250) // Fixed height for the map
+
+            // --- Store List Tabs ---
+            Picker("Stores", selection: $selectedStoreListTab) {
+                ForEach(0..<storeListTabs.count, id: \.self) { index in
+                    Text(storeListTabs[index]).tag(index)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(Self.groupedBackground) // Background matches the list area
+
+            // --- Conditional Store List/Message ---
+            storeListContent // Use computed property for list/message
+        }
+        .background(Self.groupedBackground) // Ensure grouped background for pickup view
+    }
+
+    // --- Computed Property for Store List Content (Refactored) ---
+    @ViewBuilder
+    private var storeListContent: some View {
+        switch selectedStoreListTab {
+        case 0: // Nearby
+            storeListView(for: nearbyStores)
+        case 1: // Previous
+            if previousStores.isEmpty {
+                NoItemsView(
+                    title: "No previous stores",
+                    message: "Once you order from a store, it will be here for you to choose."
+                )
+            } else {
+                storeListView(for: previousStores)
+            }
+        case 2: // Favorites
+            if favoriteStores.isEmpty {
+                 NoItemsView(
+                     title: "No favorite stores",
+                     message: "Tap the heart icon on a store detail page to add it here."
+                 )
+            } else {
+                 storeListView(for: favoriteStores)
+            }
+        default:
+            EmptyView()
+        }
+    }
+
+    // Helper function for store list view (Unchanged)
     @ViewBuilder
     private func storeListView(for stores: [Store]) -> some View {
         List {
             ForEach(stores) { store in
-                // Use the existing StoreRowView
                 StoreRowView(store: store)
-                   .listRowSeparator(.hidden) // Hide default separators
-                   .overlay(alignment: .bottom) { // Add custom separator
-                       Divider().padding(.leading, 16) // Indented divider
-                   }
-                   .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)) // Control row padding
+                   .listRowSeparator(.hidden)
+                   .overlay(alignment: .bottom) { Divider().padding(.leading, 16) }
+                   .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             }
         }
-        .listStyle(.plain) // Use plain style for seamless background
-        .background(Self.groupedBackground) // Important for list background color matching tabs
-        .scrollContentBackground(.hidden) // Hides the default background on newer iOS versions
+        .listStyle(.plain)
+        .background(Self.groupedBackground)
+        .scrollContentBackground(.hidden)
     }
 }
 
