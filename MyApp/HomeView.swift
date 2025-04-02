@@ -11,8 +11,7 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        // ZStack to layer content over the TabView background
-        ZStack(alignment: .bottom) {
+//        ZStack(alignment: .bottom) {
             // Main scrolling content
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -33,14 +32,14 @@ struct HomeView: View {
                         .padding(.bottom, 80) // Add padding to avoid overlap with TabView
                 }
                 .padding(.top) // Padding for the top of the scroll content
-                .border(Color.red)
+                // .border(Color.red) // REMOVE THIS DEBUG BORDER
             }
             .background(Color(UIColor.systemGray6)) // Background for the scrollable area
-            .border(Color.blue)
+            // .border(Color.blue) // REMOVE THIS DEBUG BORDER
 
-            // Custom Tab Bar View
-            TabBarView()
-        }
+//            // Custom Tab Bar View
+//            TabBarView()
+//        }
         .edgesIgnoringSafeArea(.bottom) // Allow TabView to sit at the very bottom
     }
 }
