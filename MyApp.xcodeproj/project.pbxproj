@@ -23,6 +23,7 @@
 		9AB541902D9CCC2D004E402E /* ScrollGeometryExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */; };
 		9AB541922D9CCC9D004E402E /* ColorMixingExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541912D9CCC9D004E402E /* ColorMixingExample.swift */; };
 		9AB541942D9CCCE9004E402E /* ShaderPrecompileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */; };
+		9AB541962D9CCDB4004E402E /* LyricViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB541952D9CCDB4004E402E /* LyricViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollGeometryExample.swift; sourceTree = "<group>"; };
 		9AB541912D9CCC9D004E402E /* ColorMixingExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMixingExample.swift; sourceTree = "<group>"; };
 		9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderPrecompileView.swift; sourceTree = "<group>"; };
+		9AB541952D9CCDB4004E402E /* LyricViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				9AB541832D9CC59B004E402E /* LoungeView.swift */,
 				9AB541852D9CC6F6004E402E /* GestureAndAnimationInteroperability.swift */,
 				9AB541872D9CC8A6004E402E /* PresentationSizingUnification.swift */,
+				9AB541952D9CCDB4004E402E /* LyricViews.swift */,
 				9AB541892D9CC93C004E402E /* SwiftUIFoundationsCoreImprovements.swift */,
 				9AB541932D9CCCE9004E402E /* ShaderPrecompileView.swift */,
 				9AB5418F2D9CCC2B004E402E /* ScrollGeometryExample.swift */,
@@ -187,6 +190,7 @@
 				9AB541942D9CCCE9004E402E /* ShaderPrecompileView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AB541962D9CCDB4004E402E /* LyricViews.swift in Sources */,
 				9AB541802D9CC3FB004E402E /* PartiesView.swift in Sources */,
 				9AB541882D9CC8AD004E402E /* PresentationSizingUnification.swift in Sources */,
 			);
