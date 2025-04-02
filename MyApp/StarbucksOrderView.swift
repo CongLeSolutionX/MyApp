@@ -109,38 +109,34 @@ struct StoreRowView: View {
 struct NoItemsView: View {
     let title: String
     let message: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.title2)
                 .fontWeight(.semibold)
-            
             Text(message)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-                .lineLimit(nil)
-            
-            Spacer() // Pushes content to the top
+                .lineLimit(nil) // Allow wrapping
+            Spacer()
         }
-        .padding(.horizontal, 16) // Match list horizontal padding
-        .padding(.top, 20)        // Add padding from the segmented control
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading) // Take available space
-        .background(StarbucksOrderView.groupedBackground) // Match background
+        .padding(.horizontal, 20) // Slightly more padding for isolated messages
+        .padding(.top, 25)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(StarbucksOrderView.groupedBackground)
     }
 }
 
 // MARK: - Main Order View
-
 struct StarbucksOrderView: View {
-    // State variables (Unchanged)
-    @State private var selectedOrderType = 0 // 0: Pickup, 1: Delivery
-    @State private var selectedStoreListTab = 0 // 0: Nearby, 1: Previous, 2: Favorites
+    @State private var selectedOrderType = 0
+    @State private var selectedStoreListTab = 0
     @State private var mapRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 33.74, longitude: -117.99),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
-    
+
     // Sample Data (Unchanged)
     @State private var nearbyStores: [Store] = [
         Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil),
@@ -152,99 +148,90 @@ struct StarbucksOrderView: View {
         Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil),
         Store(name: "Harbor & Chapman", address: "1290 S Harbor Blvd, Anaheim", distance: "2.5 mi", hours: "Open until 10:00 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil)
     ]
-    
+
     // Constants (Unchanged)
     static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278)
     static let groupedBackground = Color(.systemGroupedBackground)
     static let systemBackground = Color(.systemBackground)
-    
+
     let orderTypes = ["Pickup", "Delivery"]
     let storeListTabs = ["Nearby", "Previous", "Favorites"]
-    
+
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) { // Main container VStack
-                // --- Top Bar (Picker + Search/Skip) ---
-                HStack(spacing: 12) {
+            VStack(spacing: 0) {
+                // --- Top Bar ---
+                HStack(spacing: 10) { // Reduced spacing slightly
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                         .imageScale(.large)
-                    
-                    Picker("Order Type", selection: $selectedOrderType.animation()) { // Add animation
+                        .padding(.leading, 5) // Small padding to bring closer to edge
+
+                    Picker("Order Type", selection: $selectedOrderType.animation()) {
                         ForEach(0..<orderTypes.count, id: \.self) { index in
                             Text(orderTypes[index]).tag(index)
                         }
                     }
                     .pickerStyle(.segmented)
-                    .background(
-                        Capsule().stroke(Self.starbucksGreen, lineWidth: 1)
-                    )
-                    .frame(maxWidth: 200)
-                    
+                    .background(Capsule().stroke(Self.starbucksGreen, lineWidth: 1))
+                    .frame(maxWidth: 190) // Slightly reduced picker width allows more space
+
                     Spacer()
-                    
-                    Button("Skip") { /* TODO: Skip action */ }
+
+                    Button("Skip") { /* Action */ }
                         .foregroundColor(Self.starbucksGreen)
                         .fontWeight(.medium)
+                        .padding(.trailing, 5) // Small padding to bring closer to edge
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 16) // Standard edge padding
                 .padding(.vertical, 10)
-                .background(Self.systemBackground) // White background for top bar
-                
+                .background(Self.systemBackground)
+
                 // --- Conditional Content Area ---
-                if selectedOrderType == 0 { // PICKUP VIEW
-                    pickupView   // Show the map and store list UI
-                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))) // Slide transition
-                } else { // DELIVERY VIEW
-                    DeliveryInfoView() // Show the new delivery info screen
-                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))) // Slide transition
+                if selectedOrderType == 0 {
+                    pickupView
+                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
+                } else {
+                    DeliveryInfoView()
+                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                 }
             }
-            .background(selectedOrderType == 0 ? Self.groupedBackground : Self.systemBackground) // Adjust background based on view
+            .background(selectedOrderType == 0 ? Self.groupedBackground : Self.systemBackground)
             .navigationBarHidden(true)
-            // .ignoresSafeArea(edges: .bottom) // Consider if MainTabView handles safe area
         }
     }
-    
-    // --- Extracted Pickup View ---
-    // Encapsulates the Map + Store List UI for better organization
+
+    // --- Extracted Pickup View (Padding Adjusted) ---
     private var pickupView: some View {
         VStack(spacing: 0) {
             // --- Map Area ---
             ZStack(alignment: .bottomTrailing) {
-                Map(coordinateRegion: $mapRegion, showsUserLocation: true)
-                    .overlay( // Center marker overlay
-                        Circle()
-                            .fill(.blue)
-                            .opacity(0.7)
-                            .frame(width: 15, height: 15)
-                            .overlay(Circle().stroke(.white, lineWidth: 2))
-                    )
-                
+                Map(coordinateRegion: $mapRegion, showsUserLocation: true) // ... Map setup ...
+                     .overlay(/* Marker */ Circle().fill(.blue).opacity(0.7).frame(width: 15, height: 15).overlay(Circle().stroke(.white, lineWidth: 2)))
+
                 VStack(spacing: 12) {
-                    Button { /* TODO: Center map */ } label: {
+                    Button { /* Center map */ } label: {
                         Image(systemName: "location.fill")
-                            .padding(12)
+                            .padding(12) // Padding inside circle
                             .background(.thinMaterial)
                             .clipShape(Circle())
                             .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
                     }
-                    
-                    Button { /* TODO: Show Filter */ } label: {
+                    Button { /* Filter */ } label: {
                         Text("Filter")
                             .fontWeight(.medium)
                             .padding(.horizontal, 25)
-                            .padding(.vertical, 10)
+                            .padding(.vertical, 10) // Button height/padding
                             .background(.thinMaterial)
                             .clipShape(Capsule())
                             .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
                     }
                 }
-                .padding(16)
+                .padding(16) // Padding from map edges
                 .foregroundColor(Self.starbucksGreen)
             }
-            .frame(height: 250) // Fixed height for the map
-            
+            .frame(height: 250)
+
             // --- Store List Tabs ---
             Picker("Stores", selection: $selectedStoreListTab) {
                 ForEach(0..<storeListTabs.count, id: \.self) { index in
@@ -252,62 +239,102 @@ struct StarbucksOrderView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .background(Self.groupedBackground) // Background matches the list area
-            
+            .padding(.horizontal, 16) // Padding around picker
+            .padding(.vertical, 12)    // Slightly more vertical padding for picker
+            .background(Self.groupedBackground)
+
             // --- Conditional Store List/Message ---
-            storeListContent // Use computed property for list/message
+            storeListContent
         }
-        .background(Self.groupedBackground) // Ensure grouped background for pickup view
+        .background(Self.groupedBackground)
     }
-    
-    // --- Computed Property for Store List Content (Refactored) ---
+
+    // --- Computed Property for Store List Content (Padding Adjusted) ---
     @ViewBuilder
     private var storeListContent: some View {
         switch selectedStoreListTab {
-        case 0: // Nearby
+        case 0:
             storeListView(for: nearbyStores)
-        case 1: // Previous
+        case 1:
             if previousStores.isEmpty {
-                NoItemsView(
-                    title: "No previous stores",
-                    message: "Once you order from a store, it will be here for you to choose."
-                )
+                NoItemsView(title: "No previous stores", message: "Once you order from a store, it will be here for you to choose.")
             } else {
                 storeListView(for: previousStores)
             }
         case 2: // Favorites
             if favoriteStores.isEmpty {
-                NoItemsView(
-                    title: "No favorite stores",
-                    message: "Tap the heart icon on a store detail page to add it here."
-                )
+                 NoItemsView(title: "No favorite stores", message: "Tap the heart icon on a store detail page to add it here.")
             } else {
-                storeListView(for: favoriteStores)
+                 storeListView(for: favoriteStores)
             }
         default:
             EmptyView()
         }
     }
-    
-    // Helper function for store list view (Unchanged)
+
+    // Helper function for store list view (Padding Adjusted)
     @ViewBuilder
     private func storeListView(for stores: [Store]) -> some View {
         List {
             ForEach(stores) { store in
                 StoreRowView(store: store)
-                    .listRowSeparator(.hidden)
-                    .overlay(alignment: .bottom) { Divider().padding(.leading, 16) }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                   .listRowSeparator(.hidden) // Hide default separators
+                   .overlay(alignment: .bottom) { // Add custom separator
+                       Divider().padding(.leading, 16) // Match leading inset
+                   }
+                   // Control row padding precisely:
+                   .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
             }
         }
-        .listStyle(.plain)
-        .background(Self.groupedBackground)
-        .scrollContentBackground(.hidden)
+        .listStyle(.plain) // Use plain style for seamless background
+        .background(Self.groupedBackground) // Important for list background
+        .scrollContentBackground(.hidden) // Hide default list background
     }
 }
 
+// MARK: - TabView Wrapper (Unchanged)
+//struct MainTabView: View {
+//    @State private var selectedTab = 2
+//
+//    init() {
+//       let appearance = UITabBarAppearance()
+//       appearance.configureWithOpaqueBackground()
+//       appearance.backgroundColor = UIColor.systemGray6
+//       UITabBar.appearance().standardAppearance = appearance
+//       if #available(iOS 15.0, *) {
+//           UITabBar.appearance().scrollEdgeAppearance = appearance
+//       }
+//    }
+//
+//    var body: some View {
+//        TabView(selection: $selectedTab) {
+//            Text("Home Screen").tabItem { Label("Home", systemImage: "house.fill") }.tag(0)
+//            Text("Scan Screen").tabItem { Label("Scan", systemImage: "qrcode.viewfinder") }.tag(1)
+//            StarbucksOrderView().tabItem { Label("Order", systemImage: "cup.and.saucer.fill") }.tag(2)
+//            Text("Gift Screen").tabItem { Label("Gift", systemImage: "gift.fill") }.tag(3)
+//            Text("Offers Screen").tabItem { Label("Offers", systemImage: "star.fill") }.tag(4)
+//        }
+//        .tint(StarbucksOrderView.starbucksGreen)
+//    }
+//}
+
+// MARK: - Preview Provider (Unchanged)
+struct StarbucksOrderView_Previews: PreviewProvider {
+    static var previews: some View {
+         MainTabView()
+            .environment(\.locale, .init(identifier: "en"))
+            .previewDisplayName("Live Preview (Main Tab)")
+
+         DeliveryInfoView()
+            .previewDisplayName("Delivery Info View Standalone")
+
+        StarbucksOrderView()
+             .previewDisplayName("Pickup View (Forced)")
+
+         StarbucksOrderView()
+            .previewDisplayName("Delivery View (Forced)")
+    }
+}
 // MARK: - TabView Wrapper (Main App Structure - Unchanged)
 
 struct MainTabView: View {
@@ -363,25 +390,25 @@ struct MainTabView: View {
 //     }
 // }
 
-struct StarbucksOrderView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Preview Pickup state
-        MainTabView()
-            .environment(\.locale, .init(identifier: "en"))
-            .previewDisplayName("Pickup View (Default)")
-        
-        // Preview Delivery state (select Order tab, then Delivery)
-        // You might need to interact with the preview or force the state
-        //         StarbucksOrderView(selectedOrderType: 1)
-        StarbucksOrderView()
-            .previewDisplayName("Delivery View (Forced)")
-        
-        // Preview the standalone Delivery Info View
-        DeliveryInfoView()
-            .previewDisplayName("Delivery Info View Standalone")
-        
-    }
-}
+//struct StarbucksOrderView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Preview Pickup state
+//        MainTabView()
+//            .environment(\.locale, .init(identifier: "en"))
+//            .previewDisplayName("Pickup View (Default)")
+//        
+//        // Preview Delivery state (select Order tab, then Delivery)
+//        // You might need to interact with the preview or force the state
+//        //         StarbucksOrderView(selectedOrderType: 1)
+//        StarbucksOrderView()
+//            .previewDisplayName("Delivery View (Forced)")
+//        
+//        // Preview the standalone Delivery Info View
+//        DeliveryInfoView()
+//            .previewDisplayName("Delivery Info View Standalone")
+//        
+//    }
+//}
 //
 //// MARK: - Custom Color Extension (Unchanged)
 //extension Color {
