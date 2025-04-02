@@ -5,6 +5,85 @@
 //  Created by Cong Le on 4/2/25.
 //
 
+import SwiftUI // Make sure this is at the top
+
+// --- Data Structures ---
+
+struct PromoItem: Identifiable {
+    let id = UUID() // Conforms to Identifiable for ForEach
+    let imageName: String
+    let title: String
+    let description: String
+    let buttonText: String
+}
+
+// Sample Data (Replace "placeholder-..." with actual asset names)
+let promoItemsData: [PromoItem] = [
+    PromoItem(imageName: "My-meme-original",
+              title: "Cherry meets chai",
+              description: "The new Iced Cherry Chai is where creamy cold foam with notes of cherry and our signature chai tea latte come together for a spring take on a favorite.",
+              buttonText: "Add to order"),
+    PromoItem(imageName: "My-meme-heineken",
+              title: "Lavender love",
+              description: "With sweet, subtle floral notes and a smooth texture, the Iced Lavender Cream Oatmilk Matcha is back.", // Text truncated in image, added placeholder continuation
+              buttonText: "Add to order") // Assuming 'Scan in store' in the image was maybe part of a different card layout or error
+]
+
+// --- Reusable Promo Card ---
+
+struct PromoCardView: View {
+    let item: PromoItem
+    let starbucksGreen = Color(red: 0, green: 0.4, blue: 0.2) // Approximation
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Image(item.imageName) // Use the image name from the data
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 200) // Or adjust as needed
+                .clipped()
+
+            VStack(alignment: .leading, spacing: 12) {
+                Text(item.title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+
+                Text(item.description)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .lineLimit(3) // Limit description lines if needed
+
+                // Button aligned left
+                HStack {
+                    Button(item.buttonText) { /* Action for this item */ }
+                        .buttonStyle(StarbucksButtonStyle(isFilled: true, foregroundColor: .white, backgroundColor: starbucksGreen))
+                        .frame(maxWidth: .infinity, alignment: .leading) // Align button left
+                        // Limit button width if needed, e.g., .fixedSize(horizontal: true, vertical: false)
+                    Spacer() // Pushes button to the left
+                }
+            }
+            .padding() // Padding inside the text/button area
+        }
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+    }
+}
+#Preview("Promo Card View") {
+    let promoItem1 = PromoItem(imageName: "My-meme-original",
+                              title: "Cherry meets chai",
+                              description: "The new Iced Cherry Chai is where creamy cold foam with notes of cherry and our signature chai tea latte come together for a spring take on a favorite.",
+                              buttonText: "Add to order")
+    let promoItem2 = PromoItem(imageName: "My-meme-heineken",
+              title: "Lavender love",
+              description: "With sweet, subtle floral notes and a smooth texture, the Iced Lavender Cream Oatmilk Matcha is back.", // Text truncated in image, added placeholder continuation
+              buttonText: "Add to order")
+    
+    PromoCardView(item: promoItem1)
+    PromoCardView(item: promoItem2)
+}
+
+
 import SwiftUI
 
 // --- Main View ---

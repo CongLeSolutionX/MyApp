@@ -66,8 +66,8 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9AEBC6002D9DA1F000756CE5 /* HomeView.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9AEBC6002D9DA1F000756CE5 /* HomeView.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AEBC5F62D9D876200756CE5 /* StarbucksScanView.swift */,
