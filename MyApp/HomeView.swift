@@ -219,7 +219,7 @@ struct FeaturedCardView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Placeholder for the image
-            Image("placeholder-drink-food") // Replace with actual image loading
+            Image("My-meme-red-wine-glass") // placeholder-drink-food // Replace with actual image loading
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 // Give the image a reasonable height or aspect ratio
@@ -250,7 +250,9 @@ struct FeaturedCardView: View {
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Subtle shadow
     }
 }
-
+#Preview("Featured Card View") {
+    FeaturedCardView()
+}
 // --- Tab Bar ---
 struct TabBarView: View {
     let starbucksGreen = Color(red: 0, green: 0.4, blue: 0.2) // Approximation
