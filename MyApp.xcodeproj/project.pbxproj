@@ -15,6 +15,7 @@
 		9AEBC5F52D9D85A800756CE5 /* StarbucksScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */; };
 		9AEBC5F72D9D876500756CE5 /* StarbucksScanView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */; };
 		9AEBC5F92D9D893D00756CE5 /* StarbucksHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */; };
+		9AEBC5FB2D9D8B3300756CE5 /* OfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksScanView.swift; sourceTree = "<group>"; };
 		9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksScanView_V2.swift; sourceTree = "<group>"; };
 		9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksHistoryView.swift; sourceTree = "<group>"; };
+		9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				9AEBC5F42D9D85A700756CE5 /* StarbucksScanView.swift */,
 				9AEBC5F62D9D876200756CE5 /* StarbucksScanView_V2.swift */,
 				9AEBC5F82D9D893D00756CE5 /* StarbucksHistoryView.swift */,
+				9AEBC5FA2D9D8B2F00756CE5 /* OfferView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AEBC5F92D9D893D00756CE5 /* StarbucksHistoryView.swift in Sources */,
+				9AEBC5FB2D9D8B3300756CE5 /* OfferView.swift in Sources */,
 				9AEBC5F72D9D876500756CE5 /* StarbucksScanView_V2.swift in Sources */,
 				9AEBC5F52D9D85A800756CE5 /* StarbucksScanView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
