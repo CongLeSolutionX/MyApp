@@ -186,7 +186,7 @@ class ImageGenerationAPIService {
     private let apiBaseURL = "https://generativelanguage.googleapis.com"
 
     // !!! REPLACE WITH YOUR ACTUAL GEMINI API KEY !!!
-    private let apiKey = "YOUR_GEMINI_API_KEY" // Placeholder
+    private let apiKey = "AIzaSyDZbDq0R_YQVEGezGn_IogMRyMv5t3IWHA" // Placeholder
 
     // Generic function to make the API call
     private func makeRequest<Request: Codable, Response: Decodable>(

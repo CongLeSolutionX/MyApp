@@ -30,6 +30,7 @@
 		9ACF24432D95F76E00A4238C /* GeminiModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24422D95F76B00A4238C /* GeminiModelsView.swift */; };
 		9ACF24452D95FCA100A4238C /* SpecialDesginMoreModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24442D95FC9100A4238C /* SpecialDesginMoreModelsView.swift */; };
 		9ACF24472D96000A00A4238C /* GoogleAIStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */; };
+		9AEBC5DB2D9CE59800756CE5 /* ExperimentalModels_InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		9ACF24422D95F76B00A4238C /* GeminiModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiModelsView.swift; sourceTree = "<group>"; };
 		9ACF24442D95FC9100A4238C /* SpecialDesginMoreModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialDesginMoreModelsView.swift; sourceTree = "<group>"; };
 		9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIStudioView.swift; sourceTree = "<group>"; };
+		9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_InfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				9A406DC62D99F500004FEE68 /* Imagen_3_Model_Card_View.swift */,
 				9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */,
 				9A406DCA2D99FEE8004FEE68 /* ImagenGeneratorView.swift */,
+				9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */,
 				9A406DCC2D9A0404004FEE68 /* GeminiModelsDemoView.swift */,
 				9A406DCE2D9A067C004FEE68 /* GoogleAdMobIntegrationView.swift */,
 				9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */,
@@ -212,6 +215,7 @@
 				9ACF24372D95E45600A4238C /* Gemini_2_5_Pro_Experimental_Model_DetailView.swift in Sources */,
 				9ACF24472D96000A00A4238C /* GoogleAIStudioView.swift in Sources */,
 				9ACF24452D95FCA100A4238C /* SpecialDesginMoreModelsView.swift in Sources */,
+				9AEBC5DB2D9CE59800756CE5 /* ExperimentalModels_InfoView.swift in Sources */,
 				9ACF243F2D95F4B400A4238C /* Gemini_2_Flash_Lite_DetailsView.swift in Sources */,
 				9ACF24412D95F57100A4238C /* Gemini_2_Flash_Lite_CardView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
