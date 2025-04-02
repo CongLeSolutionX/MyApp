@@ -35,6 +35,7 @@
 		9AEBC5DF2D9CE8E100756CE5 /* ExperimentalModels_MoreCardDesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DE2D9CE8D500756CE5 /* ExperimentalModels_MoreCardDesignView.swift */; };
 		9AEBC5E12D9CE97100756CE5 /* GeminiEmbedingView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */; };
 		9AEBC5E32D9CEA4700756CE5 /* GeminiEmbedingView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */; };
+		9AEBC5E52D9CEC1200756CE5 /* GeminiEmbedingView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5E42D9CEC1100756CE5 /* GeminiEmbedingView_V3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		9AEBC5DE2D9CE8D500756CE5 /* ExperimentalModels_MoreCardDesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_MoreCardDesignView.swift; sourceTree = "<group>"; };
 		9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V1.swift; sourceTree = "<group>"; };
 		9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V2.swift; sourceTree = "<group>"; };
+		9AEBC5E42D9CEC1100756CE5 /* GeminiEmbedingView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiEmbedingView_V3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */,
 				9A406DCC2D9A0404004FEE68 /* GeminiModelsDemoView.swift */,
 				9A406DCE2D9A067C004FEE68 /* GoogleAdMobIntegrationView.swift */,
+				9AEBC5E42D9CEC1100756CE5 /* GeminiEmbedingView_V3.swift */,
 				9AEBC5E22D9CEA4500756CE5 /* GeminiEmbedingView_V2.swift */,
 				9AEBC5E02D9CE96C00756CE5 /* GeminiEmbedingView_V1.swift */,
 				9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */,
@@ -218,6 +221,7 @@
 				9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */,
 				9AEBC5E12D9CE97100756CE5 /* GeminiEmbedingView_V1.swift in Sources */,
 				9A406DCB2D99FEEB004FEE68 /* ImagenGeneratorView.swift in Sources */,
+				9AEBC5E52D9CEC1200756CE5 /* GeminiEmbedingView_V3.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9ACF24432D95F76E00A4238C /* GeminiModelsView.swift in Sources */,
 				9A406DCF2D9A0686004FEE68 /* GoogleAdMobIntegrationView.swift in Sources */,
