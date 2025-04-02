@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 4/2/25.
 //
-
 import SwiftUI
 import MapKit // Needed for the Map view
 
@@ -41,7 +40,7 @@ struct StoreRowView: View {
     let store: Store
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 5) { // Reduced spacing slightly
             // Optional Banner
             if let banner = store.bannerText {
                 Text(banner)
@@ -52,7 +51,7 @@ struct StoreRowView: View {
                     .background(Color.yellow.opacity(0.3))
                     .foregroundColor(.orange.opacity(0.9))
                     .cornerRadius(10)
-                    .padding(.bottom, 4) // Add spacing below banner
+                    .padding(.bottom, 6) // Slightly more spacing below banner
             }
 
             // Top part: Name and Action Buttons
@@ -60,22 +59,24 @@ struct StoreRowView: View {
                 Text(store.name)
                     .font(.headline)
                     .fontWeight(.semibold)
+                    .lineLimit(1) // Prevent wrapping if name is too long
 
                 Spacer()
 
-                HStack(spacing: 15) {
+                HStack(spacing: 18) { // Slightly increased spacing
                     Image(systemName: store.isFavorite ? "heart.fill" : "heart")
                         .foregroundColor(store.isFavorite ? .starbucksGreen : .gray)
                     Image(systemName: "info.circle")
                         .foregroundColor(.gray)
                 }
-                .imageScale(.large) // Make icons slightly larger
+                .imageScale(.large)
             }
 
             // Address
             Text(store.address)
                 .font(.subheadline)
                 .foregroundColor(.gray)
+                .padding(.bottom, 1) // Minimal padding below address
 
             // Distance and Hours
             Text("\(store.distance) ⋅ \(store.hours)")
@@ -85,7 +86,7 @@ struct StoreRowView: View {
             // Service Icons
             HStack(spacing: 15) {
                 ForEach(store.services, id: \.self) { service in
-                    VStack {
+                    VStack(spacing: 2) { // Reduced spacing in icon VStack
                         Image(systemName: service.iconName)
                             .foregroundColor(.gray)
                         Text(service.rawValue)
@@ -94,9 +95,9 @@ struct StoreRowView: View {
                     }
                 }
             }
-            .padding(.top, 4)
+            .padding(.top, 6) // Adjusted padding above icons
         }
-        .padding(.vertical, 8) // Add padding inside the row
+        .padding(.vertical, 10) // Standard vertical padding for the row content
     }
 }
 
@@ -119,30 +120,35 @@ struct StarbucksOrderView: View {
 
     // Constants for colors
     static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278) // #006241
+    // Use system gray for better light/dark mode adaptability
+    static let groupedBackground = Color(.systemGroupedBackground)
+    static let systemBackground = Color(.systemBackground)
 
     let orderTypes = ["Pickup", "Delivery"]
     let storeListTabs = ["Nearby", "Previous", "Favorites"]
 
     var body: some View {
-        NavigationStack { // Use NavigationStack for potential future navigation
+        NavigationStack {
             VStack(spacing: 0) {
                 // --- Top Bar ---
-                HStack {
+                HStack(spacing: 12) { // Adjusted spacing in top bar
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                         .imageScale(.large)
 
+                    // Custom Segmented Control Look
                     Picker("Order Type", selection: $selectedOrderType) {
                         ForEach(0..<orderTypes.count, id: \.self) { index in
+                             // We apply styling on the Picker, not individual Texts here
                             Text(orderTypes[index]).tag(index)
                         }
                     }
                     .pickerStyle(.segmented)
+                    // Apply the border using background/clipShape for better control
                     .background(
-                        Capsule()
-                            .stroke(Self.starbucksGreen, lineWidth: 1) // Capsule border
+                         Capsule().stroke(Self.starbucksGreen, lineWidth: 1)
                     )
-                    .padding(.horizontal) // Add spacing around picker
+                    .frame(maxWidth: 200) // Constrain width if needed
 
                     Spacer() // Pushes Skip button to the right
 
@@ -152,35 +158,32 @@ struct StarbucksOrderView: View {
                     .foregroundColor(Self.starbucksGreen)
                     .fontWeight(.medium)
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                .background(Color(.systemBackground)) // Use system background for light/dark mode
+                .padding(.horizontal, 16) // Standard horizontal padding
+                .padding(.vertical, 10)  // Standard vertical padding
+                .background(Self.systemBackground) // Use system background
 
                 // --- Map Area ---
                 ZStack(alignment: .bottomTrailing) {
-                    // The actual Map View
                     Map(coordinateRegion: $mapRegion, showsUserLocation: true)
-                        // Add a blue dot overlay simulating current location (MapKit does this with showsUserLocation)
-                        .overlay( // Simple overlay to mimic blue dot if needed for demo
+                         .overlay( // Simple overlay to mimic blue dot if needed for demo
                              Circle()
                                  .fill(.blue)
                                  .opacity(0.7)
                                  .frame(width: 15, height: 15)
                                  .overlay(Circle().stroke(.white, lineWidth: 2))
                                  // Position this precisely if needed, MapKit handles the real one
-                                 // .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                          )
 
                     // Overlay Buttons on Map
-                    VStack(spacing: 10) {
+                    VStack(spacing: 12) { // Adjusted spacing between map buttons
                         Button {
                             // TODO: Center map on user location
                         } label: {
-                            Image(systemName: "location.fill") // Changed icon slightly
-                                .padding()
-                                .background(.background) // Use background material
+                            Image(systemName: "location.fill")
+                                .padding(12) // Adjusted padding inside circle
+                                .background(.thinMaterial) // Use thinMaterial for better look
                                 .clipShape(Circle())
-                                .shadow(radius: 3)
+                                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1) // Subtle shadow
                         }
 
                         Button {
@@ -188,17 +191,17 @@ struct StarbucksOrderView: View {
                         } label: {
                              Text("Filter")
                                 .fontWeight(.medium)
-                                .padding(.horizontal, 20)
+                                .padding(.horizontal, 25) // More horizontal padding
                                 .padding(.vertical, 10)
-                                .background(.background)
+                                .background(.thinMaterial) // Use thinMaterial
                                 .clipShape(Capsule())
-                                .shadow(radius: 3)
+                                .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1) // Subtle shadow
                         }
                     }
-                    .padding() // Padding for the VStack containing buttons
-                    .foregroundColor(Self.starbucksGreen) // Color for buttons
+                    .padding(16) // Standard padding for the VStack containing buttons
+                    .foregroundColor(Self.starbucksGreen)
                 }
-                .frame(height: 250) // Fixed height for the map area
+                .frame(height: 250)
 
                 // --- Store List Tabs ---
                 Picker("Stores", selection: $selectedStoreListTab) {
@@ -207,26 +210,33 @@ struct StarbucksOrderView: View {
                    }
                }
                .pickerStyle(.segmented)
-               .padding(.horizontal)
-               .padding(.vertical, 8)
-               .background(Color(.systemGroupedBackground)) // Slightly off-white background
+               .padding(.horizontal, 16) // Standard horizontal padding
+               .padding(.vertical, 10)   // Standard vertical padding
+               .background(Self.groupedBackground) // Use grouped background
 
                 // --- Store List ---
                 List {
                     ForEach(stores) { store in
                         StoreRowView(store: store)
-                           // Remove default List separators if needed and use custom Dividers
                            .listRowSeparator(.hidden) // Hide default separators
-                           .overlay(Divider().padding(.leading), alignment: .bottom) // Add custom divider with padding
-                           .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)) // Adjust list row padding
+                           // Add custom divider precisely
+                           .overlay(alignment: .bottom) {
+                               // Ensure divider aligns with content padding
+                               Divider().padding(.leading, 16)
+                           }
+                           // Standard row insets
+                           .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                     }
                 }
-                .listStyle(.plain) // Use plain style to remove default List background/insets
-                .background(Color(.systemGroupedBackground)) // Match tab background
+                .listStyle(.plain) // Use plain style
+                .background(Self.groupedBackground) // Match tab background
+                // Add top padding to separate list from picker visually if needed
+                // .padding(.top, 1) // Optional: subtle space
             }
-            .ignoresSafeArea(edges: .top) // Let content go under status bar if needed, adjust as required
-            // .navigationTitle("Order") // Optional: Add a title if needed later
-             .navigationBarHidden(true) // Hide the default navigation bar if desired
+             // Only ignore bottom safe area if TabView handles top
+             .ignoresSafeArea(edges: .bottom)
+             .background(Self.groupedBackground) // Set overall background
+             .navigationBarHidden(true)
         }
     }
 }
@@ -235,12 +245,22 @@ struct StarbucksOrderView: View {
 
 struct MainTabView: View {
     @State private var selectedTab = 2 // Default to "Order" tab (index 2)
-    
-    // Use init to customize tab bar appearance globally if needed
+
     init() {
-       // Example: Customize Tab Bar appearance (optional)
-       // UITabBar.appearance().backgroundColor = UIColor.systemGray6
-       // UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+       // Customize Tab Bar appearance globally (ensure done only once)
+       let appearance = UITabBarAppearance()
+       appearance.configureWithOpaqueBackground()
+       appearance.backgroundColor = UIColor.systemGray6 // Match typical tab bar background
+
+       // Apply appearance settings
+       UITabBar.appearance().standardAppearance = appearance
+       if #available(iOS 15.0, *) {
+           UITabBar.appearance().scrollEdgeAppearance = appearance
+       }
+       // Optional: Customize segmented control appearance globally
+//       UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(StarbucksOrderView.starbucksGreen)
+//       UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+//       UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
     }
 
     var body: some View {
@@ -257,9 +277,8 @@ struct MainTabView: View {
                 }
                 .tag(1)
 
-            StarbucksOrderView() // Embed the main Order view here
+            StarbucksOrderView()
                 .tabItem {
-                     // Use custom Color Literal if exact green is needed and asset not available
                     Label("Order", systemImage: "cup.and.saucer.fill")
                 }
                 .tag(2)
@@ -276,14 +295,13 @@ struct MainTabView: View {
                 }
                 .tag(4)
         }
-        // Apply accent color for the selected tab item
-         .tint(StarbucksOrderView.starbucksGreen)
+        .tint(StarbucksOrderView.starbucksGreen) // Apply tint for selected item icon/text
     }
 }
 
 // MARK: - App Entry Point & Preview
 
-// Main App Struct (if this is the entry point)
+// Main App Struct simulation
 // @main
 // struct StarbucksAppCloneApp: App {
 //     var body: some Scene {
@@ -296,13 +314,14 @@ struct MainTabView: View {
 // Preview Provider
 struct StarbucksOrderView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView() // Preview the entire TabView structure
-            .ignoresSafeArea(edges: .all)
-//            .preferredColorScheme(.dark) // Optional: Preview in dark mode
+        MainTabView()
+           // Remove ignoresSafeArea from preview if MainTabView handles it.
+           // Test different states if needed
+           // .preferredColorScheme(.dark)
     }
 }
-
-// Custom Color Extension (if needed)
+//
+//// Custom Color Extension (Keep for consistency)
 //extension Color {
 //    static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278) // #006241
 //    // Add other custom Starbucks colors if necessary
