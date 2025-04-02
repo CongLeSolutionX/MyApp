@@ -18,6 +18,7 @@
 		9AEBC5FD2D9D8BE300756CE5 /* StarbucksOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5FC2D9D8BE300756CE5 /* StarbucksOrderView.swift */; };
 		9AEBC5FF2D9D909D00756CE5 /* DeliveryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5FE2D9D909D00756CE5 /* DeliveryInfoView.swift */; };
 		9AEBC6012D9DA1F200756CE5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6002D9DA1F000756CE5 /* HomeView.swift */; };
+		9AEBC6032D9DAD6E00756CE5 /* HomeTestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6022D9DAD6E00756CE5 /* HomeTestingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		9AEBC5FC2D9D8BE300756CE5 /* StarbucksOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksOrderView.swift; sourceTree = "<group>"; };
 		9AEBC5FE2D9D909D00756CE5 /* DeliveryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoView.swift; sourceTree = "<group>"; };
 		9AEBC6002D9DA1F000756CE5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9AEBC6022D9DAD6E00756CE5 /* HomeTestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTestingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AEBC6022D9DAD6E00756CE5 /* HomeTestingView.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AEBC6002D9DA1F000756CE5 /* HomeView.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AEBC6032D9DAD6E00756CE5 /* HomeTestingView.swift in Sources */,
 				9AEBC6012D9DA1F200756CE5 /* HomeView.swift in Sources */,
 				9AEBC5F92D9D893D00756CE5 /* StarbucksHistoryView.swift in Sources */,
 				9AEBC5FB2D9D8B3300756CE5 /* OfferView.swift in Sources */,

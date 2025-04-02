@@ -98,6 +98,7 @@ struct HomeView: View {
 #Preview {
     HomeView()
 }
+
 // --- Data Structures ---
 
 struct PromoItem: Identifiable {
