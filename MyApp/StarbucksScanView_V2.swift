@@ -16,7 +16,7 @@ extension Color {
     static let starbucksGold = Color(red: 0.8, green: 0.6, blue: 0.2) // Approximate
 }
 
-struct StarbucksScanView: View {
+struct StarStruckScanView: View {
     // State to manage the selected tab ("Scan & pay" or "Scan only")
     @State private var selectedScanMode = 1 // Default to "Scan only" based on the request
     let scanModes = ["Scan & pay", "Scan only"]
@@ -380,7 +380,7 @@ struct CustomBottomTabBar: View { // Remains the same
 
 struct StarbucksScanView_Previews: PreviewProvider {
     static var previews: some View {
-        StarbucksScanView()
+        StarStruckScanView()
         // Preview showing Scan Only mode by default
 //        StarbucksScanView(selectedScanMode: 1)
 

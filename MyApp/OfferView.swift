@@ -102,11 +102,11 @@ struct CouponOfferView: View {
                 .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 5) {
-                Text("Coupon available")
+                Text("BÌNH MINH ƠI DẬY CHƯA?")
                     .font(.headline)
                     .fontWeight(.semibold)
 
-                Text("Code-4292: $3 for any handcrafted drink Expires 4/3/25.")
+                Text("Coupon Code-4292: $3 for any handcrafted drink Expires 4/3/25.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .lineLimit(2) // Allow text to wrap
@@ -168,7 +168,7 @@ struct SpecialOfferView: View {
 
             // Text and Button Area
             VStack(alignment: .leading, spacing: 10) {
-                Text("Sip on something special")
+                Text("Cà phê sáng với tôi được không?")
                     .font(.title3)
                     .fontWeight(.semibold)
 
