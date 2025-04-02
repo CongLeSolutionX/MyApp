@@ -13,6 +13,7 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */; };
+		9AEBC6092D9DB4D900756CE5 /* StarbucksGiftCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksGiftCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
@@ -147,6 +150,7 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AEBC6092D9DB4D900756CE5 /* StarbucksGiftCardView.swift in Sources */,
 				9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
