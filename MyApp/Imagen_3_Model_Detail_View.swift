@@ -8,11 +8,11 @@
 import SwiftUI
 
 // Represents a single detail item in the model information list
-struct ModelDetailRow: View {
+struct                     Imagen3ModelDetailRow: View {
     let iconName: String
     let property: String
     let descriptionView: AnyView // Use AnyView to allow different description layouts
-
+    
     var body: some View {
         HStack(alignment: .top, spacing: 15) {
             // Icon and Property Name
@@ -24,15 +24,15 @@ struct ModelDetailRow: View {
                     .font(.body)
             }
             .frame(minWidth: 180, alignment: .leading) // Minimum width for consistency
-
+            
             Spacer() // Pushes description to the right
-
+            
             // Description View
             descriptionView
                 .font(.body)
                 .multilineTextAlignment(.leading) // Align text to leading edge
                 .frame(maxWidth: .infinity, alignment: .leading) // Take remaining space
-
+            
         }
         .padding(.vertical, 10) // Vertical padding for each row
     }
@@ -43,7 +43,7 @@ struct Imagen3DetailsView: View {
     var body: some View {
         ScrollView { // Allow scrolling if content exceeds screen height
             VStack(alignment: .leading, spacing: 15) {
-
+                
                 // Header: Model Name and Link Icon
                 HStack {
                     Text("Imagen 3")
@@ -53,25 +53,25 @@ struct Imagen3DetailsView: View {
                         .foregroundColor(.gray)
                 }
                 .padding(.bottom, 5)
-
+                
                 // Model Description Paragraph
                 Text("Imagen 3 is our highest quality text-to-image model, capable of generating images with even better detail, richer lighting and fewer distracting artifacts than our previous models.")
                     .font(.body)
                     .foregroundColor(.secondary) // Match the slightly muted text color
                     .padding(.bottom, 15)
-
+                
                 // Model Details Section Header
                 Text("Model details")
                     .font(.headline)
                     .padding(.bottom, 5)
-
+                
                 // Card container for details
                 VStack(alignment: .leading, spacing: 0) {
                     // Header Row Separator (mimics the table header line)
                     Divider()
-
+                    
                     // Model Code Row
-                    ModelDetailRow(
+                    Imagen3ModelDetailRow(
                         iconName: "display", // System icon similar to computer screen
                         property: "Model code",
                         descriptionView: AnyView(
@@ -80,9 +80,9 @@ struct Imagen3DetailsView: View {
                         )
                     )
                     Divider() // Separator between rows
-
+                    
                     // Supported Data Types Row
-                    ModelDetailRow(
+                    Imagen3ModelDetailRow(
                         iconName: "doc.text", // System icon similar to document
                         property: "Supported data types",
                         descriptionView: AnyView(
@@ -103,13 +103,13 @@ struct Imagen3DetailsView: View {
                         )
                     )
                     Divider()
-
+                    
                     // Token Limits Row
-                    ModelDetailRow(
+                    Imagen3ModelDetailRow(
                         iconName: "t.circle", // System icon for 'T'/Token
                         property: "Token limits",
                         descriptionView: AnyView(
-                             VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: 4) {
                                 HStack {
                                     Text("Input token limit:")
                                         .fontWeight(.medium)
@@ -126,17 +126,17 @@ struct Imagen3DetailsView: View {
                         )
                     )
                     Divider()
-
+                    
                     // Latest Update Row
-                    ModelDetailRow(
+                    Imagen3ModelDetailRow(
                         iconName: "calendar", // System icon for calendar
                         property: "Latest update",
                         descriptionView: AnyView(
                             Text("February 2025")
                         )
                     )
-                     Divider() // Final Divider
-
+                    Divider() // Final Divider
+                    
                 }
                 .background(Color(.systemBackground)) // Ensure background matches system
                 .cornerRadius(8)
@@ -144,7 +144,7 @@ struct Imagen3DetailsView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1) // Border like the image
                 )
-
+                
             }
             .padding() // Overall padding for the content
         }

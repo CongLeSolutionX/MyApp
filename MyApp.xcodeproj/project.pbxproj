@@ -31,6 +31,7 @@
 		9ACF24452D95FCA100A4238C /* SpecialDesginMoreModelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24442D95FC9100A4238C /* SpecialDesginMoreModelsView.swift */; };
 		9ACF24472D96000A00A4238C /* GoogleAIStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */; };
 		9AEBC5DB2D9CE59800756CE5 /* ExperimentalModels_InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */; };
+		9AEBC5DD2D9CE64700756CE5 /* ExperimentalModels_CardDesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		9ACF24442D95FC9100A4238C /* SpecialDesginMoreModelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialDesginMoreModelsView.swift; sourceTree = "<group>"; };
 		9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIStudioView.swift; sourceTree = "<group>"; };
 		9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_InfoView.swift; sourceTree = "<group>"; };
+		9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_CardDesignView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */,
 				9A406DCA2D99FEE8004FEE68 /* ImagenGeneratorView.swift */,
 				9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */,
+				9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */,
 				9A406DCC2D9A0404004FEE68 /* GeminiModelsDemoView.swift */,
 				9A406DCE2D9A067C004FEE68 /* GoogleAdMobIntegrationView.swift */,
 				9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */,
@@ -209,6 +212,7 @@
 				9ACF24432D95F76E00A4238C /* GeminiModelsView.swift in Sources */,
 				9A406DCF2D9A0686004FEE68 /* GoogleAdMobIntegrationView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AEBC5DD2D9CE64700756CE5 /* ExperimentalModels_CardDesignView.swift in Sources */,
 				9A406DC52D99F48C004FEE68 /* Imagen_3_Model_Detail_View.swift in Sources */,
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
 				9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */,
@@ -371,7 +375,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -411,7 +415,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
