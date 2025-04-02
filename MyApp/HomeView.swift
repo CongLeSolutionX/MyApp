@@ -252,50 +252,61 @@ struct FeaturedCardView: View {
 }
 
 // --- Tab Bar ---
-
 struct TabBarView: View {
     let starbucksGreen = Color(red: 0, green: 0.4, blue: 0.2) // Approximation
-    let unselectedGray = Color(UIColor.systemGray)
+    // Removed the SwiftUI unselectedGray definition from here as it's not directly used below
 
     @State private var selectedTab = 0 // State to track selected tab
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Color.clear // Placeholder content for each tab
-                .tabItem {
-                    Label("Home", systemImage: selectedTab == 0 ? "house.fill" : "house")
-                }.tag(0)
-
-            Color.clear
-                .tabItem {
-                    Label("Scan", systemImage: "qrcode.viewfinder")
-                }.tag(1)
+            // ... (Tab Items remain the same) ...
+             Color.clear // Placeholder content for each tab
+                 .tabItem {
+                     Label("Home", systemImage: selectedTab == 0 ? "house.fill" : "house")
+                 }.tag(0)
 
              Color.clear
                  .tabItem {
-                     Label("Order", systemImage: "cup.and.saucer") // Using a filled version if selected
-                 }.tag(2)
+                     Label("Scan", systemImage: "qrcode.viewfinder")
+                 }.tag(1)
 
-            Color.clear
-                .tabItem {
-                    Label("Gift", systemImage: "gift") // Using a filled version if selected
-                }.tag(3)
+              Color.clear
+                  .tabItem {
+                      Label("Order", systemImage: "cup.and.saucer") // Using a filled version if selected
+                  }.tag(2)
 
-            Color.clear
-                .tabItem {
-                    Label("Offers", systemImage: selectedTab == 4 ? "star.fill" : "star")
-                }.tag(4)
+             Color.clear
+                 .tabItem {
+                     Label("Gift", systemImage: "gift") // Using a filled version if selected
+                 }.tag(3)
+
+             Color.clear
+                 .tabItem {
+                     Label("Offers", systemImage: selectedTab == 4 ? "star.fill" : "star")
+                 }.tag(4)
         }
-        // Apply accent color AFTER the TabView definition
         .accentColor(starbucksGreen) // Color for the selected tab item
-        // Custom background for the tab bar area if needed
         .onAppear {
-             // Customize Tab Bar appearance (optional, might require more UIKit bridging)
-             // For basic background color:
-             UITabBar.appearance().backgroundColor = UIColor.systemGray6 // Light background
-//             UITabBar.appearance().unselectedItemTintColor = unselectedGray // Color for unselected items
-        }
+             // Customize Tab Bar appearance using UIKit types
+             let appearance = UITabBarAppearance()
+             appearance.configureWithOpaqueBackground() // Standard appearance
+             appearance.backgroundColor = UIColor.systemGray6 // Light background
 
+             // Set unselected item color using UIColor (THE FIX)
+             appearance.stackedLayoutAppearance.normal.iconColor = UIColor.systemGray
+             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+
+              // Apply the appearance to standard and scroll edge states
+             UITabBar.appearance().standardAppearance = appearance
+             if #available(iOS 15.0, *) {
+                 UITabBar.appearance().scrollEdgeAppearance = appearance
+             } else {
+                 // ---- Alternatively, for simpler pre-iOS 15 style: ----
+                  UITabBar.appearance().backgroundColor = UIColor.systemGray6
+                  UITabBar.appearance().unselectedItemTintColor = UIColor.systemGray
+             }
+        }
     }
 }
 
