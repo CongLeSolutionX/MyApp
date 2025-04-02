@@ -7,7 +7,7 @@
 import SwiftUI
 import MapKit // Needed for the Map view
 
-// MARK: - Data Model
+// MARK: - Data Model (Unchanged)
 
 struct Store: Identifiable {
     let id = UUID()
@@ -16,7 +16,7 @@ struct Store: Identifiable {
     let distance: String
     let hours: String
     let services: [ServiceType]
-    var isFavorite: Bool
+    var isFavorite: Bool // This determines the heart icon
     let bannerText: String?
 
     enum ServiceType: String {
@@ -33,9 +33,9 @@ struct Store: Identifiable {
     }
 }
 
-// MARK: - Helper Views
+// MARK: - Helper Views (Unchanged)
 
-// Represents a single row in the store list (Used for Nearby/Favorites)
+// Represents a single row in the store list (Used for Nearby/Favorites/Previous)
 struct StoreRowView: View {
     let store: Store
 
@@ -65,9 +65,11 @@ struct StoreRowView: View {
 
                 HStack(spacing: 18) {
                     Image(systemName: store.isFavorite ? "heart.fill" : "heart")
-                        .foregroundColor(store.isFavorite ? .starbucksGreen : .gray)
+                        .foregroundColor(store.isFavorite ? StarbucksOrderView.starbucksGreen : .gray)
+                        // Add tap gesture if needed to toggle favorite status
                     Image(systemName: "info.circle")
                         .foregroundColor(.gray)
+                        // Add tap gesture for info if needed
                 }
                 .imageScale(.large)
             }
@@ -79,6 +81,8 @@ struct StoreRowView: View {
                 .padding(.bottom, 1)
 
             // Distance and Hours
+            // Note: Favorites might not always have an up-to-date distance.
+            // Consider omitting it or adding a placeholder if distance isn't relevant here.
             Text("\(store.distance) ⋅ \(store.hours)")
                 .font(.subheadline)
                 .foregroundColor(.gray)
@@ -101,18 +105,21 @@ struct StoreRowView: View {
     }
 }
 
-// View specifically for the "No previous stores" message
-struct NoPreviousStoresView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) { // Align left like list items
-            Text("No previous stores")
-                .font(.title2) // Slightly larger prominent heading
-                .fontWeight(.semibold) // Make it bold
+// Generic View for empty states (Used for Previous/Favorites)
+struct NoItemsView: View {
+    let title: String
+    let message: String
 
-            Text("Once you order from a store, it will be here for you to choose.")
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            Text(message)
                 .font(.subheadline)
-                .foregroundColor(.secondary) // Use secondary color for subtlety
-                .lineLimit(nil) // Allow wrapping if needed on smaller screens
+                .foregroundColor(.secondary)
+                .lineLimit(nil)
 
              Spacer() // Pushes content to the top
         }
@@ -123,7 +130,7 @@ struct NoPreviousStoresView: View {
     }
 }
 
-// MARK: - Main Order View
+// MARK: - Main Order View (Updated)
 
 struct StarbucksOrderView: View {
     // State variables
@@ -133,15 +140,18 @@ struct StarbucksOrderView: View {
         center: CLLocationCoordinate2D(latitude: 33.74, longitude: -117.99), // Approx. Garden Grove
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
-    // Sample Data - Assume 'previousStores' and 'favoriteStores' would be populated differently
+
+    // Sample Data
     @State private var nearbyStores: [Store] = [
         Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil),
         Store(name: "Target Garden Grove 193", address: "13831 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 8:00 PM", services: [.inStore], isFavorite: false, bannerText: "Order ahead not available"),
         Store(name: "Magnolia & Trask", address: "13471 Magnolia St, Garden Grove", distance: "1.2 mi", hours: "Open until 8:30 PM", services: [.inStore, .driveThru], isFavorite: false, bannerText: nil)
     ]
-    // Add state for previous and favorite stores (can be empty initially)
-    @State private var previousStores: [Store] = []
-    @State private var favoriteStores: [Store] = []
+    @State private var previousStores: [Store] = [] // Empty for now
+    @State private var favoriteStores: [Store] = [ // ADDED SAMPLE FAVORITES
+        Store(name: "Brookhurst & Westminster", address: "13992 Brookhurst St, Garden Grove", distance: "0.9 mi", hours: "Open until 9:30 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil), // Already favorite
+        Store(name: "Harbor & Chapman", address: "1290 S Harbor Blvd, Anaheim", distance: "2.5 mi", hours: "Open until 10:00 PM", services: [.inStore, .driveThru], isFavorite: true, bannerText: nil) // Assume this was favorited elsewhere
+    ]
 
     // Constants for colors
     static let starbucksGreen = Color(red: 0, green: 0.384, blue: 0.278) // #006241
@@ -154,7 +164,7 @@ struct StarbucksOrderView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // --- Top Bar ---
+                // --- Top Bar (Unchanged) ---
                 HStack(spacing: 12) {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -169,9 +179,9 @@ struct StarbucksOrderView: View {
                     .background(
                          Capsule().stroke(Self.starbucksGreen, lineWidth: 1)
                     )
-                    .frame(maxWidth: 200)
+                    .frame(maxWidth: 200) // Keep a reasonable width
 
-                    Spacer()
+                    Spacer() // Pushes Skip button to the right
 
                     Button("Skip") { /* TODO: Skip action */ }
                         .foregroundColor(Self.starbucksGreen)
@@ -179,53 +189,56 @@ struct StarbucksOrderView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(Self.systemBackground)
+                .background(Self.systemBackground) // Use system background for top bar
 
-                // --- Map Area ---
+                // --- Map Area (Unchanged) ---
                 ZStack(alignment: .bottomTrailing) {
                     Map(coordinateRegion: $mapRegion, showsUserLocation: true)
-                         .overlay(
+                         .overlay( // Center marker overlay
                              Circle()
                                  .fill(.blue)
                                  .opacity(0.7)
                                  .frame(width: 15, height: 15)
                                  .overlay(Circle().stroke(.white, lineWidth: 2))
                          )
+                         // Add annotations for stores if needed based on selected tab
 
                     VStack(spacing: 12) {
+                         // Center Map Button
                         Button { /* TODO: Center map */ } label: {
                             Image(systemName: "location.fill")
                                 .padding(12)
-                                .background(.thinMaterial)
+                                .background(.thinMaterial) // Use material for frosting effect
                                 .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
                         }
 
+                        // Filter Button
                         Button { /* TODO: Show Filter */ } label: {
                              Text("Filter")
                                 .fontWeight(.medium)
                                 .padding(.horizontal, 25)
                                 .padding(.vertical, 10)
-                                .background(.thinMaterial)
+                                .background(.thinMaterial) // Use material
                                 .clipShape(Capsule())
                                 .shadow(color: .black.opacity(0.15), radius: 3, x: 0, y: 1)
                         }
                     }
                     .padding(16)
-                    .foregroundColor(Self.starbucksGreen)
+                    .foregroundColor(Self.starbucksGreen) // Apply tint to buttons
                 }
-                .frame(height: 250)
+                 .frame(height: 250) // Fixed height for the map
 
-                // --- Store List Tabs ---
+                // --- Store List Tabs (Unchanged) ---
                 Picker("Stores", selection: $selectedStoreListTab) {
                    ForEach(0..<storeListTabs.count, id: \.self) { index in
                        Text(storeListTabs[index]).tag(index)
                    }
                }
-               .pickerStyle(.segmented)
-               .padding(.horizontal, 16)
-               .padding(.vertical, 10)
-               .background(Self.groupedBackground)
+               .pickerStyle(.segmented) // Standard segmented control
+               .padding(.horizontal, 16) // Consistent horizontal padding
+               .padding(.vertical, 10)    // Vertical padding around the picker
+               .background(Self.groupedBackground) // Background matches the list area
 
                 // --- Conditional Content Area (List or Message) ---
                 // Use a switch statement for clarity
@@ -234,26 +247,31 @@ struct StarbucksOrderView: View {
                     storeListView(for: nearbyStores)
                 case 1: // Previous
                     if previousStores.isEmpty {
-                        NoPreviousStoresView()
+                        // Use the reusable NoItemsView
+                        NoItemsView(
+                            title: "No previous stores",
+                            message: "Once you order from a store, it will be here for you to choose."
+                        )
                     } else {
-                        // If previousStores is not empty, show the list
                         storeListView(for: previousStores)
                     }
                 case 2: // Favorites
-                     // Placeholder: Show "No Favorites" or list if not empty
-                     if favoriteStores.isEmpty {
-                          NoItemsView(title: "No favorite stores", message: "Tap the heart icon on a store to add it here.")
-                     } else {
-                         storeListView(for: favoriteStores)
-                     }
+                    if favoriteStores.isEmpty {
+                        // Use the reusable NoItemsView
+                         NoItemsView(
+                             title: "No favorite stores",
+                             message: "Tap the heart icon on a store detail page to add it here." // Updated message
+                         )
+                    } else {
+                         storeListView(for: favoriteStores) // Display list of favorites
+                    }
                 default:
                     EmptyView() // Should not happen
                 }
             }
-             .background(Self.groupedBackground) // Ensure overall background is consistent
-             .navigationBarHidden(true)
-             // Don't ignore safe area here if MainTabView handles it
-             // .ignoresSafeArea(edges: .bottom)
+             .background(Self.groupedBackground) // Ensure overall grouped background
+             .navigationBarHidden(true) // Hide the default navigation bar
+             // .ignoresSafeArea(edges: .bottom) // Let MainTabView handle safe area
         }
     }
 
@@ -262,49 +280,31 @@ struct StarbucksOrderView: View {
     private func storeListView(for stores: [Store]) -> some View {
         List {
             ForEach(stores) { store in
+                // Use the existing StoreRowView
                 StoreRowView(store: store)
-                   .listRowSeparator(.hidden)
-                   .overlay(alignment: .bottom) {
-                       Divider().padding(.leading, 16)
+                   .listRowSeparator(.hidden) // Hide default separators
+                   .overlay(alignment: .bottom) { // Add custom separator
+                       Divider().padding(.leading, 16) // Indented divider
                    }
-                   .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                   .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)) // Control row padding
             }
         }
-        .listStyle(.plain)
-        .background(Self.groupedBackground) // Important for list background color
-    }
-
-    // More generic NoItemsView for reusability (e.g., for Favorites)
-    @ViewBuilder
-    private func NoItemsView(title: String, message: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.title2)
-                .fontWeight(.semibold)
-
-            Text(message)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .lineLimit(nil)
-
-             Spacer()
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 20)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(StarbucksOrderView.groupedBackground)
+        .listStyle(.plain) // Use plain style for seamless background
+        .background(Self.groupedBackground) // Important for list background color matching tabs
+        .scrollContentBackground(.hidden) // Hides the default background on newer iOS versions
     }
 }
 
-// MARK: - TabView Wrapper (Main App Structure) - Unchanged
+// MARK: - TabView Wrapper (Main App Structure - Unchanged)
 
 struct MainTabView: View {
     @State private var selectedTab = 2 // Default to "Order" tab (index 2)
 
     init() {
+       // Configure Tab Bar Appearance (Unchanged)
        let appearance = UITabBarAppearance()
        appearance.configureWithOpaqueBackground()
-       appearance.backgroundColor = UIColor.systemGray6
+       appearance.backgroundColor = UIColor.systemGray6 // Or your desired color
 
        UITabBar.appearance().standardAppearance = appearance
        if #available(iOS 15.0, *) {
@@ -322,7 +322,7 @@ struct MainTabView: View {
                 .tabItem { Label("Scan", systemImage: "qrcode.viewfinder") }
                 .tag(1)
 
-            StarbucksOrderView() // This now contains the conditional logic
+            StarbucksOrderView() // Contains the logic for Nearby/Previous/Favorites
                 .tabItem { Label("Order", systemImage: "cup.and.saucer.fill") }
                 .tag(2)
 
@@ -334,23 +334,31 @@ struct MainTabView: View {
                 .tabItem { Label("Offers", systemImage: "star.fill") }
                 .tag(4)
         }
-        .tint(StarbucksOrderView.starbucksGreen)
+        .tint(StarbucksOrderView.starbucksGreen) // Set the tint color for selected tab items
     }
 }
 
-// MARK: - App Entry Point & Preview
+// MARK: - App Entry Point & Preview (Unchanged)
+
+// Main App Definition (Example)
+// @main
+// struct StarbucksCloneApp: App {
+//     var body: some Scene {
+//         WindowGroup {
+//             MainTabView()
+//         }
+//     }
+// }
 
 // Preview Provider
 struct StarbucksOrderView_Previews: PreviewProvider {
     static var previews: some View {
-        // Preview with "Previous" tab selected initially to see the new view
+         // Preview the whole TabView structure
          MainTabView()
-            .environment(\.locale, .init(identifier: "en")) // Optional: ensure consistent locale
+            .environment(\.locale, .init(identifier: "en"))
 
-         // Example: Preview specifically the NoPreviousStoresView
-//         NoPreviousStoresView()
-//            .previewLayout(.sizeThatFits)
-//            .padding()
+         // Preview just the OrderView, potentially forced to Favorites tab
+         // StarbucksOrderView(selectedStoreListTab: 2) // Pass initial state for preview
     }
 }
 //
