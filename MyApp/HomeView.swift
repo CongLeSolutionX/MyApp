@@ -33,8 +33,10 @@ struct HomeView: View {
                         .padding(.bottom, 80) // Add padding to avoid overlap with TabView
                 }
                 .padding(.top) // Padding for the top of the scroll content
+                .border(Color.red)
             }
             .background(Color(UIColor.systemGray6)) // Background for the scrollable area
+            .border(Color.blue)
 
             // Custom Tab Bar View
             TabBarView()
