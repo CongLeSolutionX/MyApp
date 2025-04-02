@@ -654,3 +654,17 @@ struct ParentView: View {
 #Preview {
     ParentView()
 }
+
+#Preview("Preview CongLeSolutionX Experimental Model") {
+    let geminiModel = GeminiModel(
+        name: "CongLeSolutionX Experimental",
+        imageName: "My-meme-original",
+        identifier: "gemini-2.5-pro-exp-03-25",
+        inputs: "Audio, images, videos, and text",
+        outputs: "Text",
+        optimizedFor: "Enhanced thinking and reasoning, multimodal understanding, advanced coding, and more"
+    )
+
+    GeminiCardView(model: geminiModel, isMinimized: .constant(false))
+}
+
