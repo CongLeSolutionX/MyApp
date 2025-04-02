@@ -32,6 +32,7 @@
 		9ACF24472D96000A00A4238C /* GoogleAIStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */; };
 		9AEBC5DB2D9CE59800756CE5 /* ExperimentalModels_InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */; };
 		9AEBC5DD2D9CE64700756CE5 /* ExperimentalModels_CardDesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */; };
+		9AEBC5DF2D9CE8E100756CE5 /* ExperimentalModels_MoreCardDesignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC5DE2D9CE8D500756CE5 /* ExperimentalModels_MoreCardDesignView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		9ACF24462D96000300A4238C /* GoogleAIStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIStudioView.swift; sourceTree = "<group>"; };
 		9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_InfoView.swift; sourceTree = "<group>"; };
 		9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_CardDesignView.swift; sourceTree = "<group>"; };
+		9AEBC5DE2D9CE8D500756CE5 /* ExperimentalModels_MoreCardDesignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalModels_MoreCardDesignView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */,
 				9A406DCA2D99FEE8004FEE68 /* ImagenGeneratorView.swift */,
 				9AEBC5DA2D9CE59600756CE5 /* ExperimentalModels_InfoView.swift */,
+				9AEBC5DE2D9CE8D500756CE5 /* ExperimentalModels_MoreCardDesignView.swift */,
 				9AEBC5DC2D9CE63E00756CE5 /* ExperimentalModels_CardDesignView.swift */,
 				9A406DCC2D9A0404004FEE68 /* GeminiModelsDemoView.swift */,
 				9A406DCE2D9A067C004FEE68 /* GoogleAdMobIntegrationView.swift */,
@@ -213,6 +216,7 @@
 				9A406DCF2D9A0686004FEE68 /* GoogleAdMobIntegrationView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AEBC5DD2D9CE64700756CE5 /* ExperimentalModels_CardDesignView.swift in Sources */,
+				9AEBC5DF2D9CE8E100756CE5 /* ExperimentalModels_MoreCardDesignView.swift in Sources */,
 				9A406DC52D99F48C004FEE68 /* Imagen_3_Model_Detail_View.swift in Sources */,
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
 				9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */,
