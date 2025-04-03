@@ -222,45 +222,35 @@ struct MediumTabView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedSystemTab) {
-            // --- Home Tab ---
-            MediumHomeContentView()
-                .tag(0)
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
+            TabView(selection: $selectedSystemTab) {
+                // --- Home Tab ---
+                MediumHomeContentView()
+                    .tag(0)
+                    .tabItem { Label("Home", systemImage: "house") }
 
-            // --- Search Tab ---
-            MediumSearchContentView() // Use the new Search Screen View
-                .tag(1)
-                .tabItem {
-                    Label("Search", systemImage: "magnifyingglass")
-                }
+                // --- Search Tab ---
+                MediumSearchContentView() // This now includes the loading state logic
+                    .tag(1)
+                    .tabItem { Label("Search", systemImage: "magnifyingglass") }
 
-            // --- Bookmarks Tab (Placeholder) ---
-             Text("Bookmarks Tab Content")
-                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                 .background(Color.mediumBlack.ignoresSafeArea())
-                 .foregroundColor(.white)
-                .tag(2)
-                .tabItem {
-                    Label("Bookmarks", systemImage: "bookmark")
-                }
+                // --- Bookmarks Tab ---
+                 Text("Bookmarks Tab Content")
+                     /* ... styling ... */
+                    .tag(2)
+                    .tabItem { Label("Bookmarks", systemImage: "bookmark") }
+                    .toolbarBackground(Color.mediumBlack.opacity(0.97), for: .tabBar) // Ensure tab bar background applies
 
-            // --- Profile Tab ---
-             // Wrap Profile in NavigationView to potentially handle settings navigation later
-             NavigationView {
-                 MediumProfileContentView()
-             }
-             .navigationViewStyle(.stack) // IMPORTANT: Apply here for Profile
-             .tag(3)
-             .tabItem {
-                  Label("Profile", systemImage: "person.crop.circle")
-              }
+                // --- Profile Tab ---
+                 NavigationView { MediumProfileContentView() }
+                     .navigationViewStyle(.stack)
+                     .tag(3)
+                     .tabItem { Label("Profile", systemImage: "person.crop.circle") }
+                     .toolbarBackground(Color.mediumBlack.opacity(0.97), for: .tabBar) // Ensure tab bar background applies
+
+            }
+             .accentColor(.white)
+             .preferredColorScheme(.dark)
         }
-         .accentColor(.white) // Sets the tint color for selected tab items
-         .preferredColorScheme(.dark) // Enforce dark mode
-    }
 }
 
 // MARK: - App Entry Point

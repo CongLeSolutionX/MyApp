@@ -763,44 +763,123 @@ struct TrendingArticleRowView: View {
 
 struct MediumSearchContentView: View {
     @State private var searchText: String = ""
+    @State private var isLoading: Bool = true // Start in loading state
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                // Explore Title
+                // --- Static Elements (Always Visible) ---
                 Text("Explore")
                     .font(.system(size: 34, weight: .bold))
                     .foregroundColor(.mediumWhite)
                     .padding(.horizontal)
-                    .padding(.top) // Add padding from the top safe area
+                    .padding(.top)
 
-                // Search Bar
                 SearchBarView(searchText: $searchText)
                     .padding(.horizontal)
 
-                // Search Topics
-                SearchTopicScrollView(topics: sampleSearchTopics)
-                     // No horizontal padding needed here as SearchTopicScrollView handles it
+                // --- Conditional Content (Loading vs. Loaded) ---
+                if isLoading {
+                     SearchLoadingPlaceholderView()
+                         .transition(.opacity.animation(.easeInOut(duration: 0.3))) // Fade transition
+                } else {
+                    // --- Actual Loaded Content ---
+                    // Search Topics (Only shown when loaded)
+                    SearchTopicScrollView(topics: sampleSearchTopics)
+                         .transition(.opacity.animation(.easeInOut(duration: 0.3))) // Fade transition
 
-                // Trending Section Title
-                Text("Trending on Medium")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.mediumWhite)
-                    .padding(.horizontal)
-                    .padding(.top, 10) // Space above trending title
+                    // Trending Section Title (Only shown when loaded)
+                    Text("Trending on Medium")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.mediumWhite)
+                        .padding(.horizontal)
+                        .padding(.top, 10) // Space above trending title
+                         .transition(.opacity.animation(.easeInOut(duration: 0.3))) // Fade transition
 
-                // Trending Articles List
-                LazyVStack(spacing: 0) { // Use LazyVStack if list can be long
-                    ForEach(sampleTrendingArticles) { article in
-                        TrendingArticleRowView(article: article)
-                        Divider().background(Color.mediumDarkGray.opacity(0.5)).padding(.leading, 65) // Indent divider
+                    // Trending Articles List (Only shown when loaded)
+                    LazyVStack(spacing: 0) {
+                        ForEach(sampleTrendingArticles) { article in
+                            TrendingArticleRowView(article: article)
+                            Divider().background(Color.mediumDarkGray.opacity(0.5)).padding(.leading, 65)
+                        }
                     }
+                     .transition(.opacity.animation(.easeInOut(duration: 0.3))) // Fade transition
+
                 }
+
                 Spacer(minLength: 80) // Spacer for TAB bar clearance
             }
         }
          .background(Color.mediumBlack.ignoresSafeArea())
          .navigationBarHidden(true) // Hide the default navigation bar
          .ignoresSafeArea(edges: .bottom) // Allow content to scroll under tab bar
+         .onAppear {
+             // Simulate data fetching
+             simulateDataFetch()
+         }
+         // Optional: Add a shimmer effect if desired (more complex)
+         // .modifier(ShimmerEffect(active: isLoading))
     }
+
+    // Helper function to simulate network delay
+    private func simulateDataFetch() {
+        // Only run simulation if currently loading
+        guard isLoading else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Simulate 3 second load
+            withAnimation(.easeInOut(duration: 0.5)) { // Smoothly transition out of loading state
+                 isLoading = false
+            }
+        }
+    }
+}
+
+// MARK: --- NEW: Loading Placeholder View ---
+// This view will contain the structure of the content *while loading*,
+// allowing us to apply the .redacted modifier easily.
+struct SearchLoadingPlaceholderView: View {
+    // Create placeholder data to inform the layout for .redacted
+    // Use the *actual* data model structure
+     private let placeholderArticles: [TrendingArticle] = (1...5).map { index in
+         TrendingArticle(
+             rank: index,
+             authorName: "Placeholder Author Name \(index)", // Content doesn't matter, structure does
+             authorImageName: "person.circle", // System icon ok for structure
+             publicationName: "Placeholder Publication",
+             publicationIconName: "doc.plaintext", // System icon ok for structure
+             primaryAuthorNameForDisplay: "Placeholder Display Name",
+             title: "This is a Placeholder Title for the Article",
+             datePublished: "Just now"
+         )
+     }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            // Redacted "Trending on Medium" Title
+             Text("Trending on Medium")
+                 .font(.system(size: 20, weight: .bold))
+                 .foregroundColor(.mediumWhite) // Keep original style
+                 .padding(.horizontal)
+                 .padding(.top, 10) // Match spacing of actual content
+                 .redacted(reason: .placeholder) // Apply redaction
+
+            // Redacted Article List
+            LazyVStack(spacing: 0) { // Match LazyVStack spacing
+                ForEach(placeholderArticles) { article in
+                    TrendingArticleRowView(article: article) // Use the REAL Row View
+                         // Redact the entire row content
+                         .redacted(reason: .placeholder)
+
+                    // Avoid redacting the divider for cleaner look, or redact if preferred
+                     Divider().background(Color.mediumDarkGray.opacity(0.5)).padding(.leading, 65)
+                     // .redacted(reason: .placeholder) // Optional: redact divider
+                }
+            }
+        }
+    }
+}
+
+#Preview("SearchLoadingPlaceholderView") {
+    SearchLoadingPlaceholderView()
+        .preferredColorScheme(.dark)
 }
