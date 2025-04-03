@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9A25757F2D9EF60600D8AD5C /* RSSNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25757E2D9EF60000D8AD5C /* RSSNewsView.swift */; };
-		9A496D5D2D9F0B420039AD51 /* CHANGE_ME_DADDY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A496D5C2D9F0B360039AD51 /* CHANGE_ME_DADDY.swift */; };
+		9A496D5D2D9F0B420039AD51 /* DataSpotlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A496D5C2D9F0B360039AD51 /* DataSpotlightView.swift */; };
 		9A5B25732D9EFF3500D66ED8 /* HRSEarlyTerminationNoticesView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5B25722D9EFF3200D66ED8 /* HRSEarlyTerminationNoticesView_V2.swift */; };
 		9A5B25752D9EFF7400D66ED8 /* hsr_notices.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9A5B25742D9EFF7400D66ED8 /* hsr_notices.xml */; };
-		9A5B25812D9F0B0800D66ED8 /* CHANGE_ME_DADDY.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9A5B25802D9F0B0600D66ED8 /* CHANGE_ME_DADDY.xml */; };
+		9A5B25812D9F0B0800D66ED8 /* data-spotlight.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9A5B25802D9F0B0600D66ED8 /* data-spotlight.xml */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -21,10 +21,10 @@
 
 /* Begin PBXFileReference section */
 		9A25757E2D9EF60000D8AD5C /* RSSNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSNewsView.swift; sourceTree = "<group>"; };
-		9A496D5C2D9F0B360039AD51 /* CHANGE_ME_DADDY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHANGE_ME_DADDY.swift; sourceTree = "<group>"; };
+		9A496D5C2D9F0B360039AD51 /* DataSpotlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSpotlightView.swift; sourceTree = "<group>"; };
 		9A5B25722D9EFF3200D66ED8 /* HRSEarlyTerminationNoticesView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRSEarlyTerminationNoticesView_V2.swift; sourceTree = "<group>"; };
 		9A5B25742D9EFF7400D66ED8 /* hsr_notices.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hsr_notices.xml; sourceTree = "<group>"; };
-		9A5B25802D9F0B0600D66ED8 /* CHANGE_ME_DADDY.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CHANGE_ME_DADDY.xml; sourceTree = "<group>"; };
+		9A5B25802D9F0B0600D66ED8 /* data-spotlight.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "data-spotlight.xml"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,8 +48,8 @@
 		9A5B256F2D9EFA9200D66ED8 /* HRSEarlyTerminationNoticesView */ = {
 			isa = PBXGroup;
 			children = (
-				9A496D5C2D9F0B360039AD51 /* CHANGE_ME_DADDY.swift */,
-				9A5B25802D9F0B0600D66ED8 /* CHANGE_ME_DADDY.xml */,
+				9A496D5C2D9F0B360039AD51 /* DataSpotlightView.swift */,
+				9A5B25802D9F0B0600D66ED8 /* data-spotlight.xml */,
 				9A5B25722D9EFF3200D66ED8 /* HRSEarlyTerminationNoticesView_V2.swift */,
 				9A5B25742D9EFF7400D66ED8 /* hsr_notices.xml */,
 			);
@@ -153,7 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A5B25812D9F0B0800D66ED8 /* CHANGE_ME_DADDY.xml in Resources */,
+				9A5B25812D9F0B0800D66ED8 /* data-spotlight.xml in Resources */,
 				9A5B25752D9EFF7400D66ED8 /* hsr_notices.xml in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
@@ -170,7 +170,7 @@
 				9A25757F2D9EF60600D8AD5C /* RSSNewsView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
-				9A496D5D2D9F0B420039AD51 /* CHANGE_ME_DADDY.swift in Sources */,
+				9A496D5D2D9F0B420039AD51 /* DataSpotlightView.swift in Sources */,
 				9A5B25732D9EFF3500D66ED8 /* HRSEarlyTerminationNoticesView_V2.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
