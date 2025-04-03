@@ -130,6 +130,9 @@ struct CongLeSolutionXAnimatedView: View {
     }
 }
 
+#Preview("MediumAnimatedLaunchView3Part") {
+    MediumAnimatedLaunchView3Part()
+}
 // --- Preview ---
 struct CongLeSolutionXAnimatedView_Previews: PreviewProvider {
     static var previews: some View {
