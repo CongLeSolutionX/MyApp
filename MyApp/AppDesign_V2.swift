@@ -8,57 +8,36 @@
 // MARK: - Data Models (Model Layer)
 import Foundation
 
-// Represents the overall API Response structure
+// Represents the overall structure of the JSON:API response
 struct APIResponse<T: Codable>: Codable {
-    let jsonapi: JSONAPIMeta?
     let data: [T]
-    let meta: ResponseMetadata?
-    let links: ResponseLinks?
+    let links: Links?
+    let meta: Meta? // Use the updated Meta struct
 }
 
-struct JSONAPIMeta: Codable {
-    let version: String?
-    let meta: JSONAPILinksContainer?
-}
-
-struct JSONAPILinksContainer: Codable {
-    let links: JSONAPISelfLink?
-}
-
-struct JSONAPISelfLink: Codable {
-    let `self`: Link?
-}
-
-// Represents a single HSR Early Termination Notice record
+// Represents a single notice resource object
 struct Notice: Codable, Identifiable {
-    let type: String
     let id: String
-    let links: RecordLinks?
-    let attributes: NoticeAttributes?
-    // Relationships are present but seem minimal/null in examples,
-    // can be fleshed out if needed.
-    // let relationships: NoticeRelationships?
+    let type: String
+    let links: SelfLink?
+    let attributes: Attributes
+    // Add relationships if needed
 }
 
-struct RecordLinks: Codable {
-    let `self`: Link?
-}
+// Attributes of a notice
+struct Attributes: Codable {
+    let title: String
+    let created: String // Keep as String for ISO dates
+    let updated: String // Keep as String for ISO dates
+    let acquiredParty: String? // Make optional if sometimes missing
+    let acquiringParty: String? // Make optional if sometimes missing
+    let date: String // Keep as String for YYYY-MM-DD dates
+    let acquiredEntities: [String]? // Array of strings
+    let transactionNumber: String? // Make optional if sometimes missing
 
-// Attributes of a Notice record
-struct NoticeAttributes: Codable {
-    let title: String?
-    let created: String? // Consider converting to Date
-    let updated: String? // Consider converting to Date
-    let acquiredParty: String?
-    let acquiringParty: String?
-    let date: String? // Consider converting to Date
-    let acquiredEntities: [String]?
-    let transactionNumber: String?
-    let tags: [String]?
-
-    // Use CodingKeys to map JSON keys with hyphens/different names
+    // Use CodingKeys to map JSON keys (snake_case) to Swift properties (camelCase)
     enum CodingKeys: String, CodingKey {
-        case title, created, updated, date, tags
+        case title, created, updated, date
         case acquiredParty = "acquired-party"
         case acquiringParty = "acquiring-party"
         case acquiredEntities = "acquired-entities"
@@ -66,33 +45,130 @@ struct NoticeAttributes: Codable {
     }
 }
 
-// Metadata included in the response (for pagination, counts)
-struct ResponseMetadata: Codable {
-    // Using flexible String type as per docs, though Int might be appropriate
-    let count: String? // Or Int? - Total records for the query (if single item, often 1)
-    let page: String?  // Or Int?
-    let pagesTotal: String? // Or Int?
-    let recordsThisPage: String? // Or Int?
-    let recordsTotal: String? // Or Int?
-
-     enum CodingKeys: String, CodingKey {
-        case count, page
-        case pagesTotal = "pages-total"
-        case recordsThisPage = "records-this-page"
-        case recordsTotal = "records-total"
-     }
+// General links structure
+struct Links: Codable {
+    let `self`: LinkObject? // Use backticks for reserved keyword
+    let first: LinkObject?
+    let prev: LinkObject?
+    let next: LinkObject?
+    let last: LinkObject?
 }
 
-// Links included in the response (self-link for the request)
-struct ResponseLinks: Codable {
-    let `self`: Link?
-    // Could add first, next, prev, last if API supports them
-}
-
-struct Link: Codable {
+// Link object containing the href
+struct LinkObject: Codable {
     let href: String?
 }
 
+// Self link specific structure (if only self is needed sometimes)
+struct SelfLink: Codable {
+    let `self`: LinkObject?
+}
+
+// --- FIX IS HERE ---
+// Metadata associated with the API response
+struct Meta: Codable {
+    // Changed 'count' from String? to Int?
+    let count: Int?
+
+    // If the API ALSO provides these as strings, keep them as strings.
+    // Check the actual JSON you receive to be sure.
+     let recordsTotal: String?
+     let recordsFiltered: String?
+     let recordsReturned: String?
+
+//     Add CodingKeys if the JSON keys are different (e.g., records_total)
+//     enum CodingKeys: String, CodingKey {
+//         case count
+//          case recordsTotal = "records_total"
+//     }
+}
+//import Foundation
+//
+//// Represents the overall API Response structure
+//struct APIResponse<T: Codable>: Codable {
+//    let jsonapi: JSONAPIMeta?
+//    let data: [T]
+//    let meta: ResponseMetadata?
+//    let links: ResponseLinks?
+//}
+//
+//struct JSONAPIMeta: Codable {
+//    let version: String?
+//    let meta: JSONAPILinksContainer?
+//}
+//
+//struct JSONAPILinksContainer: Codable {
+//    let links: JSONAPISelfLink?
+//}
+//
+//struct JSONAPISelfLink: Codable {
+//    let `self`: Link?
+//}
+//
+//// Represents a single HSR Early Termination Notice record
+//struct Notice: Codable, Identifiable {
+//    let type: String
+//    let id: String
+//    let links: RecordLinks?
+//    let attributes: NoticeAttributes?
+//    // Relationships are present but seem minimal/null in examples,
+//    // can be fleshed out if needed.
+//    // let relationships: NoticeRelationships?
+//}
+//
+//struct RecordLinks: Codable {
+//    let `self`: Link?
+//}
+//
+//// Attributes of a Notice record
+//struct NoticeAttributes: Codable {
+//    let title: String?
+//    let created: String? // Consider converting to Date
+//    let updated: String? // Consider converting to Date
+//    let acquiredParty: String?
+//    let acquiringParty: String?
+//    let date: String? // Consider converting to Date
+//    let acquiredEntities: [String]?
+//    let transactionNumber: String?
+//    let tags: [String]?
+//
+//    // Use CodingKeys to map JSON keys with hyphens/different names
+//    enum CodingKeys: String, CodingKey {
+//        case title, created, updated, date, tags
+//        case acquiredParty = "acquired-party"
+//        case acquiringParty = "acquiring-party"
+//        case acquiredEntities = "acquired-entities"
+//        case transactionNumber = "transaction-number"
+//    }
+//}
+//
+//// Metadata included in the response (for pagination, counts)
+//struct ResponseMetadata: Codable {
+//    // Using flexible String type as per docs, though Int might be appropriate
+//    let count: String? // Or Int? - Total records for the query (if single item, often 1)
+//    let page: String?  // Or Int?
+//    let pagesTotal: String? // Or Int?
+//    let recordsThisPage: String? // Or Int?
+//    let recordsTotal: Int? // Or Int?
+//
+//     enum CodingKeys: String, CodingKey {
+//        case count, page
+//        case pagesTotal = "pages-total"
+//        case recordsThisPage = "records-this-page"
+//        case recordsTotal = "records-total"
+//     }
+//}
+//
+//// Links included in the response (self-link for the request)
+//struct ResponseLinks: Codable {
+//    let `self`: Link?
+//    // Could add first, next, prev, last if API supports them
+//}
+//
+//struct Link: Codable {
+//    let href: String?
+//}
+//
 // Custom Error Type
 enum APIError: Error, LocalizedError {
     case invalidURL
@@ -416,8 +492,8 @@ class NoticesListViewModel: ObservableObject {
                 self.notices.append(contentsOf: newNotices)
             }
 
-             let totalRecords = Int(response.meta?.recordsTotal ?? "0") ?? 0
-             self.canLoadMore = self.notices.count < totalRecords
+            let totalRecords = Int(response.meta?.recordsTotal ?? "0")
+            self.canLoadMore = self.notices.count < totalRecords ?? 0
 
         } catch {
             // --- Error Handling ---
@@ -612,18 +688,18 @@ struct NoticeRow: View {
 
      var body: some View {
          VStack(alignment: .leading) {
-             Text(notice.attributes?.title ?? "No Title")
+             Text(notice.attributes.title)
                  .font(.headline)
              HStack {
-                 Text("Acquiring: \(notice.attributes?.acquiringParty ?? "N/A")")
+                 Text("Acquiring: \(notice.attributes.acquiringParty ?? "N/A")")
                  Spacer()
-                 Text("Acquired: \(notice.attributes?.acquiredParty ?? "N/A")")
+                 Text("Acquired: \(notice.attributes.acquiredParty ?? "N/A")")
              }
              .font(.subheadline)
              .foregroundColor(.gray)
-             Text("Date: \(formattedDate(notice.attributes?.date))")
+             Text("Date: \(formattedDate(notice.attributes.date))")
                  .font(.caption)
-             Text("Transaction: \(notice.attributes?.transactionNumber ?? "N/A")")
+             Text("Transaction: \(notice.attributes.transactionNumber ?? "N/A")")
                     .font(.caption)
          }
          .padding(.vertical, 4)
@@ -648,17 +724,17 @@ struct NoticeDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                Text(viewModel.notice.attributes?.title ?? "No Title")
+                Text(viewModel.notice.attributes.title)
                     .font(.largeTitle)
 
-                DetailRow(label: "Transaction #", value: viewModel.notice.attributes?.transactionNumber)
-                DetailRow(label: "Date", value: viewModel.notice.attributes?.date) // Format date properly
-                DetailRow(label: "Acquiring Party", value: viewModel.notice.attributes?.acquiringParty)
-                DetailRow(label: "Acquired Party", value: viewModel.notice.attributes?.acquiredParty)
+                DetailRow(label: "Transaction #", value: viewModel.notice.attributes.transactionNumber)
+                DetailRow(label: "Date", value: viewModel.notice.attributes.date) // Format date properly
+                DetailRow(label: "Acquiring Party", value: viewModel.notice.attributes.acquiringParty)
+                DetailRow(label: "Acquired Party", value: viewModel.notice.attributes.acquiredParty)
 
                 Text("Acquired Entities:")
                     .font(.headline)
-                if let entities = viewModel.notice.attributes?.acquiredEntities, !entities.isEmpty {
+                if let entities = viewModel.notice.attributes.acquiredEntities, !entities.isEmpty {
                     ForEach(entities, id: \.self) { entity in
                         Text("- \(entity)")
                     }
@@ -669,8 +745,8 @@ struct NoticeDetailView: View {
                  Divider()
 
                  DetailRow(label: "Record ID", value: viewModel.notice.id)
-                 DetailRow(label: "Created", value: viewModel.notice.attributes?.created) // Format date
-                 DetailRow(label: "Updated", value: viewModel.notice.attributes?.updated) // Format date
+                DetailRow(label: "Created", value: viewModel.notice.attributes.created) // Format date
+                DetailRow(label: "Updated", value: viewModel.notice.attributes.updated) // Format date
 
             }
             .padding()
