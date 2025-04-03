@@ -473,17 +473,6 @@ struct MainTabView: View {
     }
 }
 
-// MARK: - App Entry Point
-
-//@main
-//struct StarbucksCloneApp: App { // Replace with your actual App name
-//    var body: some Scene {
-//        WindowGroup {
-//            MainTabView() // Start the app with the main tab container
-//        }
-//    }
-//}
-
 // MARK: - Previews
 
 #Preview() {
