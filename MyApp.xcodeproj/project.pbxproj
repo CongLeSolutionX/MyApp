@@ -15,6 +15,7 @@
 		9A5D3C9B2D9E14D8001D24B5 /* MessageView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D3C9A2D9E14D1001D24B5 /* MessageView_V2.swift */; };
 		9A5D3C9E2D9E152E001D24B5 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5D3C9D2D9E152E001D24B5 /* GoogleGenerativeAI */; };
 		9A5D3CA02D9E173A001D24B5 /* MessageView_V2_Continue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D3C9F2D9E172F001D24B5 /* MessageView_V2_Continue.swift */; };
+		9A5D3CA22D9E18D4001D24B5 /* MessageView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D3CA12D9E18D0001D24B5 /* MessageView_V3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 		9A5D3C982D9E0C1D001D24B5 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		9A5D3C9A2D9E14D1001D24B5 /* MessageView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView_V2.swift; sourceTree = "<group>"; };
 		9A5D3C9F2D9E172F001D24B5 /* MessageView_V2_Continue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView_V2_Continue.swift; sourceTree = "<group>"; };
+		9A5D3CA12D9E18D0001D24B5 /* MessageView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView_V3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A5D3C942D9DF1C0001D24B5 /* AirbnbProfileHostView.swift */,
 				9A5D3C962D9DF394001D24B5 /* ProfileView_V2.swift */,
+				9A5D3CA12D9E18D0001D24B5 /* MessageView_V3.swift */,
 				9A5D3C982D9E0C1D001D24B5 /* MessageView.swift */,
 				9A5D3C9A2D9E14D1001D24B5 /* MessageView_V2.swift */,
 				9A5D3C9F2D9E172F001D24B5 /* MessageView_V2_Continue.swift */,
@@ -178,6 +181,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A5D3C972D9DF39A001D24B5 /* ProfileView_V2.swift in Sources */,
 				9A5D3CA02D9E173A001D24B5 /* MessageView_V2_Continue.swift in Sources */,
+				9A5D3CA22D9E18D4001D24B5 /* MessageView_V3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
