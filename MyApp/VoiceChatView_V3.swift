@@ -1,5 +1,5 @@
 ////
-////  VoiceChatView_V2.swift
+////  VoiceChatView_V3.swift
 ////  MyApp
 ////
 ////  Created by Cong Le on 4/2/25.
@@ -9,7 +9,7 @@
 //// Import necessary frameworks
 //import GoogleGenerativeAI // Make sure this package is added to your project
 //import Speech // For Speech Recognition
-//import AVFoundation // For Audio Session
+//import AVFoundation // For Audio Session & Application Permissions
 //
 //// MARK: - Configuration (API Key - DO NOT HARDCODE IN PRODUCTION)
 //struct AIConfig {
@@ -29,14 +29,14 @@
 //    case responseParsingFailed(String)
 //    case speechRecognizerError(String)
 //    case audioSessionError(String)
-//    case permissionDenied(String)
+//    case permissionDenied(String) // Parameter describes which permission
 //    case chatInitializationFailed(String)
 //    case unknownError(String?) // Catch-all
 //
 //    var errorDescription: String? {
 //        switch self {
 //        case .apiKeyMissing:
-//            return "Gemini API Key is missing. Please configure it in AIConfig.swift and ensure it's valid."
+//            return "Gemini API Key is missing. Please configure it."
 //        case .apiError(let message):
 //            return "Gemini API Error: \(message)"
 //        case .responseParsingFailed(let reason):
@@ -46,7 +46,7 @@
 //        case .audioSessionError(let reason):
 //            return "Audio Session Error: \(reason)"
 //        case .permissionDenied(let permission):
-//            return "Permission denied for \(permission). Please enable it in Settings."
+//            return "\(permission) permission denied. Please enable it in Settings."
 //        case .chatInitializationFailed(let reason):
 //            return "Failed to initialize Gemini chat: \(reason)"
 //        case .unknownError(let message):
@@ -83,55 +83,54 @@
 //
 //    init() {
 //        recognizer = SFSpeechRecognizer() // Use default locale
-//         // Check initial permissions synchronously if possible, then request async if needed
-//         let speechStatus = SFSpeechRecognizer.authorizationStatus()
-//         let micStatus = AVAudioSession.sharedInstance().recordPermission
-//         self.hasPermissions = (speechStatus == .authorized) && (micStatus == .granted)
 //
-//         // Request permissions async if they haven't been determined or granted yet
+//        // Check initial permissions using iOS 17+ APIs where available
+//        let speechStatus = SFSpeechRecognizer.authorizationStatus()
+//        let micStatus = AVAudioApplication.shared.recordPermission // Use new API
+//
+//        self.hasPermissions = (speechStatus == .authorized) && (micStatus == .granted)
+//
+//        // Request permissions async if they haven't been determined or granted yet
 //        if speechStatus == .notDetermined || micStatus == .undetermined || !self.hasPermissions {
 //             Task {
 //                 await requestPermissions()
 //             }
-//         } else if speechStatus == .denied || speechStatus == .restricted || micStatus == .denied {
+//        } else if speechStatus == .denied || speechStatus == .restricted || micStatus == .denied {
 //            // If already denied, set error message
-//            self.errorMessage = AIError.permissionDenied("Microphone or Speech Recognition").localizedDescription
-//         }
+//            let deniedPermission = (speechStatus != .authorized) ? "Speech Recognition" : "Microphone"
+//            self.errorMessage = AIError.permissionDenied(deniedPermission).localizedDescription
+//        }
 //    }
 //
-////    deinit {
-////        // Clean up resources when the object is deallocated
-////        resetAudio()
-////        resetRecognition()
-////    }
-//    deinit {
-//        print("SpeechRecognizer deinit starting.")
-//        // Clean up resources when the object is deallocated.
-//        // Since deinit is non-isolated, and resetAudio/resetRecognition are MainActor-isolated (due to class annotation),
-//        // we must explicitly dispatch the calls to the Main Actor.
-//        Task {
-//            // Use await MainActor.run to ensure these methods execute on the main thread.
-//            // We capture [weak self] to avoid prolonging the object's lifetime if the task execution is delayed,
-//            // although in deinit context the object is already being destroyed.
-//            await MainActor.run { [weak self] in
-//                // Check if self still exists when this task runs.
-//                guard let strongSelf = self else {
-//                    print("Deinit Task: Self was nil during cleanup attempt on Main Actor.")
-//                    return
-//                }
-//                print("Deinit Task: Executing cleanup on Main Actor for \(strongSelf).")
-//                strongSelf.resetAudio()
-//                strongSelf.resetRecognition(cancelTask: true) // Ensure recognition task is stopped/cancelled
-//                print("Deinit Task: Cleanup finished on Main Actor.")
-//            }
-//        }
-//        print("SpeechRecognizer deinit finished scheduling cleanup.") // deinit returns synchronously
-//    }
+//   deinit {
+//       print("SpeechRecognizer deinit starting.")
+//       // Clean up resources when the object is deallocated.
+//       // Since deinit is non-isolated, and resetAudio/resetRecognition are MainActor-isolated (due to class annotation),
+//       // we must explicitly dispatch the calls to the Main Actor.
+//       Task {
+//           // Use await MainActor.run to ensure these methods execute on the main thread.
+//           // We capture [weak self] to avoid prolonging the object's lifetime if the task execution is delayed,
+//           // although in deinit context the object is already being destroyed.
+//           // NOTE: Swift 6 language mode warns about capturing 'self' here, as the task outlives deinit.
+//           // This is currently the standard pattern to call actor-isolated instance methods for cleanup.
+//           await MainActor.run { [weak self] in
+//               guard let strongSelf = self else {
+//                   print("Deinit Task: Self was nil during cleanup attempt on Main Actor.")
+//                   return
+//               }
+//               print("Deinit Task: Executing cleanup on Main Actor for \(strongSelf).")
+//               strongSelf.resetAudio()
+//               strongSelf.resetRecognition(cancelTask: true)
+//               print("Deinit Task: Cleanup finished on Main Actor.")
+//           }
+//       }
+//       print("SpeechRecognizer deinit finished scheduling cleanup.")
+//   }
 //
 //    // --- Permission Handling ---
 //    func requestPermissions() async {
 //        let speechAuthStatus = SFSpeechRecognizer.authorizationStatus()
-//        let micAuthStatus = AVAudioSession.sharedInstance().recordPermission
+//        let micAuthStatus = AVAudioApplication.shared.recordPermission // Use new API
 //
 //        var speechNeedsRequest = false
 //        var micNeedsRequest = false
@@ -171,7 +170,7 @@
 //        }
 //        // Ensure mic request happens only if needed and speech was granted (or already was)
 //        if micNeedsRequest && speechGranted {
-//            micGranted = await requestMicPermission()
+//            micGranted = await requestMicPermission() // Use new request method
 //        }
 //
 //        // Update overall permission status and error message *after* requests
@@ -180,7 +179,8 @@
 //
 //        if !finalPermissions && self.errorMessage == nil {
 //            // Set error message if permissions were not granted after request
-//            self.errorMessage = AIError.permissionDenied("Microphone or Speech Recognition").localizedDescription
+//            let deniedPermission = !speechGranted ? "Speech Recognition" : "Microphone"
+//            self.errorMessage = AIError.permissionDenied(deniedPermission).localizedDescription
 //        } else if finalPermissions {
 //            self.errorMessage = nil // Clear error if permissions are now granted
 //        }
@@ -189,20 +189,19 @@
 //    private func requestSpeechPermission() async -> Bool {
 //        await withCheckedContinuation { continuation in
 //            SFSpeechRecognizer.requestAuthorization { status in
-//                // Ensure continuation runs on main thread if it interacts with UI state later
-//                DispatchQueue.main.async {
+//                DispatchQueue.main.async { // Ensure UI updates (indirectly via hasPermissions) are safe
 //                    continuation.resume(returning: status == .authorized)
 //                }
 //            }
 //        }
 //    }
 //
+//    // Uses new iOS 17+ request method
 //    private func requestMicPermission() async -> Bool {
 //         await withCheckedContinuation { continuation in
-//             AVAudioSession.sharedInstance().requestRecordPermission { granted in
-//                  // Ensure continuation runs on main thread if it interacts with UI state later
-//                 DispatchQueue.main.async {
-//                    continuation.resume(returning: granted)
+//             AVAudioApplication.requestRecordPermission { granted in // Use new API
+//                  DispatchQueue.main.async { // Ensure UI updates are safe
+//                     continuation.resume(returning: granted)
 //                 }
 //             }
 //         }
@@ -233,8 +232,9 @@
 //            audioEngine = AVAudioEngine()
 //            guard let audioEngine = audioEngine else { throw AIError.audioSessionError("Failed to create audio engine.") }
 //
+//            // Use shared session for category setting, still needed
 //            let audioSession = AVAudioSession.sharedInstance()
-//            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers) // Duck others for better recording
+//            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
 //            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
 //
 //            let inputNode = audioEngine.inputNode
@@ -257,7 +257,6 @@
 //                }
 //
 //                // Handle errors or finalization
-//                // Important: Recognition task can finish *before* stopRecording is called if user stops talking for long enough
 //                if error != nil || isFinal {
 //                    print("Stopping recording from recognition task (Error: \(error?.localizedDescription ?? "None"), isFinal: \(isFinal))")
 //                    self.stopRecordingInternal() // Use internal stop to avoid recursion
@@ -266,7 +265,6 @@
 //
 //            // Setup Audio Tap
 //            let recordingFormat = inputNode.outputFormat(forBus: 0)
-//             // Handle potential format errors (e.g., 0 sample rate if mic access denied after check)
 //             guard recordingFormat.sampleRate > 0 else {
 //                 throw AIError.audioSessionError("Invalid audio recording format (Sample Rate: \(recordingFormat.sampleRate)). Microphone access might be restricted.")
 //             }
@@ -282,13 +280,13 @@
 //            self.errorMessage = nil // Clear previous errors
 //             print("Recording started successfully.")
 //
-//        } catch let error as AIError { // Catch specific AIError
-//             print("Specific AIError starting recording: \(error.localizedDescription ?? "Unknown AIError")")
+//        } catch let error as AIError {
+//            print("Specific AIError starting recording: \(error.localizedDescription)")
 //             self.errorMessage = error.localizedDescription
 //             resetAudio()
 //             resetRecognition()
 //             self.isRecording = false
-//        } catch { // Catch any other errors
+//        } catch {
 //            print("Generic Error starting recording: \(error.localizedDescription)")
 //            self.errorMessage = AIError.audioSessionError("Setup failed: \(error.localizedDescription)").localizedDescription
 //            resetAudio()
@@ -305,43 +303,42 @@
 //
 //     // Internal stop function to prevent state issues and potential recursion
 //     private func stopRecordingInternal() {
-//         guard isRecording else { return } // Prevent stopping if not recording
+//         guard isRecording else { return }
 //
 //         print("Executing stopRecordingInternal...")
-//         // Order matters: Stop engine first to prevent further buffer appends
 //         if let engine = audioEngine, engine.isRunning {
 //             engine.stop()
-//              print("Audio engine stopped.")
+//             engine.inputNode.removeTap(onBus: 0) // Remove tap after stopping engine
+//             print("Audio engine stopped and tap removed.")
+//         } else if let engine = audioEngine {
+//             // Ensure tap is removed even if engine wasn't running but tap might exist
+//             engine.inputNode.removeTap(onBus: 0)
+//             print("Audio tap removed (engine was not running).")
 //         }
-//         audioEngine?.inputNode.removeTap(onBus: 0)
-//          print("Audio tap removed.")
 //
-//          // End the request *after* stopping the engine/tap
-//          // Check if request exists and task is not already cancelled/finished
 //          if let req = request, task?.isCancelled == false && task?.isFinishing == false {
-//              req.endAudio() // Signal the end of audio input
+//              req.endAudio()
 //              print("Recognition request endAudio() called.")
 //          }
 //
-//         // Only set isRecording to false *after* operations are done
-//         self.isRecording = false
-//          print("isRecording set to false.")
+//         // Do NOT modify self.isRecording or self.transcript here. Let the calling code manage these
+//         // after potentially retrieving the final transcript.
 //
-//         // Reset resources (task cancellation handled in result handler or deinit)
-//         // Don't reset transcript here, let the calling view handle it after sending
 //         resetAudio() // Resets engine, session active state
 //         resetRecognition(cancelTask: true) // Resets request, and optionally cancels task
 //
-//         print("stopRecordingInternal finished.")
+//         // Set recording state AFTER cleanup methods complete
+//         self.isRecording = false
+//         print("stopRecordingInternal finished, isRecording set to false.")
 //     }
 //
 //    private func resetRecognition(cancelTask: Bool = true) {
 //         print("Resetting recognition (Cancel Task: \(cancelTask))...")
 //         if cancelTask, let task = task, !task.isCancelled {
 //            task.cancel()
+//            self.task = nil // Ensure task property is nilled after cancellation
 //            print("Recognition task cancelled.")
 //         }
-//         self.task = nil
 //         self.request = nil // Release the request object
 //         print("Recognition reset.")
 //    }
@@ -351,23 +348,22 @@
 //        if let engine = audioEngine {
 //            if engine.isRunning {
 //                engine.stop()
-//                 print("Audio engine stopped during reset.")
+//                print("Audio engine stopped during reset.")
 //            }
-//           // Don't remove tap here if stopRecordingInternal already did
-//            // audioEngine?.inputNode.removeTap(onBus: 0)
+//            // Tap removal is handled in stopRecordingInternal now
 //            engine.reset() // Reset internal state
-//            print("Audio engine reset.")
+//            self.audioEngine = nil // Release the engine
+//            print("Audio engine reset and released.")
 //        }
-//        self.audioEngine = nil // Release the engine
 //
-//      // Deactivate audio session (optional - might affect other audio)
-//      // do {
-//      //     try AVAudioSession.sharedInstance().setActive(false)
-//      //      print("Audio session deactivated.")
-//      // } catch {
-//      //     print("Error deactivating audio session: \(error.localizedDescription)")
-//      //     // Don't set errorMessage here usually, as it might overwrite a more critical error
-//      // }
+//      // Deactivate audio session (usually good practice after finishing recording)
+//       do {
+//           try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+//           print("Audio session deactivated.")
+//       } catch {
+//           print("Error deactivating audio session: \(error.localizedDescription)")
+//           // Avoid setting errorMessage here to not overwrite more critical errors
+//       }
 //        print("Audio reset complete.")
 //    }
 //}
@@ -388,33 +384,21 @@
 //
 //    // --- Initialization ---
 //    init() {
-//        // --- Gemini Chat Initialization ---
 //        let apiKey = AIConfig.geminiApiKey
 //        if apiKey.isEmpty || apiKey == "YOUR_API_KEY" {
-//            // Set error state immediately if key is missing/placeholder
-//            // Use _viewErrorMessage to set initial value before view body is rendered
 //             _viewErrorMessage = State(initialValue: AIError.apiKeyMissing.localizedDescription)
+//             _messages = State(initialValue: [ // Add initial instruction even if key is missing
+//                ChatMessage(role: .model, text: "API Key needed. Please configure it.", isError: true)
+//             ])
 //        } else {
-//            // Configure the model and start the chat
-//            // See https://ai.google.dev/tutorials/swift_quickstart
 //            let generativeModel = GenerativeModel(
-//                name: "gemini-1.5-flash-latest", // Or another suitable model
-//                apiKey: apiKey,
-//                 // Optional: Add system instructions, safety settings etc. here
-//                 // systemInstruction: ModelContent("You are a helpful voice assistant."),
-//                 // safetySettings: [...]
-//                 generationConfig: GenerationConfig(
-//                     temperature: 0.7 // Adjust creativity vs predictability
-//                 )
+//                name: "gemini-1.5-flash-latest",
+//                apiKey: apiKey
+//                 // Add other configurations if needed
+//                 // generationConfig: GenerationConfig(temperature: 0.7)
 //            )
-//            // Start a new chat session
-//             // It's okay for geminiChat to be nil initially if key was bad.
-//             // sendMessageToGemini will handle the nil case.
 //            geminiChat = generativeModel.startChat()
-//
-//            // --- Add Initial Welcome Message ---
-//             // Use _messages to set initial value
-//            _messages = State(initialValue: [
+//             _messages = State(initialValue: [
 //                ChatMessage(role: .model, text: "Hello! Tap the mic and start speaking.")
 //             ])
 //        }
@@ -434,58 +418,59 @@
 //                         .background(Color.red.opacity(0.1))
 //                         .textSelection(.enabled)
 //                         .transition(.opacity.animation(.easeInOut))
+//                         .lineLimit(2) // Allow slightly more space for permission errors
 //                 }
 //
 //                 // Chat Messages Area
 //                 ScrollViewReader { scrollViewProxy in
 //                     ScrollView {
-//                         VStack(alignment: .leading, spacing: 5) { // Reduced spacing
+//                         LazyVStack(alignment: .leading, spacing: 5) { // LazyVStack for performance
 //                             ForEach(messages) { message in
 //                                 ChatMessageRow(message: message)
+//                                     .id(message.id) // Ensure each row has a unique ID
 //                             }
 //
 //                             // Show partial transcript while recording
 //                             if speechRecognizer.isRecording && !speechRecognizer.transcript.isEmpty {
 //                                 UserTranscriptRow(text: speechRecognizer.transcript + "...")
-//                                     .id("transcript") // ID for scrolling
+//                                     .id("transcript") // Stable ID for transcript row
 //                             }
 //
 //                             // Loading indicator for Gemini
 //                             if isLoading {
 //                                 HStack {
-//                                     ProgressView()
-//                                         .padding(.leading, 10)
-//                                     Text("Thinking...")
-//                                         .foregroundColor(.secondary)
-//                                         .padding(.leading, 5)
+//                                     ProgressView().padding(.leading, 10)
+//                                     Text("Thinking...").foregroundColor(.secondary).padding(.leading, 5)
 //                                     Spacer()
 //                                 }
-//                                 .id("loading") // ID for scrolling
+//                                 .id("loading") // Stable ID for loading indicator
+//                                 .padding(.vertical, 4)
 //                             }
-//                         } // End VStack
-//                         .padding(.vertical, 5) // Allows content edges to be seen better
+//                         } // End LazyVStack
+//                         .padding(.vertical, 5)
 //                     }
 //                     .padding(.horizontal)
 //                     .padding(.top, 5)
+//                      .scrollDismissesKeyboard(.interactively) // Dismiss keyboard on scroll
 //
 //                     // Scroll to bottom logic
-//                     .onChange(of: messages.count) { _, _ in // Trigger on count change
-//                          scrollMessages(proxy: scrollViewProxy, msgs: messages, loading: isLoading)
+//                     .onChange(of: messages.last?.id) { _, newLastId in // Trigger on last message ID change
+//                        scrollMessages(proxy: scrollViewProxy, targetId: newLastId)
 //                     }
 //                     .onChange(of: speechRecognizer.transcript) { _, newTranscript in
-//                         // Scroll only if recording and transcript isn't empty
 //                         if speechRecognizer.isRecording && !newTranscript.isEmpty {
-//                              withAnimation(.smooth(duration: 0.15)) {
-//                                  scrollViewProxy.scrollTo("transcript", anchor: .bottom)
-//                              }
+//                             scrollMessages(proxy: scrollViewProxy, targetId: "transcript")
 //                         }
 //                     }
 //                     .onChange(of: isLoading) { _, newValue in
-//                         // Scroll when loading starts or stops if needed
-//                         scrollMessages(proxy: scrollViewProxy, msgs: messages, loading: newValue)
+//                         if newValue { // Scroll when loading starts
+//                             scrollMessages(proxy: scrollViewProxy, targetId: "loading")
+//                         } else { // Scroll to last message when loading finishes
+//                             scrollMessages(proxy: scrollViewProxy, targetId: messages.last?.id)
+//                         }
 //                     }
-//                     .onAppear { // Scroll on initial appear
-//                         scrollMessages(proxy: scrollViewProxy, msgs: messages, loading: isLoading)
+//                     .onAppear { // Scroll on initial appear to the last message
+//                         scrollMessages(proxy: scrollViewProxy, targetId: messages.last?.id)
 //                     }
 //                 } // End ScrollViewReader
 //
@@ -496,17 +481,15 @@
 //            }
 //            .navigationTitle("Gemini Voice Chat")
 //            .navigationBarTitleDisplayMode(.inline)
-//            // .onAppear { // Permission check moved to SpeechRecognizer init for earlier feedback
-//            //      Task { await speechRecognizer.requestPermissions() }
-//            // }
-//             // Use standard alert for view-specific errors that aren't permissions
-//             .alert("Chat Error", isPresented: Binding(get: { viewErrorMessage != nil && viewErrorMessage != AIError.apiKeyMissing.localizedDescription }, set: { if !$0 { viewErrorMessage = nil } })) {
+//             // Removed onAppear permission request here, handled in SpeechRecognizer init
+//             // Use standard alert for view-specific errors *that aren't permissions*
+//             .alert("Chat Error", isPresented: Binding(get: { viewErrorMessage != nil }, set: { if !$0 { viewErrorMessage = nil } })) {
 //                 Button("OK", role: .cancel) { }
 //             } message: {
 //                  Text(viewErrorMessage ?? "An unknown error occurred.")
 //             }
 //        } // End NavigationView
-//         .navigationViewStyle(.stack) // Use stack style for better behavior on iPad
+//         .navigationViewStyle(.stack)
 //    } // End body
 //
 //    // --- Computed View for Recording Control ---
@@ -517,22 +500,24 @@
 //            Button {
 //                toggleRecording()
 //            } label: {
-//                ZStack { // Use ZStack for potential background effects or rings
+//                ZStack {
 //                    Circle()
 //                        .fill(speechRecognizer.isRecording ? Color.red.opacity(0.8) : Color.blue.opacity(0.8))
 //                        .frame(width: 70, height: 70)
 //                        .shadow(radius: 5)
 //
 //                    Image(systemName: speechRecognizer.isRecording ? "stop.fill" : "mic.fill")
-//                         .resizable()
-//                         .scaledToFit()
-//                         .foregroundColor(.white)
-//                         .frame(width: 30, height: 30)
+//                         .resizable().scaledToFit().foregroundColor(.white).frame(width: 30, height: 30)
 //                 }
 //            }
 //            .padding(.vertical, 10)
-//            // Disable if API key is missing OR if permissions are not granted AND not currently recording
-//             .disabled((geminiChat == nil && !speechRecognizer.isRecording) || (!speechRecognizer.hasPermissions && !speechRecognizer.isRecording))
+//            // Disable button carefully:
+//            // - If API key is missing (geminiChat is nil) AND not currently recording (allow stopping)
+//            // - OR if permissions are missing AND not currently recording
+//            .disabled(
+//                 (geminiChat == nil && !speechRecognizer.isRecording) ||
+//                 (!speechRecognizer.hasPermissions && !speechRecognizer.isRecording)
+//            )
 //            Spacer()
 //        }
 //        .background(.thinMaterial) // Add a subtle background
@@ -541,46 +526,44 @@
 //    // --- Methods ---
 //
 //    private func toggleRecording() {
-//         // Clear view-specific errors when user tries to record
-//         if viewErrorMessage != nil { viewErrorMessage = nil }
-//
+//         // Always allow stopping if currently recording
 //        if speechRecognizer.isRecording {
 //            print("Toggle: Stopping recording...")
-//            speechRecognizer.stopRecording() // Stop the recognizer
+//            speechRecognizer.stopRecording() // Signal recognizer to stop
 //
-//            // Send the final transcript *after* stopping and getting the final result
-//            // Use a small delay or ideally a completion handler from stopRecording
-//            Task {
-//                 // Give a brief moment for the final recognition result to update the transcript
-//                try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds delay
+//            // Get transcript immediately after stop request. Recognition handler might update it slightly later.
+//            let transcriptToSend = speechRecognizer.transcript
+//            print("Toggle: Transcript obtained immediately after stop: '\(transcriptToSend)'")
 //
-//                let finalTranscript = speechRecognizer.transcript // Grab transcript AFTER stopping
-//                print("Toggle: Final transcript obtained: '\(finalTranscript)'")
-//                if !finalTranscript.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//                    await sendMessageToGemini(message: finalTranscript)
-//                    speechRecognizer.transcript = "" // Clear transcript *after* sending
-//                } else {
-//                     print("Toggle: Final transcript was empty, not sending.")
-//                     speechRecognizer.transcript = "" // Still clear it
+//            if !transcriptToSend.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                 // Send immediately with the captured transcript
+//                 Task {
+//                     await sendMessageToGemini(message: transcriptToSend)
+//                     // Clear transcript *after* sending logic completes (success or error)
+//                     speechRecognizer.transcript = ""
 //                 }
+//            } else {
+//                 print("Toggle: Final transcript was empty, not sending.")
+//                 speechRecognizer.transcript = "" // Clear empty transcript
 //            }
 //        } else {
 //            print("Toggle: Starting recording...")
-//            // Ensure permissions are okay before starting
+//            // Clear specific view errors when user attempts action
+//            if viewErrorMessage != nil { viewErrorMessage = nil }
+//
 //            if speechRecognizer.hasPermissions {
 //                 speechRecognizer.startRecording()
 //            } else {
-//                 // If permissions are not granted, trigger the request again
+//                 // Request permissions again if not granted
 //                 Task {
 //                     print("Toggle: Requesting permissions before starting...")
 //                     await speechRecognizer.requestPermissions()
-//                     // Try starting again only if permissions were granted by the request
+//                     // Try starting only if permissions were granted *after* the request
 //                     if speechRecognizer.hasPermissions {
 //                          print("Toggle: Permissions granted, starting recording now.")
 //                          speechRecognizer.startRecording()
 //                     } else {
 //                          print("Toggle: Permissions still not granted after request.")
-//                          // Error message should already be set by requestPermissions
 //                     }
 //                 }
 //            }
@@ -590,87 +573,68 @@
 //    @MainActor // Ensure UI updates happen on main thread
 //    private func sendMessageToGemini(message: String) async {
 //         guard geminiChat != nil else {
-//            // This case should be handled by init setting viewErrorMessage,
-//             // but double-check for safety.
 //            self.viewErrorMessage = AIError.apiKeyMissing.localizedDescription
 //            return
 //        }
 //        guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-//             print("Attempted to send empty message.")
-//            return // Don't send empty messages
+//            print("Attempted to send empty message.")
+//            return
 //        }
 //
 //        print("Sending to Gemini: \(message)")
 //        isLoading = true
+//        viewErrorMessage = nil // Clear previous view errors before sending
 //        let userMessage = ChatMessage(role: .user, text: message)
 //        messages.append(userMessage)
 //
 //        do {
-//            // Use the initialized geminiChat
 //            guard let chat = geminiChat else {
 //                 throw AIError.chatInitializationFailed("Gemini chat service is not available.")
 //            }
-//
-//            // Send message to the Gemini model
 //            let response = try await chat.sendMessage(message)
+//            isLoading = false // Set loading to false on successful response first
 //
-//            // Handle the response
-//            isLoading = false
 //            if let modelText = response.text {
 //                print("Gemini Response: \(modelText)")
 //                let modelMessage = ChatMessage(role: .model, text: modelText.trimmingCharacters(in: .whitespacesAndNewlines))
 //                messages.append(modelMessage)
-//                self.viewErrorMessage = nil // Clear previous errors on success
 //            } else {
 //                 print("Gemini response text was nil.")
-//                 // If response is nil but no error thrown, treat as parsing failure
 //                 throw AIError.responseParsingFailed("Response content was empty.")
 //            }
 //        } catch let error as GoogleGenerativeAI.GenerateContentError {
-//             isLoading = false
-//             // Handle specific Gemini API errors (e.g., blocked prompt, API key issue)
+//             isLoading = false // Set loading false on error
 //             print("Gemini API GenerateContentError: \(error)")
-//             let specificErrorDesc = "\(error.localizedDescription)" // Get detailed message
-//             self.viewErrorMessage = AIError.apiError(specificErrorDesc).localizedDescription
-//             messages.append(ChatMessage(role: .model, text: self.viewErrorMessage ?? "An API error occurred.", isError: true))
+//             // Extract more specific info if available (e.g., blocked reason)
+//             let detailedDesc = error.localizedDescription
+//             let aiError = AIError.apiError(detailedDesc)
+//             self.viewErrorMessage = aiError.localizedDescription
+//            messages.append(ChatMessage(role: .model, text: aiError.localizedDescription, isError: true))
 //        }
-//         catch let error as AIError { // Catch specific AIError types we defined
+//         catch let error as AIError {
 //             isLoading = false
-//             print("Caught AIError: \(error.localizedDescription ?? "Unknown AIError")")
+//             print("Caught AIError: \(error.localizedDescription)")
 //             self.viewErrorMessage = error.localizedDescription
-//             messages.append(ChatMessage(role: .model, text: error.localizedDescription ?? "An error occurred.", isError: true))
+//             messages.append(ChatMessage(role: .model, text: error.localizedDescription, isError: true))
 //         }
-//        catch { // Catch any other unexpected errors
+//        catch {
 //            isLoading = false
 //             print("Caught unknown error: \(error.localizedDescription)")
-//             let errorDesc = error.localizedDescription
-//             self.viewErrorMessage = AIError.unknownError(errorDesc).localizedDescription
-//             messages.append(ChatMessage(role: .model, text: self.viewErrorMessage ?? "An unknown error occurred.", isError: true))
+//             let errorDesc = error.localizedDescription // Non-optional string
+//             let aiError = AIError.unknownError(errorDesc)
+//             self.viewErrorMessage = aiError.localizedDescription
+//             // Use errorDesc directly, no need for ?? ""
+//             messages.append(ChatMessage(role: .model, text: errorDesc, isError: true))
 //        }
 //    }
 //
-//    // Helper to scroll to the bottom
-//    private func scrollMessages(proxy: ScrollViewProxy, msgs: [ChatMessage], loading: Bool) {
-//        // Determine the last element to scroll to
-//        var lastElementId: UUID? = nil
-//        if loading {
-//            lastElementId = messages.last(where: { $0.role == .user })?.id // Scroll to last user msg before loading
-//        } else {
-//            lastElementId = msgs.last?.id // Scroll to the very last message
+//    // Simplified scroll helper using AnyHashable ID
+//    private func scrollMessages(proxy: ScrollViewProxy, targetId: AnyHashable?) {
+//        guard let id = targetId else {
+//            print("Scroll target ID is nil.")
+//            return
 //        }
-//
-//        // Find the ID to scroll to
-//        let targetId: AnyHashable?
-//        if loading && !speechRecognizer.isRecording { // Scroll to loading indicator if active
-//             targetId = "loading"
-//        } else if speechRecognizer.isRecording && !speechRecognizer.transcript.isEmpty { // Scroll to transcript if active
-//             targetId = "transcript"
-//        } else { // Otherwise scroll to the last message
-//             targetId = msgs.last?.id
-//        }
-//
-//        guard let id = targetId else { return }
-//
+//        print("Scrolling to ID: \(id)")
 //        withAnimation(.easeOut(duration: 0.25)) {
 //            proxy.scrollTo(id, anchor: .bottom)
 //        }
@@ -683,44 +647,40 @@
 //    let message: ChatMessage
 //
 //    var body: some View {
-//        HStack(alignment: .top, spacing: 8) { // Added spacing
+//        HStack(alignment: .top, spacing: 8) {
 //            if message.role == .model {
-//                 // Optional: Add an icon for the model
 //                 Image(systemName: message.isError ? "exclamationmark.triangle.fill" : "brain.head.profile")
-//                     .foregroundColor(message.isError ? .white : .purple)
-//                     .padding(.top, 5) // Align icon slightly
+//                     .symbolRenderingMode(.hierarchical) // Nicer rendering for errors
+//                     .foregroundColor(message.isError ? .red : .purple)
+//                     .padding(.top, 5)
 //            }
 //
 //            if message.role == .user {
-//                Spacer() // Push user message to the right
+//                Spacer()
 //                Text(message.text)
-//                    .padding(12) // Slightly larger padding
+//                    .padding(12)
 //                    .background(Color.blue)
 //                    .foregroundColor(.white)
-//                    .cornerRadius(16, corners: [.topLeft, .bottomLeft, .bottomRight]) // Custom corners
-//                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .trailing) // Limit width
-//                    .textSelection(.enabled)
-//                    .lineLimit(nil) // Allow multiple lines
+//                    .cornerRadius(16, corners: [.topLeft, .bottomLeft, .bottomRight])
+//                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .trailing)
+//                    .textSelection(.enabled).lineLimit(nil)
 //            } else { // Model or Error
 //                Text(message.text)
 //                    .padding(12)
 //                    .background(message.isError ? Color.red.opacity(0.8) : Color(.systemGray5))
 //                    .foregroundColor(message.isError ? .white : Color(.label))
-//                    .cornerRadius(16, corners: [.topRight, .bottomLeft, .bottomRight]) // Custom corners
-//                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .leading) // Limit width
-//                     .textSelection(.enabled)
-//                     .lineLimit(nil) // Allow multiple lines
-//                Spacer() // Push model message to the left
+//                    .cornerRadius(16, corners: [.topRight, .bottomLeft, .bottomRight])
+//                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .leading)
+//                     .textSelection(.enabled).lineLimit(nil)
+//                Spacer()
 //            }
 //
 //            if message.role == .user {
-//                 // Optional: Add icon for the user
 //                 Image(systemName: "person.fill")
-//                     .foregroundColor(.gray)
-//                      .padding(.top, 5)
+//                     .foregroundColor(.gray).padding(.top, 5)
 //            }
 //        }
-//         .padding(.vertical, 4) // Reduced vertical padding between rows
+//         .padding(.vertical, 4)
 //    }
 //}
 //
@@ -733,18 +693,18 @@
 //             Spacer()
 //             Text(text)
 //                 .padding(10)
-//                 .background(Color.blue.opacity(0.6)) // Indicate 'in progress'
+//                 .background(Color.blue.opacity(0.6))
 //                 .foregroundColor(.white.opacity(0.9))
 //                 .cornerRadius(15, corners: [.topLeft, .bottomLeft, .bottomRight])
 //                 .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .trailing)
-//                 .italic() // Italicize to show it's tentative
-//                 .transition(.opacity.combined(with: .scale(scale: 0.95)).animation(.easeInOut(duration: 0.2))) // Add transition
+//                 .italic()
+//                 .transition(.opacity.combined(with: .scale(scale: 0.95)).animation(.easeInOut(duration: 0.2)))
 //         }
-//          .padding(.vertical, 2)
+//         .padding(.vertical, 2)
 //     }
 //}
 //
-//// MARK: - Helper Extensions (Optional)
+//// MARK: - Helper Extensions
 //extension View {
 //    // Helper for applying corner radius to specific corners
 //    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
@@ -765,5 +725,7 @@
 //
 //// MARK: - Preview
 //#Preview {
+//    // Add guards or mock data here if the preview still crashes
+//    // For now, just instantiate the view directly.
 //    VoiceChatView()
 //}

@@ -533,14 +533,14 @@ struct MapButtonView: View {
 
 // MARK: - App Entry Point
 
-@main
-struct AirbnbCloneOptimizedApp: App { // RENAME this to your project's App name
-    var body: some Scene {
-        WindowGroup {
-            MainAirbnbTabView()
-        }
-    }
-}
+//@main
+//struct AirbnbCloneOptimizedApp: App { // RENAME this to your project's App name
+//    var body: some Scene {
+//        WindowGroup {
+//            MainAirbnbTabView()
+//        }
+//    }
+//}
 
 // MARK: - Previews (Should now work even without assets)
 
