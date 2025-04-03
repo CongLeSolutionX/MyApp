@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+
+// MARK: - Preview
+
+struct StarbucksScanView_Previews: PreviewProvider {
+    static var previews: some View {
+        // State for the bottom tab bar selection
+        @State var selectedTab = 1 // Default to "Scan" tab
+        
+        // Preview showing Scan Only mode by default
+        StarStruckScanView()
+        
+        // Custom Bottom Tab Bar
+        //CustomBottomTabBar(selectedTab: $selectedTab)
+
+        // You can add another preview for Scan & Pay if needed
+    }
+}
+
+
+
 // Define custom colors for reusability (replace with actual Starbucks brand colors)
 extension Color {
 //    static let starbucksGreen = Color(red: 0, green: 0.4, blue: 0.2) // Approximate
@@ -14,6 +34,7 @@ extension Color {
     static let starbucksLightGray = Color(UIColor.systemGray5)
     static let starbucksGold = Color(red: 0.8, green: 0.6, blue: 0.2) // Approximate
 }
+
 
 struct StarStruckScanView: View {
     // State to manage the selected tab ("Scan & pay" or "Scan only")
@@ -74,9 +95,6 @@ struct StarStruckScanView: View {
                     .padding(.bottom)
 
                 Spacer() // Pushes everything above the bottom tab bar
-
-                // Custom Bottom Tab Bar
-                CustomBottomTabBar(selectedTab: $selectedTab)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -107,6 +125,11 @@ struct StarStruckScanView: View {
         }
     }
 }
+
+#Preview("StarStruckScanView") {
+    StarStruckScanView()
+}
+
 
 // MARK: - Subviews
 
@@ -146,6 +169,10 @@ struct ScanModeSelector: View {
             Divider()
         }
     }
+}
+
+#Preview("ScanModeSelector") {
+    ScanModeSelector(selectedScanMode: .constant(0), modes: .init(repeating: "Item", count: 3))
 }
 
 // Renamed original card view
@@ -223,6 +250,9 @@ struct StarbucksScanPayCardView: View {
         .padding(.horizontal, 20)
     }
 }
+#Preview("StarbucksScanPayCardView") {
+    StarbucksScanPayCardView()
+}
 
 // New card view for "Scan only" mode
 struct StarbucksScanOnlyCardView: View {
@@ -296,6 +326,9 @@ struct StarbucksScanOnlyCardView: View {
     }
 }
 
+#Preview("StarbucksScanOnlyCardView") {
+    StarbucksScanOnlyCardView()
+}
 struct CardActionButton: View { // Reusable for Scan & Pay
     let iconName: String
     let label: String
@@ -315,6 +348,9 @@ struct CardActionButton: View { // Reusable for Scan & Pay
         }
         .buttonStyle(.plain)
     }
+}
+#Preview("CardActionButton") {
+    CardActionButton(iconName: "house.fill", label: "house")
 }
 
 struct PageIndicator: View {
@@ -337,7 +373,11 @@ struct PageIndicator: View {
     }
 }
 
-struct CustomBottomTabBar: View { // Remains the same
+#Preview("PageIndicator") {
+    PageIndicator(currentIndex: .constant(0), pageCount: 2)
+}
+
+struct CustomBottomTabBar: View {
     @Binding var selectedTab: Int
     let tabs: [(icon: String, selectedIcon: String, label: String)] = [
         ("house", "house.fill", "Home"),
@@ -374,17 +414,6 @@ struct CustomBottomTabBar: View { // Remains the same
         }
     }
 }
-
-// MARK: - Preview
-
-struct StarbucksScanView_Previews: PreviewProvider {
-    static var previews: some View {
-        StarStruckScanView()
-        // Preview showing Scan Only mode by default
-//        StarbucksScanView(selectedScanMode: 1)
-
-        // You can add another preview for Scan & Pay if needed
-        // StarbucksScanView(selectedScanMode: 0)
-        //    .previewDisplayName("Scan & Pay")
-    }
+#Preview("CustomBottomTabBar") {
+    CustomBottomTabBar(selectedTab: .constant(2))
 }

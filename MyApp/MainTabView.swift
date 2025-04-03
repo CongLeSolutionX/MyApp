@@ -88,7 +88,8 @@ enum TabBarItem: CaseIterable, Identifiable {
         case .home:
             HomeContentView()
         case .scan:
-            ScanView()
+            //ScanView()
+            StarStruckScanView()
         case .order:
             OrderView()
         case .offers:
