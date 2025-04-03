@@ -161,6 +161,7 @@ class SpeechRecognizer: ObservableObject {
     // Requests permissions from the user if they are undetermined.
     // Updates permissionStatus based on the outcome.
     func requestPermissions() async {
+        print("requestPermissions: Entered function. Current status: \(self.permissionStatus)")
          // Only proceed if currently undetermined
          guard self.permissionStatus == .undetermined else {
               print("requestPermissions called but status is \(self.permissionStatus). No request needed.")
@@ -175,8 +176,8 @@ class SpeechRecognizer: ObservableObject {
         let speechAuthStatus = SFSpeechRecognizer.authorizationStatus()
         let micAuthStatus = AVAudioApplication.shared.recordPermission
 
-        var speechNeedsRequest = (speechAuthStatus == .notDetermined)
-        var micNeedsRequest = (micAuthStatus == .undetermined)
+        let speechNeedsRequest = (speechAuthStatus == .notDetermined)
+        let micNeedsRequest = (micAuthStatus == .undetermined)
 
         var speechGranted = (speechAuthStatus == .authorized)
         var micGranted = (micAuthStatus == .granted)
@@ -211,6 +212,8 @@ class SpeechRecognizer: ObservableObject {
                  print("Set permission denied error message: \(self.errorMessage!)")
             }
         }
+        
+        print("requestPermissions: Finished. Final status set to: \(self.permissionStatus)") // <-- Add this print
     }
 
     private func requestSpeechPermission() async -> Bool {
@@ -509,6 +512,7 @@ struct VoiceChatView: View {
     // --- Methods ---
 
     private func toggleRecording() {
+        print("Mic button tapped! Current status: \(speechRecognizer.permissionStatus)") 
         // --- Stopping Logic ---
         if speechRecognizer.isRecording {
             print("Toggle: Stopping recording...")
@@ -540,18 +544,31 @@ struct VoiceChatView: View {
                  speechRecognizer.startRecording() // Start capturing audio
 
             case .undetermined:
-                 print("Toggle: Permissions undetermined. Requesting now...")
-                 Task {
-                      await speechRecognizer.requestPermissions() // Show system pop-up
-                      // After request, check status again
-                      if speechRecognizer.permissionStatus == .granted {
-                           print("Toggle: Permissions granted after request. Starting recording.")
-                           speechRecognizer.startRecording()
-                      } else {
-                           print("Toggle: Permissions denied after request. Recording not started.")
-                           // Error message should now be set within speechRecognizer
+//                 print("Toggle: Permissions undetermined. Requesting now...")
+//                 Task {
+//                      await speechRecognizer.requestPermissions() // Show system pop-up
+//                      // After request, check status again
+//                      if speechRecognizer.permissionStatus == .granted {
+//                           print("Toggle: Permissions granted after request. Starting recording.")
+//                           speechRecognizer.startRecording()
+//                      } else {
+//                           print("Toggle: Permissions denied after request. Recording not started.")
+//                           // Error message should now be set within speechRecognizer
+//                      }
+//                 }
+                print("Status is undetermined. Preparing to request permissions Task...") // <-- Add this print
+                      Task {
+                           print("Permission request Task launched.") // <-- Add this print
+                           await speechRecognizer.requestPermissions() // Show system pop-up
+                           print("Permissions request finished. New status: \(speechRecognizer.permissionStatus)") // <-- Add this print
+                           // After request, check status again
+                           if speechRecognizer.permissionStatus == .granted {
+                                print("Permissions granted after request. Starting recording.")
+                                speechRecognizer.startRecording()
+                           } else {
+                                print("Permissions denied or still undetermined after request. Recording not started.")
+                           }
                       }
-                 }
 
             case .denied:
                  print("Toggle: Permissions previously denied. Cannot start recording.")
@@ -614,11 +631,11 @@ struct VoiceChatView: View {
                  processedError = AIError.unknownError(error.localizedDescription)
              }
 
-             print("Error sending message: \(processedError.localizedDescription ?? "Unknown")")
+            print("Error sending message: \(processedError.localizedDescription)")
              // Show error in the view's error banner
              self.viewErrorMessage = processedError.localizedDescription
              // Also add error message to chat history
-             messages.append(ChatMessage(role: .model, text: processedError.localizedDescription ?? "An error occurred", isError: true))
+            messages.append(ChatMessage(role: .model, text: processedError.localizedDescription, isError: true))
         }
     }
 
