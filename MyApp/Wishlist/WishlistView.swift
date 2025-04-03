@@ -8,14 +8,14 @@
 import SwiftUI
 
 // MARK: - Data Model (Required by WishlistItemView)
-
-struct Wishlist: Identifiable {
-    let id = UUID()
-    var imageName: String? // Use name of image in Assets
-    var iconName: String?  // Use SF Symbol name
-    let title: String
-    let subtitle: String
-}
+//
+//struct Wishlist: Identifiable {
+//    let id = UUID()
+//    var imageName: String? // Use name of image in Assets
+//    var iconName: String?  // Use SF Symbol name
+//    let title: String
+//    let subtitle: String
+//}
 
 // MARK: - Wishlist Item View (Renamed to WishlistView as requested)
 
