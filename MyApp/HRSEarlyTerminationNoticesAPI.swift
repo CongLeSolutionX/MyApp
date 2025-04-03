@@ -331,6 +331,6 @@ struct HRSEarlyTerminationNoticesView: View {
     }
 }
 
-#Preview("HRSEarlyTerminationNoticesView") {
+#Preview("HRS Early Termination Notices View") {
     HRSEarlyTerminationNoticesView()
 }
