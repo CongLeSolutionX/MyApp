@@ -100,7 +100,7 @@ struct ProfileContentView: View {
             .coordinateSpace(name: "scroll")
 
             FloatingButtonView()
-                .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 > 0 ? 5 : 15) // Adjust bottom padding based on safe area - approximate
+//                .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0 > 0 ? 5 : 15) // Adjust bottom padding based on safe area - approximate
         }
         .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)) // Extend background
         // .edgesIgnoringSafeArea(.bottom) // Let ZStack handle safe area
@@ -313,6 +313,7 @@ struct AirbnbProfileHostView_Previews: PreviewProvider {
                  // Example using system images for preview without assets:
                  // Use Image(systemName: "person.circle.fill") for profile-placeholder
                  // Use Image(systemName: "house.fill") for house-placeholder
+                Image(systemName: "person.circle.fill")
             }
     }
 }
