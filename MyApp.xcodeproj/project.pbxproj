@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A25756A2D9ED71900D8AD5C /* HRSEarlyTerminationNoticesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPI.swift */; };
+		9A25756A2D9ED71900D8AD5C /* HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift */; };
+		9A25756C2D9EDB3E00D8AD5C /* SharedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25756B2D9EDB3D00D8AD5C /* SharedModels.swift */; };
+		9A25756E2D9EDB4E00D8AD5C /* JsonApiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25756D2D9EDB4E00D8AD5C /* JsonApiModels.swift */; };
+		9A2575702D9EDB6400D8AD5C /* EarlyTerminationNoticeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25756F2D9EDB5E00D8AD5C /* EarlyTerminationNoticeModels.swift */; };
+		9A2575722D9EDB7B00D8AD5C /* FTCResponseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2575712D9EDB7B00D8AD5C /* FTCResponseModels.swift */; };
+		9A2575742D9EDB8F00D8AD5C /* HRSEarlyTerminationNoticesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2575732D9EDB8900D8AD5C /* HRSEarlyTerminationNoticesView.swift */; };
+		9A2575772D9EDD7300D8AD5C /* MockFTCData.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2575762D9EDD6E00D8AD5C /* MockFTCData.json */; };
+		9A2575792D9EDD8F00D8AD5C /* LocalMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2575782D9EDD8C00D8AD5C /* LocalMockData.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -16,7 +23,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRSEarlyTerminationNoticesAPI.swift; sourceTree = "<group>"; };
+		9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift; sourceTree = "<group>"; };
+		9A25756B2D9EDB3D00D8AD5C /* SharedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModels.swift; sourceTree = "<group>"; };
+		9A25756D2D9EDB4E00D8AD5C /* JsonApiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonApiModels.swift; sourceTree = "<group>"; };
+		9A25756F2D9EDB5E00D8AD5C /* EarlyTerminationNoticeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlyTerminationNoticeModels.swift; sourceTree = "<group>"; };
+		9A2575712D9EDB7B00D8AD5C /* FTCResponseModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTCResponseModels.swift; sourceTree = "<group>"; };
+		9A2575732D9EDB8900D8AD5C /* HRSEarlyTerminationNoticesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRSEarlyTerminationNoticesView.swift; sourceTree = "<group>"; };
+		9A2575762D9EDD6E00D8AD5C /* MockFTCData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockFTCData.json; sourceTree = "<group>"; };
+		9A2575782D9EDD8C00D8AD5C /* LocalMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalMockData.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,6 +51,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A2575752D9EDBD200D8AD5C /* ModularComponents */ = {
+			isa = PBXGroup;
+			children = (
+				9A2575762D9EDD6E00D8AD5C /* MockFTCData.json */,
+				9A2575782D9EDD8C00D8AD5C /* LocalMockData.swift */,
+				9A25756B2D9EDB3D00D8AD5C /* SharedModels.swift */,
+				9A25756D2D9EDB4E00D8AD5C /* JsonApiModels.swift */,
+				9A25756F2D9EDB5E00D8AD5C /* EarlyTerminationNoticeModels.swift */,
+				9A2575712D9EDB7B00D8AD5C /* FTCResponseModels.swift */,
+				9A2575732D9EDB8900D8AD5C /* HRSEarlyTerminationNoticesView.swift */,
+			);
+			path = ModularComponents;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -59,7 +87,8 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPI.swift */,
+				9A2575692D9ED70C00D8AD5C /* HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift */,
+				9A2575752D9EDBD200D8AD5C /* ModularComponents */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -133,6 +162,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2575772D9EDD7300D8AD5C /* MockFTCData.json in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
 			);
@@ -146,9 +176,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
-				9A25756A2D9ED71900D8AD5C /* HRSEarlyTerminationNoticesAPI.swift in Sources */,
+				9A25756A2D9ED71900D8AD5C /* HRSEarlyTerminationNoticesAPIComprehensiveVersion.swift in Sources */,
+				9A2575722D9EDB7B00D8AD5C /* FTCResponseModels.swift in Sources */,
+				9A25756E2D9EDB4E00D8AD5C /* JsonApiModels.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A2575792D9EDD8F00D8AD5C /* LocalMockData.swift in Sources */,
+				9A25756C2D9EDB3E00D8AD5C /* SharedModels.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A2575742D9EDB8F00D8AD5C /* HRSEarlyTerminationNoticesView.swift in Sources */,
+				9A2575702D9EDB6400D8AD5C /* EarlyTerminationNoticeModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
