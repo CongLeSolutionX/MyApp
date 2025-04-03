@@ -99,10 +99,33 @@ class SpeechRecognizer: ObservableObject {
          }
     }
 
+//    deinit {
+//        // Clean up resources when the object is deallocated
+//        resetAudio()
+//        resetRecognition()
+//    }
     deinit {
-        // Clean up resources when the object is deallocated
-        resetAudio()
-        resetRecognition()
+        print("SpeechRecognizer deinit starting.")
+        // Clean up resources when the object is deallocated.
+        // Since deinit is non-isolated, and resetAudio/resetRecognition are MainActor-isolated (due to class annotation),
+        // we must explicitly dispatch the calls to the Main Actor.
+        Task {
+            // Use await MainActor.run to ensure these methods execute on the main thread.
+            // We capture [weak self] to avoid prolonging the object's lifetime if the task execution is delayed,
+            // although in deinit context the object is already being destroyed.
+            await MainActor.run { [weak self] in
+                // Check if self still exists when this task runs.
+                guard let strongSelf = self else {
+                    print("Deinit Task: Self was nil during cleanup attempt on Main Actor.")
+                    return
+                }
+                print("Deinit Task: Executing cleanup on Main Actor for \(strongSelf).")
+                strongSelf.resetAudio()
+                strongSelf.resetRecognition(cancelTask: true) // Ensure recognition task is stopped/cancelled
+                print("Deinit Task: Cleanup finished on Main Actor.")
+            }
+        }
+        print("SpeechRecognizer deinit finished scheduling cleanup.") // deinit returns synchronously
     }
 
     // --- Permission Handling ---
