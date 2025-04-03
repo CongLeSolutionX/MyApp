@@ -5,7 +5,7 @@
 ////  Created by Cong Le on 4/2/25.
 ////
 //
-//import SwiftUI
+import SwiftUI
 //
 //// MARK: - Data Models
 //
@@ -116,13 +116,13 @@
 //
 //// MARK: - Custom Styles & Colors
 //
-//extension Color {
-//    static let airbnbPink = Color(red: 255/255, green: 56/255, blue: 92/255)
-//    static let airbnbGray = Color(uiColor: .systemGray)
-//    static let airbnbLightGray = Color(uiColor: .systemGray4)
-//    static let airbnbDarkGray = Color(uiColor: .darkGray)
-//}
-//
+extension Color {
+    static let airbnbPink = Color(red: 255/255, green: 56/255, blue: 92/255)
+    static let airbnbGray = Color(uiColor: .systemGray)
+    static let airbnbLightGray = Color(uiColor: .systemGray4)
+    static let airbnbDarkGray = Color(uiColor: .darkGray)
+}
+
 //// MARK: - Placeholder View for Unimplemented Tabs
 //
 //struct PlaceholderTabView: View {
