@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" version="2.0" xml:base="https://www.ftc.gov/">
+  <channel>
+    <title>Competition Matters Blog Posts</title>
+    <link>https://www.ftc.gov/</link>
+    <description/>
+    <language>en</language>
+    <atom:link href="https://www.ftc.gov/feeds/blog-competition-matters.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+  <title>Looking back (again) at FTC merger remedies</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2017/02/looking-back-again-ftc-merger-remedies</link>
+  <description>
+&lt;span&gt;Looking back (again) at FTC merger remedies&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/147"&gt;rgiura&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2017-02-03T08:46:03-05:00" title="Friday, February 3, 2017 | 8:46AM"&gt;February 3, 2017 | 8:46AM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2017/02/looking-back-again-ftc-merger-remedies" hreflang="en"&gt;Looking back (again) at FTC merger remedies&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Dan Ducore and Naomi Licker, Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;The newly released &lt;a href="https://www.ftc.gov/system/files/documents/reports/ftcs-merger-remedies-2006-2012-report-bureaus-competition-economics/p143100_ftc_merger_remedies_2006-2012.pdf"&gt;Remedy Study&lt;/a&gt; is the culmination of nearly two years of effort by FTC staff to look back at Commission merger orders from 2006 through 2012. We looked at 89 merger orders affecting 400 markets, with 79 divestitures to 121 buyers. We evaluated 50 of those orders using a case study method, interviewing nearly 200 businesses in a wide range of industries and collecting sales data from almost that many. The report synthesizes that information and more, which we hope will be useful for businesses and provide insight for other competition enforcement agencies.&lt;/p&gt;
+
+&lt;p&gt;This is not the Commission’s first effort to study its merger remedies. In the late 1990’s, FTC staff evaluated 35 Commission orders from 1990 through 1994 requiring divestitures in horizontal mergers. Released in 1999, the &lt;a href="https://www.ftc.gov/sites/default/files/attachments/merger-review/divestiture.pdf"&gt;Divestiture Study&lt;/a&gt; led to a number of significant reforms to the FTC’s remedy approach: requiring upfront buyers more often; shortening the time for post-order divestiture to 6 months; appointing an independent monitor more often; and instituting a program to follow up with buyers about their progress.&lt;/p&gt;
+
+&lt;p&gt;There are lessons from the new study as well. The study confirmed that the Commission’s practices related to designing, drafting and implementing its merger remedies are generally effective. But it also identified certain areas in which improvements can be made—so we have made them. The report includes a list of Best Practices that convey how we are already using the learning from the study to continue to improve our remedies. The Bureau is also preparing to update its Statement for Negotiating Merger Remedies to reflect these changes.&lt;/p&gt;
+
+&lt;p&gt;Here is an overview of key findings along with some of the adjustments you can expect.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;All buyers of an ongoing business succeeded in restoring or preserving competition, but buyers of a more limited package of assets sometimes did not succeed even when the buyer was identified upfront.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Commission prefers structural remedies such as divestitures to prevent competitive harm resulting from a merger, whether the merger is consummated or has not yet been completed. The Commission has long known that divestiture of an ongoing business poses fewer risks that the buyer will not succeed in maintaining or restoring the competition eliminated by the merger. The new study affirmed this approach: all buyers that acquired an ongoing business were successful.&lt;/p&gt;
+
+&lt;p&gt;After the 1999 Divestiture Study, the Commission required upfront buyers more often, both to minimize any interim lessening of competition, and to ensure that there would be a buyer for the proposed package of assets, especially those packages that did not constitute ongoing businesses. The current study found that most, but not all, buyers of selected assets succeeded in maintaining or restoring competition. These overall results reveal that risks remain, even when the Commission approves the divestiture to an upfront buyer.&lt;/p&gt;
+
+&lt;p&gt;Going forward, respondents and buyers can expect that proposals to divest selected assets, even when the proposal includes an upfront buyer, will undergo more detailed scrutiny to reduce further the risk that the buyer won’t get what it needs to be an effective competitor. As explained in our Best Practices, the Commission will accept a proposal to divest selected assets rather than require divestiture of an ongoing business only if the respondent and the buyer demonstrate that divesting the more limited asset package is likely to maintain or restore competition. For instance, the respondent must explain why an alternative ongoing business divestiture is inappropriate or infeasible, how the selected assets can operate as a viable and competitive business, and how the buyer will be able to fill any gaps for aspects of an ongoing business that are excluded from the package. For its part, the buyer must be prepared to assess what other assets and services it will need to operate the selected assets as a viable and competitive business, show how it will obtain those assets and services, and provide estimates for how long it will take, and at what cost. As in the past, the Commission may require divestiture of assets (including manufacturing facilities) related to additional complementary products, the use of brand or trade names, or other affirmative conduct obligations, such as those that facilitate the transfer of customers, to ensure the buyer’s viability. Here, the choice of buyer may be critical: we found that divestitures of selected assets tended to succeed when buyers had similar existing operations, were knowledgeable about the relevant markets, and were familiar with the relevant customers.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Some buyers experienced unforeseen complexities in transferring critical back-office functions related to the divested assets, and sometimes needed more time than expected to transition these services.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Running a business requires a whole range of back-office services to support manufacturing and sales efforts such as legal, finance, accounting and tax, risk, insurance, environmental evaluation, or human resources. Increasingly, back-office functions include complex information technology systems that rely on hardware, software and people to perform or monitor a variety of critical tasks. We found that regardless of whether the divested assets included these functions or the buyers independently obtained them (possibly from their own operations), buyers sometimes encountered problems or delays. Where the respondents were providing these services on a transitional basis, buyers sometimes found that they needed more time to integrate these functions.&lt;/p&gt;
+
+&lt;p&gt;Determining the scope of back-office functions that relate to the product market and to the assets being divested requires additional scrutiny because these functions have proven to be more important and more complicated than we (and either the buyers or the respondents) expected. Respondents, who are knowledgeable about these systems, should be prepared to explain the software, databases and other information technology that support the divested assets, and to identify any personnel or documentation that would help in the transition. Respondents should also ensure that the proposed buyer can conduct due diligence to understand what it will need in the way of back-office support services. If the buyer does not have and cannot acquire these services because they are specialized, the divestiture package will need to include these services; if it does not, the respondent must provide critical back-office functions on a transitional basis to the buyer at no more than its cost.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;The FTC has a well-established procedure for reviewing and scrutinizing proposed buyers, but will look more closely at the source of funds, and any funding limitations that could hamper the buyer.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The study found that, although respondents generally propose buyers that meet the Commission’s criteria for a strong, viable competitor, the success of a divestiture over time depends, in part, on whether the buyer has adequate funding commitments to ensure success. As a result, this area, too, is receiving additional scrutiny. Staff is now paying closer attention to the source of and limitations on funds available to a proposed buyer and how these factors may affect the buyer’s competitive and financial viability. In particular, the buyer should expect to provide detailed financial documentation and explain all sources of funding of the divestiture, including contingency plans if sales and other financials do not meet projections.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Buyers expressed concern about the time available for due diligence and access to facilities and employees related to the divestiture.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With the benefit of hindsight, several buyers, especially upfront buyers operating under time constraints, raised concerns about their ability to conduct sufficient due diligence. In particular, in some cases, the lack of access to facilities and employees during due diligence may have delayed the buyer’s ability to compete or increased its costs.&lt;/p&gt;
+
+&lt;p&gt;Here, too, additional attention is warranted, so that the due diligence process more closely follows that of a more typical arm’s length asset purchase. For instance, buyers should have direct access to any key employees identified in the orders. And for divestitures from the acquired firm’s (B-side) assets, upfront buyers should have direct access to information, facilities and employees without going through the acquiring firm’s (A-side) representatives. Similarly, if hold-separate assets are being divested post-order, staff may need to ensure that the proposed buyer gets direct access to the assets and business as well as to the hold separate monitor and hold separate manager in order to conduct due diligence.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Buyers still seem reluctant to raise concerns with FTC staff or the monitor at the time when quick action could avoid problems down the road.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The 1999 Divestiture Study revealed that buyers often do not raise concerns with staff or the monitor appointed to facilitate their transition when they arise. Staff routinely advises buyers to contact us if they have concerns that staff may be able to address. Unfortunately, not all buyers take that advice.&lt;/p&gt;
+
+&lt;p&gt;As with many things, timely communication is key to counteracting problems as they arise post-divestiture. Knowing that this remains a problem, staff has redoubled its efforts to maintain ongoing communications with buyers after the divestiture occurs.&lt;br&gt;
+Designing an effective merger remedy in every case is a goal we work toward every day. Our approach to designing effective remedies relies on an evolving process, one that benefits from periodic self-examination. &amp;nbsp;&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Fri, 03 Feb 2017 13:46:03 +0000</pubDate>
+    <dc:creator>rgiura</dc:creator>
+    <guid isPermaLink="false">74060 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Planning for the new HSR Form</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2024/11/planning-new-hsr-form</link>
+  <description>
+&lt;span&gt;Planning for the new HSR Form&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/211"&gt;bjames@ftc.gov&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2024-11-12T10:30:21-05:00" title="Tuesday, November 12, 2024 | 10:30AM"&gt;November 12, 2024 | 10:30AM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2024/11/planning-new-hsr-form" hreflang="en"&gt;Planning for the new HSR Form&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;As antitrust practitioners know, parties to certain mergers and acquisitions are required to submit premerger notification forms that disclose information about their proposed deal and business operations to the FTC and DOJ’s Antitrust Division. By now, everyone has heard the news that&amp;nbsp;&lt;a href="https://www.ftc.gov/news-events/news/press-releases/2024/10/ftc-finalizes-changes-premerger-notification-form"&gt;the Commission voted unanimously to issue rules&lt;/a&gt; that update the information parties must provide to the agencies on their HSR Forms. That rulemaking was&amp;nbsp;&lt;a href="https://www.federalregister.gov/documents/2024/11/12/2024-25024/premerger-notification-reporting-and-waiting-period-requirements"&gt;published in the Federal Register&lt;/a&gt; on November 12, making the effective date for the new HSR Form February 10, 2025.&lt;/p&gt;&lt;p&gt;The changes to the HSR Form and Instructions will involve adjustments for practitioners both inside and outside the Agencies and we have already started planning for what comes next. Over the next few months, the FTC’s Premerger Notification Office (PNO) will help navigate the transition from the current form to the new form to minimize disruption or delay in processing the new forms. Until February 10, 2025, filers should continue to use the current Form and Instructions. But if a deal in the works will be notified on or after that date, it’s never too early to plan for submitting a filing using the new HSR form.&lt;/p&gt;&lt;p&gt;The PNO will soon post a detailed overview of the changes on its&amp;nbsp;&lt;a href="https://www.ftc.gov/enforcement/premerger-notification-program/hsr-resources/most-frequently-asked-hsr-questions"&gt;website&lt;/a&gt; to help practitioners understand the requirements of the new Form and Instructions. After this guidance is posted, the PNO will invite practitioners to submit questions of broad applicability and PNO staff will post answers on the website. The PNO will be updating other form-related guidance and tips as quickly as practical, including detailed instructions on how to submit required new materials along with the form. Some things won’t change: The PNO will continue to rely on the Kiteworks platform to receive HSR filings, and filers will continue to submit filing fees in the same way they do now.&lt;/p&gt;&lt;p&gt;Watch the&amp;nbsp;&lt;a href="https://www.ftc.gov/enforcement/premerger-notification-program/hsr-resources/most-frequently-asked-hsr-questions"&gt;PNO website&lt;/a&gt; for these developments and more in the months to come.&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Tue, 12 Nov 2024 15:30:21 +0000</pubDate>
+    <dc:creator>bjames@ftc.gov</dc:creator>
+    <guid isPermaLink="false">86724 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Developing the Antitrust Bar</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2019/10/developing-antitrust-bar</link>
+  <description>
+&lt;span&gt;Developing the Antitrust Bar&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/75"&gt;rcuster&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2019-10-31T17:20:10-04:00" title="Thursday, October 31, 2019 | 5:20PM"&gt;October 31, 2019 | 5:20PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2019/10/developing-antitrust-bar" hreflang="en"&gt;Developing the Antitrust Bar&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Bruce Hoffman, Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;For the good of the antitrust bar and our entire profession, the BC Front Office encourages parties to give associates, counsel, and newer partners more opportunities to present to the Bureau and the Commission in party meetings. In return, we promise reasonable expectations based on attorneys’ level of experience.&lt;/p&gt;
+
+&lt;p&gt;Junior attorneys need “on your feet” opportunities to build their legal skills—not only to ensure that future clients will be well-represented, but also so the profession can continue to develop and retain talented individuals. This can be a challenge, especially given the nature of legal practice today. Judges in courts around the country (including in California, Delaware, Massachusetts, and Texas) have recognized that recent law graduates have fewer opportunities to take leading roles in court. To address this problem, these courts have implemented rules that encourage case managers to give less experienced attorneys more stand-up time.&lt;/p&gt;
+
+&lt;p&gt;Junior lawyers hoping to specialize in antitrust—especially those practicing before the federal antitrust agencies—do not find themselves in court often. In meetings with the Bureau and Commissioners, however, less experienced antitrust attorneys can be given a chance to make presentations and argue the merits on behalf of their clients. We encourage counsel and their clients to take advantage of these opportunities. Such experiences will encourage these attorneys to stay engaged in our profession and, hopefully, develop into antitrust bar leaders.&lt;/p&gt;
+
+&lt;p&gt;Please be assured that the Bureau will take experience level into account when we interact with your junior professionals during meetings and, importantly, when we evaluate their presentations. As always, our goal is to reach the right outcome for competition and consumers, and we will work with you to ensure we get the information we need.&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Thu, 31 Oct 2019 21:20:10 +0000</pubDate>
+    <dc:creator>rcuster</dc:creator>
+    <guid isPermaLink="false">54494 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Wait for it—a Waiting Period Letter confirms your HSR filing</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2021/03/wait-it-waiting-period-letter-confirms-your-hsr-filing</link>
+  <description>
+&lt;span&gt;Wait for it—a Waiting Period Letter confirms your HSR filing&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/159"&gt;jwolf&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2021-03-19T09:25:32-04:00" title="Friday, March 19, 2021 | 9:25AM"&gt;March 19, 2021 | 9:25AM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2021/03/wait-it-waiting-period-letter-confirms-your-hsr-filing" hreflang="en"&gt;Wait for it—a Waiting Period Letter confirms your HSR filing&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;the Premerger Notification Office Staff&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;Once you’ve submitted a Hart-Scott-Rodino filing to the FTC’s Premerger Notification Office, make sure you receive official confirmation that your filing has been received. We’ve compiled important tips on communications regarding the status of filings and the applicable waiting period.&lt;/p&gt;
+
+&lt;p&gt;As most antitrust practitioners know, the HSR Act requires the parties to a reportable transaction to notify the FTC and our sister agency, the Department of Justice Antitrust Division, about the proposed transaction, then observe a waiting period so the agencies can assess the transaction’s competitive effects. The PNO communicates with filing parties about the start and the expiration of the waiting period by sending what is known as a Waiting Period Letter, which serves as the official confirmation that the agencies have received the filing and the waiting period has started.&lt;/p&gt;
+
+&lt;p&gt;While the PNO strives to review filings as promptly as possible, it may take several days to send out Waiting Period Letters, especially given the current high volume of filings. This is due to the time needed to download and prepare electronic filings for review, as well as the time necessary for substantive review.&lt;/p&gt;
+
+&lt;p&gt;PNO staff will only send Waiting Period Letters if &lt;em&gt;both the FTC and the DOJ&lt;/em&gt; have received &lt;em&gt;complete&lt;/em&gt; filings from &lt;em&gt;all persons&lt;/em&gt; required to submit a notification. If your Waiting Period Letter appears to be delayed, it might be the result of a filing deficiency that requires a correction by one or more of the filing parties, or possibly due to problems with paying the &lt;a href="https://www.ftc.gov/news-events/blogs/competition-matters/2020/05/hsr-filing-fees-reminders-tips"&gt;filing fee&lt;/a&gt;. &lt;em&gt;Before&lt;/em&gt; reaching out to the PNO, be sure to check with counsel for the other party to ascertain whether the PNO has contacted them about the transaction.&lt;/p&gt;
+
+&lt;p&gt;However, if you have not received a Waiting Period Letter from the PNO within five business days of filing, reach out to the PNO by sending an email to &lt;a href="mailto:premerger@ftc.gov"&gt;premerger@ftc.gov&lt;/a&gt;. But keep in mind: the PNO follows strict confidentiality rules in its communications about the status of any HSR review, including the start and expiration of the waiting period. As a result, the PNO cannot reveal any details about the status of one party’s filing to the other party.&lt;/p&gt;
+
+&lt;p&gt;Here are some additional tips to keep in mind regarding Waiting Period Letters:&lt;/p&gt;
+
+&lt;ul&gt;
+    &lt;li&gt;Until you receive a Waiting Period Letter confirming the dates, you should not assume that the waiting period is running or will expire on a certain day. Most of the time, the waiting period will start on the day the agencies receive the filing. Occasionally, if filing deficiencies are not cured promptly or for other reasons (as noted above), PNO staff must delay the start of the waiting period.&lt;/li&gt;
+    &lt;li&gt;You should not assume that the waiting period is running because the PNO has provided you the transaction number. If there are issues with your filing, PNO staff will give you the transaction number to ensure that corrections and updates are processed appropriately. The assignment of a transaction number, which creates a record of the filing, does not mean that the waiting period has started and is not a substitute for the Waiting Period Letter.&lt;/li&gt;
+    &lt;li&gt;In 801.30 transactions (such as tender offers or acquisitions from third parties), only the buyer will receive a Waiting Period Letter. 801.30 transactions are by definition non-consensual, and the buyer’s waiting period is confidential under the HSR Rules. After the PNO receives the seller’s 801.30 filing, the PNO will send an acknowledgement letter providing only the transaction number.&lt;/li&gt;
+    &lt;li&gt;If you need a confirmation that the PNO has received and downloaded your submission before you receive your Waiting Period Letter, use the tracking function of the Accellion FTP platform. You will need to go into your Sent folder in the Accellion FTP application, open the submission, and click on the “Track” button. There is no need to contact the PNO to confirm receipt of the filing.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As always, if you have questions, &lt;a href="mailto:premerger@ftc.gov"&gt;contact the PNO&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Fri, 19 Mar 2021 13:25:32 +0000</pubDate>
+    <dc:creator>jwolf</dc:creator>
+    <guid isPermaLink="false">54726 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Direct-to-consumer auto sales: It’s not just about Tesla</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2015/05/direct-consumer-auto-sales-its-not-just-about-tesla</link>
+  <description>
+&lt;span&gt;Direct-to-consumer auto sales: It’s not just about Tesla&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/77"&gt;cwarner&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2015-05-11T11:00:39-04:00" title="Monday, May 11, 2015 | 11:00AM"&gt;May 11, 2015 | 11:00AM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2015/05/direct-consumer-auto-sales-its-not-just-about-tesla" hreflang="en"&gt;Direct-to-consumer auto sales: It’s not just about Tesla&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Marina Lao, Debbie Feinstein, and Francine Lafontaine&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;A fundamental principle of competition is that consumers – not regulation – should determine what they buy and how they buy it. Consumers may benefit from the ability to buy cars directly from manufacturers – whether they are shopping for luxury cars or economy vehicles. The same competition principles should apply in either case.&lt;/p&gt;
+
+&lt;p&gt;For several years now, there have been reports of the challenges faced by Tesla Motors in selling its luxury electric cars directly to consumers. In state after state, the company has faced legislative and litigation resistance to its business plan to sell its products without using a network of third-party dealers like other auto manufacturers. Over the past year, FTC staff have urged in a &lt;a href="https://www.ftc.gov/news-events/blogs/competition-matters/2014/04/who-decides-how-consumers-should-shop"&gt;blog post&lt;/a&gt; and &lt;a href="https://www.ftc.gov/news-events/press-releases/2014/05/ftc-staff-missouri-new-jersey-should-repeal-their-prohibitions"&gt;comment letters&lt;/a&gt; to legislators that state prohibitions against direct consumer auto sales by manufacturers should be eased. Our point: States should allow consumers to choose not only the cars they buy, but also how they buy them.&lt;/p&gt;
+
+&lt;p&gt;Some states that closed the door to direct manufacturer sales, like New Jersey, have recently opened the door by a crack. Legislative changes there (and in several other states) now permit Tesla to operate a handful of direct sales outlets in the state. But the opening in the &lt;a href="http://www.njleg.state.nj.us/2014/Bills/AL15/24_.HTM"&gt;law&lt;/a&gt; is a tiny one—only a few outlets, and only for Tesla Motors.&lt;/p&gt;
+
+&lt;p&gt;Some other states, like Michigan, have gone the other way. In October 2014, the Michigan legislature passed and the governor signed legislation that made wording changes to strengthen the statutory prohibitions on manufacturer direct sales in that state. At that time, however, the governor &lt;a href="http://michigan.gov/documents/snyder/HB_5606_Signing_Letter_472039_7.pdf"&gt;said&lt;/a&gt; “[a] healthy, open discussion can and should be had over whether the current business model in Michigan should be changed” and encouraged the legislature to engage in such debate.&lt;/p&gt;
+
+&lt;p&gt;A recently-introduced bill in the Michigan legislature, &lt;a href="http://www.legislature.mi.gov/documents/2015-2016/billintroduced/Senate/htm/2015-SIB-0268.htm"&gt;SB 268&lt;/a&gt;, provides the opportunity for this kind of debate. The bill would ease the prohibitions for a product category known as “autocycles,” and would open the door for direct consumer sales by another potential new entrant in auto manufacturing.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.eliomotors.com/"&gt;Elio Motors&lt;/a&gt; has announced plans to manufacture an innovative low-cost, high-mileage, enclosed three-wheeled vehicle. According to announcements by the company, it plans to offer its products for a base price of $6800—less than a tenth the price of the cheapest Tesla Model S. The firm plans to manufacture the vehicles at a facility in Shreveport, Louisiana, beginning in 2016. As of March 29, 2015, it had accepted more than 41,000 reservations for the vehicles. Like Tesla, Elio Motors does not intend to establish an independent dealer network, but rather plans to pursue a direct customer sales &lt;a href="http://www.eliomotors.com/tech-talk-v60-the-elio-customization-process/"&gt;plan&lt;/a&gt; to keep down the price of its products.&lt;/p&gt;
+
+&lt;p&gt;In a &lt;a href="https://www.ftc.gov/system/files/documents/advocacy_documents/ftc-staff-comment-regarding-michigan-senate-bill-268-which-would-create-limited-exception-current/150511michiganautocycle.pdf"&gt;letter&lt;/a&gt; commenting on the Michigan proposal, FTC staff supports the movement to allow for direct sales to consumers—not only Tesla or Elio, but for any company that decides to use that business model to distribute its products. Blanket prohibitions on direct manufacturer sales to consumers are an anomaly within the larger economy. Most manufacturers and suppliers in other industries make decisions about how to design their distribution systems based on their own business considerations, responding to consumer demand. Many manufacturers choose some combination of direct sales and sales through independent retailers. Typically, no government intervention is needed to augment or alter these competitive dynamics—the market polices inefficient, unresponsive, or otherwise inadequate distribution practices on its own. If the government does intervene, it should adopt restrictions that are clearly linked to specific policy objectives that the legislature believes warrant deviation from the beneficial pressures of competition, and should be no broader than necessary to achieve those objectives.&lt;/p&gt;
+
+&lt;p&gt;Opening the door by a crack is a step in the right direction, and we urge policymakers in Michigan to take this small step. But beyond company-specific fixes lies a much larger issue: who should decide how consumers shop for products they want to buy? Protecting dealers from abuses by manufacturers does not justify a blanket prohibition like that in the current Michigan law, which extends to all vehicle manufacturers, even those like Tesla and Elio who have no interest in entering into a franchise agreement with any dealer.&lt;/p&gt;
+
+&lt;p&gt;Absent some legitimate public purpose, consumers would be better served if the choice of distribution method were left to motor vehicle manufacturers and the consumers to whom they sell their products.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;*Marina is the Director of the Office of Policy Planning, Debbie is the Director of the Bureau of Competition, and Francine is the Director of the Bureau of Economics. The views expressed are their own, and do not necessarily reflect the opinion of the Commission or of any individual Commissioner.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Mon, 11 May 2015 15:00:39 +0000</pubDate>
+    <dc:creator>cwarner</dc:creator>
+    <guid isPermaLink="false">74030 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>FTC Milestones: Shared beginnings in the Circle Cilk case</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2014/11/ftc-milestones-shared-beginnings-circle-cilk-case</link>
+  <description>
+&lt;span&gt;FTC Milestones: Shared beginnings in the Circle Cilk case&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/75"&gt;rcuster&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2014-11-06T14:05:13-05:00" title="Thursday, November 6, 2014 | 2:05PM"&gt;November 6, 2014 | 2:05PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2014/11/ftc-milestones-shared-beginnings-circle-cilk-case" hreflang="en"&gt;FTC Milestones: Shared beginnings in the Circle Cilk case&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Lesley Fair, Bureau of Consumer Protection&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;In celebration of the FTC’s 100th anniversary, we’ve been examining the leaves on our family tree. The FTC’s founding is often associated with turn-of-the-century trust busting, but a closer look – including a study of the very first case published in Volume 1 of Federal Trade Commission Decisions – proves that the intertwined roots of consumer protection and competition run deep. That’s one of the themes of the &lt;a href="https://www.ftc.gov/news-events/events-calendar/2014/11/100th-anniversary-symposium#agenda"&gt;FTC@100 Symposium&lt;/a&gt; on Friday, November 7, 2014. In addition, over the next few months, we’ll take a look at how certain milestones in &lt;a href="https://www.ftc.gov/about-ftc/our-history"&gt;FTC history&lt;/a&gt; have shaped the agency’s direction as it enters its second century.&lt;/p&gt;&lt;p&gt;That first published law enforcement action scrutinized the labeling and advertising of a Philadelphia thread manufacturer, the Circle Cilk Company. One popular line marketed by the company was “Circle Cilk Embroidery Floss.” But what was the “cilk” floss actually made of? Cotton.&lt;/p&gt;&lt;p&gt;Foreshadowing the “net impression” standard cited by the FTC in 1972 and incorporated in the 1983 &lt;a href="https://www.ftc.gov/public-statements/1983/10/ftc-policy-statement-deception"&gt;Policy Statement on Deception&lt;/a&gt;, the Commission considered how prospective buyers would interpret “cilk.” The Commission concluded that “the natural result” of the use of the word was to “confuse, mislead, and deceive purchasers thereof and the public into the belief that cotton thread is genuine silk.” The order in the case barred the business, its corporate officers, agents, and employees from using the word “cilk” in reference to any product not made of silk. The provision applied to sales, as well as advertising, trademarks, trade names, and labels.&lt;/p&gt;&lt;p&gt;The reasoning in the case reflects the two lodestars in the FTC firmament: promoting competition and protecting consumers. Certainly, Circle Cilk’s deceptive practices injured competitors who played by the rules: “Whenever such confusion and deception occurs there also results a damage to the trade and manufacturers who deal in silk products.” But the Commission also held that Circle Cilk had “deceived some of the consuming public into believing they are buying and receiving a product made of silk when in fact they are not” – affirming consumer protection as a central focus of the then-new agency.&lt;/p&gt;&lt;p&gt;The FTC’s consumer protection mission was called into question in the Supreme Court’s 1931 &lt;em&gt;Raladam&lt;/em&gt; decision. (More about the classic “Fat Girl Laughs and Grows Slim” ad campaign for Marmola diet pills later.) Congress responded by passing the Wheeler-Lee Act in 1938, which amended Section 5 to outlaw “unfair or deceptive acts or practices,” thereby ending any question about the centrality of consumer protection to the FTC mission.&lt;/p&gt;&lt;p&gt;Almost a century has passed since &lt;em&gt;Circle Cilk&lt;/em&gt;, but the Commission remains the nation’s champion for truth in advertising, including the &lt;a href="http://business.ftc.gov/selected-industries/clothing-and-textiles"&gt;labeling of textiles and clothing&lt;/a&gt;. The Textile Fiber Products Identification Act, the Wool Products Labeling Act, the Fur Products Labeling Act, and related FTC rules ensure that consumers have accurate information about what they’re buying.&lt;/p&gt;&lt;p&gt;So next time you put on a sweater or take off your coat, think of the first case published in Federal Trade Commission Decisions and remember that at the FTC, we have your back – or neck, hem, waistband, or wherever else you see a label that truthfully discloses what the product is made of.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Next FTC Milestone:&lt;/em&gt;&lt;/strong&gt;&amp;nbsp; Making the case for reform of public utility holding company laws&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Thu, 06 Nov 2014 19:05:13 +0000</pubDate>
+    <dc:creator>rcuster</dc:creator>
+    <guid isPermaLink="false">74063 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Voices for Liberty Videos: “Fireside chat” participants explain burdens of unnecessary occupational licensing</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2018/01/voices-liberty-videos-fireside-chat-participants-explain-burdens-unnecessary-occupational-licensing</link>
+  <description>
+&lt;span&gt;Voices for Liberty Videos: “Fireside chat” participants explain burdens of unnecessary occupational licensing&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/147"&gt;rgiura&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2018-01-17T13:55:23-05:00" title="Wednesday, January 17, 2018 | 1:55PM"&gt;January 17, 2018 | 1:55PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2018/01/voices-liberty-videos-fireside-chat-participants-explain-burdens-unnecessary-occupational-licensing" hreflang="en"&gt;Voices for Liberty Videos: “Fireside chat” participants explain burdens of unnecessary occupational licensing&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Tara Koslov, Office of Policy Planning&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;When Acting Chairman Ohlhausen &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/03/ftc-launches-new-website-dedicated-economic-liberty"&gt;launched the FTC’s Economic Liberty Task Force&lt;/a&gt; in early 2017 to shine a spotlight on occupational licensing, the goal was not only to advocate for needed reforms. She also wanted to give a voice to the millions of American workers and consumers – especially military families – whose lives and livelihoods are impacted by misguided policies. Unnecessary licensing requirements affect workers throughout the economy and across the nation, and they hit military spouses particularly hard when service members relocate from state to state.&lt;/p&gt;&lt;p&gt;To help get the word out, and to kick off the Task Force’s 2018 activities, today we are sharing our latest project: &lt;a href="https://www.ftc.gov/policy/advocacy/economic-liberty/voices-liberty-fireside-chat"&gt;Voices for Liberty&lt;/a&gt;, a set of storytelling videos featuring four Americans whose lives have been impacted by overbroad licensing rules. On December 14, 2017, we hosted four individuals, including three military spouses, for a “fireside chat” with Acting Chairman Ohlhausen. We are grateful to our guests for coming to FTC headquarters to share their stories:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Nivea Thornton, a natural hair braider;&lt;/li&gt;&lt;li&gt;Kim Lopez, an educator and military spouse;&lt;/li&gt;&lt;li&gt;Sean O’Driscoll, an emergency medical technician and military spouse; and&lt;/li&gt;&lt;li&gt;Jackie Clark, formerly a licensed esthetician and massage therapist (now a graphic designer) and military spouse.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;As the &lt;a href="https://www.ftc.gov/policy/advocacy/economic-liberty/selected-advocacy-relating-occupational-licensing"&gt;Task Force website explains&lt;/a&gt;, occupational licensing reform has long been a core focus of the FTC’s competition advocacy program, through which we urge policymakers to reduce or eliminate regulations that stifle competition and aren’t needed to protect consumers. The Task Force has helped to amplify our bottom-line message: streamlining occupational regulations is good for competition, workers, consumers, and the American economy.&lt;/p&gt;&lt;p&gt;Last year, the Task Force hosted roundtable discussions on &lt;a href="https://www.ftc.gov/news-events/events-calendar/2017/07/streamlining-licensing-across-state-lines-initiatives-enhance"&gt;license portability&lt;/a&gt; and &lt;a href="https://www.ftc.gov/news-events/events-calendar/2017/11/effects-occupational-licensure-competition-consumers-workforce"&gt;empirical research about the effects of licensing&lt;/a&gt;, engaged with numerous state policymakers and other key stakeholders, filed written advocacy comments on &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/03/ftc-staff-issues-comment-occupational-licensing-reforms-nebraska"&gt;state&lt;/a&gt; and &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/11/ftc-staff-comment-supports-va-telehealth-rule-will-increase"&gt;federal&lt;/a&gt; licensing proposals, and supported the Commission’s &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/09/ftc-testifies-house-judiciary-subcommittee-about-competitive"&gt;Congressional testimony on licensing issues&lt;/a&gt;. We also are partnering with our colleagues at the &lt;a href="https://www.dol.gov/newsroom/releases/opa/opa20170721"&gt;U.S. Department of Labor&lt;/a&gt; and &lt;a href="http://usa4families.militaryonesource.mil/MOS/f?p=USA4:ISSUE:0::::P2_ISSUE:7"&gt;U.S. Department of Defense&lt;/a&gt; who are tackling licensing issues.&lt;/p&gt;&lt;p&gt;The goal of the fireside chat and videos is to make sure those involved in policy debates do not lose sight of the very real impact of licensing on the everyday lives of American workers.&lt;/p&gt;&lt;p&gt;For example, for Ms. Lopez, state licensing requirements in Utah meant there was no feasible way for her to work as a public school teacher in the state where her husband is stationed, even though she is an experienced teacher with a Master’s degree, several specialty certifications, and licenses from other states with rigorous standards.&lt;/p&gt;&lt;p&gt;“I want to work in my field. I feel I have a lot to give to children and my community in my field and that’s what I’m interested in. So it was a lot put on my family as far as hardship financially, and I often have to work under what I’m qualified to do,” she said.&lt;/p&gt;&lt;p&gt;For Ms. Thornton, it meant being told she needed a cosmetology license to operate her hair-braiding business, even though her state’s mandatory cosmetology training would not include any instruction on hair-braiding skills.&lt;/p&gt;&lt;p&gt;“After I started my business and I had the issue with the [Arkansas] cosmetology board, I said to myself, there has to be a way that something can be done about this,” she said.&lt;/p&gt;&lt;p&gt;Ms. Thornton appealed the requirement to the state board, which later withdrew the requirement.&lt;/p&gt;&lt;p&gt;Since then, she said, “business has grown tremendously. I stay busy. I’m currently actually looking for braiders to employ in my salon, possibly expanding because my space is needing more room.”&lt;/p&gt;&lt;p&gt;Our four guests’ hour-long conversation with Acting Chairman Ohlhausen is insightful and inspiring, and we encourage everyone to &lt;a href="https://www.ftc.gov/news-events/audio-video/video/voices-liberty-fireside-chat"&gt;watch the entire video&lt;/a&gt;. We’ve also assembled a set of clips to illustrate particular issues. Check out the &lt;a href="https://www.ftc.gov/policy/advocacy/economic-liberty/voices-liberty-fireside-chat"&gt;complete list&lt;/a&gt;, but here are a few of the observations they shared:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Some occupations are licensed even though licensing isn’t needed to protect the public. Entrepreneurship can thrive when unnecessary restrictions are lifted.&lt;/li&gt;&lt;li&gt;It can be difficult and expensive for even highly skilled and experienced professionals to obtain new licenses when moving to a new state, especially when they have to retake tests, complete duplicative coursework, or otherwise prove their qualifications all over again.&lt;/li&gt;&lt;li&gt;Licensing restrictions may force people to take lower-paid jobs that don’t fully utilize their skills, or to switch careers entirely.&lt;/li&gt;&lt;li&gt;Military spouses in licensed occupations face particular challenges, because they move often and may not know where they will end up next. This may discourage service members from remaining in the military.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Acting Chairman Ohlhausen asked our guests about &lt;a href="https://www.ftc.gov/news-events/audio-video/video/voices-liberty-multiple-speakers-2"&gt;advocacy challenges and opportunities&lt;/a&gt; and &lt;a href="https://www.ftc.gov/news-events/audio-video/video/voices-liberty-what-more-can-federal-government-do-advance-cause"&gt;what more the federal government might do&lt;/a&gt;. They all agreed: overbroad licensing rules need to change, to help everyone who faces unnecessary burdens to work in their field. The stories our guests shared go to the heart of how occupational licensing can dramatically impact economic liberty and the ability to earn a living, and they help to explain why licensing reform has popular and bipartisan support.&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Wed, 17 Jan 2018 18:55:23 +0000</pubDate>
+    <dc:creator>rgiura</dc:creator>
+    <guid isPermaLink="false">54259 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>The closest competitor is not the only competitor</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2019/12/closest-competitor-not-only-competitor</link>
+  <description>
+&lt;span&gt;The closest competitor is not the only competitor&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/211"&gt;bjames@ftc.gov&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2019-12-09T14:06:57-05:00" title="Monday, December 9, 2019 | 2:06PM"&gt;December 9, 2019 | 2:06PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2019/12/closest-competitor-not-only-competitor" hreflang="en"&gt;The closest competitor is not the only competitor&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Stephen Mohr, Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;More and more, merging parties argue that their merger does not raise competition concerns because they are not each other’s closest competitors. Parties have advanced this argument even in markets where there will be only two or three remaining firms post-transaction, including the merged firm. This argument is not new, and it often misunderstands merger analysis.&lt;/p&gt;
+
+&lt;p&gt;For any merger involving direct competitors – firms that are actively bidding against one another or vying for the same customers – the key question is whether the elimination of competition between the merging parties increases opportunities for anticompetitive unilateral or coordinated conduct in the post-merger market. While removal of the closest competitor likely eliminates the most significant source of competitive pressure on the merging firm, the Bureau’s analysis does not end merely because the merging parties are not each other’s most intense rivals. Instead, the Bureau routinely examines mergers that do not involve the two closest competitors in a market because a merger that removes a close (though not closest) competitor also may have a significant effect on the competitive dynamics in the post-merger market—that is, it too may “substantially lessen competition” in violation of Section 7. This is consistent with the discussion in the &lt;a href="https://www.ftc.gov/sites/default/files/attachments/merger-review/100819hmg.pdf"&gt;&lt;em&gt;Horizontal Merger Guidelines&lt;/em&gt;&lt;/a&gt; § 6.1 regarding competition between differentiated products, and is especially true if the acquired firm plays the role of a disruptor or innovator in the market. These firms often ‘punch above their weight,’ having an out-sized impact on market dynamics despite a small market share.&lt;/p&gt;
+
+&lt;p&gt;For more recent real world guidance, merging parties need look no further than two of the Commission’s recent merger challenges: &lt;a href="https://www.ftc.gov/enforcement/cases-proceedings/171-0156/cdk-global-automate-matter"&gt;&lt;em&gt;In re CDK Global, Inc.&lt;/em&gt;&lt;/a&gt; (CDK) and &lt;a href="https://www.ftc.gov/enforcement/cases-proceedings/171-0231/otto-bock-healthcarefreedom-innovations"&gt;&lt;em&gt;In re Otto Bock HealthCare North America, Inc.&lt;/em&gt;&lt;/a&gt; (Otto Bock). Last year, the Commission challenged the proposed merger of CDK and Auto/Mate, providers of dealer management systems for car dealerships. As the Commission stated in its Complaint, CDK and Reynolds &amp;amp; Reynolds were the two dominant players in the U.S. market, while Auto/Mate was an “innovative, disruptive challenger” that engaged in aggressive pricing. Although Auto/Mate was far from being CDK’s closest competitor, the Commission nonetheless determined that Auto/Mate was poised to become an even stronger competitive threat in the future and that existing, current competition between the parties understated the most likely anticompetitive effects of this transaction. After the Commission issued a complaint and authorized staff to seek a PI, the parties abandoned their transaction.&lt;/p&gt;
+
+&lt;p&gt;Even more illuminating is this year’s Commission &lt;a href="https://www.ftc.gov/system/files/documents/cases/d09378commissionfinalopinion.pdf"&gt;Opinion&lt;/a&gt; analyzing Otto Bock’s acquisition of Freedom Innovations, two manufacturers of microprocessor prosthetic knees (MPKs). Similar to Auto/Mate, Freedom was a smaller, but more innovative and aggressive competitor than the two larger prosthetic manufacturers, Otto Bock and Össur. Otto Bock argued that the transaction was unlikely to result in competitive harm because Össur, not Freedom, was its closest competitor. The Commission disagreed, emphasizing in its Opinion that, “a merger can cause unilateral effects even if the merging products are not each other’s closest competitors” and noting that it is sufficient if “a significant fraction of the customers purchasing that product view products formerly sold by the other merging firm as their next-best choice”—and that a “significant fraction . . . need not approach a majority.”&amp;nbsp; Applying this principle, the Commission found sufficient evidence of closeness of competition because Otto Bock and Freedom competed vigorously before the merger and, at the time of the acquisition, Freedom was preparing to introduce a new MPK that it expected would take significant share away from Otto Bock.&lt;/p&gt;
+
+&lt;p&gt;As the &lt;em&gt;CDK &lt;/em&gt;and &lt;em&gt;Otto Bock &lt;/em&gt;matters demonstrate, parties that continue to focus on showing that the merging firms are not each other’s closest competitor may be ignoring the full analysis necessary to convince the Bureau and the Commission that the merger does not raise competitive concerns. Because that fact is not dispositive, counsel should address all the ways in which the parties are important competitive constraints on each other (or other market participants) such that the merger, by removing this constraint, would allow the merged firm to raise prices, reduce quality, reduce innovation, or coordinate more effectively with remaining competitors. Merger review is not so myopic as to dismiss the impact of all but the closest competitor.&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Mon, 09 Dec 2019 19:06:57 +0000</pubDate>
+    <dc:creator>bjames@ftc.gov</dc:creator>
+    <guid isPermaLink="false">54513 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>Have a plan to comply with the bar on horizontal interlocks</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2017/01/have-plan-comply-bar-horizontal-interlocks</link>
+  <description>
+&lt;span&gt;Have a plan to comply with the bar on horizontal interlocks&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/75"&gt;rcuster&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2017-01-23T12:18:07-05:00" title="Monday, January 23, 2017 | 12:18PM"&gt;January 23, 2017 | 12:18PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2017/01/have-plan-comply-bar-horizontal-interlocks" hreflang="en"&gt;Have a plan to comply with the bar on horizontal interlocks&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Debbie Feinstein, Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;With some exceptions, Section 8 of the Clayton Act prohibits the same individual from serving as an officer or director of two competing corporations. Like other portions of the forward-looking Clayton Act (including Section 7 with its proscription on mergers that are likely to harm competition), Section 8 was designed to “nip in the bud incipient violations of the antitrust laws by removing the opportunity or temptation to such violations through interlocking directorates.” &lt;em&gt;U.S. v. Sears, Roebuck &amp;amp; Co&lt;/em&gt;., 111 F. Supp. 614, 616 (S.D.N.Y. 1953).&lt;/p&gt;
+
+&lt;p&gt;As enacted in 1914, Section 8’s interlock ban was nearly absolute: any two corporations (other than banks, trust companies and common carriers) worth more than $1 million with competing lines of business could not share a board member (or later, an officer) even if the interlock was not likely to harm competition. (Indeed an interlock may occur even if different individuals serve on the respective Boards; both the FTC and DOJ have brought enforcement actions involving indirect interlocks.) But near the end of the 20&lt;sup&gt;th&lt;/sup&gt; century, advocates for reform argued that the low bar for interlocks was discouraging qualified individuals from serving on boards even when the risk to competition was low. Consequently, in 1990, Congress amended Section 8 to raise the jurisdictional threshold from $1 million to $10 million, and to create safe harbors to permit interlocks involving very small competitive overlaps. However, if the jurisdictional thresholds are met and no safe harbor applies, the ban on interlocks remains absolute: in antitrust terms, Section 8 is a &lt;em&gt;per se&lt;/em&gt; statute that does not require proof that the interlock results in harm to competition.&lt;/p&gt;
+
+&lt;p&gt;Now Section 8’s higher jurisdictional threshold is adjusted every year based on changes in GNP, and, with the adjustments announced &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/01/ftc-announces-annual-update-size-transaction-thresholds-premerger"&gt;last week&lt;/a&gt;, excludes corporations that have capital, surplus and undivided profits aggregating less than $32,914,000. In addition, there are three &lt;em&gt;de minimis&lt;/em&gt; exceptions to the interlock ban that permit horizontal interlocks for two companies with few overlapping products:&lt;/p&gt;
+
+&lt;ol&gt;
+    &lt;li&gt;the competitive sales of either corporation are less than $3,291,400 (also adjusted annually for changes in GNP),&lt;/li&gt;
+    &lt;li&gt;the competitive sales of either corporation are less than 2 percent of that corporation’s total sales, or&lt;/li&gt;
+    &lt;li&gt;the competitive sales of each corporation are less than 4 percent of that corporation’s total sales.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Because the thresholds change annually and the exceptions require an assessment of relative competitive sales levels, any company with an interlock will need an effective compliance program to monitor the firm’s capital position, as well as each firm’s sales of overlapping products. This is especially true if either (or both) firms are changing in ways that result in more of their business competing with the interlocked competitor. Depending on the size of the company, even small increases in competitive sales (or decreases in overall sales) may push a company outside the safe harbors.&lt;/p&gt;
+
+&lt;p&gt;Note that these thresholds and exemptions only apply to horizontal interlocks that would otherwise violate Section 8. Other statutes, such as Section 1 of the Sherman Act, still apply without exception to limit collusive behavior or unreasonable information sharing among competitors, including when such conduct occurs in the context of an exempt interlock. In addition, Section 5 of the FTC Act may also reach interlocks that do not technically meet Section 8’s interlock requirements but violate the policy against horizontal interlocks expressed in Section 8. For example, Section 5 can reach interlocks involving banks, which are exempt from Section 8, and competing non-bank corporations. &lt;em&gt;In re Perpetual Fed. Savings &amp;amp; Loan Ass’n&lt;/em&gt;, 90 F.T.C. 608, 657 (1977)).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lessons from Section 8 enforcement&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The Commission has generally relied on self-policing to prevent Section 8 violations, and as a result, litigated Section 8 cases are rare (with none construing the 1990 amendments). In recent Section 8 investigations, once staff raised concerns, an individual agreed to step down from one company in order to eliminate the interlock. For example, FTC staff closed an investigation into interlocks involving Google, Inc. and Apple, Inc. after &lt;a href="https://www.ftc.gov/news-events/press-releases/2009/10/statement-ftc-chairman-jon-leibowitz-regarding-announcement"&gt;a common member resigned from Google’s board&lt;/a&gt; and &lt;a href="https://www.ftc.gov/news-events/press-releases/2009/08/statement-bureau-competition-director-richard-feinstein-regarding"&gt;Google’s CEO resigned from Apple’s Board&lt;/a&gt;. A resignation that eliminates the interlock may effectively bring each company back into compliance with Section 8 and may lead the Commission to determine that there is no need for any further action where there is little risk of recurrence. (The FTC’s remedy for a Section 8 violation is injunctive relief – an order to cease and desist. Section 8 does not provide for civil penalties or other monetary relief.) Note, also, that Section 8(b) provides a grace period of one year for an interlocking director or officer to resign if there is a change that renders him or her ineligible to serve on both boards.&lt;/p&gt;
+
+&lt;p&gt;Recent experience with reviewing interlocks revealed certain practices that could help companies avoid interlocks that run afoul of Section 8. These steps could also help companies avoid creating potential Section 8 issues as part of a proposed acquisition that grants management rights that could, if exercised, create an illegal interlock.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Monitor your company’s assets and check annually against the adjusted jurisdictional threshold.&lt;/strong&gt;&lt;br&gt; As required by the 1990 amendments, &lt;a href="https://www.ftc.gov/news-events/press-releases/2017/01/ftc-announces-annual-update-size-transaction-thresholds-premerger"&gt;the FTC announces adjustments to the minimum thresholds for Section 8 each January&lt;/a&gt;, to take effect immediately. If your company relies on staying below the minimum size threshold, be sure to do an annual assessment of your company capital, surplus, and undivided profits and compare those figures to the adjusted amount. (Because the thresholds adjust to changes in GNP, some years the threshold goes up and some years it goes down.)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Track new products or offerings for each interlocked company that may create new areas of competitive sales.&lt;/strong&gt;&lt;br&gt; Section 8 applies to “competitors” in the sense that “the elimination of competition by agreement between them” would violate the antitrust laws. But courts have rejected the argument that this is the same as the market definition analysis found in other antitrust cases. In &lt;a href="http://scholar.google.com/scholar_case?case=15038637395110706678&amp;amp;q=647+f.2d+942&amp;amp;hl=en&amp;amp;as_sdt=20003"&gt;TRW, Inc., v. Federal Trade Commission&lt;/a&gt;, the Ninth Circuit found that especially in emerging industries, competition in the Section 8 sense can encompass more than an assessment of the cross-elasticity of demand for existing products:&lt;/p&gt;
+
+&lt;p&gt;In a developing industry in which product variation is just beginning and customer needs are not yet standardized, it is unlikely that two companies will produce products nearly equivalent in their ability to satisfy the needs of a range of customers. Nonetheless, these companies compete. Their competition consists of the struggle to obtain the patronage of the same prospective customers, accompanied by representations of a willingness to modify their respective products. Competition also consists of efforts to make a sale, even if neither succeeds in persuading the buyer to purchase. It was in this manner that TRW and A-M competed. Their willingness to respond to requests regarding credit verification and EFT systems, and in many instances aggressively to pursue the same prospective purchaser, indicates that neither company perceived the range of competitive possibilities in terms as narrow as those advanced by petitioners.&lt;/p&gt;
+
+&lt;p&gt;This broad view of competitive sales that would trigger Section 8 review has not been challenged or revisited by courts. In fact, in 1990, Congress considered but rejected amendments that would have required a more rigorous Section 7-style market analysis. &lt;em&gt;See&lt;/em&gt; Sen. Rep. 101-286 at 6 (1990).&lt;/p&gt;
+
+&lt;p&gt;Companies need to be aware of changes not only in their own competitive portfolio but also those of any firms with which there is an existing interlock. Using public information to keep tabs on offerings of interlocked firms may reveal new areas of competitive sales that will need to be assessed and possibly added in to calculations of relative sales levels. With so many changing data points, companies need a plan for monitoring changes in the market.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Be sure to check with employees who are knowledgeable about market participants and review documents that track market developments.&lt;/strong&gt;&lt;br&gt; An accurate assessment of competitive sales should include review of ordinary course business documents that reveal how closely the interlock companies compete, as well as discussions with front-line employees who monitor the competitive offerings of the interlocked competitor. High-level corporate documents or interviews with high-level executives may not contain sufficient detail to determine each company’s relative market position. For instance, in a recent matter, high-level executives indicated that certain products did not compete with the interlocked company; company documents we obtained pursuant to compulsory process showed otherwise. As a matter of prosecutorial discretion, the Commission took no action in that matter because the companies involved had attempted to comply with Section 8, removed the interlock upon learning of our investigation, and improved their compliance efforts. Nevertheless, the interlocked companies were subject to a significant investigation. In the past, the FTC has issued &lt;a href="https://www.ftc.gov/sites/default/files/documents/commission_decision_volumes/volume-89/ftc_volume_decision_89_january_-_june_1977pages_1-106.pdf#page=91"&gt;a consent order&lt;/a&gt; requiring IBM to consult with “appropriate personnel in IBM’s manufacturing, marketing and other divisions most knowledgeable regarding the source and nature of products and services in competition with” IBM and its subsidiaries.&lt;/p&gt;
+
+&lt;p&gt;In addition, if you are relying on the other company to report its competitive sales in order to comply with the ‘less than 4 percent’ requirement, check with your own employees to see if the competitive assessment comports with your own assessment of which products or services compete. Relying solely on the representations of the interlocked firm may not be sufficient to maintain compliance with Section 8 safe harbors. Indeed, it may be necessary for outside counsel to share information on a confidential basis to ascertain that an unlawful interlock is not created. We will not necessarily excuse a company from its obligation to comply with Section 8 merely because it relied on representations of the interlocked company.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Take care when acquisitions create interlocks.&lt;/strong&gt;&lt;br&gt; Acquisition agreements sometimes include a provision that grants one party the ability to appoint a board member to another firm, and occasionally, this right, if exercised, would create an interlock that would violate Section 8. Even before the rights are exercised, such provisions may raise antitrust concerns. Recently, the &lt;a href="https://www.justice.gov/opa/pr/tullett-prebon-and-icap-restructure-transaction-after-justice-department-expresses-concerns"&gt;DOJ required Tullett Prebon and ICAP to restructure a $1.5 billion transaction&lt;/a&gt; that would have resulted in ICAP owning nearly 20 percent of Tullett Prebon and having the right to nominate one member of its board of directors. DOJ, in its press release announcing the changes, noted that Section 8 requires that firms that compete remain independent. Because the two firms would continue to compete after completing the proposed transaction, the revised agreement left ICAP without an ownership stake or the right to appoint a member to the Tullett Prebon board.&lt;/p&gt;
+
+&lt;p&gt;Sometimes, there are antitrust concerns with the underlying merger as well as any potential interlock. For instance, in &lt;a href="https://www.justice.gov/atr/case/us-v-commscope-inc-and-andrew-corp"&gt;United States v. CommScope Inc.&lt;/a&gt;, the DOJ alleged violations of both Section 7 and 8 of the Clayton Act in a proposed merger between CommScope and Andrew Corporation, a transaction that included Andrew’s interests and management rights in another company, Andes Industries, Inc. CommScope competed with Andes in the U.S. market for drop cable used by cable television companies. Andrew’s interest in Andes included a 30 percent equity position, plus warrants to acquire additional stock, as well as several governance rights, such as the ability to designate members of Andes’ board. According to DOJ, CommScope’s acquisition of Andrew’s holdings in Andes would violate Section 7, by giving CommScope both the ability and incentive to coordinate with Andes or undermine its competitive decisionmaking. The proposed purchase agreement with Andrew also violated Section 8 by giving CommScope the ability to appoint Andes board members, a firm with sufficient competitive sales to trigger Section 8. To settle charges related to both sections, CommScope agreed to divest Andrew’s entire ownership interest in Andes, and forfeit any rights to appoint members of Andes’ board.&lt;/p&gt;
+
+&lt;p&gt;Conversely, a spin-off of a business unit or other assets may lower your company’s total sales in a way that increases the percentage of competitive sales above the 2 percent safe harbor. All the more reason to make Section 8 compliance part of an annual audit.&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Mon, 23 Jan 2017 17:18:07 +0000</pubDate>
+    <dc:creator>rcuster</dc:creator>
+    <guid isPermaLink="false">74033 at https://www.ftc.gov</guid>
+    </item>
+<item>
+  <title>From the antitrust mailbag: What can the FTC do about prescription drug price spikes?</title>
+  <link>https://www.ftc.gov/enforcement/competition-matters/2015/05/antitrust-mailbag-what-can-ftc-do-about-prescription-drug-price-spikes</link>
+  <description>
+&lt;span&gt;From the antitrust mailbag: What can the FTC do about prescription drug price spikes?&lt;/span&gt;
+
+&lt;span&gt;&lt;span lang about="https://www.ftc.gov/user/75"&gt;rcuster&lt;/span&gt;&lt;/span&gt;
+
+&lt;span&gt;&lt;time datetime="2015-05-18T12:31:59-04:00" title="Monday, May 18, 2015 | 12:31PM"&gt;May 18, 2015 | 12:31PM&lt;/time&gt;
+&lt;/span&gt;
+
+  &lt;h3 class="node-title"&gt;&lt;a href="https://www.ftc.gov/enforcement/competition-matters/2015/05/antitrust-mailbag-what-can-ftc-do-about-prescription-drug-price-spikes" hreflang="en"&gt;From the antitrust mailbag: What can the FTC do about prescription drug price spikes?&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;div class="field field--name-field-author field--type-string field--label-inline"&gt;
+            &lt;div class="field__label"&gt;By&lt;/div&gt;
+        &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;Alan Friedman, Bureau of Competition&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class="field field--name-body field--type-text-with-summary field--label-hidden"&gt;
+    &lt;div class="field__items"&gt;
+          &lt;div class="field__item"&gt;&lt;p&gt;Consumers frequently contact the Bureau of Competition to alert us that the cost of a prescription drug suddenly spiked up, and ask if the FTC can take antitrust action to bring the price back down. The answer in a nutshell is that it depends on the reason for the price change.&lt;/p&gt;
+
+&lt;p&gt;We’ve examined this issue a number of times and often found that price changes (up or down) are due to normal market forces and thus do not present an antitrust issue. One common cause of a sudden spike in the price of a drug is the development of a supply problem, such as an ingredient shortage. It’s a normal market event for prices to rise after a fall in supply. The U.S. Food and Drug Administration has the authority to address and prevent drug shortages, and that agency maintains &lt;a href="http://www.fda.gov/Drugs/DrugSafety/DrugShortages/default.htm"&gt;a list of drugs that are in short supply&lt;/a&gt;, including the market reason for the shortage and the estimated time required to resolve the shortage. When there is no supply problem, sometimes the answer is that the drug was recently acquired by a company, and the new owner has independently increased the price. Other times, the price varies from retailer to retailer, or is due to a coverage change by the pharmacy benefit manager. In these situations, the drug may be available at a better price at another retailer or from another health plan.&lt;/p&gt;
+
+&lt;p&gt;For our part, we remain watchful for information that suggests the possibility that unlawful anticompetitive activity is the reason for a price increase. Although the FTC has no authority to regulate the price of any product, including prescription drugs, protecting American consumers from anticompetitive activity in the health care sector has long been one of our most important responsibilities. Congress has empowered the FTC to prevent unfair methods of competition, such as illegal anticompetitive agreements among competitors to increase prices or restrict supply, and illegal exclusionary or predatory practices.&lt;/p&gt;
+
+&lt;p&gt;For example, several years ago, the FTC and 32 state Attorneys General sued a drug manufacturer and the only suppliers of a key ingredient for &lt;a href="https://www.ftc.gov/news-events/press-releases/2000/11/ftc-reaches-record-financial-settlement-settle-charges-price"&gt;signing illegal agreements that increased wholesale prices of two widely-prescribed anti-anxiety drugs by 2000-3000 percent&lt;/a&gt;. The FTC alleged that the drug maker, Mylan Laboratories, Inc., and three suppliers of a key ingredient entered into exclusive supply contracts to deny Mylan’s competitors access to ingredients necessary to manufacture the drugs. In exchange for their participation in the scheme, Mylan agreed to share its profits with the suppliers, and then raised the price of the drugs exponentially — in the case of one product, from $7.30 for a 500-count bottle to $190. The FTC’s antitrust suit led to one of the largest monetary settlements in FTC history, with $100 million returned to overcharged consumers and state agencies. The companies also agreed not to engage in similar unlawful conduct in the future.&lt;/p&gt;
+
+&lt;p&gt;Congress also has empowered the FTC to prevent mergers that may substantially lessen competition or tend to create a monopoly. In reviewing proposed mergers between pharmaceutical companies, the FTC looks to see if the two companies have competing products and whether the elimination of one independent competitor may lead to higher prices for an essential therapy or course of treatment. Since last year alone, the FTC has required divestitures in ten merger cases involving dozens of pharmaceutical products, including over-the-counter motion sickness medications, nicotine patches, generic eye drops, Retin-A for the treatment of acne, and generic multivitamin fluoride drops for children in the United States who do not have access to fluoridated water, as well as drugs that treat hypertension and bacterial infections. These divestitures preserve competition, ensuring that consumers do not pay higher drug prices as a result of the merger.&lt;/p&gt;
+
+&lt;p&gt;Protecting consumers from anticompetitive activity in the pharmaceutical industry remains a top priority at the FTC. Inquiries from the public, including emails, phone calls, and letters describing marked price increases for pharmaceuticals or other products or services, provide information that we may use to develop or support antitrust enforcement efforts. &lt;a href="https://www.ftc.gov/about-ftc/bureaus-offices/bureau-competition/contact-information"&gt;Contact the Bureau of Competition&lt;/a&gt; if you have concerns about pricing or other activity that may raise antitrust issues. To help you shape your complaint, take a look at our &lt;a href="https://www.ftc.gov/tips-advice/competition-guidance/guide-antitrust-laws"&gt;Guide to the Antitrust Laws&lt;/a&gt; and other materials that describe &lt;a href="https://www.ftc.gov/tips-advice/competition-guidance/industry-guidance/health-care"&gt;FTC efforts to maintain competition in health care markets&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Having trouble paying for your medications? Sometimes consumers can significantly reduce medication costs simply by comparing prices at different retail pharmacies, talking to their physicians about the suitability of prescribing a lower-cost alternative, filing an appeal with their health plan if appropriate, or switching to another health plan. Check out the FTC’s &lt;a href="http://www.consumer.ftc.gov/articles/0063-generic-drugs-and-low-cost-prescriptions"&gt;consumer information about assistance programs&lt;/a&gt; for qualifying patients who do not have prescription drug coverage, and potential cost savings from using a generic version of a brand name drug.&lt;/p&gt;
+&lt;/div&gt;
+      &lt;/div&gt;
+&lt;/div&gt;
+</description>
+  <pubDate>Mon, 18 May 2015 16:31:59 +0000</pubDate>
+    <dc:creator>rcuster</dc:creator>
+    <guid isPermaLink="false">74066 at https://www.ftc.gov</guid>
+    </item>
+
+  </channel>
+</rss>
