@@ -225,9 +225,9 @@ struct GoogleAIModeIntroView: View {
        }
        .padding(.horizontal, 25)
         // Add .onAppear here if you need specific logs for this part
-//        .onAppear {
-//            print("[Lifecycle] introductoryContent appeared.")
-//        }
+        .onAppear {
+            print("[Lifecycle] introductoryContent appeared.")
+        }
     }
 
     // --- aiIcon ViewBuilder ---
@@ -331,7 +331,7 @@ struct GoogleAIModeIntroView: View {
 
 // Ensure AVAudioSession.RecordPermission rawValue is accessible if needed for logging
 // (It usually is by default)
-extension AVAudioSession.RecordPermission: CustomStringConvertible {
+extension AVAudioSession.RecordPermission: @retroactive CustomStringConvertible {
     // Optional: Provide more descriptive names if needed
     public var description: String {
          switch self {
