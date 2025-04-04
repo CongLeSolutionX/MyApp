@@ -65,8 +65,27 @@ struct QCEWCsvParser {
                 continue
             }
             
-            let fields = line.components(separatedBy: ",")
-                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            //let fields = line.components(separatedBy: ",")
+               // .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            
+            // Inside the while loop in the parse() function:
+
+            // Skip empty lines that might exist
+            guard !line.trimmingCharacters(in: .whitespaces).isEmpty else {
+                continue
+            }
+
+            // *** Replace the old split with the new robust one ***
+            let fields = splitLineRespectingQuotes(line)
+            // Note: Trimming is now handled inside splitLineRespectingQuotes
+
+            // Validate column count (rest of the loop remains the same)
+            guard fields.count == expectedColumnCount else {
+                print("Warning: Skipping row \(lineCount) due to incorrect column count. Expected \(expectedColumnCount), found \(fields.count). Line: '\(line)'")
+                // Optionally throw: throw ParserError.invalidColumnCount(row: lineCount-1, expected: expectedColumnCount, found: fields.count)
+                continue // Skip this row
+            }
+            // ... rest of the mapping logic
             
             // Validate column count
             guard fields.count == expectedColumnCount else {
@@ -111,6 +130,64 @@ struct QCEWCsvParser {
         progressHandler?(1.0)
         return entries
     }
+    
+    
+    /// Splits a CSV line respecting quoted fields.
+    /// Handles commas within quotes and escaped quotes ("").
+    private func splitLineRespectingQuotes(_ line: String) -> [String] {
+        var fields = [String]()
+        var currentField = ""
+        var isInQuotes = false
+        var lastChar: Character? = nil
+
+        for char in line {
+            switch char {
+            case "\"":
+                // Handle quote: could be start/end of quoted field or an escaped quote
+                if isInQuotes {
+                    if lastChar == "\"" { // Escaped quote ("")
+                        currentField.append("\"") // Add one quote to the field
+                        lastChar = nil // Reset lastChar so the next char isn't treated as following a quote
+                    } else {
+                        // End of quoted section - we'll flip isInQuotes *after* processing this char
+                        lastChar = char
+                    }
+                } else {
+                    // Start of quoted section
+                    isInQuotes = true
+                    lastChar = char
+                }
+            case ",":
+                // Handle comma: separator only if not inside quotes
+                if isInQuotes {
+                    currentField.append(char) // Comma inside quotes, part of the field
+                } else {
+                    // Separator comma - end of the current field
+                    fields.append(currentField.trimmingCharacters(in: .whitespaces)) // Trim whitespace here
+                    currentField = "" // Reset for next field
+                }
+                lastChar = char
+            default:
+                // Any other character
+                if lastChar == "\"" && isInQuotes {
+                     // This character follows the closing quote of a field, so flip state
+                     isInQuotes = false
+                }
+                currentField.append(char)
+                lastChar = char
+            }
+        }
+
+        // Add the last field after the loop finishes
+        fields.append(currentField.trimmingCharacters(in: .whitespaces)) // Trim whitespace
+
+         // Edge case: If a line ends with a quote, we might need to flip isInQuotes state one last time.
+         // This basic parser assumes well-formed CSV where quotes are balanced or properly escaped.
+         // More complex handling might be needed for truly malformed lines.
+
+        return fields
+    }
+    
 }
 
 // MARK: - QCEWViewModel
