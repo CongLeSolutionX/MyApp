@@ -127,7 +127,7 @@ class QCEWViewModel: ObservableObject {
     
     private let csvParser = QCEWCsvParser()
     
-    func loadDataFromFile(filename: String = "qcew-2023-2024q1", fileType: String = "csv") {
+    func loadDataFromFile(filename: String = "qcew-2023-2024q1_Full", fileType: String = "csv") {
         // Prevent concurrent loads
         guard !isLoading else { return }
         
