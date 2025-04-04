@@ -495,7 +495,7 @@ struct GoogleAIModeIntroView: View {
 
         // --- 4. Start Recognition Task ---
         print("  -> Starting SFSpeechRecognitionTask.")
-        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
+        recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
             guard let self = self else { // Ensure self is available
                 print("[Recognition Task Callback] Self is nil, returning.")
                 return
@@ -571,6 +571,15 @@ struct GoogleAIModeIntroView: View {
             audioEngine.stop()
              print("  -> Audio Engine stopped.")
              //inputNode.removeTap(onBus: 0)
+            do {
+                audioEngine.stop()
+                print("  -> Audio Engine stopped.")
+                audioEngine.inputNode.removeTap(onBus: 0) // CORRECT: Access via audioEngine
+                print("  -> Removed tap from input node.")
+            } catch {
+                print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
+            }
+            
              print("  -> Removed tap from input node.")
         } catch {
              print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
