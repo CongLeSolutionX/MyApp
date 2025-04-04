@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AVFoundation
-import Speech // Import the Speech framework
+import Speech
 
 // MARK: - Main View Structure
 struct GoogleAIModeIntroView: View {
@@ -572,19 +572,13 @@ struct GoogleAIModeIntroView: View {
             audioEngine.stop()
             print("  -> Audio Engine stopped.")
             //inputNode.removeTap(onBus: 0)
-            do {
-                audioEngine.stop()
-                print("  -> Audio Engine stopped.")
-                audioEngine.inputNode.removeTap(onBus: 0) // CORRECT: Access via audioEngine
-                print("  -> Removed tap from input node.")
-            } catch {
-                print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
-            }
+            audioEngine.stop()
+            print("  -> Audio Engine stopped.")
+            audioEngine.inputNode.removeTap(onBus: 0) // CORRECT: Access via audioEngine
+            print("  -> Removed tap from input node.")
             
             print("  -> Removed tap from input node.")
-        } catch {
-            print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
-            // Continue with cleanup even if there's an error here
+            
         }
         
         
