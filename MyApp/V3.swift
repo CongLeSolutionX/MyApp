@@ -760,15 +760,27 @@ class PostDetailViewModel: ObservableObject {
     private let networkService = NetworkService()
     private let postID: UUID
     private let initialPostData: Post? // Can pass initial data to show immediately
-
-    init(postID: UUID, initialPostData: Post? = nil, initialAuthorData: User? = nil) {
+    init(post: Post? = nil, author: User? = nil, comments: [Comment], commentAuthors: [UUID : User], isLoading: Bool, errorMessage: String? = nil, newCommentText: String, isPostingComment: Bool, postID: UUID, initialPostData: Post?) {
+        self.post = post
+        self.author = author
+        self.comments = comments
+        self.commentAuthors = commentAuthors
+        self.isLoading = isLoading
+        self.errorMessage = errorMessage
+        self.newCommentText = newCommentText
+        self.isPostingComment = isPostingComment
         self.postID = postID
-        self.post = initialPostData // Show passed data right away
-        self.author = initialAuthorData
-         // If initial data provided, update state
-        // Note: Likes might be stale if passed from feed, fetch ensures latest.
-        
+        self.initialPostData = initialPostData
     }
+
+//    init(postID: UUID, initialPostData: Post? = nil, initialAuthorData: User? = nil) {
+//        self.postID = postID
+//        self.post = initialPostData // Show passed data right away
+//        self.author = initialAuthorData
+//         // If initial data provided, update state
+//        // Note: Likes might be stale if passed from feed, fetch ensures latest.
+//        
+//    }
 
     func fetchPostDetailsAndComments() async {
         isLoading = true
@@ -1236,11 +1248,13 @@ struct PostDetailViewWrapper: View {
 
     var body: some View {
         PostDetailView(
-            viewModel: PostDetailViewModel(
-                postID: postID,
-                initialPostData: initialPostData,
-                initialAuthorData: initialAuthorData
-            )
+            viewModel: PostDetailViewModel(comments: [Comment(id: UUID(), postID: Post.samplePosts[0].id, authorID: User.sampleUser2.id, text: "Looks amazing! Clean work.", timestamp: Date().addingTimeInterval(-3500))], commentAuthors: [UUID() : User(id: UUID(), username: "BuildMasterPro", bio: "Crafting dream homes since 2005. Quality & Precision.", profileImageURL: URL(string: "https://via.placeholder.com/150/FFA07A/000000?text=BMP"), servicesOffered: ["General Contracting", "New Construction", "ADUs"], serviceAreaDescription: "South Bay & Peninsula", certifications: ["Licensed GC #123456"], contactEmail: "contact@buildmaster.pro", contactPhone: "555-111-2222")], isLoading: false, newCommentText: "This is a new commment", isPostingComment: false, postID: postID, initialPostData: initialPostData)
+            
+            //viewModel: PostDetailViewModel(
+                // postID: postID,
+                // initialPostData: initialPostData
+                // initialAuthorData: initialAuthorData
+            //)
         )
         .environmentObject(authViewModel) // Ensure AuthViewModel is available
     }
