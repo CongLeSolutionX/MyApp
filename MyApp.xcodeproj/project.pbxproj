@@ -12,6 +12,7 @@
 		9A496D6B2D9F8BCB0039AD51 /* QCEW_2023_2024_Q1_Dataset_View_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A496D6A2D9F8BC80039AD51 /* QCEW_2023_2024_Q1_Dataset_View_V2.swift */; };
 		9A496D6F2D9F8E320039AD51 /* qcew_data.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9A496D6E2D9F8E2D0039AD51 /* qcew_data.xml */; };
 		9A496D722D9F904F0039AD51 /* Qcew-2023-2024q1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A496D712D9F90450039AD51 /* Qcew-2023-2024q1View.swift */; };
+		9A5EAC0A2D9F93C0001F7296 /* Qcew-2023-2024q1View_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5EAC092D9F93BE001F7296 /* Qcew-2023-2024q1View_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		9A496D6A2D9F8BC80039AD51 /* QCEW_2023_2024_Q1_Dataset_View_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCEW_2023_2024_Q1_Dataset_View_V2.swift; sourceTree = "<group>"; };
 		9A496D6E2D9F8E2D0039AD51 /* qcew_data.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = qcew_data.xml; sourceTree = "<group>"; };
 		9A496D712D9F90450039AD51 /* Qcew-2023-2024q1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Qcew-2023-2024q1View.swift"; sourceTree = "<group>"; };
+		9A5EAC092D9F93BE001F7296 /* Qcew-2023-2024q1View_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Qcew-2023-2024q1View_V2.swift"; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		9AF58D502D9F920C00CE0C7B /* Qcew-2023-2024q1 */ = {
 			isa = PBXGroup;
 			children = (
+				9A5EAC092D9F93BE001F7296 /* Qcew-2023-2024q1View_V2.swift */,
 				9A496D712D9F90450039AD51 /* Qcew-2023-2024q1View.swift */,
 				9AF58D512D9F922500CE0C7B /* qcew-2023-2024q1.csv */,
 				9AF58D4E2D9F919300CE0C7B /* qcew-2023-2024q1_Full.csv */,
@@ -187,6 +190,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A496D652D9F70CD0039AD51 /* DatastoreSearchView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A5EAC0A2D9F93C0001F7296 /* Qcew-2023-2024q1View_V2.swift in Sources */,
 				9A496D722D9F904F0039AD51 /* Qcew-2023-2024q1View.swift in Sources */,
 				9A496D6B2D9F8BCB0039AD51 /* QCEW_2023_2024_Q1_Dataset_View_V2.swift in Sources */,
 			);
