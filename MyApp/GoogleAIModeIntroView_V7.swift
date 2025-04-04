@@ -24,18 +24,18 @@ struct GoogleAIModeIntroView: View {
         didSet { print("[State Change] showSpeechDeniedAlert updated to: \(showSpeechDeniedAlert)") }
     }
     @State private var interactionMessage: String? = nil // For messages like "Listening...", "Denied"
-
+    
     // --- Permission State ---
     // Using an internal enum for clearer state management if preferred, or stick to Apple's enums
     enum PermissionStatusInternal: String { case undetermined, granted, denied }
     @State private var micPermissionStatus: PermissionStatusInternal = .undetermined {
-         didSet { print("[State Change] micPermissionStatus updated to: \(micPermissionStatus.rawValue)") }
-     }
+        didSet { print("[State Change] micPermissionStatus updated to: \(micPermissionStatus.rawValue)") }
+    }
     // Keep using the official SFSpeechRecognizerAuthorizationStatus for speech
     @State private var speechPermissionStatus: SFSpeechRecognizerAuthorizationStatus = .notDetermined {
         didSet { print("[State Change] speechPermissionStatus updated to: \(speechPermissionStatus.description)") }
     }
-
+    
     // --- Speech Recognition Objects ---
     // Use @StateObject for objects managing external events or requiring stable identity
     // Note: SFSpeechRecognizer is lightweight, @State might be fine, but @StateObject is safer practice for complex objects.
@@ -44,7 +44,7 @@ struct GoogleAIModeIntroView: View {
     @State private var recognitionTask: SFSpeechRecognitionTask?
     // audioEngine manages audio hardware state, keep as private let
     private let audioEngine = AVAudioEngine()
-
+    
     // --- UI Constants ---
     let rainbowGradient = AngularGradient(
         gradient: Gradient(colors: [
@@ -56,18 +56,18 @@ struct GoogleAIModeIntroView: View {
     let darkGrayBackground = Color(white: 0.1)
     let darkerGrayElement = Color(white: 0.15)
     let veryDarkBackground = Color(white: 0.05)
-
+    
     // MARK: - Body
     var body: some View {
         ZStack {
             darkGrayBackground.ignoresSafeArea()
-
+            
             VStack(spacing: 30) {
                 searchBarArea()
                     .padding(.top, 50)
-
+                
                 introductoryContent()
-
+                
                 Spacer()
             }
         }
@@ -80,43 +80,43 @@ struct GoogleAIModeIntroView: View {
         .alert("Microphone Access Denied", isPresented: $showMicDeniedAlert) {
             alertButtons()
         } message: { Text("To use voice input, please enable microphone access for this app in Settings.") }
-        .alert("Speech Recognition Access Denied", isPresented: $showSpeechDeniedAlert) {
-             alertButtons()
-        } message: { Text("To transcribe voice, please enable Speech Recognition access for this app in Settings.") }
+            .alert("Speech Recognition Access Denied", isPresented: $showSpeechDeniedAlert) {
+                alertButtons()
+            } message: { Text("To transcribe voice, please enable Speech Recognition access for this app in Settings.") }
     }
-
+    
     // MARK: - ViewBuilders
     @ViewBuilder
     private func searchBarArea() -> some View {
         let isMicDisabled = micPermissionStatus == .denied
         let isSpeechDisabled = speechPermissionStatus == .denied || speechPermissionStatus == .restricted
         let isFullyDisabled = isMicDisabled || isSpeechDisabled
-//        let canListen = !isFullyDisabled && !isListening // Can activate listening if permissions OK and not already listening
-
+        //        let canListen = !isFullyDisabled && !isListening // Can activate listening if permissions OK and not already listening
+        
         ZStack {
             // Background & Decoration
             veryDarkBackground
                 .cornerRadius(20)
                 .padding(.horizontal, 20)
                 .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
-
+            
             Capsule()
                 .strokeBorder(rainbowGradient, lineWidth: 4)
                 .blur(radius: 8)
                 .opacity(0.8)
                 .frame(height: 55)
                 .padding(.horizontal, 40)
-
-
+            
+            
             HStack {
                 TextField("Ask anything...", text: $searchText)
                     .foregroundColor(.white)
                     .tint(.white) // Cursor color
                     .padding(.leading, 20)
                     .disabled(isListening || isFullyDisabled) // Disable text field if listening or permissions denied
-
+                
                 Spacer()
-
+                
                 // --- Microphone Button ---
                 Button {
                     print("[UI Action] Microphone button tapped.")
@@ -125,15 +125,15 @@ struct GoogleAIModeIntroView: View {
                     Image(systemName: isFullyDisabled
                           ? "mic.slash.fill" // Disabled icon
                           : (isListening ? "waveform.circle.fill" : "mic.fill")) // Listening / Ready icons
-                        .font(.title2)
-                        .foregroundColor(isFullyDisabled
-                                         ? .gray // Disabled color
-                                         : (isListening ? buttonBlue : .white)) // Listening / Ready colors
+                    .font(.title2)
+                    .foregroundColor(isFullyDisabled
+                                     ? .gray // Disabled color
+                                     : (isListening ? buttonBlue : .white)) // Listening / Ready colors
                 }
-                 // Disable button if permissions denied OR if actively listening/processing
-                 .disabled(isFullyDisabled || (isListening && recognitionTask != nil))
-                 .padding(.trailing, 5)
-
+                // Disable button if permissions denied OR if actively listening/processing
+                .disabled(isFullyDisabled || (isListening && recognitionTask != nil))
+                .padding(.trailing, 5)
+                
                 // --- Camera Button ---
                 Image(systemName: "camera.viewfinder")
                     .foregroundColor(isFullyDisabled ? .gray : .white)
@@ -141,16 +141,16 @@ struct GoogleAIModeIntroView: View {
                     .padding(.leading, 5)
                     .allowsHitTesting(!isFullyDisabled)
                     .onTapGesture {
-                         print("[UI Action] Camera button tapped (if enabled).")
-                         // Add camera action logic here if needed
-                     }
+                        print("[UI Action] Camera button tapped (if enabled).")
+                        // Add camera action logic here if needed
+                    }
             }
             .frame(height: 50)
             .background(Color.black.opacity(isListening ? 0.7 : 1.0)) // Slightly transparent when listening
             .clipShape(Capsule())
             .padding(.horizontal, 45)
             .opacity(isFullyDisabled ? 0.7 : 1.0) // Dim if disabled
-
+            
             // --- Overlay message for Listening/Denied status ---
             .overlay(
                 Text(interactionMessage ?? "") // Use the interactionMessage state
@@ -175,63 +175,63 @@ struct GoogleAIModeIntroView: View {
         }
         .onAppear { updateInteractionMessage() } // Set initial message on appear
     }
-
+    
     @ViewBuilder
     private func introductoryContent() -> some View {
         VStack(alignment: .leading, spacing: 20) {
-           // Icon and Title Row
-           HStack(alignment: .center, spacing: 15) {
-               aiIcon() // Custom AI icon view
-               VStack(alignment: .leading) {
-                   Text("Ask Anything with AI Mode")
-                       .font(.title2)
-                       .fontWeight(.bold)
-                   Text("New") // Or "Beta", "Experiment"
-                       .font(.caption)
-                       .foregroundColor(.gray)
-               }
-               Spacer() // Pushes content to the left
-           }
-
-           // Description Text
-           Text("Be the first to try the new AI Mode experiment in Google Search. Get AI-powered responses and explore further with follow-up questions and links to helpful web content.")
-               .font(.subheadline)
-               .foregroundColor(.gray)
-
-           // Toggle Section
-           HStack {
-               Text("Turn this experiment on or off.")
-                   .font(.subheadline)
-               Spacer()
-               Toggle("", isOn: $isExperimentOn.animation()) // Animate the toggle switch
-                   .labelsHidden() // Hide the default toggle label
-                   .tint(buttonBlue) // Use custom color for the 'on' state
-                   .onChange(of: isExperimentOn) { newValue in
-                       print("[State Change] isExperimentOn toggled to: \(newValue)")
-                       // Add logic here if toggling the experiment should affect other things
-                   }
-           }
-           .padding() // Add padding inside the background
-           .background(darkerGrayElement) // Use a slightly different background
-           .cornerRadius(15)
-
-           // Try AI Mode Button
-           Button {
-               print("[UI Action] 'Try AI Mode' button tapped.")
+            // Icon and Title Row
+            HStack(alignment: .center, spacing: 15) {
+                aiIcon() // Custom AI icon view
+                VStack(alignment: .leading) {
+                    Text("Ask Anything with AI Mode")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("New") // Or "Beta", "Experiment"
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+                Spacer() // Pushes content to the left
+            }
+            
+            // Description Text
+            Text("Be the first to try the new AI Mode experiment in Google Search. Get AI-powered responses and explore further with follow-up questions and links to helpful web content.")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            
+            // Toggle Section
+            HStack {
+                Text("Turn this experiment on or off.")
+                    .font(.subheadline)
+                Spacer()
+                Toggle("", isOn: $isExperimentOn.animation()) // Animate the toggle switch
+                    .labelsHidden() // Hide the default toggle label
+                    .tint(buttonBlue) // Use custom color for the 'on' state
+                    .onChange(of: isExperimentOn) {
+                        print("[State Change] isExperimentOn toggled to: \(isExperimentOn)")
+                        // Add logic here if toggling the experiment should affect other things
+                    }
+            }
+            .padding() // Add padding inside the background
+            .background(darkerGrayElement) // Use a slightly different background
+            .cornerRadius(15)
+            
+            // Try AI Mode Button
+            Button {
+                print("[UI Action] 'Try AI Mode' button tapped.")
                 // Add action for this button if needed (e.g., navigate to a different view)
-           } label: {
-               Text("Try AI Mode")
-                   .fontWeight(.semibold)
-                   .frame(maxWidth: .infinity) // Make button stretch horizontally
-                   .padding()
-                   .background(buttonBlue) // Use custom button color
-                   .foregroundColor(darkGrayBackground) // Text color for contrast
-                   .cornerRadius(25) // Round the corners
-           }
-       }
-       .padding(.horizontal, 25) // Padding for the entire intro section
+            } label: {
+                Text("Try AI Mode")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity) // Make button stretch horizontally
+                    .padding()
+                    .background(buttonBlue) // Use custom button color
+                    .foregroundColor(darkGrayBackground) // Text color for contrast
+                    .cornerRadius(25) // Round the corners
+            }
+        }
+        .padding(.horizontal, 25) // Padding for the entire intro section
     }
-
+    
     @ViewBuilder
     private func aiIcon() -> some View {
         ZStack {
@@ -240,14 +240,14 @@ struct GoogleAIModeIntroView: View {
                 .frame(width: 55, height: 55)
                 .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 2)
             Circle()
-                 .fill(rainbowGradient)
-                 .frame(width: 45, height: 45)
+                .fill(rainbowGradient)
+                .frame(width: 45, height: 45)
             Image(systemName: "sparkles") // Using sparkles instead of magnifying glass
                 .font(.system(size: 22, weight: .bold))
                 .foregroundColor(.white)
         }
     }
-
+    
     // Helper for standard Alert Buttons
     @ViewBuilder
     private func alertButtons() -> some View {
@@ -263,12 +263,12 @@ struct GoogleAIModeIntroView: View {
             }
         }
         Button("Cancel", role: .cancel) {
-             print("[Alert Action] User tapped 'Cancel' on permission alert")
+            print("[Alert Action] User tapped 'Cancel' on permission alert")
         }
     }
-
+    
     // MARK: - Helper Functions
-
+    
     // Determines the color for the interaction message below the search bar
     private func messageColor() -> Color {
         if micPermissionStatus == .denied || speechPermissionStatus == .denied || speechPermissionStatus == .restricted {
@@ -279,7 +279,7 @@ struct GoogleAIModeIntroView: View {
             return .clear // Effectively hides the text color when no message should be shown prominantly
         }
     }
-
+    
     // Updates the interaction message text based on current state
     private func updateInteractionMessage() {
         if micPermissionStatus == .denied {
@@ -294,15 +294,15 @@ struct GoogleAIModeIntroView: View {
         }
         print("[UI Update] Interaction message set to: \(interactionMessage ?? "nil")")
     }
-
-
+    
+    
     // MARK: - Action & Permission Handling
-
+    
     // Called when the microphone button is tapped
     private func handleMicTap() {
         print("[Function Call] handleMicTap() called.")
         print("  -> Current State: isListening=\(isListening), Mic=\(micPermissionStatus.rawValue), Speech=\(speechPermissionStatus.description)")
-
+        
         // If currently listening, stop.
         if isListening {
             print("  -> Currently listening. Calling stopListening().")
@@ -322,18 +322,18 @@ struct GoogleAIModeIntroView: View {
             }
         }
     }
-
+    
     // Checks speech permission status AFTER mic permission is confirmed granted
     private func checkAndHandleSpeechPermission() {
         switch speechPermissionStatus {
         case .authorized:
             print("  -> Speech Authorized. Calling startListening().")
-             startListening() // Both permissions granted, start processing audio
+            startListening() // Both permissions granted, start processing audio
         case .notDetermined:
-             print("  -> Speech Undetermined. Calling requestSpeechPermission().")
+            print("  -> Speech Undetermined. Calling requestSpeechPermission().")
             requestSpeechPermission() // Request speech permission
         case .denied, .restricted:
-             print("  -> Speech Denied/Restricted. Setting showSpeechDeniedAlert = true.")
+            print("  -> Speech Denied/Restricted. Setting showSpeechDeniedAlert = true.")
             showSpeechDeniedAlert = true // Show alert for speech denial/restriction
         @unknown default:
             // Handle potential future cases gracefully
@@ -341,11 +341,11 @@ struct GoogleAIModeIntroView: View {
             showSpeechDeniedAlert = true
         }
     }
-
+    
     // Checks initial status of both Mic and Speech permissions on view appear
     private func checkInitialPermissions() {
         print("[Function Call] checkInitialPermissions() called.")
-
+        
         // 1. Check Mic Permission (Synchronous)
         let currentMicPermission = AVAudioApplication.shared.recordPermission
         print("  -> Current AVAudioApplication.recordPermission: \(currentMicPermission.description)")
@@ -357,23 +357,23 @@ struct GoogleAIModeIntroView: View {
             print("  -> Encountered @unknown default case for mic recordPermission.")
             self.micPermissionStatus = .undetermined
         }
-
+        
         // 2. Check Speech Permission (Synchronous)
         let currentSpeechPermission = SFSpeechRecognizer.authorizationStatus()
         print("  -> Current SFSpeechRecognizer.authorizationStatus: \(currentSpeechPermission.description)")
         self.speechPermissionStatus = currentSpeechPermission
-
+        
         // Update UI message based on initial permissions
         DispatchQueue.main.async { // Ensure UI update runs on main thread
             self.updateInteractionMessage()
         }
     }
-
+    
     // Requests microphone access from the user
     private func requestMicPermission() {
         print("[Function Call] requestMicPermission() called.")
         AVAudioApplication.requestRecordPermission { granted in // Use weak self
-//            guard let self = self else { return }
+            //            guard let self = self else { return }
             print("[Permission Callback] requestRecordPermission completed. Granted: \(granted)")
             // Ensure UI updates happen on the main thread
             DispatchQueue.main.async {
@@ -387,44 +387,44 @@ struct GoogleAIModeIntroView: View {
                     print("    -> Mic Permission DENIED. Setting showMicDeniedAlert = true.")
                     self.showMicDeniedAlert = true
                 }
-                 self.updateInteractionMessage() // Update message after permission state change
+                self.updateInteractionMessage() // Update message after permission state change
             }
         }
     }
-
+    
     // Requests speech recognition access from the user
     private func requestSpeechPermission() {
         print("[Function Call] requestSpeechPermission() called.")
         SFSpeechRecognizer.requestAuthorization { authStatus in // Use weak self
-//            guard let self = self else { return }
+            //            guard let self = self else { return }
             print("[Permission Callback] requestAuthorization completed. Status: \(authStatus.description)")
             // Ensure UI updates happen on the main thread
             DispatchQueue.main.async {
-                 print("  -> Updating speech state on main thread.")
+                print("  -> Updating speech state on main thread.")
                 self.speechPermissionStatus = authStatus
                 if authStatus == .authorized {
                     // Now that speech is authorized (and mic presumably already is),
                     // the user needs to tap the mic button again to initiate listening.
-                     print("    -> Speech permission GRANTED. User can now tap mic to start.")
-                     // Optional: Auto-start listening here if desired for smoother flow,
-                     // but requiring another tap might be clearer UX after permission grants.
-                     // self.startListening() // <-- Uncomment to auto-start immediately after speech grant
+                    print("    -> Speech permission GRANTED. User can now tap mic to start.")
+                    // Optional: Auto-start listening here if desired for smoother flow,
+                    // but requiring another tap might be clearer UX after permission grants.
+                    // self.startListening() // <-- Uncomment to auto-start immediately after speech grant
                 } else {
                     print("    -> Speech permission DENIED/Restricted. Setting showSpeechDeniedAlert = true.")
                     self.showSpeechDeniedAlert = true
                 }
-                 self.updateInteractionMessage() // Update message after permission state change
+                self.updateInteractionMessage() // Update message after permission state change
             }
         }
     }
-
-
+    
+    
     // MARK: - Real-time Listening Logic
-
+    
     // Starts the audio engine and speech recognition process
     private func startListening() {
         print("[Function Call] startListening() called.")
-
+        
         // --- Pre-checks ---
         guard !isListening else { // Prevent starting if already listening
             print("  -> Already listening or processing. Guarding.")
@@ -444,14 +444,14 @@ struct GoogleAIModeIntroView: View {
             }
             return
         }
-         print("  -> Pre-checks passed. Proceeding to start listening.")
-
+        print("  -> Pre-checks passed. Proceeding to start listening.")
+        
         // --- 1. Reset State & Create Request ---
         searchText = "" // Clear previous text
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest() // Create a new request
         guard let recognitionRequest = recognitionRequest else {
             print("  -> ERROR: Failed to create SFSpeechAudioBufferRecognitionRequest.")
-             // Handle error appropriately, maybe show message to user
+            // Handle error appropriately, maybe show message to user
             return
         }
         recognitionRequest.shouldReportPartialResults = true // Enable real-time results
@@ -461,9 +461,9 @@ struct GoogleAIModeIntroView: View {
         // if #available(iOS 13, *) {
         //     recognitionRequest.requiresOnDeviceRecognition = false // Set to true for on-device
         // }
-         print("  -> Recognition request created (partial results enabled).")
-
-
+        print("  -> Recognition request created (partial results enabled).")
+        
+        
         // --- 2. Configure Audio Session ---
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -474,14 +474,14 @@ struct GoogleAIModeIntroView: View {
             print("  -> Audio Session configured and activated successfully.")
         } catch {
             print("  -> ERROR configuring audio session: \(error.localizedDescription)")
-             cleanupListeningResources() // Clean up if session fails
+            cleanupListeningResources() // Clean up if session fails
             // Inform user
             DispatchQueue.main.async {
-                 self.interactionMessage = "Audio session error"
+                self.interactionMessage = "Audio session error"
             }
             return
         }
-
+        
         // --- 3. Setup Audio Engine Input Node ---
         let inputNode = audioEngine.inputNode
         // Get the recording format *before* installing the tap
@@ -495,9 +495,9 @@ struct GoogleAIModeIntroView: View {
             }
             return
         }
-         print("  -> Got Audio Engine Input Node. Format: \(recordingFormat)")
-
-
+        print("  -> Got Audio Engine Input Node. Format: \(recordingFormat)")
+        
+        
         // --- 4. Start Recognition Task ---
         print("  -> Starting SFSpeechRecognitionTask.")
         recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
@@ -506,7 +506,7 @@ struct GoogleAIModeIntroView: View {
                 return
             }
             var isFinal = false // Flag to check if this is the final result
-
+            
             // --- Handle Result ---
             if let result = result {
                 // Update the search text on the main thread
@@ -517,7 +517,7 @@ struct GoogleAIModeIntroView: View {
                 }
                 isFinal = result.isFinal // Check if the speech recognizer considers this the final transcript
             }
-
+            
             // --- Handle Error or Final Result ---
             if error != nil || isFinal {
                 print("  -> Recognition task ending. Error: \(error?.localizedDescription ?? "None"), isFinal: \(isFinal)")
@@ -529,7 +529,7 @@ struct GoogleAIModeIntroView: View {
                 }
             }
         }
-
+        
         // --- 5. Install Audio Tap ---
         print("  -> Installing tap on input node bus 0.")
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
@@ -537,45 +537,45 @@ struct GoogleAIModeIntroView: View {
             // This is called frequently on an audio processing thread
             self.recognitionRequest?.append(buffer)
         }
-
+        
         // --- 6. Prepare and Start Audio Engine ---
         do {
             print("  -> Preparing Audio Engine.")
             audioEngine.prepare()
-             print("  -> Starting Audio Engine.")
+            print("  -> Starting Audio Engine.")
             try audioEngine.start()
-             print("  -> Audio Engine started successfully.")
+            print("  -> Audio Engine started successfully.")
             // --- Success: Update UI State ---
             DispatchQueue.main.async { // Update UI on main thread
-                 self.isListening = true // Set the listening state flag
-                 self.updateInteractionMessage() // Update the "Listening..." message
+                self.isListening = true // Set the listening state flag
+                self.updateInteractionMessage() // Update the "Listening..." message
             }
         } catch {
             print("  -> ERROR starting audio engine: \(error.localizedDescription)")
-             cleanupListeningResources() // Clean up thoroughly if engine fails to start
+            cleanupListeningResources() // Clean up thoroughly if engine fails to start
             // Inform user
-             DispatchQueue.main.async {
-                 self.interactionMessage = "Audio engine error"
+            DispatchQueue.main.async {
+                self.interactionMessage = "Audio engine error"
             }
         }
     }
-
+    
     // Stops the audio engine and recognition process cleanly
     private func stopListening() {
         print("[Function Call] stopListening() called.")
         // Check if the engine is actually running before trying to stop
         guard audioEngine.isRunning else {
             print("  -> Audio engine is not running. Performing cleanup just in case.")
-             cleanupListeningResources() // Ensure cleanup even if called unexpectedly
+            cleanupListeningResources() // Ensure cleanup even if called unexpectedly
             return
         }
-
-         print("  -> Stopping Audio Engine and removing tap.")
-         // Use a do-catch block for potential errors during stop/removeTap
+        
+        print("  -> Stopping Audio Engine and removing tap.")
+        // Use a do-catch block for potential errors during stop/removeTap
         do {
             audioEngine.stop()
-             print("  -> Audio Engine stopped.")
-             //inputNode.removeTap(onBus: 0)
+            print("  -> Audio Engine stopped.")
+            //inputNode.removeTap(onBus: 0)
             do {
                 audioEngine.stop()
                 print("  -> Audio Engine stopped.")
@@ -585,66 +585,66 @@ struct GoogleAIModeIntroView: View {
                 print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
             }
             
-             print("  -> Removed tap from input node.")
+            print("  -> Removed tap from input node.")
         } catch {
-             print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
-             // Continue with cleanup even if there's an error here
+            print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
+            // Continue with cleanup even if there's an error here
         }
-
-
+        
+        
         // Signal that no more audio is coming for the request
         recognitionRequest?.endAudio()
         print("  -> Called endAudio() on recognition request.")
-
-
+        
+        
         // Cancel the task and perform remaining cleanup
         cleanupListeningResources()
     }
-
+    
     // Central function to reset all listening-related resources and state
     private func cleanupListeningResources() {
-         print("[Function Call] cleanupListeningResources() called.")
-
-         // --- Safely Cancel Recognition Task ---
-         // Check if task exists and is in a state that can be cancelled
-         if let task = recognitionTask, task.state == .running || task.state == .starting {
-             task.cancel() // Immediately terminate the task
-             print("  -> Cancelled active recognition task.")
-         } else {
-             print("  -> No active recognition task to cancel (State: \(recognitionTask?.state.description ?? "nil")).")
-         }
-         recognitionTask = nil // Release reference to the task
-
-         // --- Release Recognition Request ---
-         if recognitionRequest != nil {
-             recognitionRequest = nil
-             print("  -> Released recognition request.")
-         }
-
+        print("[Function Call] cleanupListeningResources() called.")
+        
+        // --- Safely Cancel Recognition Task ---
+        // Check if task exists and is in a state that can be cancelled
+        if let task = recognitionTask, task.state == .running || task.state == .starting {
+            task.cancel() // Immediately terminate the task
+            print("  -> Cancelled active recognition task.")
+        } else {
+            print("  -> No active recognition task to cancel (State: \(recognitionTask?.state.description ?? "nil")).")
+        }
+        recognitionTask = nil // Release reference to the task
+        
+        // --- Release Recognition Request ---
+        if recognitionRequest != nil {
+            recognitionRequest = nil
+            print("  -> Released recognition request.")
+        }
+        
         // --- Deactivate Audio Session ---
         // This is important to release audio hardware resources
         do {
-             // Check if session is active before trying to deactivate
-             if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint { // Or another check if needed
-                 try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-                 print("  -> Deactivated audio session.")
-             } else {
-                 print("  -> Audio session already inactive.")
-             }
+            // Check if session is active before trying to deactivate
+            if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint { // Or another check if needed
+                try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+                print("  -> Deactivated audio session.")
+            } else {
+                print("  -> Audio session already inactive.")
+            }
         } catch {
-             print("  -> ERROR deactivating audio session: \(error.localizedDescription)")
-         }
-
+            print("  -> ERROR deactivating audio session: \(error.localizedDescription)")
+        }
+        
         // --- Update UI State (MUST be on Main Thread) ---
-         DispatchQueue.main.async {
-             // Only update state if it was previously 'listening'
-             if self.isListening {
-                 self.isListening = false
-                 print("  -> Set isListening state to false.")
-                 self.updateInteractionMessage() // Update message after stopping
-             }
-         }
-         print("  -> Cleanup finished.")
+        DispatchQueue.main.async {
+            // Only update state if it was previously 'listening'
+            if self.isListening {
+                self.isListening = false
+                print("  -> Set isListening state to false.")
+                self.updateInteractionMessage() // Update message after stopping
+            }
+        }
+        print("  -> Cleanup finished.")
     }
 }
 
@@ -666,13 +666,13 @@ extension SFSpeechRecognizerAuthorizationStatus: @retroactive CustomStringConver
 // Provides descriptive strings for AVAudioSession.RecordPermission, useful for logging
 extension AVAudioSession.RecordPermission: @retroactive CustomStringConvertible {
     public var description: String {
-         switch self {
-         case .undetermined: return "undetermined"
-         case .denied: return "denied"
-         case .granted: return "granted"
-         @unknown default: return "unknown (\(rawValue))" // Include rawValue for future cases
-         }
-     }
+        switch self {
+        case .undetermined: return "undetermined"
+        case .denied: return "denied"
+        case .granted: return "granted"
+        @unknown default: return "unknown (\(rawValue))" // Include rawValue for future cases
+        }
+    }
 }
 
 // Provides descriptive strings for SFSpeechRecognitionTaskState, useful for debugging task lifecycle
@@ -706,7 +706,7 @@ struct GoogleAIModeIntroView_Previews: PreviewProvider {
     static var previews: some View {
         GoogleAIModeIntroView()
             .onAppear {
-                 print("[Preview] GoogleAIModeIntroView preview appearing.")
+                print("[Preview] GoogleAIModeIntroView preview appearing.")
             }
     }
 }
