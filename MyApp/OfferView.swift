@@ -228,6 +228,6 @@ struct StarbucksButton: ButtonStyle {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Offer View") {
     OfferView()
 }

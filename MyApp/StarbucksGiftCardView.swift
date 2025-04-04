@@ -214,7 +214,7 @@ struct GiftCardImage: View {
 
 // MARK: - Preview Provider
 
-#Preview {
+#Preview("Starbucks Gift Card View") {
     StarbucksGiftCardView()
         // Add mock image assets to the preview environment if needed
         // .environment(\.imageProvider, MockImageProvider())

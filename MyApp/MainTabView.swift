@@ -59,7 +59,7 @@ extension Color {
 // MARK: - Tab Bar Enum Definition
 
 enum TabBarItem: CaseIterable, Identifiable {
-    case home, scan, order, offers
+    case home, scan, order, gift, offers
 
     var id: Self { self }
 
@@ -68,6 +68,7 @@ enum TabBarItem: CaseIterable, Identifiable {
         case .home: return "house.fill"
         case .scan: return "qrcode.viewfinder"
         case .order: return "cup.and.saucer.fill"
+        case .gift: return "gift"
         case .offers: return "star.fill"
         }
     }
@@ -77,6 +78,7 @@ enum TabBarItem: CaseIterable, Identifiable {
         case .home: return "Home"
         case .scan: return "Scan"
         case .order: return "Order"
+        case .gift: return "Gift"
         case .offers: return "Offers"
         }
     }
@@ -93,9 +95,11 @@ enum TabBarItem: CaseIterable, Identifiable {
         case .order:
             //OrderView()
             StarbucksOrderView()
+        case .gift:
+            GiftCardContentView()
         case .offers:
             //OffersView()
-            StarbucksGiftCardView()
+            OffersScreenView()
             
         }
     }
