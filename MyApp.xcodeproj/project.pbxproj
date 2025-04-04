@@ -18,7 +18,8 @@
 		9AE115882DA052420096F8FB /* GoogleAIModeIntroView_V3_With_Voice_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115872DA052400096F8FB /* GoogleAIModeIntroView_V3_With_Voice_search.swift */; };
 		9AE1158A2DA053790096F8FB /* GoogleAIModeIntroView_V4_With_Voice_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115892DA053750096F8FB /* GoogleAIModeIntroView_V4_With_Voice_search.swift */; };
 		9AE1158C2DA055620096F8FB /* GoogleAIModeIntroView_V5_With_Voice_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1158B2DA0555C0096F8FB /* GoogleAIModeIntroView_V5_With_Voice_search.swift */; };
-		9AE1158E2DA057A40096F8FB /* GoogleAIModeIntroView_V6_With_Voice_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6_With_Voice_search.swift */; };
+		9AE1158E2DA057A40096F8FB /* GoogleAIModeIntroView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6.swift */; };
+		9AE115902DA059630096F8FB /* GoogleAIModeIntroView_V7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1158F2DA0595F0096F8FB /* GoogleAIModeIntroView_V7.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +36,8 @@
 		9AE115872DA052400096F8FB /* GoogleAIModeIntroView_V3_With_Voice_search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V3_With_Voice_search.swift; sourceTree = "<group>"; };
 		9AE115892DA053750096F8FB /* GoogleAIModeIntroView_V4_With_Voice_search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V4_With_Voice_search.swift; sourceTree = "<group>"; };
 		9AE1158B2DA0555C0096F8FB /* GoogleAIModeIntroView_V5_With_Voice_search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V5_With_Voice_search.swift; sourceTree = "<group>"; };
-		9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6_With_Voice_search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V6_With_Voice_search.swift; sourceTree = "<group>"; };
+		9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V6.swift; sourceTree = "<group>"; };
+		9AE1158F2DA0595F0096F8FB /* GoogleAIModeIntroView_V7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAIModeIntroView_V7.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +79,8 @@
 				9AE115872DA052400096F8FB /* GoogleAIModeIntroView_V3_With_Voice_search.swift */,
 				9AE115892DA053750096F8FB /* GoogleAIModeIntroView_V4_With_Voice_search.swift */,
 				9AE1158B2DA0555C0096F8FB /* GoogleAIModeIntroView_V5_With_Voice_search.swift */,
-				9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6_With_Voice_search.swift */,
+				9AE1158D2DA057A10096F8FB /* GoogleAIModeIntroView_V6.swift */,
+				9AE1158F2DA0595F0096F8FB /* GoogleAIModeIntroView_V7.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -166,10 +169,11 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AE1158C2DA055620096F8FB /* GoogleAIModeIntroView_V5_With_Voice_search.swift in Sources */,
 				9AE115822DA04C950096F8FB /* GoogleAIModeIntroView.swift in Sources */,
+				9AE115902DA059630096F8FB /* GoogleAIModeIntroView_V7.swift in Sources */,
 				9AE115882DA052420096F8FB /* GoogleAIModeIntroView_V3_With_Voice_search.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE115842DA04EAB0096F8FB /* GoogleAIModeIntroView_V2.swift in Sources */,
-				9AE1158E2DA057A40096F8FB /* GoogleAIModeIntroView_V6_With_Voice_search.swift in Sources */,
+				9AE1158E2DA057A40096F8FB /* GoogleAIModeIntroView_V6.swift in Sources */,
 				9AE1158A2DA053790096F8FB /* GoogleAIModeIntroView_V4_With_Voice_search.swift in Sources */,
 				9AE115862DA0500F0096F8FB /* GoogleAIModeIntroView_V2_With_Voice_search.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,

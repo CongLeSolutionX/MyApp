@@ -1,5 +1,5 @@
 //
-//  GoogleAIModeIntroView_V6_With_Voice_search.swift
+//  GoogleAIModeIntroView_V7_With_Voice_search.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/4/25.
