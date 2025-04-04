@@ -14,6 +14,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE1157C2DA028490096F8FB /* V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1157B2DA028480096F8FB /* V2.swift */; };
 		9AE1157E2DA030940096F8FB /* V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1157D2DA030920096F8FB /* V3.swift */; };
+		9AE115802DA033DF0096F8FB /* V3_Extra_code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1157F2DA033DE0096F8FB /* V3_Extra_code.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE1157B2DA028480096F8FB /* V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2.swift; sourceTree = "<group>"; };
 		9AE1157D2DA030920096F8FB /* V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V3.swift; sourceTree = "<group>"; };
+		9AE1157F2DA033DE0096F8FB /* V3_Extra_code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V3_Extra_code.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AE1157B2DA028480096F8FB /* V2.swift */,
 				9AE1157D2DA030920096F8FB /* V3.swift */,
+				9AE1157F2DA033DE0096F8FB /* V3_Extra_code.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -153,6 +156,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AE1157E2DA030940096F8FB /* V3.swift in Sources */,
 				9AE1157C2DA028490096F8FB /* V2.swift in Sources */,
+				9AE115802DA033DF0096F8FB /* V3_Extra_code.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
