@@ -12,6 +12,8 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AE1157C2DA028490096F8FB /* V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1157B2DA028480096F8FB /* V2.swift */; };
+		9AE1157E2DA030940096F8FB /* V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1157D2DA030920096F8FB /* V3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AE1157B2DA028480096F8FB /* V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2.swift; sourceTree = "<group>"; };
+		9AE1157D2DA030920096F8FB /* V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9AE1157B2DA028480096F8FB /* V2.swift */,
+				9AE1157D2DA030920096F8FB /* V3.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -145,6 +151,8 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AE1157E2DA030940096F8FB /* V3.swift in Sources */,
+				9AE1157C2DA028490096F8FB /* V2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
