@@ -91,7 +91,8 @@ enum TabBarItem: CaseIterable, Identifiable {
             //ScanView()
             StarStruckScanView()
         case .order:
-            OrderView()
+            //OrderView()
+            StarbucksOrderView()
         case .offers:
             //OffersView()
             StarbucksGiftCardView()

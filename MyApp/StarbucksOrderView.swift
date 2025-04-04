@@ -293,13 +293,16 @@ struct StarbucksOrderView: View {
         .scrollContentBackground(.hidden) // Hide default list background
     }
 }
+#Preview("StarbucksOrderView") {
+    StarbucksOrderView()
+}
 
 // MARK: - Preview Provider
 struct StarbucksOrderView_Previews: PreviewProvider {
     static var previews: some View {
-         MainTabView()
-            .environment(\.locale, .init(identifier: "en"))
-            .previewDisplayName("Live Preview (Main Tab)")
+//         MainTabView()
+//            .environment(\.locale, .init(identifier: "en"))
+//            .previewDisplayName("Live Preview (Main Tab)")
 
          DeliveryInfoView()
             .previewDisplayName("Delivery Info View Standalone")
