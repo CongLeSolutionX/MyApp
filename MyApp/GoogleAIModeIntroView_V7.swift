@@ -367,8 +367,8 @@ struct GoogleAIModeIntroView: View {
     // Requests microphone access from the user
     private func requestMicPermission() {
         print("[Function Call] requestMicPermission() called.")
-        AVAudioApplication.requestRecordPermission { [weak self] granted in // Use weak self
-            guard let self = self else { return }
+        AVAudioApplication.requestRecordPermission { granted in // Use weak self
+//            guard let self = self else { return }
             print("[Permission Callback] requestRecordPermission completed. Granted: \(granted)")
             // Ensure UI updates happen on the main thread
             DispatchQueue.main.async {
@@ -390,8 +390,8 @@ struct GoogleAIModeIntroView: View {
     // Requests speech recognition access from the user
     private func requestSpeechPermission() {
         print("[Function Call] requestSpeechPermission() called.")
-        SFSpeechRecognizer.requestAuthorization { [weak self] authStatus in // Use weak self
-            guard let self = self else { return }
+        SFSpeechRecognizer.requestAuthorization { authStatus in // Use weak self
+//            guard let self = self else { return }
             print("[Permission Callback] requestAuthorization completed. Status: \(authStatus.description)")
             // Ensure UI updates happen on the main thread
             DispatchQueue.main.async {
@@ -570,7 +570,7 @@ struct GoogleAIModeIntroView: View {
         do {
             audioEngine.stop()
              print("  -> Audio Engine stopped.")
-             inputNode.removeTap(onBus: 0)
+             //inputNode.removeTap(onBus: 0)
              print("  -> Removed tap from input node.")
         } catch {
              print("  -> ERROR stopping engine or removing tap: \(error.localizedDescription)")
