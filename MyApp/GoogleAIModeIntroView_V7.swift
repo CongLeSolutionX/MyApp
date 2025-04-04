@@ -91,7 +91,7 @@ struct GoogleAIModeIntroView: View {
         let isMicDisabled = micPermissionStatus == .denied
         let isSpeechDisabled = speechPermissionStatus == .denied || speechPermissionStatus == .restricted
         let isFullyDisabled = isMicDisabled || isSpeechDisabled
-        let canListen = !isFullyDisabled && !isListening // Can activate listening if permissions OK and not already listening
+//        let canListen = !isFullyDisabled && !isListening // Can activate listening if permissions OK and not already listening
 
         ZStack {
             // Background & Decoration
@@ -164,10 +164,15 @@ struct GoogleAIModeIntroView: View {
             )
         }
         .frame(height: 100) // Give space for the interaction message
-        // Update interaction message whenever relevant states change
-        .onChange(of: isListening) { _ in updateInteractionMessage() } // Use _ if newValue isn't needed
-        .onChange(of: micPermissionStatus) { _ in updateInteractionMessage() }
-        .onChange(of: speechPermissionStatus) { _ in updateInteractionMessage() }
+        .onChange(of: isListening) { // Automatically gets the new value if needed, but you ignore it here
+            updateInteractionMessage()
+        }
+        .onChange(of: micPermissionStatus){
+            updateInteractionMessage()
+        }
+        .onChange(of: speechPermissionStatus) {
+            updateInteractionMessage()
+        }
         .onAppear { updateInteractionMessage() } // Set initial message on appear
     }
 
