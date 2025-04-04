@@ -787,8 +787,8 @@ struct DetailRow: View {
      }
  }
  */
-//
-//#Preview("NoticesListView") {
-//    let ftcService = FTCService(apiKey: ProcessInfo.processInfo.environment["FTC_API_KEY"] ?? "DEMO_KEY")
-//    NoticesListView(viewModel: NoticesListViewModel(ftcService: ftcService))
-//}
+
+#Preview("NoticesListView") {
+    let ftcService = FTCService(apiKey: ProcessInfo.processInfo.environment["FTC_API_KEY"] ?? "DEMO_KEY")
+    NoticesListView(viewModel: NoticesListViewModel(ftcService: ftcService))
+}
