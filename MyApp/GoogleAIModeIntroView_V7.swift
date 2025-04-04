@@ -501,10 +501,6 @@ struct GoogleAIModeIntroView: View {
         // --- 4. Start Recognition Task ---
         print("  -> Starting SFSpeechRecognitionTask.")
         recognitionTask = recognizer.recognitionTask(with: recognitionRequest) { result, error in
-//            guard let self = self else { // Ensure self is available
-//                print("[Recognition Task Callback] Self is nil, returning.")
-//                return
-//            }
             var isFinal = false // Flag to check if this is the final result
             
             // --- Handle Result ---
