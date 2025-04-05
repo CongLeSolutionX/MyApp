@@ -222,7 +222,7 @@ struct MyCardViewContent: View {
         VStack(spacing: 0) {
             // --- Card Info Section (Unchanged) ---
             HStack(alignment: .center, spacing: 16) {
-                Image("starbucks-card-art") // Replace with your actual card image asset
+                Image("My-meme-original") // Replace with your actual card image asset
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 100)
