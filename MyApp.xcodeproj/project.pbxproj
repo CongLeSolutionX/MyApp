@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A7FECCD2DA1AE7600BD52BB /* PearlStripeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearlStripeView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				9AE1161C2DA17CE30096F8FB /* Stripes.metal */,
 				9AE1161A2DA17CD10096F8FB /* StripeView.swift */,
+				9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */,
 			);
 			path = StripeView;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			files = (
 				9AE115A02DA101150096F8FB /* AskALeAnimatedView.swift in Sources */,
 				9AE116162DA17BFB0096F8FB /* RipleView.swift in Sources */,
+				9A7FECCD2DA1AE7600BD52BB /* PearlStripeView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE116052DA147BE0096F8FB /* VietnameseInputSettingsView_V2.swift in Sources */,
