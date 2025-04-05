@@ -447,6 +447,8 @@ struct GoogleAIModeIntroView: View {
                     .foregroundColor(darkGrayBackground)
                     .cornerRadius(25)
             }
+            
+            CongLeSolutionXAnimatedView()
         }
         .padding(.horizontal, 25)
     }
@@ -817,8 +819,9 @@ struct GoogleAIModeIntroView_Previews: PreviewProvider {
             .onAppear {
                 print("[Preview] GoogleAIModeIntroView preview appearing.")
                 // Set default @AppStorage values for preview if needed
-                // UserDefaults.standard.set(ResponseStyle.neutral.rawValue, forKey: "settings_responseStyle")
+                 UserDefaults.standard.set(ResponseStyle.neutral.rawValue, forKey: "settings_responseStyle")
             }
+            .preferredColorScheme(.dark)
     }
 }
 
