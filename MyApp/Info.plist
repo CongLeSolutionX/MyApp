@@ -5,6 +5,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DopestbyMARSNEV.otf</string>
+		<string>DopestbyMARSNEVitalic.otf</string>
+		<string>DopestbyMARSNEVlight.otf</string>
+		<string>DopestbyMARSNEVlightitalic.otf</string>
 	</array>
 </dict>
 </plist>

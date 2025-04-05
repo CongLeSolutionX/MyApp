@@ -76,7 +76,7 @@ struct CustomFontDemoView: View {
 
                     Text("1. Basic Usage (.custom)")
                         .font(.headline)
-                    Text("Hello From Itsuki!")
+                    Text("Hello From CongLeSolutionX!")
                         // Apply the custom font using the DISCOVERED name
                         // This version scales relative to the .body text style by default
                         .font(.custom(customFontName, size: 36))
