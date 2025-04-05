@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A7FECCD2DA1AE7600BD52BB /* PearlStripeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */; };
+		9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7FECCC2DA1AE6A00BD52BB /* PearlStripeAnimatedView.swift */; };
+		9A98F2352DA1B09D00C08001 /* StylizedPearShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2342DA1B09D00C08001 /* StylizedPearShape.swift */; };
+		9A98F2372DA1B10500C08001 /* PearShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2362DA1B10500C08001 /* PearShape.swift */; };
+		9A98F2392DA1B13C00C08001 /* DetailedPearShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2382DA1B13B00C08001 /* DetailedPearShape.swift */; };
+		9A98F23B2DA1B17C00C08001 /* PearBodyShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F23A2DA1B17A00C08001 /* PearBodyShape.swift */; };
+		9A98F23D2DA1B1DB00C08001 /* StripesOnPearlShapePreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F23C2DA1B1CD00C08001 /* StripesOnPearlShapePreviews.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -29,7 +34,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearlStripeView.swift; sourceTree = "<group>"; };
+		9A7FECCC2DA1AE6A00BD52BB /* PearlStripeAnimatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearlStripeAnimatedView.swift; sourceTree = "<group>"; };
+		9A98F2342DA1B09D00C08001 /* StylizedPearShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylizedPearShape.swift; sourceTree = "<group>"; };
+		9A98F2362DA1B10500C08001 /* PearShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearShape.swift; sourceTree = "<group>"; };
+		9A98F2382DA1B13B00C08001 /* DetailedPearShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPearShape.swift; sourceTree = "<group>"; };
+		9A98F23A2DA1B17A00C08001 /* PearBodyShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearBodyShape.swift; sourceTree = "<group>"; };
+		9A98F23C2DA1B1CD00C08001 /* StripesOnPearlShapePreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripesOnPearlShapePreviews.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +73,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A98F23E2DA1B20600C08001 /* Original_Version */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1161C2DA17CE30096F8FB /* Stripes.metal */,
+				9AE1161A2DA17CD10096F8FB /* StripeView.swift */,
+			);
+			path = Original_Version;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -123,9 +142,13 @@
 		9AE116192DA17CC90096F8FB /* StripeView */ = {
 			isa = PBXGroup;
 			children = (
-				9AE1161C2DA17CE30096F8FB /* Stripes.metal */,
-				9AE1161A2DA17CD10096F8FB /* StripeView.swift */,
-				9A7FECCC2DA1AE6A00BD52BB /* PearlStripeView.swift */,
+				9A98F23E2DA1B20600C08001 /* Original_Version */,
+				9A98F2382DA1B13B00C08001 /* DetailedPearShape.swift */,
+				9A7FECCC2DA1AE6A00BD52BB /* PearlStripeAnimatedView.swift */,
+				9A98F23C2DA1B1CD00C08001 /* StripesOnPearlShapePreviews.swift */,
+				9A98F23A2DA1B17A00C08001 /* PearBodyShape.swift */,
+				9A98F2342DA1B09D00C08001 /* StylizedPearShape.swift */,
+				9A98F2362DA1B10500C08001 /* PearShape.swift */,
 			);
 			path = StripeView;
 			sourceTree = "<group>";
@@ -200,10 +223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A98F2372DA1B10500C08001 /* PearShape.swift in Sources */,
 				9AE115A02DA101150096F8FB /* AskALeAnimatedView.swift in Sources */,
+				9A98F23B2DA1B17C00C08001 /* PearBodyShape.swift in Sources */,
 				9AE116162DA17BFB0096F8FB /* RipleView.swift in Sources */,
-				9A7FECCD2DA1AE7600BD52BB /* PearlStripeView.swift in Sources */,
+				9A98F2392DA1B13C00C08001 /* DetailedPearShape.swift in Sources */,
+				9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A98F23D2DA1B1DB00C08001 /* StripesOnPearlShapePreviews.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE116052DA147BE0096F8FB /* VietnameseInputSettingsView_V2.swift in Sources */,
 				9AE116182DA17C1D0096F8FB /* Ripple.metal in Sources */,
@@ -211,6 +238,7 @@
 				9AE115982DA0C4210096F8FB /* SendFeedbackView.swift in Sources */,
 				9AE1161D2DA17CE40096F8FB /* Stripes.metal in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A98F2352DA1B09D00C08001 /* StylizedPearShape.swift in Sources */,
 				9AE116072DA14A4F0096F8FB /* VietnameseInputSettingsView_V3.swift in Sources */,
 				9AE1159A2DA0C6AA0096F8FB /* RateAppView.swift in Sources */,
 				9AE115962DA0BDA40096F8FB /* SettingView.swift in Sources */,
