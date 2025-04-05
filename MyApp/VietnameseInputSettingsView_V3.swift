@@ -307,10 +307,11 @@ struct VietnameseInputSettingsView: View {
                 Toggle("Enable Word Prediction", isOn: $isPredictionEnabled)
                 Toggle("Enable Auto-Correction", isOn: $isCorrectionEnabled)
                 Toggle("Use Custom Dictionary", isOn: $useCustomDictionary)
-                    .onChange(of: useCustomDictionary) { newValue in
-                        print("[Settings] Use Custom Dictionary toggled to: \(newValue)")
-                        // Trigger a re-evaluation if needed
+                    .onChange(of: useCustomDictionary) {
+                        print("[Settings] Use Custom Dictionary toggled to: \(useCustomDictionary)")
+                       // Trigger a re-evaluation if needed
                         testPredictionLogic()
+                        
                     }
                 Toggle("Learn from Typing (Future)", isOn: $learnFromInput)
                      .disabled(true) // Disabled for now
@@ -325,7 +326,7 @@ struct VietnameseInputSettingsView: View {
                          Text(dialect.rawValue).tag(dialect.rawValue) // Tag with the rawValue (String)
                      }
                  }
-                 .onChange(of: preferredDialectRaw) { _ in // Use onChange if needed
+                 .onChange(of: preferredDialectRaw) {
                      print("[Settings] Preferred dialect raw value changed to: \(preferredDialectRaw)")
                      testPredictionLogic()
                   }
@@ -335,9 +336,9 @@ struct VietnameseInputSettingsView: View {
 
                 // Simplified Vocab Type handling
                  Toggle("Suggest Slang/Informal Words", isOn: $enableSlang)
-                     .onChange(of: enableSlang) { _ in testPredictionLogic() }
+                     .onChange(of: enableSlang) { testPredictionLogic() }
                  Toggle("Recognize Common Loanwords", isOn: $enableLoanwords)
-                    .onChange(of: enableLoanwords) { _ in testPredictionLogic() }
+                    .onChange(of: enableLoanwords) { testPredictionLogic() }
 
                  // Navigation to Dictionary Management Screen
                  NavigationLink("Manage Custom Dictionary (\(dictionaryManager.customWords.count))") {
