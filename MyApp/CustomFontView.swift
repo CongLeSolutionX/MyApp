@@ -206,3 +206,4 @@ struct CustomFontDemoView: View {
 #Preview {
     CustomFontDemoView()
 }
+
