@@ -323,7 +323,7 @@ struct StoryDetailViewPreviewWrapper: View {
          timestamp: "4h",
          songTitle: "Magnificent",           // New data
          artistName: "Pufino",             // New data
-         vinylCenterImageName: "mountains_bg" // <<-- !! ADD THIS ASSET (for vinyl center) !!
+         vinylCenterImageName: "My-meme-original" // <<-- !! ADD THIS ASSET (for vinyl center) !!
      )
 
      var body: some View {
