@@ -25,8 +25,8 @@ import SwiftUI
     // and the filenames seen. The actual names might differ slightly (e.g., hyphens).
     let regularName = "DopestbyMARSNEV"
     let italicName = "DopestbyMARSNEV-Italic" // Common convention adds a hyphen
-    let lightName = "DopestbyMARSNEV-Light"   // Common convention adds a hyphen
-    let lightItalicName = "DopestbyMARSNEV-LightItalic" // Common convention
+    let lightName = "DopestbyMARSNEVlight"   // Common convention adds a hyphen
+    let lightItalicName = "DopestbyMARSNEVlightitalic" // Common convention
 
     // --- Preview Layout ---
     ScrollView { // Use ScrollView in case content overflows on smaller devices
