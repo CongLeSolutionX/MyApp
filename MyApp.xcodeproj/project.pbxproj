@@ -24,6 +24,7 @@
 		9AE115B32DA121410096F8FB /* MyCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115B22DA1213C0096F8FB /* MyCardView_V2.swift */; };
 		9AE115B52DA122B80096F8FB /* MyCardView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115B42DA122B30096F8FB /* MyCardView_V3.swift */; };
 		9AE115B72DA1242E0096F8FB /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115B62DA1242B0096F8FB /* AddCardView.swift */; };
+		9AE115B92DA12A2A0096F8FB /* AddCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115B82DA12A270096F8FB /* AddCardView_V2.swift */; };
 		9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */; };
 		9AEBC6092D9DB4D900756CE5 /* StarbucksGiftCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		9AE115B22DA1213C0096F8FB /* MyCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardView_V2.swift; sourceTree = "<group>"; };
 		9AE115B42DA122B30096F8FB /* MyCardView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardView_V3.swift; sourceTree = "<group>"; };
 		9AE115B62DA1242B0096F8FB /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
+		9AE115B82DA12A270096F8FB /* AddCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView_V2.swift; sourceTree = "<group>"; };
 		9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksGiftCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +116,7 @@
 		9AE115B12DA1212E0096F8FB /* MyCardView */ = {
 			isa = PBXGroup;
 			children = (
+				9AE115B82DA12A270096F8FB /* AddCardView_V2.swift */,
 				9AE115B62DA1242B0096F8FB /* AddCardView.swift */,
 				9AE115B42DA122B30096F8FB /* MyCardView_V3.swift */,
 				9AE115B22DA1213C0096F8FB /* MyCardView_V2.swift */,
@@ -204,6 +207,7 @@
 				9A2575682D9E699A00D8AD5C /* DeliveryInforView.swift in Sources */,
 				9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */,
 				9A2575622D9E692F00D8AD5C /* StarbucksScanView.swift in Sources */,
+				9AE115B92DA12A2A0096F8FB /* AddCardView_V2.swift in Sources */,
 				9AE115B02DA11F8C0096F8FB /* LikedSongsView.swift in Sources */,
 				9AE115B72DA1242E0096F8FB /* AddCardView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
