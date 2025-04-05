@@ -210,7 +210,7 @@ struct AboutView: View {
             Text("AI Mode Experiment")
                 .font(.title)
             Text("Version: 1.0.0 (Build 1)") // Replace with dynamic version/build
-            Text("Copyright © \(Calendar.current.component(.year, from: Date())) Your Company Name. All rights reserved.") // Replace Your Company Name
+            Text("Copyright © \(Calendar.current.component(.year, from: Date())) CongLeSolutionX. All rights reserved.") // Replace Your Company Name
             Divider()
             Text("Acknowledgements:")
                 .font(.headline)
