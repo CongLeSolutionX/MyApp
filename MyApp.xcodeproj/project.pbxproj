@@ -19,6 +19,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AE115AA2DA119EA0096F8FB /* MyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115A92DA119E70096F8FB /* MyCardView.swift */; };
 		9AE115AC2DA11B9C0096F8FB /* MediumShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115AB2DA11B950096F8FB /* MediumShareView.swift */; };
+		9AE115AE2DA11D920096F8FB /* NewHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115AD2DA11D900096F8FB /* NewHomeView.swift */; };
 		9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */; };
 		9AEBC6092D9DB4D900756CE5 /* StarbucksGiftCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AE115A92DA119E70096F8FB /* MyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardView.swift; sourceTree = "<group>"; };
 		9AE115AB2DA11B950096F8FB /* MediumShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumShareView.swift; sourceTree = "<group>"; };
+		9AE115AD2DA11D900096F8FB /* NewHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeView.swift; sourceTree = "<group>"; };
 		9AEBC6062D9DB0CD00756CE5 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		9AEBC6082D9DB4D600756CE5 /* StarbucksGiftCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarbucksGiftCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 				9A2575672D9E699900D8AD5C /* DeliveryInforView.swift */,
 				9AE115A92DA119E70096F8FB /* MyCardView.swift */,
 				9AE115AB2DA11B950096F8FB /* MediumShareView.swift */,
+				9AE115AD2DA11D900096F8FB /* NewHomeView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -174,6 +177,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AE115AA2DA119EA0096F8FB /* MyCardView.swift in Sources */,
 				9A2575662D9E696E00D8AD5C /* StarbucksOrderView.swift in Sources */,
+				9AE115AE2DA11D920096F8FB /* NewHomeView.swift in Sources */,
 				9AEBC6092D9DB4D900756CE5 /* StarbucksGiftCardView.swift in Sources */,
 				9A2575682D9E699A00D8AD5C /* DeliveryInforView.swift in Sources */,
 				9AEBC6072D9DB0D000756CE5 /* MainTabView.swift in Sources */,
