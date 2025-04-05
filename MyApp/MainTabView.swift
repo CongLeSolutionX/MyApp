@@ -93,7 +93,7 @@ enum TabBarItem: CaseIterable, Identifiable {
             //ScanView()
             StarStruckScanView()
         case .order:
-            //OrderView()
+            //PlaceholderOrderView()
             StarbucksOrderView()
         case .gift:
             GiftCardContentView()
@@ -130,7 +130,7 @@ struct ScanView: View {
     }
 }
 
-struct OrderView: View {
+struct PlaceholderOrderView: View {
     var body: some View {
         NavigationView {
              ZStack {
