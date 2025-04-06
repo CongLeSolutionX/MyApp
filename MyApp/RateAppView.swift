@@ -153,21 +153,33 @@ struct RateAppView: View {
              // openAppStorePage() // Could call the URL opening method here as fallback
          }
         */
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            print("[RateAppView Info] Requesting in-app review using SKStoreReviewController.")
+            SKStoreReviewController.requestReview(in: scene)
+        } else {
+             print("[RateAppView Error] Could not find active UIWindowScene for SKStoreReviewController.")
+             // Fallback to opening URL if SKStoreReviewController fails
+            // openAppStorePage() // Could call the URL opening method here as fallback
+        }
     }
 }
 
-// MARK: - Preview Provider
-struct RateAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Wrap in NavigationView for preview context
-        NavigationView {
-            RateAppView()
-        }
-        .preferredColorScheme(.light) // Preview in light mode
-
-        NavigationView {
-            RateAppView()
-        }
-        .preferredColorScheme(.dark) // Preview in dark mode
-    }
+#Preview {
+    RateAppView()
 }
+//
+//// MARK: - Preview Provider
+//struct RateAppView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Wrap in NavigationView for preview context
+//        NavigationView {
+//            RateAppView()
+//        }
+//        .preferredColorScheme(.light) // Preview in light mode
+//
+//        NavigationView {
+//            RateAppView()
+//        }
+//        .preferredColorScheme(.dark) // Preview in dark mode
+//    }
+//}
