@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import AuthenticationServices // Required for ASWebAuthenticationSession
-import Security           // Required for Keychain access
-
+import AuthenticationServices   // Required for ASWebAuthenticationSession
+import Security                 // Required for Keychain access
+import CryptoKit                // For SHA256
 // MARK: - Constants (Replace with your actual Client Info)
 enum Constants {
     static let clientId = "YOUR_CLIENT_ID" // <-- Replace
@@ -325,7 +325,11 @@ class AuthenticationService: ObservableObject {
                       (200...299).contains(httpResponse.statusCode),
                       let data = data else {
                     let errorBody = String(data: data ?? Data(), encoding: .utf8) ?? "Unknown error"
-                    self.errorMessage = "Token refresh error (\(httpResponse?.statusCode ?? 0)): \(errorBody)"
+                    
+                    
+                    // Inside the else block of the guard statement in refreshTokenIfNeeded
+                    self.errorMessage = "Token refresh error (\((response as? HTTPURLResponse)?.statusCode ?? 0)): \(errorBody)"
+                    
                      // Often, an invalid refresh token means sign out
                      self.signOut()
                     completion(false)
