@@ -16,6 +16,8 @@
 		9A98F24E2DA1EB3D00C08001 /* SmartCorrecrionAndAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */; };
 		9A98F2862DA3515900C08001 /* DiscoverView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2852DA3515700C08001 /* DiscoverView_V1.swift */; };
 		9A98F28A2DA356F700C08001 /* Homescreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2892DA356EB00C08001 /* Homescreen.swift */; };
+		9A98F28D2DA3581800C08001 /* ImageMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F28C2DA3581700C08001 /* ImageMakerView.swift */; };
+		9A98F28F2DA3594200C08001 /* ImageMakerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F28E2DA3593B00C08001 /* ImageMakerView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -46,6 +48,8 @@
 		9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCorrecrionAndAssistantView.swift; sourceTree = "<group>"; };
 		9A98F2852DA3515700C08001 /* DiscoverView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V1.swift; sourceTree = "<group>"; };
 		9A98F2892DA356EB00C08001 /* Homescreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homescreen.swift; sourceTree = "<group>"; };
+		9A98F28C2DA3581700C08001 /* ImageMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMakerView.swift; sourceTree = "<group>"; };
+		9A98F28E2DA3593B00C08001 /* ImageMakerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMakerView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,6 +133,8 @@
 				9AE116042DA147B90096F8FB /* VietnameseInputSettingsView_V2.swift */,
 				9AE116062DA14A4B0096F8FB /* VietnameseInputSettingsView_V3.swift */,
 				9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */,
+				9A98F28E2DA3593B00C08001 /* ImageMakerView_V2.swift */,
+				9A98F28C2DA3581700C08001 /* ImageMakerView.swift */,
 				9A98F28B2DA3570400C08001 /* Homescreen */,
 				9AE116192DA17CC90096F8FB /* StripeView */,
 				9AE116142DA17BED0096F8FB /* RipleView */,
@@ -247,6 +253,7 @@
 				9A98F28A2DA356F700C08001 /* Homescreen.swift in Sources */,
 				9A98F24E2DA1EB3D00C08001 /* SmartCorrecrionAndAssistantView.swift in Sources */,
 				9A98F2392DA1B13C00C08001 /* DetailedPearShape.swift in Sources */,
+				9A98F28D2DA3581800C08001 /* ImageMakerView.swift in Sources */,
 				9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A98F23D2DA1B1DB00C08001 /* StripesOnPearlShapePreviews.swift in Sources */,
@@ -255,6 +262,7 @@
 				9AE116182DA17C1D0096F8FB /* Ripple.metal in Sources */,
 				9AE1159C2DA0C7950096F8FB /* VietnameseInputSettingsView.swift in Sources */,
 				9AE115982DA0C4210096F8FB /* SendFeedbackView.swift in Sources */,
+				9A98F28F2DA3594200C08001 /* ImageMakerView_V2.swift in Sources */,
 				9AE1161D2DA17CE40096F8FB /* Stripes.metal in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A98F2352DA1B09D00C08001 /* StylizedPearShape.swift in Sources */,
