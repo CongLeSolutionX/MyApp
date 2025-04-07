@@ -216,10 +216,10 @@ struct PlaylistCreationAndPlayView: View {
 
 // --- App Entry Point ---
 // (Keep existing App struct - it remains the same)
-@main
-struct SpotifyPlaylistCreatorApp: App {
-    var body: some Scene { WindowGroup { PlaylistCreationAndPlayView() } }
-}
+//@main
+//struct SpotifyPlaylistCreatorApp: App {
+//    var body: some Scene { WindowGroup { PlaylistCreationAndPlayView() } }
+//}
 
 
 // MARK: - Previews
