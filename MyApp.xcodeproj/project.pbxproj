@@ -14,6 +14,8 @@
 		9A98F23B2DA1B17C00C08001 /* PearBodyShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F23A2DA1B17A00C08001 /* PearBodyShape.swift */; };
 		9A98F23D2DA1B1DB00C08001 /* StripesOnPearlShapePreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F23C2DA1B1CD00C08001 /* StripesOnPearlShapePreviews.swift */; };
 		9A98F24E2DA1EB3D00C08001 /* SmartCorrecrionAndAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */; };
+		9A98F2862DA3515900C08001 /* DiscoverView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2852DA3515700C08001 /* DiscoverView_V1.swift */; };
+		9A98F28A2DA356F700C08001 /* Homescreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2892DA356EB00C08001 /* Homescreen.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 		9A98F23A2DA1B17A00C08001 /* PearBodyShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearBodyShape.swift; sourceTree = "<group>"; };
 		9A98F23C2DA1B1CD00C08001 /* StripesOnPearlShapePreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripesOnPearlShapePreviews.swift; sourceTree = "<group>"; };
 		9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCorrecrionAndAssistantView.swift; sourceTree = "<group>"; };
+		9A98F2852DA3515700C08001 /* DiscoverView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V1.swift; sourceTree = "<group>"; };
+		9A98F2892DA356EB00C08001 /* Homescreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homescreen.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -84,6 +88,15 @@
 			path = Original_Version;
 			sourceTree = "<group>";
 		};
+		9A98F28B2DA3570400C08001 /* Homescreen */ = {
+			isa = PBXGroup;
+			children = (
+				9A98F2852DA3515700C08001 /* DiscoverView_V1.swift */,
+				9A98F2892DA356EB00C08001 /* Homescreen.swift */,
+			);
+			path = Homescreen;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +129,7 @@
 				9AE116042DA147B90096F8FB /* VietnameseInputSettingsView_V2.swift */,
 				9AE116062DA14A4B0096F8FB /* VietnameseInputSettingsView_V3.swift */,
 				9A98F24D2DA1EB3400C08001 /* SmartCorrecrionAndAssistantView.swift */,
+				9A98F28B2DA3570400C08001 /* Homescreen */,
 				9AE116192DA17CC90096F8FB /* StripeView */,
 				9AE116142DA17BED0096F8FB /* RipleView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -230,6 +244,7 @@
 				9AE115A02DA101150096F8FB /* AskALeAnimatedView.swift in Sources */,
 				9A98F23B2DA1B17C00C08001 /* PearBodyShape.swift in Sources */,
 				9AE116162DA17BFB0096F8FB /* RipleView.swift in Sources */,
+				9A98F28A2DA356F700C08001 /* Homescreen.swift in Sources */,
 				9A98F24E2DA1EB3D00C08001 /* SmartCorrecrionAndAssistantView.swift in Sources */,
 				9A98F2392DA1B13C00C08001 /* DetailedPearShape.swift in Sources */,
 				9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */,
@@ -247,6 +262,7 @@
 				9AE1159A2DA0C6AA0096F8FB /* RateAppView.swift in Sources */,
 				9AE115962DA0BDA40096F8FB /* SettingView.swift in Sources */,
 				9AE115942DA084050096F8FB /* AskALeView_V2.swift in Sources */,
+				9A98F2862DA3515900C08001 /* DiscoverView_V1.swift in Sources */,
 				9AE115922DA081A50096F8FB /* AskALeView.swift in Sources */,
 				9AE1161B2DA17CD70096F8FB /* StripeView.swift in Sources */,
 			);
