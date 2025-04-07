@@ -20,6 +20,7 @@ struct AppColors {
 enum SubscriptionOption: Hashable {
     case yearly
     case weekly
+    case none // Added case for initial or unselected state if needed
 }
 
 struct ProAccessView: View {
@@ -33,13 +34,14 @@ struct ProAccessView: View {
 
             ScrollView {
                 VStack(spacing: 25) {
-                    // Top Badge and Close Button (Simplified alignment)
+                    // Top Badge and Close Button
                     HStack {
                         Spacer()
                         PixiProBadge()
                         Spacer()
                     }
                     .overlay(alignment: .topTrailing) {
+                        // CloseButton already has a functional print action
                         CloseButton()
                     }
                     .padding(.top)
@@ -63,6 +65,7 @@ struct ProAccessView: View {
 
                     // Feature List
                     VStack(alignment: .leading, spacing: 20) {
+                        // FeatureItemRow uses SF Symbols (system assets)
                         FeatureItemRow(icon: "bolt.fill", title: "Unlimited Messages", subtitle: "Use Pixi for all your needs")
                         FeatureItemRow(icon: "gauge.medium", title: "The Fastest Models", subtitle: "GPT-4o, Claude Sonnet 3.5")
                         FeatureItemRow(icon: "camera.viewfinder", title: "Advanced AI Tools", subtitle: "Smart Camera, AI Art")
@@ -76,6 +79,7 @@ struct ProAccessView: View {
 
                     // Subscription Options
                     VStack(spacing: 15) {
+                        // SubscriptionOptionRow buttons already have functional state updates
                         SubscriptionOptionRow(
                             title: "Yearly Access",
                             price: "$49.99 per year",
@@ -84,6 +88,7 @@ struct ProAccessView: View {
                             isSelected: selectedOption == .yearly
                         ) {
                             selectedOption = .yearly
+                             print("Yearly option selected") // Added print for clarity
                         }
 
                         SubscriptionOptionRow(
@@ -94,20 +99,21 @@ struct ProAccessView: View {
                             isSelected: selectedOption == .weekly
                         ) {
                             selectedOption = .weekly
+                            print("Weekly option selected") // Added print for clarity
                         }
                     }
                     .padding(.horizontal)
 
-                    // Continue Button
+                    // Continue Button - Already has a functional print action
                     Button("Continue") {
                         // Handle continue action
                         print("Continue tapped. Selected: \(selectedOption ?? .none), Free Trial: \(isFreeTrialEnabled)")
                     }
                     .buttonStyle(PrimaryButtonStyle())
                     .padding(.horizontal)
-                    .padding(.top) // Add padding above the button
+                    .padding(.top)
 
-                    Spacer() // Push footer links down
+                    Spacer() // Push footer links down if ScrollView content is short
 
                 } // End Main VStack
                 .padding(.bottom, 5) // Add padding below the ScrollView content
@@ -117,11 +123,11 @@ struct ProAccessView: View {
             // Footer Links - positioned at the bottom outside the ScrollView
             VStack {
                  Spacer() // Pushes the HStack to the bottom
+                 // FooterLinks buttons now have functional print actions
                  FooterLinks()
                      .padding(.bottom, 10) // Adjust padding as needed
                      .padding(.horizontal)
              }
-
         } // End ZStack
     }
 }
@@ -146,9 +152,10 @@ struct PixiProBadge: View {
 struct CloseButton: View {
     var body: some View {
         Button {
-            // Handle close action
-            print("Close tapped")
+            // This button is already functional
+            print("Close button tapped")
         } label: {
+            // Using SF Symbol (system asset)
             Image(systemName: "xmark")
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white.opacity(0.7))
@@ -160,12 +167,13 @@ struct CloseButton: View {
 }
 
 struct FeatureItemRow: View {
-    let icon: String
+    let icon: String // Expecting SF Symbol name
     let title: String
     let subtitle: String
 
     var body: some View {
         HStack(spacing: 15) {
+            // Using SF Symbol (system asset)
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(AppColors.primaryPurple)
@@ -197,6 +205,10 @@ struct FreeTrialToggle: View {
             Toggle("", isOn: $isEnabled)
                 .labelsHidden()
                 .tint(AppColors.primaryPurple) // Color for the toggle switch
+                // The Toggle itself is interactive and binds to the state
+                .onChange(of: isEnabled) { newValue in
+                     print("Free Trial Enabled: \(newValue)") // Added print for clarity
+                }
         }
         .padding()
         .background(AppColors.cardBackground)
@@ -214,10 +226,10 @@ struct SubscriptionOptionRow: View {
     let priceDetail: String?
     let isBestOffer: Bool
     let isSelected: Bool
-    let action: () -> Void
+    let action: () -> Void // This makes the button functional
 
     var body: some View {
-        Button(action: action) {
+        Button(action: action) { // Action is passed in, making it functional
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
@@ -299,11 +311,18 @@ struct PrimaryButtonStyle: ButtonStyle {
 struct FooterLinks: View {
     var body: some View {
         HStack(spacing: 20) { // Add spacing between links
-            Button("Restore Purchases") { /* Handle action */ }
+             // Added functional print actions
+            Button("Restore Purchases") {
+                print("Restore Purchases tapped")
+            }
             Spacer()
-            Button("Privacy Policy") { /* Handle action */ }
+            Button("Privacy Policy") {
+                print("Privacy Policy tapped")
+            }
             Spacer()
-            Button("Terms of Use") { /* Handle action */ }
+            Button("Terms of Use") {
+                print("Terms of Use tapped")
+            }
         }
         .buttonStyle(FooterLinkStyle())
     }
