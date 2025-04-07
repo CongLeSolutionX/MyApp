@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Main View mimicking the screenshot structure
-struct GeminiChatView: View {
+struct GeminiChatView_V1: View {
     @State private var inputText: String = ""
     @State private var selectedTab: Int = 0 // 0 for Discover, 1 for Chats
 
@@ -293,7 +293,7 @@ struct TabBarItem: View {
 // MARK: - Preview
 struct GeminiChatView_Previews: PreviewProvider {
     static var previews: some View {
-        GeminiChatView()
+        GeminiChatView_V1()
             .preferredColorScheme(.dark) // Ensure preview uses dark mode
     }
 }
