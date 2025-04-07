@@ -5,7 +5,7 @@
 //  Created by Cong Le on 8/19/24.
 //
 //
-//import SwiftUI
+import SwiftUI
 //
 //// Step 3: Embed in main app structure
 //@main
