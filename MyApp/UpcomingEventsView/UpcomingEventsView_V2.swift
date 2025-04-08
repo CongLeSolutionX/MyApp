@@ -133,7 +133,9 @@ struct UpcomingEventsView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .navigationTitle("") // Hide default title, we use custom leading item
             .navigationBarTitleDisplayMode(.inline) // Keep consistent layout
-            .onAppear(perform: loadMockData) // Load data when view appears
+            .onAppear { // Use a closure
+                loadMockData() // Call the function inside the closure
+            }
             // Sheet for Creating Event
             .sheet(isPresented: $showingCreateEventSheet) {
                 CreateEventView(events: $events) // Pass binding to potentially add event
