@@ -309,7 +309,7 @@ class SpotifyAuthManager: ObservableObject {
     @Published var currentPlaylistTracks: [SpotifyPlaylistTrack] = []
     @Published var isLoadingPlaylistTracks: Bool = false // Loading tracks for *selected* playlist
     @Published var playlistTracksErrorMessage: String? = nil
-    private var playlistTracksNextPageUrl: String? = nil
+    var playlistTracksNextPageUrl: String? = nil
     
     private var currentPKCEVerifier: String?
     private var currentWebAuthSession: ASWebAuthenticationSession?
@@ -1399,6 +1399,149 @@ struct AuthenticationFlowView: View {
     }
 }
 
+// MARK: - NEW: Playlist Detail SwiftUI View
+struct PlaylistDetailView: View {
+    @EnvironmentObject var authManager: SpotifyAuthManager // Inject manager
+    let playlist: SpotifyPlaylist // Passed in during navigation
+
+    var body: some View {
+        List {
+             // --- Playlist Header ---
+             Section {
+                 PlaylistHeaderView(playlist: playlist)
+             }
+
+             // --- Tracks Section ---
+             Section(header: Text("Tracks (\(authManager.currentPlaylistTracks.filter { $0.track != nil }.count))")) { // Show count of valid tracks
+                 if authManager.isLoadingPlaylistTracks && authManager.currentPlaylistTracks.isEmpty {
+                     HStack { Spacer(); ProgressView(); Text("Loading Tracks..."); Spacer() }.padding()
+                 } else if let errorMsg = authManager.playlistTracksErrorMessage {
+                     Text("Error loading tracks: \(errorMsg)")
+                         .foregroundColor(.red)
+                         .padding()
+                 } else if authManager.currentPlaylistTracks.filter({ $0.track != nil }).isEmpty && !authManager.isLoadingPlaylistTracks {
+                      Text("This playlist is empty or tracks could not be loaded.")
+                           .foregroundColor(.gray)
+                           .padding()
+                 } else {
+                     // Display fetched tracks
+                      ForEach(authManager.currentPlaylistTracks) { playlistTrack in
+                          // Safely unwrap the track object
+                          if let track = playlistTrack.track {
+                              TrackRowView(track: track) // Use dedicated row view
+                                  .onAppear {
+                                      // Trigger pagination for *TRACKS*
+                                      if playlistTrack.id == authManager.currentPlaylistTracks.last?.id && authManager.playlistTracksNextPageUrl != nil && !authManager.isLoadingPlaylistTracks {
+                                           print("Reached end of tracks, loading next page...")
+                                           authManager.fetchTracksForPlaylist(playlistID: playlist.id, loadNextPage: true)
+                                      }
+                                  }
+                          } else {
+                               // Optionally display a row indicating a track couldn't be loaded
+                               // Text("Track unavailable (\(playlistTrack.id))").foregroundColor(.gray).font(.caption)
+                          }
+                      }
+
+                     // Show loading indicator for *TRACKS* pagination
+                     if authManager.isLoadingPlaylistTracks && !authManager.currentPlaylistTracks.isEmpty {
+                          ProgressView().padding().frame(maxWidth: .infinity)
+                     }
+                 }
+             }
+         }
+         .navigationTitle(playlist.name)
+         .navigationBarTitleDisplayMode(.inline)
+         .onAppear {
+             // Set the selected playlist in the manager and fetch tracks if not already loaded
+             // Avoid re-fetching if we already have tracks for this specific playlist
+             if authManager.selectedPlaylist?.id != playlist.id || authManager.currentPlaylistTracks.isEmpty {
+                 authManager.selectedPlaylist = playlist // Set the currently viewed playlist
+                 authManager.fetchTracksForPlaylist(playlistID: playlist.id, loadNextPage: false)
+             }
+         }
+         .onDisappear {
+             // Clear the detail state when navigating away
+             // Only clear if the selected playlist *is* the one we are leaving
+              if authManager.selectedPlaylist?.id == playlist.id {
+                    authManager.clearPlaylistDetailState()
+               }
+         }
+         .refreshable {
+              // Allow pull-to-refresh for the first page of tracks
+              print("Refreshing tracks for playlist \(playlist.id)")
+              authManager.fetchTracksForPlaylist(playlistID: playlist.id, loadNextPage: false)
+          }
+    }
+}
+
+// MARK: - Helper Views for Detail View
+
+// Simple Header View for Playlist Detail
+struct PlaylistHeaderView: View {
+    let playlist: SpotifyPlaylist
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 15) {
+             AsyncImage(url: URL(string: playlist.images?.first?.url ?? "")) { image in
+                 image.resizable().aspectRatio(contentMode: .fit)
+             } placeholder: {
+                 Image(systemName: "music.note.list")
+                     .resizable().aspectRatio(contentMode: .fit).padding()
+                     .background(Color.gray.opacity(0.3)).foregroundColor(.gray)
+             }
+             .frame(width: 100, height: 100)
+             .cornerRadius(8)
+             .shadow(radius: 4)
+
+             VStack(alignment: .leading) {
+                 Text(playlist.name).font(.headline).lineLimit(2)
+                 if let description = playlist.description, !description.isEmpty {
+                     Text(description).font(.caption).foregroundColor(.gray).lineLimit(3)
+                 }
+                 Text("By \(playlist.owner.displayName ?? "Unknown") • \(playlist.tracks.total) tracks")
+                     .font(.caption2).foregroundColor(.secondary)
+                 if playlist.collaborative { Text("Collaborative").font(.caption2).foregroundColor(.blue) }
+             }
+             Spacer() // Push content to left
+         }
+         .padding(.vertical) // Add padding around the header
+    }
+}
+
+// Row View for a Single Track
+struct TrackRowView: View {
+    let track: SpotifyTrack
+
+    var body: some View {
+        HStack {
+             AsyncImage(url: URL(string: track.album.images?.first?.url ?? "")) { image in
+                 image.resizable().aspectRatio(contentMode: .fill)
+             } placeholder: {
+                 Image(systemName: "music.mic")
+                      .resizable().aspectRatio(contentMode: .fit).padding(10)
+                      .background(Color.gray.opacity(0.2)).foregroundColor(.gray)
+             }
+            .frame(width: 45, height: 45)
+            .cornerRadius(4)
+
+            VStack(alignment: .leading) {
+                Text(track.name)
+                   .lineLimit(1)
+                Text(track.artistNames) // Use helper for artist string
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+            }
+
+            Spacer() // Push duration to the right
+
+            Text(track.formattedDuration) // Use helper for duration
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+        .padding(.vertical, 4) // Slight padding within row
+    }
+}
 
 // MARK: - App Entry Point (Example)
 // @main
