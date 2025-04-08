@@ -19,7 +19,7 @@ struct Advertisement: Identifiable {
     let logoImageURL: URL? // URL for the advertiser logo (optional)
     let logoText: String? // Fallback text if logo image isn't available
     let duration: TimeInterval // Duration of the ad in seconds
-
+    
     // --- Sample Data ---
     static let sampleAd = Advertisement(
         advertiserName: "Aura Botanicals",
@@ -31,7 +31,7 @@ struct Advertisement: Identifiable {
         logoText: "AB", // Fallback if logo image fails
         duration: 18.0 // Ad duration
     )
-
+    
     static let sampleAdNoImages = Advertisement(
         advertiserName: "CongLeSolutionX Inc.",
         advertiserDescription: "Orange Cloud Solutions",
@@ -42,8 +42,8 @@ struct Advertisement: Identifiable {
         logoText: "QC", // Must have fallback text
         duration: 12.5
     )
-
-     static let sampleAdTextLogo = Advertisement(
+    
+    static let sampleAdTextLogo = Advertisement(
         advertiserName: "Chef's Table Delivery",
         advertiserDescription: "Gourmet Meals",
         ctaText: "Fine dining delivered to your door. Order tonight!",
@@ -52,7 +52,7 @@ struct Advertisement: Identifiable {
         logoImageURL: nil, // No logo image
         logoText: "CT", // Use text logo
         duration: 25.0
-     )
+    )
 }
 
 // MARK: -  The View
@@ -77,10 +77,10 @@ struct FunctionalAdvertisementView: View {
     // --- Environment ---
     @Environment(\.dismiss) var dismiss
     @Environment(\.openURL) var openURL
-
+    
     // --- Input Data ---
     let advertisement: Advertisement // Accept the data model
-
+    
     // --- State Variables ---
     @State private var isPlaying: Bool = true
     @State private var currentTime: TimeInterval = 0.0
@@ -89,16 +89,16 @@ struct FunctionalAdvertisementView: View {
     @State private var isDisliked: Bool = false
     @State private var showOptionsSheet: Bool = false
     @State private var totalDuration: TimeInterval = 15.0 // Default, will be updated
-
+    
     // --- Timer ---
     @State private var timerSubscription: Cancellable?
-
+    
     var body: some View {
         ZStack {
             // --- Main background color ---
             // Use a gradient or a color related to the ad maybe? For now, static.
             Color.adBackground.edgesIgnoringSafeArea(.all)
-
+            
             VStack(spacing: 15) {
                 topBar
                 adImage // Uses AsyncImage
@@ -116,26 +116,26 @@ struct FunctionalAdvertisementView: View {
         }
         .onDisappear(perform: cancelTimer)
         .actionSheet(isPresented: $showOptionsSheet) {
-             ActionSheet(
-                 title: Text("Ad Options"),
-                 message: Text("Interact with this ad from \(advertisement.advertiserName)"),
-                 buttons: [
-                     .default(Text("Why this ad?")) {
-                         print("Action: Show 'Why this ad?' info for \(advertisement.id)")
-                         // Potentially open a modal or URL with info
-                     },
-                     .destructive(Text("Report Ad")) {
-                         print("Action: Initiate 'Report Ad' flow for \(advertisement.id)")
-                         // Potentially navigate to a reporting screen
-                     },
-                     .cancel()
-                 ]
-             )
-         }
+            ActionSheet(
+                title: Text("Ad Options"),
+                message: Text("Interact with this ad from \(advertisement.advertiserName)"),
+                buttons: [
+                    .default(Text("Why this ad?")) {
+                        print("Action: Show 'Why this ad?' info for \(advertisement.id)")
+                        // Potentially open a modal or URL with info
+                    },
+                    .destructive(Text("Report Ad")) {
+                        print("Action: Initiate 'Report Ad' flow for \(advertisement.id)")
+                        // Potentially navigate to a reporting screen
+                    },
+                    .cancel()
+                ]
+            )
+        }
     }
-
+    
     // MARK: - Subviews (Updated for Data Model & AsyncImage)
-
+    
     private var topBar: some View {
         HStack {
             Button { dismiss() } label: { Image(systemName: "chevron.down") }
@@ -148,7 +148,7 @@ struct FunctionalAdvertisementView: View {
         .padding(.horizontal)
         .padding(.top, 5)
     }
-
+    
     private var adImage: some View {
         AsyncImage(url: advertisement.imageURL) { phase in
             switch phase {
@@ -159,8 +159,8 @@ struct FunctionalAdvertisementView: View {
                     .cornerRadius(10)
             case .success(let image):
                 image.resizable()
-                     .aspectRatio(contentMode: .fit)
-                     .cornerRadius(10)
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(10)
             case .failure:
                 // Placeholder for failed image load
                 VStack {
@@ -174,7 +174,7 @@ struct FunctionalAdvertisementView: View {
                 .frame(maxWidth: .infinity, idealHeight: 250)
                 .background(Color.placeholderGray.opacity(0.3))
                 .cornerRadius(10)
-
+                
             @unknown default:
                 EmptyView() // Should not happen
             }
@@ -182,7 +182,7 @@ struct FunctionalAdvertisementView: View {
         .padding(.horizontal)
         .accessibilityLabel(Text("Advertisement image for \(advertisement.advertiserName)"))
     }
-
+    
     private var advertiserInfo: some View {
         HStack(spacing: 12) {
             // Logo (AsyncImage or Text)
@@ -193,7 +193,7 @@ struct FunctionalAdvertisementView: View {
                         case .empty: ProgressView().tint(.buttonText)
                         case .success(let image): image.resizable().scaledToFit()
                         case .failure: // Fallback to text if image fails or if no URL
-                           fallbackLogoText
+                            fallbackLogoText
                         @unknown default: fallbackLogoText
                         }
                     }
@@ -205,7 +205,7 @@ struct FunctionalAdvertisementView: View {
             .background(Color.logoBackground)
             .cornerRadius(6)
             .clipped() // Ensure content stays within bounds
-
+            
             VStack(alignment: .leading, spacing: 2) {
                 Text(advertisement.advertiserName)
                     .font(.headline)
@@ -219,123 +219,125 @@ struct FunctionalAdvertisementView: View {
         .foregroundColor(.primaryText)
         .padding(.horizontal)
     }
-
+    
     // Helper for logo text fallback
+    @ViewBuilder
     private var fallbackLogoText: some View {
+        // Check if valid text is provided
         if let text = advertisement.logoText, !text.isEmpty {
-           return Text(text)
+            Text(text)
                 .font(.system(size: 24).weight(.bold)) // Adjust size dynamically maybe?
                 .foregroundColor(.buttonText)
                 .minimumScaleFactor(0.5) // Allows text to shrink
                 .lineLimit(1)
         } else {
             // Default icon if no image URL and no text provided
-            return Image(systemName: "building.2")
-                 .font(.title)
-                 .foregroundColor(.buttonText)
+            Image(systemName: "building.2")
+                .font(.title)
+                .foregroundColor(.buttonText)
         }
     }
-
+    
     private var progressBar: some View {
-         VStack(spacing: 4) {
-             ProgressView(value: progress)
-                 .progressViewStyle(LinearProgressViewStyle(tint: Color.progressBarTint))
-                 .scaleEffect(x: 1, y: 1.5, anchor: .center)
-                 .background(Color.progressBarBackground.opacity(0.5))
-                 .clipShape(Capsule())
-
-             HStack {
-                 Text(formatTimeCorrected(currentTime)) // Display current time
-                 Spacer()
-                 Text(formatTimeCorrected(currentTime, isRemaining: true)) // Display remaining time
-             }
-             .font(.caption2)
-             .foregroundColor(.secondaryText)
-         }
-         .padding(.horizontal)
-     }
-
+        VStack(spacing: 4) {
+            ProgressView(value: progress)
+                .progressViewStyle(LinearProgressViewStyle(tint: Color.progressBarTint))
+                .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                .background(Color.progressBarBackground.opacity(0.5))
+                .clipShape(Capsule())
+            
+            HStack {
+                Text(formatTimeCorrected(currentTime)) // Display current time
+                Spacer()
+                Text(formatTimeCorrected(currentTime, isRemaining: true)) // Display remaining time
+            }
+            .font(.caption2)
+            .foregroundColor(.secondaryText)
+        }
+        .padding(.horizontal)
+    }
+    
     private var playbackControls: some View {
-         HStack(spacing: 20) {
-             Spacer()
-             // Like Button
-             Button {
-                 isLiked.toggle()
-                 if isLiked { isDisliked = false }
-                 print("Action: Ad \(advertisement.id) Liked: \(isLiked)")
-                 // Add network call or local save here if needed
-             } label: {
-                 Image(systemName: isLiked ? "hand.thumbsup.fill" : "hand.thumbsup")
-                     .font(.title2)
-                     .foregroundColor(isLiked ? .interactionHighlight : .primaryText)
-             }.accessibilityLabel(isLiked ? Text("Unlike Ad") : Text("Like Ad"))
-
-             // Previous (Disabled)
-             Button {} label: { Image(systemName: "backward.end.fill").font(.title2) }
-                 .disabled(true).opacity(0.5)
-
-             // Play/Pause
-             Button { togglePlayback() } label: {
-                 Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                     .font(.system(size: 30))
-                     .foregroundColor(Color.adBackground) // Use ad background color for contrast
-                     .frame(width: 60, height: 60)
-                     .background(Circle().fill(Color.primaryText)) // White background circle
-             }.accessibilityLabel(isPlaying ? Text("Pause Ad") : Text("Play Ad"))
-
+        HStack(spacing: 20) {
+            Spacer()
+            // Like Button
+            Button {
+                isLiked.toggle()
+                if isLiked { isDisliked = false }
+                print("Action: Ad \(advertisement.id) Liked: \(isLiked)")
+                // Add network call or local save here if needed
+            } label: {
+                Image(systemName: isLiked ? "hand.thumbsup.fill" : "hand.thumbsup")
+                    .font(.title2)
+                    .foregroundColor(isLiked ? .interactionHighlight : .primaryText)
+            }.accessibilityLabel(isLiked ? Text("Unlike Ad") : Text("Like Ad"))
+            
+            // Previous (Disabled)
+            Button {} label: { Image(systemName: "backward.end.fill").font(.title2) }
+                .disabled(true).opacity(0.5)
+            
+            // Play/Pause
+            Button { togglePlayback() } label: {
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    .font(.system(size: 30))
+                    .foregroundColor(Color.adBackground) // Use ad background color for contrast
+                    .frame(width: 60, height: 60)
+                    .background(Circle().fill(Color.primaryText)) // White background circle
+            }.accessibilityLabel(isPlaying ? Text("Pause Ad") : Text("Play Ad"))
+            
             // Next (Disabled)
             Button {} label: { Image(systemName: "forward.end.fill").font(.title2) }
                 .disabled(true).opacity(0.5)
-
-             // Dislike Button
-             Button {
-                 isDisliked.toggle()
-                 if isDisliked { isLiked = false }
-                 print("Action: Ad \(advertisement.id) Disliked: \(isDisliked)")
-                 // Add network call or local save here
-             } label: {
-                  Image(systemName: isDisliked ? "hand.thumbsdown.fill" : "hand.thumbsdown")
-                     .font(.title2)
-                     .foregroundColor(isDisliked ? .interactionHighlight : .primaryText)
-             }.accessibilityLabel(isDisliked ? Text("Remove Dislike") : Text("Dislike Ad"))
-
-              Spacer()
-         }
-         .foregroundColor(.primaryText)
-         .padding(.horizontal)
-     }
-
+            
+            // Dislike Button
+            Button {
+                isDisliked.toggle()
+                if isDisliked { isLiked = false }
+                print("Action: Ad \(advertisement.id) Disliked: \(isDisliked)")
+                // Add network call or local save here
+            } label: {
+                Image(systemName: isDisliked ? "hand.thumbsdown.fill" : "hand.thumbsdown")
+                    .font(.title2)
+                    .foregroundColor(isDisliked ? .interactionHighlight : .primaryText)
+            }.accessibilityLabel(isDisliked ? Text("Remove Dislike") : Text("Dislike Ad"))
+            
+            Spacer()
+        }
+        .foregroundColor(.primaryText)
+        .padding(.horizontal)
+    }
+    
     private var ctaBanner: some View {
-         HStack {
-             Text(advertisement.ctaText)
-                 .font(.footnote)
-                 .lineLimit(2)
-                 .multilineTextAlignment(.leading)
-
-             Spacer()
-
-             Button("Learn more") {
-                 print("Action: Opening URL \(advertisement.learnMoreURL) for ad \(advertisement.id)")
-                 openURL(advertisement.learnMoreURL)
-             }
-             .font(.footnote)
-             .fontWeight(.bold)
-             .foregroundColor(.buttonText) // Text color for button
-             .padding(.horizontal, 16)
-             .padding(.vertical, 8)
-             .background(Color.primaryText) // Background for button
-             .cornerRadius(20)
-         }
-         .padding()
-         .background(Color.ctaBackground) // Background for the whole banner
-         .cornerRadius(12)
-         .padding(.horizontal)
-         .padding(.bottom, 20)
-         .accessibilityElement(children: .combine)
-     }
-
+        HStack {
+            Text(advertisement.ctaText)
+                .font(.footnote)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+            
+            Spacer()
+            
+            Button("Learn more") {
+                print("Action: Opening URL \(advertisement.learnMoreURL) for ad \(advertisement.id)")
+                openURL(advertisement.learnMoreURL)
+            }
+            .font(.footnote)
+            .fontWeight(.bold)
+            .foregroundColor(.buttonText) // Text color for button
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(Color.primaryText) // Background for button
+            .cornerRadius(20)
+        }
+        .padding()
+        .background(Color.ctaBackground) // Background for the whole banner
+        .cornerRadius(12)
+        .padding(.horizontal)
+        .padding(.bottom, 20)
+        .accessibilityElement(children: .combine)
+    }
+    
     // MARK: - Helper Functions
-
+    
     private func togglePlayback() {
         isPlaying.toggle()
         if isPlaying {
@@ -345,14 +347,14 @@ struct FunctionalAdvertisementView: View {
         }
         print("Playback Toggled: \(isPlaying ? "Playing" : "Paused")")
     }
-
+    
     private func startTimerIfNeeded() {
         guard advertisement.duration > 0, isPlaying, timerSubscription == nil else { return } // Prevent starting if duration is 0 or already running/paused
-
+        
         // Use the correct totalDuration now set from advertisement
         timerSubscription = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect().sink { _ in
             guard isPlaying else { return }
-
+            
             if currentTime < totalDuration {
                 currentTime += 0.1
                 // Ensure progress doesn't exceed 1 due to timing inaccuracies
@@ -370,13 +372,13 @@ struct FunctionalAdvertisementView: View {
         }
         print("Timer Started for ad \(advertisement.id) with duration \(totalDuration)")
     }
-
+    
     private func cancelTimer() {
         timerSubscription?.cancel()
         timerSubscription = nil
         print("Timer Cancelled for ad \(advertisement.id)")
     }
-
+    
     // Corrected Time Formatter
     private func formatTimeCorrected(_ time: TimeInterval, isRemaining: Bool = false) -> String {
         // Use the state 'totalDuration' which is set from advertisement.duration
@@ -385,15 +387,15 @@ struct FunctionalAdvertisementView: View {
         let seconds = totalSeconds % 60
         let minutes = totalSeconds / 60
         let sign = isRemaining ? "-": ""
-
+        
         // Prevent showing negative time or incorrect values at the end
         if isRemaining && currentTime >= totalDuration {
             return "-0:00"
         }
         if !isRemaining && currentTime >= totalDuration {
-             return String(format: "%d:%02d", Int(totalDuration) / 60, Int(totalDuration) % 60)
+            return String(format: "%d:%02d", Int(totalDuration) / 60, Int(totalDuration) % 60)
         }
-
+        
         return String(format: "%@%d:%02d", sign, minutes, seconds)
     }
 }
