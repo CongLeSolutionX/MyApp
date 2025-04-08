@@ -12,7 +12,7 @@ import AuthenticationServices // For ASWebAuthenticationSession
 
 // MARK: - Configuration (MUST REPLACE)
 struct SpotifyConstants {
-    static let clientID = "YOUR_CLIENT_ID" // <-- REPLACE THIS
+    static let clientID = "adb2903676fc47b8aac6acf1d4a19df6" // <-- REPLACE THIS
     static let redirectURI = "myapp://callback" // <-- REPLACE THIS (e.g., "myapp://callback")
     static let scopes = [
         "user-read-private",
@@ -1142,7 +1142,7 @@ struct AuthenticationFlowView: View {
     @StateObject var authManager = SpotifyAuthManager()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group { // Use Group to switch between major views
                 if !authManager.isLoggedIn {
                     loggedOutView
@@ -1151,6 +1151,11 @@ struct AuthenticationFlowView: View {
                     loggedInContentView
                         .navigationTitle("Your Spotify")
                 }
+            }
+            // Place navigationDestination here for the Playlist type
+            .navigationDestination(for: SpotifyPlaylist.self) { playlist in
+                PlaylistDetailView(playlist: playlist) // Pass the selected playlist
+                    .environmentObject(authManager) // Pass the manager down
             }
             .overlay { // Show loading indicator overlay
                 if authManager.isLoading {
@@ -1305,38 +1310,41 @@ struct AuthenticationFlowView: View {
         } else {
             // Display fetched playlists
             ForEach(authManager.userPlaylists) { playlist in
-                HStack {
-                    AsyncImage(url: URL(string: playlist.images?.first?.url ?? "")) { image in
-                        image.resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 45, height: 45)
-                            .cornerRadius(4)
-                    } placeholder: {
-                        Image(systemName: "music.note.list")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 45, height: 45)
-                            .padding(8)
-                            .background(Color.gray.opacity(0.3))
-                            .foregroundColor(.gray)
-                            .cornerRadius(4)
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text(playlist.name).lineLimit(1)
-                        Text("By \(playlist.owner.displayName ?? "Spotify") • \(playlist.tracks.total) tracks")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Spacer()
-                    
-                    // Indicate collaborative playlists
-                    if playlist.collaborative {
-                        Image(systemName: "person.2.fill")
-                            .foregroundColor(.blue)
+                NavigationLink(value: playlist) {  // Pass playlist as value
+                    HStack {
+                        AsyncImage(url: URL(string: playlist.images?.first?.url ?? "")) { image in
+                            image.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 45, height: 45)
+                                .cornerRadius(4)
+                        } placeholder: {
+                            Image(systemName: "music.note.list")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 45, height: 45)
+                                .padding(8)
+                                .background(Color.gray.opacity(0.3))
+                                .foregroundColor(.gray)
+                                .cornerRadius(4)
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            Text(playlist.name).lineLimit(1)
+                            Text("By \(playlist.owner.displayName ?? "Spotify") • \(playlist.tracks.total) tracks")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        // Indicate collaborative playlists
+                        if playlist.collaborative {
+                            Image(systemName: "person.2.fill")
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
+              
                 // Add pagination trigger
                 if playlist.id == authManager.userPlaylists.last?.id && authManager.playlistNextPageUrl != nil {
                     // Show a loading indicator or button at the bottom
