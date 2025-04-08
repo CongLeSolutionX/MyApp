@@ -23,12 +23,12 @@ struct AVPlayerItemDocumentationView: View {
                 PlaybackControlSection()
                 NotificationsSection()
                 BufferingNetworkSection()
-                MediaSelectionSection()
-                AudioVideoProcessingSection()
-                OutputsDataCollectionSection()
-                LoggingSection()
-                ConcurrencySection()
-                DeprecatedAPISection()
+//                MediaSelectionSection()
+//                AudioVideoProcessingSection()
+//                OutputsDataCollectionSection()
+//                LoggingSection()
+//                ConcurrencySection()
+//                DeprecatedAPISection()
             }
             .navigationTitle("AVPlayerItem API")
             .listStyle(GroupedListStyle())
@@ -144,7 +144,7 @@ struct StatusEnumView: View {
 
 struct InitializationSection: View {
     var body: some View {
-        Section("Initialization") {
+//        Section("Initialization") {
             APIMethodView(
                 signature: "init(url: URL)",
                 description: "Convenience init from a URL. Equivalent to init(asset: AVAsset(url: URL)). `nonisolated`.",
@@ -153,27 +153,27 @@ struct InitializationSection: View {
              APIMethodView(
                 signature: "init(asset: AVAsset)",
                 description: "Convenience init from an AVAsset. Loads 'duration' key automatically. @MainActor isolated for non-Sendable AVAsset.",
-                availability: "iOS 4.0+"
+                availability: "iOS 4.0+", annotation: nil
             )
             APIMethodView(
                 signature: "init(asset: AVAsset, automaticallyLoadedAssetKeys: [String]?)",
                 description: "Init from an AVAsset, specifying asset keys to load before becoming ready. @MainActor isolated for non-Sendable AVAsset.",
-                 availability: "iOS 7.0+"
+                availability: "iOS 7.0+", annotation: nil
             )
             APIMethodView(
                 signature: "init(asset: any AVAsset & Sendable)",
                 description: "Convenience init from a Sendable AVAsset. Can be called from any concurrency domain. `nonisolated`.",
-                availability: "iOS 4.0+" // Base availability
+                availability: "iOS 4.0+", annotation: nil
             )
             APIMethodView(
                 signature: "init(asset: any AVAsset & Sendable, automaticallyLoadedAssetKeys: [AVPartialAsyncProperty<AVAsset>])",
                 description: "Init from a Sendable AVAsset, specifying async properties to load. Can be called from any concurrency domain. `nonisolated`.",
-                availability: "macOS 12+, iOS 15+, etc."
+                availability: "macOS 12+, iOS 15+, etc.", annotation: nil
             )
              APIMethodView(
                 signature: "init(asset: AVAsset, automaticallyLoadedAssetKeys: [AVPartialAsyncProperty<AVAsset>] = [])",
                 description: "Init from a (potentially non-Sendable) AVAsset, specifying async properties to load. @MainActor isolated.",
-                availability: "macOS 12+, iOS 15+, etc."
+                availability: "macOS 12+, iOS 15+, etc.", annotation: nil
             )
 
             VStack(alignment: .leading) {
@@ -181,7 +181,7 @@ struct InitializationSection: View {
                 Text("• Initializers taking non-Sendable `AVAsset` are `@MainActor`-isolated.")
                 Text("• Initializers taking `AVAsset & Sendable` are `nonisolated`.")
             }.font(.caption).foregroundColor(.purple)
-        }
+//        }
     }
 }
 
@@ -190,7 +190,7 @@ struct InitializationSection: View {
 
 struct PlaybackControlSection: View {
     var body: some View {
-        Section("Playback Control & State") {
+//        Section("Playback Control & State") {
             // Time
              APIMethodView(
                 signature: "currentTime() -> CMTime",
@@ -200,44 +200,44 @@ struct PlaybackControlSection: View {
              APIMethodView(
                 signature: "currentDate() -> Date?",
                 description: "Maps currentTime to a real-time date, if applicable. `nonisolated`.",
-                 availability: "iOS 6.0+"
+                 availability: "iOS 6.0+", annotation: nil
             )
 
             // Seeking
              APIMethodView(
                 signature: "seek(to: CMTime, completionHandler: ((Bool) -> Void)?)",
                 description: "Seeks to a time. Cancels pending seeks. Completion indicates if finished without interruption. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
              APIMethodView(
                 signature: "seek(to: CMTime) async -> Bool",
                 description: "Async version of seek(to: CMTime:). Returns true if completed. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
              APIMethodView(
                 signature: "seek(to: CMTime, toleranceBefore: CMTime, toleranceAfter: CMTime, completionHandler: ((Bool) -> Void)?)",
                 description: "Seeks within tolerance for efficiency. kCMTimeZero for sample-accurate. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
              APIMethodView(
                 signature: "seek(to: CMTime, toleranceBefore: CMTime, toleranceAfter: CMTime) async -> Bool",
                 description: "Async version of seek with tolerance. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
             APIMethodView(
                 signature: "seek(to: Date, completionHandler: ((Bool) -> Void)?) -> Bool",
                 description: "Seeks to a specific date if content is date-ranged. Returns success synchronously, completion updates finish status. `nonisolated`.",
-                availability: "iOS 6.0+"
+                availability: "iOS 6.0+", annotation: nil
             )
             APIMethodView(
                 signature: "seek(to: date: Date) async -> Bool",
                 description: "Async version of seeking to a date. `nonisolated`.",
-                availability: "macOS 13+, iOS 16+, etc."
+                availability: "macOS 13+, iOS 16+, etc.", annotation: nil
             )
              APIMethodView(
                 signature: "cancelPendingSeeks()",
                 description: "Cancels any in-progress seek operations. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
 
             // Boundaries & Ranges
@@ -261,7 +261,7 @@ struct PlaybackControlSection: View {
              APIMethodView(
                 signature: "step(byCount: Int)",
                 description: "Steps forward/backward by a number of frames/steps (depends on enabled tracks). `nonisolated`.",
-                availability: "iOS 4.0+"
+                availability: "iOS 4.0+", annotation: nil
             )
             APIItemView(label: "timebase", value: "CMTimebase?", annotation: "Read-only. The item's timebase relating item time to a source clock. `nonisolated`.", availability: "iOS 6.0+")
 
@@ -271,7 +271,7 @@ struct PlaybackControlSection: View {
             APIItemView(label: "recommendedTimeOffsetFromLive", value: "CMTime", annotation: "Read-only. Recommended offset based on network. kCMTimeInvalid for non-live.", availability: "iOS 13.0+")
             APIItemView(label: "automaticallyPreservesTimeOffsetFromLive", value: "Bool", annotation: "If YES, seeks forward after buffering to maintain live offset. Default NO.", availability: "iOS 13.0+")
         }
-    }
+//    }
 }
 
 struct PlaybackCapabilityView: View {
@@ -388,7 +388,7 @@ struct VariantPreferencesView: View {
 
 struct MediaSelectionSection: View {
     var body: some View {
-         Section("Media Selection") {
+//         Section("Media Selection") {
              Text("Manages selection of audio, subtitle, and legible tracks via AVMediaSelectionGroup and AVMediaSelectionOption obtained from the asset.")
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -397,15 +397,15 @@ struct MediaSelectionSection: View {
             APIMethodView(
                 signature: "select(_ mediaSelectionOption: AVMediaSelectionOption?, in mediaSelectionGroup: AVMediaSelectionGroup)",
                 description: "Selects an option in a group, deselecting others. Pass nil to clear if group allows empty selection. `nonisolated`.",
-                availability: "iOS 5.0+"
+                availability: "iOS 5.0+", annotation: nil
             )
             APIMethodView(
                 signature: "selectMediaOptionAutomatically(in mediaSelectionGroup: AVMediaSelectionGroup)",
                 description: "Re-enables automatic selection for a group (if player applies criteria automatically). `nonisolated`.",
-                availability: "iOS 7.0+"
+                availability: "iOS 7.0+", annotation: nil
             )
             APIItemView(label: "currentMediaSelection", value: "AVMediaSelection", annotation: "Read-only. Contains the currently selected option for each group. @MainActor isolated.", availability: "iOS 9.0+")
-        }
+//        }
     }
 }
 
@@ -435,7 +435,7 @@ struct AudioVideoProcessingSection: View {
 
 struct OutputsDataCollectionSection: View {
     var body: some View {
-        Section("Outputs & Data Collection") {
+//        Section("Outputs & Data Collection") {
             SubsectionHeader(title: "AVPlayerItemOutput")
              Text("Allows retrieving decoded media samples (e.g., video frames, audio samples) for custom processing or display.")
                 .font(.caption)
@@ -466,15 +466,15 @@ struct OutputsDataCollectionSection: View {
              APIMethodView(
                 signature: "add(_ collector: AVPlayerItemMediaDataCollector)",
                 description: "Adds a media data collector. `nonisolated`.",
-                availability: "iOS 9.3+"
+                availability: "iOS 9.3+", annotation: nil
             )
              APIMethodView(
                 signature: "remove(_ collector: AVPlayerItemMediaDataCollector)",
                 description: "Removes a media data collector. `nonisolated`.",
-                 availability: "iOS 9.3+"
+                availability: "iOS 9.3+", annotation: nil
             )
             APIItemView(label: "mediaDataCollectors", value: "[AVPlayerItemMediaDataCollector]", annotation: "Read-only. The collection of added collectors. `nonisolated`.", availability: "iOS 9.3+")
-        }
+//        }
     }
 }
 
@@ -483,7 +483,7 @@ struct OutputsDataCollectionSection: View {
 
 struct LoggingSection: View {
     var body: some View {
-         Section("Logging") {
+//         Section("Logging") {
              APIMethodView(
                 signature: "accessLog() -> AVPlayerItemAccessLog?",
                 description: "Returns a snapshot of the network access log. Nil if unavailable. `nonisolated`.",
@@ -492,93 +492,93 @@ struct LoggingSection: View {
              APIMethodView(
                 signature: "errorLog() -> AVPlayerItemErrorLog?",
                 description: "Returns a snapshot of the error log. Nil if unavailable. `nonisolated`.",
-                availability: "iOS 4.3+"
+                availability: "iOS 4.3+", annotation: nil
             )
 
-             NavigationLink("View Access Log Details", destination: AccessLogDetailView())
+//             NavigationLink("View Access Log Details", destination: AccessLogDetailView())
              NavigationLink("View Error Log Details", destination: ErrorLogDetailView())
-        }
+//        }
     }
 }
 
-// MARK: - Logging Detail Views (Structure Representation)
-
-struct AccessLogDetailView: View {
-    var body: some View {
-        List {
-            Section("AVPlayerItemAccessLog Structure") {
-                 Text("Inherits from: NSObject, NSCopying, @unchecked Sendable")
-                    .font(.caption).foregroundColor(.gray)
-                APIItemView(label: "events", value: "[AVPlayerItemAccessLogEvent]", annotation: "Ordered list of log events.")
-                APIMethodView(signature: "extendedLogData() -> Data?", description: "Serializes log to W3C Extended Log File Format.")
-                APIItemView(label: "extendedLogDataStringEncoding", value: "UInt", annotation: "Encoding for extendedLogData.")
-            }
-
-            Section("AVPlayerItemAccessLogEvent Properties") {
-                 Text("Inherits from: NSObject, NSCopying, @unchecked Sendable\n(All properties read-only, non-observable)")
-                     .font(.caption2).foregroundColor(.gray)
-                Group {
-                    APIItemView(label: "numberOfMediaRequests", value: "Int")
-                    APIItemView(label: "playbackStartDate", value: "Date?")
-                    APIItemView(label: "uri", value: "String?")
-                    APIItemView(label: "serverAddress", value: "String?")
-                    APIItemView(label: "numberOfServerAddressChanges", value: "Int")
-                    APIItemView(label: "playbackSessionID", value: "String?")
-                    APIItemView(label: "playbackStartOffset", value: "TimeInterval")
-                    APIItemView(label: "segmentsDownloadedDuration", value: "TimeInterval")
-                    APIItemView(label: "durationWatched", value: "TimeInterval")
-                    APIItemView(label: "numberOfStalls", value: "Int")
-                }
-                Group {
-                    APIItemView(label: "numberOfBytesTransferred", value: "Int64")
-                    APIItemView(label: "transferDuration", value: "TimeInterval", availability: "iOS 7.0+")
-                    APIItemView(label: "observedBitrate", value: "Double")
-                    APIItemView(label: "indicatedBitrate", value: "Double")
-                    APIItemView(label: "indicatedAverageBitrate", value: "Double", availability: "iOS 10.0+")
-                    APIItemView(label: "averageVideoBitrate", value: "Double", availability: "iOS 10.0+")
-                    APIItemView(label: "averageAudioBitrate", value: "Double", availability: "iOS 10.0+")
-                    APIItemView(label: "numberOfDroppedVideoFrames", value: "Int")
-                    APIItemView(label: "startupTime", value: "TimeInterval", availability: "iOS 7.0+")
-                    APIItemView(label: "downloadOverdue", value: "Int", availability: "iOS 7.0+")
-                    APIItemView(label: "observedBitrateStandardDeviation", value: "Double", availability: "iOS 7.0+")
-                    APIItemView(label: "playbackType", value: "String?", availability: "iOS 7.0+")
-                    APIItemView(label: "mediaRequestsWWAN", value: "Int", availability: "iOS 7.0+")
-                    APIItemView(label: "switchBitrate", value: "Double", availability: "iOS 7.0+")
-                }
-            }
-        }
-        .navigationTitle("Access Log Details")
-        .listStyle(InsetGroupedListStyle())
-    }
-}
+//// MARK: - Logging Detail Views (Structure Representation)
+//
+//struct AccessLogDetailView: View {
+//    var body: some View {
+//        List {
+//            Section("AVPlayerItemAccessLog Structure") {
+//                 Text("Inherits from: NSObject, NSCopying, @unchecked Sendable")
+//                    .font(.caption).foregroundColor(.gray)
+//                APIItemView(label: "events", value: "[AVPlayerItemAccessLogEvent]", annotation: "Ordered list of log events.")
+//                APIMethodView(signature: "extendedLogData() -> Data?", description: "Serializes log to W3C Extended Log File Format.")
+//                APIItemView(label: "extendedLogDataStringEncoding", value: "UInt", annotation: "Encoding for extendedLogData.")
+//            }
+//
+//            Section("AVPlayerItemAccessLogEvent Properties") {
+//                 Text("Inherits from: NSObject, NSCopying, @unchecked Sendable\n(All properties read-only, non-observable)")
+//                     .font(.caption2).foregroundColor(.gray)
+//                Group {
+//                    APIItemView(label: "numberOfMediaRequests", value: "Int")
+//                    APIItemView(label: "playbackStartDate", value: "Date?")
+//                    APIItemView(label: "uri", value: "String?")
+//                    APIItemView(label: "serverAddress", value: "String?")
+//                    APIItemView(label: "numberOfServerAddressChanges", value: "Int")
+//                    APIItemView(label: "playbackSessionID", value: "String?")
+//                    APIItemView(label: "playbackStartOffset", value: "TimeInterval")
+//                    APIItemView(label: "segmentsDownloadedDuration", value: "TimeInterval")
+//                    APIItemView(label: "durationWatched", value: "TimeInterval")
+//                    APIItemView(label: "numberOfStalls", value: "Int")
+//                }
+//                Group {
+//                    APIItemView(label: "numberOfBytesTransferred", value: "Int64")
+//                    APIItemView(label: "transferDuration", value: "TimeInterval", availability: "iOS 7.0+")
+//                    APIItemView(label: "observedBitrate", value: "Double")
+//                    APIItemView(label: "indicatedBitrate", value: "Double")
+//                    APIItemView(label: "indicatedAverageBitrate", value: "Double", availability: "iOS 10.0+")
+//                    APIItemView(label: "averageVideoBitrate", value: "Double", availability: "iOS 10.0+")
+//                    APIItemView(label: "averageAudioBitrate", value: "Double", availability: "iOS 10.0+")
+//                    APIItemView(label: "numberOfDroppedVideoFrames", value: "Int")
+//                    APIItemView(label: "startupTime", value: "TimeInterval", availability: "iOS 7.0+")
+//                    APIItemView(label: "downloadOverdue", value: "Int", availability: "iOS 7.0+")
+//                    APIItemView(label: "observedBitrateStandardDeviation", value: "Double", availability: "iOS 7.0+")
+//                    APIItemView(label: "playbackType", value: "String?", availability: "iOS 7.0+")
+//                    APIItemView(label: "mediaRequestsWWAN", value: "Int", availability: "iOS 7.0+")
+//                    APIItemView(label: "switchBitrate", value: "Double", availability: "iOS 7.0+")
+//                }
+//            }
+//        }
+//        .navigationTitle("Access Log Details")
+//        .listStyle(InsetGroupedListStyle())
+//    }
+//}
 
 struct ErrorLogDetailView: View {
     var body: some View {
          List {
-            Section("AVPlayerItemErrorLog Structure") {
+//            Section("AVPlayerItemErrorLog Structure") {
                  Text("Inherits from: NSObject, NSCopying, @unchecked Sendable")
                     .font(.caption).foregroundColor(.gray)
-                APIItemView(label: "events", value: "[AVPlayerItemErrorLogEvent]", annotation: "Ordered list of log events.")
-                APIMethodView(signature: "extendedLogData() -> Data?", description: "Serializes log to W3C Extended Log File Format.")
-                APIItemView(label: "extendedLogDataStringEncoding", value: "UInt", annotation: "Encoding for extendedLogData.")
+             APIItemView(label: "events", value: "[AVPlayerItemErrorLogEvent]", annotation: "Ordered list of log events.", availability: nil)
+             APIMethodView(signature: "extendedLogData() -> Data?", description: "Serializes log to W3C Extended Log File Format.", availability: nil, annotation: nil)
+             APIItemView(label: "extendedLogDataStringEncoding", value: "UInt", annotation: "Encoding for extendedLogData.", availability: nil)
             }
 
-            Section("AVPlayerItemErrorLogEvent Properties") {
+//            Section("AVPlayerItemErrorLogEvent Properties") {
                  Text("Inherits from: NSObject, NSCopying, @unchecked Sendable\n(All properties read-only, non-observable)")
                      .font(.caption2).foregroundColor(.gray)
-                APIItemView(label: "date", value: "Date?")
-                APIItemView(label: "uri", value: "String?")
-                APIItemView(label: "serverAddress", value: "String?")
-                APIItemView(label: "playbackSessionID", value: "String?")
-                APIItemView(label: "errorStatusCode", value: "Int")
-                APIItemView(label: "errorDomain", value: "String")
-                APIItemView(label: "errorComment", value: "String?")
-                 APIItemView(label: "allHTTPResponseHeaderFields", value: "[String : String]?", availability: "iOS 17.5+")
-            }
+        APIItemView(label: "date", value: "Date?", annotation: nil, availability: nil)
+                APIItemView(label: "uri", value: "String?", annotation: nil, availability: nil)
+                APIItemView(label: "serverAddress", value: "String?", annotation: nil, availability: nil)
+                APIItemView(label: "playbackSessionID", value: "String?", annotation: nil, availability: nil)
+                APIItemView(label: "errorStatusCode", value: "Int", annotation: nil, availability: nil)
+                APIItemView(label: "errorDomain", value: "String", annotation: nil, availability: nil)
+                APIItemView(label: "errorComment", value: "String?", annotation: nil, availability: nil)
+        APIItemView(label: "allHTTPResponseHeaderFields", value: "[String : String]?", annotation: nil, availability: "iOS 17.5+")
+//            }
         }
-        .navigationTitle("Error Log Details")
-         .listStyle(InsetGroupedListStyle())
-    }
+//        .navigationTitle("Error Log Details")
+//         .listStyle(InsetGroupedListStyle())
+//    }
 }
 
 
@@ -615,7 +615,7 @@ struct ConcurrencySection: View {
 
 struct DeprecatedAPISection: View {
     var body: some View {
-        Section("Deprecated APIs") {
+//        Section("Deprecated APIs") {
             APIMethodView(
                 signature: "seek(to: CMTime)",
                 description: "Use seek(to:completionHandler:) instead.",
@@ -624,17 +624,17 @@ struct DeprecatedAPISection: View {
             APIMethodView(
                 signature: "seek(to: CMTime, toleranceBefore: CMTime, toleranceAfter: CMTime)",
                 description: "Use seek(to:toleranceBefore:toleranceAfter:completionHandler:) instead.",
-                availability: "Deprecated iOS 11.0"
+                availability: "Deprecated iOS 11.0", annotation: nil
             )
             APIMethodView(
                 signature: "seek(to: Date) -> Bool",
                 description: "Use seek(to:completionHandler:) instead.",
-                availability: "Deprecated iOS 11.0"
+                availability: "Deprecated iOS 11.0", annotation: nil
             )
              APIMethodView(
                  signature: "selectedMediaOption(in mediaSelectionGroup: AVMediaSelectionGroup) -> AVMediaSelectionOption?",
                 description: "Use currentMediaSelection property instead.",
-                availability: "Deprecated iOS 11.0"
+                availability: "Deprecated iOS 11.0", annotation: nil
             )
             APIItemView(label: "timedMetadata", value: "[AVMetadataItem]?", annotation: "Use AVPlayerItemMetadataOutput instead. @MainActor.", availability: "Deprecated iOS 13.0")
             APIItemView(label: "isAudioSpatializationAllowed", value: "Bool", annotation: "Use allowedAudioSpatializationFormats instead.", availability: "Deprecated iOS 18.0")
@@ -642,7 +642,7 @@ struct DeprecatedAPISection: View {
              // APIItemView(label: "observedMaxBitrate", value: "Double", annotation: "Use observedBitrateStandardDeviation instead.", availability: "Deprecated iOS 15.0")
              // APIItemView(label: "observedMinBitrate", value: "Double", annotation: "Use observedBitrateStandardDeviation instead.", availability: "Deprecated iOS 15.0")
 
-        }
+//        }
     }
 }
 
