@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ConfirmationView: View {
+struct ConfirmationView_V1: View {
     // State or properties for dynamic data (optional for this static example)
     let amount: Double = 700.00
     let recipientName: String = "Kevin Nguyen"
@@ -155,7 +155,7 @@ struct ConfirmationView: View {
 
 // MARK: - Preview
 #Preview { // Using the new #Preview macro
-    ConfirmationView()
+    ConfirmationView_V1()
 }
 
 // Notes:
