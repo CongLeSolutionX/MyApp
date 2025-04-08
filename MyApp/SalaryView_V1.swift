@@ -30,7 +30,7 @@ struct SalarySubmission: Identifiable {
 }
 
 // MARK: - Main ContentView
-struct SalaryView: View {
+struct SalaryView_V1: View {
     @State private var selectedTab = 0
     @State private var searchText = "" // Placeholder state for filter
 
@@ -438,6 +438,6 @@ struct FloatingActionButtons: View {
 // MARK: - Preview
 struct SalaryView_Previews: PreviewProvider {
     static var previews: some View {
-        SalaryView()
+        SalaryView_V1()
     }
 }
