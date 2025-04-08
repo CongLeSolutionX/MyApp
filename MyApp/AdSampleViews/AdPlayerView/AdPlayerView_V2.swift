@@ -75,9 +75,9 @@ struct AdPlayerView: View {
         .onReceive(timerPublisher) { _ in
             updateProgress()
         }
-//        .sheet(isPresented: $showOptionsSheet) {
-//            optionsActionSheet // Presents the action sheet modally
-//        }
+        .sheet(isPresented: $showOptionsSheet) {
+            //optionsActionSheet // Presents the action sheet modally
+        }
         .sheet(isPresented: $isShowingSafariView) {
             // Present Safari View for "Learn More"
             if let url = learnMoreURL {
@@ -345,7 +345,7 @@ struct AdPlayerView: View {
             }
             startTimerIfNeeded()
         } else {
-           // stopTimer() // Timer logic now handles pausing internally based on isPlaying
+            stopTimer() // Timer logic now handles pausing internally based on isPlaying
         }
     }
 
