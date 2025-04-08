@@ -241,6 +241,13 @@ struct StoredTokens: Codable {
     let expiryDate: Date?
 }
 
+struct SpotifyImage: Decodable {
+    let url: String
+    let height: Int?
+    let width: Int?
+}
+
+
 struct SpotifyUserProfile: Codable, Identifiable {
     let id: String
     let displayName: String
@@ -252,19 +259,6 @@ struct SpotifyUserProfile: Codable, Identifiable {
         case displayName = "display_name"
         case email
         case images
-    }
-}
-
-// Simplified Playlist Owner Model
-struct SpotifyPlaylistOwner: Codable, Identifiable {
-    let id: String
-    let displayName: String? // Might be nil sometimes
-    let externalUrls: [String: String]?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case displayName = "display_name"
-        case externalUrls = "external_urls"
     }
 }
 
@@ -846,16 +840,121 @@ class SpotifyAuthManager: ObservableObject {
      }
 }
 
-// MARK: - API Error Enum (remain the same)
-enum APIError: Error, LocalizedError { /* ... implementation ... */ }
+// MARK: - API Error Enum
+// Define custom errors for better handling
+enum APIError: Error, LocalizedError {
+    case invalidRequest(message: String)
+    case networkError(Error)
+    case invalidResponse
+    case httpError(statusCode: Int, details: String)
+    case noData
+    case decodingError(Error?)
+    case notLoggedIn
+    case tokenRefreshFailed
+    case authenticationFailed // Specifically after a refresh attempt fails
+    case maxRetriesReached
+    case unknown
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidRequest(let message): return "Invalid request: \(message)"
+        case .networkError(let error): return "Network error: \(error.localizedDescription)"
+        case .invalidResponse: return "Invalid response from server."
+        case .httpError(let statusCode, let details): return "HTTP Error \(statusCode): \(details)"
+        case .noData: return "No data received from server."
+        case .decodingError: return "Failed to decode server response."
+        case .notLoggedIn: return "User is not logged in."
+        case .tokenRefreshFailed: return "Could not refresh session token."
+        case .authenticationFailed: return "Authentication failed."
+        case .maxRetriesReached: return "Maximum retry attempts reached."
+        case .unknown: return "An unknown error occurred."
+        }
+    }
+
+    // Helper to check if it's an auth-related HTTP error
+    var isAuthError: Bool {
+        switch self {
+        case .httpError(let statusCode, _):
+            return statusCode == 401 || statusCode == 403
+        case .authenticationFailed, .tokenRefreshFailed, .notLoggedIn:
+            return true
+        default:
+            return false
+        }
+    }
+}
 
 // MARK: - Models for Errors and Empty Responses (remain the same)
 struct SpotifyErrorResponse: Codable { /* ... */ }
 struct SpotifyErrorDetail: Codable { /* ... */ }
 struct EmptyResponse: Codable {}
 
-// MARK: - ASWebAuthenticationPresentationContextProviding (remain the same)
-extension SpotifyAuthManager: ASWebAuthenticationPresentationContextProviding { /* ... */ }
+// MARK: - ASWebAuthenticationPresentationContextProviding
+extension SpotifyAuthManager: ASWebAuthenticationPresentationContextProviding {
+    func isEqual(_ object: Any?) -> Bool {
+        return true
+    }
+
+    var hash: Int {
+        return 0
+    }
+
+    var superclass: AnyClass? {
+        return nil
+    }
+
+    func `self`() -> Self {
+        return self
+    }
+
+    func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>! {
+        return Unmanaged.passUnretained(self)
+    }
+
+    func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>! {
+        return Unmanaged.passUnretained(self)
+    }
+
+    func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>! {
+        return Unmanaged.passUnretained(self)
+    }
+
+    func isProxy() -> Bool {
+        return true
+    }
+
+    func isKind(of aClass: AnyClass) -> Bool {
+        return true
+    }
+
+    func isMember(of aClass: AnyClass) -> Bool {
+        return true
+    }
+
+    func conforms(to aProtocol: Protocol) -> Bool {
+        return true
+    }
+
+    func responds(to aSelector: Selector!) -> Bool {
+        return true
+    }
+
+    var description: String {
+        return ""
+    }
+
+    // Use the key window as the presentation anchor
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        // Updated to find the key window more reliably
+        let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
+        return keyWindow ?? ASPresentationAnchor()
+    }
+}
 
 // MARK: - PKCE Helper Extension (remain the same)
 extension Data { /* ... */ }
