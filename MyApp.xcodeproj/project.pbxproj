@@ -36,6 +36,7 @@
 		9AA1A53E2DA59BD8000178B3 /* AdvertisementView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A53D2DA59BD6000178B3 /* AdvertisementView_V4.swift */; };
 		9AA1A5422DA59E58000178B3 /* MusicAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5412DA59E54000178B3 /* MusicAdView.swift */; };
 		9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5442DA59EE3000178B3 /* MusicAdView_V2.swift */; };
+		9AA1A5482DA5A024000178B3 /* MusicAdView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5472DA5A023000178B3 /* MusicAdView_V3.swift */; };
 		9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -75,6 +76,7 @@
 		9AA1A53D2DA59BD6000178B3 /* AdvertisementView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementView_V4.swift; sourceTree = "<group>"; };
 		9AA1A5412DA59E54000178B3 /* MusicAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAdView.swift; sourceTree = "<group>"; };
 		9AA1A5442DA59EE3000178B3 /* MusicAdView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAdView_V2.swift; sourceTree = "<group>"; };
+		9AA1A5472DA5A023000178B3 /* MusicAdView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAdView_V3.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 		9AA1A5462DA59EEE000178B3 /* MusicAdView */ = {
 			isa = PBXGroup;
 			children = (
+				9AA1A5472DA5A023000178B3 /* MusicAdView_V3.swift */,
 				9AA1A5442DA59EE3000178B3 /* MusicAdView_V2.swift */,
 				9AA1A5412DA59E54000178B3 /* MusicAdView.swift */,
 			);
@@ -304,6 +307,7 @@
 				9AA1A52D2DA5862B000178B3 /* AVPlayerView_V3.swift in Sources */,
 				9A5AAE792D93BED3006A955A /* GetYourTop5TracksView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AA1A5482DA5A024000178B3 /* MusicAdView_V3.swift in Sources */,
 				9AA1A52B2DA57AC2000178B3 /* AVPlayerView_V2.swift in Sources */,
 				9A630AA72D92A10000C035AF /* SpotifyHomeView.swift in Sources */,
 				9AA1A5132DA4FFC9000178B3 /* AuthenticationFlowView_V2.swift in Sources */,
