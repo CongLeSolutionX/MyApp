@@ -33,8 +33,8 @@ struct Advertisement: Identifiable {
     )
 
     static let sampleAdNoImages = Advertisement(
-        advertiserName: "Quantum Computing Inc.",
-        advertiserDescription: "Cloud Solutions",
+        advertiserName: "CongLeSolutionX Inc.",
+        advertiserDescription: "Orange Cloud Solutions",
         ctaText: "Scale your business with our secure cloud platform.",
         learnMoreURL: URL(string: "https://www.example.com/quantumcloud")!,
         imageURL: nil, // No main image
