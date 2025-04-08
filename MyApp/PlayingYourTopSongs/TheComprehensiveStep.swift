@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit // Required for WKWebView
 
 // --- Constants and Configuration ---
-let spotifyApiToken = "YOUR_SPOTIFY_API_TOKEN" // <--- !!! REPLACE WITH YOUR ACTUAL TOKEN !!!
+let spotifyApiToken = "adb2903676fc47b8aac6acf1d4a19df6" // <--- !!! REPLACE WITH YOUR ACTUAL TOKEN !!!
 let sampleTrackUris = [
     "spotify:track:3myLRVDhN4Vba1F2JCQU0W", "spotify:track:5qbjUmVV1mSClfNrpV33jS",
     "spotify:track:2tnVG71enUj33Ic2nFN6kZ", "spotify:track:0DQyHCvclI1f44QrzjN7jQ",

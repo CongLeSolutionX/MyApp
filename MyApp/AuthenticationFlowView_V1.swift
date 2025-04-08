@@ -566,7 +566,7 @@ let previewAuthManager: SpotifyAuthManager = {
 
 
 // MARK: - SwiftUI View
-struct AuthenticationFlowView: View {
+struct AuthenticationFlowView_V1: View {
     @ObservedObject var authManager = SpotifyAuthManager()
     
     var body: some View {
@@ -759,7 +759,7 @@ struct AuthenticationFlowView: View {
         manager.currentTokens = StoredTokens(accessToken: "dummy_access_token_very_long...", refreshToken: "dummy_refresh_token...", expiryDate: Date().addingTimeInterval(3600))
         return manager
     }()
-    AuthenticationFlowView(authManager: previewAuthManager)
+    AuthenticationFlowView_V1(authManager: previewAuthManager)
 #endif
     
     
@@ -767,7 +767,7 @@ struct AuthenticationFlowView: View {
 }
 
 #Preview("Authentication Flow View") {
-    AuthenticationFlowView()
+    AuthenticationFlowView_V1()
     // Optional: Handle the redirect URL at the app level if needed,
     // although ASWebAuthenticationSession often makes this unnecessary
     //.onOpenURL { url in
