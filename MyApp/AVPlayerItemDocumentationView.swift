@@ -26,8 +26,8 @@ struct AVPlayerItemDocumentationView: View {
                 MediaSelectionSection()
                 AudioVideoProcessingSection()
                 OutputsDataCollectionSection()
-//                LoggingSection()
-//                ConcurrencySection()
+                LoggingSection()
+                ConcurrencySection()
 //                DeprecatedAPISection()
             }
             .navigationTitle("AVPlayerItem API")
@@ -612,7 +612,7 @@ struct ConcurrencySection: View {
 }
 
 // MARK: - Deprecated API Section
-
+// TODO: - This section cause the compiler loop infinite
 struct DeprecatedAPISection: View {
     var body: some View {
 //        Section("Deprecated APIs") {
