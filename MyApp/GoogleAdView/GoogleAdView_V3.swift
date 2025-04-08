@@ -111,13 +111,14 @@ struct GoogleAdViewFunctionalVideo: View {
         .onDisappear(perform: cleanupPlayer)
         // --- KVO Observer for Player Status ---
         // Using onChange is simpler than traditional KVO for status checks in SwiftUI
-        .onChange(of: player?.currentItem?.status) { newStatus in
+        .onChange(of: player?.currentItem?.status) {
+            let newStatus = player?.currentItem?.status
             handlePlayerStatusChange(status: newStatus)
         }
         // --- Handle Slider Value Changes ---
-        .onChange(of: progress) { newValue in
+        .onChange(of: progress) {
             guard isSeeking else { return } // Only react to slider drag changes here
-            seekPlayerToProgress(newValue)
+            seekPlayerToProgress(progress)
         }
         // Sheet for ellipsis options
         .actionSheet(isPresented: $showOptionsSheet) {
@@ -181,6 +182,9 @@ struct GoogleAdViewFunctionalVideo: View {
             isPlayerReady = false
         case .none:
             print("No player item")
+            isPlayerReady = false
+        case .some(_):
+            print("Player have status of some")
             isPlayerReady = false
         }
     }
@@ -286,25 +290,33 @@ struct GoogleAdViewFunctionalVideo: View {
     }
     
     // Helper to seek and update UI state, avoiding observer interference
-    private func seekPlayerAndUpdateState(to time: CMTime, newTimeValue: Double) {
-        guard let player = player else { return }
-        isSeeking = true // Pause observer updates
-        player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] finished in
-            DispatchQueue.main.async { // Ensure UI updates on main thread
-                guard let self = self, finished else {
-                    self?.isSeeking = false // Re-enable observer if seek fails/cancelled
-                    return
-                }
-                self.currentTime = newTimeValue
-                self.progress = self.totalDuration == 0 ? 0 : newTimeValue / self.totalDuration
-                self.isSeeking = false // Re-enable observer updates
-                print("Seek finished. New time: \(newTimeValue)")
-            }
+        private func seekPlayerAndUpdateState(to time: CMTime, newTimeValue: Double) {
+             guard let player = player else { return }
+             isSeeking = true // Pause observer updates
+
+             // *** FIX: Remove [weak self] from the capture list ***
+             player.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero) { finished in
+                 DispatchQueue.main.async { // Ensure UI updates on main thread
+                    // No need for guard let self = self, self is implicitly captured
+                    guard finished else {
+                        // Re-enable observer if seek fails/cancelled
+                        // Note: 'self' is already accessible here
+                        self.isSeeking = false
+                        return
+                    }
+
+                    // *** FIX: Remove optional chaining '?' after self ***
+                    self.currentTime = newTimeValue
+                    self.progress = self.totalDuration == 0 ? 0 : newTimeValue / self.totalDuration
+                    self.isSeeking = false // Re-enable observer updates
+                    print("Seek finished. New time: \(newTimeValue)")
+                 }
+             }
+             // Update UI immediately for responsiveness (optional, seek completion block is safer)
+             // This part remains the same
+             self.currentTime = newTimeValue
+             self.progress = self.totalDuration == 0 ? 0 : newTimeValue / self.totalDuration
         }
-        // Update UI immediately for responsiveness (optional, seek completion block is safer)
-        self.currentTime = newTimeValue
-        self.progress = self.totalDuration == 0 ? 0 : newTimeValue / self.totalDuration
-    }
 }
 
 // MARK: - Video Player View (UIViewControllerRepresentable)
