@@ -47,7 +47,7 @@ let termsData: [TermItem] = [
 ]
 
 // SwiftUI View
-struct TermsView: View {
+struct TermsView_V1: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) { // Add spacing between elements
@@ -106,6 +106,6 @@ struct TermsView: View {
 // Preview Provider
 struct TermsView_Previews: PreviewProvider {
     static var previews: some View {
-        TermsView()
+        TermsView_V1()
     }
 }
