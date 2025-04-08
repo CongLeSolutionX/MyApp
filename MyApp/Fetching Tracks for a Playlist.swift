@@ -1575,6 +1575,57 @@ struct TrackRowView: View {
     return AuthenticationFlowView(authManager: manager)
 }
 
+
+#Preview("Logged In - Playlist List") {
+    let manager = SpotifyAuthManager()
+    manager.isLoggedIn = true
+    manager.userProfile = SpotifyUserProfile(id: "p_user", displayName: "Preview List User", email: "list@example.com", images: [], externalUrls: [:])
+    manager.userPlaylists = [ /* ... Sample playlist data ... */ ] // Add sample data if needed
+    return AuthenticationFlowView(authManager: manager)
+}
+
+#Preview("Playlist Detail - Loading Tracks") {
+    let manager = SpotifyAuthManager()
+    let samplePlaylist = SpotifyPlaylist(id: "pl_detail_1", name: "Awesome Mix Vol. 1", description: "Legendary mixtape.", owner: SpotifyPlaylistOwner(id: "peter", displayName: "Peter Quill", externalUrls: [:]), collaborative: false, tracks: PlaylistTracksInfo(href: "", total: 12), images: [], externalUrls: [:], publicPlaylist: true)
+    manager.isLoggedIn = true // Manager needs to think it's logged in
+    manager.selectedPlaylist = samplePlaylist // Set the playlist being viewed
+    manager.isLoadingPlaylistTracks = true // Simulate loading
+    manager.currentPlaylistTracks = [] // No tracks loaded yet
+    return PlaylistDetailView(playlist: samplePlaylist)
+            .environmentObject(manager) // Inject the manager
+            .navigationTitle(samplePlaylist.name) // Add title for context
+}
+
+#Preview("Playlist Detail - With Tracks") {
+    let manager = SpotifyAuthManager()
+     let samplePlaylist = SpotifyPlaylist(id: "pl_detail_2", name: "Chill Beats", description: "Focus time.", owner: SpotifyPlaylistOwner(id: "lofi_girl", displayName: "Lofi Girl", externalUrls: [:]), collaborative: false, tracks: PlaylistTracksInfo(href: "", total: 25), images: [], externalUrls: [:], publicPlaylist: true)
+
+    // Create sample tracks
+    let sampleArtist = SpotifyArtistSimple(id: "art1", name: "Chill Hop", externalUrls: [:])
+    let sampleAlbum = SpotifyAlbumSimple(id: "alb1", name: "Study Vibes", images: [], externalUrls: [:])
+    let sampleTracks: [SpotifyPlaylistTrack] = [
+         SpotifyPlaylistTrack(addedAt: nil, track: SpotifyTrack(id: "trk1", name: "Sunrise", artists: [sampleArtist], album: sampleAlbum, durationMs: 180000, trackNumber: 1, discNumber: 1, explicit: false, externalUrls: [:], uri: "spotify:track:trk1")),
+         SpotifyPlaylistTrack(addedAt: nil, track: SpotifyTrack(id: "trk2", name: "Rainy Day", artists: [sampleArtist], album: sampleAlbum, durationMs: 210000, trackNumber: 2, discNumber: 1, explicit: false, externalUrls: [:], uri: "spotify:track:trk2")),
+         SpotifyPlaylistTrack(addedAt: nil, track: SpotifyTrack(id: "trk3", name: "Night Drive", artists: [sampleArtist], album: sampleAlbum, durationMs: 195000, trackNumber: 3, discNumber: 1, explicit: false, externalUrls: [:], uri: "spotify:track:trk3")),
+         // Add a track that might be unavailable (track is nil)
+         SpotifyPlaylistTrack(addedAt: nil, track: nil)
+     ]
+
+    manager.isLoggedIn = true
+    manager.selectedPlaylist = samplePlaylist
+    manager.isLoadingPlaylistTracks = false
+    manager.currentPlaylistTracks = sampleTracks // Populate with sample tracks
+     // You could also set a dummy next page URL to test pagination UI trigger:
+    // manager.playlistTracksNextPageUrl = "https://..."
+
+    return NavigationView { // Embed in NavigationView for title display in preview
+        PlaylistDetailView(playlist: samplePlaylist)
+            .environmentObject(manager)
+    }
+}
+
+
+
 //#Preview("Logged In - With Data") {
 //    let manager = SpotifyAuthManager()
 //    manager.isLoggedIn = true
