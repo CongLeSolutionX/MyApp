@@ -144,7 +144,7 @@ struct CustomTabIndicator: View {
 
 // MARK: - Main Content View (Updated)
 
-struct LevelsInfoView: View {
+struct LevelsInfoView_V2: View {
     @State private var searchText: String = ""
     @State private var activeFilters: [String] = ["Disney", "Microsoft", "Google"] // Keep filters from screenshot
     @State private var selectedTab: Int = 2 // Start on the 'Levels' tab (index 2)
@@ -294,6 +294,6 @@ struct LevelsInfoView: View {
 // MARK: - Preview
 
 #Preview {
-    LevelsInfoView()
+    LevelsInfoView_V2()
         // Ensure you have placeholder assets or use SF Symbols in CompanyLogoView
 }
