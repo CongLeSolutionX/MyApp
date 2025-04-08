@@ -285,7 +285,7 @@ struct PlaybackControlsView: View {
             .buttonStyle(.plain) // Consistent styling
         }
          // Update currentTime when slider value changes *after* dragging
-         .onChange(of: progress) { newValue in
+         .onChange(of: progress) {
              if isDraggingSlider == false { // Only update if change wasn't from timer
                   // Handled by onEditingChanged(false) - Can be removed if logic is sound there
              }
@@ -378,9 +378,9 @@ struct AdvertiserInfoView: View {
                  )
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Artisan Market")
+                Text("I Asked AI Bots")
                     .font(.headline)
-                Text("Advertisement")
+                Text("CongLeSolutionX Advertisement")
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -389,7 +389,11 @@ struct AdvertiserInfoView: View {
     }
 }
 
-// MARK: - Preview
+// MARK: - Previews
+
+#Preview("AdvertiserInfoView") {
+    AdvertiserInfoView()
+}
 
 struct GoogleAdViewFunctional_Previews: PreviewProvider {
     static var previews: some View {
