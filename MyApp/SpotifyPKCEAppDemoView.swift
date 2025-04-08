@@ -13,7 +13,7 @@ import AuthenticationServices // For ASWebAuthenticationSession
 // MARK: - Configuration (MUST REPLACE)
 struct SpotifyConstants {
     static let clientID = "YOUR_CLIENT_ID" // <-- REPLACE THIS
-    static let redirectURI = "YOUR_REDIRECT_URI" // <-- REPLACE THIS (e.g., "myapp://callback")
+    static let redirectURI = "myapp://callback" // <-- REPLACE THIS (e.g., "myapp://callback")
     static let scopes = [
         "user-read-private",
         "user-read-email",
