@@ -45,8 +45,8 @@ struct Advertisement: Identifiable {
     // *** IMPORTANT: Make sure you have images named "local_ad_banner" and "local_brand_x_logo"
     // *** in your Assets.xcassets folder for this to work!
     static let sampleAdLocal = Advertisement(
-        advertiserName: "Brand X Gear",
-        advertiserDescription: "Outdoor Apparel",
+        advertiserName: "CongLeSolutionX",
+        advertiserDescription: "Orange Cloud Sound",
         ctaText: "Adventure awaits. Gear up with Brand X.",
         learnMoreURL: URL(string: "https://www.example.com/brandx")!,
         imageSource: .local("My-meme-microphone.png"), // Local image asset name
