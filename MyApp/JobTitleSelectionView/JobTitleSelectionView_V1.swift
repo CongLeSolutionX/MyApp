@@ -14,7 +14,7 @@ struct JobTitle: Identifiable {
 }
 
 // The main view recreating the sheet content
-struct JobTitleSelectionView: View {
+struct JobTitleSelectionView_V1: View {
     
     // State variable to hold the search text
     @State private var searchText = ""
@@ -139,7 +139,7 @@ struct JobTitleRow: View {
 // Preview Provider for easy testing in Xcode Canvas
 struct JobTitleSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        JobTitleSelectionView()
+        JobTitleSelectionView_V1()
             // Simulate being presented as a sheet for preview
             .previewLayout(.fixed(width: 375, height: 600)) // Approximate sheet height
     }
