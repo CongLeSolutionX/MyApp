@@ -30,7 +30,7 @@ struct MockDataService {
             artist: "Ambient Echoes",
             mockURL: sampleURL,
             mockDuration: 215.0, // 3 minutes 35 seconds
-            mockThumbnailName: "placeholderImage" // Add an image named this to your Assets
+            mockThumbnailName: "My-meme-original" // Add an image named this to your Assets
         )
     }
 
@@ -157,10 +157,10 @@ class PlayerViewModel: ObservableObject {
 
     /// Simulates loading media from a (mock) URL.
     func loadMedia() async {
-        guard playerState == .idle || playerState == .finished || playerState == .failed else {
-            addLog(message: "Load requested in invalid state: \(playerState)", level: .warning)
-            return
-        }
+//        guard playerState == .idle || playerState == .finished || playerState == .failed else {
+//            addLog(message: "Load requested in invalid state: \(playerState)", level: .warning)
+//            return
+//        }
 
         let itemToLoad = MockDataService.fetchSampleMedia()
         playerState = .loading(item: itemToLoad)
@@ -430,8 +430,8 @@ class PlayerViewModel: ObservableObject {
 
     // Cleanup
     deinit {
-        stopTimer()
-        addLog(message: "ViewModel Deinitialized.", level: .debug)
+        //stopTimer()
+        //addLog(message: "ViewModel Deinitialized.", level: .debug)
     }
 }
 
@@ -548,7 +548,7 @@ struct AVPlayerView: View {
                     .aspectRatio(contentMode: .fill) // Fill the area
                     .clipped() // Clip excess
                     .opacity(isPlaying ? 1.0 : 0.6) // Dim when paused/finished
-                    .blur(radius: playerState == .finished ? 3 : 0) // Blur when finished
+//                    .blur(radius: playerState == .finished ? 3 : 0) // Blur when finished
                     .overlay(playerOverlayView(item: item)) // Add play/replay icon overlay
                      .animation(.easeInOut, value: isPlaying)
                      .animation(.easeInOut, value: playerState)
@@ -592,7 +592,7 @@ struct AVPlayerView: View {
              .shadow(radius: 3)
              .padding(10)
              .background(.thinMaterial, in: Circle()) // Modern background
-             .scaleEffect(playerState == .finished ? 1.1 : 1.0) // Slightly bigger replay icon
+//             .scaleEffect(playerState == .finished ? 1.1 : 1.0) // Slightly bigger replay icon
              .opacity(showOverlayIcon() ? 1.0 : 0.0) // Fade in/out
              .animation(.spring(), value: showOverlayIcon())
              .contentTransition(.symbolEffect(.replace)) // Animate icon changes
