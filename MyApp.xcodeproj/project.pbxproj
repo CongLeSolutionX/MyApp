@@ -40,6 +40,8 @@
 		9AA1A54A2DA5A268000178B3 /* AdPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5492DA5A267000178B3 /* AdPlayerView.swift */; };
 		9AA1A54C2DA5A26E000178B3 /* AdPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A54B2DA5A26B000178B3 /* AdPlayerView_V2.swift */; };
 		9AA1A54F2DA5A50B000178B3 /* AdPlayerView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A54E2DA5A50A000178B3 /* AdPlayerView_V3.swift */; };
+		9AA1A5512DA5A6D3000178B3 /* SpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5502DA5A6CD000178B3 /* SpotifyView.swift */; };
+		9AA1A5532DA5A6DA000178B3 /* SpotifyView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5522DA5A6D8000178B3 /* SpotifyView_V2.swift */; };
 		9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -83,6 +85,8 @@
 		9AA1A5492DA5A267000178B3 /* AdPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdPlayerView.swift; sourceTree = "<group>"; };
 		9AA1A54B2DA5A26B000178B3 /* AdPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdPlayerView_V2.swift; sourceTree = "<group>"; };
 		9AA1A54E2DA5A50A000178B3 /* AdPlayerView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdPlayerView_V3.swift; sourceTree = "<group>"; };
+		9AA1A5502DA5A6CD000178B3 /* SpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView.swift; sourceTree = "<group>"; };
+		9AA1A5522DA5A6D8000178B3 /* SpotifyView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView_V2.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -197,6 +201,15 @@
 			path = AdPlayerView;
 			sourceTree = "<group>";
 		};
+		9AA1A5542DA5A6DF000178B3 /* SpotifyView */ = {
+			isa = PBXGroup;
+			children = (
+				9AA1A5502DA5A6CD000178B3 /* SpotifyView.swift */,
+				9AA1A5522DA5A6D8000178B3 /* SpotifyView_V2.swift */,
+			);
+			path = SpotifyView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +240,7 @@
 				9A630A9C2D92988E00C035AF /* ShareView.swift */,
 				9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */,
 				9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */,
+				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
 				9AA1A5332DA594CA000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow */,
 				9AA1A5322DA594BF000178B3 /* AVPlayerView */,
@@ -335,6 +349,7 @@
 				9AA1A5422DA59E58000178B3 /* MusicAdView.swift in Sources */,
 				9A5AAED42D944EC3006A955A /* PlaylistCreationView.swift in Sources */,
 				9A5AAED62D94C157006A955A /* ListenToSongInRealTime.swift in Sources */,
+				9AA1A5512DA5A6D3000178B3 /* SpotifyView.swift in Sources */,
 				9AA1A5292DA578FE000178B3 /* AVPlayerView_V1.swift in Sources */,
 				9AA1A5372DA5969C000178B3 /* AdvertisementView.swift in Sources */,
 				9A5AAED92D94C515006A955A /* TheComprehensiveStep.swift in Sources */,
@@ -342,6 +357,7 @@
 				9AA1A53C2DA599CD000178B3 /* AdvertisementView_V3.swift in Sources */,
 				9A5AAE7B2D93C0AD006A955A /* GetYourTop5TracksRealAPIView.swift in Sources */,
 				9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */,
+				9AA1A5532DA5A6DA000178B3 /* SpotifyView_V2.swift in Sources */,
 				9AA1A54C2DA5A26E000178B3 /* AdPlayerView_V2.swift in Sources */,
 				9A5AAE772D93BD49006A955A /* SpotifyMusicAPI.swift in Sources */,
 				9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */,
