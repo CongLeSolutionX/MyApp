@@ -1344,7 +1344,7 @@ struct AuthenticationFlowView: View {
                         }
                     }
                 }
-              
+                
                 // Add pagination trigger
                 if playlist.id == authManager.userPlaylists.last?.id && authManager.playlistNextPageUrl != nil {
                     // Show a loading indicator or button at the bottom
@@ -1446,7 +1446,7 @@ struct PlaylistDetailView: View {
                                   }
                           } else {
                                // Optionally display a row indicating a track couldn't be loaded
-                               // Text("Track unavailable (\(playlistTrack.id))").foregroundColor(.gray).font(.caption)
+                                Text("Track unavailable (\(playlistTrack.id))").foregroundColor(.gray).font(.caption)
                           }
                       }
 
