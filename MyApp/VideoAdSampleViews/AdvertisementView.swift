@@ -44,7 +44,7 @@ struct AdvertisementView: View {
                 .padding(.top, 5) // Adjust as needed for status bar
 
                 // --- Ad Image ---
-                Image("ad_image_placeholder") // Replace with actual image name
+                Image("My-meme-microphone.png") // Replace with actual image name
                     .resizable()
                     .aspectRatio(contentMode: .fit) // or .fill depending on desired cropping
                     .cornerRadius(10)
@@ -53,7 +53,7 @@ struct AdvertisementView: View {
                 // --- Advertiser Info ---
                 HStack(spacing: 12) {
                     // Logo
-                    Text("L")
+                    Text("C")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.buttonText) // Dark text color for 'L'
@@ -66,7 +66,7 @@ struct AdvertisementView: View {
                         Text("LELUNE")
                             .font(.headline)
                             .fontWeight(.bold)
-                        Text("Advertisement")
+                        Text("CongLeSolutionX Advertisement")
                             .font(.caption)
                             .foregroundColor(.secondaryText)
                     }
@@ -167,21 +167,21 @@ struct AdvertisementView: View {
 #Preview {
     AdvertisementView()
         // Provide a placeholder image for the preview if needed
-        // .environment(\.imageProvider, TestImageProvider())
+         .environment(\.imageProvider, TestImageProvider())
 }
 
 // --- Placeholder for Image Loading (Optional for Preview) ---
 // You might need a simple placeholder mechanism if you don't have the image asset
-// struct TestImageProvider { }
-// extension EnvironmentValues {
-//     var imageProvider: TestImageProvider {
-//         get { self[TestImageProviderKey.self] }
-//         set { self[TestImageProviderKey.self] = newValue }
-//     }
-// }
-// struct TestImageProviderKey: EnvironmentKey {
-//     static let defaultValue: TestImageProvider = TestImageProvider()
-// }
+ struct TestImageProvider { }
+ extension EnvironmentValues {
+     var imageProvider: TestImageProvider {
+         get { self[TestImageProviderKey.self] }
+         set { self[TestImageProviderKey.self] = newValue }
+     }
+ }
+ struct TestImageProviderKey: EnvironmentKey {
+     static let defaultValue: TestImageProvider = TestImageProvider()
+ }
 
 // Make sure you have an image named "ad_image_placeholder.png" (or similar)
 // in your asset catalog for the preview to work visually.
