@@ -28,6 +28,7 @@
 		9AA1A5272DA57187000178B3 /* AVPlayerItemDocumentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5262DA57182000178B3 /* AVPlayerItemDocumentationView.swift */; };
 		9AA1A5292DA578FE000178B3 /* AVPlayerView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5282DA578FA000178B3 /* AVPlayerView_V1.swift */; };
 		9AA1A52B2DA57AC2000178B3 /* AVPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A52A2DA57AC0000178B3 /* AVPlayerView_V2.swift */; };
+		9AA1A52D2DA5862B000178B3 /* AVPlayerView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A52C2DA58629000178B3 /* AVPlayerView_V3.swift */; };
 		9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -59,6 +60,7 @@
 		9AA1A5262DA57182000178B3 /* AVPlayerItemDocumentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerItemDocumentationView.swift; sourceTree = "<group>"; };
 		9AA1A5282DA578FA000178B3 /* AVPlayerView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView_V1.swift; sourceTree = "<group>"; };
 		9AA1A52A2DA57AC0000178B3 /* AVPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView_V2.swift; sourceTree = "<group>"; };
+		9AA1A52C2DA58629000178B3 /* AVPlayerView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView_V3.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				9AA1A5262DA57182000178B3 /* AVPlayerItemDocumentationView.swift */,
 				9AA1A5282DA578FA000178B3 /* AVPlayerView_V1.swift */,
 				9AA1A52A2DA57AC0000178B3 /* AVPlayerView_V2.swift */,
+				9AA1A52C2DA58629000178B3 /* AVPlayerView_V3.swift */,
 				9AA1A5232DA5378D000178B3 /* GoogleAdView */,
 				9AA1A5142DA5031A000178B3 /* AuthenticationFlowView */,
 				9A5AAED72D94C459006A955A /* PlayingYourTopSongs */,
@@ -236,6 +239,7 @@
 			files = (
 				9AA1A5272DA57187000178B3 /* AVPlayerItemDocumentationView.swift in Sources */,
 				9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */,
+				9AA1A52D2DA5862B000178B3 /* AVPlayerView_V3.swift in Sources */,
 				9A5AAE792D93BED3006A955A /* GetYourTop5TracksView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AA1A52B2DA57AC2000178B3 /* AVPlayerView_V2.swift in Sources */,
