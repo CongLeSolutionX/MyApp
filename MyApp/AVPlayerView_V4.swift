@@ -801,5 +801,3 @@ struct AVPlayerView_Previews: PreviewProvider {
             .preferredColorScheme(.light) // Preview in light mode
     }
 }
-
-// Remember to add an image named "placeholderImage" to your Assets.xcassets
