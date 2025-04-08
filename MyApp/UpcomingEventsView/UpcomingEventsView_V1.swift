@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UpcomingEventsView: View {
+struct UpcomingEventsView_V1: View {
 
     var body: some View {
         NavigationStack {
@@ -115,6 +115,6 @@ struct UpcomingEventsView: View {
 // MARK: - Preview
 struct UpcomingEventsView_Previews: PreviewProvider {
     static var previews: some View {
-        UpcomingEventsView()
+        UpcomingEventsView_V1()
     }
 }
