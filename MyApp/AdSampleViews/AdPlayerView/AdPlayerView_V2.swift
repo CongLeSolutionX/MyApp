@@ -286,23 +286,23 @@ struct AdPlayerView: View {
     }
 
     // MARK: - Action Sheet Content
-//    private var optionsActionSheet: some View {
-//        // Using ActionSheet directly - deprecated but simpler for this example
-//        // In modern iOS, use .confirmationDialog
-//         ActionSheet(
-//             title: Text("Ad Options"),
-//             message: Text("What would you like to do?"),
-//             buttons: [
-//                 .default(Text("Visit Advertiser Website")) {
-//                     if learnMoreURL != nil { isShowingSafariView = true }
-//                 },
-//                 .destructive(Text("Report This Ad")) {
-//                     print("Report Ad action triggered")
-//                     // Add reporting logic here
-//                 },
-//                 .cancel()
-//             ]
-//         )
+    private var optionsActionSheet: ActionSheet {
+        // Using ActionSheet directly - deprecated but simpler for this example
+        // In modern iOS, use .confirmationDialog
+         ActionSheet(
+             title: Text("Ad Options"),
+             message: Text("What would you like to do?"),
+             buttons: [
+                 .default(Text("Visit Advertiser Website")) {
+                     if learnMoreURL != nil { isShowingSafariView = true }
+                 },
+                 .destructive(Text("Report This Ad")) {
+                     print("Report Ad action triggered")
+                     // Add reporting logic here
+                 },
+                 .cancel()
+             ]
+         )
 
          // --- Modern equivalent using .confirmationDialog ---
          // This would replace the .sheet modifier and the ActionSheet view above
@@ -325,7 +325,7 @@ struct AdPlayerView: View {
              Text("What would you like to do?")
          }
          */
-//    }
+    }
 
     // MARK: - Helper Functions
 
