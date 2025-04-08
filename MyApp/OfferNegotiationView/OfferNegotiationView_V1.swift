@@ -16,7 +16,7 @@ struct OfferPackage: Identifiable {
     let guaranteedIncrease: String // Could be parsed further if needed
 }
 
-struct OfferNegotiationView: View {
+struct OfferNegotiationView_V1: View {
     // State to track the selected package
     @State private var selectedPackageId: UUID?
 
@@ -256,5 +256,5 @@ struct AnyShape: Shape {
 // MARK: - Preview
 
 #Preview {
-    OfferNegotiationView()
+    OfferNegotiationView_V1()
 }
