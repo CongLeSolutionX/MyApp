@@ -24,6 +24,7 @@
 		9AA1A51E2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A51D2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift */; };
 		9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A51F2DA5369E000178B3 /* GoogleAdView_V1.swift */; };
 		9AA1A5222DA53789000178B3 /* GoogleAdView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5212DA53787000178B3 /* GoogleAdView_V2.swift */; };
+		9AA1A5252DA5399C000178B3 /* GoogleAdView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5242DA5399B000178B3 /* GoogleAdView_V3.swift */; };
 		9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -51,6 +52,7 @@
 		9AA1A51D2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetching_Tracks_for_a_Playlist_Workflow_V2.swift; sourceTree = "<group>"; };
 		9AA1A51F2DA5369E000178B3 /* GoogleAdView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdView_V1.swift; sourceTree = "<group>"; };
 		9AA1A5212DA53787000178B3 /* GoogleAdView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdView_V2.swift; sourceTree = "<group>"; };
+		9AA1A5242DA5399B000178B3 /* GoogleAdView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdView_V3.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				9AA1A51F2DA5369E000178B3 /* GoogleAdView_V1.swift */,
 				9AA1A5212DA53787000178B3 /* GoogleAdView_V2.swift */,
+				9AA1A5242DA5399B000178B3 /* GoogleAdView_V3.swift */,
 			);
 			path = GoogleAdView;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */,
 				9A5AAE772D93BD49006A955A /* SpotifyMusicAPI.swift in Sources */,
 				9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */,
+				9AA1A5252DA5399C000178B3 /* GoogleAdView_V3.swift in Sources */,
 				9A98F3262DA47B8C00C08001 /* AuthenticationFlowView_V1.swift in Sources */,
 				9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */,
 				9AA1A5222DA53789000178B3 /* GoogleAdView_V2.swift in Sources */,
