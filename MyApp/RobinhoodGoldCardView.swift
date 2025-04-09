@@ -5,19 +5,19 @@
 ////  Created by Cong Le on 4/9/25.
 ////
 //
-//import SwiftUI
+import SwiftUI
 //
-//// Define custom colors based on the screenshot
-//extension Color {
-//    static let rhBlack = Color(red: 0.05, green: 0.05, blue: 0.05) // Approximation
-//    static let rhGold = Color(red: 0.8, green: 0.65, blue: 0.3) // Approximation
-//    static let rhBeige = Color(red: 0.94, green: 0.92, blue: 0.88) // Approximation
-//    static let rhButtonDark = Color(red: 0.15, green: 0.15, blue: 0.1) // Approximation
-//    static let rhButtonTextGold = Color(red: 0.9, green: 0.8, blue: 0.5) // Approximation
-//    static let rhSerifText = Color(red: 0.95, green: 0.93, blue: 0.90) // Off-white for header
-//    static let rhBodyText = Color(red: 0.2, green: 0.2, blue: 0.2) // Dark grey for body
-//    static let rhSubtleText = Color(red: 0.4, green: 0.4, blue: 0.4) // Lighter grey
-//}
+// Define custom colors based on the screenshot
+extension Color {
+    static let rhBlack = Color(red: 0.05, green: 0.05, blue: 0.05) // Approximation
+    static let rhGold = Color(red: 0.8, green: 0.65, blue: 0.3) // Approximation
+    static let rhBeige = Color(red: 0.94, green: 0.92, blue: 0.88) // Approximation
+    static let rhButtonDark = Color(red: 0.15, green: 0.15, blue: 0.1) // Approximation
+    static let rhButtonTextGold = Color(red: 0.9, green: 0.8, blue: 0.5) // Approximation
+    static let rhSerifText = Color(red: 0.95, green: 0.93, blue: 0.90) // Off-white for header
+    static let rhBodyText = Color(red: 0.2, green: 0.2, blue: 0.2) // Dark grey for body
+    static let rhSubtleText = Color(red: 0.4, green: 0.4, blue: 0.4) // Lighter grey
+}
 //
 //struct RobinhoodGoldCardView: View {
 //    var body: some View {
