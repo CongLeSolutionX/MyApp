@@ -48,9 +48,9 @@ struct PortfolioView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     TopBarView()
-                    //CashSectionView()
-                    //CryptoSectionView()
-                    //StocksSectionView() // Modified below to include NavigationLinks
+                    CashSectionView()
+                    CryptoSectionView()
+                    StocksSectionView() // Modified below to include NavigationLinks
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -87,29 +87,32 @@ struct TopBarView: View {
     TopBarView()
 }
 
-//
-//
-//// MARK: - Cash Section View (Unchanged) - Add Back if needed
-//struct CashSectionView: View {
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 15) {
-//            HStack {
-//                Text("Cash").font(.title).fontWeight(.bold)
-//                Image(systemName: "info.circle").foregroundColor(.gray)
-//                Spacer()
-//                Text("4% APY with Gold").font(.caption).fontWeight(.medium).padding(.vertical, 4).padding(.horizontal, 8).background(Color.gray.opacity(0.2)).cornerRadius(10)
-//            }
-//            InterestRowView(label: "Interest accrued this month", value: "$0.90")
-//            Divider()
-//            InterestRowView(label: "Lifetime interest paid", value: "$100.60")
-//            Divider()
-//            InterestRowView(label: "Cash earning interest", value: "$1,090.77", showInfoIcon: true)
-//            Divider()
-//            Button("Deposit cash") { print("Deposit cash tapped") }
-//                .font(.headline).foregroundColor(.orange)
-//        }
-//    }
-//}
+
+
+// MARK: - Cash Section View (Unchanged) - Add Back if needed
+struct CashSectionView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            HStack {
+                Text("Cash").font(.title).fontWeight(.bold)
+                Image(systemName: "info.circle").foregroundColor(.gray)
+                Spacer()
+                Text("4% APY with Gold").font(.caption).fontWeight(.medium).padding(.vertical, 4).padding(.horizontal, 8).background(Color.gray.opacity(0.2)).cornerRadius(10)
+            }
+            InterestRowView(label: "Interest accrued this month", value: "$0.90")
+            Divider()
+            InterestRowView(label: "Lifetime interest paid", value: "$100.60")
+            Divider()
+            InterestRowView(label: "Cash earning interest", value: "$1,090.77", showInfoIcon: true)
+            Divider()
+            Button("Deposit cash") { print("Deposit cash tapped") }
+                .font(.headline).foregroundColor(.orange)
+        }
+    }
+}
+#Preview("CashSectionView") {
+    CashSectionView()
+}
 
 // MARK: - Crypto Section View (Unchanged) - Add Back if needed
 struct CryptoSectionView: View {
