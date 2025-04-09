@@ -835,107 +835,198 @@ extension SKCloudServiceAuthorizationStatus {
 
 
 // MARK: - SwiftUI Views
-
 struct AppleMusicContentView: View {
-    // Use AppStorage or Keychain for token in real apps
-    @StateObject private var authManager = AppleMusicAuthManager() // Uses placeholder by default
-    
-    var body: some View {
-        // Use NavigationView for title and potential navigation
-        NavigationView {
-            VStack(spacing: 0) { // Reduced spacing for tighter layout
-                AuthStatusHeader(authManager: authManager)
-                    .padding(.bottom, 5)
-                
-                Divider()
-                
-                if authManager.isAuthorized {
-                    AuthorizedContentView(authManager: authManager)
-                } else {
-                    UnauthorizedView(authManager: authManager)
-                }
-                
-                Spacer() // Push content towards top
-                
-                // Show Reset button only in debug builds perhaps?
-#if DEBUG
-                ResetButton(authManager: authManager)
-                    .padding(.vertical, 10)
-#endif
-            }
-            .navigationTitle("My Apple Music")
-            // Use .sheet or .alert based on error state
-            .alert(isPresented: Binding( // Two-way binding for alert presentation
-                get: { authManager.showErrorAlert.0 },
-                set: { newValue in if !newValue { authManager.showErrorAlert = (false, "") } } // Reset on dismiss
-                                       )) {
-                                           Alert(
-                                            title: Text("Error"), // Or use a more specific title if stored
-                                            message: Text(authManager.showErrorAlert.1),
-                                            dismissButton: .default(Text("OK"))
-                                           )
-                                       }
-            // Initial data loading or setup trigger
-                                       .onAppear {
-                                           // If authorized but missing key data, try to fetch it automatically
-                                           if authManager.isAuthorized && authManager.userStorefront == nil {
-                                               print("ContentView appeared, authorized but missing storefront. Running setup checks.")
-                                               // Trigger parts of setup if needed, without full blocking UI
-                                               // authManager.performFullSetup() // Or just specific checks
-                                           }
-                                       }
-        }
-        // Apply a consistent style for navigation appearance if desired
-        // .navigationViewStyle(.stack) // Example style
-    }
+    @StateObject private var authManager = AppleMusicAuthManager()
+
+     var body: some View {
+         NavigationView {
+             VStack(spacing: 0) {
+                 AuthStatusHeader(authManager: authManager) // Shows current status & loading indicator
+                     .padding(.bottom, 5)
+
+                 Divider()
+
+                 // Dynamically switch view based on authorization state
+                 if authManager.isAuthorized {
+                     AuthorizedContentView(authManager: authManager)
+                          .transition(.opacity.animation(.easeInOut)) // Nice fade transition
+                 } else {
+                     UnauthorizedView(authManager: authManager) // Handles connect/denied/restricted states
+                         .transition(.opacity.animation(.easeInOut))
+                 }
+
+                 Spacer() // Pushes content up
+
+                 #if DEBUG
+                 ResetButton(authManager: authManager)
+                     .padding(.vertical, 10)
+                 #endif
+             }
+             .navigationTitle("My Apple Music")
+             .navigationBarTitleDisplayMode(.inline) // Keep title smaller
+             // Centralized alert presentation tied to the showErrorAlert tuple
+              .alert(isPresented: Binding(
+                  get: { authManager.showErrorAlert.0 },
+                  set: { newValue in if !newValue { authManager.showErrorAlert = (false, "") } } // Reset on dismiss
+              )) {
+                  Alert(
+                      title: Text(authManager.showErrorAlert.1), // Use dynamic title
+                      message: Text(authManager.showErrorAlert.1), // Use dynamic message
+                       dismissButton: .default(Text("OK"))
+                  )
+              }
+              .onAppear {
+                 // Trigger setup automatically if status is undetermined on appear
+                  // Or if authorized but missing essential data (like token/storefront)
+                   if authManager.authorizationStatus == .notDetermined || (authManager.isAuthorized && authManager.musicUserToken == nil) {
+                        print("ContentView appeared, triggering setup check...")
+                        authManager.performFullSetup()
+                   }
+              }
+         }
+     }
 }
+//
+//struct AppleMusicContentView: View {
+//    // Use AppStorage or Keychain for token in real apps
+//    @StateObject private var authManager = AppleMusicAuthManager() // Uses placeholder by default
+//    
+//    var body: some View {
+//        // Use NavigationView for title and potential navigation
+//        NavigationView {
+//            VStack(spacing: 0) { // Reduced spacing for tighter layout
+//                AuthStatusHeader(authManager: authManager)
+//                    .padding(.bottom, 5)
+//                
+//                Divider()
+//                
+//                if authManager.isAuthorized {
+//                    AuthorizedContentView(authManager: authManager)
+//                } else {
+//                    UnauthorizedView(authManager: authManager)
+//                }
+//                
+//                Spacer() // Push content towards top
+//                
+//                // Show Reset button only in debug builds perhaps?
+//#if DEBUG
+//                ResetButton(authManager: authManager)
+//                    .padding(.vertical, 10)
+//#endif
+//            }
+//            .navigationTitle("My Apple Music")
+//            // Use .sheet or .alert based on error state
+//            .alert(isPresented: Binding( // Two-way binding for alert presentation
+//                get: { authManager.showErrorAlert.0 },
+//                set: { newValue in if !newValue { authManager.showErrorAlert = (false, "") } } // Reset on dismiss
+//                                       )) {
+//                                           Alert(
+//                                            title: Text("Error"), // Or use a more specific title if stored
+//                                            message: Text(authManager.showErrorAlert.1),
+//                                            dismissButton: .default(Text("OK"))
+//                                           )
+//                                       }
+//            // Initial data loading or setup trigger
+//                                       .onAppear {
+//                                           // If authorized but missing key data, try to fetch it automatically
+//                                           if authManager.isAuthorized && authManager.userStorefront == nil {
+//                                               print("ContentView appeared, authorized but missing storefront. Running setup checks.")
+//                                               // Trigger parts of setup if needed, without full blocking UI
+//                                               // authManager.performFullSetup() // Or just specific checks
+//                                           }
+//                                       }
+//        }
+//        // Apply a consistent style for navigation appearance if desired
+//        // .navigationViewStyle(.stack) // Example style
+//    }
+//}
 
 // MARK: - Helper Views: Authentication & Status
-
 struct AuthStatusHeader: View {
     @ObservedObject var authManager: AppleMusicAuthManager
-    
+
+     // Function to determine status text and color (extracted for clarity)
+     private func statusInfo(for status: SKCloudServiceAuthorizationStatus) -> (text: String, color: Color) {
+        switch status {
+        case .notDetermined: return ("Not Connected", .orange)
+        case .denied: return ("Access Denied", .red)
+        case .restricted: return ("Access Restricted", .red)
+        case .authorized: return ("Connected", .green)
+        @unknown default: return ("Unknown Status", .gray)
+        }
+    }
+
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            let info = statusInfo(for: authManager.authorizationStatus)
+            VStack(alignment: .leading, spacing: 2) { // Reduced spacing
                 Text("Status:")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                Text(authStatusText(authManager.authorizationStatus))
+                Text(info.text)
                     .font(.headline)
-                    .foregroundColor(authStatusColor(authManager.authorizationStatus))
+                    .foregroundColor(info.color)
+                    .animation(.easeInOut, value: authManager.authorizationStatus) // Animate text color change
             }
             Spacer()
+            // Show loading indicator ONLY during the setup process
             if authManager.isLoadingSetup {
-                ProgressView()
-                    .scaleEffect(0.8) // Smaller progress view
+                 ProgressView()
+                     .scaleEffect(0.8)
+                     .padding(.leading, 5) // Add some space
+                     .transition(.opacity.animation(.easeInOut)) // Fade in/out
             }
         }
         .padding(.horizontal)
-        .padding(.vertical, 8) // Slightly reduced vertical padding
-        .background(Color(UIColor.secondarySystemBackground)) // Subtle background
-    }
-    
-    // Helper functions remain the same
-    private func authStatusText(_ status: SKCloudServiceAuthorizationStatus) -> String { /* ... */
-        switch status {
-        case .notDetermined: return "Not Connected"
-        case .denied: return "Denied"
-        case .restricted: return "Restricted"
-        case .authorized: return "Connected"
-        @unknown default: return "Unknown"
-        }
-    }
-    private func authStatusColor(_ status: SKCloudServiceAuthorizationStatus) -> Color { /* ... */
-        switch status {
-        case .notDetermined: return .orange
-        case .denied: return .red
-        case .restricted: return .red
-        case .authorized: return .green
-        @unknown default: return .primary
-        }
+        .padding(.vertical, 8)
+        .background(Color(UIColor.secondarySystemBackground).edgesIgnoringSafeArea(.horizontal)) // Extend background slightly
     }
 }
+
+//struct AuthStatusHeader: View {
+//    @ObservedObject var authManager: AppleMusicAuthManager
+//    
+//    var body: some View {
+//        HStack {
+//            VStack(alignment: .leading) {
+//                Text("Status:")
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
+//                Text(authStatusText(authManager.authorizationStatus))
+//                    .font(.headline)
+//                    .foregroundColor(authStatusColor(authManager.authorizationStatus))
+//            }
+//            Spacer()
+//            if authManager.isLoadingSetup {
+//                ProgressView()
+//                    .scaleEffect(0.8) // Smaller progress view
+//            }
+//        }
+//        .padding(.horizontal)
+//        .padding(.vertical, 8) // Slightly reduced vertical padding
+//        .background(Color(UIColor.secondarySystemBackground)) // Subtle background
+//    }
+//    
+//    // Helper functions remain the same
+//    private func authStatusText(_ status: SKCloudServiceAuthorizationStatus) -> String { /* ... */
+//        switch status {
+//        case .notDetermined: return "Not Connected"
+//        case .denied: return "Denied"
+//        case .restricted: return "Restricted"
+//        case .authorized: return "Connected"
+//        @unknown default: return "Unknown"
+//        }
+//    }
+//    private func authStatusColor(_ status: SKCloudServiceAuthorizationStatus) -> Color { /* ... */
+//        switch status {
+//        case .notDetermined: return .orange
+//        case .denied: return .red
+//        case .restricted: return .red
+//        case .authorized: return .green
+//        @unknown default: return .primary
+//        }
+//    }
+//}
 
 struct UnauthorizedView: View {
     @ObservedObject var authManager: AppleMusicAuthManager
