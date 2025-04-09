@@ -67,12 +67,12 @@ struct TokenResponse: Codable {
     }
 }
 
-// Simple model for storing tokens persistently (Use Keychain in production!)
-struct StoredTokens: Codable {
-    let accessToken: String
-    let refreshToken: String?
-    let expiryDate: Date?
-}
+//// Simple model for storing tokens persistently (Use Keychain in production!)
+//struct StoredTokens: Codable {
+//    let accessToken: String
+//    let refreshToken: String?
+//    let expiryDate: Date?
+//}
 
 struct SpotifyUserProfile: Codable, Identifiable {
     let id: String
@@ -296,7 +296,22 @@ class SpotifyAuthManager: ObservableObject {
     
     // --- Authentication & Profile State ---
     @Published var isLoggedIn: Bool = false
+    //    @Published var currentTokens: StoredTokens? = nil
+    
+    // MARK: - Token Storage Strategies
+    /// Strategy for handling standard access/refresh tokens (`StoredTokens`).
+    private let standardTokenStorage: any TokenStorageStrategy<StoredTokens>
+    
+    /// Strategy for handling the secondary, keychain-specific tokens (`KeychainStoredTokens`).
+    private let keychainSpecificTokenStorage: any TokenStorageStrategy<KeychainStoredTokens>
+    
+    // MARK: - Token State Properties
+    /// Holds the currently loaded standard tokens.
     @Published var currentTokens: StoredTokens? = nil
+    
+    /// Holds the currently loaded keychain-specific tokens.
+    @Published var currentKeychainTokens: KeychainStoredTokens? = nil // Add state for the new type
+    
     @Published var userProfile: SpotifyUserProfile? = nil
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
@@ -319,18 +334,43 @@ class SpotifyAuthManager: ObservableObject {
     
     // --- Initialization ---
     init() {
-        loadTokens()
+        // --- Instantiate the desired Strategies ---
+        // Configure EACH strategy with UNIQUE Keychain identifiers
+        
+        // 1. Strategy for StoredTokens (Access/Refresh)
+        // Option A: Use Keychain (Recommended)
+        self.standardTokenStorage = KeychainTokenStorageStrategy<StoredTokens>(
+            service: "com.yourapp.spotify.standardtokens", // <<-- UNIQUE SERVICE Name
+            account: "userStandardSpotifyTokens"          // <<-- UNIQUE ACCOUNT Name
+        )
+        // Option B: Use UserDefaults (Less Secure - Example Only)
+        // self.standardTokenStorage = UserDefaultsTokenStorageStrategy<StoredTokens>(key: "spotifyStandardTokens_v2")
+        
+        // 2. Strategy for KeychainStoredTokens (Your custom type)
+        // Option A: Use Keychain (Most likely scenario)
+//        self.keychainSpecificTokenStorage = KeychainTokenStorageStrategy<KeychainStoredTokens>(
+//            service: "com.yourapp.spotify.keychainspecifictokens", // <<-- DIFFERENT, UNIQUE SERVICE
+//            account: "userKeychainSpecificData"                   // <<-- DIFFERENT, UNIQUE ACCOUNT
+//        )
+        // Option B: Use UserDefaults (If applicable for this type)
+         self.keychainSpecificTokenStorage = UserDefaultsTokenStorageStrategy<KeychainStoredTokens>(key: "spotifyKeychainTokens_v2")
+        
+        // --- End Strategy Instantiation ---
+        
+        // --- Load initial tokens using the strategies ---
+        loadInitialTokens()
+        
+        // --- Initial logic based on STANDARD tokens ---
         if let tokens = currentTokens, let expiry = tokens.expiryDate, expiry > Date() {
-            self.isLoggedIn = true
-            // Automatically fetch profile and playlists if logged in on init
+            self.isLoggedIn = true // isLoggedIn likely depends on standard tokens
             fetchUserProfile()
-            fetchUserPlaylists() // Fetch initial playlists
-        } else if currentTokens != nil {
-            refreshToken { [weak self] success in
-                DispatchQueue.main.async { // Ensure UI updates on main thread
+            fetchUserPlaylists()
+        } else if currentTokens != nil { // If standard tokens exist but expired/invalid
+            refreshToken { [weak self] success in // Refresh depends on standard refresh token
+                DispatchQueue.main.async {
                     if success {
                         self?.fetchUserProfile()
-                        self?.fetchUserPlaylists() // Fetch initial playlist *list* after refresh
+                        self?.fetchUserPlaylists()
                     } else {
                         self?.logout()
                     }
@@ -338,6 +378,96 @@ class SpotifyAuthManager: ObservableObject {
             }
         }
     }
+//    init() {
+//        loadTokens()
+//        if let tokens = currentTokens, let expiry = tokens.expiryDate, expiry > Date() {
+//            self.isLoggedIn = true
+//            // Automatically fetch profile and playlists if logged in on init
+//            fetchUserProfile()
+//            fetchUserPlaylists() // Fetch initial playlists
+//        } else if currentTokens != nil {
+//            refreshToken { [weak self] success in
+//                DispatchQueue.main.async { // Ensure UI updates on main thread
+//                    if success {
+//                        self?.fetchUserProfile()
+//                        self?.fetchUserPlaylists() // Fetch initial playlist *list* after refresh
+//                    } else {
+//                        self?.logout()
+//                    }
+//                }
+//            }
+//        }
+//    }
+    // MARK: - Token Loading (Initial)
+    private func loadInitialTokens() {
+        self.currentTokens = standardTokenStorage.loadTokens()
+        print("Loaded standard tokens using \(type(of: standardTokenStorage)): \(currentTokens != nil ? "Found" : "Not Found")")
+        
+        self.currentKeychainTokens = keychainSpecificTokenStorage.loadTokens()
+        print("Loaded keychain-specific tokens using \(type(of: keychainSpecificTokenStorage)): \(currentKeychainTokens != nil ? "Found" : "Not Found")")
+    }
+    
+    // MARK: - Saving Tokens (Update existing or add new methods)
+    
+    /// Saves standard tokens using its configured storage strategy.
+    private func saveStandardTokens(_ tokens: StoredTokens) {
+        if standardTokenStorage.saveTokens(tokens) {
+            print("Saved standard tokens successfully.")
+            DispatchQueue.main.async { self.currentTokens = tokens }
+        } else {
+            print("Failed to save standard tokens.")
+            // Handle error appropriately
+        }
+    }
+    
+    /// Saves keychain-specific tokens using its configured storage strategy.
+    /// CALL THIS METHOD when you generate/receive KeychainStoredTokens.
+    func saveKeychainSpecificTokens(_ tokens: KeychainStoredTokens) { // Make public or internal as needed
+        if keychainSpecificTokenStorage.saveTokens(tokens) {
+            print("Saved keychain-specific tokens successfully.")
+            DispatchQueue.main.async { self.currentKeychainTokens = tokens }
+        } else {
+            print("Failed to save keychain-specific tokens.")
+            // Handle error appropriately
+        }
+    }
+    // MARK: - Clearing Tokens (Update Logout)
+    
+    /// Clears *all* managed tokens using their respective strategies.
+    private func clearAllTokensUsingStrategies() {
+        print("Clearing all stored tokens...")
+        if !standardTokenStorage.clearTokens() {
+            print("Warning: Failed to clear standard tokens storage.")
+        } else {
+            print("Standard tokens storage cleared.")
+        }
+        if !keychainSpecificTokenStorage.clearTokens() {
+            print("Warning: Failed to clear keychain-specific tokens storage.")
+        } else {
+            print("Keychain-specific tokens storage cleared.")
+        }
+        
+        // Clear in-memory references
+        DispatchQueue.main.async {
+            self.currentTokens = nil
+            self.currentKeychainTokens = nil
+            self.isLoggedIn = false // Likely tied to clearing standard tokens
+        }
+    }
+    
+    // --- Update methods that handle standard token responses ---
+    private func processSuccessfulTokenResponse(_ tokenResponse: TokenResponse, explicitRefreshToken: String? = nil) {
+        let refreshTokenToStore = tokenResponse.refreshToken ?? explicitRefreshToken ?? currentTokens?.refreshToken
+        let tokensToStore = StoredTokens(
+            accessToken: tokenResponse.accessToken,
+            refreshToken: refreshTokenToStore,
+            expiryDate: tokenResponse.expiryDate
+        )
+        // Save only the STANDARD tokens here
+        saveStandardTokens(tokensToStore)
+        // Decide when/how KeychainStoredTokens are created/saved separately
+    }
+    
     
     // --- PKCE Helper Functions ---
     private func generateCodeVerifier() -> String {
@@ -580,18 +710,18 @@ class SpotifyAuthManager: ObservableObject {
     }
     
     // Helper to process successful token response and update state
-    private func processSuccessfulTokenResponse(_ tokenResponse: TokenResponse, explicitRefreshToken: String? = nil) {
-        let newRefreshToken = explicitRefreshToken ?? tokenResponse.refreshToken
-        let newStoredTokens = StoredTokens(
-            accessToken: tokenResponse.accessToken,
-            refreshToken: newRefreshToken, // Use the explicitly passed or the one from response
-            expiryDate: tokenResponse.expiryDate
-        )
-        self.currentTokens = newStoredTokens
-        self.saveTokens(tokens: newStoredTokens)
-        self.isLoggedIn = true
-        self.errorMessage = nil // Clear general errors on success
-    }
+//    private func processSuccessfulTokenResponse(_ tokenResponse: TokenResponse, explicitRefreshToken: String? = nil) {
+//        let newRefreshToken = explicitRefreshToken ?? tokenResponse.refreshToken
+//        let newStoredTokens = StoredTokens(
+//            accessToken: tokenResponse.accessToken,
+//            refreshToken: newRefreshToken, // Use the explicitly passed or the one from response
+//            expiryDate: tokenResponse.expiryDate
+//        )
+//        self.currentTokens = newStoredTokens
+//        self.saveTokens(tokens: newStoredTokens)
+//        self.isLoggedIn = true
+//        self.errorMessage = nil // Clear general errors on success
+//    }
     
     // --- Fetch User Profile ---
     func fetchUserProfile() {
@@ -928,11 +1058,16 @@ class SpotifyAuthManager: ObservableObject {
             self.playlistNextPageUrl = nil
             self.clearTokens()
             
+            // --- Clear ALL tokens using the strategies ---
+            self.clearAllTokensUsingStrategies()
+            // --- End Strategy Clearing ---
+            
+            
             // Cancel any ongoing web auth session
             self.currentWebAuthSession?.cancel()
             self.currentWebAuthSession = nil
             self.currentPKCEVerifier = nil
-            print("User logged out.")
+            print("User logged out, all token strategies cleared.")
         }
     }
     
