@@ -182,21 +182,21 @@ class AppleMusicAuthManager: ObservableObject {
     init(developerToken: String = AppConfig.developerTokenPlaceholder) {
         // Basic check for placeholder token - crucial for live API
         if developerToken == AppConfig.developerTokenPlaceholder && !useMockData {
-             print("⚠️ WARNING: Using placeholder developer token. API calls will FAIL. Set 'useMockData' to true in AppleMusicAuthManager or provide a real token to run live.")
-             // Consider preventing live operations entirely here
+            print("⚠️ WARNING: Using placeholder developer token. API calls will FAIL. Set 'useMockData' to true in AppleMusicAuthManager or provide a real token to run live.")
+            // Consider preventing live operations entirely here
         } else if !useMockData {
-             print("🚀 Using REAL developer token. Live API calls enabled.")
+            print("🚀 Using REAL developer token. Live API calls enabled.")
         }
         self.developerToken = developerToken
         print("AppleMusicAuthManager initialized. Using Mock Data: \(useMockData)")
-
+        
         // Get initial status synchronously for immediate UI state
         let initialStatus = SKCloudServiceController.authorizationStatus()
-         DispatchQueue.main.async { // Ensure UI updates happen on main thread
-             print("Initial Auth Status: \(initialStatus.rawValue)")
+        DispatchQueue.main.async { // Ensure UI updates happen on main thread
+            print("Initial Auth Status: \(initialStatus.rawValue)")
             self.authorizationStatus = initialStatus
             self.isAuthorized = (initialStatus == .authorized)
-         }
+        }
     }
     
     // MARK: - Mock Data Generation
@@ -273,57 +273,57 @@ class AppleMusicAuthManager: ObservableObject {
     }
     
     // MARK: - Setup Flow (Entry Point)
-        func performFullSetup() {
-             guard !isLoadingSetup else { print("Setup already in progress."); return }
-             print("🚀 Starting full Apple Music setup...")
-             DispatchQueue.main.async {
-                self.isLoadingSetup = true
-                self.setupError = nil
-                self.showErrorAlert = (false, "")
-             }
-
-             // Explicitly handle mock data scenario for setup
-             if useMockData {
-                 print(" MOCK MODE: Simulating successful setup.")
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Simulate delay
-                     self.authorizationStatus = .authorized
-                     self.isAuthorized = true
-                     self.canPlayCatalog = true
-                     self.hasAppleMusicSubscription = true
-                     self.userStorefront = "mock_us"
-                     self.musicUserToken = "mock_user_token_123"
-                     self.isLoadingSetup = false
-                     print(" MOCK MODE: Setup complete.")
-                     // Fetch mock data only after simulated setup success
-                     self.fetchUserLibraryPlaylists()
-                     self.fetchHeavyRotation()
-                 }
-                 return
-             }
-
-             // Actual LIVE setup flow
-             let currentStatus = SKCloudServiceController.authorizationStatus()
-            print(" Current Auth Status during setup: \(currentStatus.rawValue)")
-             updateAuthorizationState(status: currentStatus) // Update publishers
-
-             switch currentStatus {
-             case .authorized:
-                 print("-> Already authorized. Proceeding with capability & token checks...")
-                 checkCapabilitiesAndStorefront() // Already authorized, fetch details
-             case .notDetermined:
-                 print("-> Authorization not determined. Requesting access...")
-                 requestAuthorization() // Needs user permission
-             case .denied:
-                 print("-> Access denied by user previously.")
-                 finishSetup(success: false, error: AppleMusicError.authorizationDenied)
-             case .restricted:
-                 print("-> Access restricted (e.g., parental controls).")
-                 finishSetup(success: false, error: AppleMusicError.authorizationRestricted)
-             @unknown default:
-                 print("-> Unknown authorization status encountered.")
-                 finishSetup(success: false, error: AppleMusicError.unknown())
-             }
-         }
+    func performFullSetup() {
+        guard !isLoadingSetup else { print("Setup already in progress."); return }
+        print("🚀 Starting full Apple Music setup...")
+        DispatchQueue.main.async {
+            self.isLoadingSetup = true
+            self.setupError = nil
+            self.showErrorAlert = (false, "")
+        }
+        
+        // Explicitly handle mock data scenario for setup
+        if useMockData {
+            print(" MOCK MODE: Simulating successful setup.")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Simulate delay
+                self.authorizationStatus = .authorized
+                self.isAuthorized = true
+                self.canPlayCatalog = true
+                self.hasAppleMusicSubscription = true
+                self.userStorefront = "mock_us"
+                self.musicUserToken = "mock_user_token_123"
+                self.isLoadingSetup = false
+                print(" MOCK MODE: Setup complete.")
+                // Fetch mock data only after simulated setup success
+                self.fetchUserLibraryPlaylists()
+                self.fetchHeavyRotation()
+            }
+            return
+        }
+        
+        // Actual LIVE setup flow
+        let currentStatus = SKCloudServiceController.authorizationStatus()
+        print(" Current Auth Status during setup: \(currentStatus.rawValue)")
+        updateAuthorizationState(status: currentStatus) // Update publishers
+        
+        switch currentStatus {
+        case .authorized:
+            print("-> Already authorized. Proceeding with capability & token checks...")
+            checkCapabilitiesAndStorefront() // Already authorized, fetch details
+        case .notDetermined:
+            print("-> Authorization not determined. Requesting access...")
+            requestAuthorization() // Needs user permission
+        case .denied:
+            print("-> Access denied by user previously.")
+            finishSetup(success: false, error: AppleMusicError.authorizationDenied)
+        case .restricted:
+            print("-> Access restricted (e.g., parental controls).")
+            finishSetup(success: false, error: AppleMusicError.authorizationRestricted)
+        @unknown default:
+            print("-> Unknown authorization status encountered.")
+            finishSetup(success: false, error: AppleMusicError.unknown())
+        }
+    }
     
     // MARK: - Core Authorization & Checks (Error Handling Focused)
     
@@ -336,152 +336,168 @@ class AppleMusicAuthManager: ObservableObject {
     }
     
     func requestAuthorization() {
-        guard !isLoadingSetup else { return } // Should be managed by performFullSetup typically
-        
-        SKCloudServiceController.requestAuthorization { [weak self] status in
-            DispatchQueue.main.async {
-                print("Authorization request completed: \(status.rawValue)")
-                self?.updateAuthorizationState(status: status)
-                if status == .authorized {
-                    self?.checkCapabilitiesAndStorefront()
-                } else {
-                    let error: AppleMusicError = (status == .denied) ? .authorizationDenied : .authorizationRestricted
-                    self?.finishSetup(success: false, error: error)
-                }
-            }
-        }
-    }
+          // This is usually called by performFullSetup, but could be called directly too
+          // Ensure loading state is active if called directly
+           if !isLoadingSetup {
+                DispatchQueue.main.async { self.isLoadingSetup = true }
+           }
+
+         SKCloudServiceController.requestAuthorization { [weak self] status in
+             DispatchQueue.main.async {
+                 guard let self = self else { return }
+                 print("Authorization request completed with status: \(status.rawValue)")
+                 self.updateAuthorizationState(status: status) // Update published status
+
+                 if status == .authorized {
+                     print("-> Authorization granted! Proceeding with capability & token checks...")
+                     self.checkCapabilitiesAndStorefront() // Now authorized, fetch details
+                 } else {
+                    // If was .notDetermined and now it's denied/restricted
+                     let error: AppleMusicError = (status == .denied) ? .authorizationDenied : .authorizationRestricted
+                     print("-> Authorization not granted (\(status.rawValue)).")
+                     self.finishSetup(success: false, error: error)
+                 }
+             }
+         }
+     }
     
     // checkCapabilitiesAndStorefront, fetchStorefront, fetchMusicUserToken
     // remain largely the same logically, but now call finishSetup on error.
     
     private func checkCapabilitiesAndStorefront() { /* ... calls fetchStorefront or finishSetup ... */
-        print("Checking capabilities...")
-        cloudServiceController.requestCapabilities { [weak self] capabilities, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                if let error = error {
-                    print("Capability check failed: \(error.localizedDescription)")
-                    self.finishSetup(success: false, error: AppleMusicError.capabilitiesCheckFailed(error)); return
-                }
-                self.canPlayCatalog = capabilities.contains(.musicCatalogPlayback)
-                self.hasAppleMusicSubscription = capabilities.contains(.addToCloudMusicLibrary) || capabilities.contains(.musicCatalogSubscriptionEligible)
-                print("Capabilities updated.")
-                self.fetchStorefront()
-            }
-        }
+         print(" Checking capabilities...")
+         cloudServiceController.requestCapabilities { [weak self] capabilities, error in
+              DispatchQueue.main.async {
+                  guard let self = self else { return }
+                  if let error = error {
+                       print("❌ Capability check failed: \(error.localizedDescription)")
+                       self.finishSetup(success: false, error: AppleMusicError.capabilitiesCheckFailed(error)); return
+                  }
+                  self.canPlayCatalog = capabilities.contains(.musicCatalogPlayback)
+                  self.hasAppleMusicSubscription = capabilities.contains(.addToCloudMusicLibrary) || capabilities.contains(.musicCatalogSubscriptionEligible)
+                  print(" Capabilities: PlayCatalog=\(self.canPlayCatalog), HasSubscription=\(self.hasAppleMusicSubscription)")
+                   self.fetchStorefront() // Proceed to next step
+              }
+         }
     }
     private func fetchStorefront() { /* ... calls fetchMusicUserToken or finishSetup ... */
-        print("Fetching storefront...")
-        cloudServiceController.requestStorefrontIdentifier { [weak self] storefrontId, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                if let error = error {
-                    print("Storefront check failed: \(error.localizedDescription)")
-                    self.finishSetup(success: false, error: AppleMusicError.storefrontCheckFailed(error)); return
-                }
-                self.userStorefront = storefrontId
-                print("Storefront: \(storefrontId ?? "nil")")
-                self.fetchMusicUserTokenInternal() // Call internal version for setup flow
-            }
-        }
-    }
+         print(" Fetching storefront...")
+         cloudServiceController.requestStorefrontIdentifier { [weak self] storefrontId, error in
+              DispatchQueue.main.async {
+                   guard let self = self else { return }
+                   if let error = error {
+                       print("❌ Storefront check failed: \(error.localizedDescription)")
+                       self.finishSetup(success: false, error: AppleMusicError.storefrontCheckFailed(error)); return
+                   }
+                   guard let id = storefrontId, !id.isEmpty else {
+                        print("❌ Storefront ID received but is nil or empty.")
+                        self.finishSetup(success: false, error: AppleMusicError.storefrontMissing); return
+                   }
+                   self.userStorefront = id
+                   print(" Storefront: \(id)")
+                   self.fetchMusicUserTokenInternal() // Proceed to next step
+               }
+          }
+     }
     
     // Renamed internal version for setup flow
     private func fetchMusicUserTokenInternal() { /* ... calls finishSetup ... */
-        guard self.isAuthorized else { finishSetup(success: false, error: AppleMusicError.notAuthorized); return }
-        guard !self.developerToken.isEmpty else { finishSetup(success: false, error: AppleMusicError.developerTokenMissing); return }
-        guard self.developerToken != AppConfig.developerTokenPlaceholder else {
-            print("Attempted to fetch user token with placeholder developer token. Aborting.")
-            finishSetup(success: false, error: AppleMusicError.developerTokenMissing); return
-        }
-        
-        print("Fetching Music User Token (setup flow)...")
-        cloudServiceController.requestUserToken(forDeveloperToken: developerToken) { [weak self] userToken, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                if let error = error {
-                    print("User Token fetch failed: \(error.localizedDescription)")
-                    self.musicUserToken = nil
-                    self.finishSetup(success: false, error: AppleMusicError.userTokenFetchFailed(error)); return
-                }
-                self.musicUserToken = userToken
-                if userToken == nil {
-                    print("User Token received but is nil.")
-                    self.finishSetup(success: false, error: AppleMusicError.userTokenUnavailable)
-                } else {
-                    print("User Token fetch successful.")
-                    self.finishSetup(success: true, error: nil) // Final step of setup successful
-                }
-            }
-        }
+         guard self.isAuthorized else { finishSetup(success: false, error: AppleMusicError.notAuthorized); return }
+
+         // Check for placeholder developer token BEFORE making the request
+          guard !self.developerToken.isEmpty, self.developerToken != AppConfig.developerTokenPlaceholder else {
+               print("❌ Aborting User Token fetch: Developer token is missing or is the placeholder.")
+               finishSetup(success: false, error: AppleMusicError.developerTokenMissing); return
+           }
+
+         print(" Fetching Music User Token (setup flow)...")
+         cloudServiceController.requestUserToken(forDeveloperToken: developerToken) { [weak self] userToken, error in
+              DispatchQueue.main.async {
+                  guard let self = self else { return }
+                  if let error = error {
+                       print("❌ User Token fetch failed: \(error.localizedDescription)")
+                       self.musicUserToken = nil
+                       self.finishSetup(success: false, error: AppleMusicError.userTokenFetchFailed(error)); return
+                  }
+                  guard let token = userToken, !token.isEmpty else {
+                       print("❌ User Token received but is nil or empty.")
+                       self.musicUserToken = nil
+                       self.finishSetup(success: false, error: AppleMusicError.userTokenUnavailable)
+                       return
+                  }
+                  self.musicUserToken = token
+                  print("✅ User Token fetch successful.")
+                  self.finishSetup(success: true, error: nil) // Final step of setup successful
+               }
+           }
     }
     
     
     // Public function for manual refresh, potentially showing alert on failure
-    func refreshMusicUserToken() {
-        guard !isLoadingSetup else { print("Cannot refresh token during setup."); return }
-        guard isAuthorized else { presentErrorAlert(AppleMusicError.notAuthorized); return }
-        guard !developerToken.isEmpty, developerToken != AppConfig.developerTokenPlaceholder else {
-            presentErrorAlert(AppleMusicError.developerTokenMissing); return
-        }
-        
-        print("Refreshing Music User Token (manual)...")
-        // Potentially add a specific loading indicator here?
-        cloudServiceController.requestUserToken(forDeveloperToken: developerToken) { [weak self] userToken, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                if let error = error {
-                    print("Manual User Token refresh failed: \(error.localizedDescription)")
-                    self.musicUserToken = nil
-                    self.presentErrorAlert(AppleMusicError.userTokenFetchFailed(error))
-                } else if userToken == nil {
-                    print("Manual User Token refresh returned nil.")
-                    self.musicUserToken = nil
-                    self.presentErrorAlert(AppleMusicError.userTokenUnavailable)
-                } else {
-                    print("Manual User Token refresh successful.")
-                    self.musicUserToken = userToken
-                    // Optionally show success feedback? Usually not needed.
-                }
-            }
-        }
-    }
+    func refreshMusicUserToken() { /* ... shows alert ... */
+         guard !isLoadingSetup else { print("Cannot refresh token during setup."); return }
+         guard isAuthorized else { presentErrorAlert(AppleMusicError.notAuthorized, title: "Not Authorized"); return }
+          guard !developerToken.isEmpty, developerToken != AppConfig.developerTokenPlaceholder else {
+               presentErrorAlert(AppleMusicError.developerTokenMissing, title: "Configuration Error"); return
+           }
+
+            print("🔄 Refreshing Music User Token (manual)...")
+           // Consider adding a small, specific loading indicator maybe?
+           cloudServiceController.requestUserToken(forDeveloperToken: developerToken) { [weak self] userToken, error in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                     if let error = error {
+                         print("❌ Manual User Token refresh failed: \(error.localizedDescription)")
+                          self.musicUserToken = nil
+                         self.presentErrorAlert(AppleMusicError.userTokenFetchFailed(error), title: "Token Refresh Failed")
+                     } else if let token = userToken, !token.isEmpty {
+                          print("✅ Manual User Token refresh successful.")
+                          self.musicUserToken = token
+                     } else { // Token is nil or empty
+                         print("❌ Manual User Token refresh returned nil or empty.")
+                          self.musicUserToken = nil
+                          self.presentErrorAlert(AppleMusicError.userTokenUnavailable, title: "Token Unavailable")
+                     }
+                 }
+             }
+      }
     
     // Helper to finish the setup flow and update state
     private func finishSetup(success: Bool, error: Error?) {
-        print("Finishing setup. Success: \(success), Error: \(error?.localizedDescription ?? "None")")
-        DispatchQueue.main.async {
-            self.isLoadingSetup = false
-            if let error = error {
-                self.setupError = error // Store the setup-specific error
-                // If it's an auth error user needs to fix, guide them
-                if let appleError = error as? AppleMusicError, appleError.isAuthError {
-                    self.presentErrorAlert(error, title: "Authorization Issue")
-                } else {
-                    // Show other setup errors too
-                    self.presentErrorAlert(error, title: "Setup Failed")
-                }
-            } else {
-                self.setupError = nil // Clear setup error on success
-            }
-        }
-    }
+         print("🏁 Finishing setup. Success: \(success), Error: \(error?.localizedDescription ?? "None")")
+         DispatchQueue.main.async {
+              self.isLoadingSetup = false
+              if let error = error {
+                  self.setupError = error // Store the specific setup error
+                  let appleError = error as? AppleMusicError // Cast for specific handling
+                  let title = (appleError?.isAuthError ?? false) ? "Authorization Issue" : "Setup Failed"
+                  self.presentErrorAlert(error, title: title) // Use the helper to show alert
+              } else {
+                  self.setupError = nil // Clear setup error on success
+                  print("✅ Apple Music Setup Successful!")
+                  // Fetch initial data after successful setup
+                  self.fetchUserLibraryPlaylists()
+                  self.fetchHeavyRotation()
+              }
+         }
+     }
     
     
     // Helper to update authorization state publishers
     private func updateAuthorizationState(status: SKCloudServiceAuthorizationStatus) {
-        // Must be on main thread
-        DispatchQueue.main.async {
-            guard self.authorizationStatus != status else { return } // Avoid redundant updates
-            self.authorizationStatus = status
-            self.isAuthorized = (status == .authorized)
-            print("Auth state updated: Status=\(status.rawValue), isAuthorized=\(self.isAuthorized)")
-            if status != .authorized {
-                // Clear sensitive data if authorization lost
-                self.resetUserSpecificState(clearAuthStatus: false)
-            }
-        }
+         // Must be on main thread
+          DispatchQueue.main.async {
+              guard self.authorizationStatus != status else { return } // Avoid redundant updates
+              print("Auth state changed: \(self.authorizationStatus.rawValue) -> \(status.rawValue)")
+              self.authorizationStatus = status
+              self.isAuthorized = (status == .authorized) // Update derived state
+
+              if status != .authorized {
+                   // IMPORTANT: Clear sensitive data if authorization is lost or downgraded
+                   print("Authorization lost or downgraded. Resetting user-specific state.")
+                   self.resetUserSpecificState(clearAuthStatus: false) // Keep the new non-auth status
+              }
+         }
     }
     
     
