@@ -32,6 +32,8 @@
 		9ACC628B2DA7394E00BBCA1A /* ChatRoomsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC628A2DA7394700BBCA1A /* ChatRoomsListView.swift */; };
 		9ACC628D2DA739C000BBCA1A /* ChatConversation_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC628C2DA739BF00BBCA1A /* ChatConversation_V2.swift */; };
 		9ACC628F2DA73A5B00BBCA1A /* ChatRoomsListView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC628E2DA73A5500BBCA1A /* ChatRoomsListView_V2.swift */; };
+		9ACC62912DA73C7000BBCA1A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62902DA73C6600BBCA1A /* CameraView.swift */; };
+		9ACC62942DA73D6F00BBCA1A /* CameraView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62932DA73D6D00BBCA1A /* CameraView_V2.swift */; };
 		9AE115922DA081A50096F8FB /* AskALeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115912DA081A10096F8FB /* AskALeView.swift */; };
 		9AE115942DA084050096F8FB /* AskALeView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115932DA084030096F8FB /* AskALeView_V2.swift */; };
 		9AE115962DA0BDA40096F8FB /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE115952DA0BDA10096F8FB /* SettingView.swift */; };
@@ -75,6 +77,8 @@
 		9ACC628A2DA7394700BBCA1A /* ChatRoomsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsListView.swift; sourceTree = "<group>"; };
 		9ACC628C2DA739BF00BBCA1A /* ChatConversation_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversation_V2.swift; sourceTree = "<group>"; };
 		9ACC628E2DA73A5500BBCA1A /* ChatRoomsListView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsListView_V2.swift; sourceTree = "<group>"; };
+		9ACC62902DA73C6600BBCA1A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		9ACC62932DA73D6D00BBCA1A /* CameraView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView_V2.swift; sourceTree = "<group>"; };
 		9AE115912DA081A10096F8FB /* AskALeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskALeView.swift; sourceTree = "<group>"; };
 		9AE115932DA084030096F8FB /* AskALeView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskALeView_V2.swift; sourceTree = "<group>"; };
 		9AE115952DA0BDA10096F8FB /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -140,12 +144,10 @@
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9ACC62862DA7384700BBCA1A /* AskALeView_V3.swift */,
-				9ACC628A2DA7394700BBCA1A /* ChatRoomsListView.swift */,
-				9ACC628C2DA739BF00BBCA1A /* ChatConversation_V2.swift */,
-				9ACC628E2DA73A5500BBCA1A /* ChatRoomsListView_V2.swift */,
-				9ACC62882DA738C900BBCA1A /* ChatConversationView.swift */,
-				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9ACC62952DA73D7800BBCA1A /* CameraView */,
+				9ACC62922DA73D5C00BBCA1A /* CHAT */,
 				9AE115912DA081A10096F8FB /* AskALeView.swift */,
 				9AE115932DA084030096F8FB /* AskALeView_V2.swift */,
 				9AE115952DA0BDA10096F8FB /* SettingView.swift */,
@@ -178,6 +180,26 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9ACC62922DA73D5C00BBCA1A /* CHAT */ = {
+			isa = PBXGroup;
+			children = (
+				9ACC628A2DA7394700BBCA1A /* ChatRoomsListView.swift */,
+				9ACC628C2DA739BF00BBCA1A /* ChatConversation_V2.swift */,
+				9ACC628E2DA73A5500BBCA1A /* ChatRoomsListView_V2.swift */,
+				9ACC62882DA738C900BBCA1A /* ChatConversationView.swift */,
+			);
+			path = CHAT;
+			sourceTree = "<group>";
+		};
+		9ACC62952DA73D7800BBCA1A /* CameraView */ = {
+			isa = PBXGroup;
+			children = (
+				9ACC62932DA73D6D00BBCA1A /* CameraView_V2.swift */,
+				9ACC62902DA73C6600BBCA1A /* CameraView.swift */,
+			);
+			path = CameraView;
 			sourceTree = "<group>";
 		};
 		9AE116142DA17BED0096F8FB /* RipleView */ = {
@@ -276,6 +298,7 @@
 				9A98F2372DA1B10500C08001 /* PearShape.swift in Sources */,
 				9AE115A02DA101150096F8FB /* AskALeAnimatedView.swift in Sources */,
 				9A98F23B2DA1B17C00C08001 /* PearBodyShape.swift in Sources */,
+				9ACC62942DA73D6F00BBCA1A /* CameraView_V2.swift in Sources */,
 				9AE116162DA17BFB0096F8FB /* RipleView.swift in Sources */,
 				9A98F28A2DA356F700C08001 /* Homescreen.swift in Sources */,
 				9A98F24E2DA1EB3D00C08001 /* SmartCorrecrionAndAssistantView.swift in Sources */,
@@ -283,6 +306,7 @@
 				9ACC628B2DA7394E00BBCA1A /* ChatRoomsListView.swift in Sources */,
 				9A98F2952DA35C5400C08001 /* GeminiChatView_V1.swift in Sources */,
 				9A98F28D2DA3581800C08001 /* ImageMakerView.swift in Sources */,
+				9ACC62912DA73C7000BBCA1A /* CameraView.swift in Sources */,
 				9A98F2912DA35A7A00C08001 /* ProAccessView_V1.swift in Sources */,
 				9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
@@ -445,6 +469,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to capture photos.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs microphone access to capture your voice for the AI Mode.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app uses speech recognition to transcribe your voice input for the AI Mode.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -486,6 +511,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to capture photos.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs microphone access to capture your voice for the AI Mode.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app uses speech recognition to transcribe your voice input for the AI Mode.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
