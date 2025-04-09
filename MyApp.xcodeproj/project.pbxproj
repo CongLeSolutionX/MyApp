@@ -70,6 +70,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9ACC627F2DA7198900BBCA1A /* DIRECTION_1 */,
 				9A98F3412DA4B0E200C08001 /* UpcomingEventsView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -84,6 +85,13 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9ACC627F2DA7198900BBCA1A /* DIRECTION_1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DIRECTION_1;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
