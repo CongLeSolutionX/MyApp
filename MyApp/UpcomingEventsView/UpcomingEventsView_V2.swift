@@ -144,7 +144,7 @@ struct UpcomingEventsView: View {
     }
 
     // Function to load mock data (can be called onAppear)
-    private mutating func loadMockData() {
+    func loadMockData() {
         // Add delay to simulate loading and show empty state initially
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
              // Uncomment the next line to always see the event list
