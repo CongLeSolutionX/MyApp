@@ -19,6 +19,11 @@ struct WelcomeView: View {
             // Main vertical stack for content
             VStack(spacing: 20) { // Add some default spacing between elements
                 Spacer() // Pushes content down a bit from the top
+                
+                Image("My-meme-orange-microphone")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
 
                 // App Logo Placeholder (Replace "appLogoPlaceholder" with your actual image asset)
                 // Using a system image as a fallback placeholder
@@ -33,12 +38,12 @@ struct WelcomeView: View {
                     .padding(.bottom, 20) // Space below the logo
 
                 // Welcome Title
-                Text("Welcome to\nApple Invites")
+                Text("Welcome to Orange Invites")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                    .padding(.bottom, 30) // Space below title
+                    .padding(.bottom, 20) // Space below title
 
                 // Action Row 1: Received Invitation
                 InfoRow(
