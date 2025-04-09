@@ -1030,43 +1030,79 @@ struct AuthStatusHeader: View {
 
 struct UnauthorizedView: View {
     @ObservedObject var authManager: AppleMusicAuthManager
-    
+
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer() // Push content to center
-            Image(systemName: "music.note.house.fill")
+        VStack(spacing: 25) { // Increased spacing for better separation
+            Spacer() // Push content towards center
+
+            // Dynamic icon based on state
+            Image(systemName: authManager.authorizationStatus == .denied || authManager.authorizationStatus == .restricted ? "exclamationmark.triangle.fill" : "music.note.house.fill")
                 .font(.system(size: 60))
-                .foregroundColor(.secondary)
-            
+                .foregroundColor(authManager.authorizationStatus == .denied || authManager.authorizationStatus == .restricted ? .orange : .secondary)
+                .padding(.bottom, 10)
+
+            // Switch on status to show appropriate message and action
             switch authManager.authorizationStatus {
             case .notDetermined:
-                Text("Connect to Apple Music to access your library and recommendations.")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
-                ConnectButton(authManager: authManager)
-                
+                 VStack(spacing: 10) {
+                     Text("Connect to Apple Music")
+                         .font(.title2).fontWeight(.medium)
+                    Text("Grant access to play music from your library and explore recommendations.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                    ConnectButton(authManager: authManager) // Action Button
+                        .padding(.top, 15)
+                 }
+
             case .denied:
-                Text("Access Denied. Please grant Media & Apple Music access in iOS Settings to continue.")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.red)
-                SettingsButton() // Button to open settings
-                
-            case .restricted:
-                Text("Access Restricted. Media & Apple Music access may be limited by Screen Time or other restrictions.")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.orange)
-                SettingsButton()
-                
-            case .authorized:
-                // Should not be visible if authorized, but handle defensively
-                Text("Unexpected state: Authorized but showing unauthorized view.")
-                
-            @unknown default:
-                Text("Unknown authorization status.")
-            }
-            Spacer()
+                 VStack(spacing: 10) {
+                     Text("Access Denied")
+                         .font(.title2).fontWeight(.medium).foregroundColor(.red)
+                    Text("Media & Apple Music access is required. Please grant permission in your device Settings.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                    SettingsButton() // Guide to Settings
+                        .padding(.top, 15)
+                 }
+
+             case .restricted:
+                 VStack(spacing: 10) {
+                     Text("Access Restricted")
+                          .font(.title2).fontWeight(.medium).foregroundColor(.orange)
+                     Text("Your access to Media & Apple Music might be limited by Screen Time or parental controls.")
+                         .font(.body)
+                         .foregroundColor(.secondary)
+                         .multilineTextAlignment(.center)
+                     SettingsButton() // Guide to Settings (might help)
+                         .padding(.top, 15)
+                 }
+
+             case .authorized:
+                 // This case should ideally not be reached here due to the logic in AppleMusicContentView
+                 // But provide a fallback just in case.
+                  Text("Connecting...")
+                      .foregroundColor(.secondary)
+                  ProgressView()
+
+             @unknown default:
+                 Text("An unknown authorization error occurred.")
+                      .foregroundColor(.red)
+             }
+
+             // Show loading indicator prominently if setup is in progress (covers auth request)
+             if authManager.isLoadingSetup && authManager.authorizationStatus == .notDetermined {
+                  ProgressView("Connecting...")
+                      .padding(.top, 20)
+              }
+
+            Spacer() // Push content towards center
         }
-        .padding()
+        .padding(.horizontal, 30) // Add horizontal padding for text wrapping
+         .frame(maxWidth: .infinity, maxHeight: .infinity) // Take available space
+         .background(Color(UIColor.systemGroupedBackground)) // Slightly different background
+         .edgesIgnoringSafeArea(.bottom) // Allow background to extend down
     }
 }
 
