@@ -131,12 +131,12 @@ struct WelcomeView: View {
     private var gradient: some View {
         LinearGradient(
             gradient: Gradient(colors: [
-                            // Pale Yellow/Highlight
-                            Color(red: 255.0 / 255.0, green: 250.0 / 255.0, blue: 205.0 / 255.0), // LemonChiffon-like
-                            // Standard Gold
-                            Color(red: 255.0 / 255.0, green: 215.0 / 255.0, blue: 0.0 / 255.0),   // Gold (Hex: #FFD700)
-                            // Darker Gold/Shadow
-                            Color(red: 184.0 / 255.0, green: 134.0 / 255.0, blue: 11.0 / 255.0)   // DarkGoldenrod (Hex: #B8860B)
+                            // Lighter Gold/Orange
+                            Color(red: 240.0 / 255.0, green: 190.0 / 255.0, blue: 70.0 / 255.0), // Lighter Goldenrod tone
+                            // Medium Gold/Orange
+                            Color(red: 218.0 / 255.0, green: 165.0 / 255.0, blue: 32.0 / 255.0),  // Goldenrod (Hex: #DAA520)
+                            // Dark Gold/Brownish
+                            Color(red: 180.0 / 255.0, green: 120.0 / 255.0, blue: 20.0 / 255.0)  // Darker orange/brown gold
                         ]),
             startPoint: .leading,
             endPoint: .trailing
