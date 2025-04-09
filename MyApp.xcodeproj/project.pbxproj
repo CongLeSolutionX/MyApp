@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9AA1A57A2DA682E0000178B3 /* AppleMusicKitFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5792DA682D7000178B3 /* AppleMusicKitFramework.swift */; };
+		9AA1A57C2DA6836E000178B3 /* AppleMusicKitFramework_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A57B2DA6836C000178B3 /* AppleMusicKitFramework_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		9AA1A5792DA682D7000178B3 /* AppleMusicKitFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicKitFramework.swift; sourceTree = "<group>"; };
+		9AA1A57B2DA6836C000178B3 /* AppleMusicKitFramework_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicKitFramework_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AA1A57B2DA6836C000178B3 /* AppleMusicKitFramework_V2.swift */,
 				9AA1A5792DA682D7000178B3 /* AppleMusicKitFramework.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -149,6 +152,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9AA1A57C2DA6836E000178B3 /* AppleMusicKitFramework_V2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
