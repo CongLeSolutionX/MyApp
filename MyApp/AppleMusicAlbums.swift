@@ -92,6 +92,12 @@ struct WelcomeView: View {
                     .font(.largeTitle.weight(.semibold))
                     .shadow(radius: 2)
                     .padding(.bottom, 1)
+                
+                Image("My-meme-orange")
+                    .resizable(resizingMode: .stretch)
+                    .frame(width: 320, height: 240)
+                    .shadow(radius: 3)
+                    .padding(.bottom, 16)   
                 Text("Rediscover your old music.")
                     .foregroundColor(.primary)
                     .font(.title2.weight(.medium))
@@ -153,7 +159,7 @@ struct WelcomeView: View {
                 explanatoryText = Text("Music Albums cannot be used on this iPhone because usage of ")
                     + Text(Image(systemName: "applelogo")) + Text(" Music is restricted.")
             default:
-                explanatoryText = Text("Music Albums uses ")
+                explanatoryText = Text("This app uses ")
                     + Text(Image(systemName: "applelogo")) + Text(" Music\nto help you rediscover your music.")
         }
         return explanatoryText
@@ -285,11 +291,18 @@ struct ContentView: View {
     // MARK: - View
     
     var body: some View {
+        
         rootView
             .onAppear(perform: recentAlbumsStorage.beginObservingMusicAuthorizationStatus)
-            .onChange(of: searchTerm, perform: requestUpdatedSearchResults)
-            .onChange(of: detectedBarcode, perform: handleDetectedBarcode)
-            .onChange(of: isDetectedAlbumDetailViewActive, perform: handleDetectedAlbumDetailViewActiveChange)
+            .onChange(of: searchTerm) {
+                requestUpdatedSearchResults(for: searchTerm)
+            }
+            .onChange(of: detectedBarcode) {
+                handleDetectedBarcode(detectedBarcode)
+            }
+            .onChange(of: isDetectedAlbumDetailViewActive) {
+                handleDetectedAlbumDetailViewActiveChange(isDetectedAlbumDetailViewActive)
+            }
         
             // Display the barcode scanning view when appropriate.
             .sheet(isPresented: $isBarcodeScanningViewPresented) {
@@ -308,6 +321,7 @@ struct ContentView: View {
     /// The various components of the main navigation view.
     private var navigationViewContents: some View {
         VStack {
+            gradient
             searchResultsList
                 .animation(.default, value: albums)
             if isBarcodeScanningAvailable {
@@ -1288,3 +1302,20 @@ class RecentAlbumsStorage: ObservableObject {
     }
 }
 
+/// Constructs a gradient to use as the view background.
+var gradient: some View {
+    LinearGradient(
+        gradient: Gradient(colors: [
+                        // Lighter Gold/Orange
+                        Color(red: 240.0 / 255.0, green: 190.0 / 255.0, blue: 70.0 / 255.0), // Lighter Goldenrod tone
+                        // Medium Gold/Orange
+                        Color(red: 218.0 / 255.0, green: 165.0 / 255.0, blue: 32.0 / 255.0),  // Goldenrod (Hex: #DAA520)
+                        // Dark Gold/Brownish
+                        Color(red: 180.0 / 255.0, green: 120.0 / 255.0, blue: 20.0 / 255.0)  // Darker orange/brown gold
+                    ]),
+        startPoint: .leading,
+        endPoint: .trailing
+    )
+    .flipsForRightToLeftLayoutDirection(false)
+    .ignoresSafeArea()
+}
