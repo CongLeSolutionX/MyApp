@@ -130,7 +130,9 @@ struct CryptoSectionView: View {
         }
     }
 }
-
+#Preview("CryptoSectionView") {
+    CryptoSectionView()
+}
 //
 //// MARK: - Stocks & ETFs Section View (MODIFIED)
 //
