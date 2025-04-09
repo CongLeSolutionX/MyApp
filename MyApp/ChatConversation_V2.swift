@@ -1,11 +1,11 @@
+////
+////  Chat Conversation.swift
+////  MyApp
+////
+////  Created by Cong Le on 4/9/25.
+////
 //
-//  Chat Conversation.swift
-//  MyApp
 //
-//  Created by Cong Le on 4/9/25.
-//
-
-
 // MARK: - Data Model for Chat Message
 
 struct ChatMessage: Identifiable {
@@ -46,7 +46,7 @@ struct ChatConversationView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 8)
                 }
-                .onChange(of: messages.count) { _ in
+                .onChange(of: messages.count) { 
                     // Auto-scroll to the latest message when a new one is added.
                     if let lastMessage = messages.last {
                         withAnimation {
@@ -125,13 +125,13 @@ struct ChatBubble: View {
     }
 }
 
-// MARK: - Preview
-
-struct ChatConversationView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            ChatConversationView()
-                .preferredColorScheme(.light)
-        }
-    }
-}
+//// MARK: - Preview
+//
+//struct ChatConversationView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            ChatConversationView()
+//                .preferredColorScheme(.light)
+//        }
+//    }
+//}
