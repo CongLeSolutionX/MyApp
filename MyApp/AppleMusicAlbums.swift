@@ -87,7 +87,7 @@ struct WelcomeView: View {
         ZStack {
             gradient
             VStack {
-                Text("Music Albums")
+                Text("CongLeSolutionX Entertainment")
                     .foregroundColor(.primary)
                     .font(.largeTitle.weight(.semibold))
                     .shadow(radius: 2)
@@ -131,10 +131,13 @@ struct WelcomeView: View {
     private var gradient: some View {
         LinearGradient(
             gradient: Gradient(colors: [
-                Color(red: (130.0 / 255.0), green: (109.0 / 255.0), blue: (204.0 / 255.0)),
-                Color(red: (130.0 / 255.0), green: (130.0 / 255.0), blue: (211.0 / 255.0)),
-                Color(red: (131.0 / 255.0), green: (160.0 / 255.0), blue: (218.0 / 255.0))
-            ]),
+                            // Pale Yellow/Highlight
+                            Color(red: 255.0 / 255.0, green: 250.0 / 255.0, blue: 205.0 / 255.0), // LemonChiffon-like
+                            // Standard Gold
+                            Color(red: 255.0 / 255.0, green: 215.0 / 255.0, blue: 0.0 / 255.0),   // Gold (Hex: #FFD700)
+                            // Darker Gold/Shadow
+                            Color(red: 184.0 / 255.0, green: 134.0 / 255.0, blue: 11.0 / 255.0)   // DarkGoldenrod (Hex: #B8860B)
+                        ]),
             startPoint: .leading,
             endPoint: .trailing
         )
@@ -327,7 +330,7 @@ struct ContentView: View {
     private var rootView: some View {
         NavigationView {
             navigationViewContents
-                .navigationTitle("Music Albums")
+                .navigationTitle("CongLeSolutionX Entertainment")
         }
         .searchable(text: $searchTerm, prompt: "Albums")
         .gesture(hiddenDevelopmentSettingsGesture)
