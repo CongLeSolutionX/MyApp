@@ -501,7 +501,7 @@ class AppleMusicAuthManager: ObservableObject {
     }
     
     
-    // MARK: - API Request Function (Unchanged Core Logic)
+    // MARK: - API Request Function
     func makeAPIRequest<T: Decodable>(
         endpoint: String, method: String = "GET", queryParameters: [String: String] = [:], body: Data? = nil,
         responseType: T.Type, currentAttempt: Int = 1, maxAttempts: Int = 2,
@@ -592,10 +592,10 @@ class AppleMusicAuthManager: ObservableObject {
             // ... Decoding ...
             do {
                 // Debug print
-#if DEBUG
+                #if DEBUG
                 if let jsonString = String(data: responseData ?? Data(), encoding: .utf8), !jsonString.isEmpty { print("Raw JSON [\(endpoint)]:\n\(jsonString)") }
                 else { print("Raw response [\(endpoint)]: Empty Data") }
-#endif
+                #endif
                 let decoder = JSONDecoder() // Configure if needed
                 let decodedObject = try decoder.decode(T.self, from: responseData ?? Data()) // Use empty data for 204 case
                 completion(.success(decodedObject))
@@ -806,12 +806,29 @@ class AppleMusicAuthManager: ObservableObject {
     
     // Helper to present errors via alert
     private func presentErrorAlert(_ error: Error, title: String = "Error") {
-        // Avoid showing multiple alerts rapid-fire
-        guard !showErrorAlert.0 else { return }
-        
+         // Avoid showing multiple alerts simultaneously if one is pending
+         guard !showErrorAlert.0 else {
+              print("Alert suppressed: Another alert is already being shown.")
+              return
+         }
+
         let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        print("🚨 Presenting Alert: Title='\(title)', Message='\(message)'")
         DispatchQueue.main.async {
-            self.showErrorAlert = (true, message)
+            self.showErrorAlert = (true, title + message) // Update tuple to trigger alert
+        }
+    }
+}
+
+// Add rawValue descriptions for easier logging/debugging
+extension SKCloudServiceAuthorizationStatus {
+    var description: String {
+        switch self {
+        case .notDetermined: return "notDetermined"
+        case .denied: return "denied"
+        case .restricted: return "restricted"
+        case .authorized: return "authorized"
+        @unknown default: return "unknown (\(rawValue))"
         }
     }
 }
