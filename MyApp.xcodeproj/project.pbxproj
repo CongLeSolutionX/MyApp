@@ -16,6 +16,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9ACC62812DA719A800BBCA1A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62802DA719A700BBCA1A /* WelcomeView.swift */; };
 		9ACC62832DA71AEE00BBCA1A /* WelcomeView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62822DA71AEA00BBCA1A /* WelcomeView_V2.swift */; };
+		9ACC62852DA7249800BBCA1A /* WelcomeView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62842DA7249600BBCA1A /* WelcomeView_V3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9ACC62802DA719A700BBCA1A /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		9ACC62822DA71AEA00BBCA1A /* WelcomeView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView_V2.swift; sourceTree = "<group>"; };
+		9ACC62842DA7249600BBCA1A /* WelcomeView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView_V3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				9ACC62802DA719A700BBCA1A /* WelcomeView.swift */,
 				9ACC62822DA71AEA00BBCA1A /* WelcomeView_V2.swift */,
+				9ACC62842DA7249600BBCA1A /* WelcomeView_V3.swift */,
 			);
 			path = DIRECTION_1;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				9A98F33E2DA4B04900C08001 /* UpcomingEventsView_V1.swift in Sources */,
 				9A98F3402DA4B0DF00C08001 /* UpcomingEventsView_V2.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9ACC62852DA7249800BBCA1A /* WelcomeView_V3.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
