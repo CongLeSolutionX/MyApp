@@ -93,11 +93,11 @@ struct WelcomeView: View {
                     .shadow(radius: 2)
                     .padding(.bottom, 1)
                 
-                Image("My-meme-orange")
+                Image("My-meme-orange-microphone")
                     .resizable(resizingMode: .stretch)
                     .frame(width: 320, height: 240)
                     .shadow(radius: 3)
-                    .padding(.bottom, 16)   
+                    .padding(.bottom, 16)
                 Text("Rediscover your old music.")
                     .foregroundColor(.primary)
                     .font(.title2.weight(.medium))
