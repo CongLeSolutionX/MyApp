@@ -173,114 +173,13 @@ struct StocksSectionView: View {
         }
     }
 }
+
 #Preview("StocksSectionView") {
     StocksSectionView()
 }
-//// Placeholder data structure for Stocks (MODIFIED)
-//struct StockInfo: Identifiable {
-//    let id = UUID()
-//    let symbol: String
-//    let companyName: String // Added for detail view
-//    let shares: String
-//    let value: String // Current Price per share
-//    let graphColor: Color // Indicates if price is up (green) or down (red) today
-//}
-//
-//
-// MARK: - Stock Row View
 
-// MARK: - NEW: Stock Detail View
 
-//
-//struct DetailedStockChartPlaceholder: View {
-//    let color: Color
-//    var body: some View {
-//        // More complex placeholder than sparkline
-//        RoundedRectangle(cornerRadius: 8)
-//            .strokeBorder(Color.gray.opacity(0.5), lineWidth: 1)
-//            .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray.opacity(0.1)))
-//            .overlay(
-//                GeometryReader { geo in
-//                    Path { path in
-//                         // Simulate some chart data points
-//                        let dataPoints: [CGFloat] = [0.6, 0.5, 0.7, 0.6, 0.8, 0.75, 0.9, 0.8, 0.85]
-//                        let stepX = geo.size.width / CGFloat(dataPoints.count - 1)
-//                        
-//                        path.move(to: CGPoint(x: 0, y: geo.size.height * (1 - dataPoints[0])))
-//                        
-//                         for i in 1..<dataPoints.count {
-//                             path.addLine(to: CGPoint(x: CGFloat(i) * stepX, y: geo.size.height * (1 - dataPoints[i])))
-//                         }
-//                    }
-//                    .stroke(color, lineWidth: 2)
-//                }
-//                 .padding(10) // Padding inside the border
-//            )
-//    }
-//}
-//
-//
-//struct YourPositionView: View {
-//    let positionData: StockPosition
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 10) {
-//            Text("Your Position")
-//                .font(.title2)
-//                .fontWeight(.semibold)
-//
-//            // Using Grid for alignment
-//            Grid(alignment: .leading, horizontalSpacing: 10, verticalSpacing: 8) {
-//                GridRow {
-//                    Text("Shares").foregroundStyle(.secondary)
-//                    Text(String(format: "%.4f", positionData.shares))
-//                }
-//                GridRow {
-//                    Text("Market Value").foregroundStyle(.secondary)
-//                    Text(String(format: "$%.2f", positionData.marketValue))
-//                }
-//                GridRow {
-//                    Text("Average Cost").foregroundStyle(.secondary)
-//                    Text(String(format: "$%.2f", positionData.averageCost))
-//                }
-//                 GridRow {
-//                    Text("Today's Return").foregroundStyle(.secondary)
-//                    ReturnTextView(value: positionData.todaysReturn, percentage: positionData.todaysReturnPercent)
-//                }
-//                  GridRow {
-//                    Text("Total Return").foregroundStyle(.secondary)
-//                   ReturnTextView(value: positionData.totalReturn, percentage: positionData.totalReturnPercent)
-//                }
-//            }
-//             .font(.subheadline) // Apply font to the whole grid
-//        }
-//    }
-//}
-//
-//// Helper view for return values with color coding
-//struct ReturnTextView: View {
-//    let value: Double
-//    let percentage: Double? // Optional percentage
-//    
-//     var returnColor: Color {
-//        value >= 0 ? .green : .red
-//    }
-//     var returnPrefix: String {
-//        value >= 0 ? "+" : ""
-//    }
-//
-//    var body: some View {
-//         HStack(spacing: 4) {
-//              Text(String(format: "%@$%.2f", returnPrefix, abs(value)))
-//             if let percentage = percentage {
-//                Text(String(format: "(%@%.2f%%)", returnPrefix, abs(percentage)))
-//             }
-//        }
-//        .foregroundColor(returnColor)
-//        .fontWeight(.medium)
-//    }
-//}
-//
+
 //struct StatsView: View {
 //    let statsData: StockStats
 //
