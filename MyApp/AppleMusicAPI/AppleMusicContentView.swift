@@ -659,6 +659,9 @@ struct AuthStatusView: View {
         }
     }
 }
+#Preview("AuthStatusView"){
+    AuthStatusView(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
+}
 
 struct AuthorizeButton: View {
     @ObservedObject var authManager: AppleMusicAuthManager
@@ -689,7 +692,9 @@ struct AuthorizeButton: View {
         .padding(.horizontal)
     }
 }
-
+#Preview("AuthorizeButton") {
+    AuthorizeButton(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
+}
 
 struct AuthorizedContentView: View {
     @ObservedObject var authManager: AppleMusicAuthManager
@@ -708,6 +713,9 @@ struct AuthorizedContentView: View {
             .padding()
         }
     }
+}
+#Preview("AuthorizedContentView") {
+    AuthorizedContentView(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
 }
 
 struct CapabilitiesView: View {
@@ -748,7 +756,9 @@ struct CapabilitiesView: View {
         }
     }
 }
-
+#Preview("CapabilitiesView") {
+    CapabilitiesView(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
+}
 struct PlaylistSection: View {
     @ObservedObject var authManager: AppleMusicAuthManager
     
@@ -796,7 +806,9 @@ struct PlaylistSection: View {
         }
     }
 }
-
+#Preview("PlaylistSection"){
+    PlaylistSection(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
+}
 struct PlaylistRow: View {
     let playlist: Playlist
     
@@ -816,7 +828,9 @@ struct PlaylistRow: View {
         // .onTapGesture { /* Navigate to playlist detail */ }
     }
 }
-
+#Preview("PlaylistRow") {
+    PlaylistRow(playlist: Playlist(id: "some ID", type: "Sample Type", href: "asadsdsd", attributes: nil))
+}
 
 
 struct ResetButton: View {
@@ -830,7 +844,9 @@ struct ResetButton: View {
         .padding(.horizontal)
     }
 }
-
+#Preview("ResetButton") {
+    ResetButton(authManager: AppleMusicAuthManager(developerToken: "CHANGE_ME_DADDY"))
+}
 
 // MARK: - Application Entry Point (for preview)
 struct AppleMusicDemoApp: App {
