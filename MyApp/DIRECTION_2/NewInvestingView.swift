@@ -111,26 +111,26 @@ struct TopBarView: View {
 //    }
 //}
 //
-//// MARK: - Crypto Section View (Unchanged) - Add Back if needed
-//struct CryptoSectionView: View {
-//     var body: some View {
-//        VStack(alignment: .leading, spacing: 8) {
-//            HStack {
-//                Text("Crypto").font(.title).fontWeight(.bold)
-//                Image(systemName: "chevron.right").font(.caption).fontWeight(.bold).foregroundColor(.gray)
-//                Spacer()
-//            }
-//            HStack {
-//                Text("Offered by Robinhood Crypto").font(.caption).foregroundColor(.secondary)
-//                Image(systemName: "info.circle").foregroundColor(.gray)
-//            }
-//            .padding(.bottom, 5)
-//            CryptoRowView(symbol: "USDC", quantity: "1", value: "$1.00", graphColor: .green)
-//            Divider()
-//        }
-//    }
-//}
-//
+// MARK: - Crypto Section View (Unchanged) - Add Back if needed
+struct CryptoSectionView: View {
+     var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Crypto").font(.title).fontWeight(.bold)
+                Image(systemName: "chevron.right").font(.caption).fontWeight(.bold).foregroundColor(.gray)
+                Spacer()
+            }
+            HStack {
+                Text("Offered by Robinhood Crypto").font(.caption).foregroundColor(.secondary)
+                Image(systemName: "info.circle").foregroundColor(.gray)
+            }
+            .padding(.bottom, 5)
+            CryptoRowView(symbol: "USDC", quantity: "1", value: "$1.00", graphColor: .green)
+            Divider()
+        }
+    }
+}
+
 //
 //// MARK: - Stocks & ETFs Section View (MODIFIED)
 //
