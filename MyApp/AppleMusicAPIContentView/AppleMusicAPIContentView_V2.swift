@@ -180,15 +180,23 @@ class AppleMusicAuthManager: ObservableObject {
     
     // MARK: - Initialization
     init(developerToken: String = AppConfig.developerTokenPlaceholder) {
-        // Basic check for placeholder token - REMOVE THIS CHECK IF USING A REAL TOKEN
+        // Basic check for placeholder token - crucial for live API
         if developerToken == AppConfig.developerTokenPlaceholder && !useMockData {
-            print("WARNING: Using placeholder developer token. API calls will likely fail. Set 'useMockData' to true or provide a real token.")
-            // Optionally, you could force mock data or disable functionality here
-            // self.useMockData = true // Uncomment to force mock data if token is placeholder
+             print("⚠️ WARNING: Using placeholder developer token. API calls will FAIL. Set 'useMockData' to true in AppleMusicAuthManager or provide a real token to run live.")
+             // Consider preventing live operations entirely here
+        } else if !useMockData {
+             print("🚀 Using REAL developer token. Live API calls enabled.")
         }
         self.developerToken = developerToken
         print("AppleMusicAuthManager initialized. Using Mock Data: \(useMockData)")
-        checkInitialAuthorization()
+
+        // Get initial status synchronously for immediate UI state
+        let initialStatus = SKCloudServiceController.authorizationStatus()
+         DispatchQueue.main.async { // Ensure UI updates happen on main thread
+             print("Initial Auth Status: \(initialStatus.rawValue)")
+            self.authorizationStatus = initialStatus
+            self.isAuthorized = (initialStatus == .authorized)
+         }
     }
     
     // MARK: - Mock Data Generation
