@@ -133,47 +133,47 @@ struct CryptoSectionView: View {
 #Preview("CryptoSectionView") {
     CryptoSectionView()
 }
-//
-//// MARK: - Stocks & ETFs Section View (MODIFIED)
-//
-//struct StocksSectionView: View {
-//    // Placeholder data - IMPORTANT: Add company names for the detail view title
-//    let stocks = [
-//        StockInfo(symbol: "REAL", companyName: "The RealReal, Inc.", shares: "250.45 shares", value: "$4.76", graphColor: .red), // Example: Red for down
-//        StockInfo(symbol: "XOM", companyName: "Exxon Mobil Corp.", shares: "4.59 shares", value: "$98.78", graphColor: .green), // Example: Green for up
-//        StockInfo(symbol: "IRM", companyName: "Iron Mountain Inc.", shares: "4.85 shares", value: "$76.46", graphColor: .green)
-//    ]
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 8) {
-//            HStack {
-//                Text("Stocks & ETFs")
-//                    .font(.title).fontWeight(.bold)
-//                // Maybe make this chevron navigate to a full list screen later
-//                Image(systemName: "chevron.right")
-//                    .font(.caption).fontWeight(.bold).foregroundColor(.gray)
-//                Spacer()
-//            }
-//            .padding(.bottom, 5)
-//
-//            // List of Stocks - Each row is now a NavigationLink
-//            VStack(spacing: 0) {
-//                ForEach(stocks) { stock in
-//                    // NavigationLink wraps the entire row content
-//                    NavigationLink(destination: StockDetailView(stockInfo: stock)) {
-//                        StockRowView(stock: stock)
-//                            // Apply contentShape to make the whole link area tappable easily
-//                            .contentShape(Rectangle())
-//                    }
-//                    // Make the NavLink look like plain content, not a blue link
-//                    .buttonStyle(PlainButtonStyle())
-//                    Divider()
-//                }
-//            }
-//        }
-//    }
-//}
-//
+
+// MARK: - Stocks & ETFs Section View (MODIFIED)
+
+struct StocksSectionView: View {
+    // Placeholder data - IMPORTANT: Add company names for the detail view title
+    let stocks = [
+        StockInfo(symbol: "REAL", companyName: "The RealReal, Inc.", shares: "250.45 shares", value: "$4.76", graphColor: .red), // Example: Red for down
+        StockInfo(symbol: "XOM", companyName: "Exxon Mobil Corp.", shares: "4.59 shares", value: "$98.78", graphColor: .green), // Example: Green for up
+        StockInfo(symbol: "IRM", companyName: "Iron Mountain Inc.", shares: "4.85 shares", value: "$76.46", graphColor: .green)
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Stocks & ETFs")
+                    .font(.title).fontWeight(.bold)
+                // Maybe make this chevron navigate to a full list screen later
+                Image(systemName: "chevron.right")
+                    .font(.caption).fontWeight(.bold).foregroundColor(.gray)
+                Spacer()
+            }
+            .padding(.bottom, 5)
+
+            // List of Stocks - Each row is now a NavigationLink
+            VStack(spacing: 0) {
+                ForEach(stocks) { stock in
+                    // NavigationLink wraps the entire row content
+                    NavigationLink(destination: StockDetailView(stockInfo: stock)) {
+                        StockRowView(stock: stock)
+                            // Apply contentShape to make the whole link area tappable easily
+                            .contentShape(Rectangle())
+                    }
+                    // Make the NavLink look like plain content, not a blue link
+                    .buttonStyle(PlainButtonStyle())
+                    Divider()
+                }
+            }
+        }
+    }
+}
+
 //// Placeholder data structure for Stocks (MODIFIED)
 //struct StockInfo: Identifiable {
 //    let id = UUID()
@@ -185,40 +185,8 @@ struct CryptoSectionView: View {
 //}
 //
 //
-//// MARK: - Stock Row View (Unchanged, but now used within NavigationLink)
-//
-//struct StockRowView: View {
-//    let stock: StockInfo
-//
-//    var body: some View {
-//         // Content remains the same, just placed inside NavLink now
-//         HStack(spacing: 15) {
-//             VStack(alignment: .leading) {
-//                 Text(stock.symbol).font(.headline)
-//                 Text(stock.shares).font(.caption).foregroundColor(.secondary)
-//             }
-//             Spacer()
-//             StockSparklinePlaceholder(color: stock.graphColor)
-//                 .frame(width: 60, height: 30)
-//             Spacer()
-//             // Display the value, no more button needed here as row navigates
-//             Text(stock.value)
-//                 .font(.footnote)
-//                 .fontWeight(.bold)
-//                 .padding(.horizontal, 10)
-//                 .padding(.vertical, 5)
-//                 .background(stock.graphColor.opacity(0.15)) // Subtle background indicator
-//                 .foregroundColor(stock.graphColor) // Text color indicates change
-//                 .cornerRadius(5)
-//                 .frame(minWidth: 70, alignment: .trailing) // Align text to right
-//         }
-//         .padding(.vertical, 8)
-//         // Ensure background is clear for the NavLink
-//         .background(Color(.systemBackground)) // Or Color.clear if needed
-//    }
-//}
-//
-//
+// MARK: - Stock Row View 
+
 //// MARK: - NEW: Stock Detail View
 //
 //struct StockDetailView: View {

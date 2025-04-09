@@ -10,32 +10,32 @@ import SwiftUI
 
 // Placeholder for the sparkline view potentially used within CryptoRowView
 // Based on the context from previous code snippets where StockRowView used it.
-struct StockSparklinePlaceholder: View {
-    let color: Color
-
-    // Basic placeholder implementation for demonstration
-    var body: some View {
-         GeometryReader { geo in
-            Path { path in
-                // Simulate some basic crypto price movement (different from stock example)
-                let dataPoints: [CGFloat] = [0.7, 0.75, 0.65, 0.8, 0.78, 0.85, 0.82]
-                let stepX = geo.size.width / CGFloat(dataPoints.count - 1)
-
-                guard !dataPoints.isEmpty else { return }
-
-                path.move(to: CGPoint(x: 0, y: geo.size.height * (1 - dataPoints[0])))
-
-                 for i in 1..<dataPoints.count {
-                     path.addLine(to: CGPoint(x: CGFloat(i) * stepX, y: geo.size.height * (1 - dataPoints[i])))
-                 }
-            }
-            .stroke(color, lineWidth: 1.5) // Use the provided color for the line
-        }
-        // Provide a default frame if none is specified at the call site,
-        // matching potential usage in a list row.
-        .frame(width: 60, height: 30)
-    }
-}
+//struct StockSparklinePlaceholder: View {
+//    let color: Color
+//
+//    // Basic placeholder implementation for demonstration
+//    var body: some View {
+//         GeometryReader { geo in
+//            Path { path in
+//                // Simulate some basic crypto price movement (different from stock example)
+//                let dataPoints: [CGFloat] = [0.7, 0.75, 0.65, 0.8, 0.78, 0.85, 0.82]
+//                let stepX = geo.size.width / CGFloat(dataPoints.count - 1)
+//
+//                guard !dataPoints.isEmpty else { return }
+//
+//                path.move(to: CGPoint(x: 0, y: geo.size.height * (1 - dataPoints[0])))
+//
+//                 for i in 1..<dataPoints.count {
+//                     path.addLine(to: CGPoint(x: CGFloat(i) * stepX, y: geo.size.height * (1 - dataPoints[i])))
+//                 }
+//            }
+//            .stroke(color, lineWidth: 1.5) // Use the provided color for the line
+//        }
+//        // Provide a default frame if none is specified at the call site,
+//        // matching potential usage in a list row.
+//        .frame(width: 60, height: 30)
+//    }
+//}
 
 /// # CryptoRowView
 /// A view that displays a single row of cryptocurrency information,
