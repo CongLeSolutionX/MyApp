@@ -230,17 +230,17 @@
 //// MARK: - SwiftUI Views and Subviews
 //
 //
-//import SwiftUI
-//
-//// Define custom colors (reuse from previous response)
-//extension Color {
-//    static let appBackground = Color(red: 55/255, green: 48/255, blue: 45/255)
-//    static let textPrimary = Color.white
-//    static let textSecondary = Color.gray
-//    static let sliderTrack = Color.gray.opacity(0.6)
-//    static let sliderThumb = Color.white
-//    static let favoriteColor = Color.pink // Color for favorited items
-//}
+import SwiftUI
+
+// Define custom colors (reuse from previous response)
+extension Color {
+    static let appBackground = Color(red: 55/255, green: 48/255, blue: 45/255)
+    static let textPrimary = Color.white
+    static let textSecondary = Color.gray
+    static let sliderTrack = Color.gray.opacity(0.6)
+    static let sliderThumb = Color.white
+    static let favoriteColor = Color.pink // Color for favorited items
+}
 //
 //struct MusicPlayerView: View {
 //    // Use @StateObject to create and manage the PlaybackManager instance

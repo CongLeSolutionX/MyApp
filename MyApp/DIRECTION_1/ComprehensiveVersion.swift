@@ -125,6 +125,11 @@ struct Song: Identifiable, Equatable {
 
 // MARK: - PlaybackManager
 class PlaybackManager: ObservableObject {
+    @State private var playbackProgress: Double = 0.1 // Approx 0:05 out of ~5:00
+    
+    // Dummy total time for calculation (replace with actual duration)
+     var totalDuration: Double = 305 // Approx 5:05 in seconds
+ 
     
     @Published var currentSong: Song?
     @Published var queue: [Song] = Song.mockSongs // Initialize with mock data
@@ -882,3 +887,142 @@ struct NowPlayingDetailsView: View {
         .accentColor(Color.green) // Affects Toolbar Button Color if needed
     }
 }
+
+
+struct PlaybackProgressView: View {
+    @Binding var progress: Double
+
+    // Dummy total time for calculation (replace with actual duration)
+    let totalDuration: Double = 305 // Approx 5:05 in seconds
+
+    var formattedElapsedTime: String {
+        let time = Int(progress * totalDuration)
+        let minutes = time / 60
+        let seconds = time % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+
+    var formattedRemainingTime: String {
+        let time = Int((1.0 - progress) * totalDuration)
+        let minutes = time / 60
+        let seconds = time % 60
+        return String(format: "-%d:%02d", minutes, seconds)
+    }
+
+    var body: some View {
+        VStack(spacing: 5) {
+            Slider(value: $progress, in: 0...1)
+                .accentColor(Color.sliderThumb) // Color of the thumb/filled track
+                 // Note: Styling the track itself requires more custom approach if needed
+
+            HStack {
+                Text(formattedElapsedTime)
+                Spacer()
+                Text(formattedRemainingTime)
+            }
+            .font(.caption)
+            .foregroundColor(Color.textSecondary)
+        }
+    }
+}
+
+// --- Subviews for Queue and Lyrics ---
+// In NowPlayingDetailsView.swift (or wherever QueueView is defined)
+
+struct QueueView: View {
+    @ObservedObject var playbackManager: PlaybackManager
+
+    var body: some View {
+        List {
+            // Check if queue is empty
+            if playbackManager.queue.isEmpty {
+                Text("Queue is empty.")
+                    .foregroundColor(Color.green)
+                    .listRowBackground(Color.yellow) // Apply background to the placeholder row
+            } else {
+                // Iterate and create QueueRowView instances
+                ForEach(Array(playbackManager.queue.enumerated()), id: \.element.id) { index, song in
+                    // Create the dedicated row view
+                    QueueRowView(
+                        song: song,
+                        // Calculate the boolean flag here
+                        isCurrentlyPlaying: index == playbackManager.currentQueueIndex
+                    )
+                    // Apply the row-specific background modifier here
+                    .listRowBackground(Color.purple)
+                }
+                .onMove(perform: move) // Modifiers for ForEach remain
+                .onDelete(perform: delete)
+            }
+        }
+        .listStyle(PlainListStyle()) // Modifiers for List remain
+        .background(Color.primary) // Ensure overall list background
+        .environment(\.editMode, .constant(.active))
+    }
+
+    // Action handlers remain the same
+    private func move(from source: IndexSet, to destination: Int) {
+        playbackManager.moveItems(from: source, to: destination)
+    }
+
+    private func delete(at offsets: IndexSet) {
+        if let index = offsets.first {
+            playbackManager.removeItem(at: index)
+        }
+    }
+}
+
+struct QueueRowView: View {
+    let song: Song
+    let isCurrentlyPlaying: Bool // Pass boolean instead of comparing index inside
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(song.title)
+                    .font(.headline)
+                    // Use the boolean to decide the color
+                    .foregroundColor(isCurrentlyPlaying ? Color.accentColor : Color.yellow)
+
+                Text(song.artist)
+                    .font(.subheadline)
+                    .foregroundColor(Color.secondary)
+            }
+
+            Spacer()
+
+            // Use the boolean to show the indicator
+            if isCurrentlyPlaying {
+                Image(systemName: "speaker.wave.2.fill")
+                    .foregroundColor(Color.accentColor)
+            }
+        }
+        .padding(.vertical, 4) // Keep padding within the row content
+        // .listRowBackground is applied outside this view, on the instance
+    }
+}
+
+
+
+struct LyricsView: View {
+    let lyrics: String?
+
+    var body: some View {
+        ScrollView {
+            if let lyrics = lyrics, !lyrics.isEmpty {
+                Text(lyrics)
+                    .font(.system(.body, design: .serif)) // Serif might look nice for lyrics
+                    .foregroundColor(Color.primary)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading) // Align text left
+            } else {
+                Text("No lyrics available for this song.")
+                    .foregroundColor(Color.secondary)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Center placeholder
+            }
+        }
+        .background(Color.primary) // Ensure scroll view background matches
+    }
+}
+
