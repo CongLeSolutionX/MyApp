@@ -21,6 +21,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9ACC627E2DA7167500BBCA1A /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC627D2DA7167300BBCA1A /* Shared.swift */; };
 		9AE7059D2DA7106600DC2148 /* ComprehensiveVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE7059C2DA7106500DC2148 /* ComprehensiveVersion.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9ACC627D2DA7167300BBCA1A /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		9AE7059C2DA7106500DC2148 /* ComprehensiveVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveVersion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,6 +60,7 @@
 		9A90ABD32DA707E800A5DBFA /* DIRECTION_1 */ = {
 			isa = PBXGroup;
 			children = (
+				9ACC627D2DA7167300BBCA1A /* Shared.swift */,
 				9A90ABCF2DA706DB00A5DBFA /* MusicPlayerView.swift */,
 				9A90ABD12DA707E100A5DBFA /* MusicPlayerView_V2.swift */,
 				9A90ABD42DA70A2100A5DBFA /* NowPlayingDetailView.swift */,
@@ -204,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ACC627E2DA7167500BBCA1A /* Shared.swift in Sources */,
 				9AA1A5692DA63847000178B3 /* AppleMusicAPIContentView.swift in Sources */,
 				9AE7059D2DA7106600DC2148 /* ComprehensiveVersion.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
