@@ -139,7 +139,7 @@ struct MusicPlayerView_V2: View {
                         HStack(spacing: 15) { // Spacing between cards
                             ExploreCardView(imageName: "exploreImage1", text: "Songs by\nVicky Nhung")
                             ExploreCardView(imageName: "exploreImage2", text: "Similar to\nVicky Nhung")
-                            ExploreCardView(imageName: "exploreImage3", text: "ĐÀ LẠT\nSimilar to\nNgày Mưa Ấy")
+                            ExploreCardView(imageName: "My-meme-original", text: "ĐÀ LẠT\nSimilar to\nNgày Mưa Ấy")
                         }
                         .padding(.horizontal)
                     }
