@@ -134,7 +134,7 @@ struct CryptoSectionView: View {
     CryptoSectionView()
 }
 
-// MARK: - Stocks & ETFs Section View (MODIFIED)
+// MARK: - Stocks & ETFs Section View
 
 struct StocksSectionView: View {
     // Placeholder data - IMPORTANT: Add company names for the detail view title
@@ -173,7 +173,9 @@ struct StocksSectionView: View {
         }
     }
 }
-
+#Preview("StocksSectionView") {
+    StocksSectionView()
+}
 //// Placeholder data structure for Stocks (MODIFIED)
 //struct StockInfo: Identifiable {
 //    let id = UUID()
@@ -185,117 +187,10 @@ struct StocksSectionView: View {
 //}
 //
 //
-// MARK: - Stock Row View 
+// MARK: - Stock Row View
 
-//// MARK: - NEW: Stock Detail View
-//
-//struct StockDetailView: View {
-//    // Receive the basic info to identify the stock
-//    let stockInfo: StockInfo
-//
-//    // Mock data specific to the detail view
-//    // In a real app, this would be fetched based on stockInfo.symbol
-//    @State private var detailData = StockDetailData.mockData // Use static mock data
-//
-//    // State for the selected time range picker
-//    @State private var selectedTimeRange: TimeRange = .oneDay
-//
-//    enum TimeRange: String, CaseIterable, Identifiable {
-//        case oneDay = "1D"
-//        case oneWeek = "1W"
-//        case oneMonth = "1M"
-//        case threeMonths = "3M"
-//        case oneYear = "1Y"
-//        case all = "All"
-//        var id: String { self.rawValue }
-//    }
-//
-//    var body: some View {
-//        ScrollView {
-//            VStack(alignment: .leading, spacing: 25) { // Increased spacing
-//                // 1. Header Info
-//                StockDetailHeader(stockInfo: stockInfo, detailData: detailData)
-//
-//                // 2. Chart View
-//                VStack {
-//                    DetailedStockChartPlaceholder(color: detailData.dayChange >= 0 ? .green : .red)
-//                         .frame(height: 200) // Give chart more height
-//                    
-//                    Picker("Time Range", selection: $selectedTimeRange) {
-//                        ForEach(TimeRange.allCases) { range in
-//                            Text(range.rawValue).tag(range)
-//                        }
-//                    }
-//                    .pickerStyle(.segmented)
-//                    // TODO: Update chart based on selectedTimeRange
-//                }
-//
-//                Divider()
-//
-//                // 3. Your Position Section
-//                YourPositionView(positionData: detailData.userPosition)
-//
-//                Divider()
-//
-//                // 4. Stats Section
-//                StatsView(statsData: detailData.stats)
-//
-//                Divider()
-//                
-//                // 5. Action Buttons
-//                ActionButtonsView()
-//
-//                Divider()
-//
-//                // 6. About Section
-//                AboutSectionView(aboutText: detailData.about)
-//
-//            }
-//            .padding() // Add padding around the entire content
-//        }
-//        // Set the navigation bar title using the company name
-//        .navigationTitle(stockInfo.companyName)
-//        // Display mode inline is common for detail views
-//        .navigationBarTitleDisplayMode(.inline)
-//    }
-//}
-//
-//// MARK: - Stock Detail Subviews
-//
-//struct StockDetailHeader: View {
-//    let stockInfo: StockInfo
-//    let detailData: StockDetailData
-//    
-//    var priceChangeColor: Color {
-//        detailData.dayChange >= 0 ? .green : .red
-//    }
-//     var priceChangePrefix: String {
-//        detailData.dayChange >= 0 ? "+" : ""
-//    }
-//
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 4) {
-//              Text(stockInfo.companyName) // Or use detailData.companyName if available
-//                .font(.caption)
-//                .foregroundStyle(.secondary)
-//              Text(String(format: "$%.2f", detailData.currentPrice))
-//                .font(.largeTitle)
-//                .fontWeight(.semibold)
-//        
-//            HStack(spacing: 8) {
-//                  Text(String(format: "%@$%.2f", priceChangePrefix, abs(detailData.dayChange)))
-//                  Text(String(format: "(%@%.2f%%)", priceChangePrefix, abs(detailData.dayChangePercent)))
-//            }
-//             .font(.headline)
-//            .foregroundColor(priceChangeColor)
-//            
-//            Text("Today") // Context for the change
-//                .font(.caption)
-//                .foregroundStyle(.secondary)
-//        }
-//    }
-//}
-//
+// MARK: - NEW: Stock Detail View
+
 //
 //struct DetailedStockChartPlaceholder: View {
 //    let color: Color
