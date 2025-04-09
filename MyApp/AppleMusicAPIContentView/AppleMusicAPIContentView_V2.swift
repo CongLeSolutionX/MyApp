@@ -1107,76 +1107,114 @@ struct UnauthorizedView: View {
 }
 
 struct ConnectButton: View {
-    @ObservedObject var authManager: AppleMusicAuthManager
-    
+     @ObservedObject var authManager: AppleMusicAuthManager
+
     var body: some View {
-        Button {
-            authManager.performFullSetup() // Trigger the setup flow
-        } label: {
-            Text("Connect Apple Music")
-                .fontWeight(.semibold)
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity)
-                .background(Color.accentColor) // Use theme color
-                .foregroundColor(.white)
-                .cornerRadius(8)
-        }
-        .disabled(authManager.isLoadingSetup) // Disable while setup is running
+         Button {
+             print("Connect Button Tapped - Initiating Setup")
+             authManager.performFullSetup() // Trigger the setup flow
+         } label: {
+              HStack {
+                   Spacer()
+                   // Show progress view INSIDE button when loading
+                   if authManager.isLoadingSetup {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white)) // White spinner
+                            .padding(.trailing, 5)
+                   }
+                   Text(authManager.isLoadingSetup ? "Connecting..." : "Connect Apple Music")
+                       .fontWeight(.semibold)
+                   Spacer()
+              }
+              .padding(.vertical, 12)
+              .background(Color.accentColor) // Use theme color
+              .foregroundColor(.white)
+              .cornerRadius(10)
+         }
+         .disabled(authManager.isLoadingSetup) // Disable button during setup/auth request
+          .opacity(authManager.isLoadingSetup ? 0.8 : 1.0) // Slightly faded when loading
+         .animation(.easeInOut, value: authManager.isLoadingSetup) // Animate changes
     }
 }
 
 struct SettingsButton: View {
     var body: some View {
-        Button("Open Settings") {
-            // Open the app's settings in the Settings app
-            if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
+        Button {
+            print("Open Settings Button Tapped")
+            // Attempt to open the app's settings page in the Settings app
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                 print("Could not create settings URL")
+                 return
+             }
+
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                 print("Opening settings URL: \(settingsUrl)")
+                 UIApplication.shared.open(settingsUrl, options: [:]) { success in
+                     print("Opened settings URL success: \(success)")
+                 }
+            } else {
+                print("Cannot open settings URL")
+                // Optionally show an alert here informing the user they need to manually navigate
             }
+        } label: {
+            Text("Open Settings")
+                .fontWeight(.medium)
+                .padding(.vertical, 10)
+                 .padding(.horizontal, 20) // Make slightly smaller than primary button
+                 .frame(maxWidth: .infinity)
+                 .background(Color.gray.opacity(0.2)) // Less prominent background
+                 .foregroundColor(.accentColor) // Use theme color for text
+                 .cornerRadius(10)
         }
-        .padding(.top, 5)
     }
 }
 
 
 // MARK: - Helper Views: Authorized Content
 
-struct AuthorizedContentView: View {
-    @ObservedObject var authManager: AppleMusicAuthManager
-    
-    var body: some View {
-        // Use a List or ScrollView depending on content structure
-        List {
-            Section(header: Text("Account Details").font(.caption).foregroundColor(.secondary)) {
-                CapabilitiesView(authManager: authManager)
-            }
-            
-            Section(header: PlaylistHeaderView(authManager: authManager)) { // Pass manager for refresh
-                PlaylistListView(authManager: authManager)
-            }
-            
-            Section(header: HeavyRotationHeaderView(authManager: authManager)) {
-                HeavyRotationListView(authManager: authManager)
-            }
-        }
-        .listStyle(.grouped) // Use grouped style for sections
-        .refreshable { // Pull-to-refresh for primary sections
-            print("Pull to refresh triggered")
-            // Refresh primary data sources
-            // Use async/await if manager functions support it, otherwise handle completion blocks
-            await refreshPrimaryData()
-        }
-    }
-    
-    // Example async refresh function
-    private func refreshPrimaryData() async {
-        // Wrap completion-based functions in async tasks if needed
-        // For simplicity, just call the existing functions
-        authManager.fetchUserLibraryPlaylists()
-        authManager.fetchHeavyRotation()
-        // Add a small delay maybe if needed for visual feedback
-        // try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
-    }
-}
+struct AuthorizedContentView: View { /* ... as before ... */
+     @ObservedObject var authManager: AppleMusicAuthManager
+     // Added refreshable here for clarity
+     var body: some View {
+         List {
+            // ... Sections for Capabilities, Playlists, Heavy Rotation remain the same ...
+             Section(header: Text("Account").textCase(.uppercase).font(.caption2)) {
+                 CapabilitiesView(authManager: authManager)
+             }
+              Section(header: PlaylistHeaderView(authManager: authManager)) {
+                   PlaylistListView(authManager: authManager)
+             }
+              Section(header: HeavyRotationHeaderView(authManager: authManager)) {
+                   HeavyRotationListView(authManager: authManager)
+             }
+         }
+          .listStyle(.grouped)
+          .refreshable { // Integrated pull-to-refresh
+               print("🔄 Pull to refresh triggered")
+               await refreshPrimaryData()
+          }
+          .onAppear {
+               // Fetch data if authorized view appears and data is missing
+               if authManager.userLibraryPlaylists.isEmpty && !authManager.isLoadingPlaylists {
+                  authManager.fetchUserLibraryPlaylists()
+               }
+                if authManager.heavyRotationSongs.isEmpty && !authManager.isLoadingHeavyRotation {
+                   authManager.fetchHeavyRotation()
+                }
+           }
+     }
+
+      // Example async refresh function (can be improved)
+      private func refreshPrimaryData() async {
+          // Fetch primary data sources - consider using TaskGroups for concurrency
+           await withTaskGroup(of: Void.self) { group in
+               group.addTask { await authManager.fetchUserLibraryPlaylists() }
+               group.addTask { await authManager.fetchHeavyRotation() }
+               group.addTask { await authManager.refreshMusicUserToken() } // Refresh token too? Maybe optional.
+              // Wait for all tasks to complete if needed, or let them run independently
+          }
+      }
+ }
 
 struct CapabilitiesView: View {
     @ObservedObject var authManager: AppleMusicAuthManager
