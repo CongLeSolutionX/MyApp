@@ -49,6 +49,7 @@
 		9AA1A5632DA63439000178B3 /* AppleMusicContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5622DA63433000178B3 /* AppleMusicContentView.swift */; };
 		9AA1A5652DA636EC000178B3 /* AppleMusicContentView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5642DA636EA000178B3 /* AppleMusicContentView_V2.swift */; };
 		9AA1A57E2DA68CA3000178B3 /* ComprehensiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A57D2DA68C9C000178B3 /* ComprehensiveView.swift */; };
+		9AA1A5802DA693BD000178B3 /* ComprehensiveView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */; };
 		9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -101,6 +102,7 @@
 		9AA1A5622DA63433000178B3 /* AppleMusicContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicContentView.swift; sourceTree = "<group>"; };
 		9AA1A5642DA636EA000178B3 /* AppleMusicContentView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicContentView_V2.swift; sourceTree = "<group>"; };
 		9AA1A57D2DA68C9C000178B3 /* ComprehensiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView.swift; sourceTree = "<group>"; };
+		9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V2.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */,
 				9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */,
 				9AA1A57D2DA68C9C000178B3 /* ComprehensiveView.swift */,
+				9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
 				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
@@ -405,6 +408,7 @@
 				9AA1A5222DA53789000178B3 /* GoogleAdView_V2.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9AA1A5162DA514E7000178B3 /* PlaylistInteractionView.swift in Sources */,
+				9AA1A5802DA693BD000178B3 /* ComprehensiveView_V2.swift in Sources */,
 				9AA1A53A2DA59872000178B3 /* AdvertisementView_V2.swift in Sources */,
 				9AA1A5632DA63439000178B3 /* AppleMusicContentView.swift in Sources */,
 			);
