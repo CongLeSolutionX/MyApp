@@ -82,29 +82,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9AAC416F2C74668B00AC0A60 = {
+		9A90AB9B2DA6E4D400A5DBFA /* DIRECTION_1 */ = {
 			isa = PBXGroup;
 			children = (
-				9AAC417A2C74668B00AC0A60 /* MyApp */,
-				9AAC41792C74668B00AC0A60 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		9AAC41792C74668B00AC0A60 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9AAC41782C74668B00AC0A60 /* MyApp.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
-			isa = PBXGroup;
-			children = (
-				9A90AB792DA6D14F00A5DBFA /* MyAppRelease.entitlements */,
-				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
-				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
-				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AA1A5912DA6C10E000178B3 /* RobinhoodGoldCardView.swift */,
 				9AA1A5932DA6C23C000178B3 /* RobinhoodGoldCardView_V2.swift */,
 				9AA1A5952DA6C321000178B3 /* ApplicationFormView.swift */,
@@ -128,6 +108,34 @@
 				9A90AB8E2DA6DDA400A5DBFA /* SyncAndBackupSettingsView.swift */,
 				9A90AB942DA6E27000A5DBFA /* HelpAndSupportView.swift */,
 				9A90AB962DA6E36A00A5DBFA /* AccountManagementView.swift */,
+			);
+			path = DIRECTION_1;
+			sourceTree = "<group>";
+		};
+		9AAC416F2C74668B00AC0A60 = {
+			isa = PBXGroup;
+			children = (
+				9AAC417A2C74668B00AC0A60 /* MyApp */,
+				9AAC41792C74668B00AC0A60 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9AAC41792C74668B00AC0A60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9AAC41782C74668B00AC0A60 /* MyApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
+			isa = PBXGroup;
+			children = (
+				9A90AB792DA6D14F00A5DBFA /* MyAppRelease.entitlements */,
+				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A90AB9B2DA6E4D400A5DBFA /* DIRECTION_1 */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
