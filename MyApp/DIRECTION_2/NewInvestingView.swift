@@ -110,7 +110,7 @@ struct TopBarView: View {
 //        }
 //    }
 //}
-//
+
 // MARK: - Crypto Section View (Unchanged) - Add Back if needed
 struct CryptoSectionView: View {
      var body: some View {
