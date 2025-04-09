@@ -36,6 +36,7 @@
 		9A90ABAC2DA6F35B00A5DBFA /* InterestRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90ABAB2DA6F35A00A5DBFA /* InterestRowView.swift */; };
 		9A90ABB32DA6F94500A5DBFA /* IRAMatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90ABB22DA6F94300A5DBFA /* IRAMatchView.swift */; };
 		9A90ABB52DA6F9FA00A5DBFA /* IRASetupChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90ABB42DA6F9F000A5DBFA /* IRASetupChoiceView.swift */; };
+		9A90ABB72DA6FAA400A5DBFA /* IRAAccountTypeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90ABB62DA6FAA200A5DBFA /* IRAAccountTypeSelectionView.swift */; };
 		9AA1A5922DA6C117000178B3 /* RobinhoodGoldCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5912DA6C10E000178B3 /* RobinhoodGoldCardView.swift */; };
 		9AA1A5942DA6C23F000178B3 /* RobinhoodGoldCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5932DA6C23C000178B3 /* RobinhoodGoldCardView_V2.swift */; };
 		9AA1A5962DA6C32D000178B3 /* ApplicationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5952DA6C321000178B3 /* ApplicationFormView.swift */; };
@@ -78,6 +79,7 @@
 		9A90ABAB2DA6F35A00A5DBFA /* InterestRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestRowView.swift; sourceTree = "<group>"; };
 		9A90ABB22DA6F94300A5DBFA /* IRAMatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRAMatchView.swift; sourceTree = "<group>"; };
 		9A90ABB42DA6F9F000A5DBFA /* IRASetupChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRASetupChoiceView.swift; sourceTree = "<group>"; };
+		9A90ABB62DA6FAA200A5DBFA /* IRAAccountTypeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRAAccountTypeSelectionView.swift; sourceTree = "<group>"; };
 		9AA1A5912DA6C10E000178B3 /* RobinhoodGoldCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobinhoodGoldCardView.swift; sourceTree = "<group>"; };
 		9AA1A5932DA6C23C000178B3 /* RobinhoodGoldCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobinhoodGoldCardView_V2.swift; sourceTree = "<group>"; };
 		9AA1A5952DA6C321000178B3 /* ApplicationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationFormView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		9A90ABB12DA6F93600A5DBFA /* DIRECTION_3 */ = {
 			isa = PBXGroup;
 			children = (
+				9A90ABB62DA6FAA200A5DBFA /* IRAAccountTypeSelectionView.swift */,
 				9A90ABB22DA6F94300A5DBFA /* IRAMatchView.swift */,
 				9A90ABB42DA6F9F000A5DBFA /* IRASetupChoiceView.swift */,
 			);
@@ -274,6 +277,7 @@
 				9A90ABB52DA6F9FA00A5DBFA /* IRASetupChoiceView.swift in Sources */,
 				9A90ABB32DA6F94500A5DBFA /* IRAMatchView.swift in Sources */,
 				9A90AB812DA6D5F100A5DBFA /* EditProfileView.swift in Sources */,
+				9A90ABB72DA6FAA400A5DBFA /* IRAAccountTypeSelectionView.swift in Sources */,
 				9A90AB8F2DA6DDA500A5DBFA /* SyncAndBackupSettingsView.swift in Sources */,
 				9A90AB8D2DA6DC1200A5DBFA /* AboutLegalSettingsView.swift in Sources */,
 				9A90ABA62DA6EA9100A5DBFA /* CryptoRowView.swift in Sources */,
