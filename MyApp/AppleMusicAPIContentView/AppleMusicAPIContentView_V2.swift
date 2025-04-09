@@ -272,48 +272,58 @@ class AppleMusicAuthManager: ObservableObject {
         )
     }
     
-    // MARK: - Setup Flow (Refined Error Handling)
-    func performFullSetup() {
-        guard !isLoadingSetup else { print("Setup already in progress."); return }
-        print("Starting full Apple Music setup...")
-        DispatchQueue.main.async { // Ensure UI updates start on main thread
-            self.isLoadingSetup = true
-            self.setupError = nil // Clear previous setup error
-            self.showErrorAlert = (false, "") // Reset alert state
-        }
-        
-        // If using mock data, simulate success immediately
-        if useMockData {
-            print("Using mock data - Simulating successful setup.")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Simulate network delay
-                self.authorizationStatus = .authorized
-                self.isAuthorized = true
-                self.canPlayCatalog = true
-                self.hasAppleMusicSubscription = true
-                self.userStorefront = "us" // Mock storefront
-                self.musicUserToken = "mock_user_token" // Mock token
-                self.isLoadingSetup = false
-                print("Mock setup complete.")
-            }
-            return
-        }
-        
-        // Actual setup flow
-        let currentStatus = SKCloudServiceController.authorizationStatus()
-        updateAuthorizationState(status: currentStatus)
-        
-        if currentStatus == .authorized {
-            print("Already authorized. Proceeding with capability checks...")
-            checkCapabilitiesAndStorefront()
-        } else if currentStatus == .notDetermined {
-            print("Authorization not determined. Requesting access...")
-            requestAuthorization()
-        } else {
-            print("Authorization denied or restricted (\(currentStatus)). Setup cannot complete.")
-            let error: AppleMusicError = (currentStatus == .denied) ? .authorizationDenied : .authorizationRestricted
-            finishSetup(success: false, error: error)
-        }
-    }
+    // MARK: - Setup Flow (Entry Point)
+        func performFullSetup() {
+             guard !isLoadingSetup else { print("Setup already in progress."); return }
+             print("🚀 Starting full Apple Music setup...")
+             DispatchQueue.main.async {
+                self.isLoadingSetup = true
+                self.setupError = nil
+                self.showErrorAlert = (false, "")
+             }
+
+             // Explicitly handle mock data scenario for setup
+             if useMockData {
+                 print(" MOCK MODE: Simulating successful setup.")
+                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Simulate delay
+                     self.authorizationStatus = .authorized
+                     self.isAuthorized = true
+                     self.canPlayCatalog = true
+                     self.hasAppleMusicSubscription = true
+                     self.userStorefront = "mock_us"
+                     self.musicUserToken = "mock_user_token_123"
+                     self.isLoadingSetup = false
+                     print(" MOCK MODE: Setup complete.")
+                     // Fetch mock data only after simulated setup success
+                     self.fetchUserLibraryPlaylists()
+                     self.fetchHeavyRotation()
+                 }
+                 return
+             }
+
+             // Actual LIVE setup flow
+             let currentStatus = SKCloudServiceController.authorizationStatus()
+            print(" Current Auth Status during setup: \(currentStatus.rawValue)")
+             updateAuthorizationState(status: currentStatus) // Update publishers
+
+             switch currentStatus {
+             case .authorized:
+                 print("-> Already authorized. Proceeding with capability & token checks...")
+                 checkCapabilitiesAndStorefront() // Already authorized, fetch details
+             case .notDetermined:
+                 print("-> Authorization not determined. Requesting access...")
+                 requestAuthorization() // Needs user permission
+             case .denied:
+                 print("-> Access denied by user previously.")
+                 finishSetup(success: false, error: AppleMusicError.authorizationDenied)
+             case .restricted:
+                 print("-> Access restricted (e.g., parental controls).")
+                 finishSetup(success: false, error: AppleMusicError.authorizationRestricted)
+             @unknown default:
+                 print("-> Unknown authorization status encountered.")
+                 finishSetup(success: false, error: AppleMusicError.unknown())
+             }
+         }
     
     // MARK: - Core Authorization & Checks (Error Handling Focused)
     
