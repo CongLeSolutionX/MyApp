@@ -15,4 +15,5 @@ extension Color {
     static let sliderTrack = Color.gray.opacity(0.6)
     static let sliderThumb = Color.white
     static let favoriteColor = Color.pink // Color for favorited items
+    static let playerGrayDark = Color(red: 38/255, green: 38/255, blue: 38/255)
 }
