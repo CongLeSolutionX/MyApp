@@ -96,8 +96,8 @@ struct SettingsScreenView: View {
                     Text("Light").tag("light")
                     Text("Dark").tag("dark")
                 }
-                .onChange(of: preferredColorScheme) { newValue in
-                    print("[Settings] Theme changed to: \(newValue)")
+                .onChange(of: preferredColorScheme) {
+                    print("[Settings] Theme changed to: \(preferredColorScheme)")
                     // In a real app, update a theme manager or environment object.
                 }
                 Text("Text size respects the system Dynamic Type setting.")
@@ -390,9 +390,9 @@ struct GoogleAIModeIntroView: View {
             )
         }
         .frame(height: 100)
-        .onChange(of: isListening) { _ in updateInteractionMessage() }
-        .onChange(of: micPermissionStatus) { _ in updateInteractionMessage() }
-        .onChange(of: speechPermissionStatus) { _ in updateInteractionMessage() }
+        .onChange(of: isListening) { updateInteractionMessage() }
+        .onChange(of: micPermissionStatus) { updateInteractionMessage() }
+        .onChange(of: speechPermissionStatus) { updateInteractionMessage() }
         .onAppear { updateInteractionMessage() }
     }
     
@@ -425,8 +425,8 @@ struct GoogleAIModeIntroView: View {
                 Toggle("", isOn: $isExperimentOn.animation())
                     .labelsHidden()
                     .tint(buttonBlue)
-                    .onChange(of: isExperimentOn) { newValue in
-                        print("[Main] isExperimentOn toggled: \(newValue)")
+                    .onChange(of: isExperimentOn) {
+                        print("[Main] isExperimentOn toggled: \(isExperimentOn)")
                     }
             }
             .padding()
@@ -704,7 +704,7 @@ struct GoogleAIModeIntroView: View {
 
 // MARK: - Helper Extensions
 
-extension SFSpeechRecognizerAuthorizationStatus: CustomStringConvertible {
+extension SFSpeechRecognizerAuthorizationStatus: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .notDetermined: return "Not Determined"
@@ -716,7 +716,7 @@ extension SFSpeechRecognizerAuthorizationStatus: CustomStringConvertible {
     }
 }
 
-extension SFSpeechRecognitionTaskState: CustomStringConvertible {
+extension SFSpeechRecognitionTaskState: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .starting: return "Starting"
@@ -729,7 +729,7 @@ extension SFSpeechRecognitionTaskState: CustomStringConvertible {
     }
 }
 
-extension AVAudioApplication.recordPermission: CustomStringConvertible {
+extension AVAudioApplication.recordPermission: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .undetermined: return "Undetermined"
