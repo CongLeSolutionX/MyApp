@@ -46,7 +46,7 @@ extension URL: @retroactive Identifiable {
 
 // MARK: - XML Parser Delegate
 
-class RSSParserDelegate: NSObject, XMLParserDelegate {
+class RSSParserDelegate: NSObject, XMLParserDelegate, @unchecked Sendable {
     private var feedItems: [FeedItem] = []
     private var currentElement = ""
     private var currentValue: String = "" // Accumulator for element text content
