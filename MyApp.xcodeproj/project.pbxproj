@@ -14,7 +14,8 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9ACC62972DA777A400BBCA1A /* WhereIsMyStatusView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62962DA7779700BBCA1A /* WhereIsMyStatusView_V2.swift */; };
-		9ACC62992DA7879400BBCA1A /* USCIS_RSSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62982DA7878E00BBCA1A /* USCIS_RSSView.swift */; };
+		9ACC62992DA7879400BBCA1A /* USCIS_RSSView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC62982DA7878E00BBCA1A /* USCIS_RSSView_V1.swift */; };
+		9ACC629D2DA7892400BBCA1A /* USCIS_RSSView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC629C2DA7892300BBCA1A /* USCIS_RSSView_V2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9ACC62962DA7779700BBCA1A /* WhereIsMyStatusView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereIsMyStatusView_V2.swift; sourceTree = "<group>"; };
-		9ACC62982DA7878E00BBCA1A /* USCIS_RSSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USCIS_RSSView.swift; sourceTree = "<group>"; };
+		9ACC62982DA7878E00BBCA1A /* USCIS_RSSView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USCIS_RSSView_V1.swift; sourceTree = "<group>"; };
+		9ACC629C2DA7892300BBCA1A /* USCIS_RSSView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USCIS_RSSView_V2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +67,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A623A272D59840600D98FDE /* WhereIsMyStatusView_V1.swift */,
 				9ACC62962DA7779700BBCA1A /* WhereIsMyStatusView_V2.swift */,
-				9ACC62982DA7878E00BBCA1A /* USCIS_RSSView.swift */,
+				9ACC629A2DA788F500BBCA1A /* USCIS_RSSView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -79,6 +81,15 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9ACC629A2DA788F500BBCA1A /* USCIS_RSSView */ = {
+			isa = PBXGroup;
+			children = (
+				9ACC629C2DA7892300BBCA1A /* USCIS_RSSView_V2.swift */,
+				9ACC62982DA7878E00BBCA1A /* USCIS_RSSView_V1.swift */,
+			);
+			path = USCIS_RSSView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,9 +163,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9ACC629D2DA7892400BBCA1A /* USCIS_RSSView_V2.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9ACC62972DA777A400BBCA1A /* WhereIsMyStatusView_V2.swift in Sources */,
-				9ACC62992DA7879400BBCA1A /* USCIS_RSSView.swift in Sources */,
+				9ACC62992DA7879400BBCA1A /* USCIS_RSSView_V1.swift in Sources */,
 				9A623A282D59840600D98FDE /* WhereIsMyStatusView_V1.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
