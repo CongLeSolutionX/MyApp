@@ -139,53 +139,59 @@ class RSSParserDelegate: NSObject, XMLParserDelegate {
 
 // MARK: - View Model
 
+// Add @MainActor to ensure UI updates happen on the main thread
+@MainActor
 class FeedViewModel: ObservableObject {
+    // @Published properties automatically update the UI from the main thread
     @Published var items: [FeedItem] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
 
-    private var cancellables = Set<AnyCancellable>()
+    // Remove cancellables, as we are not using Combine publishers here
+    // private var cancellables = Set<AnyCancellable>()
 
-    let feedURL = URL(string: "https://developer.uscis.gov/rss.xml")! // Handle potential nil URL gracefully in production
+    let feedURL = URL(string: "https://developer.uscis.gov/rss.xml")!
 
-    func fetchFeed() {
+    // --- Make fetchFeed async ---
+    func fetchFeed() async {
         // Avoid multiple simultaneous fetches
         guard !isLoading else { return }
 
-        isLoading = true
-        errorMessage = nil
-        // Optionally clear items immediately or wait for success
-        // items = []
+        // Updates are already on MainActor
+        self.isLoading = true
+        self.errorMessage = nil
+        // Optionally clear items immediately
+        // self.items = []
 
-        URLSession.shared.dataTaskPublisher(for: feedURL)
-            .map(\.data) // Extract data
-            .tryMap { [weak self] data -> [FeedItem] in
-                // Use a separate method that returns a Publisher or uses async/await for cleaner parsing setup
-                 try await self?.parseRSSDataAsync(data) ?? [] // Example using async/await helper
+        do {
+            // 1. Fetch data using async URLSession
+            let (data, response) = try await URLSession.shared.data(from: feedURL)
+
+            // Optional: Check HTTP response status code
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                throw URLError(.badServerResponse) // Or a custom error
             }
-            .receive(on: DispatchQueue.main) // Switch to main thread for UI updates
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                switch completion {
-                case .finished:
-                    print("Feed fetched and parsed successfully. Items: \(self?.items.count ?? 0)")
-                case .failure(let error):
-                    print("Error fetching or parsing feed: \(error)")
-                    // Provide a more user-friendly error message
-                    self?.errorMessage = "Failed to load feed. Please check your connection and try again."
-                    // Optionally keep stale data: if self?.items.isEmpty == true { self?.items = [] }
-                    self?.items = [] // Clear items on failure
-                }
-            }, receiveValue: { [weak self] fetchedItems in
-                // Sort items by date, newest first (optional but good UX)
-                self?.items = fetchedItems.sorted {
-                    ($0.publishDate ?? .distantPast) > ($1.publishDate ?? .distantPast)
-                }
-            })
-            .store(in: &cancellables) // Store the subscription
+
+            // 2. Parse data asynchronously
+            let fetchedItems = try await parseRSSDataAsync(data)
+
+            // 3. Update state (already on MainActor)
+            self.items = fetchedItems.sorted {
+                ($0.publishDate ?? .distantPast) > ($1.publishDate ?? .distantPast)
+            }
+            self.isLoading = false
+            print("Feed fetched and parsed successfully. Items: \(self.items.count)")
+
+        } catch {
+            // 4. Handle errors (already on MainActor)
+            print("Error fetching or parsing feed: \(error)")
+            self.errorMessage = "Failed to load feed. Please check your connection and try again. (\(error.localizedDescription))"
+            self.items = [] // Clear items on error
+            self.isLoading = false
+        }
     }
 
-    // Helper function using async/await for parsing (requires Swift 5.5+)
+    // Helper function using async/await for parsing (Unchanged)
     private func parseRSSDataAsync(_ data: Data) async throws -> [FeedItem] {
         return try await withCheckedThrowingContinuation { continuation in
             let parserDelegate = RSSParserDelegate()
@@ -196,40 +202,13 @@ class FeedViewModel: ObservableObject {
                     continuation.resume(returning: items)
                 }
             }
-
             // Run parsing on a background thread
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .userInitiated).async { // Use userInitiated for responsiveness
                 parserDelegate.parse(data: data)
             }
         }
     }
-
-    // Original semaphore-based helper (kept for reference if not using async/await)
-    /*
-    private func parseRSSData(_ data: Data) throws -> [FeedItem] {
-        let parserDelegate = RSSParserDelegate()
-        var parsedItems: [FeedItem] = []
-        var parseError: Error?
-        let semaphore = DispatchSemaphore(value: 0)
-
-        parserDelegate.completionHandler = { items, error in
-            parsedItems = items
-            parseError = error
-            semaphore.signal()
-        }
-
-        DispatchQueue.global(qos: .background).async {
-            parserDelegate.parse(data: data)
-        }
-
-        _ = semaphore.wait(timeout: .now() + 30)
-
-        if let error = parseError { throw error }
-        return parsedItems
-    }
-    */
 }
-
 // MARK: - SwiftUI Views
 
 // Represents a single row in the feed list
@@ -260,24 +239,29 @@ struct FeedItemRow: View {
     }
 }
 
-// Displays the list of feed items
+// FeedListView (MODIFIED .onAppear and .refreshable)
 struct FeedListView: View {
     @ObservedObject var viewModel: FeedViewModel
 
     var body: some View {
         List {
+             // ... (loading/error/empty/ForEach logic unchanged) ...
              if viewModel.isLoading && viewModel.items.isEmpty {
                  ProgressView("Loading Feed...")
                      .frame(maxWidth: .infinity, alignment: .center)
              } else if let errorMessage = viewModel.errorMessage {
                   VStack(alignment: .center, spacing: 10) {
                       Image(systemName: "exclamationmark.triangle.fill")
-                          .resizable()
-                          .scaledToFit().frame(width: 50, height: 50).foregroundColor(.orange)
+                          .resizable().scaledToFit().frame(width: 50, height: 50).foregroundColor(.orange)
                       Text("Error Loading Feed").font(.headline)
                       Text(errorMessage).font(.callout).foregroundColor(.secondary).multilineTextAlignment(.center)
-                      Button("Retry") { viewModel.fetchFeed() }
-                          .buttonStyle(.borderedProminent).padding(.top)
+                      Button("Retry") {
+                           // --- Call async func within a Task ---
+                           Task {
+                               await viewModel.fetchFeed()
+                           }
+                       }
+                       .buttonStyle(.borderedProminent).padding(.top)
                   }
                   .frame(maxWidth: .infinity).padding()
              } else if viewModel.items.isEmpty && !viewModel.isLoading {
@@ -294,20 +278,28 @@ struct FeedListView: View {
         .navigationTitle("USCIS Dev Portal")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                 Button { viewModel.fetchFeed() } label: {
-                     Label("Refresh", systemImage: "arrow.clockwise") // Added Label for accessibility
+                 Button {
+                      // --- Call async func within a Task ---
+                      Task {
+                          await viewModel.fetchFeed()
+                      }
+                  } label: {
+                     Label("Refresh", systemImage: "arrow.clockwise")
                  }
                  .disabled(viewModel.isLoading)
             }
         }
-        .onAppear {
-            // Fetch only if items are empty AND not currently loading
-            if viewModel.items.isEmpty && !viewModel.isLoading {
-                 viewModel.fetchFeed()
+        // --- Use .task modifier for onAppear async work ---
+        .task {
+            // Fetch only if items are empty
+            // .task automatically handles cancellation
+            if viewModel.items.isEmpty {
+                 await viewModel.fetchFeed()
             }
         }
-         .refreshable { // Standard pull-to-refresh
-             viewModel.fetchFeed()
+         // --- refreshable now directly calls the async func ---
+         .refreshable {
+             await viewModel.fetchFeed()
          }
     }
 }
@@ -341,16 +333,14 @@ struct FeedDetailView: View {
 
                 Divider()
 
-                // Optional: Raw Description (Uncomment for Debugging)
-                /*
-                 Group {
-                     Text("Raw Description (Debug):")
-                         .font(.caption).foregroundColor(.gray)
-                     Text(item.description)
-                          .font(.footnote).foregroundColor(.secondary)
-                          .padding(.bottom).lineLimit(10)
-                 }
-                 */
+                // Optional: Raw Description for Debugging
+                Group {
+                    Text("Raw Description (Debug):")
+                        .font(.caption).foregroundColor(.gray)
+                    Text(item.description)
+                         .font(.footnote).foregroundColor(.secondary)
+                         .padding(.bottom).lineLimit(10)
+                }
 
                 // WebView for embedded content
                  if !item.description.isEmpty {
