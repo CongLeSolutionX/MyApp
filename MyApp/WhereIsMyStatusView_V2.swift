@@ -12,8 +12,8 @@ import Combine // Needed for ObservableObject
 enum Constants {
     // WARNING: Storing client secrets directly in code is insecure for production apps.
     // Consider using a secure backend, environment variables, or a configuration file.
-    static let clientID = "YOUR_CLIENT_ID"
-    static let clientSecret = "YOUR_CLIENT_SECRET"
+    static let clientID = "BxRC0Livd2SCznHuMnqCDLjeueoJ0iHv"
+    static let clientSecret = "0WaKOj15lKZEGIGZ"
     static let authURL = "https://api-int.uscis.gov/oauth/accesstoken"
     static let baseURL = "https://api-int.uscis.gov/case-status"
 
