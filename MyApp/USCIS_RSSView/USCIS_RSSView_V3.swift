@@ -485,14 +485,14 @@ struct USCIS_RSSView_V3: View {
 
 // MARK: - App Entry Point
 
-@main
-struct USCISFeedApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+//@main
+//struct USCISFeedApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}
 
 // --- SwiftUI Previews ---
 
