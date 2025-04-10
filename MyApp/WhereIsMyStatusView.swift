@@ -793,7 +793,7 @@ struct CaseStatusCheckerView: View {
 }
 
 // MARK: - Root View (ContentView)
-struct WhereIsMyStatusContentView: View {
+struct WhereIsMyStatusContentView_V2: View {
     // Create separate ViewModel instances for each tab's state
     @StateObject private var liveViewModel = CaseStatusViewModel()
     @StateObject private var mockViewModel = CaseStatusViewModel()
@@ -823,7 +823,7 @@ struct WhereIsMyStatusContentView: View {
 }
 
 #Preview("Where Is My Status Content View") {
-    WhereIsMyStatusContentView()
+    WhereIsMyStatusContentView_V2()
 }
 //
 //// MARK: - Preview Provider
