@@ -40,7 +40,7 @@ struct MainContentView: View {
 
     // Mock data for the place - can be loaded from a ViewModel in a real app
     let mockPlace = PlaceInfo(
-        imageName: "dd-cafe-profile",
+        imageName: "My-meme-original",
         name: "DD Cafe",
         type: "Coffee Shop",
         status: "Closed",
@@ -48,7 +48,7 @@ struct MainContentView: View {
         location: "Garden Grove, CA",
         initialLikeCount: 17,
         driveTime: "9 min",
-        galleryImageNames: ["gallery1", "gallery2", "gallery3", "gallery4"]
+        galleryImageNames: ["My-meme-orange_2", "My-meme-heineken", "My-meme-red-wine-glass", "My-meme-original"]
     )
 
     // State to control sheet presentation
@@ -99,16 +99,15 @@ struct MainContentView: View {
             // Pass a binding to control presentation from within the sheet
             PlaceDetailSheetView(place: place, isPresented: $presentingPlace)
              // Optional: Customize sheet presentation detents (iOS 15+)
-             // .presentationDetents([.medium, .large])
+              .presentationDetents([.medium, .large])
         }
-        // Optional: Customize Tab Bar appearance if needed
-        // .onAppear {
-        //     let appearance = UITabBarAppearance()
-        //     appearance.configureWithOpaqueBackground()
-        //     appearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9) // Example material-like effect
-        //     UITabBar.appearance().standardAppearance = appearance
-        //     UITabBar.appearance().scrollEdgeAppearance = appearance
-        // }
+         .onAppear {// Optional: Customize Tab Bar appearance if needed
+             let appearance = UITabBarAppearance()
+             appearance.configureWithOpaqueBackground()
+             appearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9) // Example material-like effect
+             UITabBar.appearance().standardAppearance = appearance
+             UITabBar.appearance().scrollEdgeAppearance = appearance
+         }
     }
 }
 
