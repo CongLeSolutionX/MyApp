@@ -127,7 +127,8 @@ struct MapTabView: View {
             // Map Placeholder remains visual background
             MapViewPlaceholder()
                 .ignoresSafeArea()
-
+//            RealMapView()
+//                .ignoresSafeArea()
             // Example Button on the map to trigger the detail sheet
             VStack {
                 Spacer() // Push button down

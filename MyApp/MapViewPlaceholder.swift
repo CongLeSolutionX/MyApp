@@ -126,12 +126,12 @@ struct MapViewPlaceholder: View {
                 }
 
                 // Optionally keep the text overlay or remove it
-                // Text("Interactive Map Area Placeholder")
-                //    .foregroundColor(.white)
-                //    .padding(5)
-                //    .background(.black.opacity(0.5))
-                //    .cornerRadius(5)
-                //    .position(x: geometry.size.width / 2, y: geometry.size.height / 2) // Center text
+                 Text("Interactive Map Area Placeholder")
+                    .foregroundColor(.white)
+                    .padding(5)
+                    .background(.black.opacity(0.5))
+                    .cornerRadius(5)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2) // Center text
             }
         }
         .ignoresSafeArea() // Ensure it goes edge-to-edge
