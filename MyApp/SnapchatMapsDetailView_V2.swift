@@ -166,19 +166,19 @@ struct PlaceholderTabView: View {
     }
 }
 
-// Map View Placeholder (remains simple)
-struct MapViewPlaceholder: View {
-    var body: some View {
-        Color.gray.opacity(0.3)
-            .overlay(
-                Text("Interactive Map Area Placeholder")
-                    .foregroundColor(.white)
-                    .padding(5)
-                    .background(.black.opacity(0.5))
-                    .cornerRadius(5)
-            )
-    }
-}
+//// Map View Placeholder (remains simple)
+//struct MapViewPlaceholder: View {
+//    var body: some View {
+//        Color.gray.opacity(0.3)
+//            .overlay(
+//                Text("Interactive Map Area Placeholder")
+//                    .foregroundColor(.white)
+//                    .padding(5)
+//                    .background(.black.opacity(0.5))
+//                    .cornerRadius(5)
+//            )
+//    }
+//}
 
 // MARK: - Place Detail Sheet (Enhanced with State & Actions)
 
