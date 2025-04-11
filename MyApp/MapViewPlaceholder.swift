@@ -6,7 +6,7 @@
 ////
 //
 //// MapMockData.swift
-//import SwiftUI
+import SwiftUI
 //import Foundation
 //import CoreGraphics // Needed for CGPoint
 //
@@ -167,34 +167,34 @@
 //    }
 //}
 //
-//struct FriendAvatarView: View {
-//    let friend: MockFriendLocation
-//
-//    var body: some View {
-//        VStack(spacing: 2) {
-//            Image(friend.avatarAssetName) // Assumes you have these assets
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 45, height: 45)
-//                .clipShape(Circle())
-//                // Add a subtle ring like Snapchat often does
-//                .overlay(Circle().stroke(Color.blue.opacity(0.6), lineWidth: 2.5))
-//                .overlay(Circle().stroke(Color.white, lineWidth: 1)) // Inner white border
-//
-//            Text(friend.name)
-//                .font(.caption)
-//                .fontWeight(.medium)
-//                 .padding(.horizontal, 6)
-//                 .padding(.vertical, 2)
-//                 .background(.ultraThinMaterial) // Use material for background
-//                 .clipShape(Capsule())
-//                 .foregroundColor(.primary) // Ensure text is readable
-//        }
-//        .accessibilityElement(children: .combine)
-//        .accessibilityLabel("Friend location: \(friend.name)")
-//    }
-//}
-//
+struct FriendAvatarView: View {
+    let friend: MockFriendLocation
+
+    var body: some View {
+        VStack(spacing: 2) {
+            Image(friend.avatarAssetName) // Assumes you have these assets
+                .resizable()
+                .scaledToFill()
+                .frame(width: 45, height: 45)
+                .clipShape(Circle())
+                // Add a subtle ring like Snapchat often does
+                .overlay(Circle().stroke(Color.blue.opacity(0.6), lineWidth: 2.5))
+                .overlay(Circle().stroke(Color.white, lineWidth: 1)) // Inner white border
+
+            Text(friend.name)
+                .font(.caption)
+                .fontWeight(.medium)
+                 .padding(.horizontal, 6)
+                 .padding(.vertical, 2)
+                 .background(.ultraThinMaterial) // Use material for background
+                 .clipShape(Capsule())
+                 .foregroundColor(.primary) // Ensure text is readable
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Friend location: \(friend.name)")
+    }
+}
+
 //// MARK: - Preview (Optional, for isolating MapViewPlaceholder)
 //
 //struct MapViewPlaceholder_Previews: PreviewProvider {
