@@ -1,5 +1,5 @@
 //
-//  Caching_Journey_Content.swift
+//  Caching_Journey_Content_V2.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/11/25.
@@ -579,7 +579,7 @@ struct CachingStatusView: View {
      }
 }
 
-#Preview("CachingStatusView") {
+#Preview("Caching Status View") {
     CachingStatusView()
 }
 // MARK: - Helper Subviews (Minor adjustments possible, but mostly reusable)
@@ -662,14 +662,24 @@ struct CacheStatusIndicator: View {
              case .miss: return Text("Miss").foregroundColor(.pink)
              case .fetching: return Text("Fetching...").foregroundColor(.purple)
              case .downloading: return Text("Downloading...").foregroundColor(.orange)
-//             case .error(let msg): return Text("Error").foregroundColor(.red).help(msg) // Add help text
          case .error(message: let message):
              // return Text("Error").foregroundColor(.red).help(msg) // Add help text
-             return Text("Error").foregroundColor(.red)
+             // return Text("Error").foregroundColor(.red).help(msg) // Add help text
+             return Text("Error: \(message)").foregroundColor(.red)
          }
      }
 }
+#Preview("Cache Status Indicator") {
+    CacheStatusIndicator(status: .checking)
+    CacheStatusIndicator(status: .downloading(progress: 10.2))
+    CacheStatusIndicator(status: .error(message: "Error mesasge goes here"))
+    CacheStatusIndicator(status: .fetching)
+    CacheStatusIndicator(status: .hit)
+    CacheStatusIndicator(status: .idle)
+    CacheStatusIndicator(status: .miss)
+}
 
+// MARK: - ValidationStatusView
 struct ValidationStatusView: View {
     let status: ValidationStatus
 
@@ -701,7 +711,6 @@ struct ValidationStatusView: View {
             case .current: return Text("Current").foregroundColor(.green)
             case .stale: return Text("Stale").foregroundColor(.orange)
             case .updating: return Text("Updating...").foregroundColor(.purple)
-//
         case .error(message: let message):
             // return Text("Error").foregroundColor(.red).help(msg) // Add help text
             // return Text("\(message)").foregroundColor(.red).help(Text("\(message)")) as! Text // Add help text
@@ -709,7 +718,16 @@ struct ValidationStatusView: View {
         }
     }
 }
+#Preview("Validation Status View") {
+    ValidationStatusView(status: .checking)
+    ValidationStatusView(status: .current)
+    ValidationStatusView(status: .error(message: "Something went wrong!"))
+    ValidationStatusView(status: .stale)
+    ValidationStatusView(status: .updating)
+    ValidationStatusView(status: .unknown)
+}
 
+// MARK: - PrefetchItemView
 struct PrefetchItemView: View {
     let item: PrefetchItem
 
@@ -731,6 +749,10 @@ struct PrefetchItemView: View {
          .contentShape(Rectangle()) // Ensure whole row is tappable if actions added later
     }
 }
+
+#Preview("Prefetch Item View", body: {
+    PrefetchItemView(item: .init(journeyId: "123", description: "Some prefetch item", status: .hit, isEssential: true))
+})
 
 // MARK: - Utility Extension
 
