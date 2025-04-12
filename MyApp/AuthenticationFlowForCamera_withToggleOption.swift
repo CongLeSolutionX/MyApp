@@ -4,7 +4,6 @@
 //
 //  Created by Cong Le on 4/12/25.
 //
-
 import SwiftUI
 import AVFoundation // Import AVFoundation for AVAuthorizationStatus, AVMediaType
 
@@ -12,6 +11,7 @@ import AVFoundation // Import AVFoundation for AVAuthorizationStatus, AVMediaTyp
 /// Defines the interface for managing authorization status checks and requests.
 @MainActor // Ensure conformance requires MainActor for UI updates
 protocol AuthorizationManaging: ObservableObject {
+    // Expose `currentStatus` as a requirement the view can read
     var currentStatus: AVAuthorizationStatus { get }
     var mediaType: AVMediaType { get }
 
@@ -19,11 +19,11 @@ protocol AuthorizationManaging: ObservableObject {
     func requestAccess() async -> Bool // Make request async to align with modern API
 }
 
-
 // MARK: - Real Authorization Manager
 /// Interacts directly with AVCaptureDevice for authorization.
 @MainActor
 class RealAuthorizationManager: AuthorizationManaging {
+    // Use @Published to notify SwiftUI of changes
     @Published private(set) var currentStatus: AVAuthorizationStatus
     let mediaType: AVMediaType
 
@@ -38,7 +38,7 @@ class RealAuthorizationManager: AuthorizationManaging {
     func checkStatus() {
         let newStatus = AVCaptureDevice.authorizationStatus(for: mediaType)
         if newStatus != currentStatus {
-            currentStatus = newStatus
+            currentStatus = newStatus // @Published triggers update
             print("RealAuthManager: Status for \(mediaType.rawValue) updated to: \(currentStatus)")
         } else {
              print("RealAuthManager: Status for \(mediaType.rawValue) remains: \(currentStatus)")
@@ -54,21 +54,19 @@ class RealAuthorizationManager: AuthorizationManaging {
 
         print("RealAuthManager: Requesting real access for \(mediaType.rawValue)...")
         let granted = await AVCaptureDevice.requestAccess(for: mediaType)
-        // Update status after the request completes
-        // Use Task to ensure update happens even if requestAccess doesn't immediately yield back to MainActor context
-         await MainActor.run { // Explicitly run on MainActor
-            self.currentStatus = granted ? .authorized : .denied
-            print("RealAuthManager: Access request completed for \(mediaType.rawValue). Granted: \(granted). New status: \(self.currentStatus)")
-        }
+
+        // Update status after the request completes - @Published handles notification
+        self.currentStatus = granted ? .authorized : .denied
+        print("RealAuthManager: Access request completed for \(mediaType.rawValue). Granted: \(granted). New status: \(self.currentStatus)")
         return granted
     }
 }
-
 
 // MARK: - Fake Authorization Manager (Updated)
 /// Simulates authorization interactions for testing/previews.
 @MainActor
 class FakeAuthorizationManager: AuthorizationManaging {
+    // Use @Published to notify SwiftUI of changes
     @Published private(set) var currentStatus: AVAuthorizationStatus
     let mediaType: AVMediaType
 
@@ -98,10 +96,10 @@ class FakeAuthorizationManager: AuthorizationManaging {
         let granted = Bool.random()
         if granted {
             print("FakeAuthManager: Simulated user GRANTED access for \(self.mediaType.rawValue)")
-            self.currentStatus = .authorized
+            self.currentStatus = .authorized // @Published triggers update
         } else {
             print("FakeAuthManager: Simulated user DENIED access for \(self.mediaType.rawValue)")
-            self.currentStatus = .denied
+            self.currentStatus = .denied // @Published triggers update
         }
         return granted
     }
@@ -109,21 +107,21 @@ class FakeAuthorizationManager: AuthorizationManaging {
     // Helper to simulate restricted state externally (for testing)
     func setRestricted() {
          print("FakeAuthManager: Simulating setting status to RESTRICTED for \(self.mediaType.rawValue)")
-         self.currentStatus = .restricted
+         self.currentStatus = .restricted // @Published triggers update
     }
      // Helper to reset for testing
     func reset() {
          print("FakeAuthManager: Simulating resetting status to NOT DETERMINED for \(self.mediaType.rawValue)")
-         self.currentStatus = .notDetermined
+         self.currentStatus = .notDetermined // @Published triggers update
     }
 }
 
-
-// MARK: - Authorization Flow View (Updated)
+// MARK: - Authorization Flow View (Corrected)
 /// SwiftUI View demonstrating the Authorization Flow with real/fake API toggle.
 struct AuthorizationFlowView: View {
-    // Use the protocol type for the manager state object
-    @StateObject private var authManager: any AuthorizationManaging
+    // Use @State to hold the manager instance (can be Real or Fake)
+    // SwiftUI observes the ObservableObject held within @State automatically.
+    @State private var authManager: any AuthorizationManaging // <<-- CORRECTED: Use @State
     @State private var useRealAPI: Bool = false // State to track which API to use
 
     // Hold the chosen media type
@@ -134,8 +132,9 @@ struct AuthorizationFlowView: View {
     init(mediaType: AVMediaType) {
         self.mediaType = mediaType
         self.mediaTypeDescription = (mediaType == .video) ? "Camera" : (mediaType == .audio ? "Microphone" : "Media")
-        // Initial state MUST be set here before body access. Start with Fake.
-         _authManager = StateObject(wrappedValue: FakeAuthorizationManager(mediaType: mediaType))
+        // Initialize the @State variable directly. It holds the initial manager instance.
+        // Use _authManager to access the underlying State struct for initialization.
+        self._authManager = State(initialValue: FakeAuthorizationManager(mediaType: mediaType)) // <<-- CORRECTED: Init @State
     }
 
     var body: some View {
@@ -149,10 +148,11 @@ struct AuthorizationFlowView: View {
                 .padding(.horizontal)
                  .tint(.purple)
 
-            // Display content based on the current authorization status from the manager
+            // Display content based on the *current* manager's status
+            // The view re-renders when authManager instance changes OR when its @Published properties change.
             StatusDisplayView(status: authManager.currentStatus, mediaTypeDescription: mediaTypeDescription)
                 .onAppear {
-                    // Re-check status whenever the view appears, useful if user backgrounds app and changes settings
+                    // Re-check status whenever the view appears
                     authManager.checkStatus()
                 }
 
@@ -161,17 +161,19 @@ struct AuthorizationFlowView: View {
                 RequestPermissionButton(mediaTypeDescription: mediaTypeDescription) {
                     // Use Task for async request
                     Task {
-                         await authManager.requestAccess()
-                         // Status will update via @Published property
+                         _ = await authManager.requestAccess() // Assign to _ to suppress warning if needed
+                         // Status will update via the manager's @Published property
                     }
                 }
             } else if authManager.currentStatus == .denied {
-                 // Optionally add a button to open Settings
+                 // Button to open Settings
                  Button("Open Settings") {
-                     // In a real app, implement logic to open the app's settings page
-                     print("Attempting to open Settings (implementation needed)")
+                     print("Attempting to open Settings...")
                      guard let url = URL(string: UIApplication.openSettingsURLString),
-                           UIApplication.shared.canOpenURL(url) else { return }
+                           UIApplication.shared.canOpenURL(url) else {
+                         print("Failed to create settings URL or cannot open it.")
+                         return
+                     }
                      UIApplication.shared.open(url)
                  }
                  .buttonStyle(.bordered)
@@ -204,19 +206,17 @@ struct AuthorizationFlowView: View {
             // --- End Simulation Controls ---
         }
         .padding()
-        .onChange(of: useRealAPI) { newValue in
-            // When the toggle changes, instantiate the correct manager type
+        .onChange(of: useRealAPI) { newValue /* Use 'newValue' directly */ in
+            // When the toggle changes, assign a new manager instance to the @State variable
             if newValue {
-                // Create and assign the real manager
-                 _authManager.wrappedValue = RealAuthorizationManager(mediaType: mediaType)
+                 authManager = RealAuthorizationManager(mediaType: mediaType) // <<-- CORRECTED: Assign to @State var
                  print("Switched to REAL Authorization Manager for \(mediaType.rawValue)")
             } else {
-                // Create and assign the fake manager
-                 _authManager.wrappedValue = FakeAuthorizationManager(mediaType: mediaType)
+                 authManager = FakeAuthorizationManager(mediaType: mediaType) // <<-- CORRECTED: Assign to @State var
                  print("Switched to FAKE Authorization Manager for \(mediaType.rawValue)")
             }
             // Check status immediately after switching manager
-             authManager.checkStatus()
+            authManager.checkStatus()
         }
     }
 }
@@ -309,20 +309,12 @@ struct RequestPermissionButton: View {
 // MARK: - Previews
 struct AuthorizationFlowView_Previews: PreviewProvider {
     static var previews: some View {
-        // Preview different initial states often useful with Fake Manager
         Group {
-            // Start with Fake Manager (default)
             AuthorizationFlowView(mediaType: .video)
                 .previewDisplayName("Video Flow (Default Fake)")
 
             AuthorizationFlowView(mediaType: .audio)
                 .previewDisplayName("Audio Flow (Default Fake)")
-
-             // Example showing how to force Real Manager in preview if needed,
-             // though interaction limited w/o real device/prompt.
-//             AuthorizationFlowView(mediaType: .video)
-//                 .onAppear { /* Logic to maybe force real API if needed */ }
-//                 .previewDisplayName("Video Flow (Real API - Limited)")
         }
     }
 }
