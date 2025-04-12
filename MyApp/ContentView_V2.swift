@@ -1,10 +1,10 @@
+////
+////  ContentView_V2.swift
+////  MyApp
+////
+////  Created by Cong Le on 4/11/25.
+////
 //
-//  ContentView_V2.swift
-//  MyApp
-//
-//  Created by Cong Le on 4/11/25.
-//
-
 import SwiftUI
 import UIKit // Needed for UIActivityViewController, UIImage
 
@@ -156,148 +156,148 @@ class ContentViewModel: ObservableObject {
     }
 }
 
-// MARK: - SwiftUI Content View (Using ViewModel)
-
-struct ContentView: View {
-    @StateObject private var viewModel = ContentViewModel()
-
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 30) {
-                appTitle
-
-                Divider()
-
-                contentExamples
-
-                Spacer() // Pushes buttons down
-
-                actionButtons
-            }
-            .padding()
-            .navigationTitle("Share Sheet Demo")
-            .navigationBarTitleDisplayMode(.inline)
-            // --- Sheet Presentation ---
-            .sheet(isPresented: $viewModel.isShareSheetPresented) {
-                // Construct the ActivityView when the sheet is presented
-                ActivityView(
-                    activityItems: viewModel.currentActivityItems,
-                    // Example: Exclude common unwanted types
-                    //excludedActivityTypes: [.assignToContact, .addToReadingList, .markupAsPDF],
-                    completion: viewModel.handleShareResult // Pass the handler
-                )
-                // Optional: Add presentation detents for iOS 16+
-                // .presentationDetents([.medium, .large])
-            }
-            // --- Alert for Feedback ---
-            .alert(isPresented: $viewModel.isAlertPresented) {
-                Alert(title: Text(viewModel.alertTitle),
-                      message: Text(viewModel.alertMessage),
-                      dismissButton: .default(Text("OK")))
-            }
-        }
-        .navigationViewStyle(.stack) // Use stack style for consistency
-    }
-
-    // --- View Components ---
-
-    private var appTitle: some View {
-        Text("Dynamic Sharing")
-            .font(.largeTitle.weight(.bold))
-            .foregroundColor(.primary)
-    }
-
-    private var contentExamples: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text("Example Content Available:").font(.headline)
-            Group {
-                Label("\"\(viewModel.sampleText)\"", systemImage: "text.quote")
-                Label("\(viewModel.sampleURL.absoluteString)", systemImage: "link")
-                Label("A sample generated image", systemImage: "photo")
-            }
-            .padding(10)
-            .background(Color.secondary.opacity(0.1))
-            .cornerRadius(8)
-        }
-    }
-
-    private var actionButtons: some View {
-        VStack(spacing: 15) {
-            // Button to share Text only
-            Button {
-                viewModel.share(items: [viewModel.sampleText])
-            } label: {
-                Label("Share Text", systemImage: "text.bubble")
-                     .modifier(ShareButtonStyle(color: .blue))
-            }
-
-            // Button to share URL only
-            Button {
-                viewModel.share(items: [viewModel.sampleURL])
-            } label: {
-                Label("Share URL", systemImage: "link.circle")
-                    .modifier(ShareButtonStyle(color: .green))
-            }
-
-            // Button to share Image only
-             Button {
-                 viewModel.share(items: [viewModel.sampleImage])
-             } label: {
-                 Label("Share Image", systemImage: "photo.on.rectangle")
-                     .modifier(ShareButtonStyle(color: .purple))
-             }
-
-            // Button to share Text and URL
-            Button {
-                viewModel.share(items: [viewModel.sampleText, viewModel.sampleURL])
-            } label: {
-                Label("Share Text & URL", systemImage: "square.and.arrow.up.on.square")
-                    .modifier(ShareButtonStyle(color: .orange))
-            }
-
-             // Button to share All Items
-            Button {
-                 viewModel.share(items: [viewModel.sampleText, viewModel.sampleURL, viewModel.sampleImage])
-             } label: {
-                 Label("Share All", systemImage: "square.and.arrow.up.fill")
-                     .modifier(ShareButtonStyle(color: .red))
-             }
-        }
-    }
-}
-
-// MARK: - Custom Button Style Modifier
-
-struct ShareButtonStyle: ViewModifier {
-    let color: Color
-    func body(content: Content) -> some View {
-        content
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(color)
-            .foregroundColor(.white)
-            .font(.headline)
-            .cornerRadius(10)
-            .shadow(radius: 3)
-    }
-}
-
-// MARK: - Preview Provider
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-
-// MARK: - App Entry Point (Required if this is the main app file)
-/*
-@main
-struct ShareSheetApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
-*/
+//// MARK: - SwiftUI Content View (Using ViewModel)
+//
+//struct ContentView: View {
+//    @StateObject private var viewModel = ContentViewModel()
+//
+//    var body: some View {
+//        NavigationView {
+//            VStack(spacing: 30) {
+//                appTitle
+//
+//                Divider()
+//
+//                contentExamples
+//
+//                Spacer() // Pushes buttons down
+//
+//                actionButtons
+//            }
+//            .padding()
+//            .navigationTitle("Share Sheet Demo")
+//            .navigationBarTitleDisplayMode(.inline)
+//            // --- Sheet Presentation ---
+//            .sheet(isPresented: $viewModel.isShareSheetPresented) {
+//                // Construct the ActivityView when the sheet is presented
+//                ActivityView(
+//                    activityItems: viewModel.currentActivityItems,
+//                    // Example: Exclude common unwanted types
+//                    //excludedActivityTypes: [.assignToContact, .addToReadingList, .markupAsPDF],
+//                    completion: viewModel.handleShareResult // Pass the handler
+//                )
+//                // Optional: Add presentation detents for iOS 16+
+//                // .presentationDetents([.medium, .large])
+//            }
+//            // --- Alert for Feedback ---
+//            .alert(isPresented: $viewModel.isAlertPresented) {
+//                Alert(title: Text(viewModel.alertTitle),
+//                      message: Text(viewModel.alertMessage),
+//                      dismissButton: .default(Text("OK")))
+//            }
+//        }
+//        .navigationViewStyle(.stack) // Use stack style for consistency
+//    }
+//
+//    // --- View Components ---
+//
+//    private var appTitle: some View {
+//        Text("Dynamic Sharing")
+//            .font(.largeTitle.weight(.bold))
+//            .foregroundColor(.primary)
+//    }
+//
+//    private var contentExamples: some View {
+//        VStack(alignment: .leading, spacing: 15) {
+//            Text("Example Content Available:").font(.headline)
+//            Group {
+//                Label("\"\(viewModel.sampleText)\"", systemImage: "text.quote")
+//                Label("\(viewModel.sampleURL.absoluteString)", systemImage: "link")
+//                Label("A sample generated image", systemImage: "photo")
+//            }
+//            .padding(10)
+//            .background(Color.secondary.opacity(0.1))
+//            .cornerRadius(8)
+//        }
+//    }
+//
+//    private var actionButtons: some View {
+//        VStack(spacing: 15) {
+//            // Button to share Text only
+//            Button {
+//                viewModel.share(items: [viewModel.sampleText])
+//            } label: {
+//                Label("Share Text", systemImage: "text.bubble")
+//                     .modifier(ShareButtonStyle(color: .blue))
+//            }
+//
+//            // Button to share URL only
+//            Button {
+//                viewModel.share(items: [viewModel.sampleURL])
+//            } label: {
+//                Label("Share URL", systemImage: "link.circle")
+//                    .modifier(ShareButtonStyle(color: .green))
+//            }
+//
+//            // Button to share Image only
+//             Button {
+//                 viewModel.share(items: [viewModel.sampleImage])
+//             } label: {
+//                 Label("Share Image", systemImage: "photo.on.rectangle")
+//                     .modifier(ShareButtonStyle(color: .purple))
+//             }
+//
+//            // Button to share Text and URL
+//            Button {
+//                viewModel.share(items: [viewModel.sampleText, viewModel.sampleURL])
+//            } label: {
+//                Label("Share Text & URL", systemImage: "square.and.arrow.up.on.square")
+//                    .modifier(ShareButtonStyle(color: .orange))
+//            }
+//
+//             // Button to share All Items
+//            Button {
+//                 viewModel.share(items: [viewModel.sampleText, viewModel.sampleURL, viewModel.sampleImage])
+//             } label: {
+//                 Label("Share All", systemImage: "square.and.arrow.up.fill")
+//                     .modifier(ShareButtonStyle(color: .red))
+//             }
+//        }
+//    }
+//}
+//
+//// MARK: - Custom Button Style Modifier
+//
+//struct ShareButtonStyle: ViewModifier {
+//    let color: Color
+//    func body(content: Content) -> some View {
+//        content
+//            .padding()
+//            .frame(maxWidth: .infinity)
+//            .background(color)
+//            .foregroundColor(.white)
+//            .font(.headline)
+//            .cornerRadius(10)
+//            .shadow(radius: 3)
+//    }
+//}
+//
+//// MARK: - Preview Provider
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
+//
+//// MARK: - App Entry Point (Required if this is the main app file)
+///*
+//@main
+//struct ShareSheetApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}
+//*/
