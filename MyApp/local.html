@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Web Content</title>
+    <style>
+        body { font-family: sans-serif; padding: 15px; background-color: #f0f0f0; }
+        #messages { margin-top: 15px; padding: 10px; border: 1px solid #ccc; background-color: #fff; min-height: 50px; }
+        button { padding: 10px 15px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+        label { display: block; margin-top: 15px;}
+    </style>
+</head>
+<body>
+    <h1>Web Content Interaction</h1>
+    <p>This content is running inside a WKWebView.</p>
+
+    <label for="messageInput">Message to Swift:</label>
+    <input type="text" id="messageInput" placeholder="Type here...">
+    <button onclick="sendMessageToSwift()">Send Message to Swift App</button>
+
+    <div id="messages">
+        <strong>Messages Received from Swift:</strong><br>
+        <!-- Messages from Swift will appear here -->
+    </div>
+
+    <script>
+        // Function called by website button
+        function sendMessageToSwift() {
+            const inputElement = document.getElementById('messageInput');
+            const message = inputElement.value || "Empty message from JS";
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.swiftBridge) {
+                // Post the message to the Swift handler named "swiftBridge"
+                window.webkit.messageHandlers.swiftBridge.postMessage(message);
+                console.log('JS sent: ' + message);
+                inputElement.value = ''; // Clear input
+            } else {
+                console.error('Swift message handler (swiftBridge) not found.');
+                alert('Error: Cannot communicate with the native app.');
+            }
+        }
+
+        // Function called FROM Swift using evaluateJavaScript
+        function swiftSays(message) {
+            console.log('JS received: ' + message);
+            const messagesDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = `- ${message}`;
+            newMessage.style.margin = '5px 0';
+            messagesDiv.appendChild(newMessage);
+        }
+
+        // --- Optional: Example of JS Alert ----
+        // Uncomment below to test WKUIDelegate handling
+        // setTimeout(() => {
+        //     alert("JavaScript alert triggered after 3 seconds!");
+        // }, 3000);
+        // --- End Optional Example ---
+
+        console.log('Local HTML page loaded.');
+    </script>
+</body>
+</html>
