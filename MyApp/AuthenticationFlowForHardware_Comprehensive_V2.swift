@@ -513,17 +513,23 @@ class AudioLevelMonitor: ObservableObject {
          return mappedValue
      }
 
-     deinit {
-         // Ensure monitoring is stopped. Call stopMonitoring, which handles threading.
-         if isMonitoring {
-             print("AudioLevelMonitor Deinit: Still monitoring, attempting to stop.")
-              DispatchQueue.main.async { // Call from main actor context
-                  self.stopMonitoring()
-              }
-         } else {
-              print("AudioLevelMonitor Deinitialized")
-         }
-     }
+    deinit {
+            // Ensure monitoring is stopped. The check AND the stop call must happen on MainActor.
+            // Schedule a task on the main queue to perform the check and potential cleanup.
+            DispatchQueue.main.async { [weak self] in // Use weak self to avoid retain cycles
+                 guard let self = self else { return } // Ensure self hasn't been deallocated by the time this runs
+
+                 if self.isMonitoring { // Check is now performed safely on the main actor
+                     print("AudioLevelMonitor Deinit: Still monitoring, dispatching stop.")
+                     self.stopMonitoring() // Call the @MainActor isolated stop function
+                 } else {
+                     // Optional logging if needed
+                     print("AudioLevelMonitor Deinit: Check on MainActor confirmed it was not monitoring.")
+                 }
+            }
+            // This print indicates when deinit was *called*, not necessarily when cleanup finished.
+            print("AudioLevelMonitor Deinitialized (Cleanup dispatched to main queue if needed)")
+        }
 }
 
 enum AudioMonitorError: LocalizedError {
