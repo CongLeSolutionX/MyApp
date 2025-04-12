@@ -320,7 +320,7 @@ struct GameAreaView: View {
                  // IMPORTANT: Ensure "princess.png" exists in Assets.xcassets or choose SF symbol
                  CharacterPlaceholder(
                     // representation: .sfSymbol(name: "figure.dress.line.vertical.figure", color: .pink), // Example SF Symbol
-                    representation: .localImage(name: "princess"), // Example Local Image
+                    representation: .localImage(name: "Cap_2"), // Example Local Image
                      size: 35 // Size for princess
                  )
                      .position(princessAbsolutePos)
@@ -328,7 +328,7 @@ struct GameAreaView: View {
                  // Mario using a local image named "mario_stand"
                  // IMPORTANT: Ensure "mario_stand.png" exists in Assets.xcassets
                  CharacterPlaceholder(
-                    representation: .localImage(name: "mario_stand"),
+                    representation: .localImage(name: "My-meme-heineken"),
                      size: 35 // Size for Mario
                  )
                     .position(marioAbsolutePos) // Use calculated absolute position
@@ -370,7 +370,7 @@ struct LivesIndicatorView: View {
             ForEach(0..<gameState.livesRemaining, id: \.self) { _ in
                 // IMPORTANT: Ensure "mario_icon.png" exists in Assets.xcassets
                 CharacterPlaceholder(
-                    representation: .localImage(name: "mario_icon"), // Use a small icon version of Mario
+                    representation: .localImage(name: "My-meme-original"), // Use a small icon version of Mario
                     size: 20 // Smaller size for life icons
                 )
             }
