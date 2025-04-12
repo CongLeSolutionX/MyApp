@@ -26,7 +26,6 @@
 //#Preview {
 //    ContentView()
 //}
-
 import SwiftUI
 
 // --- ViewModel ---
@@ -47,44 +46,38 @@ class ConcurrencyViewModel: ObservableObject {
         // from the SwiftUI Button action, which runs on the main thread.
         // So, updating isLoading and statusMessage here is safe.
         isLoading = true
-        statusMessage = "Background task started..."
+        statusMessage = "Background task starting..."
+        print("ViewModel: updateDataFromBackground() called (on MainActor).")
 
         // Launch an asynchronous Task. By default, this *might* run on a
         // background cooperative thread pool if not inheriting an actor context
         // that forces otherwise. It becomes a 'Sendable' context.
         Task {
+            print("ViewModel: Background Task started.") // Simple print, no Thread.current
             do {
-                // Simulate network call or heavy computation
-                print("Task running on thread: \(Thread.current)") // Often a background thread
-                try await Task.sleep(nanoseconds: 2_000_000_000) // Simulate 2 seconds work
+                // Simulate network call or heavy computation (2 seconds)
+                try await Task.sleep(nanoseconds: 2_000_000_000)
 
                 let newValue = "Updated Value (\(Date().formatted(date: .omitted, time: .standard)))"
-
-                // --- THE PROBLEM AREA ---
-                // Trying to directly mutate @MainActor properties from this
-                // non-main-actor context (the Task potentially running on a background thread)
-                // would cause the compiler error discussed:
-                // "Main actor-isolated property 'sessionData' can not be mutated from a Sendable closure"
-                //
-                // self.sessionData = newValue // <<-- COMPILER ERROR WOULD HAPPEN HERE
-                // self.statusMessage = "Direct update failed!" // <<-- ERROR HERE TOO
-                // self.isLoading = false // <<-- ERROR HERE TOO
-                // -------------------------
-
+                print("ViewModel: Background Task finished work, preparing UI update.")
 
                 // --- THE SOLUTION ---
                 // Explicitly dispatch the state mutation back to the MainActor's context.
                 await MainActor.run {
                     // Now we are guaranteed to be executing on the main thread.
-                    print("MainActor.run block executing on thread: \(Thread.current)") // Should be main thread
+                    print("ViewModel: Executing MainActor.run block (on MainActor).") // Simple print
                     self.sessionData = newValue
                     self.statusMessage = "Update successful via MainActor.run!"
-                    self.isLoading = false // Also safe to update UI state here
+                    self.isLoading = false // Safe to update UI state here
                 }
 
+                print("ViewModel: Background Task exiting after MainActor.run.")
+
             } catch {
+                 print("ViewModel: Error occurred in Background Task: \(error)")
                 // If the background work itself fails, still update UI safely
                 await MainActor.run {
+                    print("ViewModel: Executing MainActor.run block for error (on MainActor).") // Simple print
                     self.statusMessage = "Error during background task: \(error.localizedDescription)"
                     self.isLoading = false
                 }
@@ -102,21 +95,22 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Swift Concurrency Demo")
+            Text("Swift Concurrency Demo (Swift 6 Safe)")
                 .font(.title)
 
             Divider()
 
             VStack {
-                Text("Session Data (MainActor Isolated):")
+                Text("Session Data (@MainActor Isolated):")
                     .font(.headline)
                 // Displays the @Published sessionData from the ViewModel
                 Text(viewModel.sessionData)
-                    .font(.system(size: 24, weight: .bold, design: .monospaced))
+                    .font(.system(size: 20, weight: .bold, design: .monospaced))
                     .padding()
+                    .frame(minHeight: 60) // Ensure space for text
                     .background(Color.yellow.opacity(0.2))
                     .cornerRadius(8)
-                    .animation(.default, value: viewModel.sessionData) // Animate changes
+                    .animation(.easeInOut, value: viewModel.sessionData) // Animate changes
             }
 
             VStack {
@@ -132,12 +126,12 @@ struct ContentView: View {
 
             // Show a progress indicator while the background task is running
             if viewModel.isLoading {
-                ProgressView()
+                ProgressView("Working...")
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding(.vertical)
             } else {
                  // Placeholder to maintain layout stability
-                 Color.clear.frame(height: 20).padding(.vertical) // Approx height of ProgressView
+                 Color.clear.frame(height: 30).padding(.vertical) // Approx height of ProgressView + text
             }
 
             // Button to trigger the background update process
@@ -152,8 +146,7 @@ struct ContentView: View {
             // Disable the button while the task is running
             .disabled(viewModel.isLoading)
 
-
-            Text("Tapping the button starts a Task (potentially background). To update the '@MainActor' session data safely, the Task uses 'await MainActor.run { ... }' to dispatch the update back to the main thread.")
+            Text("Tapping the button starts a Task. UI updates are dispatched back to the MainActor using `await MainActor.run { ... }` for safety.")
                  .font(.footnote)
                  .padding()
                  .background(Color.blue.opacity(0.1))
@@ -164,13 +157,7 @@ struct ContentView: View {
     }
 }
 
-#Preview("ContentView") {
-    ContentView()
-}
-
-//
-//// --- Entry Point for Application (Optional) ---
-//// If you have a standard App struct
+//// --- Entry Point for Application ---
 //@main
 //struct ConcurrencyDemoApp: App {
 //    var body: some Scene {
@@ -179,3 +166,8 @@ struct ContentView: View {
 //        }
 //    }
 //}
+
+// --- Optional: Preview Provider ---
+#Preview {
+    ContentView()
+}
