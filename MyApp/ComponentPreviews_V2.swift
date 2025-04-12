@@ -1,11 +1,10 @@
 //
-//  Previews_V2.swift
+//  ComponentPreviews.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/11/25.
 //
 
-// ComponentPreviews.swift
 // Functional Previews for the reusable subviews using mock/default data.
 
 import SwiftUI
