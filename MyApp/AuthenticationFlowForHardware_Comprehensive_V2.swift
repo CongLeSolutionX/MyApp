@@ -285,54 +285,46 @@ struct CameraPreviewView: UIViewRepresentable {
         view.backgroundColor = .black
         service.previewLayer.frame = view.bounds // Configure frame
 
-        // Layer setup *should* happen on the main thread anyway,
-        // but explicitly dispatching ensures it if called from odd contexts.
         DispatchQueue.main.async {
-            // Check if connection exists and *then* check if rotation is supported
             if let connection = service.previewLayer.connection { // First, unwrap the connection
-                if connection.isVideoRotationAngleSupported { // Then, check the Bool property
+                // Explicitly compare the Bool property to 'true'
+                if connection.isVideoRotationAngleSupported == true { // <--- The CHANGE
                     connection.videoRotationAngle = 90 // Set the angle (Portrait)
                     print("CameraPreviewView: Set videoRotationAngle to 90.")
                 } else {
                     // Handle case where rotation is not supported on this connection
                     print("CameraPreviewView: Warning - Rotation angle not supported on this connection.")
                 }
+
+                // Add the sublayer *after* configuration checks
+                // Check if view is still part of the hierarchy
+                if view.window != nil {
+                     view.layer.addSublayer(service.previewLayer)
+                     print("CameraPreviewView: Preview layer added.")
+                } else {
+                     print("CameraPreviewView: Warning - View was potentially removed before layer could be added.")
+                }
+
             } else {
                 // Handle case where the connection doesn't exist yet
                 print("CameraPreviewView: Warning - Connection not available at makeUIView time.")
-            }
-
-            // Add the sublayer *after* potential configuration
-            // Ensure view hasn't been deallocated if async takes time (though unlikely here)
-            if view.window != nil { // Check if view is still part of the hierarchy
-                 view.layer.addSublayer(service.previewLayer)
-                 print("CameraPreviewView: Preview layer added.")
-            } else {
-                 print("CameraPreviewView: Warning - View was potentially removed before layer could be added.")
+                 // Decide if you still want to add the layer if connection is nil
+                // if view.window != nil {
+                //      view.layer.addSublayer(service.previewLayer)
+                //      print("CameraPreviewView: Preview layer added (without connection check).")
+                // }
             }
         }
-        // Add the sublayer outside Async? No, layer config needs connection potentially.
-        // Adding it here risks adding before configuration is done.
-        // Keep addSublayer within the async block for safety after checks.
 
-        // Must return the view synchronously.
         return view
     }
 
+    // updateUIView remains the same...
     func updateUIView(_ uiView: UIView, context: Context) {
         print("CameraPreviewView: updateUIView - Updating layer frame")
         DispatchQueue.main.async {
-            // Update frame if view bounds change
             service.previewLayer.frame = uiView.bounds
-
-            // Optionally update rotation angle here if orientation changes
-            // (Requires more complex logic to get current device orientation)
-            /*
-            if let connection = service.previewLayer.connection, connection.isVideoRotationAngleSupported {
-                let currentAngle = calculateCurrentAngle() // Implement this based on device orientation
-                connection.videoRotationAngle = currentAngle
-            }
-            */
+            // Optional rotation update logic here...
         }
     }
 }
