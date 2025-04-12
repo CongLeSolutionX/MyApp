@@ -511,7 +511,16 @@ struct CameraPreviewView: UIViewRepresentable {
 // MARK: - SwiftUI Camera View (Enhanced)
 
 struct CameraView: View {
-    @StateObject private var cameraManager = CameraManager()
+    // Allow cameraManager to be injected OR created internally
+    @StateObject private var cameraManager: CameraManager
+
+    // Initializer for previews/dependency injection
+     init(cameraManager: CameraManager? = nil) { // Make parameter optional
+         // If a manager is provided, use it. Otherwise, create a default one.
+         // This uses the correct way to initialize StateObject with a pre-existing value.
+         _cameraManager = StateObject(wrappedValue: cameraManager ?? CameraManager())
+     }
+    
     @State private var showCapturedPhoto = false // State to control showing the captured photo view
 
     var body: some View {
