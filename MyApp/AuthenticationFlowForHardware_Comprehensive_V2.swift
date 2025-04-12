@@ -277,43 +277,65 @@ enum CameraError: LocalizedError {
 
 // UIViewRepresentable for the Camera Preview Layer
 struct CameraPreviewView: UIViewRepresentable {
-    // Use ObservedObject because the service lifecycle is managed by the parent view
     @ObservedObject var service: CameraService
 
     func makeUIView(context: Context) -> UIView {
         print("CameraPreviewView: makeUIView")
         let view = UIView()
         view.backgroundColor = .black
-        // Configure preview layer properties here (no MainActor isolation issues)
-        service.previewLayer.frame = view.bounds
-        // Use deprecated property fix: videoRotationAngle (iOS 17+)
-        // Note: Setting this might ideally happen after the session is running
-        // and the connection is established, but often works here too.
-        DispatchQueue.main.async { // Ensure layer modification is on main thread
-             // Check if connection exists before setting angle
-             if let connection = service.previewLayer.connection, connection.isVideoRotationAngleSupported {
-                 connection.videoRotationAngle = 90 // Portrait
-             } else {
-                 print("CameraPreviewView: Warning - Connection not available or rotation not supported at makeUIView time.")
-             }
+        service.previewLayer.frame = view.bounds // Configure frame
+
+        // Layer setup *should* happen on the main thread anyway,
+        // but explicitly dispatching ensures it if called from odd contexts.
+        DispatchQueue.main.async {
+            // Check if connection exists and *then* check if rotation is supported
+            if let connection = service.previewLayer.connection { // First, unwrap the connection
+                if connection.isVideoRotationAngleSupported { // Then, check the Bool property
+                    connection.videoRotationAngle = 90 // Set the angle (Portrait)
+                    print("CameraPreviewView: Set videoRotationAngle to 90.")
+                } else {
+                    // Handle case where rotation is not supported on this connection
+                    print("CameraPreviewView: Warning - Rotation angle not supported on this connection.")
+                }
+            } else {
+                // Handle case where the connection doesn't exist yet
+                print("CameraPreviewView: Warning - Connection not available at makeUIView time.")
+            }
+
+            // Add the sublayer *after* potential configuration
+            // Ensure view hasn't been deallocated if async takes time (though unlikely here)
+            if view.window != nil { // Check if view is still part of the hierarchy
+                 view.layer.addSublayer(service.previewLayer)
+                 print("CameraPreviewView: Preview layer added.")
+            } else {
+                 print("CameraPreviewView: Warning - View was potentially removed before layer could be added.")
+            }
         }
-        view.layer.addSublayer(service.previewLayer)
+        // Add the sublayer outside Async? No, layer config needs connection potentially.
+        // Adding it here risks adding before configuration is done.
+        // Keep addSublayer within the async block for safety after checks.
+
+        // Must return the view synchronously.
         return view
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
         print("CameraPreviewView: updateUIView - Updating layer frame")
-        // Ensure layer frame updates on the main thread if needed, though usually safe here.
         DispatchQueue.main.async {
+            // Update frame if view bounds change
             service.previewLayer.frame = uiView.bounds
-             // Update rotation angle if orientation changes (more complex scenario)
-             // if let connection = service.previewLayer.connection, connection.isVideoRotationAngleSupported {
-             //     connection.videoRotationAngle = currentAngleBasedOnDeviceOrientation()
-             // }
+
+            // Optionally update rotation angle here if orientation changes
+            // (Requires more complex logic to get current device orientation)
+            /*
+            if let connection = service.previewLayer.connection, connection.isVideoRotationAngleSupported {
+                let currentAngle = calculateCurrentAngle() // Implement this based on device orientation
+                connection.videoRotationAngle = currentAngle
+            }
+            */
         }
     }
 }
-
 // MARK: - Audio Feature Components
 @MainActor
 class AudioLevelMonitor: ObservableObject {
@@ -998,13 +1020,13 @@ struct StatusFooterView: View { /* Unchanged */
      return view
  }
 
- #Preview("Audio (Fake - Authorized)") {
-     let view = AuthorizationFlowView(mediaType: .audio)
-      if let fakeMgr = view.authManager as? FakeAuthorizationManager {
-           fakeMgr.setStatus(.authorized)
-      }
-     //view
- }
+// #Preview("Audio (Fake - Authorized)") {
+//     let view = AuthorizationFlowView(mediaType: .audio)
+//      if let fakeMgr = view.authManager as? FakeAuthorizationManager {
+//           fakeMgr.setStatus(.authorized)
+//      }
+//     view
+// }
 
  // Add more previews for Denied, Restricted etc. as needed
 
