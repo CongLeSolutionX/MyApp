@@ -459,22 +459,29 @@ enum CameraError: Error, LocalizedError, Equatable {
 struct CameraPreviewView: UIViewRepresentable {
     let session: AVCaptureSession
 
-    // --- Static Helper to get current orientation (can be called from anywhere) ---
     static func currentOrientation() -> AVCaptureVideoOrientation? {
-         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let orientation = scene.interfaceOrientation else {
-             // Fallback if scene API fails (less likely now)
-             // Consider UIDevice orientation but it can be less reliable for interface
-             return .portrait // Default or handle more robustly
+         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+             // Cannot get scene, fallback or return nil/default
+             print("Warning: Could not get UIWindowScene for orientation.")
+             return .portrait // Or return nil if you handle that case
          }
+         // Access orientation directly after getting the scene
+         let orientation = scene.interfaceOrientation
+
          switch orientation {
          case .portrait: return .portrait
-         case .landscapeLeft: return .landscapeLeft
-         case .landscapeRight: return .landscapeRight
+         case .landscapeLeft: return .landscapeLeft // Check if these map correctly for AVCaptureVideoOrientation
+         case .landscapeRight: return .landscapeRight // Check if these map correctly for AVCaptureVideoOrientation
          case .portraitUpsideDown: return .portraitUpsideDown
-         default: return nil // Unknown or flat orientation
+         case .unknown:
+              print("Warning: Unknown interface orientation.")
+              return nil // Handle unknown explicitly
+         @unknown default:
+             print("Warning: Unhandled default interface orientation.")
+             return nil // Handle future cases
          }
      }
+
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView()
