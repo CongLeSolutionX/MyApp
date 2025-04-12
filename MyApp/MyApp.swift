@@ -12,9 +12,7 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            AuthorizationFlowView(mediaType: .video)
-                .preferredColorScheme(.dark)
+            ContentView()
         }
     }
 }
