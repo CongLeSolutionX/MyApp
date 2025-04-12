@@ -17,6 +17,7 @@
 		9AF351332DAA4A5700C1861C /* AuthenticationFlowForCamera_Simulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF351322DAA4A4C00C1861C /* AuthenticationFlowForCamera_Simulation.swift */; };
 		9AF351352DAA4CE100C1861C /* AuthenticationFlowForCamera_withToggleOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF351342DAA4CD700C1861C /* AuthenticationFlowForCamera_withToggleOption.swift */; };
 		9AF351372DAA504D00C1861C /* AuthenticationFlowForHardware_Comprehensive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF351362DAA503E00C1861C /* AuthenticationFlowForHardware_Comprehensive.swift */; };
+		9AF351392DAA527800C1861C /* AuthenticationFlowForHardware_Comprehensive_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF351382DAA527500C1861C /* AuthenticationFlowForHardware_Comprehensive_V2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		9AF351322DAA4A4C00C1861C /* AuthenticationFlowForCamera_Simulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowForCamera_Simulation.swift; sourceTree = "<group>"; };
 		9AF351342DAA4CD700C1861C /* AuthenticationFlowForCamera_withToggleOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowForCamera_withToggleOption.swift; sourceTree = "<group>"; };
 		9AF351362DAA503E00C1861C /* AuthenticationFlowForHardware_Comprehensive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowForHardware_Comprehensive.swift; sourceTree = "<group>"; };
+		9AF351382DAA527500C1861C /* AuthenticationFlowForHardware_Comprehensive_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowForHardware_Comprehensive_V2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				9AF3512E2DAA213C00C1861C /* ContenView_V3.swift */,
 				9AF351322DAA4A4C00C1861C /* AuthenticationFlowForCamera_Simulation.swift */,
 				9AF351342DAA4CD700C1861C /* AuthenticationFlowForCamera_withToggleOption.swift */,
+				9AF351382DAA527500C1861C /* AuthenticationFlowForHardware_Comprehensive_V2.swift */,
 				9AF351362DAA503E00C1861C /* AuthenticationFlowForHardware_Comprehensive.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -159,6 +162,7 @@
 			files = (
 				9AF351372DAA504D00C1861C /* AuthenticationFlowForHardware_Comprehensive.swift in Sources */,
 				9AF351332DAA4A5700C1861C /* AuthenticationFlowForCamera_Simulation.swift in Sources */,
+				9AF351392DAA527800C1861C /* AuthenticationFlowForHardware_Comprehensive_V2.swift in Sources */,
 				9AF351352DAA4CE100C1861C /* AuthenticationFlowForCamera_withToggleOption.swift in Sources */,
 				9AF3512D2DAA1E7700C1861C /* ContentView_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
