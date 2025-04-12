@@ -10,11 +10,15 @@
 
 import SwiftUI
 import PhotosUI // Needed for MasterViewModel properties
-
-// MARK: - Helper: Mock MasterViewModel (Reused)
+// MARK: - Helper: Mock MasterViewModel (Corrected for Concurrency)
 
 @MainActor // Ensure mock updates happen on main actor if needed
 class MockMasterViewModel: MasterViewModel {
+
+    // --- Add a strong holder for the mock coordinator ---
+    private var strongMockCoordinatorHolder: MockDrawingCoordinator?
+    // ---
+
     // Convenience initializer for previews
     convenience init(
         selectedImage: UIImage? = nil,
@@ -38,22 +42,27 @@ class MockMasterViewModel: MasterViewModel {
 
         // Simulate drawing coordinator being available if needed for export previews
         if drawingImageForExport != nil || drawingStrokeCount > 0 {
-            self.drawingCoordinator = MockDrawingCoordinator(mockImage: drawingImageForExport)
+            // Create and hold the mock coordinator strongly
+            let mockCoord = MockDrawingCoordinator(mockImage: drawingImageForExport)
+            self.drawingCoordinator = mockCoord        // Assign to the weak property
+            self.strongMockCoordinatorHolder = mockCoord // Assign to the strong holder
         }
     }
 
-    // Simple mock coordinator for preview testing
+    // --- Mark MockDrawingCoordinator as @MainActor ---
+    @MainActor
     class MockDrawingCoordinator: DrawingPadRepresentable.Coordinator {
         private let mockImage: UIImage?
         init(mockImage: UIImage?) {
             self.mockImage = mockImage
-            // Need dummy parent/viewmodel for init, won't be used functionally here
+            // Now calling MockMasterViewModel() is okay because both inits are @MainActor
             super.init(
-                DrawingPadRepresentable(masterViewModel: MockMasterViewModel(), // Use a dummy VM
+                // Provide minimal representable - consider making a static instance?
+                DrawingPadRepresentable(masterViewModel: MockMasterViewModel(),
                                         strokeColor: .constant(.black),
                                         strokeWidth: .constant(1),
                                         needsClear: .constant(false)),
-                masterViewModel: MockMasterViewModel() // Dummy VM
+                masterViewModel: MockMasterViewModel() // Dummy VM still fine here
             )
         }
         override func captureDrawingImage() -> UIImage? {
@@ -61,7 +70,10 @@ class MockMasterViewModel: MasterViewModel {
             return mockImage
         }
     }
+    // --- End of MockDrawingCoordinator ---
 }
+
+// Rest of the preview code (helpers, wrappers, preview providers) remains the same...
 
 // Helper to create a simple placeholder image (Reused)
 func createPlaceholderImage(systemName: String = "photo", pointSize: CGFloat = 50, bgColor: UIColor = .systemGray5) -> UIImage? {
@@ -94,7 +106,7 @@ func createPlaceholderImage(systemName: String = "photo", pointSize: CGFloat = 5
     return image
 }
 
-// Helper extension for color brightness check
+// Helper extension for color brightness check (Reused)
 extension UIColor {
     var isLight: Bool {
         var white: CGFloat = 0
@@ -103,7 +115,7 @@ extension UIColor {
     }
 }
 
-// MARK: - ImagePickerSectionView Functional Previews
+// MARK: - ImagePickerSectionView Functional Previews (No Changes Needed Here)
 
 struct ImagePickerSectionFunctionalPreviewWrapper: View {
     // Use StateObject for the VM within the preview wrapper
@@ -122,9 +134,9 @@ struct ImagePickerSectionFunctionalPreviewWrapper: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .onChange(of: showingImagePicker) { newValue in
+        .onChange(of: showingImagePicker) {
             // Simulate dismissing the picker after a delay in preview
-            if newValue {
+            if showingImagePicker {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     showingImagePicker = false
                     // Optionally simulate selecting an image
@@ -154,7 +166,7 @@ struct ImagePickerSectionView_FunctionalPreviews: PreviewProvider {
     }
 }
 
-// MARK: - SafariSectionView Functional Previews (Interaction is just print)
+// MARK: - SafariSectionView Functional Previews (No Changes Needed Here)
 
 struct SafariSectionFunctionalPreviewWrapper: View {
     @StateObject var viewModel: MockMasterViewModel
@@ -204,7 +216,7 @@ struct SafariSectionView_FunctionalPreviews: PreviewProvider {
     }
 }
 
-// MARK: - DrawingPadSectionView Functional Previews
+// MARK: - DrawingPadSectionView Functional Previews (No Changes Needed Here)
 
 struct DrawingPadSectionFunctionalPreviewWrapper: View {
     @StateObject var viewModel: MockMasterViewModel = MockMasterViewModel(drawingStrokeCount: 0)
@@ -250,18 +262,6 @@ struct DrawingPadSectionFunctionalPreviewWrapper: View {
             }.buttonStyle(.bordered)
 
         }
-        // Simulate the representable resetting needsClear after a moment
-//        .onChange(of: needsClear) { newValue in
-//            if newValue {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                   if needsClear { // Check again in case user tapped confirm button
-//                       needsClear = false
-//                       viewModel.drawingPadDidChange(strokeCount: 0) // Reset stroke count
-//                       print("Preview: Auto-simulated clear confirmation.")
-//                   }
-//                }
-//            }
-//        }
     }
 }
 
@@ -274,7 +274,7 @@ struct DrawingPadSectionView_FunctionalPreviews: PreviewProvider {
     }
 }
 
-// MARK: - ExportButtonSection Functional Previews
+// MARK: - ExportButtonSection Functional Previews (No Changes Needed Here)
 
 struct ExportButtonSectionFunctionalPreviewWrapper: View {
     @StateObject var viewModel: MockMasterViewModel
@@ -291,8 +291,8 @@ struct ExportButtonSectionFunctionalPreviewWrapper: View {
                 .foregroundColor(.secondary)
         }
         // Simulate dismissal of the sheet
-         .onChange(of: showingExportView) { newValue in
-             if newValue {
+         .onChange(of: showingExportView) {
+             if showingExportView {
                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                      showingExportView = false
                      print("Preview: Simulated export sheet dismissal.")
@@ -325,7 +325,7 @@ struct ExportButtonSection_FunctionalPreviews: PreviewProvider {
     }
 }
 
-// MARK: - ExportPreviewView Functional Previews (State driven by VM)
+// MARK: - ExportPreviewView Functional Previews (No Changes Needed Here)
 
 struct ExportPreviewView_FunctionalPreviews: PreviewProvider {
     static var previews: some View {
@@ -351,7 +351,7 @@ struct ExportPreviewView_FunctionalPreviews: PreviewProvider {
     }
 }
 
-// MARK: - ExportActionsView Functional Previews
+// MARK: - ExportActionsView Functional Previews (No Changes Needed Here)
 
 struct ExportActionsFunctionalPreviewWrapper: View {
     @StateObject var viewModel: MockMasterViewModel
@@ -386,8 +386,8 @@ struct ExportActionsFunctionalPreviewWrapper: View {
             }
         }
         // Simulate share sheet dismissal
-        .onChange(of: isShareSheetPresented) { newValue in
-             if newValue {
+        .onChange(of: isShareSheetPresented) {
+             if isShareSheetPresented {
                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                      isShareSheetPresented = false
                      print("Preview: Simulated share sheet dismissal.")
@@ -411,8 +411,8 @@ struct ExportActionsView_FunctionalPreviews: PreviewProvider {
              .previewDisplayName("Enabled (Has Image) [Interactive]")
 
             ExportActionsFunctionalPreviewWrapper(
-                // Simulate VM providing the drawing for export
-                viewModel: MockMasterViewModel(drawingImageForExport: createPlaceholderImage()) // Drawing -> Enabled
+                // Simulate VM providing the drawing for export via the mock coord
+                viewModel: MockMasterViewModel(drawingImageForExport: createPlaceholderImage())
             )
              .previewDisplayName("Enabled (Has Drawing) [Interactive]")
 
