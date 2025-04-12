@@ -206,9 +206,9 @@ struct AuthorizationFlowView: View {
             // --- End Simulation Controls ---
         }
         .padding()
-        .onChange(of: useRealAPI) { newValue /* Use 'newValue' directly */ in
+        .onChange(of: useRealAPI) {
             // When the toggle changes, assign a new manager instance to the @State variable
-            if newValue {
+            if useRealAPI {
                  authManager = RealAuthorizationManager(mediaType: mediaType) // <<-- CORRECTED: Assign to @State var
                  print("Switched to REAL Authorization Manager for \(mediaType.rawValue)")
             } else {
