@@ -287,17 +287,16 @@ struct CameraPreviewView: UIViewRepresentable {
 
         DispatchQueue.main.async {
             if let connection = service.previewLayer.connection { // First, unwrap the connection
-                // Explicitly compare the Bool property to 'true'
-                if connection.isVideoRotationAngleSupported == true { // <--- The CHANGE
+                // *** CORRECT USAGE: Call the function with the desired angle ***
+                if connection.isVideoRotationAngleSupported(90.0) { // <-- CALL the function
                     connection.videoRotationAngle = 90 // Set the angle (Portrait)
                     print("CameraPreviewView: Set videoRotationAngle to 90.")
                 } else {
-                    // Handle case where rotation is not supported on this connection
-                    print("CameraPreviewView: Warning - Rotation angle not supported on this connection.")
+                    // Handle case where the 90-degree angle is specifically not supported
+                    print("CameraPreviewView: Warning - Rotation angle of 90 degrees is not supported on this connection.")
                 }
 
                 // Add the sublayer *after* configuration checks
-                // Check if view is still part of the hierarchy
                 if view.window != nil {
                      view.layer.addSublayer(service.previewLayer)
                      print("CameraPreviewView: Preview layer added.")
@@ -308,26 +307,22 @@ struct CameraPreviewView: UIViewRepresentable {
             } else {
                 // Handle case where the connection doesn't exist yet
                 print("CameraPreviewView: Warning - Connection not available at makeUIView time.")
-                 // Decide if you still want to add the layer if connection is nil
-                // if view.window != nil {
-                //      view.layer.addSublayer(service.previewLayer)
-                //      print("CameraPreviewView: Preview layer added (without connection check).")
-                // }
             }
         }
 
         return view
     }
 
-    // updateUIView remains the same...
     func updateUIView(_ uiView: UIView, context: Context) {
         print("CameraPreviewView: updateUIView - Updating layer frame")
         DispatchQueue.main.async {
             service.previewLayer.frame = uiView.bounds
             // Optional rotation update logic here...
+            // Remember to call isVideoRotationAngleSupported(angle) here too if updating
         }
     }
 }
+
 // MARK: - Audio Feature Components
 @MainActor
 class AudioLevelMonitor: ObservableObject {
