@@ -39,33 +39,33 @@ struct ColorAndShapeStyleShowcase: View {
                                         Color.pink.frame(width: 50, height: 50)
                                     }
                 
-                //                    // Semantic Colors
-                //                    Text("Semantic Colors:").font(.headline)
-                //                    HStack(spacing: 10) {
-                //                        Color.primary.frame(width: 50, height: 50).border(Color.secondary)
-                //                        Color.secondary.frame(width: 50, height: 50).border(Color.primary)
-                //                        Color.accentColor.frame(width: 50, height: 50).border(Color.gray)
-                //                    }
-                //
-                //                    // Color with Opacity
-                //                    Text("Color with Opacity:").font(.headline)
-                //                    ZStack {
-                //                        Color.orange.frame(width: 100, height: 50)
-                //                        Color.teal.frame(width: 50, height: 100)
-                //                        Color.indigo.opacity(0.5).frame(width: 120, height: 60)
-                //                    }
-                //
-                //                    // Color Initialization with RGBColorSpace
-                //                    Text("Color from RGB components:").font(.headline)
-                //                    HStack {
-                //                        Color(.sRGB, red: 0.9, green: 0.2, blue: 0.2, opacity: 1.0)
-                //                            .frame(width: 50, height: 50)
-                //                        Color(.displayP3, red: 0.2, green: 0.9, blue: 0.2, opacity: 1.0)
-                //                            .frame(width: 50, height: 50)
-                //                        Color(.sRGBLinear, red: 0.2, green: 0.2, blue: 0.9, opacity: 1.0)
-                //                            .frame(width: 50, height: 50)
-                //                    }
-                //
+                                    // Semantic Colors
+                                    Text("Semantic Colors:").font(.headline)
+                                    HStack(spacing: 10) {
+                                        Color.primary.frame(width: 50, height: 50).border(Color.secondary)
+                                        Color.secondary.frame(width: 50, height: 50).border(Color.primary)
+                                        Color.accentColor.frame(width: 50, height: 50).border(Color.gray)
+                                    }
+                
+                                    // Color with Opacity
+                                    Text("Color with Opacity:").font(.headline)
+                                    ZStack {
+                                        Color.orange.frame(width: 100, height: 50)
+                                        Color.teal.frame(width: 50, height: 100)
+                                        Color.indigo.opacity(0.5).frame(width: 120, height: 60)
+                                    }
+                
+                                    // Color Initialization with RGBColorSpace
+                                    Text("Color from RGB components:").font(.headline)
+                                    HStack {
+                                        Color(.sRGB, red: 0.9, green: 0.2, blue: 0.2, opacity: 1.0)
+                                            .frame(width: 50, height: 50)
+                                        Color(.displayP3, red: 0.2, green: 0.9, blue: 0.2, opacity: 1.0)
+                                            .frame(width: 50, height: 50)
+                                        Color(.sRGBLinear, red: 0.2, green: 0.2, blue: 0.9, opacity: 1.0)
+                                            .frame(width: 50, height: 50)
+                                    }
+                
                 //                    // Color from Resolved
                 //                    if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
                 //                        Text("Color from Resolved:").font(.headline)
