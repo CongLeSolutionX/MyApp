@@ -18,27 +18,27 @@ struct ColorAndShapeStyleShowcase: View {
             VStack(alignment: .leading, spacing: 30) {
                 
                 // --- Color Demonstrations ---
-                //                Group {
-                //                    Text("Color Demonstrations").font(.title).bold()
-                //
-                //                    // Using Color directly as a View
-                //                    Text("Color as View:").font(.headline)
-                //                    HStack(spacing: 10) {
-                //                        Color.red.frame(width: 50, height: 50)
-                //                        Color(red: 0.46, green: 0.84, blue: 1.0).frame(width: 50, height: 50) // skyBlue
-                //                        Color(hue: 0.16, saturation: 1, brightness: 1).frame(width: 50, height: 50) // lemonYellow
-                //                        Color(white: 0.47).frame(width: 50, height: 50) // steelGray
-                //                    }
-                //
-                //                    // Predefined Colors
-                //                    Text("Predefined Colors:").font(.headline)
-                //                    HStack(spacing: 10) {
-                //                        Color.blue.frame(width: 50, height: 50)
-                //                        Color.green.frame(width: 50, height: 50)
-                //                        Color.purple.frame(width: 50, height: 50)
-                //                        Color.pink.frame(width: 50, height: 50)
-                //                    }
-                //
+                                Group {
+                                    Text("Color Demonstrations").font(.title).bold()
+                
+                                    // Using Color directly as a View
+                                    Text("Color as View:").font(.headline)
+                                    HStack(spacing: 10) {
+                                        Color.red.frame(width: 50, height: 50)
+                                        Color(red: 0.46, green: 0.84, blue: 1.0).frame(width: 50, height: 50) // skyBlue
+                                        Color(hue: 0.16, saturation: 1, brightness: 1).frame(width: 50, height: 50) // lemonYellow
+                                        Color(white: 0.47).frame(width: 50, height: 50) // steelGray
+                                    }
+                
+                                    // Predefined Colors
+                                    Text("Predefined Colors:").font(.headline)
+                                    HStack(spacing: 10) {
+                                        Color.blue.frame(width: 50, height: 50)
+                                        Color.green.frame(width: 50, height: 50)
+                                        Color.purple.frame(width: 50, height: 50)
+                                        Color.pink.frame(width: 50, height: 50)
+                                    }
+                
                 //                    // Semantic Colors
                 //                    Text("Semantic Colors:").font(.headline)
                 //                    HStack(spacing: 10) {
@@ -72,8 +72,8 @@ struct ColorAndShapeStyleShowcase: View {
                 //                        let resolvedColor = Color.Resolved(linearRed: 0.1, linearGreen: 0.9, linearBlue: 0.5, opacity: 1.0)
                 //                        Color(resolvedColor).frame(width: 50, height: 50)
                 //                    }
-                //                }
-                //
+                                }
+                
                 Divider()
                 
                 // --- ShapeStyle Demonstrations ---
