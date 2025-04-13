@@ -12,7 +12,7 @@
 //
 ///// A view demonstrating various keyframe animations.
 //@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
-//struct KeyframeAnimationStructureDemo: View {
+//struct KeyframeAnimationStructureDemoView: View {
 //    // MARK: - State Variables
 //    @State private var triggerAnimation: Bool = false // Triggers the main animation sequence
 //    @State private var showRepeatingAnimation: Bool = false // Toggles the repeating animation example
