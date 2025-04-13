@@ -22,6 +22,8 @@
 		9A7C55752DAC51AD00A08B97 /* WebSearchWorkflowDemoView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55742DAC51AB00A08B97 /* WebSearchWorkflowDemoView_V5.swift */; };
 		9A7C557A2DAC557400A08B97 /* RealtimeAgent_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55792DAC557300A08B97 /* RealtimeAgent_V1.swift */; };
 		9A7C557C2DAC56E100A08B97 /* RealtimeAgent_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C557B2DAC56DF00A08B97 /* RealtimeAgent_V2.swift */; };
+		9A7C557E2DAC5E2A00A08B97 /* RealtimeAgent_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C557D2DAC5E2900A08B97 /* RealtimeAgent_V3.swift */; };
+		9A7C55802DAC5E8700A08B97 /* SpeechRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C557F2DAC5E8600A08B97 /* SpeechRecognitionViewModel.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -46,6 +48,8 @@
 		9A7C55742DAC51AB00A08B97 /* WebSearchWorkflowDemoView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchWorkflowDemoView_V5.swift; sourceTree = "<group>"; };
 		9A7C55792DAC557300A08B97 /* RealtimeAgent_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V1.swift; sourceTree = "<group>"; };
 		9A7C557B2DAC56DF00A08B97 /* RealtimeAgent_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V2.swift; sourceTree = "<group>"; };
+		9A7C557D2DAC5E2900A08B97 /* RealtimeAgent_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V3.swift; sourceTree = "<group>"; };
+		9A7C557F2DAC5E8600A08B97 /* SpeechRecognitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionViewModel.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				9A7374012DAC247B00302A9A /* APIKeyInputView.swift */,
 				9A7C55792DAC557300A08B97 /* RealtimeAgent_V1.swift */,
 				9A7C557B2DAC56DF00A08B97 /* RealtimeAgent_V2.swift */,
+				9A7C557D2DAC5E2900A08B97 /* RealtimeAgent_V3.swift */,
+				9A7C557F2DAC5E8600A08B97 /* SpeechRecognitionViewModel.swift */,
 				9A7C55762DAC553E00A08B97 /* WebSearchWorkflowDemoView */,
 				9A7C556A2DAC47A500A08B97 /* OpenAIModelsCardView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -205,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A7C55802DAC5E8700A08B97 /* SpeechRecognitionViewModel.swift in Sources */,
 				9A7C55732DAC4D8D00A08B97 /* WebSearchWorkflowDemoView_V4.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A7C556F2DAC497F00A08B97 /* WebSearchWorkflowDemoView_V2.swift in Sources */,
@@ -222,6 +229,7 @@
 				9A7C557C2DAC56E100A08B97 /* RealtimeAgent_V2.swift in Sources */,
 				9A7C557A2DAC557400A08B97 /* RealtimeAgent_V1.swift in Sources */,
 				9A7C55752DAC51AD00A08B97 /* WebSearchWorkflowDemoView_V5.swift in Sources */,
+				9A7C557E2DAC5E2A00A08B97 /* RealtimeAgent_V3.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +368,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyApp/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs access to the microphone to capture your voice for commands.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app needs access to speech recognition to process your voice commands.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -400,6 +410,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyApp/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs access to the microphone to capture your voice for commands.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app needs access to speech recognition to process your voice commands.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
