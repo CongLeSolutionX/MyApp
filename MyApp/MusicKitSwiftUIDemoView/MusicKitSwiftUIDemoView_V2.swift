@@ -4,42 +4,25 @@
 //
 //  Created by Cong Le on 4/13/25.
 //
-
-
 import SwiftUI
-import MusicKit // Assuming MusicKit is correctly imported
+// Make sure CoreGraphics is imported if not already globally available
+import CoreGraphics
 
-// --- Placeholder Data Structures (for demonstration as we can't fetch real data) ---
-
-/// Placeholder Artwork structure mimicking MusicKit.Artwork for demonstration.
+// --- Placeholder Artwork structure (assuming it's defined as before) ---
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 struct PlaceholderArtwork {
-    var id = UUID() // Add an ID for Identifiable conformance if needed later
-    var backgroundColor: CGColor? = CGColor(red: 0.8, green: 0.8, blue: 0.85, alpha: 1.0) // Placeholder color
+    var id = UUID()
+    var backgroundColor: CGColor? = CGColor(red: 0.8, green: 0.8, blue: 0.85, alpha: 1.0)
     var maximumWidth: Int = 1000
     var maximumHeight: Int = 1000
 
     // Mock function to simulate MusicKit.Artwork.url(width:height:)
     func mockUrl(width: Int, height: Int) -> URL? {
-        // In a real scenario, this would return a valid image URL.
-        // For demonstration, we might return nil or a placeholder URL if available.
-        // Let's return a placeholder SF Symbol URL for illustrative purposes.
         let symbolSize = min(width, height)
-        return URL(string: "https://via.placeholder.com/\(symbolSize)") // Or a real placeholder image service
-        // return nil // Or return nil if no placeholder URL is desired
+        return URL(string: "https://via.placeholder.com/\(symbolSize)")
     }
 }
 
-/// Placeholder MusicItemID mimicking MusicKit.MusicItemID for demonstration.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
-struct PlaceholderMusicItemID: RawRepresentable, Equatable, Hashable, Sendable {
-    var rawValue: String
-    init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-}
-
-// --- SwiftUI Views Demonstrating MusicKit Integration ---
 
 /// A View demonstrating the use of `ArtworkImage`.
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
@@ -57,45 +40,38 @@ struct ArtworkDisplayView: View {
             // an actual view builder, we'll simulate its appearance using our placeholder.
             // The real ArtworkImage view handles loading and placeholder display internally.
 
-            if let artworkURL = artwork.mockUrl(width: 150, height: 150) {
-                 // Simulate asynchronous loading (placeholder shown meanwhile)
-                 AsyncImage(url: artworkURL) { phase in
-                     switch phase {
-                     case .empty:
-                         // Placeholder matching the real ArtworkImage behavior
-                         Rectangle()
-                            .fill(Color(cgColor: artwork.backgroundColor ?? .gray))
-                            .frame(width: 150, height: 150)
-                            .overlay(ProgressView()) // Show loading indicator
-                     case .success(let image):
-                         image
-                             .resizable()
-                             .aspectRatio(contentMode: .fit)
-                             .frame(width: 150, height: 150)
-                     case .failure:
-                         // Error placeholder
-                         Rectangle()
-                             .fill(Color.red.opacity(0.5))
-                             .frame(width: 150, height: 150)
-                             .overlay(Image(systemName: "exclamationmark.triangle.fill"))
-                     @unknown default:
-                         EmptyView()
-                    }
-                 }
-                 .frame(width: 150, height: 150)
-                 .clipShape(RoundedRectangle(cornerRadius: 8)) // Style it slightly
-                 .shadow(radius: 5)
+            // --- FIX 1: Pass optional URL directly to AsyncImage ---
+            // Remove the 'if let' check, as AsyncImage handles nil URLs.
+            let artworkURL = artwork.mockUrl(width: 150, height: 150)
 
-
-            } else {
-                // Fallback if URL generation fails or is not implemented
-                Rectangle()
-                   .fill(Color(cgColor: artwork.backgroundColor ?? .gray))
-                   .frame(width: 150, height: 150)
-                   .overlay(Text("Artwork\nUnavailable").multilineTextAlignment(.center))
-                   .clipShape(RoundedRectangle(cornerRadius: 8))
-                   .shadow(radius: 5)
+            // Simulate asynchronous loading (placeholder shown meanwhile)
+            AsyncImage(url: artworkURL) { phase in // Pass optional URL directly
+                switch phase {
+                case .empty:
+                    // Placeholder matching the real ArtworkImage behavior
+                    Rectangle()
+                        // --- FIX 2: Use a valid CGColor fallback ---
+                        .fill(Color(cgColor: artwork.backgroundColor ?? CGColor(gray: 0.5, alpha: 1.0))) // Use a gray CGColor
+                        .frame(width: 150, height: 150)
+                        .overlay(ProgressView()) // Show loading indicator
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 150, height: 150)
+                case .failure:
+                    // Error placeholder
+                    Rectangle()
+                        .fill(Color.red.opacity(0.5))
+                        .frame(width: 150, height: 150)
+                        .overlay(Image(systemName: "exclamationmark.triangle.fill"))
+                @unknown default:
+                    EmptyView()
+               }
             }
+            .frame(width: 150, height: 150) // Apply frame to the AsyncImage container
+            .clipShape(RoundedRectangle(cornerRadius: 8)) // Style it slightly
+            .shadow(radius: 5)
 
             Text("Displays artwork. Shows a background-colored placeholder while loading.")
                 .font(.caption)
@@ -107,8 +83,9 @@ struct ArtworkDisplayView: View {
     }
 }
 
+// Rest of your file (SubscriptionOfferView, MusicKitSwiftUIDemoView, Previews) remains the same
+// ... (Include the PlaceholderMusicItemID and SubscriptionOfferView, etc. from the previous correct code)
 
-/// A View demonstrating the use of the `.musicSubscriptionOffer` modifier.
 @available(iOS 15.0, macOS 12.0, *)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
@@ -185,8 +162,6 @@ struct SubscriptionOfferView: View {
     }
 }
 
-// --- Main Container View ---
-
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
 struct MusicKitSwiftUIDemoView: View {
     // Create a sample placeholder artwork
@@ -229,9 +204,7 @@ struct MusicKitSwiftUIDemoView: View {
     }
 }
 
-// --- Preview Provider ---
 
-// Ensure preview is available on a platform that supports the views
 #if os(iOS) || os(macOS)
 @available(iOS 15.0, macOS 12.0, *)
 struct MusicKitSwiftUIDemoView_Previews: PreviewProvider {
