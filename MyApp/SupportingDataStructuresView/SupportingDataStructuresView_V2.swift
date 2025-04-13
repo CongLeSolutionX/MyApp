@@ -531,9 +531,9 @@ struct SupportingDataStructuresView: View {
                        MusicItemCollectionView(collection: mockCollection)
                   }
 
-                   GroupBox("MusicItemCollection<MockSongItem> (Empty)") {
-                       MusicItemCollectionView(collection: MockMusicItemCollection<MockSongItem>())
-                   }
+//                   GroupBox("MusicItemCollection<MockSongItem> (Empty)") {
+//                       MusicItemCollectionView(collection: MockMusicItemCollection<MockSongItem>())
+//                   }
 
             }
             .padding()
