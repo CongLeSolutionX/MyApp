@@ -27,6 +27,7 @@
 		9A7C55822DAC6F5A00A08B97 /* RealtimeAgent_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55812DAC6F5800A08B97 /* RealtimeAgent_V4.swift */; };
 		9A7C55842DAC70C300A08B97 /* RealtimeAgent_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55832DAC70C100A08B97 /* RealtimeAgent_V5.swift */; };
 		9A7C55862DAC75F100A08B97 /* RealtimeAgent_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55852DAC75EF00A08B97 /* RealtimeAgent_V6.swift */; };
+		9A7C55882DAC775C00A08B97 /* RealtimeAgent_V7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55872DAC775A00A08B97 /* RealtimeAgent_V7.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		9A7C55812DAC6F5800A08B97 /* RealtimeAgent_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V4.swift; sourceTree = "<group>"; };
 		9A7C55832DAC70C100A08B97 /* RealtimeAgent_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V5.swift; sourceTree = "<group>"; };
 		9A7C55852DAC75EF00A08B97 /* RealtimeAgent_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V6.swift; sourceTree = "<group>"; };
+		9A7C55872DAC775A00A08B97 /* RealtimeAgent_V7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAgent_V7.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				9A7C55812DAC6F5800A08B97 /* RealtimeAgent_V4.swift */,
 				9A7C55832DAC70C100A08B97 /* RealtimeAgent_V5.swift */,
 				9A7C55852DAC75EF00A08B97 /* RealtimeAgent_V6.swift */,
+				9A7C55872DAC775A00A08B97 /* RealtimeAgent_V7.swift */,
 				9A7C557F2DAC5E8600A08B97 /* SpeechRecognitionViewModel.swift */,
 				9A7C55762DAC553E00A08B97 /* WebSearchWorkflowDemoView */,
 				9A7C556A2DAC47A500A08B97 /* OpenAIModelsCardView */,
@@ -235,6 +238,7 @@
 				9A7C55822DAC6F5A00A08B97 /* RealtimeAgent_V4.swift in Sources */,
 				9A7374022DAC247C00302A9A /* APIKeyInputView.swift in Sources */,
 				9A7373FC2DAC21F500302A9A /* OpenAIModelsCardView_V4.swift in Sources */,
+				9A7C55882DAC775C00A08B97 /* RealtimeAgent_V7.swift in Sources */,
 				9A7374002DAC246600302A9A /* OpenAIModelsCardView_V6.swift in Sources */,
 				9A7C55712DAC4B9A00A08B97 /* WebSearchWorkflowDemoView_V3.swift in Sources */,
 				9A7C557C2DAC56E100A08B97 /* RealtimeAgent_V2.swift in Sources */,
