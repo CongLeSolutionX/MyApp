@@ -17,6 +17,7 @@
 		9A9C3F162DAB57A8009CCA16 /* AlignmentTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F152DAB57A3009CCA16 /* AlignmentTypesView.swift */; };
 		9A9C3F182DAB5934009CCA16 /* AnchorAndGeometryProxyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F172DAB592B009CCA16 /* AnchorAndGeometryProxyView.swift */; };
 		9A9C3F1B2DAB5B6D009CCA16 /* TransactionsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F1A2DAB5B67009CCA16 /* TransactionsDemoView.swift */; };
+		9A9C3F1D2DAB5C7F009CCA16 /* CoreTransitionConceptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F1C2DAB5C75009CCA16 /* CoreTransitionConceptsView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 		9A9C3F152DAB57A3009CCA16 /* AlignmentTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignmentTypesView.swift; sourceTree = "<group>"; };
 		9A9C3F172DAB592B009CCA16 /* AnchorAndGeometryProxyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnchorAndGeometryProxyView.swift; sourceTree = "<group>"; };
 		9A9C3F1A2DAB5B67009CCA16 /* TransactionsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsDemoView.swift; sourceTree = "<group>"; };
+		9A9C3F1C2DAB5C75009CCA16 /* CoreTransitionConceptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTransitionConceptsView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				9A9C3F1A2DAB5B67009CCA16 /* TransactionsDemoView.swift */,
+				9A9C3F1C2DAB5C75009CCA16 /* CoreTransitionConceptsView.swift */,
 			);
 			path = "Animation and Transition Hierarchy";
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A9C3F102DAB559B009CCA16 /* AccessibilityComponentsView.swift in Sources */,
 				9A9C3F142DAB5664009CCA16 /* StateManagementDemoView_V1.swift in Sources */,
+				9A9C3F1D2DAB5C7F009CCA16 /* CoreTransitionConceptsView.swift in Sources */,
 				9A9C3F122DAB5601009CCA16 /* ProtocolRelationshipView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
