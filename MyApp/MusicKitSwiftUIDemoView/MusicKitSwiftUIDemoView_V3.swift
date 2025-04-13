@@ -10,6 +10,7 @@ import SwiftUI
 // Make sure CoreGraphics is imported if not already globally available
 import CoreGraphics
 import _MusicKit_SwiftUI
+import Foundation
 
 // --- Placeholder Artwork structure (assuming it's defined as before) ---
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *)
@@ -19,12 +20,15 @@ struct PlaceholderArtwork {
     var maximumWidth: Int = 1000
     var maximumHeight: Int = 1000
 
+    // --- FIX: Explicitly use Foundation.URL ---
     // Mock function to simulate MusicKit.Artwork.url(width:height:)
-    func mockUrl(width: Int, height: Int) -> URL? {
+    func mockUrl(width: Int, height: Int) -> Foundation.URL? { // Specify Foundation.URL
         let symbolSize = min(width, height)
-        return URL(string: "https://via.placeholder.com/\(symbolSize)")
+        // Also use Foundation.URL for the initializer call
+        return Foundation.URL(string: "https://via.placeholder.com/\(symbolSize)")
     }
 }
+
 
 
 /// A View demonstrating the use of `ArtworkImage`.
