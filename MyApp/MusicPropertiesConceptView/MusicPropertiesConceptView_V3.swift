@@ -56,8 +56,7 @@ enum AudioVariant: String, CaseIterable, Hashable {
 }
 
 // --- Property Type Placeholders (Simulate the type hierarchy) ---
-//@unchecked Sendable
-class AnyMusicProperty: Hashable, Equatable { // Base class concept
+class AnyMusicProperty: Hashable, Equatable, @unchecked Sendable { // Base class concept
     let propertyName: String
     let rootType: String
 
@@ -75,22 +74,22 @@ class AnyMusicProperty: Hashable, Equatable { // Base class concept
     }
 }
 
-class PartialMusicProperty<Root>: AnyMusicProperty { // Intermediate concept
+class PartialMusicProperty<Root>: AnyMusicProperty, @unchecked Sendable { // Intermediate concept
      init(name: String) {
         super.init(name: name, root: String(describing: Root.self))
     }
 }
 
-class PartialMusicAsyncProperty<Root>: PartialMusicProperty<Root> {} // Intermediate async concept
+class PartialMusicAsyncProperty<Root>: PartialMusicProperty<Root>, @unchecked Sendable {} // Intermediate async concept
 
 // Specific Property Type Concepts
-class MusicAttributeProperty<Root, Value>: PartialMusicAsyncProperty<Root> {
+class MusicAttributeProperty<Root, Value>: PartialMusicAsyncProperty<Root>, @unchecked Sendable {
     // Represents a simple attribute (like title, duration)
 }
-class MusicExtendedAttributeProperty<Root, Value>: PartialMusicAsyncProperty<Root> {
+class MusicExtendedAttributeProperty<Root, Value>: PartialMusicAsyncProperty<Root>, @unchecked Sendable {
     // Represents an attribute that might need an extra lookup (like artistURL)
 }
-class MusicRelationshipProperty<Root, Relationship>: PartialMusicAsyncProperty<Root> {
+class MusicRelationshipProperty<Root, Relationship>: PartialMusicAsyncProperty<Root>, @unchecked Sendable {
     // Represents a relationship to another MusicItem or Collection (like artists, tracks)
 }
 
