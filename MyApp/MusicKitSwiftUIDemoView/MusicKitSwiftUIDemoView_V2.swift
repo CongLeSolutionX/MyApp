@@ -1,9 +1,10 @@
 //
-//  MusicKitSwiftUIDemoView.swift
+//  MusicKitSwiftUIDemoView_V2.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/13/25.
 //
+
 
 import SwiftUI
 import MusicKit // Assuming MusicKit is correctly imported
