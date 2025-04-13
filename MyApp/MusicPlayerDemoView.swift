@@ -30,7 +30,7 @@ struct MockQueueEntry: Identifiable, Equatable, Hashable {
 class MockPlayerState: ObservableObject {
     @Published var playbackStatus: MusicPlayer.PlaybackStatus = .stopped
     @Published var playbackRate: Float = 1.0
-    @Published var repeatMode: MusicPlayer.RepeatMode? = .none
+    @Published var repeatMode: MusicPlayer.RepeatMode? = Optional.none
     @Published var shuffleMode: MusicPlayer.ShuffleMode? = .off
     @Published var audioVariant: AudioVariant? = .lossyStereo
     @Published var playbackTime: TimeInterval = 0.0
@@ -290,7 +290,7 @@ struct PlayerStateView: View {
 
     private func repeatModeText(_ mode: MusicPlayer.RepeatMode?) -> String {
         switch mode {
-        case .none: return "Off"
+        case nil: return "Off"
         case .one: return "One"
         case .all: return "All"
         default: return "N/A"
@@ -299,7 +299,7 @@ struct PlayerStateView: View {
 
     private func repeatModeIcon(_ mode: MusicPlayer.RepeatMode?) -> String {
         switch mode {
-        case .none: return "repeat"
+        case nil: return "repeat"
         case .one: return "repeat.1"
         case .all: return "repeat"
         default: return "repeat"
@@ -343,6 +343,7 @@ struct PlayerStateView: View {
         case .none:
             return "None"
         case .crossfade(let options):
+            print(options)
 //            if let duration = options.duration {
 //                return "Crossfade (\(String(format: "%.1fs", duration)))"
 //            } else {
@@ -368,7 +369,7 @@ struct PlayerControlsView: View {
         HStack(spacing: 20) {
             Button(action: onToggleRepeat) {
                 Image(systemName: repeatModeIcon(playerState.repeatMode))
-                    .foregroundColor(playerState.repeatMode != .none ? .accentColor : .secondary)
+                    .foregroundColor(playerState.repeatMode != Optional.none ? .accentColor : .secondary)
             }
 
             Spacer()
@@ -402,7 +403,7 @@ struct PlayerControlsView: View {
      // Duplicated icon helpers for local use within controls if needed, or use injected state
      private func repeatModeIcon(_ mode: MusicPlayer.RepeatMode?) -> String {
          switch mode {
-         case .none: return "repeat"
+         case nil: return "repeat"
          case .one: return "repeat.1"
          case .all: return "repeat.circle.fill" // Fill when active?
          default: return "repeat"
@@ -476,7 +477,8 @@ struct PlayerView<QueueEntries: RandomAccessCollection>: View where QueueEntries
                          .padding(.trailing, 1) // Prevent scroll indicator overlap minorly
                     }
                     .frame(maxHeight: 200) // Limit queue display height
-                    .onChange(of: playerState.currentEntryId) { newId in
+                    .onChange(of: playerState.currentEntryId) {
+                        let newId = playerState.currentEntryId
                          // Scroll to the current item when it changes
                          withAnimation {
                              proxy.scrollTo(newId, anchor: .center)
@@ -559,21 +561,21 @@ struct MusicPlayerRepresentationView_Previews: PreviewProvider {
 
 // Add minimal conformance representation based on documentation/diagram
 extension MusicPlayer.Queue.Entry.Item: MusicPropertyContainer {}
-extension MusicPlayer.Queue.Entry.Item: PlayableMusicItem {
-    // playParameters is already included conceptually via the enum definition
-}
+//extension MusicPlayer.Queue.Entry.Item: PlayableMusicItem {
+//    // playParameters is already included conceptually via the enum definition
+//}
 
 // Note: Codable conformance is complex for enums with associated values
 // and protocols. This representation focuses on UI aspects.
 
 // Similarly, represent protocol conformances mentioned in the docs, though
 // these don't directly impact the UI representation itself.
-@available(iOS 15.0, tvOS 15.0, visionOS 1.0, macOS 14.0, *)
-@available(watchOS, unavailable)
-extension ApplicationMusicPlayer.Queue: Equatable {}
-@available(iOS 15.0, tvOS 15.0, visionOS 1.0, macOS 14.0, *)
-@available(watchOS, unavailable)
-extension ApplicationMusicPlayer.Queue: Hashable {}
+//@available(iOS 15.0, tvOS 15.0, visionOS 1.0, macOS 14.0, *)
+//@available(watchOS, unavailable)
+//extension ApplicationMusicPlayer.Queue: Equatable {}
+//@available(iOS 15.0, tvOS 15.0, visionOS 1.0, macOS 14.0, *)
+//@available(watchOS, unavailable)
+//extension ApplicationMusicPlayer.Queue: Hashable {}
 
 //// Add Transition & CrossfadeOptions struct definitions as per diagram/docs
 //@available(iOS 18.0, *) // Use appropriate availability if needed
