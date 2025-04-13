@@ -20,7 +20,7 @@ class ToastsData {
     
     /// Adds toast to the Context
     func add(_ toast: Toast) {
-        withAnimation(.bouncy) {
+        withAnimation(.snappy(duration: 0.3, extraBounce: 0)) {
             toasts.append(toast)
         }
     }
@@ -32,7 +32,7 @@ class ToastsData {
             toast.wrappedValue.isDeleting.toggle()
         }
         
-        withAnimation(.bouncy) {
+        withAnimation(.snappy(duration: 0.3, extraBounce: 0)) {
             toasts.removeAll(where: { $0.id == id })
         }
     }
@@ -64,60 +64,72 @@ fileprivate struct ToastsView: View {
                 Rectangle()
                     .fill(.ultraThinMaterial)
                     .ignoresSafeArea()
-                    .onTapGesture {
-                        isExpanded = false
-                    }
             }
             
             let layout = isExpanded ? AnyLayout(VStackLayout(spacing: 10)) : AnyLayout(ZStackLayout())
             
-            layout {
-                ForEach($toastsBindable.toasts) { $toast in
-                    let index = (toasts.count - 1) - (toasts.firstIndex(where: { $0.id == toast.id }) ?? 0)
-                    
-                    toast.content
-                        .offset(x: toast.offsetX)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    let xOffset = value.translation.width < 0 ? value.translation.width : 0
-                                    toast.offsetX = xOffset
-                                }.onEnded { value in
-                                    let xOffset = value.translation.width + (value.velocity.width / 2)
-                                    
-                                    if -xOffset > 200 {
-                                        /// Remove Toast
-                                        toastsData.delete(toast.id)
-                                    } else {
-                                        /// Reset Toast to it's initial Position
-                                        withAnimation(.bouncy) {
-                                            toast.offsetX = 0
+            ScrollView(.vertical) {
+                layout {
+                    ForEach($toastsBindable.toasts) { $toast in
+                        let index = (toasts.count - 1) - (toasts.firstIndex(where: { $0.id == toast.id }) ?? 0)
+                        
+                        toast.content
+                            .offset(x: toast.offsetX)
+                            .gesture(
+                                DragGesture(minimumDistance: 30, coordinateSpace: .global)
+                                    .onChanged { value in
+                                        let xOffset = -value.translation.width > 30 ? value.translation.width + 30 : 0
+                                        toast.offsetX = xOffset
+                                    }.onEnded { value in
+                                        let xOffset = value.translation.width + (value.velocity.width / 2)
+                                        
+                                        if -xOffset > 200 {
+                                            /// Remove Toast
+                                            toastsData.delete(toast.id)
+                                        } else {
+                                            /// Reset Toast to it's initial Position
+                                            withAnimation(.bouncy) {
+                                                toast.offsetX = 0
+                                            }
                                         }
                                     }
-                                }
-                        )
-                        .visualEffect { [isExpanded] content, proxy in
-                            content
-                                .scaleEffect(isExpanded ? 1 : scale(index), anchor: .bottom)
-                                .offset(y: isExpanded ? 0 : offsetY(index))
-                        }
-                        .zIndex(toast.isDeleting ? 1000 : 0)
-                        .frame(maxWidth: .infinity)
-                        .transition(
-                            .asymmetric(
-                                insertion: .offset(y: 100),
-                                removal: .move(edge: .leading)
                             )
-                        )
+                            .visualEffect { [isExpanded] content, proxy in
+                                content
+                                    .scaleEffect(isExpanded ? 1 : scale(index), anchor: .bottom)
+                                    .offset(y: isExpanded ? 0 : offsetY(index))
+                            }
+                            .zIndex(toast.isDeleting ? 1000 : 0)
+                            .frame(maxWidth: .infinity)
+                            .transition(
+                                .asymmetric(
+                                    insertion: .offset(y: 100),
+                                    removal: .move(edge: .leading)
+                                )
+                            )
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 15)
+                .rotationEffect(.init(degrees: -180))
+                .onGeometryChange(for: CGFloat.self) {
+                    $0.size.height
+                } action: { newValue in
+                    height = newValue
                 }
             }
-            .padding(.bottom, 15)
+            .rotationEffect(.init(degrees: 180))
+            .frame(height: isExpanded ? nil : height == 0 ? nil : height)
+            .scrollClipDisabled()
+            .scrollIndicators(.hidden)
+            .scrollDisabled(!isExpanded)
+            .allowsHitTesting(!toasts.isEmpty)
             .onTapGesture {
                 isExpanded.toggle()
             }
         }
         .frame(maxHeight: .infinity, alignment: .bottom)
-        .animation(.bouncy, value: isExpanded)
+        .animation(.snappy(duration: 0.3, extraBounce: 0), value: isExpanded)
         .onChange(of: toasts.isEmpty) { oldValue, newValue in
             if newValue {
                 isExpanded = false
@@ -196,7 +208,6 @@ fileprivate class PassthroughWindow: UIWindow {
         }
     }
 }
-
 // MARK: - Preview
 #Preview {
     RootView {

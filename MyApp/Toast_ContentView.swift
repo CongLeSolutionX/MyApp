@@ -96,7 +96,7 @@ struct Toast_ContentView: View {
         HStack(spacing: 12) {
             Image(systemName: "airpods.pro")
             
-            Text("iKieuTuiDo's Airpods")
+            Text("iJustine's Airpods")
                 .font(.callout)
         }
         .foregroundStyle(Color.primary)
@@ -111,7 +111,6 @@ struct Toast_ContentView: View {
         }
     }
 }
-
 
 // MARK: - Preview
 #Preview {
