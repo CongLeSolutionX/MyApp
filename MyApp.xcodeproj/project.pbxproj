@@ -44,6 +44,10 @@
 		9A0C229B2DABCDAE0022EB39 /* PlayButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229A2DABCDAD0022EB39 /* PlayButtonStyle.swift */; };
 		9A0C229D2DABCDB70022EB39 /* WorkoutButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229C2DABCDB70022EB39 /* WorkoutButtonStyle.swift */; };
 		9A0C229F2DABCDC60022EB39 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229E2DABCDC60022EB39 /* CustomColor.swift */; };
+		9A0C22A22DABCDF90022EB39 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22A12DABCDF80022EB39 /* WorkoutView.swift */; };
+		9A0C22A42DABCE050022EB39 /* WorkoutDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22A32DABCE040022EB39 /* WorkoutDataView.swift */; };
+		9A0C22A62DABCE110022EB39 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22A52DABCE110022EB39 /* WorkoutViewModel.swift */; };
+		9A0C22A82DABCE200022EB39 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22A72DABCE200022EB39 /* MapView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -89,6 +93,10 @@
 		9A0C229A2DABCDAD0022EB39 /* PlayButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonStyle.swift; sourceTree = "<group>"; };
 		9A0C229C2DABCDB70022EB39 /* WorkoutButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutButtonStyle.swift; sourceTree = "<group>"; };
 		9A0C229E2DABCDC60022EB39 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
+		9A0C22A12DABCDF80022EB39 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
+		9A0C22A32DABCE040022EB39 /* WorkoutDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDataView.swift; sourceTree = "<group>"; };
+		9A0C22A52DABCE110022EB39 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
+		9A0C22A72DABCE200022EB39 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -225,6 +233,25 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		9A0C22A02DABCDEF0022EB39 /* Workout */ = {
+			isa = PBXGroup;
+			children = (
+				9A0C22A92DABCE240022EB39 /* Map */,
+				9A0C22A12DABCDF80022EB39 /* WorkoutView.swift */,
+				9A0C22A32DABCE040022EB39 /* WorkoutDataView.swift */,
+				9A0C22A52DABCE110022EB39 /* WorkoutViewModel.swift */,
+			);
+			path = Workout;
+			sourceTree = "<group>";
+		};
+		9A0C22A92DABCE240022EB39 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9A0C22A72DABCE200022EB39 /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +275,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A0C224C2DABC9E70022EB39 /* Home */,
 				9A0C22522DABCA670022EB39 /* Music */,
+				9A0C22A02DABCDEF0022EB39 /* Workout */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -348,16 +376,20 @@
 				9A0C228A2DABCD220022EB39 /* MusicItemSection.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A0C22752DABCC770022EB39 /* ArtistDetailView.swift in Sources */,
+				9A0C22A22DABCDF90022EB39 /* WorkoutView.swift in Sources */,
 				9A0C22682DABCBE30022EB39 /* MiniPlayer.swift in Sources */,
 				9A0C22512DABCA0C0022EB39 /* CurvedFilledLine.swift in Sources */,
 				9A0C22822DABCCF50022EB39 /* ArtistCell.swift in Sources */,
 				9A0C22922DABCD500022EB39 /* StationCell.swift in Sources */,
 				9A0C22652DABCB4D0022EB39 /* SearchViewModel.swift in Sources */,
 				9A0C22562DABCA870022EB39 /* LibraryView.swift in Sources */,
+				9A0C22A62DABCE110022EB39 /* WorkoutViewModel.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A0C225E2DABCAC50022EB39 /* AddToPlaylistCell.swift in Sources */,
+				9A0C22A82DABCE200022EB39 /* MapView.swift in Sources */,
 				9A0C22862DABCD0B0022EB39 /* CuratorCell.swift in Sources */,
 				9A0C226C2DABCC1A0022EB39 /* PlayButton.swift in Sources */,
+				9A0C22A42DABCE050022EB39 /* WorkoutDataView.swift in Sources */,
 				9A0C22902DABCD460022EB39 /* RecentlyPlayedCell.swift in Sources */,
 				9A0C22792DABCC980022EB39 /* CuratorDetailView.swift in Sources */,
 				9A0C224F2DABC9FF0022EB39 /* PastWorkoutGraph.swift in Sources */,
