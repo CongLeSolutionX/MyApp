@@ -217,7 +217,7 @@ struct RealtimeSessionCardView: View {
                 // Format the expiration date concisely
                 if let expirationDate = sessionInfo.clientSecretExpiresAt {
                     let relativeFormatter = RelativeDateTimeFormatter()
-                    relativeFormatter.unitsStyle = .abbreviated
+                   // relativeFormatter.unitsStyle = .abbreviated
                     let relativeDateString = relativeFormatter.localizedString(for: expirationDate, relativeTo: Date())
                     InfoRow(label: "Expires", value: relativeDateString)
                         .foregroundColor(sessionInfo.isExpired ? .secondary : .primary) // Dim if expired
@@ -232,17 +232,18 @@ struct RealtimeSessionCardView: View {
         .sheet(isPresented: $showingFullInstructions) {
             // --- View Presented in the Sheet ---
             NavigationView { // Add NavigationView for title/buttons inside sheet
-                ScrollView {
+                // Explicitly call the initializer with default parameters
+                ScrollView(.vertical, showsIndicators: true) {
                     Text(sessionInfo.instructions)
                         .padding()
                 }
                 .navigationTitle("Full Instructions")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                     ToolbarItem(placement: .navigationBarTrailing) {
-                         Button("Done") { showingFullInstructions = false }
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        Button("Done") { showingFullInstructions = false }
+//                    }
+//                }
             }
         }
     }
