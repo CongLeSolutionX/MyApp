@@ -222,7 +222,7 @@ struct WebSearchWorkflowDemoView: View {
                 .padding(.horizontal)
                 .padding(.top, 10) // Padding at the top of the scroll content
             }
-            .onChange(of: chatItems) { _ in
+            .onChange(of: chatItems) {
                 // Scroll to the bottom when new messages are added
                 scrollToBottom(proxy: proxy)
             }
@@ -350,7 +350,7 @@ struct WebSearchWorkflowDemoView: View {
                     .frame(minWidth: 40) // Ensure bubble has some minimum width
 
                  // Timestamp (optional)
-                 // Text(chatItem.timestamp, style: .time).font(.caption2).foregroundColor(.secondary)
+                  Text(chatItem.timestamp, style: .time).font(.caption2).foregroundColor(.secondary)
             }
              .padding(.trailing, 0) // No extra padding needed here
         }
@@ -456,8 +456,8 @@ struct WebSearchWorkflowDemoView: View {
         if let firstItem = chatItems.first, firstItem.sender == .agent {
              chatItems = [firstItem] // Keep only the initial greeting
              // Optionally reset its text if it was modified by errors etc.
-             // chatItems[0].text = "Hello! ..."
-             // chatItems[0].state = .sent
+              chatItems[0].text = "Hello! ..."
+              chatItems[0].state = .sent
         } else {
             chatItems = [] // Or clear completely if no standard greeting
         }
