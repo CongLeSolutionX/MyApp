@@ -58,11 +58,26 @@ final class SpeechService: NSObject, ObservableObject {
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var task: SFSpeechRecognitionTask?
 
+    // Updated async permission request compatible with iOS 17+
     func requestAuthorization() async -> Bool {
-        await withCheckedContinuation { cont in
-            SFSpeechRecognizer.requestAuthorization { status in
-                AVAudioSession.sharedInstance().requestRecordPermission { allowed in
-                    cont.resume(returning: status == .authorized && allowed)
+        await withCheckedContinuation { continuation in
+            // Request Speech Authorization
+            SFSpeechRecognizer.requestAuthorization { speechStatus in
+                guard speechStatus == .authorized else {
+                    print("Speech authorization denied.")
+                    continuation.resume(returning: false)
+                    return
+                }
+                // Request Microphone Recording Authorization
+                if #available(iOS 17.0, *) {
+                    AVAudioApplication.requestRecordPermission { allowed in
+                        continuation.resume(returning: allowed)
+                    }
+                } else {
+                    // Fallback on earlier versions
+                    AVAudioSession.sharedInstance().requestRecordPermission { allowed in
+                        continuation.resume(returning: allowed)
+                    }
                 }
             }
         }
@@ -71,22 +86,21 @@ final class SpeechService: NSObject, ObservableObject {
     func startListening() throws {
         if audioEngine.isRunning { return }
         request = SFSpeechAudioBufferRecognitionRequest()
-        guard let request = request else { return }
+        guard let request else { return }
 
         let inputNode = audioEngine.inputNode
         request.shouldReportPartialResults = true
 
-        task = recognizer.recognitionTask(with: request, resultHandler: { result, error in
-            if let result = result {
+        task = recognizer.recognitionTask(with: request) { result, error in
+            if let result {
                 DispatchQueue.main.async {
                     self.transcript = result.bestTranscription.formattedString
                 }
             }
             if error != nil || (result?.isFinal ?? false) {
-                self.audioEngine.stop()
-                inputNode.removeTap(onBus: 0)
+                self.stopListening()
             }
-        })
+        }
 
         audioEngine.prepare()
         try audioEngine.start()
@@ -103,8 +117,6 @@ final class SpeechService: NSObject, ObservableObject {
         task = nil
     }
 }
-
-
 @MainActor
 final class ChatViewModel: ObservableObject {
     @Published var chatMessages: [ChatMessage] = []
