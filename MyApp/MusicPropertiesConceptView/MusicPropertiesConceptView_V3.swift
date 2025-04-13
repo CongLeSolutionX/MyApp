@@ -56,8 +56,8 @@ enum AudioVariant: String, CaseIterable, Hashable {
 }
 
 // --- Property Type Placeholders (Simulate the type hierarchy) ---
-
-class AnyMusicProperty: Hashable, Equatable, Sendable { // Base class concept
+//@unchecked Sendable
+class AnyMusicProperty: Hashable, Equatable { // Base class concept
     let propertyName: String
     let rootType: String
 
