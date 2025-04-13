@@ -239,12 +239,13 @@ struct RealtimeSessionCardView: View {
                 }
                 .navigationTitle("Full Instructions")
                 .navigationBarTitleDisplayMode(.inline)
-//                .toolbar {
-//                    ToolbarItem(placement: .navigationBarTrailing) {
-//                        Button("Done") { showingFullInstructions = false }
-//                    }
-//                }
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") { showingFullInstructions = false }
+                    }
+                })
             }
+                         
         }
     }
 }
