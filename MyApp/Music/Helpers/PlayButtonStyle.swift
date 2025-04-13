@@ -50,4 +50,3 @@ extension ButtonStyle where Self == PlayButtonStyle {
         PlayButtonStyle()
     }
 }
-WorkoutButtonStyle
