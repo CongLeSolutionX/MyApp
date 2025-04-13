@@ -18,61 +18,61 @@ struct ColorAndShapeStyleShowcase: View {
             VStack(alignment: .leading, spacing: 30) {
                 
                 // --- Color Demonstrations ---
-                                Group {
-                                    Text("Color Demonstrations").font(.title).bold()
-                
-                                    // Using Color directly as a View
-                                    Text("Color as View:").font(.headline)
-                                    HStack(spacing: 10) {
-                                        Color.red.frame(width: 50, height: 50)
-                                        Color(red: 0.46, green: 0.84, blue: 1.0).frame(width: 50, height: 50) // skyBlue
-                                        Color(hue: 0.16, saturation: 1, brightness: 1).frame(width: 50, height: 50) // lemonYellow
-                                        Color(white: 0.47).frame(width: 50, height: 50) // steelGray
-                                    }
-                
-                                    // Predefined Colors
-                                    Text("Predefined Colors:").font(.headline)
-                                    HStack(spacing: 10) {
-                                        Color.blue.frame(width: 50, height: 50)
-                                        Color.green.frame(width: 50, height: 50)
-                                        Color.purple.frame(width: 50, height: 50)
-                                        Color.pink.frame(width: 50, height: 50)
-                                    }
-                
-                                    // Semantic Colors
-                                    Text("Semantic Colors:").font(.headline)
-                                    HStack(spacing: 10) {
-                                        Color.primary.frame(width: 50, height: 50).border(Color.secondary)
-                                        Color.secondary.frame(width: 50, height: 50).border(Color.primary)
-                                        Color.accentColor.frame(width: 50, height: 50).border(Color.gray)
-                                    }
-                
-                                    // Color with Opacity
-                                    Text("Color with Opacity:").font(.headline)
-                                    ZStack {
-                                        Color.orange.frame(width: 100, height: 50)
-                                        Color.teal.frame(width: 50, height: 100)
-                                        Color.indigo.opacity(0.5).frame(width: 120, height: 60)
-                                    }
-                
-                                    // Color Initialization with RGBColorSpace
-                                    Text("Color from RGB components:").font(.headline)
-                                    HStack {
-                                        Color(.sRGB, red: 0.9, green: 0.2, blue: 0.2, opacity: 1.0)
-                                            .frame(width: 50, height: 50)
-                                        Color(.displayP3, red: 0.2, green: 0.9, blue: 0.2, opacity: 1.0)
-                                            .frame(width: 50, height: 50)
-                                        Color(.sRGBLinear, red: 0.2, green: 0.2, blue: 0.9, opacity: 1.0)
-                                            .frame(width: 50, height: 50)
-                                    }
-                
-                //                    // Color from Resolved
-                //                    if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
-                //                        Text("Color from Resolved:").font(.headline)
-                //                        let resolvedColor = Color.Resolved(linearRed: 0.1, linearGreen: 0.9, linearBlue: 0.5, opacity: 1.0)
-                //                        Color(resolvedColor).frame(width: 50, height: 50)
-                //                    }
-                                }
+                Group {
+                    Text("Color Demonstrations").font(.title).bold()
+                    
+                    // Using Color directly as a View
+                    Text("Color as View:").font(.headline)
+                    HStack(spacing: 10) {
+                        Color.red.frame(width: 50, height: 50)
+                        Color(red: 0.46, green: 0.84, blue: 1.0).frame(width: 50, height: 50) // skyBlue
+                        Color(hue: 0.16, saturation: 1, brightness: 1).frame(width: 50, height: 50) // lemonYellow
+                        Color(white: 0.47).frame(width: 50, height: 50) // steelGray
+                    }
+                    
+                    // Predefined Colors
+                    Text("Predefined Colors:").font(.headline)
+                    HStack(spacing: 10) {
+                        Color.blue.frame(width: 50, height: 50)
+                        Color.green.frame(width: 50, height: 50)
+                        Color.purple.frame(width: 50, height: 50)
+                        Color.pink.frame(width: 50, height: 50)
+                    }
+                    
+                    // Semantic Colors
+                    Text("Semantic Colors:").font(.headline)
+                    HStack(spacing: 10) {
+                        Color.primary.frame(width: 50, height: 50).border(Color.secondary)
+                        Color.secondary.frame(width: 50, height: 50).border(Color.primary)
+                        Color.accentColor.frame(width: 50, height: 50).border(Color.gray)
+                    }
+                    
+                    // Color with Opacity
+                    Text("Color with Opacity:").font(.headline)
+                    ZStack {
+                        Color.orange.frame(width: 100, height: 50)
+                        Color.teal.frame(width: 50, height: 100)
+                        Color.indigo.opacity(0.5).frame(width: 120, height: 60)
+                    }
+                    
+                    // Color Initialization with RGBColorSpace
+                    Text("Color from RGB components:").font(.headline)
+                    HStack {
+                        Color(.sRGB, red: 0.9, green: 0.2, blue: 0.2, opacity: 1.0)
+                            .frame(width: 50, height: 50)
+                        Color(.displayP3, red: 0.2, green: 0.9, blue: 0.2, opacity: 1.0)
+                            .frame(width: 50, height: 50)
+                        Color(.sRGBLinear, red: 0.2, green: 0.2, blue: 0.9, opacity: 1.0)
+                            .frame(width: 50, height: 50)
+                    }
+                    
+                    //                    // Color from Resolved
+                    //                    if #available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *) {
+                    //                        Text("Color from Resolved:").font(.headline)
+                    //                        let resolvedColor = Color.Resolved(linearRed: 0.1, linearGreen: 0.9, linearBlue: 0.5, opacity: 1.0)
+                    //                        Color(resolvedColor).frame(width: 50, height: 50)
+                    //                    }
+                }
                 
                 Divider()
                 
