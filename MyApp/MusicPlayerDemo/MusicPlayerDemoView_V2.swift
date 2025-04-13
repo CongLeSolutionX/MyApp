@@ -30,7 +30,7 @@ struct MockQueueEntry: Identifiable, Equatable, Hashable {
 class MockPlayerState: ObservableObject {
     @Published var playbackStatus: MusicPlayer.PlaybackStatus = .stopped
     @Published var playbackRate: Float = 1.0
-    @Published var repeatMode: MusicPlayer.RepeatMode? = .none
+    @Published var repeatMode: MusicPlayer.RepeatMode? = Optional.none
     @Published var shuffleMode: MusicPlayer.ShuffleMode? = .off
    // @Published var audioVariant: AudioVariant? = .lossyStereo // Using actual MusicKit enum for type safety
     @Published var playbackTime: TimeInterval = 0.0
@@ -68,7 +68,7 @@ class PlayerRepresentationViewModel: ObservableObject {
         appPlayerState.transition = .crossfade(options: .init(duration: 5.0)) // Example transition
 
         systemPlayerState.playbackStatus = .paused
-        systemPlayerState.repeatMode = .none
+        systemPlayerState.repeatMode = Optional.none
         systemPlayerState.shuffleMode = .off
         systemPlayerState.playbackTime = 120.5
         systemPlayerState.currentEntryId = systemQueue.first?.id
@@ -112,11 +112,10 @@ class PlayerRepresentationViewModel: ObservableObject {
 
     func toggleRepeatMode(for playerState: MockPlayerState) {
         switch playerState.repeatMode {
-        case .none: playerState.repeatMode = .one
-        case .one: playerState.repeatMode = .all
-        case .all: playerState.repeatMode = .none
-        case .some(_): playerState.repeatMode = .none // Should not happen
         case nil: playerState.repeatMode = .one // Default if nil
+        case .one: playerState.repeatMode = .all
+        case .all: playerState.repeatMode = Optional.none
+        case .some(_): playerState.repeatMode = Optional.none // Should not happen
         }
     }
 
@@ -292,7 +291,7 @@ struct PlayerStateView: View {
 
     private func repeatModeText(_ mode: MusicPlayer.RepeatMode?) -> String {
         switch mode {
-        case .none: return "Off"
+        case nil: return "Off"
         case .one: return "One"
         case .all: return "All"
         default: return "N/A"
@@ -301,7 +300,7 @@ struct PlayerStateView: View {
 
     private func repeatModeIcon(_ mode: MusicPlayer.RepeatMode?) -> String {
         switch mode {
-        case .none: return "repeat"
+        case nil: return "repeat"
         case .one: return "repeat.1"
         case .all: return "repeat.circle.fill" // Filled icon when active
         default: return "repeat"
@@ -371,7 +370,7 @@ struct PlayerControlsView: View {
         HStack(spacing: 20) {
             Button(action: onToggleRepeat) {
                 Image(systemName: repeatModeIcon(playerState.repeatMode))
-                    .foregroundColor(playerState.repeatMode != .none ? .accentColor : .secondary)
+                    .foregroundColor(playerState.repeatMode != Optional.none ? .accentColor : .secondary)
             }
 
             Spacer()
@@ -405,7 +404,7 @@ struct PlayerControlsView: View {
      // Duplicated icon helpers for local use within controls if needed, or use injected state
      private func repeatModeIcon(_ mode: MusicPlayer.RepeatMode?) -> String {
          switch mode {
-         case .none: return "repeat"
+         case nil: return "repeat"
          case .one: return "repeat.1"
          case .all: return "repeat.circle.fill" // Use filled icon when active
          default: return "repeat"
