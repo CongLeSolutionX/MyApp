@@ -75,6 +75,18 @@
 			path = OpenAIModelsCardView;
 			sourceTree = "<group>";
 		};
+		9A7C55762DAC553E00A08B97 /* WebSearchWorkflowDemoView */ = {
+			isa = PBXGroup;
+			children = (
+				9A7C556B2DAC47C900A08B97 /* WebSearchWorkflowDemoView_V1.swift */,
+				9A7C556E2DAC497C00A08B97 /* WebSearchWorkflowDemoView_V2.swift */,
+				9A7C55702DAC4B9900A08B97 /* WebSearchWorkflowDemoView_V3.swift */,
+				9A7C55722DAC4D8C00A08B97 /* WebSearchWorkflowDemoView_V4.swift */,
+				9A7C55742DAC51AB00A08B97 /* WebSearchWorkflowDemoView_V5.swift */,
+			);
+			path = WebSearchWorkflowDemoView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -100,11 +112,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A7373F12DAC20FB00302A9A /* OpenAIAuthDocView.swift */,
 				9A7374012DAC247B00302A9A /* APIKeyInputView.swift */,
-				9A7C556B2DAC47C900A08B97 /* WebSearchWorkflowDemoView_V1.swift */,
-				9A7C556E2DAC497C00A08B97 /* WebSearchWorkflowDemoView_V2.swift */,
-				9A7C55702DAC4B9900A08B97 /* WebSearchWorkflowDemoView_V3.swift */,
-				9A7C55722DAC4D8C00A08B97 /* WebSearchWorkflowDemoView_V4.swift */,
-				9A7C55742DAC51AB00A08B97 /* WebSearchWorkflowDemoView_V5.swift */,
+				9A7C55762DAC553E00A08B97 /* WebSearchWorkflowDemoView */,
 				9A7C556A2DAC47A500A08B97 /* OpenAIModelsCardView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
