@@ -39,7 +39,7 @@ protocol Animatable {
 // MARK: - Custom Animatable Struct Example
 
 /// A simple struct holding data we want to animate.
-struct AnimatableCircleProperties {
+struct AnimatableCircleProperties: Equatable {
     var scale: CGFloat = 1.0
     var brightness: Double = 0.5 // Represents a brightness factor (0.0 to 1.0)
 
@@ -92,7 +92,7 @@ struct CoreAnimationConceptsDemoView: View {
                 .frame(width: 100, height: 100)
                 .shadow(radius: 5)
                 // Apply animation to the Circle whenever circleProps changes
-               // .animation(animateToggle ? .easeInOut(duration: 1.0) : .default , value: circleProps)
+                .animation(animateToggle ? .easeInOut(duration: 1.0) : .default , value: circleProps)
 
             Button("Animate Properties") {
                  let newScale: CGFloat = circleProps.scale < 1.0 ? 1.2 : 0.5
