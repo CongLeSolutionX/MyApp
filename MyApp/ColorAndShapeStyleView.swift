@@ -228,13 +228,13 @@ struct ColorAndShapeStyleShowcase: View {
                  Divider()
                 
                 // // --- Shader Demonstration (placeholder) ---
-                // if #available(iOS 17.0, macOS 14.0, tvOS 17.0, *) {
-                //     Group {
-                //         Text("Shader Demonstration").font(.title).bold()
-                //         Text("Shaders require Metal Shading Language (MSL) code and cannot be fully demonstrated here without a Metal library.")
-                //             .font(.caption)
-                //     }
-                // }
+                 if #available(iOS 17.0, macOS 14.0, tvOS 17.0, *) {
+                     Group {
+                         Text("Shader Demonstration").font(.title).bold()
+                         Text("Shaders require Metal Shading Language (MSL) code and cannot be fully demonstrated here without a Metal library.")
+                             .font(.caption)
+                     }
+                 }
                 
                  Divider()
 
