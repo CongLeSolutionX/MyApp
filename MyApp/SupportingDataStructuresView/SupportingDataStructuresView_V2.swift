@@ -320,7 +320,8 @@ struct PreviewAssetView: View { // Updated to use corrected MockArtwork
       var body: some View {
           HStack {
               if let art = asset.artwork {
-                  ArtworkView(artwork: art, size: 40) // Smaller artwork for preview
+                  // ArtworkView(artwork: art, size: 40) // Smaller artwork for preview
+                  ArtworkView(artwork: art)
               } else {
                   Image(systemName: "film")
                       .foregroundColor(.gray)
@@ -383,24 +384,43 @@ struct ContentRatingView: View { // Unchanged
       }
 }
 
-struct AudioVariantView: View { // Unchanged
+struct AudioVariantView: View {
     let variant: MockAudioVariant
-    // ... body and helpers as before ...
-    var iconName: String { /* ... */ }
-    var color: Color { /* ... */ }
-      var body: some View {
-          HStack(spacing: 3) {
-              Image(systemName: iconName)
-                  .foregroundColor(color)
-              Text(variant.description)
-          }
-          .font(.caption)
-          .padding(.horizontal, 6)
-          .padding(.vertical, 2)
-          .background(color.opacity(0.15))
-          .cornerRadius(8)
-      }
+
+    var iconName: String {
+        switch variant {
+        case .dolbyAtmos: return "speaker.wave.3.fill"
+        case .dolbyAudio: return "speaker.surround.left.fill" // Example
+        case .lossless: return "headphones.circle"
+        case .highResolutionLossless: return "hifispeaker.and.homepodmini.fill" // Example
+        case .lossyStereo: return "speaker.fill"
+        case .spatialAudio: return "rotate.3d"
+        }
+    }
+
+    var color: Color {
+         switch variant {
+        case .dolbyAtmos, .spatialAudio: return .purple
+        case .dolbyAudio: return .blue
+        case .lossless, .highResolutionLossless: return .yellow
+        case .lossyStereo: return .gray
+        }
+    }
+
+    var body: some View {
+        HStack(spacing: 3) {
+            Image(systemName: iconName)
+                .foregroundColor(color)
+            Text(variant.description)
+        }
+        .font(.caption)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(color.opacity(0.15))
+        .cornerRadius(8)
+    }
 }
+
 
 struct MusicItemCollectionView<T: MockMusicItem>: View where T: Equatable, T: Hashable, T: Sendable, T: Codable { // Ensure T: Codable
     let collection: MockMusicItemCollection<T>
