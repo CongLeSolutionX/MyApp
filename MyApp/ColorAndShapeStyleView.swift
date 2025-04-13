@@ -233,6 +233,9 @@ struct ColorAndShapeStyleShowcase: View {
                          Text("Shader Demonstration").font(.title).bold()
                          Text("Shaders require Metal Shading Language (MSL) code and cannot be fully demonstrated here without a Metal library.")
                              .font(.caption)
+                         
+                         MetalContentView()
+                             .frame(height: 500)
                      }
                  }
                 
