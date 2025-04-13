@@ -24,7 +24,8 @@
 		9A9C3F252DAB6658009CCA16 /* CustomAnimationDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F242DAB6657009CCA16 /* CustomAnimationDemoView.swift */; };
 		9A9C3F272DAB683C009CCA16 /* CustomAnimationDemoView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F262DAB6839009CCA16 /* CustomAnimationDemoView_V2.swift */; };
 		9A9C3F292DAB6910009CCA16 /* CoreAnimationConceptsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F282DAB690F009CCA16 /* CoreAnimationConceptsDemoView.swift */; };
-		9A9C3F2B2DAB6B38009CCA16 /* ShapeShowcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView.swift */; };
+		9A9C3F2B2DAB6B38009CCA16 /* ShapeShowcaseView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView_V1.swift */; };
+		9A9C3F2D2DAB6C4D009CCA16 /* ShapeShowcaseView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F2C2DAB6C4B009CCA16 /* ShapeShowcaseView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -50,7 +51,8 @@
 		9A9C3F242DAB6657009CCA16 /* CustomAnimationDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDemoView.swift; sourceTree = "<group>"; };
 		9A9C3F262DAB6839009CCA16 /* CustomAnimationDemoView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDemoView_V2.swift; sourceTree = "<group>"; };
 		9A9C3F282DAB690F009CCA16 /* CoreAnimationConceptsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAnimationConceptsDemoView.swift; sourceTree = "<group>"; };
-		9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeShowcaseView.swift; sourceTree = "<group>"; };
+		9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeShowcaseView_V1.swift; sourceTree = "<group>"; };
+		9A9C3F2C2DAB6C4B009CCA16 /* ShapeShowcaseView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeShowcaseView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,7 +112,8 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A9C3F072DAB4757009CCA16 /* ColorAndShapeStyleView.swift */,
 				9A9C3F0B2DAB4E4B009CCA16 /* ExplicitVsAliasView.swift */,
-				9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView.swift */,
+				9A9C3F2A2DAB6B32009CCA16 /* ShapeShowcaseView_V1.swift */,
+				9A9C3F2C2DAB6C4B009CCA16 /* ShapeShowcaseView_V2.swift */,
 				9A9C3F092DAB4B34009CCA16 /* MetalView.swift */,
 				9A9C3F132DAB5662009CCA16 /* StateManagementDemoView_V1.swift */,
 				9A9C3F0D2DAB5133009CCA16 /* StateManagementDemoView_V2.swift */,
@@ -206,7 +209,7 @@
 			files = (
 				9A9C3F1F2DAB5DAD009CCA16 /* KeyframeAnimationDemoView.swift in Sources */,
 				9A9C3F182DAB5934009CCA16 /* AnchorAndGeometryProxyView.swift in Sources */,
-				9A9C3F2B2DAB6B38009CCA16 /* ShapeShowcaseView.swift in Sources */,
+				9A9C3F2B2DAB6B38009CCA16 /* ShapeShowcaseView_V1.swift in Sources */,
 				9A9C3F272DAB683C009CCA16 /* CustomAnimationDemoView_V2.swift in Sources */,
 				9A9C3F212DAB64A3009CCA16 /* AnimationDemoView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
@@ -223,6 +226,7 @@
 				9A9C3F102DAB559B009CCA16 /* AccessibilityComponentsView.swift in Sources */,
 				9A9C3F142DAB5664009CCA16 /* StateManagementDemoView_V1.swift in Sources */,
 				9A9C3F1D2DAB5C7F009CCA16 /* CoreTransitionConceptsView.swift in Sources */,
+				9A9C3F2D2DAB6C4D009CCA16 /* ShapeShowcaseView_V2.swift in Sources */,
 				9A9C3F232DAB6576009CCA16 /* CustomAnimationsView.swift in Sources */,
 				9A9C3F122DAB5601009CCA16 /* ProtocolRelationshipView.swift in Sources */,
 			);
