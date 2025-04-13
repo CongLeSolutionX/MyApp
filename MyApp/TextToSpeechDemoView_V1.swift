@@ -1,5 +1,5 @@
 //
-//  TextToSpeechApp.swift
+//  TextToSpeechDemoView.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/13/25.
@@ -331,7 +331,7 @@ extension SynthesisViewModel: AVAudioPlayerDelegate {
 
 // --- SwiftUI View ---
 
-struct TextToSpeechApp_ContentView: View {
+struct TextToSpeechDemoView: View {
     // Use @StateObject for the ViewModel lifecycle tied to the View
     @StateObject private var viewModel = SynthesisViewModel()
 
@@ -461,8 +461,8 @@ struct TextToSpeechApp_ContentView: View {
       }
 }
 
-#Preview("TextToSpeechApp_ContentView") {
-    TextToSpeechApp_ContentView()
+#Preview("TextToSpeechDemoView") {
+    TextToSpeechDemoView()
 }
 
 // --- App Entry Point ---
