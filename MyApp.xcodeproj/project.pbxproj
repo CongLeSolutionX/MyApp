@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0C22492DABC99E0022EB39 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22482DABC99D0022EB39 /* WelcomeView.swift */; };
+		9A0C224B2DABC9D90022EB39 /* RecentlyPlayedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C224A2DABC9D80022EB39 /* RecentlyPlayedViewModel.swift */; };
+		9A0C224F2DABC9FF0022EB39 /* PastWorkoutGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C224E2DABC9FE0022EB39 /* PastWorkoutGraph.swift */; };
+		9A0C22512DABCA0C0022EB39 /* CurvedFilledLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22502DABCA0B0022EB39 /* CurvedFilledLine.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -15,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A0C22482DABC99D0022EB39 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		9A0C224A2DABC9D80022EB39 /* RecentlyPlayedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyPlayedViewModel.swift; sourceTree = "<group>"; };
+		9A0C224E2DABC9FE0022EB39 /* PastWorkoutGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastWorkoutGraph.swift; sourceTree = "<group>"; };
+		9A0C22502DABCA0B0022EB39 /* CurvedFilledLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurvedFilledLine.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,6 +43,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A0C224C2DABC9E70022EB39 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9A0C22482DABC99D0022EB39 /* WelcomeView.swift */,
+				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9A0C224A2DABC9D80022EB39 /* RecentlyPlayedViewModel.swift */,
+				9A0C224D2DABC9F70022EB39 /* CurvedLineGraph */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9A0C224D2DABC9F70022EB39 /* CurvedLineGraph */ = {
+			isa = PBXGroup;
+			children = (
+				9A0C224E2DABC9FE0022EB39 /* PastWorkoutGraph.swift */,
+				9A0C22502DABCA0B0022EB39 /* CurvedFilledLine.swift */,
+			);
+			path = CurvedLineGraph;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -55,8 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
-				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A0C224C2DABC9E70022EB39 /* Home */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -142,9 +170,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A0C224B2DABC9D90022EB39 /* RecentlyPlayedViewModel.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A0C22512DABCA0C0022EB39 /* CurvedFilledLine.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A0C224F2DABC9FF0022EB39 /* PastWorkoutGraph.swift in Sources */,
+				9A0C22492DABC99E0022EB39 /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +323,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -330,7 +362,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
