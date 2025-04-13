@@ -21,6 +21,7 @@
 		9A9C3F1F2DAB5DAD009CCA16 /* KeyframeAnimationDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F1E2DAB5DAC009CCA16 /* KeyframeAnimationDemoView.swift */; };
 		9A9C3F212DAB64A3009CCA16 /* AnimationDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F202DAB64A1009CCA16 /* AnimationDemoView.swift */; };
 		9A9C3F232DAB6576009CCA16 /* CustomAnimationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F222DAB6571009CCA16 /* CustomAnimationsView.swift */; };
+		9A9C3F252DAB6658009CCA16 /* CustomAnimationDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C3F242DAB6657009CCA16 /* CustomAnimationDemoView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		9A9C3F1E2DAB5DAC009CCA16 /* KeyframeAnimationDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyframeAnimationDemoView.swift; sourceTree = "<group>"; };
 		9A9C3F202DAB64A1009CCA16 /* AnimationDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationDemoView.swift; sourceTree = "<group>"; };
 		9A9C3F222DAB6571009CCA16 /* CustomAnimationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationsView.swift; sourceTree = "<group>"; };
+		9A9C3F242DAB6657009CCA16 /* CustomAnimationDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDemoView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 		9A9C3F192DAB5B61009CCA16 /* Animation and Transition Hierarchy */ = {
 			isa = PBXGroup;
 			children = (
+				9A9C3F242DAB6657009CCA16 /* CustomAnimationDemoView.swift */,
 				9A9C3F222DAB6571009CCA16 /* CustomAnimationsView.swift */,
 				9A9C3F202DAB64A1009CCA16 /* AnimationDemoView.swift */,
 				9A9C3F1A2DAB5B67009CCA16 /* TransactionsDemoView.swift */,
@@ -203,6 +206,7 @@
 				9A9C3F082DAB475F009CCA16 /* ColorAndShapeStyleView.swift in Sources */,
 				9A9C3F1B2DAB5B6D009CCA16 /* TransactionsDemoView.swift in Sources */,
 				9A9C3F0C2DAB4E4C009CCA16 /* ExplicitVsAliasView.swift in Sources */,
+				9A9C3F252DAB6658009CCA16 /* CustomAnimationDemoView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A9C3F102DAB559B009CCA16 /* AccessibilityComponentsView.swift in Sources */,
 				9A9C3F142DAB5664009CCA16 /* StateManagementDemoView_V1.swift in Sources */,
