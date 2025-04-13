@@ -296,10 +296,10 @@ class TTSViewModel: ObservableObject {
                         
                         // Simulate processing the chunk
                         if playAudio {
-                            // print("Simulating playback of streaming chunk \(i)") // Console log can be noisy
+                             print("Simulating playback of streaming chunk \(i)") // Console log can be noisy
                         }
                         if saveToFile {
-                            // print("Simulating saving streaming chunk \(i) to \(outputFileName)")
+                             print("Simulating saving streaming chunk \(i) to \(outputFileName)")
                         }
                     }
                     let tst = Date().timeIntervalSince(startTime)
@@ -435,7 +435,7 @@ struct TextToSpeechDemoView: View {
                         Text("Opus (.ogg)").tag("OGGOPUS")
                     }
                     .pickerStyle(.segmented)
-                    .onChange(of: viewModel.encoding) { _ in
+                    .onChange(of: viewModel.encoding) {
                         // Trigger filename validation/suggestion when encoding changes
                         let currentFilename = viewModel.outputFileName
                         viewModel.outputFileName = currentFilename
