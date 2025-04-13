@@ -39,6 +39,11 @@
 		9A0C22902DABCD460022EB39 /* RecentlyPlayedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C228F2DABCD450022EB39 /* RecentlyPlayedCell.swift */; };
 		9A0C22922DABCD500022EB39 /* StationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22912DABCD500022EB39 /* StationCell.swift */; };
 		9A0C22942DABCD5A0022EB39 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22932DABCD590022EB39 /* TrackCell.swift */; };
+		9A0C22972DABCD970022EB39 /* ResignKeyboardOnDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22962DABCD970022EB39 /* ResignKeyboardOnDragGesture.swift */; };
+		9A0C22992DABCDA20022EB39 /* ShadowBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C22982DABCDA20022EB39 /* ShadowBuilder.swift */; };
+		9A0C229B2DABCDAE0022EB39 /* PlayButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229A2DABCDAD0022EB39 /* PlayButtonStyle.swift */; };
+		9A0C229D2DABCDB70022EB39 /* WorkoutButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229C2DABCDB70022EB39 /* WorkoutButtonStyle.swift */; };
+		9A0C229F2DABCDC60022EB39 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0C229E2DABCDC60022EB39 /* CustomColor.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -79,6 +84,11 @@
 		9A0C228F2DABCD450022EB39 /* RecentlyPlayedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyPlayedCell.swift; sourceTree = "<group>"; };
 		9A0C22912DABCD500022EB39 /* StationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationCell.swift; sourceTree = "<group>"; };
 		9A0C22932DABCD590022EB39 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
+		9A0C22962DABCD970022EB39 /* ResignKeyboardOnDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignKeyboardOnDragGesture.swift; sourceTree = "<group>"; };
+		9A0C22982DABCDA20022EB39 /* ShadowBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowBuilder.swift; sourceTree = "<group>"; };
+		9A0C229A2DABCDAD0022EB39 /* PlayButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonStyle.swift; sourceTree = "<group>"; };
+		9A0C229C2DABCDB70022EB39 /* WorkoutButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutButtonStyle.swift; sourceTree = "<group>"; };
+		9A0C229E2DABCDC60022EB39 /* CustomColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +138,7 @@
 				9A0C22662DABCBDC0022EB39 /* Playback */,
 				9A0C226F2DABCC490022EB39 /* Detail Views */,
 				9A0C227E2DABCCDE0022EB39 /* Cells */,
+				9A0C22952DABCD8A0022EB39 /* Helpers */,
 			);
 			path = Music;
 			sourceTree = "<group>";
@@ -200,6 +211,18 @@
 				9A0C228F2DABCD450022EB39 /* RecentlyPlayedCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		9A0C22952DABCD8A0022EB39 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9A0C22962DABCD970022EB39 /* ResignKeyboardOnDragGesture.swift */,
+				9A0C22982DABCDA20022EB39 /* ShadowBuilder.swift */,
+				9A0C229C2DABCDB70022EB39 /* WorkoutButtonStyle.swift */,
+				9A0C229A2DABCDAD0022EB39 /* PlayButtonStyle.swift */,
+				9A0C229E2DABCDC60022EB39 /* CustomColor.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -315,10 +338,13 @@
 				9A0C22882DABCD170022EB39 /* MusicItemCell.swift in Sources */,
 				9A0C22802DABCCEB0022EB39 /* AlbumCell.swift in Sources */,
 				9A0C224B2DABC9D90022EB39 /* RecentlyPlayedViewModel.swift in Sources */,
+				9A0C229B2DABCDAE0022EB39 /* PlayButtonStyle.swift in Sources */,
+				9A0C22972DABCD970022EB39 /* ResignKeyboardOnDragGesture.swift in Sources */,
 				9A0C225C2DABCAB90022EB39 /* PlaylistPicker.swift in Sources */,
 				9A0C227B2DABCCA50022EB39 /* PlaylistDetailView.swift in Sources */,
 				9A0C226E2DABCC250022EB39 /* MarathonMusicPlayer.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A0C22992DABCDA20022EB39 /* ShadowBuilder.swift in Sources */,
 				9A0C228A2DABCD220022EB39 /* MusicItemSection.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A0C22752DABCC770022EB39 /* ArtistDetailView.swift in Sources */,
@@ -343,7 +369,9 @@
 				9A0C226A2DABCC0A0022EB39 /* NowPlayingView.swift in Sources */,
 				9A0C22732DABCC6A0022EB39 /* AlbumDetailView.swift in Sources */,
 				9A0C22492DABC99E0022EB39 /* WelcomeView.swift in Sources */,
+				9A0C229D2DABCDB70022EB39 /* WorkoutButtonStyle.swift in Sources */,
 				9A0C228E2DABCD3B0022EB39 /* RadioShowCell.swift in Sources */,
+				9A0C229F2DABCDC60022EB39 /* CustomColor.swift in Sources */,
 				9A0C228C2DABCD300022EB39 /* PlaylistCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
