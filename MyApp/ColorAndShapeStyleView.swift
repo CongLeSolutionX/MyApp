@@ -145,57 +145,57 @@ struct ColorAndShapeStyleShowcase: View {
                 Divider()
                 
                 // --- Gradient Demonstrations ---
-//                Group {
-//                    Text("Gradient Demonstrations").font(.title).bold()
-//                    
-//                    let gradient = Gradient(colors: [.blue, .purple])
-//                    let stops = [Gradient.Stop(color: .yellow, location: 0.1), Gradient.Stop(color: .red, location: 0.9)]
-//                    
-//                    // Linear Gradient
-//                    Text("Linear Gradient:").font(.headline)
-//                    Rectangle()
-//                        .fill(.linearGradient(gradient, startPoint: .topLeading, endPoint: .bottomTrailing))
-//                        .frame(height: 100)
-//                    Rectangle()
-//                        .fill(.linearGradient(stops: stops, startPoint: .leading, endPoint: .trailing))
-//                        .frame(height: 100)
-//                        
-//                    // Radial Gradient
-//                    Text("Radial Gradient:").font(.headline)
-//                    Circle()
-//                        .fill(.radialGradient(gradient, center: .center, startRadius: 10, endRadius: 80))
-//                        .frame(height: 150)
-//                        
+                Group {
+                    Text("Gradient Demonstrations").font(.title).bold()
+                    
+                    let gradient = Gradient(colors: [.blue, .purple])
+                    let stops = [Gradient.Stop(color: .yellow, location: 0.1), Gradient.Stop(color: .red, location: 0.9)]
+                    
+                    // Linear Gradient
+                    Text("Linear Gradient:").font(.headline)
+                    Rectangle()
+                        .fill(.linearGradient(gradient, startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(height: 100)
+                    Rectangle()
+                        .fill(.linearGradient(stops: stops, startPoint: .leading, endPoint: .trailing))
+                        .frame(height: 100)
+                        
+                    // Radial Gradient
+                    Text("Radial Gradient:").font(.headline)
+                    Circle()
+                        .fill(.radialGradient(gradient, center: .center, startRadius: 10, endRadius: 80))
+                        .frame(height: 150)
+                        
 //                     // Angular (Conic) Gradient
 //                    Text("Angular (Conic) Gradient:").font(.headline)
 //                    Rectangle()
 //                        .fill(.angularGradient(gradient, center: .center, angle: .degrees(90)))
 //                        .frame(height: 100)
 //                        
-//                    // Elliptical Gradient
-//                    if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
-//                        Text("Elliptical Gradient:").font(.headline)
-//                        Rectangle()
-//                            .fill(.ellipticalGradient(gradient, center: .center, startRadiusFraction: 0.1, endRadiusFraction: 0.5))
-//                            .frame(height: 100)
-//                    }
-//                    
-//                     // Mesh Gradient (iOS 18+)
-//                    if #available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) {
-//                        Text("Mesh Gradient (iOS 18+):").font(.headline)
-//                        MeshGradient(width: 3, height: 3, points: [
-//                             .init(0, 0), .init(0.5, 0), .init(1, 0),
-//                             .init(0, 0.5), .init(0.5, 0.5), .init(1, 0.5),
-//                             .init(0, 1), .init(0.5, 1), .init(1, 1)
-//                         ], colors: [
-//                             .red, .purple, .indigo,
-//                             .orange, .white, .blue,
-//                             .yellow, .green, .mint
-//                         ])
-//                         .frame(height: 150)
-//                     }
-//                }
-//                
+                    // Elliptical Gradient
+                    if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) {
+                        Text("Elliptical Gradient:").font(.headline)
+                        Rectangle()
+                            .fill(.ellipticalGradient(gradient, center: .center, startRadiusFraction: 0.1, endRadiusFraction: 0.5))
+                            .frame(height: 100)
+                    }
+                    
+                     // Mesh Gradient (iOS 18+)
+                    if #available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *) {
+                        Text("Mesh Gradient (iOS 18+):").font(.headline)
+                        MeshGradient(width: 3, height: 3, points: [
+                             .init(0, 0), .init(0.5, 0), .init(1, 0),
+                             .init(0, 0.5), .init(0.5, 0.5), .init(1, 0.5),
+                             .init(0, 1), .init(0.5, 1), .init(1, 1)
+                         ], colors: [
+                             .red, .purple, .indigo,
+                             .orange, .white, .blue,
+                             .yellow, .green, .mint
+                         ])
+                         .frame(height: 150)
+                     }
+                }
+                
                 Divider()
                 
                 // --- Material Demonstrations ---
