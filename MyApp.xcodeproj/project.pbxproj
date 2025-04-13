@@ -18,6 +18,7 @@
 		9A7C556C2DAC47CF00A08B97 /* WebSearchWorkflowDemoView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C556B2DAC47C900A08B97 /* WebSearchWorkflowDemoView_V1.swift */; };
 		9A7C556F2DAC497F00A08B97 /* WebSearchWorkflowDemoView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C556E2DAC497C00A08B97 /* WebSearchWorkflowDemoView_V2.swift */; };
 		9A7C55712DAC4B9A00A08B97 /* WebSearchWorkflowDemoView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55702DAC4B9900A08B97 /* WebSearchWorkflowDemoView_V3.swift */; };
+		9A7C55732DAC4D8D00A08B97 /* WebSearchWorkflowDemoView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C55722DAC4D8C00A08B97 /* WebSearchWorkflowDemoView_V4.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		9A7C556D2DAC486D00A08B97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9A7C556E2DAC497C00A08B97 /* WebSearchWorkflowDemoView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchWorkflowDemoView_V2.swift; sourceTree = "<group>"; };
 		9A7C55702DAC4B9900A08B97 /* WebSearchWorkflowDemoView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchWorkflowDemoView_V3.swift; sourceTree = "<group>"; };
+		9A7C55722DAC4D8C00A08B97 /* WebSearchWorkflowDemoView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchWorkflowDemoView_V4.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				9A7C556B2DAC47C900A08B97 /* WebSearchWorkflowDemoView_V1.swift */,
 				9A7C556E2DAC497C00A08B97 /* WebSearchWorkflowDemoView_V2.swift */,
 				9A7C55702DAC4B9900A08B97 /* WebSearchWorkflowDemoView_V3.swift */,
+				9A7C55722DAC4D8C00A08B97 /* WebSearchWorkflowDemoView_V4.swift */,
 				9A7C556A2DAC47A500A08B97 /* OpenAIModelsCardView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -185,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A7C55732DAC4D8D00A08B97 /* WebSearchWorkflowDemoView_V4.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A7C556F2DAC497F00A08B97 /* WebSearchWorkflowDemoView_V2.swift in Sources */,
 				9A7373F22DAC20FC00302A9A /* OpenAIAuthDocView.swift in Sources */,
