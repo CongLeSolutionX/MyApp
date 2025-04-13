@@ -96,7 +96,7 @@ struct TransactionExampleView: View {
                         .rotationEffect(.degrees(isAnimating ? 180 : 0))
                      Button("Trigger `withTransaction`") {
                          // Manually create a transaction with a specific animation
-                         var customTransaction = Transaction(animation: .smooth(duration: 1.5))
+                         let customTransaction = Transaction(animation: .smooth(duration: 1.5))
                          // Can also set other properties like:
                          // customTransaction.disablesAnimations = false
                          // customTransaction.isContinuous = false // etc.

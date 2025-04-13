@@ -148,7 +148,7 @@ struct HorizontalAlignmentDemoView: View {
 }
 
 // Extend HorizontalAlignment for description (internal detail, not usually needed)
-extension HorizontalAlignment: CustomStringConvertible {
+extension HorizontalAlignment: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .leading: return ".leading"

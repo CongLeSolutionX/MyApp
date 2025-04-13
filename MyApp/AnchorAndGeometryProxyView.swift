@@ -126,7 +126,7 @@ struct AnchorReaderView: View {
                          Color.clear
                              .task(id: childAnchor) { // Rerun when anchor changes (view appears/updates)
                                  await MainActor.run { // Ensure UI updates on main thread
-                                    guard let anchor = childAnchor else { return }
+                                     guard childAnchor != nil else { return }
                                     // Just use the anchor to get frame, it doesn't need to be point specific
                                    // self.childFrameInGlobal = backgroundProxy[anchor].bounds // Use bounds from resolved CGPoint anchor
                                     self.childFrameInLocal = backgroundProxy.frame(in: .local)
