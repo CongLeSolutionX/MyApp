@@ -1,5 +1,5 @@
 //
-//  MusicPropertiesConceptView.swift
+//  MusicPropertiesConceptView_V2.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/13/25.
@@ -171,17 +171,19 @@ struct PropertyTypeLabel: View {
     }
 }
 
-/// Shows how a specific MusicItem type (like Album) has static properties.
+// --- Example Usage within MusicItemStaticPropertiesView ---
 struct MusicItemStaticPropertiesView: View {
     let itemType = "Album"
+    // Ensure these static properties actually exist on your placeholder Album type
+    // and inherit from the correct base classes (MusicAttributeProperty, etc.)
     let properties: [AnyMusicProperty] = [
-        Album.titleProp, // Example attribute
+        Album.titleProp,
         Album.artists,
         Album.tracks,
         Album.genres,
         Album.artistURL,
         Album.audioVariants,
-        Album.releaseDate // Example attribute
+        Album.releaseDate
     ]
 
     var body: some View {
@@ -193,7 +195,7 @@ struct MusicItemStaticPropertiesView: View {
                     .padding(.bottom, 5)
 
                 ForEach(properties, id: \.self) { prop in
-                    StaticPropertyRow(property: prop)
+                    StaticPropertyRow(property: prop) // This should now work
                 }
                  Text("... and others")
                     .font(.caption)
@@ -206,46 +208,61 @@ struct MusicItemStaticPropertiesView: View {
         .padding()
     }
 }
-
 /// Helper view for displaying a static property example.
 struct StaticPropertyRow: View {
-     let property: AnyMusicProperty
+    let property: AnyMusicProperty // Correctly typed base class
 
-//    var propertyTypeName: String {
-//        switch property {
-//        case is MusicAttributeProperty<_,_>: return "Attribute"
-//        case is MusicRelationshipProperty<_,_>: return "Relationship"
-//        case is MusicExtendedAttributeProperty<_,_>: return "Extended Attribute"
-//        default: return "Property"
-//        }
-//    }
-//
-//     var propertyTypeColor: Color {
-//        switch property {
-//        case is MusicAttributeProperty<_,_>: return .green
-//        case is MusicRelationshipProperty<_,_>: return .orange
-//        case is MusicExtendedAttributeProperty<_,_>: return .red
-//        default: return .gray
-//        }
-//    }
+    var propertyTypeName: String {
+        switch property {
+        // Corrected: Remove <_,_> from the 'is' checks
+        case is MusicAttributeProperty<Any, Any>: break // Still need concrete types or Any here if using generic type parameters explicitly
+            // Safer alternative is to rely on the base type check:
+            // case property as? MusicAttributePropertyProtocol != nil // If you had protocols
+            // Simplest Fix: Check the base generic type directly
+        case is MusicAttributeProperty<Any, Any>:  // Check if it IS ANY kind of MusicAttributeProperty
+            return "Attribute"
+        case is MusicRelationshipProperty<Any, Any>: // Check if it IS ANY kind of MusicRelationshipProperty
+            return "Relationship"
+        case is MusicExtendedAttributeProperty<Any, Any>: // Check if it IS ANY kind of MusicExtendedAttributeProperty
+            return "Extended Attribute"
+        default:
+            return "Property" // Fallback
+        }
+        return "No thing found"
+    }
 
-     var body: some View {
-         HStack {
-             Text(".`\(property.propertyName)`")
-                 .font(.system(.caption, design: .monospaced).weight(.medium))
+    var propertyTypeColor: Color {
+        switch property {
+        // Corrected: Remove <_,_> from the 'is' checks
+        case is MusicAttributeProperty<Any, Any>: // Check if it IS ANY kind of MusicAttributeProperty
+            return .green
+        case is MusicRelationshipProperty<Any, Any>: // Check if it IS ANY kind of MusicRelationshipProperty
+            return .orange
+        case is MusicExtendedAttributeProperty<Any, Any>: // Check if it IS ANY kind of MusicExtendedAttributeProperty
+            return .red
+        default:
+            return .gray // Fallback
+        }
+    }
 
-             Spacer()
+    // Assuming this body structure from the previous example
+    var body: some View {
+        HStack {
+            Text(".`\(property.propertyName)`")
+                .font(.system(.caption, design: .monospaced).weight(.medium))
 
-//             Text(propertyTypeName)
-//                 .font(.system(.caption2, design: .monospaced))
-//                 .padding(.horizontal, 5)
-//                 .padding(.vertical, 2)
-//                 .background(propertyTypeColor.opacity(0.2))
-//                 .foregroundColor(propertyTypeColor)
-//                 .cornerRadius(4)
-         }
-         .padding(.vertical, 1)
-     }
+            Spacer()
+
+            Text(propertyTypeName)
+                .font(.system(.caption2, design: .monospaced))
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(propertyTypeColor.opacity(0.2))
+                .foregroundColor(propertyTypeColor)
+                .cornerRadius(4)
+        }
+        .padding(.vertical, 1)
+    }
 }
 
 /// Demonstrates the concept of using `.with()` method.
