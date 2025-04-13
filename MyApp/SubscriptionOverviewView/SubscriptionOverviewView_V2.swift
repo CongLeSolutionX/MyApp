@@ -181,51 +181,50 @@ struct StatusRow: View {
 
 /// Demonstrates triggering the Music Subscription Offer sheet.
 struct SubscriptionOfferView: View {
-    @StateObject private var viewModel = SubscriptionViewModel() // Manage its own state for the offer
+    @StateObject private var viewModel = SubscriptionViewModel()
     @State private var isShowingOffer = false
-    // Example item ID - replace with a real one if needed for context
-    let exampleItemID: MusicItemID? = MusicItemID("123456789") // Optional
 
-    // Configure offer options (can include affiliate/campaign tokens)
+    // Explicitly specify the type from the MusicKit framework
+    let exampleItemID: MusicKit.MusicItemID? = MusicKit.MusicItemID("123456789") // Optional
+
     @State private var offerOptions: MusicSubscriptionOffer.Options = {
         var options = MusicSubscriptionOffer.Options()
-        options.messageIdentifier = .playMusic // Example: Contextualize the message
-       // options.affiliateToken = "YOUR_AFFILIATE_TOKEN" // Optional
-       // options.campaignToken = "YOUR_CAMPAIGN_TOKEN" // Optional
+        options.messageIdentifier = .playMusic
+        // options.affiliateToken = "YOUR_AFFILIATE_TOKEN"
+        // options.campaignToken = "YOUR_CAMPAIGN_TOKEN"
         return options
     }()
 
     var canPresentOffer: Bool {
-        // Offer can be presented if the user *can* become a subscriber
         viewModel.subscription?.canBecomeSubscriber ?? false
-       // Or, if status is undetermined/loading, assume we might be able to show it.
-       // viewModel.subscription == nil || viewModel.isLoading
     }
 
     var body: some View {
         GroupBox("Subscription Offer") {
             VStack(spacing: 15) {
+                // ... (rest of the VStack content remains the same) ...
+
                 if viewModel.isLoading {
-                     Text("Checking eligibility...")
-                         .font(.caption)
-                         .foregroundColor(.secondary)
+                     Text("Checking eligibility...") // Keep this part
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                  } else if canPresentOffer {
                     Text("Present an Apple Music subscription offer sheet.")
                         .font(.callout)
                         .multilineTextAlignment(.center)
 
                     Button("Show Subscription Offer") {
-                        // Set the item ID contextually if needed just before showing
+                        // Now the assignment should work because types match
                         offerOptions.itemID = exampleItemID
                         isShowingOffer = true
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(viewModel.isLoading) // Disable while loading status
+                    .disabled(viewModel.isLoading)
                 } else if viewModel.subscription != nil {
                      Text("User is likely already subscribed or cannot subscribe.")
-                         .font(.callout)
-                         .foregroundColor(.secondary)
-                         .multilineTextAlignment(.center)
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
                  } else if viewModel.error != nil {
                      Text("Cannot determine offer eligibility due to an error.")
                          .font(.callout)
@@ -233,38 +232,30 @@ struct SubscriptionOfferView: View {
                          .multilineTextAlignment(.center)
                  }
             }
-             .padding(.vertical, 10) // Padding inside the GroupBox
-            // Apply the modifier to present the sheet
+             .padding(.vertical, 10)
             .musicSubscriptionOffer(
                 isPresented: $isShowingOffer,
                 options: offerOptions
             ) { error in
-                // Handle offer sheet load completion/error
                 if let error = error {
                     print("Error loading subscription offer: \(error.localizedDescription)")
-                    // Maybe show an alert to the user
                 } else {
                     print("Subscription offer sheet loaded successfully.")
                 }
             }
         }
          .task {
-             // Check status when the view appears to determine eligibility
              await viewModel.checkSubscriptionStatus()
          }
-         // Conditional availability for the offer components
-         // These types/modifiers are not available on tvOS, watchOS, or visionOS
-         #if os(iOS) || os(macOS)
-         // Content specific to iOS/macOS where MusicSubscriptionOffer is available
+         #if !(os(tvOS) || os(watchOS) || os(visionOS)) // Check if offer is supported
+         // Offer related modifiers only if supported
          #else
-         // Fallback or empty view for other platforms
+         // Fallback for unsupported platforms
          Group {
-             if #available(tvOS 15.0, watchOS 8.0, visionOS 1.0, *) { // Add other platforms if needed
-                 Text("Subscription offers are not available on this platform.")
-                     .font(.caption)
-                     .foregroundColor(.secondary)
-                     .padding()
-             }
+             Text("Subscription offers are not available on this platform.")
+                 .font(.caption)
+                 .foregroundColor(.secondary)
+                 .padding()
          }
          #endif
     }
@@ -317,7 +308,7 @@ struct SubscriptionContentView_Previews: PreviewProvider {
 
 // MARK: - Helper Extensions (Optional but good practice)
 
-extension MusicSubscription.Error: LocalizedError {
+extension MusicSubscription.Error {
     // Provide more user-friendly descriptions if needed
     public var errorDescription: String? {
         switch self {
@@ -352,11 +343,11 @@ extension MusicSubscription.Error: LocalizedError {
 
 #if os(iOS) || os(macOS)
 // Add extensions for offer types if needed, though they are simple structs/enums
-extension MusicSubscriptionOffer.Action: CustomStringConvertible {
+extension MusicSubscriptionOffer.Action {
     public var description: String { rawValue }
 }
 
-extension MusicSubscriptionOffer.MessageIdentifier: CustomStringConvertible {
+extension MusicSubscriptionOffer.MessageIdentifier {
      public var description: String { rawValue }
 }
 #endif
