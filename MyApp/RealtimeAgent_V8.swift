@@ -1,5 +1,5 @@
 ////
-////  RealtimeAgent_V7.swift
+////  RealtimeAgent_V8.swift
 ////  MyApp
 ////
 ////  Created by Cong Le on 4/13/25.
@@ -25,23 +25,23 @@
 //struct OpenAIService {
 //    private let apiURL = URL(string: "https://api.openai.com/v1/chat/completions")!
 //    private let apiKey = "YOUR_API_KEY"
-//
+//    
 //    func sendMessage(_ message: String) async throws -> String {
 //        var request = URLRequest(url: apiURL)
 //        request.httpMethod = "POST"
 //        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
 //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
+//        
 //        let json: [String: Any] = [
 //            "model": "gpt-4",
 //            "messages": [["role": "user", "content": message]],
 //            "temperature": 0.8
 //        ]
 //        request.httpBody = try JSONSerialization.data(withJSONObject: json)
-//
+//        
 //        let (data, _) = try await URLSession.shared.data(for: request)
 //        let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-//
+//        
 //        guard let choices = responseJSON?["choices"] as? [[String: Any]],
 //              let messageDict = choices.first?["message"] as? [String: Any],
 //              let content = messageDict["content"] as? String else {
@@ -57,7 +57,54 @@
 //    let audioEngine = AVAudioEngine()
 //    private var request: SFSpeechAudioBufferRecognitionRequest?
 //    private var task: SFSpeechRecognitionTask?
-//
+//    
+//    func startListening() throws {
+//        if audioEngine.isRunning {
+//            stopListening()
+//        }
+//        
+//        request?.endAudio()
+//        request = SFSpeechAudioBufferRecognitionRequest()
+//        guard let request else { return }
+//        
+//        let inputNode = audioEngine.inputNode
+//        request.shouldReportPartialResults = true
+//        
+//        // Remove existing tap if present to avoid crash
+//        inputNode.removeTap(onBus: 0)
+//        
+//        task?.cancel()
+//        task = recognizer.recognitionTask(with: request) { result, error in
+//            if let result {
+//                DispatchQueue.main.async {
+//                    self.transcript = result.bestTranscription.formattedString
+//                }
+//            }
+//            if error != nil || (result?.isFinal ?? false) {
+//                self.stopListening()
+//            }
+//        }
+//        
+//        let inputFormat = inputNode.outputFormat(forBus: 0)
+//        inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { buffer, _ in
+//            request.append(buffer)
+//        }
+//        
+//        audioEngine.prepare()
+//        try audioEngine.start()
+//    }
+//    
+//    func stopListening() {
+//        audioEngine.stop()
+//        if audioEngine.inputNode.numberOfInputs > 0 {
+//            audioEngine.inputNode.removeTap(onBus: 0)
+//        }
+//        request?.endAudio()
+//        request = nil
+//        task?.cancel()
+//        task = nil
+//    }
+//    
 //    // Updated async permission request compatible with iOS 17+
 //    func requestAuthorization() async -> Bool {
 //        await withCheckedContinuation { continuation in
@@ -82,53 +129,20 @@
 //            }
 //        }
 //    }
-//
-//    func startListening() throws {
-//        if audioEngine.isRunning { return }
-//        request = SFSpeechAudioBufferRecognitionRequest()
-//        guard let request else { return }
-//
-//        let inputNode = audioEngine.inputNode
-//        request.shouldReportPartialResults = true
-//
-//        task = recognizer.recognitionTask(with: request) { result, error in
-//            if let result {
-//                DispatchQueue.main.async {
-//                    self.transcript = result.bestTranscription.formattedString
-//                }
-//            }
-//            if error != nil || (result?.isFinal ?? false) {
-//                self.stopListening()
-//            }
-//        }
-//
-//        audioEngine.prepare()
-//        try audioEngine.start()
-//
-//        inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputNode.outputFormat(forBus: 0)) { buffer, _ in
-//            request.append(buffer)
-//        }
-//    }
-//
-//    func stopListening() {
-//        audioEngine.stop()
-//        request?.endAudio()
-//        task?.cancel()
-//        task = nil
-//    }
 //}
+//
 //@MainActor
 //final class ChatViewModel: ObservableObject {
 //    @Published var chatMessages: [ChatMessage] = []
 //    @Published var isLoading: Bool = false
 //    let openAIService = OpenAIService()
 //    let speechService = SpeechService()
-//
+//    
 //    func sendUserMessage(_ text: String) async {
 //        guard !text.isEmpty else { return }
 //        chatMessages.append(ChatMessage(sender: .user, content: text))
 //        isLoading = true
-//
+//        
 //        do {
 //            let gptResponse = try await openAIService.sendMessage(text)
 //            chatMessages.append(ChatMessage(sender: .gpt, content: gptResponse))
@@ -142,7 +156,7 @@
 //
 //struct ContentView: View {
 //    @StateObject private var vm = ChatViewModel()
-//
+//    
 //    var body: some View {
 //        NavigationStack {
 //            VStack {
@@ -160,12 +174,12 @@
 //                        }
 //                    }
 //                }
-//
+//                
 //                VStack {
 //                    Text(vm.speechService.transcript.isEmpty ? "Tap Mic and Speak" : vm.speechService.transcript)
 //                        .padding()
 //                        .foregroundColor(.primary)
-//
+//                    
 //                    HStack {
 //                        Button(vm.speechService.audioEngine.isRunning ? "Stop 🎙️" : "Speak 🎤") {
 //                            Task { await toggleListening() }
@@ -185,7 +199,7 @@
 //            .task { _ = await vm.speechService.requestAuthorization() }
 //        }
 //    }
-//
+//    
 //    func toggleListening() async {
 //        if vm.speechService.audioEngine.isRunning {
 //            vm.speechService.stopListening()

@@ -1,16 +1,18 @@
 ////
-////  RealtimeAgent_V7.swift
+////  RealtimeAgent_V9.swift
 ////  MyApp
 ////
 ////  Created by Cong Le on 4/13/25.
 ////
 //
-//
 //import SwiftUI
-//import Foundation
 //import Speech
 //import AVFoundation
 //
+//// MARK: - Secure API Key Management
+//let openAIKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
+//
+//// MARK: - Chat Models
 //enum Sender {
 //    case user, gpt
 //}
@@ -22,35 +24,54 @@
 //    let timestamp: Date = Date()
 //}
 //
+//// MARK: - OpenAI API Models
+//struct OpenAIResponse: Decodable {
+//    struct Choice: Decodable {
+//        struct Message: Decodable {
+//            let role: String
+//            let content: String
+//        }
+//        let message: Message
+//    }
+//    let choices: [Choice]
+//}
+//
+//// MARK: - OpenAIService with Robust Networking
 //struct OpenAIService {
 //    private let apiURL = URL(string: "https://api.openai.com/v1/chat/completions")!
-//    private let apiKey = "YOUR_API_KEY"
-//
+//    
 //    func sendMessage(_ message: String) async throws -> String {
+//        guard !openAIKey.isEmpty else { throw URLError(.userAuthenticationRequired) }
+//
 //        var request = URLRequest(url: apiURL)
 //        request.httpMethod = "POST"
-//        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+//        request.addValue("Bearer \(openAIKey)", forHTTPHeaderField: "Authorization")
 //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 //
-//        let json: [String: Any] = [
+//        let requestBody: [String: Any] = [
 //            "model": "gpt-4",
 //            "messages": [["role": "user", "content": message]],
 //            "temperature": 0.8
 //        ]
-//        request.httpBody = try JSONSerialization.data(withJSONObject: json)
+//        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
 //
-//        let (data, _) = try await URLSession.shared.data(for: request)
-//        let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+//        let (data, response) = try await URLSession.shared.data(for: request)
 //
-//        guard let choices = responseJSON?["choices"] as? [[String: Any]],
-//              let messageDict = choices.first?["message"] as? [String: Any],
-//              let content = messageDict["content"] as? String else {
+//        guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
 //            throw URLError(.badServerResponse)
 //        }
+//
+//        let decodedResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
+//
+//        guard let content = decodedResponse.choices.first?.message.content else {
+//            throw URLError(.cannotDecodeRawData)
+//        }
+//
 //        return content.trimmingCharacters(in: .whitespacesAndNewlines)
 //    }
 //}
 //
+//// MARK: - Speech Service Improvements
 //final class SpeechService: NSObject, ObservableObject {
 //    @Published var transcript = ""
 //    private let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
@@ -58,88 +79,96 @@
 //    private var request: SFSpeechAudioBufferRecognitionRequest?
 //    private var task: SFSpeechRecognitionTask?
 //
-//    // Updated async permission request compatible with iOS 17+
-//    func requestAuthorization() async -> Bool {
-//        await withCheckedContinuation { continuation in
-//            // Request Speech Authorization
-//            SFSpeechRecognizer.requestAuthorization { speechStatus in
-//                guard speechStatus == .authorized else {
-//                    print("Speech authorization denied.")
-//                    continuation.resume(returning: false)
-//                    return
-//                }
-//                // Request Microphone Recording Authorization
-//                if #available(iOS 17.0, *) {
-//                    AVAudioApplication.requestRecordPermission { allowed in
-//                        continuation.resume(returning: allowed)
-//                    }
-//                } else {
-//                    // Fallback on earlier versions
-//                    AVAudioSession.sharedInstance().requestRecordPermission { allowed in
-//                        continuation.resume(returning: allowed)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
 //    func startListening() throws {
-//        if audioEngine.isRunning { return }
+//        stopListening() // Ensure clean state first
+//
 //        request = SFSpeechAudioBufferRecognitionRequest()
-//        guard let request else { return }
+//        guard let request = request, recognizer.isAvailable else {
+//            throw URLError(.resourceUnavailable)
+//        }
 //
 //        let inputNode = audioEngine.inputNode
 //        request.shouldReportPartialResults = true
 //
-//        task = recognizer.recognitionTask(with: request) { result, error in
-//            if let result {
+//        task = recognizer.recognitionTask(with: request) { [weak self] result, error in
+//            guard let self = self else { return }
+//
+//            if let result = result {
 //                DispatchQueue.main.async {
 //                    self.transcript = result.bestTranscription.formattedString
 //                }
 //            }
-//            if error != nil || (result?.isFinal ?? false) {
+//
+//            if result?.isFinal == true || error != nil {
 //                self.stopListening()
 //            }
 //        }
 //
-//        audioEngine.prepare()
-//        try audioEngine.start()
-//
+//        inputNode.removeTap(onBus: 0)
 //        inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputNode.outputFormat(forBus: 0)) { buffer, _ in
 //            request.append(buffer)
 //        }
+//
+//        audioEngine.prepare()
+//        try audioEngine.start()
 //    }
 //
 //    func stopListening() {
-//        audioEngine.stop()
-//        request?.endAudio()
-//        task?.cancel()
-//        task = nil
+//        if audioEngine.isRunning {
+//            audioEngine.stop()
+//            audioEngine.inputNode.removeTap(onBus: 0)
+//            request?.endAudio()
+//            task?.cancel()
+//            task = nil
+//            request = nil
+//        }
+//    }
+//
+//    func requestAuthorization() async -> Bool {
+//        await withCheckedContinuation { continuation in
+//            SFSpeechRecognizer.requestAuthorization { speechAuth in
+//                guard speechAuth == .authorized else {
+//                    print("Speech authorization denied.")
+//                    continuation.resume(returning: false)
+//                    return
+//                }
+//                AVAudioSession.sharedInstance().requestRecordPermission { allowed in
+//                    if !allowed { print("Microphone access denied.") }
+//                    continuation.resume(returning: allowed)
+//                }
+//            }
+//        }
 //    }
 //}
+//
+//// MARK: - ViewModel Improvements
 //@MainActor
 //final class ChatViewModel: ObservableObject {
 //    @Published var chatMessages: [ChatMessage] = []
-//    @Published var isLoading: Bool = false
-//    let openAIService = OpenAIService()
+//    @Published var isLoading = false
+//    private let openAIService = OpenAIService()
 //    let speechService = SpeechService()
 //
 //    func sendUserMessage(_ text: String) async {
-//        guard !text.isEmpty else { return }
+//        guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+//
 //        chatMessages.append(ChatMessage(sender: .user, content: text))
 //        isLoading = true
 //
 //        do {
 //            let gptResponse = try await openAIService.sendMessage(text)
 //            chatMessages.append(ChatMessage(sender: .gpt, content: gptResponse))
+//        } catch is URLError {
+//            chatMessages.append(ChatMessage(sender: .gpt, content: "Connection issue. Ensure your internet is connected and try again."))
 //        } catch {
-//            chatMessages.append(ChatMessage(sender: .gpt, content: "Sorry, something went wrong. Try again."))
+//            chatMessages.append(ChatMessage(sender: .gpt, content: "An unexpected error occurred. Please try again later."))
 //        }
+//
 //        isLoading = false
 //    }
 //}
 //
-//
+//// MARK: - SwiftUI View with Enhanced UX/UI
 //struct ContentView: View {
 //    @StateObject private var vm = ChatViewModel()
 //
@@ -161,9 +190,14 @@
 //                    }
 //                }
 //
+//                if vm.isLoading {
+//                    ProgressView("Waiting for GPT...")
+//                        .padding()
+//                }
+//
 //                VStack {
 //                    Text(vm.speechService.transcript.isEmpty ? "Tap Mic and Speak" : vm.speechService.transcript)
-//                        .padding()
+//                        .padding(.horizontal)
 //                        .foregroundColor(.primary)
 //
 //                    HStack {
@@ -171,10 +205,14 @@
 //                            Task { await toggleListening() }
 //                        }
 //                        .disabled(vm.isLoading)
+//
 //                        Spacer()
+//
 //                        Button("Send 📤") {
-//                            Task { await vm.sendUserMessage(vm.speechService.transcript) }
-//                            vm.speechService.transcript = ""
+//                            Task {
+//                                await vm.sendUserMessage(vm.speechService.transcript)
+//                                vm.speechService.transcript = ""
+//                            }
 //                        }
 //                        .disabled(vm.speechService.transcript.isEmpty || vm.isLoading)
 //                    }
@@ -186,19 +224,21 @@
 //        }
 //    }
 //
-//    func toggleListening() async {
+//    private func toggleListening() async {
 //        if vm.speechService.audioEngine.isRunning {
 //            vm.speechService.stopListening()
 //        } else {
 //            do {
 //                try vm.speechService.startListening()
 //            } catch {
-//                print("Error starting speech: \(error.localizedDescription)")
+//                print("Audio input error: \(error.localizedDescription)")
 //            }
 //        }
 //    }
 //}
 //
-//#Preview("ContentView") {
+//// MARK: - SwiftUI Preview
+//#Preview {
 //    ContentView()
+//        .environmentObject(ChatViewModel())
 //}
