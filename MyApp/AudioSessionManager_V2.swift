@@ -1,13 +1,8 @@
 //
-//  AudioSessionManager.swift
+//  AudioSessionManager_V2.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/13/25.
-//
-
-//  Purpose: Demonstrates various functionalities of AVAudioSession.
-//  This is primarily for illustrative purposes and not production-ready code.
-//  Error handling is simplified using print statements.
 //
 
 import Foundation
