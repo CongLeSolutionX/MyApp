@@ -15,6 +15,7 @@
 		9A406DD22D9A06B9004FEE68 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 9A406DD12D9A06B9004FEE68 /* GoogleMobileAds */; };
 		9A5DBB5B2DAEF8E10075F697 /* GeminiChatView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB5A2DAEF8E00075F697 /* GeminiChatView_V1.swift */; };
 		9A5DBB5D2DAEF95E0075F697 /* GeminiChatView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */; };
+		9A5DBB602DAEFC010075F697 /* GeminiChatView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */; };
 		9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */; };
 		9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */; };
 		9A90C2622D9835720032A5A5 /* CardDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2612D98356B0032A5A5 /* CardDesginView.swift */; };
@@ -52,6 +53,7 @@
 		9A406DD32D9A0834004FEE68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9A5DBB5A2DAEF8E00075F697 /* GeminiChatView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V1.swift; sourceTree = "<group>"; };
 		9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V2.swift; sourceTree = "<group>"; };
+		9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V3.swift; sourceTree = "<group>"; };
 		9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledGeminiModelCardView.swift; sourceTree = "<group>"; };
 		9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		9A90C2612D98356B0032A5A5 /* CardDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDesginView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				9A5DBB5A2DAEF8E00075F697 /* GeminiChatView_V1.swift */,
 				9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */,
+				9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */,
 			);
 			path = GeminiChatView;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				9AEBC5DD2D9CE64700756CE5 /* ExperimentalModels_CardDesignView.swift in Sources */,
 				9AEBC5DF2D9CE8E100756CE5 /* ExperimentalModels_MoreCardDesignView.swift in Sources */,
 				9A406DC52D99F48C004FEE68 /* Imagen_3_Model_Detail_View.swift in Sources */,
+				9A5DBB602DAEFC010075F697 /* GeminiChatView_V3.swift in Sources */,
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
 				9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */,
 				9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView_V1.swift in Sources */,
