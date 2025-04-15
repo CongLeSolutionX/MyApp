@@ -60,6 +60,7 @@
 		9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */; };
 		9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */; };
 		9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */; };
+		9AFB73352DAEDDED00A985BF /* SpotifyEmbedView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,8 @@
 		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 		9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V1.swift; sourceTree = "<group>"; };
 		9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V2.swift; sourceTree = "<group>"; };
+		9AFB73332DAEDC3600A985BF /* MyAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppRelease.entitlements; sourceTree = "<group>"; };
+		9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +269,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9AFB73332DAEDC3600A985BF /* MyAppRelease.entitlements */,
 				9AA1A5112DA4F392000178B3 /* Info.plist */,
 				9A5AAE762D93BD43006A955A /* SpotifyMusicAPI.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
@@ -283,6 +287,7 @@
 				9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */,
 				9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */,
 				9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */,
+				9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
 				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
@@ -410,6 +415,7 @@
 				9AA1A55A2DA5B09E000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V3.swift in Sources */,
 				9A5AAE772D93BD49006A955A /* SpotifyMusicAPI.swift in Sources */,
 				9AA1A5822DA69684000178B3 /* ComprehensiveView_V3.swift in Sources */,
+				9AFB73352DAEDDED00A985BF /* SpotifyEmbedView_V3.swift in Sources */,
 				9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */,
 				9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */,
 				9AA1A52F2DA58900000178B3 /* AVPlayerView_V4.swift in Sources */,
@@ -594,7 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = MyApp/MyApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MyApp/MyAppRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
