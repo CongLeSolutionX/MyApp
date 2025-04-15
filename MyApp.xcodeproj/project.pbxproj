@@ -10,6 +10,10 @@
 		9A1B1A2F2DAE86E400817FEC /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A2E2DAE86E100817FEC /* Solution.swift */; };
 		9A1B1A312DAE87F400817FEC /* Solution2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A302DAE87F100817FEC /* Solution2.swift */; };
 		9A1B1A332DAE88F100817FEC /* Solution3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A322DAE88EF00817FEC /* Solution3.swift */; };
+		9A1B1A352DAE8ACF00817FEC /* Solution4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A342DAE8AC800817FEC /* Solution4.swift */; };
+		9A1B1A372DAE8B6E00817FEC /* Solution5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A362DAE8B6A00817FEC /* Solution5.swift */; };
+		9A1B1A392DAE8B8200817FEC /* Solution6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A382DAE8B7D00817FEC /* Solution6.swift */; };
+		9A1B1A3B2DAE8BA000817FEC /* Solution7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B1A3A2DAE8B9C00817FEC /* Solution7.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -21,6 +25,10 @@
 		9A1B1A2E2DAE86E100817FEC /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
 		9A1B1A302DAE87F100817FEC /* Solution2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution2.swift; sourceTree = "<group>"; };
 		9A1B1A322DAE88EF00817FEC /* Solution3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution3.swift; sourceTree = "<group>"; };
+		9A1B1A342DAE8AC800817FEC /* Solution4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution4.swift; sourceTree = "<group>"; };
+		9A1B1A362DAE8B6A00817FEC /* Solution5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution5.swift; sourceTree = "<group>"; };
+		9A1B1A382DAE8B7D00817FEC /* Solution6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution6.swift; sourceTree = "<group>"; };
+		9A1B1A3A2DAE8B9C00817FEC /* Solution7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution7.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,6 +74,10 @@
 				9A1B1A2E2DAE86E100817FEC /* Solution.swift */,
 				9A1B1A302DAE87F100817FEC /* Solution2.swift */,
 				9A1B1A322DAE88EF00817FEC /* Solution3.swift */,
+				9A1B1A342DAE8AC800817FEC /* Solution4.swift */,
+				9A1B1A362DAE8B6A00817FEC /* Solution5.swift */,
+				9A1B1A382DAE8B7D00817FEC /* Solution6.swift */,
+				9A1B1A3A2DAE8B9C00817FEC /* Solution7.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -151,10 +163,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1B1A392DAE8B8200817FEC /* Solution6.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A1B1A312DAE87F400817FEC /* Solution2.swift in Sources */,
+				9A1B1A3B2DAE8BA000817FEC /* Solution7.swift in Sources */,
 				9A1B1A2F2DAE86E400817FEC /* Solution.swift in Sources */,
+				9A1B1A372DAE8B6E00817FEC /* Solution5.swift in Sources */,
+				9A1B1A352DAE8ACF00817FEC /* Solution4.swift in Sources */,
 				9A1B1A332DAE88F100817FEC /* Solution3.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
