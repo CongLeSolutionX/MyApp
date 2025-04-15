@@ -17,7 +17,7 @@ import AVFoundation
  <string>Speech recognition usage description</string>
  <key>NSMicrophoneUsageDescription</key>
  <string>Microphone usage description</string>
-*/
+ */
 
 // MARK: - Voice Mode Enum
 enum VoiceMode: String, CaseIterable, Identifiable {
@@ -68,7 +68,7 @@ class VoiceInputManager: ObservableObject {
     @Published private(set) var isListening = false
     @Published var transcribedText = ""
     @Published var error: String?
-
+    
     // Private internal state for hold-to-talk intermediate results
     private var latestHoldTranscription = ""
     
@@ -94,14 +94,14 @@ class VoiceInputManager: ObservableObject {
                 continuation.resume(returning: status)
             }
         }
-
+        
         // Microphone permission async wrapper
         let micPermissionGranted = await withCheckedContinuation { continuation in
             AVAudioSession.sharedInstance().requestRecordPermission { granted in
                 continuation.resume(returning: granted)
             }
         }
-
+        
         // Now update UI state on main actor
         
         let speechAuthorized = speechAuthStatus == .authorized
@@ -118,33 +118,33 @@ class VoiceInputManager: ObservableObject {
         }
     }
     
-//    func requestPermissions() async {
-//        // Request Speech Authorization
-//        let speechAuthStatus = await SFSpeechRecognizer.requestAuthorization()
-//        
-//        // Request Microphone Authorization asynchronously
-//        let micPermissionGranted = await withCheckedContinuation { continuation in
-//            AVAudioSession.sharedInstance().requestRecordPermission { granted in
-//                continuation.resume(returning: granted)
-//            }
-//        }
-//        
-//        // Update state on main thread (due to @MainActor)
-//        let speechAuthorized = speechAuthStatus == .authorized
-//        self.hasPermissions = (speechAuthorized && micPermissionGranted)
-//        
-//        // Set error if missing permission(s)
-//        if !speechAuthorized && !micPermissionGranted {
-//            error = VoiceError.permissionsMissing("Microphone & Speech").localizedDescription
-//        } else if !micPermissionGranted {
-//            error = VoiceError.permissionsMissing("Microphone").localizedDescription
-//        } else if !speechAuthorized {
-//            error = VoiceError.permissionsMissing("Speech Recognition (\(speechAuthStatus.description))").localizedDescription
-//        } else {
-//            error = nil
-//        }
-//    }
-//    
+    //    func requestPermissions() async {
+    //        // Request Speech Authorization
+    //        let speechAuthStatus = await SFSpeechRecognizer.requestAuthorization()
+    //
+    //        // Request Microphone Authorization asynchronously
+    //        let micPermissionGranted = await withCheckedContinuation { continuation in
+    //            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+    //                continuation.resume(returning: granted)
+    //            }
+    //        }
+    //
+    //        // Update state on main thread (due to @MainActor)
+    //        let speechAuthorized = speechAuthStatus == .authorized
+    //        self.hasPermissions = (speechAuthorized && micPermissionGranted)
+    //
+    //        // Set error if missing permission(s)
+    //        if !speechAuthorized && !micPermissionGranted {
+    //            error = VoiceError.permissionsMissing("Microphone & Speech").localizedDescription
+    //        } else if !micPermissionGranted {
+    //            error = VoiceError.permissionsMissing("Microphone").localizedDescription
+    //        } else if !speechAuthorized {
+    //            error = VoiceError.permissionsMissing("Speech Recognition (\(speechAuthStatus.description))").localizedDescription
+    //        } else {
+    //            error = nil
+    //        }
+    //    }
+    //
     func checkPermissions() {
         let speechStatus = SFSpeechRecognizer.authorizationStatus()
         let micStatus = AVAudioSession.sharedInstance().recordPermission
@@ -289,7 +289,7 @@ class VoiceInputManager: ObservableObject {
     
     private func activateAudioSession() throws {
         guard !audioSessionIsActive else { return }
-
+        
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.record, mode: .measurement, options: .duckOthers)
         // Optional: Adjust buffer duration for latency
@@ -359,19 +359,40 @@ struct VoiceInputAreaView: View {
     @State private var isPressingHoldButton = false
     
     var body: some View {
-        HStack(spacing: 10) {
-            voiceModeToggleButton
-                .padding(.leading, 4)
+        VStack(spacing: 4) {
+            // Add segmented picker for mode toggle at the top
+            Picker("Voice Input Mode", selection: $voiceManager.currentMode) {
+                ForEach(VoiceMode.allCases) { mode in
+                    Text(mode.rawValue).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .onChange(of: voiceManager.currentMode) {
+                // Stop listening if switching mode
+                if voiceManager.isListening {
+                    voiceManager.stopListening()
+                }
+                // Clear input if you want when changing mode
+                userInput = ""
+                // Optional: Clear error
+                voiceManager.error = nil
+            }
             
-            textEditorArea
-            
-            sendButtonArea
+            HStack(spacing: 10) {
+                voiceModeToggleButton
+                    .padding(.leading, 4)
+                
+                textEditorArea
+                
+                sendButtonArea
+            }
+            .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 12))
         }
-        .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 12))
         .onAppear {
             if !voiceManager.hasPermissions,
                SFSpeechRecognizer.authorizationStatus() == .notDetermined ||
-               AVAudioSession.sharedInstance().recordPermission == .undetermined {
+                AVAudioApplication.shared.recordPermission == .undetermined {
                 Task {
                     await voiceManager.requestPermissions()
                 }
@@ -409,9 +430,9 @@ struct VoiceInputAreaView: View {
                             isTextFieldFocused = false
                             userInput = ""
                             voiceManager.startListening()
-                            #if os(iOS)
+#if os(iOS)
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            #endif
+#endif
                         }
                         .onEnded { _ in
                             guard isPressingHoldButton else { return }
@@ -420,9 +441,9 @@ struct VoiceInputAreaView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 isTextFieldFocused = true
                             }
-                            #if os(iOS)
+#if os(iOS)
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            #endif
+#endif
                         }
                 )
                 .disabled(isProcessing)
@@ -445,7 +466,7 @@ struct VoiceInputAreaView: View {
             .frame(width: 30, height: 30)
             .foregroundColor(micColor)
             .symbolEffect(.pulse.byLayer, options: .repeating, isActive: voiceManager.isListening)
-            // Combine animations into one modifier to reduce overhead
+        // Combine animations into one modifier to reduce overhead
             .animation(.easeInOut(duration: 0.2), value: isProcessing || voiceManager.isListening || isPressingHoldButton)
     }
     
@@ -471,8 +492,8 @@ struct VoiceInputAreaView: View {
                     alignment: .topLeading
                 )
                 .disabled(isInputDisabled)
-                .onChange(of: isTextFieldFocused) { focused in
-                    if focused && voiceManager.isListening {
+                .onChange(of: isTextFieldFocused) {
+                    if isTextFieldFocused && voiceManager.isListening {
                         voiceManager.stopListening()
                         isPressingHoldButton = false
                     }
@@ -481,9 +502,9 @@ struct VoiceInputAreaView: View {
             if !userInput.isEmpty && !isInputDisabled {
                 Button {
                     userInput = ""
-                    #if os(iOS)
+#if os(iOS)
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    #endif
+#endif
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary.opacity(0.7))
@@ -549,8 +570,8 @@ struct VoiceInputAreaView_ModePreviews: PreviewProvider {
                     }
                 }
                 .pickerStyle(.segmented)
-                .onChange(of: previewMode) { newValue in
-                    previewVoiceManager.currentMode = newValue
+                .onChange(of: previewMode) {
+                    previewVoiceManager.currentMode = previewMode
                     if previewVoiceManager.isListening {
                         previewVoiceManager.stopListening()
                     }
