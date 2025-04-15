@@ -1,9 +1,9 @@
 //
-//  FluidShaders.metal
+//  FluidShaders_V2.metal
 //  MyApp
 //
 //  Created by Cong Le on 4/15/25.
-//
+
 
 #include <metal_stdlib>
 using namespace metal;
