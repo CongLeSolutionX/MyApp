@@ -393,8 +393,8 @@ struct SkillProgressView: View {
 // MARK: Contact View with Validation + Copy to Clipboard
 
 struct ContactView: View {
-    @State private var email = "jane.doe@example.com"
-    @State private var phone = "+1 (123) 456-7890"
+    @State private var email = "CongLeJobs@gmail.com"
+    @State private var phone = "TBD"
     @State private var alertMessage = ""
     @State private var showingAlert = false
     
