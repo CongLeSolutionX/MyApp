@@ -1,42 +1,23 @@
 //
-//  ContentView.swift
+//  ContentView_V2.swift
 //  MyApp
 //
-//  Created by Cong Le on 8/19/24.
+//  Created by Cong Le on 4/15/25.
 //
-//
-//import SwiftUI
-//
-//// Step 2: Use in SwiftUI view
-//struct ContentView: View {
-//    var body: some View {
-//        UIKitViewControllerWrapper()
-//            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
-//    }
-//}
-//
-//// Before iOS 17, use this syntax for preview UIKit view controller
-//struct UIKitViewControllerWrapper_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UIKitViewControllerWrapper()
-//    }
-//}
-//
-//// After iOS 17, we can use this syntax for preview:
-//#Preview {
-//    ContentView()
-//}
 
 import SwiftUI
+import PDFKit
+import Combine
 
-struct PortfolioApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .preferredColorScheme(.none) // Uses system setting (dark/light mode)
-        }
-    }
-}
+//@main
+//struct PortfolioApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//                .preferredColorScheme(.none) // Follow system mode
+//        }
+//    }
+//}
 
 struct ContentView: View {
     var body: some View {
@@ -61,39 +42,69 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Home / Profile View
+// MARK: Home / Profile with Resume Viewer
 
 struct HomeView: View {
+    @State private var showingResume = false
+    
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                ProfileHeaderView()
-                
-                Text("Chance led me to iOS development,\nbut the COVID-19 pandemic cemented my choice of a software engineering career,\nwhich I stay current with through my writing on Medium𓂃🖊📱")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
+            ScrollView {
+                VStack(spacing: 20) {
+                    ProfileHeaderView()
+                    
+                    Text("Passionate iOS Developer skilled in Swift, SwiftUI, and elegant app experiences. I build clean, efficient, and user-centric apps.")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                        .foregroundColor(.secondary)
+                    
+                    Button(action: { showingResume.toggle() }) {
+                        Label("View Resume", systemImage: "doc.richtext.fill")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.accentColor.opacity(0.1))
+                            .foregroundColor(Color.accentColor)
+                            .cornerRadius(12)
+                    }
                     .padding(.horizontal)
-                    .foregroundColor(.secondary)
-                
-                Button(action: {
-                    // Add resume download or link action here
-                }) {
-                    Label("Download Resume", systemImage: "arrow.down.doc.fill")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.accentColor.opacity(0.1))
-                        .foregroundColor(Color.accentColor)
-                        .cornerRadius(12)
+                    .sheet(isPresented: $showingResume) {
+                        ResumeView()
+                    }
+                    
+                    Spacer(minLength: 150)
                 }
-                .padding(.horizontal)
-                
-                Spacer()
+                .padding(.top)
             }
-            .padding()
             .navigationTitle("About Me")
         }
     }
+}
+
+struct ResumeView: View {
+    var body: some View {
+        VStack {
+            if let url = Bundle.main.url(forResource: "Resume", withExtension: "pdf") {
+                PDFKitView(url: url)
+            } else {
+                Text("Resume PDF not found.")
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+}
+
+struct PDFKitView: UIViewRepresentable {
+    let url: URL
+    func makeUIView(context: Context) -> PDFView {
+        let pdfView = PDFView()
+        pdfView.autoScales = true
+        pdfView.displayDirection = .vertical
+        pdfView.document = PDFDocument(url: url)
+        return pdfView
+    }
+    func updateUIView(_ uiView: PDFView, context: Context) {}
 }
 
 struct ProfileHeaderView: View {
@@ -128,35 +139,114 @@ struct ProfileHeaderView: View {
     }
 }
 
-// MARK: - Projects View
+// MARK: Projects with Filtering + Search
 
 struct ProjectsView: View {
-    let projects = SampleData.projects
+    @State private var selectedFilter: TechFilter = .all
+    @State private var searchText: String = ""
+    
+    private var filteredProjects: [Project] {
+        SampleData.projects.filter { project in
+            (selectedFilter == .all || project.techStack.contains(selectedFilter.rawValue)) &&
+            (searchText.isEmpty || project.title.localizedCaseInsensitiveContains(searchText) || project.shortDescription.localizedCaseInsensitiveContains(searchText))
+        }
+    }
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    ForEach(projects) { project in
-                        ProjectCardView(project: project)
-                            .padding(.horizontal)
+            VStack {
+                TechFilterPicker(selectedFilter: $selectedFilter)
+                    .padding(.horizontal)
+                
+                SearchBar(text: $searchText, placeholder: "Search Projects")
+                    .padding(.bottom)
+                    .padding(.horizontal)
+                
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        if filteredProjects.isEmpty {
+                            Text("No projects found for selected filter/search.")
+                                .foregroundColor(.secondary)
+                                .padding()
+                        } else {
+                            ForEach(filteredProjects) { project in
+                                ProjectCardView(project: project)
+                                    .padding(.horizontal)
+                            }
+                        }
                     }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
             }
             .navigationTitle("Projects")
         }
     }
 }
 
+enum TechFilter: String, CaseIterable, Identifiable {
+    case all = "All"
+    case Swift = "Swift"
+    case SwiftUI = "SwiftUI"
+    case UIKit = "UIKit"
+    case Combine = "Combine"
+    case CoreData = "CoreData"
+    case SpriteKit = "SpriteKit"
+    
+    var id: String { rawValue }
+}
+
+struct TechFilterPicker: View {
+    @Binding var selectedFilter: TechFilter
+    
+    var body: some View {
+        Picker("Filter", selection: $selectedFilter) {
+            ForEach(TechFilter.allCases) { filter in
+                Text(filter.rawValue).tag(filter)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+    }
+}
+
+struct SearchBar: UIViewRepresentable {
+    @Binding var text: String
+    let placeholder: String
+    
+    class Coordinator: NSObject, UISearchBarDelegate {
+        @Binding var text: String
+        init(text: Binding<String>) { _text = text }
+        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            text = searchText
+        }
+        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder()
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+    
+    func makeUIView(context: Context) -> UISearchBar {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = context.coordinator
+        searchBar.placeholder = placeholder
+        searchBar.autocapitalizationType = .none
+        searchBar.searchBarStyle = .minimal
+        return searchBar
+    }
+    
+    func updateUIView(_ uiView: UISearchBar, context: Context) {
+        uiView.text = text
+    }
+}
+
 struct ProjectCardView: View {
     let project: Project
-    
     @State private var isExpanded = false
+    @Namespace private var animation
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
+            HStack(alignment: .top) {
                 Image(systemName: project.iconName)
                     .font(.largeTitle)
                     .foregroundColor(.accentColor)
@@ -167,6 +257,7 @@ struct ProjectCardView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(project.title)
                         .font(.headline)
+                        .matchedGeometryEffect(id: "title-\(project.id)", in: animation)
                     Text(project.shortDescription)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -174,39 +265,47 @@ struct ProjectCardView: View {
                 Spacer()
                 
                 Button(action: {
-                    withAnimation(.spring()) {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                         isExpanded.toggle()
                     }
                 }) {
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                    Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
                         .foregroundColor(.accentColor)
                         .imageScale(.large)
+                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .scaleEffect(isExpanded ? 1.2 : 1)
+                        .animation(.spring(), value: isExpanded)
                 }
+                .buttonStyle(PlainButtonStyle())
             }
             
             if isExpanded {
                 Divider()
                 Text(project.detailedDescription)
                     .font(.body)
+                    .transition(.move(edge: .top).combined(with: .opacity))
                 
-                HStack {
-                    ForEach(project.techStack, id: \.self) { tech in
-                        Text(tech)
-                            .font(.caption)
-                            .padding(6)
-                            .background(Color.accentColor.opacity(0.15))
-                            .cornerRadius(8)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(project.techStack, id: \.self) { tech in
+                            Text(tech)
+                                .font(.caption)
+                                .padding(8)
+                                .background(Color.accentColor.opacity(0.15))
+                                .cornerRadius(10)
+                        }
                     }
-                    Spacer()
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 2)
                 }
-                .padding(.top, 4)
                 
-                HStack(spacing: 20) {
+                HStack(spacing: 30) {
                     if let github = project.githubURL {
                         Link(destination: github) {
                             Label("GitHub", systemImage: "link")
                         }
                     }
+                    
                     if let demo = project.demoURL {
                         Link(destination: demo) {
                             Label("Live Demo", systemImage: "play.circle.fill")
@@ -216,26 +315,34 @@ struct ProjectCardView: View {
                 .font(.subheadline)
                 .foregroundColor(.accentColor)
                 .padding(.top, 8)
+                .transition(.opacity)
             }
         }
         .padding()
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: Color.primary.opacity(0.1), radius: 8, x: 0, y: 4)
+        .animation(.easeInOut, value: isExpanded)
     }
 }
 
-// MARK: - Skills View
+// MARK: Skills with Animated Progress Rings
 
 struct SkillsView: View {
     let skills = SampleData.skills
+    @Environment(\.colorScheme) var colorScheme
+    
+    var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: 140), spacing: 20)]
+    }
     
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 140), spacing: 20)], spacing: 24) {
+                LazyVGrid(columns: columns, spacing: 24) {
                     ForEach(skills) { skill in
                         SkillProgressView(skill: skill)
+                            .padding(8)
                     }
                 }
                 .padding()
@@ -247,38 +354,50 @@ struct SkillsView: View {
 
 struct SkillProgressView: View {
     let skill: Skill
+    @State private var animationPercentage: CGFloat = 0
     
     var body: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.gray.opacity(0.25), lineWidth: 14)
-                .frame(width: 140, height: 140)
-            
-            Circle()
-                .trim(from: 0, to: CGFloat(skill.proficiency))
-                .stroke(style: StrokeStyle(lineWidth: 14, lineCap: .round))
-                .foregroundColor(Color.accentColor)
-                .rotationEffect(.degrees(-90))
-                .frame(width: 140, height: 140)
-                .animation(.easeInOut(duration: 1), value: skill.proficiency)
-            
-            VStack {
-                Image(systemName: skill.iconName)
-                    .font(.largeTitle)
-                    .foregroundColor(.accentColor)
-                Text(skill.name)
-                    .font(.headline)
-                Text("\(Int(skill.proficiency*100))%")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+        VStack {
+            ZStack {
+                Circle()
+                    .stroke(lineWidth: 14)
+                    .foregroundColor(Color.gray.opacity(0.25))
+                    .frame(width: 140, height: 140)
+                
+                Circle()
+                    .trim(from: 0, to: animationPercentage)
+                    .stroke(style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .foregroundColor(Color.accentColor)
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 140, height: 140)
+                    .animation(.easeOut(duration: 1.2), value: animationPercentage)
+                
+                VStack(spacing: 6) {
+                    Image(systemName: skill.iconName)
+                        .font(.largeTitle)
+                        .foregroundColor(.accentColor)
+                    Text(skill.name)
+                        .font(.headline)
+                    Text("\(Int(skill.proficiency*100))%")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
+        }
+        .onAppear {
+            animationPercentage = CGFloat(skill.proficiency)
         }
     }
 }
 
-// MARK: - Contact View
+// MARK: Contact View with Validation + Copy to Clipboard
 
 struct ContactView: View {
+    @State private var email = "jane.doe@example.com"
+    @State private var phone = "+1 (123) 456-7890"
+    @State private var alertMessage = ""
+    @State private var showingAlert = false
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -287,28 +406,17 @@ struct ContactView: View {
                     .fontWeight(.semibold)
                     .padding(.top, 40)
                 
-                VStack(spacing: 16) {
-                    HStack {
-                        Image(systemName: "envelope.fill")
-                            .foregroundColor(.accentColor)
-                        Text("CongLeJobs@gmail.com")
-                    }
-//                    HStack {
-//                        Image(systemName: "phone.fill")
-//                            .foregroundColor(.accentColor)
-//                        Text("+1 (123) 456-7890")
-//                    }
+                ContactInfoRow(icon: "envelope.fill", label: email) {
+                    copyToClipboard(email)
                 }
-                .font(.body)
+                ContactInfoRow(icon: "phone.fill", label: phone) {
+                    copyToClipboard(phone)
+                }
                 
                 Spacer()
                 
                 Button(action: {
-                    // Open mail app or contact form
-                    let email = "mailto:CongLeJobs@gmail.com"
-                    if let url = URL(string: email) {
-                        UIApplication.shared.open(url)
-                    }
+                    sendEmail()
                 }) {
                     Label("Send Email", systemImage: "paperplane.fill")
                         .font(.headline)
@@ -320,15 +428,59 @@ struct ContactView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 40)
+                .alert(isPresented: $showingAlert) {
+                    Alert(title: Text(alertMessage))
+                }
             }
             .navigationTitle("Contact")
+            .padding()
+        }
+    }
+    
+    private func copyToClipboard(_ text: String) {
+        UIPasteboard.general.string = text
+        alertMessage = "\(text) copied to clipboard!"
+        showingAlert = true
+    }
+    
+    private func sendEmail() {
+        let emailUrl = URL(string: "mailto:\(email)")
+        if let url = emailUrl, UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            alertMessage = "Cannot open Mail app."
+            showingAlert = true
         }
     }
 }
 
-// MARK: - Sample Data Models
+struct ContactInfoRow: View {
+    let icon: String
+    let label: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(.accentColor)
+                Text(label)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                Spacer()
+                Image(systemName: "doc.on.doc.fill")
+                    .foregroundColor(.secondary)
+            }
+            .padding(.vertical, 8)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
 
-struct Project: Identifiable {
+// MARK: - Data Models & Sample Data
+
+struct Project: Identifiable, Hashable {
     let id = UUID()
     let iconName: String
     let title: String
@@ -339,7 +491,7 @@ struct Project: Identifiable {
     let demoURL: URL?
 }
 
-struct Skill: Identifiable {
+struct Skill: Identifiable, Hashable {
     let id = UUID()
     let iconName: String
     let name: String
@@ -408,11 +560,12 @@ struct SampleData {
         Skill(iconName: "applelogo", name: "UIKit", proficiency: 0.8),
         Skill(iconName: "server.rack", name: "Backend APIs", proficiency: 0.6),
         Skill(iconName: "cloud", name: "CloudKit", proficiency: 0.55),
-        Skill(iconName: "gearshape.fill", name: "CI/CD", proficiency: 0.5)
+        Skill(iconName: "gearshape.fill", name: "CI/CD", proficiency: 0.5),
+        Skill(iconName: "gamecontroller.fill", name: "SpriteKit", proficiency: 0.45)
     ]
 }
 
-// For preview
+// MARK: - Previews
 
 struct PortfolioApp_Previews: PreviewProvider {
     static var previews: some View {
@@ -422,6 +575,8 @@ struct PortfolioApp_Previews: PreviewProvider {
             ContentView()
                 .preferredColorScheme(.dark)
                 .previewDevice("iPhone 14")
+            ContentView()
+                .previewDevice("iPad Pro (11-inch) (4th generation)")
         }
     }
 }
