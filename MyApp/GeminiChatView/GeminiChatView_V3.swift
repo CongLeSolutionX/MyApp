@@ -380,7 +380,7 @@ struct OptimizedGeminiChatView: View {
             Text(errorText)
         }
          // Optional background
-         // .background(Color(.systemGroupedBackground).ignoresSafeArea())
+          .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
 }
 
