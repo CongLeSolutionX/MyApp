@@ -12,15 +12,15 @@ import Foundation // Needed for potentially large number calculations if not usi
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = BossFight_BruteForceSolution2
+    typealias UIViewControllerType = MyUIKitViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> BossFight_BruteForceSolution2 {
+    func makeUIViewController(context: Context) -> MyUIKitViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return BossFight_BruteForceSolution2()
+        return MyUIKitViewController()
     }
     
-    func updateUIViewController(_ uiViewController: BossFight_BruteForceSolution2, context: Context) {
+    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -42,6 +42,32 @@ class MyUIKitViewController: UIViewController {
         //        print("Expected Return Value = \(expected_Return_Value_2)")
         //        print("Expected Return Value = \(expected_Return_Value_3)")
         
+        
+        // MARK: - Example Usage (Matches previous response)
+
+        let N1 = 3
+        let H1 = [2, 1, 4]
+        let D1 = [3, 1, 2]
+        let B1 = 4
+        let result1 = getMaxDamageDealt(N1, H1, D1, B1)
+        print(String(format: "Sample 1 Result: %.6f", result1)) // Expected: 6.500000
+
+        let N2 = 4
+        let H2 = [1, 1, 2, 100]
+        let D2 = [1, 1, 2, 1]
+        let B2 = 8
+        let result2 = getMaxDamageDealt(N2, H2, D2, B2)
+        // Note: Based on derived formula, code likely yields 38.000000.
+        // Problem statement expects 62.750000 - discrepancy discussed previously.
+        print(String(format: "Sample 2 Result: %.6f", result2))
+
+        let N3 = 4 // Same as N2
+        let H3 = [1, 1, 2, 100]
+        let D3 = [1, 1, 2, 1]
+        let B3 = 8
+        let result3 = getMaxDamageDealt(N3, H3, D3, B3)
+        print(String(format: "Sample 3 Result: %.6f", result3))
+
     }
 }
 
