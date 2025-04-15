@@ -1,5 +1,5 @@
 //
-//  CardBasedGeminiChatView.swift
+//  CardBasedGeminiChatView_V2.swift
 //  MyApp
 //
 //  Created by Cong Le on 4/15/25.
@@ -470,7 +470,6 @@ struct CardSection<Content: View>: View {
           // )
      }
 }
-
 
 // MARK: -- Other UI Views (Empty State, ScrollView, Bubble, Indicator, Input - InputAreaView modified for card context)
 
