@@ -23,6 +23,7 @@
 		9A5DBB6C2DAF0D020075F697 /* VoiceInputAreaView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */; };
 		9A5DBB6E2DAF0FCD0075F697 /* VoiceInputAreaView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */; };
 		9A5DBB722DAF11E60075F697 /* VoiceInputAreaView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB712DAF11E40075F697 /* VoiceInputAreaView_V3.swift */; };
+		9A5DBB742DAF13500075F697 /* VoiceInputAreaView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB732DAF134E0075F697 /* VoiceInputAreaView_V4.swift */; };
 		9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */; };
 		9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */; };
 		9A90C2622D9835720032A5A5 /* CardDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2612D98356B0032A5A5 /* CardDesginView.swift */; };
@@ -68,6 +69,7 @@
 		9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V1.swift; sourceTree = "<group>"; };
 		9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V2.swift; sourceTree = "<group>"; };
 		9A5DBB712DAF11E40075F697 /* VoiceInputAreaView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V3.swift; sourceTree = "<group>"; };
+		9A5DBB732DAF134E0075F697 /* VoiceInputAreaView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V4.swift; sourceTree = "<group>"; };
 		9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledGeminiModelCardView.swift; sourceTree = "<group>"; };
 		9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		9A90C2612D98356B0032A5A5 /* CardDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDesginView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		9A5DBB6F2DAF0FD20075F697 /* VoiceInputAreaView */ = {
 			isa = PBXGroup;
 			children = (
+				9A5DBB732DAF134E0075F697 /* VoiceInputAreaView_V4.swift */,
 				9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */,
 				9A5DBB712DAF11E40075F697 /* VoiceInputAreaView_V3.swift */,
 				9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */,
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */,
+				9A5DBB742DAF13500075F697 /* VoiceInputAreaView_V4.swift in Sources */,
 				9AEBC5EB2D9CF17100756CE5 /* GeminiModelVariantsView_V1.swift in Sources */,
 				9AEBC5E12D9CE97100756CE5 /* GeminiEmbedingView_V1.swift in Sources */,
 				9A406DCB2D99FEEB004FEE68 /* ImagenGeneratorView.swift in Sources */,
