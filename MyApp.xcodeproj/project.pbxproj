@@ -20,7 +20,8 @@
 		9A5DBB642DAF02D70075F697 /* GeminiChatView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB632DAF02D40075F697 /* GeminiChatView_V5.swift */; };
 		9A5DBB682DAF08600075F697 /* CardBasedGeminiChatView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB672DAF08600075F697 /* CardBasedGeminiChatView_V1.swift */; };
 		9A5DBB6A2DAF0A9E0075F697 /* CardBasedGeminiChatView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB692DAF0A9D0075F697 /* CardBasedGeminiChatView_V2.swift */; };
-		9A5DBB6C2DAF0D020075F697 /* VoiceInputAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView.swift */; };
+		9A5DBB6C2DAF0D020075F697 /* VoiceInputAreaView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */; };
+		9A5DBB6E2DAF0FCD0075F697 /* VoiceInputAreaView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */; };
 		9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */; };
 		9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */; };
 		9A90C2622D9835720032A5A5 /* CardDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2612D98356B0032A5A5 /* CardDesginView.swift */; };
@@ -63,7 +64,8 @@
 		9A5DBB632DAF02D40075F697 /* GeminiChatView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V5.swift; sourceTree = "<group>"; };
 		9A5DBB672DAF08600075F697 /* CardBasedGeminiChatView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBasedGeminiChatView_V1.swift; sourceTree = "<group>"; };
 		9A5DBB692DAF0A9D0075F697 /* CardBasedGeminiChatView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBasedGeminiChatView_V2.swift; sourceTree = "<group>"; };
-		9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView.swift; sourceTree = "<group>"; };
+		9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V1.swift; sourceTree = "<group>"; };
+		9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputAreaView_V2.swift; sourceTree = "<group>"; };
 		9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledGeminiModelCardView.swift; sourceTree = "<group>"; };
 		9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		9A90C2612D98356B0032A5A5 /* CardDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDesginView.swift; sourceTree = "<group>"; };
@@ -120,6 +122,15 @@
 			path = GeminiChatView;
 			sourceTree = "<group>";
 		};
+		9A5DBB6F2DAF0FD20075F697 /* VoiceInputAreaView */ = {
+			isa = PBXGroup;
+			children = (
+				9A5DBB6D2DAF0FCA0075F697 /* VoiceInputAreaView_V2.swift */,
+				9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView_V1.swift */,
+			);
+			path = VoiceInputAreaView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +179,7 @@
 				9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */,
 				9AEBC5E82D9CEF7200756CE5 /* AQAModelDetailView_V2.swift */,
 				9AEBC5E62D9CED5C00756CE5 /* AQAModelDetailView_V1.swift */,
-				9A5DBB6B2DAF0D000075F697 /* VoiceInputAreaView.swift */,
+				9A5DBB6F2DAF0FD20075F697 /* VoiceInputAreaView */,
 				9A5DBB5E2DAEF9650075F697 /* GeminiChatView */,
 				9AEBC5EA2D9CF17000756CE5 /* GeminiModelVariantsView_V1.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -268,7 +279,7 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A5DBB622DAEFFCC0075F697 /* GeminiChatView_V4.swift in Sources */,
 				9A5DBB5B2DAEF8E10075F697 /* GeminiChatView_V1.swift in Sources */,
-				9A5DBB6C2DAF0D020075F697 /* VoiceInputAreaView.swift in Sources */,
+				9A5DBB6C2DAF0D020075F697 /* VoiceInputAreaView_V1.swift in Sources */,
 				9ACF24432D95F76E00A4238C /* GeminiModelsView.swift in Sources */,
 				9A406DCF2D9A0686004FEE68 /* GoogleAdMobIntegrationView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
@@ -278,6 +289,7 @@
 				9A406DC52D99F48C004FEE68 /* Imagen_3_Model_Detail_View.swift in Sources */,
 				9A5DBB602DAEFC010075F697 /* GeminiChatView_V3.swift in Sources */,
 				9ACF24392D95E78600A4238C /* Gemini_2_Flash_Model_DetailView.swift in Sources */,
+				9A5DBB6E2DAF0FCD0075F697 /* VoiceInputAreaView_V2.swift in Sources */,
 				9A5DBB6A2DAF0A9E0075F697 /* CardBasedGeminiChatView_V2.swift in Sources */,
 				9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */,
 				9AEBC5E72D9CED5D00756CE5 /* AQAModelDetailView_V1.swift in Sources */,
