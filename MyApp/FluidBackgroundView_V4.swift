@@ -43,7 +43,8 @@ class FluidRenderer: NSObject, MTKViewDelegate {
     
     // Pipeline states
     var advectPSO: MTLComputePipelineState!
-    var addSourcePSO: MTLComputePipelineState!
+    var addDensitySourcePSO: MTLComputePipelineState!
+    var addVelocitySourcePSO: MTLComputePipelineState!
     var jacobiDiffusePSO: MTLComputePipelineState!
     var divergencePSO: MTLComputePipelineState!
     var jacobiPressurePSO: MTLComputePipelineState!
@@ -212,35 +213,25 @@ class FluidRenderer: NSObject, MTKViewDelegate {
     
     func setupPipelines() {
         do {
-            //            guard let library = try? device.makeLibrary(source: fluidShaderSource, options: nil) else {
-            //                fatalError("Failed to create Metal library from source.")
-            //            }
-            
-            // Get the default library compiled by Xcode from .metal files
             guard let library = device.makeDefaultLibrary() else {
                 fatalError("Failed to get default Metal library. Ensure FluidShaders.metal is in target.")
             }
-            
-            
-            
+
             // --- Compute Pipelines ---
             advectPSO = try makeComputePSO(library: library, functionName: "advect")
-            addSourcePSO = try makeComputePSO(library: library, functionName: "add_source")
+            // Remove old addSourcePSO line
             jacobiDiffusePSO = try makeComputePSO(library: library, functionName: "diffuse_jacobi")
             divergencePSO = try makeComputePSO(library: library, functionName: "calculate_divergence")
             jacobiPressurePSO = try makeComputePSO(library: library, functionName: "pressure_jacobi")
             subtractGradientPSO = try makeComputePSO(library: library, functionName: "subtract_gradient")
-            clearTexturePSO = try makeComputePSO(library: library, functionName: "clear_texture_kernel") // Initialize clear PSO
-            
+            clearTexturePSO = try makeComputePSO(library: library, functionName: "clear_texture_kernel")
+
+            // Add new PSOs
+            addDensitySourcePSO = try makeComputePSO(library: library, functionName: "add_density_source")
+            addVelocitySourcePSO = try makeComputePSO(library: library, functionName: "add_velocity_source")
+
             // --- Render Pipeline (for visualization) ---
-            let renderDesc = MTLRenderPipelineDescriptor()
-            renderDesc.label = "Fluid Visualization Pipeline"
-            renderDesc.vertexFunction = library.makeFunction(name: "fluid_vertex")
-            renderDesc.fragmentFunction = library.makeFunction(name: "fluid_fragment")
-            renderDesc.colorAttachments[0].pixelFormat = .bgra8Unorm // Match MTKView's format
-            
-            visualizeRenderPSO = try device.makeRenderPipelineState(descriptor: renderDesc)
-            
+            // ... (rest of the function remains the same) ...
         } catch {
             fatalError("Failed to create Metal pipeline state: \(error)")
         }
@@ -378,17 +369,31 @@ class FluidRenderer: NSObject, MTKViewDelegate {
             }
         }
         
-        // 4. Add Sources (Forces/Density to A textures)
-        computeEncoder.setComputePipelineState(addSourcePSO)
-        computeEncoder.setBuffer(interactionUniformsBuffer, offset: 0, index: 0)
-        // Add density (if flag is set internally in uniforms)
-        computeEncoder.setTexture(densityTextureA, index: 0)
-        computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
-        // Add velocity (if flag is set internally in uniforms)
-        computeEncoder.setTexture(velocityTextureA, index: 0)
-        computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
-        // Flags are reset in updateInteraction / endInteraction, managed by CPU side
-        
+//        // 4. Add Sources (Forces/Density to A textures)
+//        computeEncoder.setComputePipelineState(addSourcePSO)
+//        computeEncoder.setBuffer(interactionUniformsBuffer, offset: 0, index: 0)
+//        // Add density (if flag is set internally in uniforms)
+//        computeEncoder.setTexture(densityTextureA, index: 0)
+//        computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+//        // Add velocity (if flag is set internally in uniforms)
+//        computeEncoder.setTexture(velocityTextureA, index: 0)
+//        computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+//        // Flags are reset in updateInteraction / endInteraction, managed by CPU side
+//            // 4. Add Sources (Dispatch distinct kernels based on flags)
+        computeEncoder.setBuffer(interactionUniformsBuffer, offset: 0, index: 0) // Uniforms needed by both
+
+        if interactionUniforms.addDensity {
+            computeEncoder.setComputePipelineState(addDensitySourcePSO)
+            computeEncoder.setTexture(densityTextureA, index: 0) // Bind density texture
+            computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+        }
+
+        if interactionUniforms.addVelocity {
+            computeEncoder.setComputePipelineState(addVelocitySourcePSO)
+            computeEncoder.setTexture(velocityTextureA, index: 0) // Bind velocity texture
+            computeEncoder.dispatchThreads(threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+        }
+        // Flags are reset in updateInteraction / endInteraction on the CPU side
         // 5. Projection Step (Make fluid incompressible)
         // 5a. Calculate Divergence (Velocity A -> Divergence Texture)
         computeEncoder.setComputePipelineState(divergencePSO)
