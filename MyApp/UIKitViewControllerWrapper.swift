@@ -34,8 +34,13 @@ class MyUIKitViewController: UIViewController {
         
         let bossFightSolution = BossFightSolution()
         
-        let result = bossFightSolution.getMaxDamageDealt_OptimizedStructure(3, [2, 1, 4], [3, 1, 2], 4)
-        print("Expected Return Value = \(result)")
+        let expected_Return_Value_1 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(3, [2, 1, 4], [3, 1, 2], 4)
+        let expected_Return_Value_2 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 100], [1, 2, 1, 3], 8)
+        let expected_Return_Value_3 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 3], [1, 2, 1, 100], 8)
+        
+        print("Expected Return Value = \(expected_Return_Value_1)")
+        print("Expected Return Value = \(expected_Return_Value_2)")
+        print("Expected Return Value = \(expected_Return_Value_3)")
         
     }
 }
@@ -103,57 +108,58 @@ class BossFightSolution {
         
         // --- Insert Function (Top-1) ---
         func insert(lineIndex: Int) {
+            if lineIndex < 0 || lineIndex >= lines.count { return } // Safety check
             _insert(newLineIndex: lineIndex, treeNodeIndex: 1, rangeL: minCoordIndex, rangeR: maxCoordIndex)
         }
         
         private func _insert(newLineIndex: Int, treeNodeIndex: Int, rangeL: Int, rangeR: Int) {
-            if rangeL > rangeR || treeNodeIndex >= tree.count { return } // Base case: invalid range or node
+            // Base case: invalid range or node index out of bounds
+            if rangeL > rangeR || treeNodeIndex <= 0 || treeNodeIndex >= tree.count { return }
             
             let midIndex = rangeL + (rangeR - rangeL) / 2
             // Evaluate lines at the H value corresponding to the mid *index*
+            // Need to handle potential out-of-bounds if range indices are wrong.
+            guard midIndex >= 0 && midIndex < sortedUniqueH.count else { return }
             let midH = Double(sortedUniqueH[midIndex])
             
             var currentBestIndex = tree[treeNodeIndex].lineIndex
-            var incomingLineIndex = newLineIndex
+            var incomingLineIndex = newLineIndex // Use 'var' to allow swapping
             
             let currentLine = getLine(currentBestIndex)
             let incomingLine = getLine(incomingLineIndex)
             
             // If incoming line is better at midpoint, swap it with current node's line
             if incomingLine.eval(at: midH) > currentLine.eval(at: midH) {
-                swap(&currentBestIndex, &incomingLineIndex)
-                tree[treeNodeIndex].lineIndex = currentBestIndex // Update node with better line
+                swap(&currentBestIndex, &incomingLineIndex) // Swap the *indices*
+                tree[treeNodeIndex].lineIndex = currentBestIndex // Update node with the new best index
             }
             
-            // If the range is just a single point, we're done
+            // If the range is just a single point, we're done for this path
             if rangeL == rangeR { return }
             
-            // Try to insert the line that was worse at the midpoint into the appropriate child
-            let remainingLineIndex = incomingLineIndex // This line lost at the midpoint
+            // Try to insert the line that was worse at the midpoint into the appropriate child.
+            // Note: 'incomingLineIndex' now holds the index of the line that was *worse* at midH after the potential swap.
+            let remainingLineIndex = incomingLineIndex
             let remainingLine = getLine(remainingLineIndex)
-            let bestLineAtNode = getLine(currentBestIndex) // The line that won at midpoint
+            let bestLineAtNode = getLine(currentBestIndex) // The line that won at midH (or was already there)
             
-            // Check if the remaining line could be better at the start or end of the range
-            let startH = Double(sortedUniqueH[rangeL])
-            let endH = Double(sortedUniqueH[rangeR])
+            // If the remaining line is negligible, no need to propagate.
+            if remainingLine.originalIndex == -1 { return }
             
-            // If remaining line slope is higher, it might win on the right side
-            // If remaining line slope is lower, it might wind on the left side
-            // Propagate to the side where the remaining line *could* potentially beat the line currently dominating the node
+            // Propagate based on slopes:
+            // Only propagate if the remaining line could potentially beat the current node's line
+            // somewhere within the relevant child's range.
+            // Note: Floating point comparisons need care, consider using a small epsilon if necessary,
+            //       but direct comparison often works okay here.
             if remainingLine.m > bestLineAtNode.m {
                 // Higher slope -> potential win on right side
                 _insert(newLineIndex: remainingLineIndex, treeNodeIndex: 2 * treeNodeIndex + 1, rangeL: midIndex + 1, rangeR: rangeR)
             } else if remainingLine.m < bestLineAtNode.m {
                 // Lower slope -> potential win on left side
                 _insert(newLineIndex: remainingLineIndex, treeNodeIndex: 2 * treeNodeIndex, rangeL: rangeL, rangeR: midIndex)
-            } else {
-                // Same slope: only insert if the constant term 'c' is better
-                if remainingLine.c > bestLineAtNode.c {
-                    // This case implies the initial midpoint check should have caught this if slopes were equal.
-                    // If c is better, it dominates everywhere. Re-insert potentially needed?
-                    // Or simply don't propagate if slopes are equal and c isn't better.
-                }
             }
+            // Implicit else: If slopes are equal, the line with strictly better `c` should have won the swap.
+            // The remaining line (with lower or equal `c`) will not dominate, so no need to propagate.
         }
         
         // --- Query Function (Top-1) ---
@@ -281,3 +287,19 @@ class BossFightSolution {
     // Since Top-2 LCT is complex, submitting the brute-force might pass
     // initial sample cases but will TLE on larger ones.
 }
+//
+//// MARK: - Preview
+//// Use in SwiftUI view
+//struct ContentView: View {
+//    var body: some View {
+//        UIKitViewControllerWrapper()
+//            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+//    }
+//}
+//
+//// Before iOS 17, use this syntax for preview UIKit view controller
+//struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UIKitViewControllerWrapper()
+//    }
+//}
