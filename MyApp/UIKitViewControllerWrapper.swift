@@ -12,15 +12,15 @@ import Foundation // Needed for potentially large number calculations if not usi
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = BossFight_BruteForceSolution
+    typealias UIViewControllerType = BossFight_BruteForceSolution2
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> BossFight_BruteForceSolution {
+    func makeUIViewController(context: Context) -> BossFight_BruteForceSolution2 {
         // Step 1c: Instantiate and return the UIKit view controller
-        return BossFight_BruteForceSolution()
+        return BossFight_BruteForceSolution2()
     }
     
-    func updateUIViewController(_ uiViewController: BossFight_BruteForceSolution, context: Context) {
+    func updateUIViewController(_ uiViewController: BossFight_BruteForceSolution2, context: Context) {
         // Update the view controller if needed
     }
 }
@@ -32,15 +32,15 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         // Additional setup
         
-//        let bossFightSolution = BossFightSolution()
-//        
-//        let expected_Return_Value_1 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(3, [2, 1, 4], [3, 1, 2], 4)
-//        let expected_Return_Value_2 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 100], [1, 2, 1, 3], 8)
-//        let expected_Return_Value_3 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 3], [1, 2, 1, 100], 8)
-//        
-//        print("Expected Return Value = \(expected_Return_Value_1)")
-//        print("Expected Return Value = \(expected_Return_Value_2)")
-//        print("Expected Return Value = \(expected_Return_Value_3)")
+        //        let bossFightSolution = BossFightSolution()
+        //
+        //        let expected_Return_Value_1 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(3, [2, 1, 4], [3, 1, 2], 4)
+        //        let expected_Return_Value_2 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 100], [1, 2, 1, 3], 8)
+        //        let expected_Return_Value_3 = bossFightSolution.getMaxDamageDealt_OptimizedStructure(4, [1, 1, 2, 3], [1, 2, 1, 100], 8)
+        //
+        //        print("Expected Return Value = \(expected_Return_Value_1)")
+        //        print("Expected Return Value = \(expected_Return_Value_2)")
+        //        print("Expected Return Value = \(expected_Return_Value_3)")
         
     }
 }
@@ -291,10 +291,106 @@ class BossFightSolution {
 }
 
 
+class BossFight_BruteForceSolution2: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .orange
+        
+        // Print out results
+        // Example Usage based on Sample Cases:
+        let N1 = 3
+        let H1 = [2, 1, 4]
+        let D1 = [3, 1, 2]
+        let B1 = 4
+        let result1 = getMaxDamageDealt(N1, H1, D1, B1)
+        print(String(format: "Sample 1 Result: %.6f", result1)) // Expected: 6.500000
+        
+        let N2 = 4
+        let H2 = [1, 1, 2, 100]
+        let D2 = [1, 1, 2, 1]
+        let B2 = 8
+        let result2 = getMaxDamageDealt(N2, H2, D2, B2)
+        print(String(format: "Sample 2 Result: %.6f", result2)) // Expected: 62.750000 (Code yields 38.000000)
+        
+        let N3 = 4 // Same as N2
+        let H3 = [1, 1, 2, 100]
+        let D3 = [1, 1, 2, 1]
+        let B3 = 8
+        let result3 = getMaxDamageDealt(N3, H3, D3, B3)
+        print(String(format: "Sample 3 Result: %.6f", result3)) // Expected: 62.750000 (Code yields 38.000000)
+    }
+    
+    func getMaxDamageDealt(_ N: Int, _ H: [Int], _ D: [Int], _ B: Int) -> Float {
+        // --- Basic Input Validation ---
+        if N < 2 { return 0.0 } // Need at least two warriors
+        
+        let B_double = Double(B)
+        // Constraint B >= 1 ensures B_double > 0
+        if B_double <= 0 { return 0.0 } // Defensive check
+        
+        // --- Precompute values only for potentially valid warriors (H > 0) ---
+        // Note: Constraints H >= 1 makes H > 0 always true, but belts and suspenders.
+        var self_damage = Array(repeating: 0.0, count: N)
+        var mult = Array(repeating: 0.0, count: N)
+        var valid_indices = [Int]()
+        valid_indices.reserveCapacity(N)
+        
+        for k in 0..<N {
+            // Check if warrior can participate. With H >= 1, all can.
+            if H[k] <= 0 { continue }
+            
+            valid_indices.append(k)
+            let Dk = Double(D[k])
+            let Hk = Double(H[k])
+            
+            // self_damage_k = D[k] * H[k] / B
+            self_damage[k] = Dk * Hk / B_double
+            // mult_k = D[k] / B
+            mult[k] = Dk / B_double
+        }
+        
+        // Need at least two valid warriors to form a pair
+        if valid_indices.count < 2 {
+            return 0.0
+        }
+        
+        // --- Calculate Max Damage using Brute-Force Check of Pairs ---
+        var maxTotalDamage: Double = 0.0
+        
+        // Iterate through all distinct pairs (i, j) of valid warriors
+        for idx_i in 0..<valid_indices.count {
+            let i = valid_indices[idx_i] // Original index of the front-line warrior
+            let sdi = self_damage[i]
+            let Hi = Double(H[i]) // Need H[i] for the mult_j * H[i] term
+            
+            for idx_j in 0..<valid_indices.count {
+                // Warriors must be distinct
+                if idx_i == idx_j { continue }
+                
+                let j = valid_indices[idx_j] // Original index of the backup warrior
+                
+                let sdj = self_damage[j]
+                let multj = mult[j]
+                
+                // Calculate total damage with i as front-line, j as backup
+                // Formula: TotalDamage(i, j) = self_damage_i + mult_j * H[i] + self_damage_j
+                // It represents: (D[i]*H[i]/B) + (D[j]*H[i]/B) + (D[j]*H[j]/B)
+                let currentTotalDamage = sdi + multj * Hi + sdj
+                
+                maxTotalDamage = max(maxTotalDamage, currentTotalDamage)
+            }
+        }
+        
+        // --- Return Result ---
+        // Convert the final result to Float. Double intermediate calculations maintain precision.
+        // The standard Float conversion should handle the required decimal places.
+        return Float(maxTotalDamage)
+    }
+}
+
 
 // MARK: - Brute force solution
 
-// Example UIKit view controller
 class BossFight_BruteForceSolution: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -316,34 +412,34 @@ class BossFight_BruteForceSolution: UIViewController {
         let D_i = Double(D[i])
         let D_j = Double(D[j])
         let B_double = Double(B)
-
+        
         if B_double == 0 { return Double.infinity } // Avoid division by zero, though constraints say B >= 1
-
+        
         // Using the simplified formula:
         let self_damage_i = D_i * H_i / B_double
         let self_damage_j = D_j * H_j / B_double
         let mult_j = D_j / B_double
-
+        
         let totalDamage = self_damage_i + mult_j * H_i + self_damage_j
         return totalDamage
-
+        
         /* // Original formula derivation check:
-        let time_i = H_i / B_double
-        let time_j = H_j / B_double
-        let damage_phase1 = (D_i + D_j) * time_i
-        let damage_phase2 = D_j * time_j
-        return damage_phase1 + damage_phase2
-        */
+         let time_i = H_i / B_double
+         let time_j = H_j / B_double
+         let damage_phase1 = (D_i + D_j) * time_i
+         let damage_phase2 = D_j * time_j
+         return damage_phase1 + damage_phase2
+         */
     }
-
+    
     // Brute-force main function (Conceptual)
     func getMaxDamageDealt_BruteForce(_ N: Int, _ H: [Int], _ D: [Int], _ B: Int) -> Float {
         var maxDamage: Double = 0.0
-
+        
         for i in 0..<N {
             for j in 0..<N {
                 if i == j { continue } // Warriors must be distinct
-
+                
                 let currentDamage = calculateDamage(i: i, j: j, H: H, D: D, B: B)
                 maxDamage = max(maxDamage, currentDamage)
             }
