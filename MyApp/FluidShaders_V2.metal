@@ -91,40 +91,58 @@ kernel void advect(texture2d<float, access::read> velocityIn [[texture(0)]],
 }
 
 // --- 2. Add External Forces/Density ---
-kernel void add_source(texture2d<float, access::read_write> field [[texture(0)]],
-                       constant InteractionUniforms &uniforms [[buffer(0)]],
-                       uint2 gid [[thread_position_in_grid]])
+// --- 2a. Add Density Source ---
+kernel void add_density_source(texture2d<float, access::read_write> densityField [[texture(0)]], // Specifically for density (e.g., rgba8unorm treated as float4)
+                               constant InteractionUniforms &uniforms [[buffer(0)]],
+                               uint2 gid [[thread_position_in_grid]])
 {
-    // Check which source type is active
-    bool shouldAddDensity = uniforms.addDensity && field.get_pixel_format() == pixel_format::rgba8unorm;
-    bool shouldAddVelocity = uniforms.addVelocity && field.get_pixel_format() == pixel_format::rg16float;
+    // Only proceed if the density flag is actually set by the CPU for this dispatch
+    if (!uniforms.addDensity) return;
 
-    if (!shouldAddDensity && !shouldAddVelocity) return;
-
-    float texelSizeX = 1.0 / float(field.get_width());
-    float texelSizeY = 1.0 / float(field.get_height());
+    float texelSizeX = 1.0 / float(densityField.get_width());
+    float texelSizeY = 1.0 / float(densityField.get_height());
     float2 uv = (float2(gid) + 0.5) * float2(texelSizeX, texelSizeY); // Center of pixel
 
-    // Calculate distance squared in normalized coordinates
     float dx = uv.x - uniforms.interactionPoint.x;
     float dy = uv.y - uniforms.interactionPoint.y;
     float distSq = dx * dx + dy * dy;
     float radiusSq = uniforms.interactionRadius * uniforms.interactionRadius;
 
-    // Add force/density within the interaction radius using a smooth falloff
     if (distSq < radiusSq) {
-        float falloff = 1.0 - smoothstep(0.0f, radiusSq, distSq); // Smoother radial falloff
-        float4 valueToAdd;
-        if (shouldAddDensity) {
-             // Scale density addition by timestep for consistency
-             valueToAdd = uniforms.interactionColor * falloff * uniforms.timestep;
-        } else { // shouldAddVelocity
-             // Scale velocity addition by timestep
-             valueToAdd = float4(uniforms.interactionVelocity, 0.0, 0.0) * falloff * uniforms.timestep;
-        }
+        float falloff = 1.0 - smoothstep(0.0f, radiusSq, distSq);
+        // Scale density addition by timestep for consistency
+        float4 valueToAdd = uniforms.interactionColor * falloff * uniforms.timestep;
 
-        float4 currentValue = field.read(gid);
-        field.write(currentValue + valueToAdd, gid);
+        float4 currentValue = densityField.read(gid);
+        densityField.write(currentValue + valueToAdd, gid);
+    }
+}
+
+// --- 2b. Add Velocity Source ---
+kernel void add_velocity_source(texture2d<float, access::read_write> velocityField [[texture(0)]], // Specifically for velocity (e.g., rg16float treated as float4)
+                                constant InteractionUniforms &uniforms [[buffer(0)]],
+                                uint2 gid [[thread_position_in_grid]])
+{
+    // Only proceed if the velocity flag is actually set by the CPU for this dispatch
+    if (!uniforms.addVelocity) return;
+
+    float texelSizeX = 1.0 / float(velocityField.get_width());
+    float texelSizeY = 1.0 / float(velocityField.get_height());
+    float2 uv = (float2(gid) + 0.5) * float2(texelSizeX, texelSizeY); // Center of pixel
+
+    float dx = uv.x - uniforms.interactionPoint.x;
+    float dy = uv.y - uniforms.interactionPoint.y;
+    float distSq = dx * dx + dy * dy;
+    float radiusSq = uniforms.interactionRadius * uniforms.interactionRadius;
+
+    if (distSq < radiusSq) {
+        float falloff = 1.0 - smoothstep(0.0f, radiusSq, distSq);
+        // Scale velocity addition by timestep
+        // Note: rg16float is read/written as xy components of float4 here.
+        float4 valueToAdd = float4(uniforms.interactionVelocity, 0.0, 0.0) * falloff * uniforms.timestep;
+
+        float4 currentValue = velocityField.read(gid);
+        velocityField.write(currentValue + valueToAdd, gid);
     }
 }
 
