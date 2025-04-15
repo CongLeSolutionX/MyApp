@@ -87,23 +87,26 @@ class VoiceInputManager: ObservableObject {
     }
     
     // MARK: Permissions
-    
     func requestPermissions() async {
-        // Request Speech Authorization
-        let speechAuthStatus = await SFSpeechRecognizer.requestAuthorization()
-        
-        // Request Microphone Authorization asynchronously
+        // Wrap callback in async-await using continuation
+        let speechAuthStatus = await withCheckedContinuation { continuation in
+            SFSpeechRecognizer.requestAuthorization { status in
+                continuation.resume(returning: status)
+            }
+        }
+
+        // Microphone permission async wrapper
         let micPermissionGranted = await withCheckedContinuation { continuation in
             AVAudioSession.sharedInstance().requestRecordPermission { granted in
                 continuation.resume(returning: granted)
             }
         }
+
+        // Now update UI state on main actor
         
-        // Update state on main thread (due to @MainActor)
         let speechAuthorized = speechAuthStatus == .authorized
         self.hasPermissions = (speechAuthorized && micPermissionGranted)
         
-        // Set error if missing permission(s)
         if !speechAuthorized && !micPermissionGranted {
             error = VoiceError.permissionsMissing("Microphone & Speech").localizedDescription
         } else if !micPermissionGranted {
@@ -115,6 +118,33 @@ class VoiceInputManager: ObservableObject {
         }
     }
     
+//    func requestPermissions() async {
+//        // Request Speech Authorization
+//        let speechAuthStatus = await SFSpeechRecognizer.requestAuthorization()
+//        
+//        // Request Microphone Authorization asynchronously
+//        let micPermissionGranted = await withCheckedContinuation { continuation in
+//            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+//                continuation.resume(returning: granted)
+//            }
+//        }
+//        
+//        // Update state on main thread (due to @MainActor)
+//        let speechAuthorized = speechAuthStatus == .authorized
+//        self.hasPermissions = (speechAuthorized && micPermissionGranted)
+//        
+//        // Set error if missing permission(s)
+//        if !speechAuthorized && !micPermissionGranted {
+//            error = VoiceError.permissionsMissing("Microphone & Speech").localizedDescription
+//        } else if !micPermissionGranted {
+//            error = VoiceError.permissionsMissing("Microphone").localizedDescription
+//        } else if !speechAuthorized {
+//            error = VoiceError.permissionsMissing("Speech Recognition (\(speechAuthStatus.description))").localizedDescription
+//        } else {
+//            error = nil
+//        }
+//    }
+//    
     func checkPermissions() {
         let speechStatus = SFSpeechRecognizer.authorizationStatus()
         let micStatus = AVAudioSession.sharedInstance().recordPermission
