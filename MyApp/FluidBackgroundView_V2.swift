@@ -10,6 +10,21 @@ import SwiftUI
 import MetalKit
 import simd // For SIMD types used in shaders
 
+// MARK: - Shared Structures (CPU <-> GPU)
+
+// Swift equivalent of the Metal InteractionUniforms struct.
+// MUST match the layout in the shader source.
+struct InteractionUniforms {
+    var interactionPoint: SIMD2<Float>      // Corresponds to float2
+    var interactionVelocity: SIMD2<Float>   // Corresponds to float2
+    var interactionColor: SIMD4<Float>      // Corresponds to float4
+    var interactionRadius: Float            // Corresponds to float
+    var timestep: Float                     // Corresponds to float
+    var viscosity: Float                    // Corresponds to float
+    var addDensity: Bool                    // Corresponds to bool
+    var addVelocity: Bool                   // Corresponds to bool
+}
+
 // MARK: - Metal Shaders (Compute & Render)
 
 let fluidShaderSource = """
@@ -20,14 +35,14 @@ using namespace metal;
 
 // Data passed from CPU about interaction
 struct InteractionUniforms {
-    float2 interactionPoint; // Normalized position [0, 1]
-    float2 interactionVelocity; // Force vector
-    float4 interactionColor; // Color (density) to add
-    float interactionRadius; // Radius of influence
-    float timestep;         // dt
-    float viscosity;        // Diffusion rate
-    bool addDensity;       // Flag: add density this frame?
-    bool addVelocity;      // Flag: add velocity this frame?
+    float2 interactionPoint;
+    float2 interactionVelocity;
+    float4 interactionColor;
+    float interactionRadius;
+    float timestep;
+    float viscosity;
+    bool addDensity;
+    bool addVelocity;
 };
 
 // Simple Vertex output (position + texcoord) for screen quad
