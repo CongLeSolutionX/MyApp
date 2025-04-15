@@ -14,7 +14,7 @@ struct MyApp: App {
         WindowGroup {
             //ContentView()
             NavigationView {
-                OptimizedGeminiChatView()
+                CardBasedGeminiChatView()
             }
         }
     }
