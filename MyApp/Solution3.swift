@@ -81,12 +81,8 @@ class LiChaoTree_Top2 {
             print("Warning: Li Chao Tree initialized with non-positive range size.")
             return
         }
-        // Determine height excluding root (level 0), then calculate total nodes needed
-        // Height for rangeSize=1 is 0. For rangeSize=2 is 1. Height = floor(log2(rangeSize - 1))? No.
-        // Height = ceil(log2(rangeSize)). Power of 2 >= rangeSize.
         let height = (rangeSize == 1) ? 0 : (rangeSize - 1).bitWidth // Correct height calculation (0-based)
-        // Size = 2^(height+1) - 1 nodes for 0-based indexing, or 2^(height+1) for array size
-        // Let's use 1-based indexing for the tree array for simplicity of child calculation
+        // Size needs to accommodate 1-based indexing up to 2^(height+1)-1
         self.treeSize = 1 << (height + 1) // Size if using 1-based indexing internally
         self.tree = Array(repeating: LiChaoTreeNode_Top2(), count: self.treeSize)
         
@@ -127,7 +123,6 @@ class LiChaoTree_Top2 {
         let currentSecondIdx = tree[nodeIdx].second_idx
         
         // --- Logic to determine Top 2 at Midpoint ---
-        // Get the three relevant lines (handling negligible cases)
         let lineIncoming = getLine(at: incomingLineIndex)
         let lineNodeBest = getLine(at: currentBestIdx)
         let lineNodeSecond = getLine(at: currentSecondIdx)
@@ -145,7 +140,8 @@ class LiChaoTree_Top2 {
         }
         
         // Sort the unique candidates by value descending
-        let sortedUniqueCandidates = uniqueCandidatesMap.map { (index: $0.key, value: $0.value) }
+        // ** FIX: Create tuple in (value, index) order **
+        let sortedUniqueCandidates = uniqueCandidatesMap.map { (value: $0.value, index: $0.key) }
             .sorted { $0.value > $1.value }
         
         // Update the node's best and second best indices (-1 if fewer than 1 or 2 candidates)
@@ -160,13 +156,6 @@ class LiChaoTree_Top2 {
         var loserIndex = -1
         let originalIndices = [incomingLineIndex, currentBestIdx, currentSecondIdx].filter { $0 != -1 }
         let uniqueOriginalIndices = Set(originalIndices)
-        
-        if uniqueOriginalIndices.count >= 1 && !uniqueOriginalIndices.contains(newBestIdx) {
-            // This case should not happen if newBestIdx came from uniqueCandidatesMap derived from originals
-        }
-        if uniqueOriginalIndices.count >= 2 && !uniqueOriginalIndices.contains(newSecondIdx) {
-            //This case should not happen either
-        }
         
         // Find an original index that is NOT the new best OR new second
         for idx in uniqueOriginalIndices {
@@ -185,15 +174,14 @@ class LiChaoTree_Top2 {
         let lineLoser = getLine(at: loserIndex)
         let lineWinner1 = getLine(at: newBestIdx) // Compare loser against the absolute best at this node
         
-        // Simplified propagation (like Top-1 LCT), considering only the intersection with the best line.
-        // More complex logic might consider intersection with the second best line too.
+        // Need to handle case where newBestIdx might be -1 (very unlikely here if loserIndex != -1)
+        if newBestIdx == -1 { return } // Cannot compare slope if there's no best line
+        
         if lineLoser.m > lineWinner1.m { // Loser has steeper slope -> potential win on the right side
             _insert(incomingLineIndex: loserIndex, nodeIdx: 2 * nodeIdx + 1, rangeL: midIndex + 1, rangeR: rangeR)
         } else if lineLoser.m < lineWinner1.m { // Loser has shallower slope -> potential win on the left side
             _insert(incomingLineIndex: loserIndex, nodeIdx: 2 * nodeIdx, rangeL: rangeL, rangeR: midIndex)
         }
-        // else: Slopes are equal. The loser must have lower 'c' (or was incoming and is equal),
-        // so it won't dominate the winner. No propagation needed in this simplified model.
     }
     
     // --- Public Query Function (Corrected) ---
@@ -203,9 +191,8 @@ class LiChaoTree_Top2 {
             print("Warning: Query index \(targetCompressedIndex) out of range [\(minCoordIndex), \(maxCoordIndex)]")
             return [] // Invalid compressed index
         }
-        // Ensure the compressed index is valid for the sortedUniqueH array
         guard targetCompressedIndex >= 0 && targetCompressedIndex < sortedUniqueH.count else {
-            print("Internal Error: targetCompressedIndex \(targetCompressedIndex) invalid for sortedUniqueH lookip.")
+            print("Internal Error: targetCompressedIndex \(targetCompressedIndex) invalid for sortedUniqueH lookup.")
             return []
         }
         
@@ -260,7 +247,8 @@ class LiChaoTree_Top2 {
         }
         
         // Convert map back to array, sort by value descending, take top 2
-        let finalTop2 = uniqueResultsMap.map { (index: $0.key, value: $0.value) }
+        // ** FIX: Create tuple in (value, index) order **
+        let finalTop2 = uniqueResultsMap.map { (value: $0.value, index: $0.key) }
             .sorted { $0.value > $1.value } // Sort descending by value
             .prefix(2) // Get the best two
         
@@ -335,22 +323,22 @@ func getMaxDamageDealt(_ N: Int, _ H: [Int], _ D: [Int], _ B: Int) -> Float {
         
         // Query the LCT to get the best TWO backup candidates (j) and their contribution values
         // at the point x = H[i] (using the compressed index for the query)
-        let top2Results = lct.queryTop2Corrected(targetCompressedIndex: compressedIndex)
+        let top2Results = lct.queryTop2Corrected(targetCompressedIndex: compressedIndex) // Expects [(value: Double, index: Int)]
         
         var best_backup_contribution : Double = 0.0
         
         // Determine the best backup contribution from a warrior j where j != i
         if !top2Results.isEmpty {
-            let top1 = top2Results[0]
+            let top1 = top2Results[0] // This is a (value: Double, index: Int) tuple
             if top1.index != i {
                 // The best line is not warrior 'i' acting as backup
                 best_backup_contribution = top1.value
             } else {
                 // The best line *is* warrior 'i'. Use the second best, if it exists and is valid.
                 if top2Results.count > 1 {
-                    let top2 = top2Results[1]
+                    let top2 = top2Results[1] // This is a (value: Double, index: Int) tuple
                     // Ensure second best is not also negligible (shouldn't happen if filtered)
-                    if top2.index != -1 {
+                    if top2.index != -1 { // Check index of the second tuple
                         best_backup_contribution = top2.value
                     }
                 }
