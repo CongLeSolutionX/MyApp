@@ -349,12 +349,12 @@ struct Skill: Identifiable {
 struct SampleData {
     static let projects: [Project] = [
         Project(iconName: "app.fill",
-                title: "Weatherly",
-                shortDescription: "Beautiful weather app with SwiftUI animations.",
-                detailedDescription: "A fully native iOS weather app using SwiftUI and Combine, featuring live weather data, animations, and hourly forecasts.",
-                techStack: ["Swift", "SwiftUI", "Combine", "OpenWeatherAPI"],
-                githubURL: URL(string: "https://github.com/janedoe/weatherly"),
-                demoURL: URL(string: "https://weatherly.demo.com")),
+                title: "Metal Primitives",
+                shortDescription: "This project showcases the fundamental components of Apple's Metal framework.",
+                detailedDescription: "The project covers a range of rendering examples:\nClear Screen: Basics of setting up a Metal view and clearing the screen with a solid color.\nDraw 2D Triangle: Rendering a simple 2D triangle on the screen.\nDraw Spinning 3D Cube: Displaying a rotating 3D cube with basic transformations.\nDraw Spinning Teapot with Manual Lighting: Rendering a spinning teapot model with custom lighting effects.\nDraw Spinning Cow with Manual Lighting and Custom Texture: Displaying a textured cow model with lighting.\nEach example is fully programmatic—no Storyboards, XIBs, or NIBs are used—providing a clear understanding of the code involved in setting up and rendering Metal views.",
+                techStack: ["Swift", "SwiftUI", "UIKit", "MetalKit Framework", "Objective-C"],
+                githubURL: URL(string: "https://github.com/CongLeSolutionX/Metal-Primitives"),
+                demoURL: URL(string: "https://github.com/CongLeSolutionX/Metal-Primitives/blob/main/Resources/Demo-on-iOS-devices.gif")),
         
         Project(iconName: "play.rectangle.fill",
                 title: "PodMate",
