@@ -6,5 +6,7 @@
 	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>SKAdNetworkItems</key>
 	<string></string>
+	<key>GEMINI_API_KEY</key>
+	<string></string>
 </dict>
 </plist>
