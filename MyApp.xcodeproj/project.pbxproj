@@ -57,6 +57,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +114,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,6 +276,7 @@
 				9AA1A57D2DA68C9C000178B3 /* ComprehensiveView.swift */,
 				9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */,
 				9AA1A5812DA6967F000178B3 /* ComprehensiveView_V3.swift */,
+				9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
 				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
@@ -414,6 +417,7 @@
 				9AA1A5162DA514E7000178B3 /* PlaylistInteractionView.swift in Sources */,
 				9AA1A5802DA693BD000178B3 /* ComprehensiveView_V2.swift in Sources */,
 				9AA1A53A2DA59872000178B3 /* AdvertisementView_V2.swift in Sources */,
+				9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */,
 				9AA1A5632DA63439000178B3 /* AppleMusicContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
