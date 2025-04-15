@@ -356,21 +356,21 @@ struct SampleData {
                 githubURL: URL(string: "https://github.com/CongLeSolutionX/Metal-Primitives"),
                 demoURL: URL(string: "https://github.com/CongLeSolutionX/Metal-Primitives/blob/main/Resources/Demo-on-iOS-devices.gif")),
         
-        Project(iconName: "play.rectangle.fill",
-                title: "PodMate",
-                shortDescription: "Podcast player with custom playlists and offline support.",
-                detailedDescription: "An advanced podcast player supporting background playback, offline downloads, and customizable playlists built with UIKit and AVFoundation.",
+        Project(iconName: "phone.fill",
+                title: "iOS Development Vault",
+                shortDescription: "A collection of my iOS development notes and resources.",
+                detailedDescription: "These notes cover a wide array of subjects with varying levels of depth and detail. I aim to present iOS development concepts and practices using visual representations.",
                 techStack: ["Swift", "UIKit", "AVFoundation", "CoreData"],
-                githubURL: URL(string: "https://github.com/janedoe/podmate"),
+                githubURL: URL(string: "https://github.com/CongLeSolutionX/iOS-development-vault"),
                 demoURL: nil),
         
         Project(iconName: "gamecontroller.fill",
-                title: "Maze Runner",
-                shortDescription: "2D puzzle game using SpriteKit and GameController.",
-                detailedDescription: "A fun and challenging 2D maze puzzle game with physics, touch controls, and GameController support, built on SpriteKit.",
-                techStack: ["Swift", "SpriteKit", "GameController"],
-                githubURL: nil,
-                demoURL: nil)
+                title: "Mermaid Canvas",
+                shortDescription: "MermaidCanvas for SwiftUI.",
+                detailedDescription: "Seamlessly render Mermaid diagrams within your SwiftUI applications.",
+                techStack: ["Swift", "SwiftUI", "Mermaid"],
+                githubURL: URL(string: "https://github.com/CongLeSolutionX/Mermaid-Canvas"),
+                demoURL: URL(string: "https://github.com/CongLeSolutionX/Mermaid-Canvas/blob/main/Media/Demo_Rendering_Mermaid_Syntax.png"))
     ]
     
     static let skills: [Skill] = [
