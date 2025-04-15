@@ -17,6 +17,7 @@
 		9A5DBB5D2DAEF95E0075F697 /* GeminiChatView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */; };
 		9A5DBB602DAEFC010075F697 /* GeminiChatView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */; };
 		9A5DBB622DAEFFCC0075F697 /* GeminiChatView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB612DAEFFCA0075F697 /* GeminiChatView_V4.swift */; };
+		9A5DBB642DAF02D70075F697 /* GeminiChatView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5DBB632DAF02D40075F697 /* GeminiChatView_V5.swift */; };
 		9A608E7E2D98AEB300CA0F86 /* StyledGeminiModelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */; };
 		9A608E802D98B36600CA0F86 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */; };
 		9A90C2622D9835720032A5A5 /* CardDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A90C2612D98356B0032A5A5 /* CardDesginView.swift */; };
@@ -56,6 +57,7 @@
 		9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V2.swift; sourceTree = "<group>"; };
 		9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V3.swift; sourceTree = "<group>"; };
 		9A5DBB612DAEFFCA0075F697 /* GeminiChatView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V4.swift; sourceTree = "<group>"; };
+		9A5DBB632DAF02D40075F697 /* GeminiChatView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiChatView_V5.swift; sourceTree = "<group>"; };
 		9A608E7D2D98AEB000CA0F86 /* StyledGeminiModelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledGeminiModelCardView.swift; sourceTree = "<group>"; };
 		9A608E7F2D98B35D00CA0F86 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		9A90C2612D98356B0032A5A5 /* CardDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDesginView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				9A5DBB5C2DAEF95C0075F697 /* GeminiChatView_V2.swift */,
 				9A5DBB5F2DAEFBFF0075F697 /* GeminiChatView_V3.swift */,
 				9A5DBB612DAEFFCA0075F697 /* GeminiChatView_V4.swift */,
+				9A5DBB632DAF02D40075F697 /* GeminiChatView_V5.swift */,
 			);
 			path = GeminiChatView;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				9ACF24412D95F57100A4238C /* Gemini_2_Flash_Lite_CardView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A406DCD2D9A041F004FEE68 /* GeminiModelsDemoView.swift in Sources */,
+				9A5DBB642DAF02D70075F697 /* GeminiChatView_V5.swift in Sources */,
 				9A406DC72D99F506004FEE68 /* Imagen_3_Model_Card_View.swift in Sources */,
 				9ACF243D2D95F18C00A4238C /* Gemini_2_Flash_Model_CardView.swift in Sources */,
 				9A90C2622D9835720032A5A5 /* CardDesginView.swift in Sources */,
