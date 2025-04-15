@@ -239,8 +239,8 @@ func matrix_for_cylinder(start: SIMD3<Float>, end: SIMD3<Float>, radius: Float) 
         rotationAxis = normalize(rotationAxis)
     }
 
-    let rotationMatrix = matrix_float4x4(rotationAbout: rotationAxis, by: rotationAngle)
-
+    let rotationMatrix = matrix_float4x4(simd_quatf(angle: rotationAngle, axis: rotationAxis))
+    
     // Scale matrix: X/Z for radius, Y for length
     let scaleMatrix = matrix_float4x4(diagonal: SIMD4<Float>(radius, length, radius, 1.0))
 
