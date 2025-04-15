@@ -12,8 +12,9 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            AuthenticationFlowView()
+           // AuthenticationFlowView()
 //            SpotifyEmbedView()
+            ContentView()
         }
     }
 }

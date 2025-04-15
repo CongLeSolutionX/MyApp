@@ -61,6 +61,7 @@
 		9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */; };
 		9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */; };
 		9AFB73352DAEDDED00A985BF /* SpotifyEmbedView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */; };
+		9AFB73372DAEDF1500A985BF /* SpotifyEmbedView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73362DAEDF1300A985BF /* SpotifyEmbedView_V4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,8 +121,8 @@
 		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 		9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V1.swift; sourceTree = "<group>"; };
 		9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V2.swift; sourceTree = "<group>"; };
-		9AFB73332DAEDC3600A985BF /* MyAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppRelease.entitlements; sourceTree = "<group>"; };
 		9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V3.swift; sourceTree = "<group>"; };
+		9AFB73362DAEDF1300A985BF /* SpotifyEmbedView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +270,6 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
-				9AFB73332DAEDC3600A985BF /* MyAppRelease.entitlements */,
 				9AA1A5112DA4F392000178B3 /* Info.plist */,
 				9A5AAE762D93BD43006A955A /* SpotifyMusicAPI.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
@@ -288,6 +288,7 @@
 				9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */,
 				9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */,
 				9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */,
+				9AFB73362DAEDF1300A985BF /* SpotifyEmbedView_V4.swift */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
 				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
@@ -396,6 +397,7 @@
 				9AA1A5602DA62F3A000178B3 /* AppleMusicAuthManager.swift in Sources */,
 				9AA1A51E2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift in Sources */,
 				9AA1A51C2DA51D16000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift in Sources */,
+				9AFB73372DAEDF1500A985BF /* SpotifyEmbedView_V4.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A630A9D2D92989800C035AF /* ShareView.swift in Sources */,
 				9AA1A5422DA59E58000178B3 /* MusicAdView.swift in Sources */,
