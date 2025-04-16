@@ -148,6 +148,17 @@
 			path = PlayingYourTopSongs;
 			sourceTree = "<group>";
 		};
+		9A8D5D4E2DAF627E0078B786 /* SpotifyEmbedView */ = {
+			isa = PBXGroup;
+			children = (
+				9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */,
+				9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */,
+				9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */,
+				9AFB73362DAEDF1300A985BF /* SpotifyEmbedView_V4.swift */,
+			);
+			path = SpotifyEmbedView;
+			sourceTree = "<group>";
+		};
 		9AA1A5142DA5031A000178B3 /* AuthenticationFlowView */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,10 +296,7 @@
 				9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */,
 				9AA1A5812DA6967F000178B3 /* ComprehensiveView_V3.swift */,
 				9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */,
-				9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */,
-				9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */,
-				9AFB73342DAEDDEB00A985BF /* SpotifyEmbedView_V3.swift */,
-				9AFB73362DAEDF1300A985BF /* SpotifyEmbedView_V4.swift */,
+				9A8D5D4E2DAF627E0078B786 /* SpotifyEmbedView */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
 				9AA1A5542DA5A6DF000178B3 /* SpotifyView */,
 				9AA1A5382DA596A2000178B3 /* AdSampleViews */,
