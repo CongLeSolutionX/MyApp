@@ -473,9 +473,9 @@ struct AlbumDetailView: View {
                     DetailItem(label: "Released", value: album.formattedReleaseDate())
                     DetailItem(label: "Total Tracks", value: "\(album.total_tracks)")
                     // Conditionally add available markets if needed, can be very long
-                    // if let markets = album.available_markets, !markets.isEmpty {
-                    //     DetailItem(label: "Markets (\(markets.count))", value: markets.prefix(10).joined(separator: ", ") + (markets.count > 10 ? "..." : ""))
-                    // }
+                     if let markets = album.available_markets, !markets.isEmpty {
+                         DetailItem(label: "Markets (\(markets.count))", value: markets.prefix(10).joined(separator: ", ") + (markets.count > 10 ? "..." : ""))
+                     }
                 }
                 .padding(.horizontal)
 
