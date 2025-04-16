@@ -567,6 +567,10 @@ struct SpotifyEmbedCardView: View {
     }
 }
 
+#Preview("Spotify Embed Card View") {
+    SpotifyEmbedCardView(trackData: TrackDetails(id: "asdad", title: "asdad", artistName: "asdasd", albumTitle: "asdasd", artworkURL: nil, durationMs: 1000, releaseDate: nil, description: nil, isEpisode: false))
+}
+
 // MARK: - TrackDetailsView: Display detailed info
 
 struct TrackDetailsView: View {
@@ -632,6 +636,10 @@ struct TrackDetailsView: View {
         .navigationTitle(track.isEpisode ? "Episode Details" : "Track Details")
         .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+#Preview("Track Details View") {
+    TrackDetailsView(track: TrackDetails(id: "asdad", title: "asdad", artistName: "asdasd", albumTitle: "asdasd", artworkURL: nil, durationMs: 1000, releaseDate: nil, description: nil, isEpisode: false))
 }
 
 // MARK: - Main ContentView
