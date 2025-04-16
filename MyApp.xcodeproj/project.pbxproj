@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A7F3FEC2DAF32BA004075C0 /* AskALeView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7F3FEB2DAF32B9004075C0 /* AskALeView_V4.swift */; };
 		9A7FECCD2DA1AE7600BD52BB /* PearlStripeAnimatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7FECCC2DA1AE6A00BD52BB /* PearlStripeAnimatedView.swift */; };
 		9A98F2352DA1B09D00C08001 /* StylizedPearShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2342DA1B09D00C08001 /* StylizedPearShape.swift */; };
 		9A98F2372DA1B10500C08001 /* PearShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F2362DA1B10500C08001 /* PearShape.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A7F3FEB2DAF32B9004075C0 /* AskALeView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskALeView_V4.swift; sourceTree = "<group>"; };
 		9A7FECCC2DA1AE6A00BD52BB /* PearlStripeAnimatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearlStripeAnimatedView.swift; sourceTree = "<group>"; };
 		9A98F2342DA1B09D00C08001 /* StylizedPearShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylizedPearShape.swift; sourceTree = "<group>"; };
 		9A98F2362DA1B10500C08001 /* PearShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PearShape.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9ACC62862DA7384700BBCA1A /* AskALeView_V3.swift */,
+				9A7F3FEB2DAF32B9004075C0 /* AskALeView_V4.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9ACC62952DA73D7800BBCA1A /* CameraView */,
@@ -332,6 +335,7 @@
 				9ACC62892DA738CC00BBCA1A /* ChatConversationView.swift in Sources */,
 				9AE115922DA081A50096F8FB /* AskALeView.swift in Sources */,
 				9AE1161B2DA17CD70096F8FB /* StripeView.swift in Sources */,
+				9A7F3FEC2DAF32BA004075C0 /* AskALeView_V4.swift in Sources */,
 				9A98F2992DA35D7600C08001 /* GeminiChatView_V2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
