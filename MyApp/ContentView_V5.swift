@@ -126,9 +126,11 @@ class UserDefaultsSettingsService: SettingsManaging {
     
     // --- Private Helper ---
     // Generic helper to avoid redundant save logic and logging
-    private func save<T>(value: T, forKey key: String, description: String) {
+    // Constrain T to conform to Equatable
+    private func save<T: Equatable>(value: T, forKey key: String, description: String) {
         // Check if the value is actually different before saving
         // Use `object(forKey:)` for comparison as types might differ slightly (e.g., String vs Optional<String>)
+        // NOW THIS COMPARISON IS VALID because T is guaranteed to be Equatable
         if let currentValue = userDefaults.object(forKey: key) as? T, currentValue == value {
             print("⚙️ Settings Service: \(description) value unchanged ('\(value)'), skipping save.")
         } else {
@@ -419,22 +421,22 @@ class SingleCounter: Counter {
     private var currentCount: Int = 0 {
         didSet { print("⏱️ Counter Service: State changed to \(currentCount)") }
     }
-
+    
     init() { print("   -> SingleCounter Service Initialized") }
     deinit { print("   -> SingleCounter Service Deinitialized") }
-
+    
     // --- Protocol Methods ---
     func increment() -> Int {
         // Basic logic, could be more complex (e.g., network fetch, calculation)
         currentCount += 1
         return currentCount
     }
-
+    
     func reset() -> Int {
         currentCount = 0
         return currentCount
     }
-
+    
     func getCurrentCount() -> Int {
         // Return current state without modifying it
         return currentCount
@@ -508,12 +510,12 @@ struct DependenciesInjector {
     private var dependencyList: [String: Any] = [:]
     /// The shared singleton instance of the injector.
     static var shared = DependenciesInjector()
-
+    
     /// Private initializer to enforce the singleton pattern.
     private init() {
         print("🔧 DependenciesInjector Initialized (Singleton)")
     }
-
+    
     /// Resolves and returns a previously registered dependency instance.
     func resolve<T>() -> T {
         let key = String(describing: T.self)
@@ -526,7 +528,7 @@ struct DependenciesInjector {
         print("✅ Resolved dependency for type: \(key)")
         return dependency
     }
-
+    
     /// Registers a dependency instance. Overwrites and warns if the type exists.
     mutating func register<T>(dependency: T) {
         let key = String(describing: T.self)
@@ -536,7 +538,7 @@ struct DependenciesInjector {
         print("🔵 Registering dependency for type: \(key)")
         dependencyList[key] = dependency
     }
-
+    
     /// Resets the injector (useful for testing or previews).
     static func resetForTesting() {
         print("⚠️ Resetting DependenciesInjector for testing/preview.")
