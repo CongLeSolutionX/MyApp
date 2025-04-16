@@ -98,12 +98,12 @@ func extractYear(from dateString: String) -> String {
 struct ActivityViewController: UIViewControllerRepresentable {
     var activityItems: [Any]
     var applicationActivities: [UIActivity]? = nil
-
+    
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
         return controller
     }
-
+    
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
@@ -112,14 +112,14 @@ struct ActivityViewController: UIViewControllerRepresentable {
 struct AlbumDetailView: View {
     @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let albumData = AlbumData()
-
+    
     // --- State Variables ---
     @State private var currentlyPlayingTrackId: UUID? = nil // Track which track is "playing"
     @State private var showingShareSheet = false
     @State private var itemToShare: ActivityViewController? = nil
     @State private var showingQueueAlert = false
     @State private var queuedTrackName = ""
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
@@ -141,11 +141,11 @@ struct AlbumDetailView: View {
                         // Prepare items to share
                         let shareText = "Check out \"\(track.name)\" by \(formatArtists(artists: track.artists)) on Spotify!"
                         if let url = URL(string: track.mockTrackUrl) {
-                             itemToShare = ActivityViewController(activityItems: [shareText, url])
+                            itemToShare = ActivityViewController(activityItems: [shareText, url])
                         } else {
-                             itemToShare = ActivityViewController(activityItems: [shareText])
+                            itemToShare = ActivityViewController(activityItems: [shareText])
                         }
-                       showingShareSheet = true
+                        showingShareSheet = true
                     }
                 )
             }
@@ -156,10 +156,10 @@ struct AlbumDetailView: View {
         .alert("Track Added", isPresented: $showingQueueAlert) {
             Button("OK", role: .cancel) { }
         } message: {
-             Text("\"\(queuedTrackName)\" added to your queue (simulated).")
+            Text("\"\(queuedTrackName)\" added to your queue (simulated).")
         }
         .sheet(item: $itemToShare) { item in // Changed from isPresented to item for safer presentation
-             item // Present the ActivityViewController
+            item // Present the ActivityViewController
         }
     }
 }
@@ -168,37 +168,37 @@ struct AlbumDetailView: View {
 
 struct AlbumHeaderView: View { // No functional changes needed here for now
     let albumData: AlbumData
-
+    
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             AsyncImage(url: URL(string: albumData.images.first?.url ?? "")) { phase in
-                 switch phase {
-                 case .empty:
-                     ProgressView()
-                         .frame(maxWidth: 300, maxHeight: 300) // Give placeholder size
-                         .background(Color.secondary.opacity(0.1))
-                         .cornerRadius(8)
-                 case .success(let image):
-                     image
-                         .resizable()
-                         .aspectRatio(contentMode: .fit)
-                         .cornerRadius(8)
-                         .shadow(radius: 5)
-                 case .failure:
-                     Image(systemName: "photo") // Fallback icon
-                         .resizable()
-                         .aspectRatio(contentMode: .fit)
-                         .frame(maxWidth: 300, maxHeight: 300)
-                         .padding(50)
-                         .background(Color.secondary.opacity(0.1))
-                         .foregroundColor(.secondary)
-                         .cornerRadius(8)
-                 @unknown default:
-                     EmptyView()
-                 }
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .frame(maxWidth: 300, maxHeight: 300) // Give placeholder size
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(8)
+                        .shadow(radius: 5)
+                case .failure:
+                    Image(systemName: "photo") // Fallback icon
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 300, maxHeight: 300)
+                        .padding(50)
+                        .background(Color.secondary.opacity(0.1))
+                        .foregroundColor(.secondary)
+                        .cornerRadius(8)
+                @unknown default:
+                    EmptyView()
+                }
             }
             .frame(maxWidth: 300)
-
+            
             Text(albumData.name)
                 .font(.title2)
                 .fontWeight(.bold)
@@ -216,7 +216,7 @@ struct AlbumHeaderView: View { // No functional changes needed here for now
             Text("\(albumData.albumType.capitalized) • \(extractYear(from: albumData.releaseDate))")
                 .font(.subheadline)
                 .foregroundStyle(.gray)
-
+            
             if let url = URL(string: albumData.spotifyUrl) {
                 Link(destination: url) {
                     Label("Listen on Spotify", systemImage: "play.circle.fill") // Add icon
@@ -239,31 +239,31 @@ struct AlbumMetadataView: View { // No functional changes needed here
     let albumData: AlbumData
     // ... (Keep the same as before)
     var body: some View {
-         VStack(alignment: .leading, spacing: 4) {
-             Text("\(albumData.totalTracks) tracks")
-                 .font(.footnote)
-                 .foregroundStyle(.secondary)
-             Text("Label: \(albumData.label)")
-                 .font(.footnote)
-                 .foregroundStyle(.secondary)
-                 .lineLimit(1) // Prevent long labels taking too much space
-             if let copyright = albumData.copyrights.first {
-                 Text(copyright.text)
-                     .font(.caption)
-                     .foregroundStyle(.gray)
-                     .lineLimit(1)
-             }
-             HStack {
-                 Text("Popularity:")
-                     .font(.footnote)
-                     .foregroundStyle(.secondary)
-                 ProgressView(value: Double(albumData.popularity), total: 100.0)
-                      .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                      .frame(height: 5)
-                      .accessibilityLabel("Popularity score \(albumData.popularity) out of 100") // Accessibility
-             }
-         }
-         .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading, spacing: 4) {
+            Text("\(albumData.totalTracks) tracks")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            Text("Label: \(albumData.label)")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .lineLimit(1) // Prevent long labels taking too much space
+            if let copyright = albumData.copyrights.first {
+                Text(copyright.text)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .lineLimit(1)
+            }
+            HStack {
+                Text("Popularity:")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                ProgressView(value: Double(albumData.popularity), total: 100.0)
+                    .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                    .frame(height: 5)
+                    .accessibilityLabel("Popularity score \(albumData.popularity) out of 100") // Accessibility
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -275,13 +275,13 @@ struct TrackListView: View {
     let onSelectArtist: (String) -> Void
     let onAddToQueue: (String) -> Void
     let onShareTrack: (TrackData) -> Void
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Tracks")
                 .font(.headline)
                 .padding(.bottom, 5)
-
+            
             ForEach(tracks) { track in
                 TrackRow(
                     track: track,
@@ -311,75 +311,82 @@ extension ActivityViewController: Identifiable {
 struct TrackRow: View {
     @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let track: TrackData
-    let isPlaying: Bool
-    let onPlayTap: () -> Void
+    //    let isPlaying: Bool
+    //    let onPlayTap: () -> Void
     let onArtistTap: (String) -> Void
     let onQueueTap: () -> Void
     let onShareTap: () -> Void
-
+    
+    // Determine if *this* track is the one currently playing/paused
+    var isPlaying: Bool {
+        audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
+    }
+    var isCurrentlySelectedTrack: Bool {
+        audioPlayerManager.currentlyPlayingTrackID == track.id
+    }
+    
     var body: some View {
         HStack(alignment: .center, spacing: 12) { // Reduced spacing slightly
-             // Play icon / Track number
-             Group {
-                 if isPlaying {
-                     Image(systemName: "speaker.wave.2.fill")
-                         .foregroundStyle(.green)
-                         .frame(width: 25, alignment: .center)
-                 } else {
-                     Text("\(track.trackNumber)")
-                         .font(.caption)
-                         .foregroundStyle(.secondary)
-                         .frame(width: 25, alignment: .trailing)
-                 }
-             }
-             .padding(.trailing, 5) // Add padding after number/icon
-
-            // Main Track Info (Tappable for playing)
-            Button(action: onPlayTap) {
-                HStack { // Wrap text in HStack for button layout
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(track.name)
-                                .font(.body)
-                                .lineLimit(1)
-                                .foregroundStyle(isPlaying ? .green : .primary) // Highlight playing track title
-                            if track.explicit {
-                                Text("E")
-                                    .font(.caption2) // Slightly smaller
-                                    .fontWeight(.heavy) // Bolder
-                                    .padding(EdgeInsets(top: 1, leading: 3, bottom: 1, trailing: 3))
-                                    .background(Color.secondary.opacity(0.7))
-                                    .foregroundStyle(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 3)) // Sharper corners
-                            }
-                        }
-                        // Artist Text - Tappable
-                        NavigationLink(destination: ArtistDetailView(artistName: formatArtists(artists: track.artists))) {
-                            Text(formatArtists(artists: track.artists))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(1)
-                            
-                        }
-                    }
-                    Spacer() // Push content to leading edge within button
+            // --- Icon Logic ---
+            Group {
+                if isCurrentlySelectedTrack { // Show icon if selected (playing or paused)
+                    Image(systemName: isPlaying ? "pause.fill" : "play.fill") // Show play/pause icon
+                        .foregroundStyle(.green)
+                        .frame(width: 25, alignment: .center)
+                } else {
+                    Text("\(track.trackNumber)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 25, alignment: .trailing)
                 }
             }
-            .buttonStyle(.plain) // Remove default button styling
-
+            .padding(.trailing, 5)
+            
+            // --- Main Track Info (Tappable for playing/pausing) ---
+            // Changed from Button to simple tap gesture on HStack content
+            HStack {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(track.name)
+                            .font(.body)
+                            .lineLimit(1)
+                            .foregroundStyle(isCurrentlySelectedTrack ? .green : .primary) // Highlight selected
+                        if track.explicit {
+                            // ... explicit badge ...
+                        }
+                    }
+                    
+                    // Artist Text - NavigationLink (from previous step)
+                    NavigationLink(destination: ArtistDetailView(artistName: formatArtists(artists: track.artists))) {
+                        Text(formatArtists(artists: track.artists))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                    .buttonStyle(.plain)
+                }
+                Spacer()
+            }
+            .contentShape(Rectangle()) // Make the area tappable
+            .onTapGesture {
+                // Use the toggle function
+                audioPlayerManager.togglePlayPause(for: track.id, urlString: track.audioURL)
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+            
             Spacer() // Pushes actions and duration to the trailing edge
-
+            
             // --- Action Buttons ---
             HStack(spacing: 15) { // Consistent spacing
                 Button {
-                     onQueueTap()
-                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    onQueueTap()
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 } label: {
                     Image(systemName: "plus.circle")
                         .foregroundStyle(.secondary)
                 }
                 .buttonStyle(.plain)
-
+                
                 Button {
                     onShareTap()
                 } label: {
@@ -389,17 +396,21 @@ struct TrackRow: View {
                 .buttonStyle(.plain)
             }
             .padding(.trailing, 5) // Add space before duration
-
+            
             Text(formatDuration(ms: track.durationMs))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .frame(width: 40, alignment: .trailing) // Fixed width for alignment
         }
-        .padding(.vertical, 8) // Slightly more vertical padding
-        .background(isPlaying ? Color.green.opacity(0.1) : Color.clear) // Subtle background highlight
-        .contentShape(Rectangle()) // Ensure the entire HStack background area is tappable for the play action if desired (though Button covers most)
-        .animation(.easeInOut(duration: 0.2), value: isPlaying) // Animate highlight change
-
+        .padding(.vertical, 8)
+        .background(isCurrentlySelectedTrack ? Color.green.opacity(0.1) : Color.clear) // Subtle background highlight for selected track
+        .animation(.easeInOut(duration: 0.2), value: isCurrentlySelectedTrack) // Animate highlight change
+        .animation(.easeInOut, value: isPlaying) // Animate play/pause icon potentially
+        .onChange(of: audioPlayerManager.errorMessage) {
+            // Optional: Show an alert here if audioPlayerManager.errorMessage is not nil
+            print("Error from audioPlayerManager.errorMessage: \(String(describing: audioPlayerManager.errorMessage))")
+        }
+        
     }
 }
 
@@ -408,13 +419,13 @@ struct TrackRow: View {
 struct AlbumDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-             AlbumDetailView()
+            AlbumDetailView()
         }
         .preferredColorScheme(.dark) // Preview in dark mode too
         .environmentObject(AudioPlayerManager()) // Provide for preview
-
-         NavigationView {
-             AlbumDetailView()
+        
+        NavigationView {
+            AlbumDetailView()
         }
         .preferredColorScheme(.light)
         .environmentObject(AudioPlayerManager()) // Provide for preview
