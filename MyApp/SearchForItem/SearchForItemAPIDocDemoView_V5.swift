@@ -697,9 +697,23 @@ struct SpotifyAlbumListView: View {
                          }
                      } else if displayedAlbums.isEmpty {
                          Text(searchQuery.isEmpty ? "Enter a search term..." : "No results for \"\(searchQuery)\"")
-                             .foregroundColor(.secondary)
-                             .multilineTextAlignment(.center)
-                             .padding()
+                        //                             .foregroundColor(.secondary)
+                        //                             .multilineTextAlignment(.center)
+                        //                             .padding()
+                         Image("My-meme-orange_2")
+                             .resizable()
+                             .aspectRatio(contentMode: .fit) // Fill available space
+                             .frame(height: 200) // Fixed height for banner
+                             .clipped() // Clip overflow
+//                             .overlay( // Gradient overlay for text readability
+//                                 Text("Image unavailable").foregroundStyle(.secondary)
+// //                                LinearGradient(
+// //                                    gradient: Gradient(colors: [.clear, .black.opacity(0.6)]),
+// //                                    startPoint: .center,
+// //                                    endPoint: .bottom
+// //                                )
+//                             )
+                             .cornerRadius(8) // Optional corner radius
                      } else {
                          albumList // Extracted list view
                      }
