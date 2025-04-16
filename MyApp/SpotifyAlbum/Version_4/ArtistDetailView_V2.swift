@@ -96,6 +96,7 @@ func createMockArtistDetailData(for artistName: String) -> ArtistDetailData {
 import SwiftUI
 
 struct ArtistDetailView: View {
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let artistName: String // Passed in from previous screen
     @State private var artistData: ArtistDetailData? = nil // Hold fetched/mocked data
     @State private var isFollowing: Bool = false // Mock follow state
@@ -240,6 +241,7 @@ struct ArtistHeaderView: View {
 }
 
 struct TopTracksSection: View {
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let tracks: [TrackInfo]
     @State private var showingTrackAlert = false
     @State private var selectedTrackName = ""
@@ -491,10 +493,12 @@ struct ArtistDetailView_Previews: PreviewProvider {
             ArtistDetailView(artistName: "Pitbull") // Preview with a known mock artist
         }
         .preferredColorScheme(.dark)
+        .environmentObject(AudioPlayerManager()) // Provide for preview
 
         NavigationView {
             ArtistDetailView(artistName: "Some Other Artist") // Preview with generic data
         }
         .preferredColorScheme(.light)
+        .environmentObject(AudioPlayerManager()) // Provide for preview
     }
 }

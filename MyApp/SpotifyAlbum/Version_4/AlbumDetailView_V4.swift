@@ -110,6 +110,7 @@ struct ActivityViewController: UIViewControllerRepresentable {
 // MARK: - SwiftUI View
 
 struct AlbumDetailView: View {
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let albumData = AlbumData()
 
     // --- State Variables ---
@@ -267,6 +268,7 @@ struct AlbumMetadataView: View { // No functional changes needed here
 }
 
 struct TrackListView: View {
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager // Needs access too
     let tracks: [TrackData]
     @Binding var currentlyPlayingTrackId: UUID? // Receive binding
     // Callbacks for interactions
@@ -307,6 +309,7 @@ extension ActivityViewController: Identifiable {
 }
 
 struct TrackRow: View {
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let track: TrackData
     let isPlaying: Bool
     let onPlayTap: () -> Void
@@ -408,10 +411,12 @@ struct AlbumDetailView_Previews: PreviewProvider {
              AlbumDetailView()
         }
         .preferredColorScheme(.dark) // Preview in dark mode too
+        .environmentObject(AudioPlayerManager()) // Provide for preview
 
          NavigationView {
              AlbumDetailView()
         }
         .preferredColorScheme(.light)
+        .environmentObject(AudioPlayerManager()) // Provide for preview
     }
 }
