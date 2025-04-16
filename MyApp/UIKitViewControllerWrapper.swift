@@ -29,5 +29,30 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        let expectedReturnValue_1 = getMaxVisitableWebpages(4, 4, [1,2,3,4], [4,1,2,1])
+        let expectedReturnValue_2 = getMaxVisitableWebpages(5, 6, [3,5,3,1,3,2], [2,1,2,4,5,4])
+        let expectedReturnValue_3 = getMaxVisitableWebpages(10, 9, [3, 2, 5, 9, 10, 3, 3, 9, 4], [9, 5, 7, 8, 6, 4, 5, 3, 9])
+            
+            
+        print("\(expectedReturnValue_1)")
+        print("\(expectedReturnValue_2)")
+        print("\(expectedReturnValue_3)")
+    }
+}
+
+
+// Step 2: Use in SwiftUI view
+struct ContentView: View {
+    var body: some View {
+        UIKitViewControllerWrapper()
+            .edgesIgnoringSafeArea(.all) /// Ignore safe area to extend the background color to the entire screen
+    }
+}
+
+// Before iOS 17, use this syntax for preview UIKit view controller
+struct UIKitViewControllerWrapper_Previews: PreviewProvider {
+    static var previews: some View {
+        UIKitViewControllerWrapper()
     }
 }
