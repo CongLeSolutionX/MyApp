@@ -30,6 +30,7 @@
 		9A8D5D682DAFF7780078B786 /* ArtistDetailView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */; };
 		9A98F3262DA47B8C00C08001 /* AuthenticationFlowView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F3252DA47B8700C08001 /* AuthenticationFlowView_V1.swift */; };
 		9A999C382DB0590800E8E226 /* AppEntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C372DB0590500E8E226 /* AppEntryPoint.swift */; };
+		9A999C3B2DB0620100E8E226 /* SearchForItemAPIDocDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C3A2DB061FC00E8E226 /* SearchForItemAPIDocDemoView.swift */; };
 		9AA1A5132DA4FFC9000178B3 /* AuthenticationFlowView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5122DA4FFC6000178B3 /* AuthenticationFlowView_V2.swift */; };
 		9AA1A5162DA514E7000178B3 /* PlaylistInteractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */; };
 		9AA1A51C2DA51D16000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A51B2DA51D15000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift */; };
@@ -100,6 +101,7 @@
 		9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailView_V2.swift; sourceTree = "<group>"; };
 		9A98F3252DA47B8700C08001 /* AuthenticationFlowView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowView_V1.swift; sourceTree = "<group>"; };
 		9A999C372DB0590500E8E226 /* AppEntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntryPoint.swift; sourceTree = "<group>"; };
+		9A999C3A2DB061FC00E8E226 /* SearchForItemAPIDocDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForItemAPIDocDemoView.swift; sourceTree = "<group>"; };
 		9AA1A5112DA4F392000178B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9AA1A5122DA4FFC6000178B3 /* AuthenticationFlowView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowView_V2.swift; sourceTree = "<group>"; };
 		9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistInteractionView.swift; sourceTree = "<group>"; };
@@ -215,6 +217,14 @@
 				9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */,
 			);
 			path = Version_4;
+			sourceTree = "<group>";
+		};
+		9A999C392DB061DC00E8E226 /* SearchForItem */ = {
+			isa = PBXGroup;
+			children = (
+				9A999C3A2DB061FC00E8E226 /* SearchForItemAPIDocDemoView.swift */,
+			);
+			path = SearchForItem;
 			sourceTree = "<group>";
 		};
 		9AA1A5142DA5031A000178B3 /* AuthenticationFlowView */ = {
@@ -355,6 +365,7 @@
 				9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */,
 				9AA1A5812DA6967F000178B3 /* ComprehensiveView_V3.swift */,
 				9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */,
+				9A999C392DB061DC00E8E226 /* SearchForItem */,
 				9A8D5D592DAF88A00078B786 /* SpotifyAlbum */,
 				9A8D5D4E2DAF627E0078B786 /* SpotifyEmbedView */,
 				9AA1A5612DA63105000178B3 /* AppleMusicAPI */,
@@ -468,6 +479,7 @@
 				9AA1A51E2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift in Sources */,
 				9AA1A51C2DA51D16000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift in Sources */,
 				9AFB73372DAEDF1500A985BF /* SpotifyEmbedView_V4.swift in Sources */,
+				9A999C3B2DB0620100E8E226 /* SearchForItemAPIDocDemoView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A630A9D2D92989800C035AF /* ShareView.swift in Sources */,
 				9AA1A5422DA59E58000178B3 /* MusicAdView.swift in Sources */,
