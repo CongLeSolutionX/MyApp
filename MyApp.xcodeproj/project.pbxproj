@@ -187,9 +187,7 @@
 		9A8D5D592DAF88A00078B786 /* SpotifyAlbum */ = {
 			isa = PBXGroup;
 			children = (
-				9A8D5D632DAFF6D00078B786 /* AudioPlayerManager.swift */,
-				9A8D5D652DAFF7280078B786 /* AlbumDetailView_V4.swift */,
-				9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */,
+				9A999C362DB057A100E8E226 /* Version_4 */,
 				9A8D5D622DAFF5330078B786 /* AlbumDetailView_v3 */,
 				9A8D5D5C2DAF89390078B786 /* AlbumDetailView_V2.swift */,
 				9A8D5D5A2DAF88B80078B786 /* AlbumDetailView_V1.swift */,
@@ -204,6 +202,16 @@
 				9A8D5D602DAFF2F50078B786 /* AlbumDetailView_V3.swift */,
 			);
 			path = AlbumDetailView_v3;
+			sourceTree = "<group>";
+		};
+		9A999C362DB057A100E8E226 /* Version_4 */ = {
+			isa = PBXGroup;
+			children = (
+				9A8D5D632DAFF6D00078B786 /* AudioPlayerManager.swift */,
+				9A8D5D652DAFF7280078B786 /* AlbumDetailView_V4.swift */,
+				9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */,
+			);
+			path = Version_4;
 			sourceTree = "<group>";
 		};
 		9AA1A5142DA5031A000178B3 /* AuthenticationFlowView */ = {

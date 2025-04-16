@@ -26,13 +26,13 @@ struct AlbumData {
         ArtistData(name: "Pitbull")
     ]
     let tracks: TrackListData = TrackListData(items: [
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Sensato")], discNumber: 1, durationMs: 85400, explicit: true, name: "Global Warming (feat. Sensato)", trackNumber: 1, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "TJR")], discNumber: 1, durationMs: 206120, explicit: false, name: "Don't Stop the Party (feat. TJR)", trackNumber: 2, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Christina Aguilera")], discNumber: 1, durationMs: 229506, explicit: false, name: "Feel This Moment (feat. Christina Aguilera)", trackNumber: 3, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull")], discNumber: 1, durationMs: 207440, explicit: false, name: "Back in Time - featured in \"Men In Black 3\"", trackNumber: 4, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Chris Brown")], discNumber: 1, durationMs: 221133, explicit: false, name: "Hope We Meet Again (feat. Chris Brown)", trackNumber: 5, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "USHER"), ArtistData(name: "AFROJACK")], discNumber: 1, durationMs: 243160, explicit: true, name: "Party Ain't Over (feat. Usher & Afrojack)", trackNumber: 6, audioURL: nil),
-        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Jennifer Lopez")], discNumber: 1, durationMs: 196920, explicit: false, name: "Drinks for You (Ladies Anthem) (feat. J. Lo)", trackNumber: 7, audioURL: nil)
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Sensato")], discNumber: 1, durationMs: 85400, explicit: true, name: "Global Warming (feat. Sensato)", trackNumber: 1, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "TJR")], discNumber: 1, durationMs: 206120, explicit: false, name: "Don't Stop the Party (feat. TJR)", trackNumber: 2, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Christina Aguilera")], discNumber: 1, durationMs: 229506, explicit: false, name: "Feel This Moment (feat. Christina Aguilera)", trackNumber: 3, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull")], discNumber: 1, durationMs: 207440, explicit: false, name: "Back in Time - featured in \"Men In Black 3\"", trackNumber: 4, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Chris Brown")], discNumber: 1, durationMs: 221133, explicit: false, name: "Hope We Meet Again (feat. Chris Brown)", trackNumber: 5, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "USHER"), ArtistData(name: "AFROJACK")], discNumber: 1, durationMs: 243160, explicit: true, name: "Party Ain't Over (feat. Usher & Afrojack)", trackNumber: 6, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"),
+        TrackData(artists: [ArtistData(name: "Pitbull"), ArtistData(name: "Jennifer Lopez")], discNumber: 1, durationMs: 196920, explicit: false, name: "Drinks for You (Ladies Anthem) (feat. J. Lo)", trackNumber: 7, audioURL: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3")
         // ... Add more tracks if needed
     ], total: 18)
     let copyrights: [CopyrightData] = [
