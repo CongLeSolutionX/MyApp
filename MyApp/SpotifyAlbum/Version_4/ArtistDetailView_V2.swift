@@ -187,11 +187,25 @@ struct ArtistHeaderView: View {
                             )
                             .cornerRadius(8) // Optional corner radius
                     case .failure:
-                        Rectangle() // Placeholder on failure
-                            .fill(Color.secondary.opacity(0.2))
-                            .frame(height: 150)
-                            .overlay(Text("Image unavailable").foregroundStyle(.secondary))
-                            .cornerRadius(8)
+                        Image("My-meme-orange_2")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill) // Fill available space
+                            .frame(height: 200) // Fixed height for banner
+                            .clipped() // Clip overflow
+                            .overlay( // Gradient overlay for text readability
+                                Text("Image unavailable").foregroundStyle(.secondary)
+//                                LinearGradient(
+//                                    gradient: Gradient(colors: [.clear, .black.opacity(0.6)]),
+//                                    startPoint: .center,
+//                                    endPoint: .bottom
+//                                )
+                            )
+                            .cornerRadius(8) // Optional corner radius
+//                        Rectangle() // Placeholder on failure
+//                            .fill(Color.secondary.opacity(0.2))
+//                            .frame(height: 150)
+//                            .overlay(Text("Image unavailable").foregroundStyle(.secondary))
+//                            .cornerRadius(8)
                     case .empty:
                         Rectangle() // Placeholder while loading
                             .fill(Color.secondary.opacity(0.1))
@@ -245,69 +259,7 @@ struct TopTracksSection: View {
     let tracks: [TrackInfo]
     //@State private var showingTrackAlert = false
     //@State private var selectedTrackName = ""
-    
-    
-    //    var body: some View {
-    //            VStack(alignment: .leading) {
-    //                Text("Top Tracks")
-    //                    // ... title style ...
-    //
-    //                ForEach(tracks) { track in
-    //                     // Determine if this track is playing/selected
-    //                     let isPlaying = audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
-    //                     let isCurrentlySelectedTrack = audioPlayerManager.currentlyPlayingTrackID == track.id
-    //
-    //                     HStack(spacing: 12) {
-    //                         // --- Play/Pause/Number Icon ---
-    //                         Group {
-    //                              if isCurrentlySelectedTrack {
-    //                                  Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-    //                                      .foregroundStyle(.blue) // Different highlight color maybe?
-    //                                      .frame(width: 20, alignment: .center)
-    //                              } else {
-    //                                  // Optional: Show rank number if available/meaningul
-    //                                  Image(systemName:"music.note") // Default placeholder
-    //                                      .foregroundStyle(.secondary)
-    //                                      .frame(width: 20, alignment: .center)
-    //                              }
-    //                         }
-    //                         .padding(.trailing, 5)
-    //
-    //                         AsyncImage(url: URL(string: track.imageUrl ?? "")) { /*...*/ } // Image remains same
-    //                         .frame(width: 50, height: 50)
-    //                         .clipShape(RoundedRectangle(cornerRadius: 4))
-    //
-    //                         VStack(alignment: .leading) {
-    //                             Text(track.name)
-    //                                 .font(.body)
-    //                                 .foregroundStyle(isCurrentlySelectedTrack ? .blue : .primary) // Highlight selected
-    //                                 .lineLimit(1)
-    //                             Text(track.albumName)
-    //                                 .font(.caption)
-    //                                 .foregroundStyle(.secondary)
-    //                                 .lineLimit(1)
-    //                         }
-    //
-    //                         Spacer()
-    //
-    //                         if let plays = track.playCount { /* Play count */ }
-    //                     }
-    //                     .padding(.horizontal)
-    //                     .padding(.vertical, 5)
-    //                     .background(isCurrentlySelectedTrack ? Color.blue.opacity(0.1) : Color.clear) // Highlight
-    //                     .contentShape(Rectangle())
-    //                     .onTapGesture {
-    //                          // Call the manager to toggle playback
-    //                          audioPlayerManager.togglePlayPause(for: track.id, urlString: track.audioURL)
-    //                          UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    //                     }
-    //                    Divider().padding(.leading, 85) // Adjust indent based on layout
-    //                }
-    //            }
-    //              // Remove the specific track alert if it's just for playing
-    //        }
-    //
-    
+   
     var body: some View {
         VStack(alignment: .leading) {
             Text("Top Tracks")
@@ -318,7 +270,7 @@ struct TopTracksSection: View {
             // Limited vertical list for top tracks
             ForEach(tracks) { track in
                 // Determine if this track is playing/selected
-                let isPlaying = audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
+                //let isPlaying = audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
                 let isCurrentlySelectedTrack = audioPlayerManager.currentlyPlayingTrackID == track.id
                 
                 HStack(spacing: 12) {
@@ -368,12 +320,6 @@ struct TopTracksSection: View {
         }
     }
 }
-//         .alert("Track Tapped", isPresented: $showingTrackAlert) {
-//              Button("OK", role: .cancel) { }
-//         } message: {
-//              Text("Simulated action for track: \(selectedTrackName)")
-//         }
-
 
 struct AlbumsSection: View {
     let albums: [AlbumInfo]
