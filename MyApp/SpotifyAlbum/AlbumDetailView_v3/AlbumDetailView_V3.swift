@@ -115,8 +115,6 @@
 //    @State private var currentlyPlayingTrackId: UUID? = nil // Track which track is "playing"
 //    @State private var showingShareSheet = false
 //    @State private var itemToShare: ActivityViewController? = nil
-//    @State private var showingArtistAlert = false
-//    @State private var selectedArtistName = ""
 //    @State private var showingQueueAlert = false
 //    @State private var queuedTrackName = ""
 //
@@ -130,9 +128,8 @@
 //                TrackListView(
 //                    tracks: albumData.tracks.items,
 //                    currentlyPlayingTrackId: $currentlyPlayingTrackId, // Pass binding
-//                    onSelectArtist: { artistName in // Callback for artist tap
-//                        selectedArtistName = artistName
-//                        showingArtistAlert = true
+//                    onSelectArtist: { _ in // Callback for artist tap
+//                        print("Artist tapped!")
 //                    },
 //                    onAddToQueue: { trackName in // Callback for queue tap
 //                        queuedTrackName = trackName
@@ -154,12 +151,6 @@
 //        }
 //        .navigationTitle(albumData.name)
 //        .navigationBarTitleDisplayMode(.inline)
-//        // --- Alerts and Sheets ---
-//        .alert("Artist Selected", isPresented: $showingArtistAlert) {
-//            Button("OK", role: .cancel) { }
-//        } message: {
-//            Text("You tapped on \(selectedArtistName).\n(Here you could navigate to the artist's page or search.)")
-//        }
 //        .alert("Track Added", isPresented: $showingQueueAlert) {
 //            Button("OK", role: .cancel) { }
 //        } message: {
@@ -210,11 +201,16 @@
 //                .font(.title2)
 //                .fontWeight(.bold)
 //                .multilineTextAlignment(.center)
-//
-//            Text(formatArtists(artists: albumData.artists))
-//                .font(.headline)
-//                .foregroundStyle(.secondary) // More semantic
-//
+//            
+//            NavigationLink(destination: ArtistDetailView(artistName: formatArtists(artists: albumData.artists))) {
+//                
+//                Text(formatArtists(artists: albumData.artists))
+//                    .font(.headline)
+//                    .foregroundStyle(.secondary) // More semantic
+//                
+//            }
+//            .buttonStyle(.plain)
+//            
 //            Text("\(albumData.albumType.capitalized) • \(extractYear(from: albumData.releaseDate))")
 //                .font(.subheadline)
 //                .foregroundStyle(.gray)
@@ -354,13 +350,13 @@
 //                            }
 //                        }
 //                        // Artist Text - Tappable
-//                        Text(formatArtists(artists: track.artists))
-//                            .font(.caption)
-//                            .foregroundStyle(.secondary)
-//                            .lineLimit(1)
-//                            .onTapGesture { // Make only artist text tappable
-//                                onArtistTap(formatArtists(artists: track.artists))
-//                            }
+//                        NavigationLink(destination: ArtistDetailView(artistName: formatArtists(artists: track.artists))) {
+//                            Text(formatArtists(artists: track.artists))
+//                                .font(.caption)
+//                                .foregroundStyle(.secondary)
+//                                .lineLimit(1)
+//                            
+//                        }
 //                    }
 //                    Spacer() // Push content to leading edge within button
 //                }
