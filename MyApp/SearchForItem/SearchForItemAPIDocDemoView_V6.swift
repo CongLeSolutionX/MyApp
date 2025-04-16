@@ -921,10 +921,15 @@ struct EmptyStatePlaceholderView: View {
 
     var body: some View {
         VStack(spacing: 15) {
-            Image(systemName: iconName)
-                .font(.system(size: 50))
-                .foregroundColor(.secondary)
-                .padding(.bottom, 5)
+//            Image(systemName: iconName)
+//                .font(.system(size: 50))
+//                .foregroundColor(.secondary)
+//                .padding(.bottom, 5)
+            Image(iconName)
+                .resizable()
+                .aspectRatio(contentMode: .fit) // Fill available space
+                .frame(height: 200) // Fixed height for banner
+                .clipped() // Clip overflow
 
             Text(title)
                 .font(.title2.weight(.semibold))
@@ -941,7 +946,9 @@ struct EmptyStatePlaceholderView: View {
      private var isInitialState: Bool { searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
      private var iconName: String {
-         isInitialState ? "music.note.list.select" : "magnifyingglass"
+         //isInitialState ? "music.note.list.select" : "magnifyingglass"
+         isInitialState ? "My-meme-microphone" :  "My-meme-orange_2"
+        
      }
 
      private var title: String {
