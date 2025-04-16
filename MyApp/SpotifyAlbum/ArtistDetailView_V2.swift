@@ -64,11 +64,11 @@ func createMockArtistDetailData(for artistName: String) -> ArtistDetailData {
             bio: artistName == "Pitbull" ? "Armando Christian Pérez, known professionally as Pitbull, is an American rapper, singer, songwriter, and record producer. Pérez began his career in the early 2000s, recording reggaeton, Latin hip hop, and crunk music under a multitude of labels..." : "Information about this artist."
         ),
         topTracks: [
-            TrackInfo(name: "Give Me Everything", albumName: "Planet Pit", imageUrl: placeholderThumb, playCount: 1_234_567),
-            TrackInfo(name: "Timber (feat. Ke$ha)", albumName: "Globalization", imageUrl: placeholderThumb, playCount: 1_111_222),
-            TrackInfo(name: "Hotel Room Service", albumName: "Rebelution", imageUrl: placeholderThumb, playCount: 987_654),
-            TrackInfo(name: "Feel This Moment (feat. Christina Aguilera)", albumName: "Global Warming", imageUrl: placeholderThumb, playCount: 876_543), // From previous album
-            TrackInfo(name: "Time of Our Lives", albumName: "Globalization", imageUrl: placeholderThumb, playCount: 765_432)
+            TrackInfo(name: "Give Me Everything", albumName: "Planet Pit", imageUrl: placeholderThumb, playCount: 1_234_567, audioURL: nil),
+            TrackInfo(name: "Timber (feat. Ke$ha)", albumName: "Globalization", imageUrl: placeholderThumb, playCount: 1_111_222, audioURL: nil),
+            TrackInfo(name: "Hotel Room Service", albumName: "Rebelution", imageUrl: placeholderThumb, playCount: 987_654, audioURL: nil),
+            TrackInfo(name: "Feel This Moment (feat. Christina Aguilera)", albumName: "Global Warming", imageUrl: placeholderThumb, playCount: 876_543, audioURL: nil), // From previous album
+            TrackInfo(name: "Time of Our Lives", albumName: "Globalization", imageUrl: placeholderThumb, playCount: 765_432, audioURL: nil)
         ],
         albums: [
             AlbumInfo(name: "Global Warming", releaseYear: "2012", imageUrl: "https://i.scdn.co/image/ab67616d0000b2732c5b24ecfa39523a75c993c4", type: "album"), // From previous screen
