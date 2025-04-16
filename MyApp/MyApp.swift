@@ -13,8 +13,9 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             //AuthenticationFlowView()
-            SpotifyEmbedView()
+            //SpotifyEmbedView()
             //ContentView()
+            SpotifyAlbumListView()
         }
     }
 }
