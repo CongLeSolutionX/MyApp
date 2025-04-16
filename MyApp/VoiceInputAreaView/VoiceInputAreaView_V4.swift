@@ -97,7 +97,10 @@ class VoiceInputManager: ObservableObject {
         
         // Microphone permission async wrapper
         let micPermissionGranted = await withCheckedContinuation { continuation in
-            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+//            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+//                continuation.resume(returning: granted)
+//            }
+            AVAudioApplication.requestRecordPermission { granted in
                 continuation.resume(returning: granted)
             }
         }
@@ -147,7 +150,10 @@ class VoiceInputManager: ObservableObject {
     //
     func checkPermissions() {
         let speechStatus = SFSpeechRecognizer.authorizationStatus()
-        let micStatus = AVAudioSession.sharedInstance().recordPermission
+        
+        //let micStatus = AVAudioSession.sharedInstance().recordPermission
+        let micStatus = AVAudioApplication.shared.recordPermission
+        
         hasPermissions = (speechStatus == .authorized && micStatus == .granted)
     }
     
@@ -159,7 +165,7 @@ class VoiceInputManager: ObservableObject {
             
             // Prompt request if undecided
             if SFSpeechRecognizer.authorizationStatus() == .notDetermined ||
-                AVAudioSession.sharedInstance().recordPermission == .undetermined {
+                AVAudioApplication.recordPermission.undetermined == .undetermined {
                 Task {
                     await requestPermissions()
                 }
