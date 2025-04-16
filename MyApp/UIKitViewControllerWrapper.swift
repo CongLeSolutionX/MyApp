@@ -30,14 +30,13 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         // Additional setup
         
-        // Official Test Case Check again:
-        print(getMinimumSecondsRequired(5, [2,5,3,6,5], 1, 1))  // Expected: 5
-        print(getMinimumSecondsRequired(3, [100,100,100], 2, 3))// Expected: 5
-        print(getMinimumSecondsRequired(3, [100,100,100], 7, 3))// Expected: 9
-        print(getMinimumSecondsRequired(4, [6,5,4,3], 10, 1))   // Expected: 19
-        print(getMinimumSecondsRequired(4, [100,100,1,1], 2,1)) // Expected: 207
-        print(getMinimumSecondsRequired(6,[6,5,2,4,4,7],1,1))   // Expected: 10
-   
+        // Verify explicitly provided examples (official test cases):
+        print(getMinimumSecondsRequired(5, [2,5,3,6,5], 1, 1))   // Expected Output: 5
+        print(getMinimumSecondsRequired(3, [100,100,100], 2, 3)) // Expected Output: 5
+        print(getMinimumSecondsRequired(3, [100,100,100], 7, 3)) // Expected Output: 9
+        print(getMinimumSecondsRequired(4, [6,5,4,3], 10, 1))    // Expected Output: 19
+        print(getMinimumSecondsRequired(4,[100,100,1,1],2, 1))   // Expected Output: 207
+        print(getMinimumSecondsRequired(6,[6,5,2,4,4,7],1,1))    // Expected Output: 10
     }
 }
 
