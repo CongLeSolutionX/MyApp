@@ -636,7 +636,7 @@
 //
 //// MARK: - Main ContentView
 //
-//struct ContentView: View {
+//struct SpotifyEmbedView: View {
 //    @StateObject private var auth = SpotifyAuthManager()
 //    @State private var fetchedTrack: TrackDetails? = nil
 //    @State private var fetchingError: String? = nil
@@ -744,7 +744,7 @@
 //    }
 //}
 //#Preview("ContentView") {
-//    ContentView()
+//    SpotifyEmbedView()
 //}
 //
 //// MARK: - App Entry Point: Demo only
