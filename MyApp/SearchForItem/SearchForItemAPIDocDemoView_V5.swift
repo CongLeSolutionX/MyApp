@@ -732,7 +732,9 @@ struct SpotifyAlbumListView: View {
                         placement: .navigationBarDrawer(displayMode: .always),
                         prompt: "Search Albums or Artists")
             .task(id: searchQuery) { await performDebouncedSearch() }
-            .onChange(of: searchQuery) { _ in currentError = nil } // Clear error on new search
+            .onChange(of: searchQuery) {
+                currentError = nil
+            } // Clear error on new search
         }
     }
 
@@ -974,10 +976,10 @@ struct AlbumDetailView: View {
         .task { // Use .task for async work on view appear
             await fetchTracks()
         }
-        .onChange(of: selectedTrackUri){ newUri in
+        .onChange(of: selectedTrackUri){
              // Optional: Log when URI changes
-             if let newUri {
-                 print("Selected track URI changed to: \(newUri)")
+             if let selectedTrackUri {
+                 print("Selected track URI changed to: \(selectedTrackUri)")
              }
          }
     }
