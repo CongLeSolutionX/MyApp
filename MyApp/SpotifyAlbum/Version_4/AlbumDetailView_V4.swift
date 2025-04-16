@@ -129,7 +129,6 @@ struct AlbumDetailView: View {
                 Divider()
                 TrackListView(
                     tracks: albumData.tracks.items,
-                    currentlyPlayingTrackId: $currentlyPlayingTrackId, // Pass binding
                     onSelectArtist: { _ in // Callback for artist tap
                         print("Artist tapped!")
                     },

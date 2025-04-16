@@ -54,7 +54,7 @@ func createMockArtistDetailData(for artistName: String) -> ArtistDetailData {
     let placeholderThumb = "https://via.placeholder.com/100x100/cccccc/888888?text=Track"
     let placeholderAlbum = "https://via.placeholder.com/150x150/cccccc/888888?text=Album"
     let placeholderArtist = "https://via.placeholder.com/100x100/cccccc/888888?text=Artist"
-
+    
     // Example Data (customize more if needed)
     let artistData = ArtistDetailData(
         artistInfo: ArtistInfo(
@@ -101,7 +101,7 @@ struct ArtistDetailView: View {
     @State private var artistData: ArtistDetailData? = nil // Hold fetched/mocked data
     @State private var isFollowing: Bool = false // Mock follow state
     @State private var showingBio: Bool = false // Toggle for About section
-
+    
     // Simulate loading / fetching data
     private func loadArtistData() {
         // In a real app, this would be an async network call
@@ -111,23 +111,23 @@ struct ArtistDetailView: View {
             self.isFollowing = Bool.random() // Random initial follow state
         }
     }
-
+    
     var body: some View {
         ScrollView {
             if let data = artistData {
                 VStack(alignment: .leading, spacing: 25) { // Increased spacing between sections
                     ArtistHeaderView(artistInfo: data.artistInfo, isFollowing: $isFollowing)
-
+                    
                     TopTracksSection(tracks: Array(data.topTracks.prefix(5))) // Show top 5
-
+                    
                     AlbumsSection(albums: data.albums)
-
+                    
                     RelatedArtistsSection(artists: data.relatedArtists)
-
+                    
                     if let bio = data.artistInfo.bio, !bio.isEmpty {
                         AboutSection(bio: bio, isExpanded: $showingBio, artistInfo: ArtistInfo(name: "CongLe", genre: nil, imageUrl: nil, bio: nil))
                     }
-
+                    
                     Spacer() // Push content up if short
                 }
                 .padding(.vertical) // Add padding top/bottom of scroll content
@@ -143,16 +143,16 @@ struct ArtistDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: loadArtistData)
         .alert("Action Simulated", isPresented: $showingInteractionAlert) { // Reusable alert
-             Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) { }
         } message: {
-             Text(interactionMessage)
+            Text(interactionMessage)
         }
     }
-
+    
     // --- State for interaction alerts ---
     @State private var showingInteractionAlert = false
     @State private var interactionMessage = ""
-
+    
     private func simulateInteraction(message: String) {
         interactionMessage = message
         showingInteractionAlert = true
@@ -165,7 +165,7 @@ struct ArtistDetailView: View {
 struct ArtistHeaderView: View {
     let artistInfo: ArtistInfo
     @Binding var isFollowing: Bool
-
+    
     var body: some View {
         VStack(spacing: 15) {
             // Banner Image (optional)
@@ -194,30 +194,30 @@ struct ArtistHeaderView: View {
                             .cornerRadius(8)
                     case .empty:
                         Rectangle() // Placeholder while loading
-                           .fill(Color.secondary.opacity(0.1))
-                           .frame(height: 150)
-                           .overlay(ProgressView())
-                           .cornerRadius(8)
+                            .fill(Color.secondary.opacity(0.1))
+                            .frame(height: 150)
+                            .overlay(ProgressView())
+                            .cornerRadius(8)
                     @unknown default:
                         EmptyView()
                     }
                 }
                 .padding(.horizontal) // Add horizontal padding to the image frame
             }
-
+            
             // Artist Name and Genre
             VStack {
                 Text(artistInfo.name)
                     .font(.largeTitle)
                     .fontWeight(.bold)
-
+                
                 if let genre = artistInfo.genre {
                     Text(genre)
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
             }
-
+            
             // Follow Button
             Button {
                 isFollowing.toggle()
@@ -243,95 +243,161 @@ struct ArtistHeaderView: View {
 struct TopTracksSection: View {
     @EnvironmentObject var audioPlayerManager: AudioPlayerManager
     let tracks: [TrackInfo]
-    @State private var showingTrackAlert = false
-    @State private var selectedTrackName = ""
-
+    //@State private var showingTrackAlert = false
+    //@State private var selectedTrackName = ""
+    
+    
+    //    var body: some View {
+    //            VStack(alignment: .leading) {
+    //                Text("Top Tracks")
+    //                    // ... title style ...
+    //
+    //                ForEach(tracks) { track in
+    //                     // Determine if this track is playing/selected
+    //                     let isPlaying = audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
+    //                     let isCurrentlySelectedTrack = audioPlayerManager.currentlyPlayingTrackID == track.id
+    //
+    //                     HStack(spacing: 12) {
+    //                         // --- Play/Pause/Number Icon ---
+    //                         Group {
+    //                              if isCurrentlySelectedTrack {
+    //                                  Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+    //                                      .foregroundStyle(.blue) // Different highlight color maybe?
+    //                                      .frame(width: 20, alignment: .center)
+    //                              } else {
+    //                                  // Optional: Show rank number if available/meaningul
+    //                                  Image(systemName:"music.note") // Default placeholder
+    //                                      .foregroundStyle(.secondary)
+    //                                      .frame(width: 20, alignment: .center)
+    //                              }
+    //                         }
+    //                         .padding(.trailing, 5)
+    //
+    //                         AsyncImage(url: URL(string: track.imageUrl ?? "")) { /*...*/ } // Image remains same
+    //                         .frame(width: 50, height: 50)
+    //                         .clipShape(RoundedRectangle(cornerRadius: 4))
+    //
+    //                         VStack(alignment: .leading) {
+    //                             Text(track.name)
+    //                                 .font(.body)
+    //                                 .foregroundStyle(isCurrentlySelectedTrack ? .blue : .primary) // Highlight selected
+    //                                 .lineLimit(1)
+    //                             Text(track.albumName)
+    //                                 .font(.caption)
+    //                                 .foregroundStyle(.secondary)
+    //                                 .lineLimit(1)
+    //                         }
+    //
+    //                         Spacer()
+    //
+    //                         if let plays = track.playCount { /* Play count */ }
+    //                     }
+    //                     .padding(.horizontal)
+    //                     .padding(.vertical, 5)
+    //                     .background(isCurrentlySelectedTrack ? Color.blue.opacity(0.1) : Color.clear) // Highlight
+    //                     .contentShape(Rectangle())
+    //                     .onTapGesture {
+    //                          // Call the manager to toggle playback
+    //                          audioPlayerManager.togglePlayPause(for: track.id, urlString: track.audioURL)
+    //                          UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    //                     }
+    //                    Divider().padding(.leading, 85) // Adjust indent based on layout
+    //                }
+    //            }
+    //              // Remove the specific track alert if it's just for playing
+    //        }
+    //
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Top Tracks")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.horizontal)
-
+            
             // Limited vertical list for top tracks
             ForEach(tracks) { track in
-                Button {
-                    // Simulate playing or navigating to track detail
-                    selectedTrackName = track.name
-                    showingTrackAlert = true
-                    print("Simulating tap on track: \(track.name)")
-                } label: {
-                    HStack(spacing: 12) {
-                        AsyncImage(url: URL(string: track.imageUrl ?? "")) { image in
-                            image.resizable()
-                        } placeholder: {
-                            Image(systemName: "music.note")
-                                .resizable()
-                                .scaledToFit()
-                                .padding(8)
-                                .background(Color.secondary.opacity(0.1))
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
-                        }
-                        .frame(width: 50, height: 50)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-
-                        VStack(alignment: .leading) {
-                            Text(track.name)
-                                .font(.body)
-                                .foregroundStyle(.primary)
-                                .lineLimit(1)
-                            Text(track.albumName) // Show album context
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(1)
-                        }
-
-                        Spacer()
-
-                        if let plays = track.playCount {
-                            Text("\(plays / 1000)K") // Simple play count format
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
+                // Determine if this track is playing/selected
+                let isPlaying = audioPlayerManager.currentlyPlayingTrackID == track.id && audioPlayerManager.isPlaying
+                let isCurrentlySelectedTrack = audioPlayerManager.currentlyPlayingTrackID == track.id
+                
+                HStack(spacing: 12) {
+                    AsyncImage(url: URL(string: track.imageUrl ?? "")) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Image(systemName: "music.note")
+                            .resizable()
+                            .scaledToFit()
+                            .padding(8)
+                            .background(Color.secondary.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, 5) // Reduced vertical padding
+                    .frame(width: 50, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                    
+                    VStack(alignment: .leading) {
+                        Text(track.name)
+                            .font(.body)
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
+                        Text(track.albumName) // Show album context
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                    
+                    Spacer()
+                    
+                    if let plays = track.playCount {
+                        Text("\(plays / 1000)K") // Simple play count format
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                .buttonStyle(.plain)
-                Divider().padding(.leading, 75) // Indent divider
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .background(isCurrentlySelectedTrack ? Color.blue.opacity(0.1) : Color.clear) // Highlight
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    // Call the manager to toggle playback
+                    audioPlayerManager.togglePlayPause(for: track.id, urlString: track.audioURL)
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+                Divider().padding(.leading, 85) // Adjust indent based on layout
             }
         }
-         .alert("Track Tapped", isPresented: $showingTrackAlert) {
-              Button("OK", role: .cancel) { }
-         } message: {
-              Text("Simulated action for track: \(selectedTrackName)")
-         }
     }
 }
+//         .alert("Track Tapped", isPresented: $showingTrackAlert) {
+//              Button("OK", role: .cancel) { }
+//         } message: {
+//              Text("Simulated action for track: \(selectedTrackName)")
+//         }
+
 
 struct AlbumsSection: View {
     let albums: [AlbumInfo]
     @State private var showingAlbumAlert = false
     @State private var selectedAlbumName = ""
-
+    
     // Use a grid layout for albums
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2) // 2 columns
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Albums & Singles")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.horizontal)
-
+            
             LazyVGrid(columns: columns, spacing: 15) {
                 ForEach(albums) { album in
                     Button {
-                         // Simulate navigating to album detail
-                         selectedAlbumName = album.name
-                         showingAlbumAlert = true
-                         print("Simulating tap on album: \(album.name)")
-                     } label: {
+                        // Simulate navigating to album detail
+                        selectedAlbumName = album.name
+                        showingAlbumAlert = true
+                        print("Simulating tap on album: \(album.name)")
+                    } label: {
                         AlbumGridItem(album: album)
                     }
                     .buttonStyle(.plain)
@@ -339,17 +405,17 @@ struct AlbumsSection: View {
             }
             .padding(.horizontal)
         }
-         .alert("Album Tapped", isPresented: $showingAlbumAlert) {
-              Button("OK", role: .cancel) { }
-         } message: {
-              Text("Simulated action for album: \(selectedAlbumName)")
-         }
+        .alert("Album Tapped", isPresented: $showingAlbumAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Simulated action for album: \(selectedAlbumName)")
+        }
     }
 }
 
 struct AlbumGridItem: View {
     let album: AlbumInfo
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             AsyncImage(url: URL(string: album.imageUrl ?? "")) { image in
@@ -361,7 +427,7 @@ struct AlbumGridItem: View {
             }
             .aspectRatio(1, contentMode: .fit) // Make it square
             .cornerRadius(6)
-
+            
             Text(album.name)
                 .font(.caption)
                 .fontWeight(.medium)
@@ -378,26 +444,26 @@ struct RelatedArtistsSection: View {
     let artists: [ArtistInfo]
     @State private var showingArtistAlert = false
     @State private var selectedArtistName = ""
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Related Artists")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.horizontal)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(artists) { artist in
                         Button {
                             // Simulate navigating to this related artist's detail view
-                             selectedArtistName = artist.name
-                             showingArtistAlert = true
-                             print("Simulating tap on related artist: \(artist.name)")
-                         } label: {
+                            selectedArtistName = artist.name
+                            showingArtistAlert = true
+                            print("Simulating tap on related artist: \(artist.name)")
+                        } label: {
                             RelatedArtistBubble(artist: artist)
                         }
-                         .buttonStyle(.plain)
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal)
@@ -405,20 +471,20 @@ struct RelatedArtistsSection: View {
             }
         }
         .alert("Artist Tapped", isPresented: $showingArtistAlert) {
-             Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) { }
         } message: {
-             Text("Simulated action for artist: \(selectedArtistName)")
+            Text("Simulated action for artist: \(selectedArtistName)")
         }
     }
 }
 
 struct RelatedArtistBubble: View {
     let artist: ArtistInfo
-
+    
     var body: some View {
         VStack {
             AsyncImage(url: URL(string: artist.imageUrl ?? "")) { image in
-                 image.resizable()
+                image.resizable()
             } placeholder: {
                 Rectangle()
                     .fill(Color.secondary.opacity(0.1))
@@ -428,13 +494,13 @@ struct RelatedArtistBubble: View {
             .frame(width: 100, height: 100) // Circular bubble size
             .clipShape(Circle())
             .shadow(radius: 3) // Add subtle shadow
-
+            
             Text(artist.name)
                 .font(.caption)
                 .fontWeight(.medium)
                 .lineLimit(1)
                 .frame(width: 100) // Limit text width
-                 .foregroundStyle(.primary)
+                .foregroundStyle(.primary)
         }
     }
 }
@@ -442,7 +508,7 @@ struct RelatedArtistBubble: View {
 struct AboutSection: View {
     let bio: String
     @Binding var isExpanded: Bool // Allow collapsing/expanding
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -460,7 +526,7 @@ struct AboutSection: View {
                 .buttonStyle(.plain)
             }
             .padding(.horizontal)
-
+            
             if isExpanded {
                 Text(bio)
                     .font(.body)
@@ -470,19 +536,19 @@ struct AboutSection: View {
             }
         }
     }
-
-        // Need access to artistInfo - assuming it's passed or accessible
-        // Simplification: For this example, let's assume `artistInfo` is available
-        // In a real app, you might need to pass the name or the full ArtistInfo object
-        let artistInfo: ArtistInfo // Placeholder - you need to pass this in
-
-        // Initialize with the passed-in object
-        init(bio: String, isExpanded: Binding<Bool>, artistInfo: ArtistInfo) {
-            self.bio = bio
-            self._isExpanded = isExpanded
-            self.artistInfo = artistInfo
-        }
-
+    
+    // Need access to artistInfo - assuming it's passed or accessible
+    // Simplification: For this example, let's assume `artistInfo` is available
+    // In a real app, you might need to pass the name or the full ArtistInfo object
+    let artistInfo: ArtistInfo // Placeholder - you need to pass this in
+    
+    // Initialize with the passed-in object
+    init(bio: String, isExpanded: Binding<Bool>, artistInfo: ArtistInfo) {
+        self.bio = bio
+        self._isExpanded = isExpanded
+        self.artistInfo = artistInfo
+    }
+    
 }
 
 // MARK: - Preview Provider
@@ -494,7 +560,7 @@ struct ArtistDetailView_Previews: PreviewProvider {
         }
         .preferredColorScheme(.dark)
         .environmentObject(AudioPlayerManager()) // Provide for preview
-
+        
         NavigationView {
             ArtistDetailView(artistName: "Some Other Artist") // Preview with generic data
         }
