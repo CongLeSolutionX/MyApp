@@ -270,7 +270,7 @@ struct AlbumMetadataView: View { // No functional changes needed here
 struct TrackListView: View {
     @EnvironmentObject var audioPlayerManager: AudioPlayerManager // Needs access too
     let tracks: [TrackData]
-    @Binding var currentlyPlayingTrackId: UUID? // Receive binding
+    //@Binding var currentlyPlayingTrackId: UUID? // Receive binding
     // Callbacks for interactions
     let onSelectArtist: (String) -> Void
     let onAddToQueue: (String) -> Void
@@ -285,19 +285,13 @@ struct TrackListView: View {
             ForEach(tracks) { track in
                 TrackRow(
                     track: track,
-                    // Determine if this row is the one currently playing
-                    isPlaying: track.id == currentlyPlayingTrackId,
-                    onPlayTap: { // Action when the main row is tapped
-                        currentlyPlayingTrackId = track.id
-                        // Add haptic feedback for selection
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        print("Simulating playing: \(track.name)")
-                    },
+                    // isPlaying and onPlayTap are removed, handled internally via manager
                     onArtistTap: onSelectArtist, // Pass callback through
                     onQueueTap: { onAddToQueue(track.name) },
                     onShareTap: { onShareTrack(track) }
                 )
-                Divider().padding(.leading, 40) // Keep divider indented
+                // Pass the environment object implicitly or explicitly if needed: .environmentObject(audioPlayerManager)
+                Divider().padding(.leading, 40)
             }
         }
     }
