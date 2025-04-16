@@ -869,3 +869,21 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Main App Entry Point
+@main
+struct DependencyInjectorApp: App {
+
+    init() { // <-- This initializer runs before the body property
+        print("🚀>>> App Starting - Injecting Dependencies <<<🚀")
+        // Inject all dependencies defined in AppModule when the app starts
+        AppModule.inject() // <<<<<< ENSURE THIS LINE IS HERE AND EXECUTING
+        print("🚀>>> App Initialization Complete <<<🚀")
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            // By the time ContentView() is called, dependencies should be registered
+            ContentView()
+        }
+    }
+}
