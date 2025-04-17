@@ -32,19 +32,19 @@ class SpeechRecognizer: ObservableObject {
     @Published var transcribedText: String = ""
     @Published var error: String? = nil
     @Published var isAvailable: Bool = false // Check if recognition is possible
-
+    
     private var speechRecognizer: SFSpeechRecognizer?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-
+    
     init() {
         // Configure the recognizer (assuming US English for this example)
         speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
         isAvailable = speechRecognizer?.isAvailable ?? false
         speechRecognizer?.delegate = self // Optional: Conform if you need delegate methods
     }
-
+    
     /// Request authorization for speech recognition.
     func requestAuthorization() {
         SFSpeechRecognizer.requestAuthorization { authStatus in
@@ -63,7 +63,7 @@ class SpeechRecognizer: ObservableObject {
             }
         }
     }
-
+    
     /// Start transcribing audio input.
     func startTranscribing() {
         guard isAvailable else {
@@ -71,22 +71,22 @@ class SpeechRecognizer: ObservableObject {
             requestAuthorization() // Prompt again if possible
             return
         }
-
+        
         guard !audioEngine.isRunning else {
             print("Audio engine already running.")
             return
         }
-
+        
         // Clear previous results
         transcribedText = ""
         error = nil
-
+        
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else {
             fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
         }
         recognitionRequest.shouldReportPartialResults = true // Get live results
-
+        
         let inputNode = audioEngine.inputNode
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
             guard let result = result else {
@@ -94,16 +94,16 @@ class SpeechRecognizer: ObservableObject {
                 if let error = error {
                     print("Recognition error: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                       // Only show specific errors, e.g., network issues, not simple cancellations
-                       if (error as NSError).code != 203 { // Ignore "Retry" error on pause
-                           self.error = "Recognition Error: \(error.localizedDescription)"
-                       }
-                       self.stopTranscribing() // Stop if there's a significant error
+                        // Only show specific errors, e.g., network issues, not simple cancellations
+                        if (error as NSError).code != 203 { // Ignore "Retry" error on pause
+                            self.error = "Recognition Error: \(error.localizedDescription)"
+                        }
+                        self.stopTranscribing() // Stop if there's a significant error
                     }
                 }
                 return
             }
-
+            
             // Update transcribed text
             if result.isFinal {
                 DispatchQueue.main.async {
@@ -117,13 +117,13 @@ class SpeechRecognizer: ObservableObject {
                 }
             }
         }
-
+        
         // Configure audio session
         let recordingFormat = inputNode.outputFormat(forBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
             self.recognitionRequest?.append(buffer)
         }
-
+        
         // Prepare and start the audio engine
         do {
             try AVAudioSession.sharedInstance().setCategory(.record, mode: .measurement, options: .duckOthers)
@@ -136,7 +136,7 @@ class SpeechRecognizer: ObservableObject {
             stopTranscribing()
         }
     }
-
+    
     /// Stop transcribing audio input.
     func stopTranscribing() {
         if audioEngine.isRunning {
@@ -150,14 +150,14 @@ class SpeechRecognizer: ObservableObject {
             }
             print("Audio engine stopped.")
         }
-
+        
         recognitionRequest?.endAudio() // Mark end of audio stream
         recognitionRequest = nil
-
+        
         recognitionTask?.cancel() // Cancel the task
         recognitionTask = nil
     }
-
+    
     /// Reset the state (e.g., text, error).
     func reset() {
         stopTranscribing() // Ensure everything is stopped
@@ -234,10 +234,10 @@ extension SpeechRecognizer: SFSpeechRecognizerDelegate {
 // Inside SpeechSynthesizerDelegateWrapper class
 class SpeechSynthesizerDelegateWrapper: NSObject, AVSpeechSynthesizerDelegate {
     var onDidFinishSpeaking: (() -> Void)? // <-- Change 'let' to 'var' if it was let
-
+    
     // Provide a simple initializer if you removed the one taking a closure
     override init() { } // Or ensure it has a default initializer
-
+    
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         onDidFinishSpeaking?()
     }
@@ -248,7 +248,7 @@ class SpeechSynthesizerDelegateWrapper: NSObject, AVSpeechSynthesizerDelegate {
 /// Displays the current session status (Listening, Paused, Processing).
 struct LiveStatusBar: View {
     let sessionState: GeminiSessionState
-
+    
     var body: some View {
         HStack(spacing: 8) {
             if sessionState == .listening {
@@ -270,7 +270,7 @@ struct LiveStatusBar: View {
 /// A simple pulsating microphone icon effect.
 struct PulsatingMicIcon: View {
     @State private var isAnimating = false
-
+    
     var body: some View {
         Image(systemName: "mic.fill")
             .font(.system(size: 18))
@@ -288,13 +288,13 @@ struct PulsatingMicIcon: View {
 /// Displays a single chat message bubble.
 struct ChatMessageRow: View {
     let message: GeminiMessage
-
+    
     var body: some View {
         HStack(spacing: 0) {
             if message.sender == .user {
                 Spacer() // Push user messages to the right
             }
-
+            
             VStack(alignment: message.sender == .user ? .trailing : .leading) {
                 Text(message.content)
                     .padding(12)
@@ -302,13 +302,13 @@ struct ChatMessageRow: View {
                     .background(message.sender == .user ? Color.blue : Color(UIColor.systemGray5))
                     .cornerRadius(16)
                     .frame(maxWidth: 300, alignment: message.sender == .user ? .trailing : .leading)
-
-//                Text(message.sender == .user ? "You" : "Assistant")
-//                    .font(.caption)
-//                    .foregroundColor(.gray)
-//                    .padding(.horizontal, 6)
+                
+                Text(message.sender == .user ? "You" : "Assistant")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 6)
             }
-
+            
             if message.sender == .assistant {
                 Spacer() // Push assistant messages to the left
             }
@@ -320,7 +320,7 @@ struct ChatMessageRow: View {
 
 struct GeminiLiveView: View {
     @Binding var isPresented: Bool // To allow dismissing this view
-
+    
     // MARK: - State Properties
     @StateObject private var speechRecognizer = SpeechRecognizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
@@ -332,51 +332,39 @@ struct GeminiLiveView: View {
     @State private var aiTask: Task<Void, Never>? = nil // Track ongoing AI generation/TTS task
     @Namespace private var bottomID // For scrolling chat view
     
-    // Initialize the delegate object WITHOUT the logic closure here
-       private var speechSynthesizerDelegate = SpeechSynthesizerDelegateWrapper()
     
-    // --- ADD THIS INITIALIZER ---
-       init(isPresented: Binding<Bool>) {
-           self._isPresented = isPresented // Initialize the binding
-           // Other properties like speechRecognizer, speechSynthesizer, etc.,
-           // will use their default initializations defined above.
-           // Make sure the delegate is assigned *after* self is available if needed,
-           // but the lazy var handles this correctly here.
-           // speechSynthesizer.delegate = speechSynthesizerDelegate // This line can stay in onAppear or be moved here if needed immediately.
-       }
-
-
-    // Synthesizer Delegate
-//    var speechSynthesizerDelegate = SpeechSynthesizerDelegateWrapper {
-//        DispatchQueue.main.async {
-//            // When TTS finishes, return to paused state if not interrupted
-////            if sessionState == .processing {
-////                sessionState = .paused
-////            }
-//            print("TTS Finished, state back to paused.")
-//        }
-//    }
-
+    private var speechSynthesizerDelegate = SpeechSynthesizerDelegateWrapper()
+    
+    init(isPresented: Binding<Bool>) {
+        self._isPresented = isPresented // Initialize the binding
+        // Other properties like speechRecognizer, speechSynthesizer, etc.,
+        // will use their default initializations defined above.
+        // Make sure the delegate is assigned *after* self is available if needed,
+        // but the lazy var handles this correctly here.
+        // speechSynthesizer.delegate = speechSynthesizerDelegate // This line can stay in onAppear or be moved here if needed immediately.
+    }
+    
+    
     // MARK: - Main Body (Refactored)
     var body: some View {
         ZStack {
             // Background gradient
             LinearGradient(colors: [Color.black.opacity(0.95), Color.black.opacity(0.85)], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
-
+            
             VStack(spacing: 10) { // Reduced spacing
                 // --- Status Bar ---
                 LiveStatusBar(sessionState: sessionState)
-
+                
                 // --- Chat Area (Extracted) ---
                 chatArea
                     .padding(.top, 5) // Add some space above chat
-
+                
                 // --- Manual Input Area (Extracted) ---
                 manualInputArea
-
+                
                 Spacer(minLength: 0) // Push controls to bottom
-
+                
                 // --- Bottom Controls (Extracted) ---
                 bottomControlsArea
                     .padding(.bottom, 30) // More padding at the very bottom
@@ -389,16 +377,16 @@ struct GeminiLiveView: View {
                 speechSynthesizer.delegate = speechSynthesizerDelegate
                 
                 // NOW create and assign the closure that uses 'self.sessionState'
-                            speechSynthesizerDelegate.onDidFinishSpeaking = {
-                                DispatchQueue.main.async { // Use weak self capture
-                                    //guard let self = self else { return } // Safely unwrap
-                                    // Now you can safely access self.sessionState
-                                    if self.sessionState == .processing {
-                                        self.sessionState = .paused
-                                    }
-                                    print("TTS Finished, state back to paused.")
-                                }
-                            }
+                speechSynthesizerDelegate.onDidFinishSpeaking = {
+                    DispatchQueue.main.async { // Use weak self capture
+                        //guard let self = self else { return } // Safely unwrap
+                        // Now you can safely access self.sessionState
+                        if self.sessionState == .processing {
+                            self.sessionState = .paused
+                        }
+                        print("TTS Finished, state back to paused.")
+                    }
+                }
             }
             .onDisappear {
                 interruptAI() // Stop everything on disappear
@@ -414,9 +402,9 @@ struct GeminiLiveView: View {
         .interactiveDismissDisabled(true) // Prevent swipe down to dismiss
         .preferredColorScheme(.dark) // Force dark mode for this view
     }
-
+    
     // MARK: - @ViewBuilder Subview Functions
-
+    
     /// Displays the chat messages in a scrollable view.
     @ViewBuilder
     private var chatArea: some View {
@@ -426,7 +414,7 @@ struct GeminiLiveView: View {
                     ForEach(chatMessages) { message in
                         ChatMessageRow(message: message)
                     }
-
+                    
                     // Show live partial text during listening
                     if sessionState == .listening && !speechRecognizer.transcribedText.isEmpty {
                         ChatMessageRow(message: GeminiMessage(sender: .user, content: speechRecognizer.transcribedText + "…"))
@@ -446,27 +434,27 @@ struct GeminiLiveView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity) // Allow chat area to grow
     }
-
+    
     /// Provides the text field for manual input and the send button.
     @ViewBuilder
     private var manualInputArea: some View {
         VStack(spacing: 4) {
             // Conditionally display the "Recognizing..." text with a placeholder
             if sessionState == .listening && !speechRecognizer.transcribedText.isEmpty {
-                 Text("Recognizing: \"\(speechRecognizer.transcribedText)\"")
-                     .foregroundColor(.gray)
-                     .font(.footnote)
-                     .padding(.horizontal)
-                     .padding(.bottom, 4)
-                     .transition(.opacity.animation(.easeIn))
-                     .frame(height: 18) // Explicit height for placeholder matching
+                Text("Recognizing: \"\(speechRecognizer.transcribedText)\"")
+                    .foregroundColor(.gray)
+                    .font(.footnote)
+                    .padding(.horizontal)
+                    .padding(.bottom, 4)
+                    .transition(.opacity.animation(.easeIn))
+                    .frame(height: 18) // Explicit height for placeholder matching
             } else {
                 // Placeholder to prevent layout jump
-                 Color.clear
-                     .frame(height: 18)
-                     .padding(.bottom, 4)
+                Color.clear
+                    .frame(height: 18)
+                    .padding(.bottom, 4)
             }
-
+            
             HStack(spacing: 12) {
                 TextField("Type message...", text: $userTextInput)
                     .textFieldStyle(.roundedBorder)
@@ -474,7 +462,7 @@ struct GeminiLiveView: View {
                     .submitLabel(.send)
                     .onSubmit(sendUserMessage) // Send on return key
                     .accessibilityLabel("User input text field")
-
+                
                 Button(action: sendUserMessage) {
                     Image(systemName: "paperplane.fill")
                         .font(.system(size: 22))
@@ -487,7 +475,7 @@ struct GeminiLiveView: View {
         }
         .padding(.horizontal) // Padding for the HStack and VStack
     }
-
+    
     /// Displays the main control buttons: Hold/Resume and Interrupt/End.
     @ViewBuilder
     private var bottomControlsArea: some View {
@@ -502,7 +490,7 @@ struct GeminiLiveView: View {
                 )
             }
             .accessibilityLabel(sessionState == .paused ? "Hold to speak" : "Pause listening")
-
+            
             // Interrupt / End button
             Button(action: handleInterruptOrEnd) {
                 buttonContentView(
@@ -516,7 +504,7 @@ struct GeminiLiveView: View {
         }
         .frame(maxWidth: .infinity)
     }
-
+    
     /// Reusable view for the content of the circular bottom buttons.
     @ViewBuilder
     private func buttonContentView(systemName: String, label: String, foregroundColor: Color, backgroundColor: Color) -> some View {
@@ -535,19 +523,19 @@ struct GeminiLiveView: View {
                 .foregroundColor(foregroundColor.opacity(0.8)) // Slightly dimmer label
         }
     }
-
+    
     // MARK: - Helper Computed Properties
-
+    
     private var isSendButtonEnabled: Bool {
         !userTextInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && sessionState == .paused
     }
-
+    
     private var isInterrupting: Bool {
         sessionState == .processing // Simpler check: Interrupt if processing/speaking
     }
-
+    
     // MARK: - Helper Action Functions
-
+    
     private func toggleListeningState() {
         if sessionState == .paused {
             startListening()
@@ -555,35 +543,35 @@ struct GeminiLiveView: View {
             pauseListeningAndProcess() // Process recognized text on pause
         }
     }
-
+    
     private func handleInterruptOrEnd() {
-         if isInterrupting {
+        if isInterrupting {
             interruptAI()
         } else {
             endSession() // Close the view
         }
     }
-
+    
     // MARK: - Speech Recognition Control
-
+    
     private func startListening() {
         guard speechRecognizer.isAvailable else {
-             speechRecognizer.requestAuthorization()
-             return
+            speechRecognizer.requestAuthorization()
+            return
         }
-         // Clear manual input when starting voice
+        // Clear manual input when starting voice
         userTextInput = ""
         sessionState = .listening
         speechRecognizer.startTranscribing()
     }
-
+    
     private func pauseListeningAndProcess() {
         guard sessionState == .listening else { return }
         speechRecognizer.stopTranscribing() // Stop mic input
-
+        
         let capturedText = speechRecognizer.transcribedText.trimmingCharacters(in: .whitespacesAndNewlines)
         speechRecognizer.transcribedText = "" // Clear partial text view
-
+        
         if !capturedText.isEmpty {
             appendUserMessage(text: capturedText)
             generateAssistantResponse(for: capturedText)
@@ -591,17 +579,17 @@ struct GeminiLiveView: View {
             // If nothing was captured, just return to paused
             sessionState = .paused
         }
-     }
-
-     // Function just to pause listening without processing (e.g., if needed elsewhere)
-     private func pauseListeningOnly() {
-         guard sessionState == .listening else { return }
-         speechRecognizer.stopTranscribing()
-         sessionState = .paused
-     }
-
+    }
+    
+    // Function just to pause listening without processing (e.g., if needed elsewhere)
+    private func pauseListeningOnly() {
+        guard sessionState == .listening else { return }
+        speechRecognizer.stopTranscribing()
+        sessionState = .paused
+    }
+    
     // MARK: - Interrupt AI / End Session
-
+    
     private func interruptAI() {
         aiTask?.cancel() // Cancel the Task
         aiTask = nil
@@ -615,52 +603,52 @@ struct GeminiLiveView: View {
         }
         // If interrupted during listening, just pause
         if sessionState == .listening {
-             pauseListeningOnly()
+            pauseListeningOnly()
         }
     }
-
+    
     private func endSession() {
         print("Ending session.")
         interruptAI() // Ensure everything is stopped
         speechRecognizer.reset()
         isPresented = false // Trigger dismissal
     }
-
+    
     // MARK: - Chat Helpers
-
+    
     private func appendUserMessage(text: String) {
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedText.isEmpty else { return }
         chatMessages.append(GeminiMessage(sender: .user, content: trimmedText))
     }
-
+    
     private func appendAssistantMessage(text: String) {
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedText.isEmpty else { return }
         chatMessages.append(GeminiMessage(sender: .assistant, content: trimmedText))
     }
-
+    
     private func scrollToBottom(proxy: ScrollViewProxy) {
-         DispatchQueue.main.async { // Ensure UI updates happen on main thread
-             withAnimation(.easeOut(duration: 0.3)) {
-                  proxy.scrollTo(bottomID, anchor: .bottom)
-              }
-         }
+        DispatchQueue.main.async { // Ensure UI updates happen on main thread
+            withAnimation(.easeOut(duration: 0.3)) {
+                proxy.scrollTo(bottomID, anchor: .bottom)
+            }
+        }
     }
-
+    
     // MARK: - AI response simulation & TTS
-
+    
     /// Simulates fetching a response from an AI model. Replace with actual API calls.
     private func simulateAIResponse(for query: String) async -> String {
         // Simulate network delay
         try? await Task.sleep(nanoseconds: UInt64.random(in: 500_000_000...1_500_000_000)) // 0.5 to 1.5 seconds
-
+        
         // Check for cancellation after delay, before generating response
         guard !Task.isCancelled else {
-             print("AI Task cancelled during delay.")
-             return "" // Return empty if cancelled
-         }
-
+            print("AI Task cancelled during delay.")
+            return "" // Return empty if cancelled
+        }
+        
         // Basic canned responses (Replace with actual Gemini API call)
         let lowerQuery = query.lowercased()
         if lowerQuery.contains("hello") || lowerQuery.contains("hi") {
@@ -672,19 +660,19 @@ struct GeminiLiveView: View {
             formatter.timeStyle = .medium
             return "The current time is \(formatter.string(from: Date()))."
         } else if lowerQuery.count < 5 {
-             return "Could you please elaborate a bit more?"
+            return "Could you please elaborate a bit more?"
         } else {
             // Generic response
             return "That's an interesting point about '\(query)'. I need more data to give a detailed answer."
         }
     }
-
+    
     /// Gets response from AI and handles TTS.
     private func generateAssistantResponse(for query: String) {
         sessionState = .processing // Mark as thinking
         aiTask = Task {
             let responseText = await simulateAIResponse(for: query)
-
+            
             // Check for cancellation *after* getting the response
             guard !Task.isCancelled else {
                 print("AI Task cancelled before appending/speaking.")
@@ -692,30 +680,30 @@ struct GeminiLiveView: View {
                 if self.sessionState == .processing { self.sessionState = .paused }
                 return
             }
-
+            
             guard !responseText.isEmpty else {
                 // If response is empty (e.g., cancelled during simulation), go back to paused
                 sessionState = .paused
                 return
             }
-
+            
             appendAssistantMessage(text: responseText)
             speakText(responseText)
             // State becomes .paused *after* TTS finishes (handled by delegate)
         }
     }
-
+    
     /// Use AVSpeechSynthesizer to speak the provided text.
     private func speakText(_ text: String) {
         guard !text.isEmpty else {
-             sessionState = .paused // Nothing to speak, return to paused
-             return
-         }
+            sessionState = .paused // Nothing to speak, return to paused
+            return
+        }
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US") // Or choose a specific voice
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate // Adjust rate if needed
         utterance.pitchMultiplier = 1.0 // Adjust pitch if needed
-
+        
         // Ensure audio session is appropriate for playback
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .voicePrompt, options: .duckOthers)
@@ -725,17 +713,17 @@ struct GeminiLiveView: View {
             sessionState = .paused // Go back to paused if we can't setup audio
             return
         }
-
+        
         speechSynthesizer.speak(utterance)
         // State remains .processing while speaking
     }
-
+    
     // MARK: - Manual text send
-
+    
     private func sendUserMessage() {
         let textToSend = userTextInput.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !textToSend.isEmpty else { return }
-
+        
         appendUserMessage(text: textToSend)
         userTextInput = "" // Clear input field
         generateAssistantResponse(for: textToSend)
@@ -758,3 +746,13 @@ struct GeminiLiveView: View {
 //            // .preferredColorScheme(.dark)
 //    }
 //}
+
+
+@main
+struct MyAppApp: App {
+    var body: some Scene {
+        WindowGroup {
+            GeminiLiveView(isPresented: .constant(true))
+        }
+    }
+}
