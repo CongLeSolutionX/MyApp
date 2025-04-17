@@ -20,6 +20,9 @@ struct RetroBackgroundView: View {
             // )
     }
 }
+#Preview("Retro Background View") {
+    RetroBackgroundView()
+}
 
 // MARK: - SwiftUI <-> UIKit Bridge
 struct MetalViewRepresentable: UIViewRepresentable {
