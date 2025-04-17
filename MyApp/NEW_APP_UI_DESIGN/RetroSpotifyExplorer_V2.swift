@@ -310,13 +310,14 @@ struct SpotifyEmbedWebView: UIViewRepresentable { /* ... */
              guard isApiReady else { /* ... */ return }
              guard lastLoadedUri == nil else { // Only init once
                  // If the desired URI changed before ready, load it now
-                 if let latestDesired = desiredUriBeforeReady ?? parent.spotifyUri, latestDesired != lastLoadedUri {
-                      print("🔄 Spotify Embed Native: API ready, loading changed URI: \(latestDesired)")
-                     loadUri(latestDesired)
-                     desiredUriBeforeReady = nil // Clear after use
-                 } else {
-                      print("ℹ️ Spotify Embed Native: Controller already initialized or attempt pending.")
-                 }
+//                 if let latestDesired = desiredUriBeforeReady ?? parent.spotifyUri, latestDesired != lastLoadedUri {
+//                      print("🔄 Spotify Embed Native: API ready, loading changed URI: \(latestDesired)")
+//                     loadUri(latestDesired)
+//                     desiredUriBeforeReady = nil // Clear after use
+//                 } else {
+//                      print("ℹ️ Spotify Embed Native: Controller already initialized or attempt pending.")
+//                 }
+                 print("ℹ️ Spotify Embed Native: Controller already initialized or attempt pending.")
                  return
              }
              print("🚀 Spotify Embed Native: Attempting to create controller for URI: \(initialUri)")
@@ -734,25 +735,30 @@ struct ErrorPlaceholderView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
 
-            if error != .invalidToken, let retryAction = retryAction {
-                Button("RETRY", action: retryAction) // Uppercase retro style
-                    .font(retroFont(size: 16, weight: .bold))
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 10)
-                     .background(LinearGradient(colors: [retroNeonPink, .orange], startPoint: .leading, endPoint: .trailing))
-                     .foregroundColor(retroDeepPurple)
-                     .clipShape(Capsule())
-                     .neonGlow(.orange, radius: 10)
-                     .padding(.top, 15)
-            } else if error == .invalidToken {
-                 Text("Check API Token in Code")
-                     .font(retroFont(size: 12))
-                     .foregroundColor(retroNeonPink.opacity(0.8))
-                     .padding(.top, 10)
-            }
+            Text("Check API Token in Code")
+                .font(retroFont(size: 12))
+                .foregroundColor(retroNeonPink.opacity(0.8))
+                .padding(.top, 10)
+            
+//            if error != .invalidToken, let retryAction = retryAction {
+//                Button("RETRY", action: retryAction) // Uppercase retro style
+//                    .font(retroFont(size: 16, weight: .bold))
+//                    .padding(.horizontal, 30)
+//                    .padding(.vertical, 10)
+//                     .background(LinearGradient(colors: [retroNeonPink, .orange], startPoint: .leading, endPoint: .trailing))
+//                     .foregroundColor(retroDeepPurple)
+//                     .clipShape(Capsule())
+//                     .neonGlow(.orange, radius: 10)
+//                     .padding(.top, 15)
+//            } else if error == .invalidToken {
+//                 Text("Check API Token in Code")
+//                     .font(retroFont(size: 12))
+//                     .foregroundColor(retroNeonPink.opacity(0.8))
+//                     .padding(.top, 10)
+//            }
         }
         .padding(30)
-         .background(.black.opacity(0.4).blur(radius: 10)) // Optional blurred background
+       //  .background(.black.opacity(0.4).blur(radius: 10)) // Optional blurred background
          .cornerRadius(20)
          .padding(20) // Padding around the whole error view
     }
@@ -883,7 +889,7 @@ struct AlbumDetailView: View {
 
                  // --- External Link Section (Themed) ---
                  if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
-                      Section { ExternalLinkButton(text: "OPEN IN SPOTIFY", url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
+                      Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
                           .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                           .listRowSeparator(.hidden)
                           .listRowBackground(Color.clear)
@@ -926,7 +932,7 @@ struct AlbumHeaderView: View {
     var body: some View {
         VStack(spacing: 15) {
             AlbumImageView(url: album.bestImageURL)
-                .aspectRatio(1.0, contentMode: fit) // Keep square
+              //  .aspectRatio(1.0, contentMode: fit) // Keep square
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
                 .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
@@ -1020,49 +1026,53 @@ struct TracksSectionView: View {
     let error: SpotifyAPIError?
     @Binding var selectedTrackUri: String?
     let retryAction: () -> Void
-
+   
     var body: some View {
-        Group { // Use Group to apply padding once if needed
-            if isLoading {
-                 HStack {
-                    Spacer()
-                     ProgressView().tint(retroNeonCyan)
-                     Text("Loading Tracks...")
-                        .font(retroFont(size: 14))
-                        .foregroundColor(retroNeonCyan)
-                        .padding(.leading, 8)
-                    Spacer()
-                }
-                .padding(.vertical, 25)
-            } else if let error = error {
-                ErrorPlaceholderView(error: error, retryAction: retryAction)
-                     .padding(.vertical, 25) // Add padding around error view
-            } else if tracks.isEmpty {
-                Text("Track Information Unavailable")
-                    .font(retroFont(size: 14))
-                    .foregroundColor(.white.opacity(0.6))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 25)
-            } else {
-                // Track rows directly in the section
-                 ForEach(tracks) { track in
-                     TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
-                         .contentShape(Rectangle())
-                         .onTapGesture {
-                             selectedTrackUri = track.uri
-                         }
-                         // Themed selection background
-                          .listRowBackground(
-                             track.uri == selectedTrackUri
-                              ? LinearGradient(colors: [retroNeonCyan.opacity(0.2), retroNeonPink.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
-                                 .blur(radius: 5) // Soft blurred background highlight
-                              : Color.clear
-                          )
-                }
-            }
-        }
-         // Apply common modifiers to the Group if needed, e.g., .padding(.horizontal)
+        EmptyView()
     }
+
+//    var body: some View {
+//        Group { // Use Group to apply padding once if needed
+//            if isLoading {
+//                 HStack {
+//                    Spacer()
+//                     ProgressView().tint(retroNeonCyan)
+//                     Text("Loading Tracks...")
+//                        .font(retroFont(size: 14))
+//                        .foregroundColor(retroNeonCyan)
+//                        .padding(.leading, 8)
+//                    Spacer()
+//                }
+//                .padding(.vertical, 25)
+//            } else if let error = error {
+//                ErrorPlaceholderView(error: error, retryAction: retryAction)
+//                     .padding(.vertical, 25) // Add padding around error view
+//            } else if tracks.isEmpty {
+//                Text("Track Information Unavailable")
+//                    .font(retroFont(size: 14))
+//                    .foregroundColor(.white.opacity(0.6))
+//                    .frame(maxWidth: .infinity, alignment: .center)
+//                    .padding(.vertical, 25)
+//            } else {
+//                // Track rows directly in the section
+//                 ForEach(tracks) { track in
+//                     TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
+//                         .contentShape(Rectangle())
+//                         .onTapGesture {
+//                             selectedTrackUri = track.uri
+//                         }
+//                         // Themed selection background
+//                          .listRowBackground(
+//                             track.uri == selectedTrackUri
+//                              ? LinearGradient(colors: [retroNeonCyan.opacity(0.2), retroNeonPink.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
+//                                 .blur(radius: 5) // Soft blurred background highlight
+//                              : Color.clear
+//                          )
+//                }
+//            }
+//        }
+//         // Apply common modifiers to the Group if needed, e.g., .padding(.horizontal)
+//    }
 }
 
 struct TrackRowView: View {
