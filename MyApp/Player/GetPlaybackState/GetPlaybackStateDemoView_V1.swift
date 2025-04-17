@@ -57,7 +57,7 @@
 //    let toggling_repeat_context: Bool
 //    let toggling_repeat_track: Bool
 //}
-//
+
 //// Sample data for the preview
 //let sampleArtist = SpotifyArtist(name: "Example Artist")
 //let sampleAlbum = SpotifyAlbum(
