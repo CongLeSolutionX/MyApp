@@ -343,6 +343,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app need your permission to access microphone for the next task";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app need your permision to access microphone for the next task";
@@ -386,6 +387,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app need your permission to access microphone for the next task";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app need your permision to access microphone for the next task";

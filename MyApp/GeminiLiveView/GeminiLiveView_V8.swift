@@ -233,7 +233,7 @@ extension SpeechRecognizer: SFSpeechRecognizerDelegate {
 /// Wraps AVSpeechSynthesizerDelegate to use closures.
 // Inside SpeechSynthesizerDelegateWrapper class
 class SpeechSynthesizerDelegateWrapper: NSObject, AVSpeechSynthesizerDelegate {
-    var onDidFinishSpeaking: (() -> Void)? // <-- Change 'let' to 'var' if it was let
+    var onDidFinishSpeaking: (() -> Void)?
     
     // Provide a simple initializer if you removed the one taking a closure
     override init() { } // Or ensure it has a default initializer
@@ -486,7 +486,7 @@ struct GeminiLiveView: View {
                     systemName: sessionState == .paused ? "mic.fill" : "pause.fill", // Mic when paused
                     label: sessionState == .paused ? "Hold to Speak" : "Pause",
                     foregroundColor: sessionState == .paused ? .white : .white, // Consistent white
-                    backgroundColor: sessionState == .paused ? Color.blue            : Color.gray.opacity(0.6) // Blue when ready
+                    backgroundColor: sessionState == .paused ? Color.blue : Color.gray.opacity(0.6) // Blue when ready
                 )
             }
             .accessibilityLabel(sessionState == .paused ? "Hold to speak" : "Pause listening")
