@@ -5,9 +5,9 @@
 ////  Created by Cong Le on 4/16/25.
 ////
 //
-//import SwiftUI
+import SwiftUI
 //@preconcurrency import WebKit // Needed for WebView
-//import Foundation
+import Foundation
 //
 //// MARK: - Theme Constants & Modifiers
 //
@@ -44,123 +44,123 @@
 //    }
 //}
 //
-//// MARK: - Data Models (Unchanged from previous versions)
-//
-//struct SpotifySearchResponse: Codable, Hashable { /* ... */
-//    let albums: Albums
-//}
-//struct Albums: Codable, Hashable { /* ... */
-//    let href: String
-//    let limit: Int
-//    let next: String?
-//    let offset: Int
-//    let previous: String?
-//    let total: Int
-//    let items: [AlbumItem]
-//}
-//struct AlbumItem: Codable, Identifiable, Hashable { /* ... */
-//    let id: String
-//    let album_type: String
-//    let total_tracks: Int
-//    let available_markets: [String]?
-//    let external_urls: ExternalUrls
-//    let href: String
-//    let images: [SpotifyImage]
-//    let name: String
-//    let release_date: String
-//    let release_date_precision: String
-//    let type: String // "album"
-//    let uri: String
-//    let artists: [Artist]
-//
-//    // --- Helper computed properties ---
-//    var bestImageURL: URL? {
-//        images.first { $0.width == 640 }?.urlObject ??
-//        images.first { $0.width == 300 }?.urlObject ??
-//        images.first?.urlObject
-//    }
-//    var listImageURL: URL? {
-//        images.first { $0.width == 300 }?.urlObject ??
-//        images.first { $0.width == 64 }?.urlObject ??
-//        images.first?.urlObject
-//    }
-//    var formattedArtists: String {
-//        artists.map { $0.name }.joined(separator: ", ")
-//    }
-//    func formattedReleaseDate() -> String {
-//        let dateFormatter = DateFormatter()
-//        switch release_date_precision {
-//        case "year":
-//            dateFormatter.dateFormat = "yyyy"
-//            if let date = dateFormatter.date(from: release_date) {
-//                return dateFormatter.string(from: date)
-//            }
-//        case "month":
-//            dateFormatter.dateFormat = "yyyy-MM"
-//            if let date = dateFormatter.date(from: release_date) {
-//                dateFormatter.dateFormat = "MMM yyyy" // e.g., Aug 1959
-//                return dateFormatter.string(from: date)
-//            }
-//        case "day":
-//            dateFormatter.dateFormat = "yyyy-MM-dd"
-//            if let date = dateFormatter.date(from: release_date) {
-//                 // Use shortened month for a slightly more retro feel maybe?
-//                 dateFormatter.dateFormat = "d MMM yyyy" // e.g., 17 Aug 1959
-//                return dateFormatter.string(from: date)
-//                // Or keep using system long format:
-//                // return date.formatted(date: .long, time: .omitted)
-//            }
-//        default: break
-//        }
-//        return release_date // Fallback
-//    }
-//}
-//struct Artist: Codable, Identifiable, Hashable { /* ... */
-//    let id: String
-//    let external_urls: ExternalUrls? // Make optional if sometimes missing
-//    let href: String
-//    let name: String
-//    let type: String // "artist"
-//    let uri: String
-//}
-//struct SpotifyImage: Codable, Hashable { /* ... */
-//    let height: Int?
-//    let url: String
-//    let width: Int?
-//    var urlObject: URL? { URL(string: url) }
-//}
-//struct ExternalUrls: Codable, Hashable { /* ... */
-//    let spotify: String? // Make optional if sometimes missing
-//}
-//struct AlbumTracksResponse: Codable, Hashable { /* ... */
-//    let items: [Track]
-//    // Add other fields like href, limit, next, offset, previous, total if needed
-//}
-//struct Track: Codable, Identifiable, Hashable { /* ... */
-//    let id: String
-//    let artists: [Artist]
-//    let disc_number: Int
-//    let duration_ms: Int
-//    let explicit: Bool
-//    let external_urls: ExternalUrls?
-//    let href: String
-//    let name: String
-//    let preview_url: String?
-//    let track_number: Int
-//    let type: String // "track"
-//    let uri: String
-//
-//    var formattedDuration: String {
-//        let totalSeconds = duration_ms / 1000
-//        let minutes = totalSeconds / 60
-//        let seconds = totalSeconds % 60
-//        return String(format: "%d:%02d", minutes, seconds)
-//    }
-//    var formattedArtists: String {
-//        artists.map { $0.name }.joined(separator: ", ")
-//    }
-//}
-//
+// MARK: - Data Models (Unchanged from previous versions)
+
+struct SpotifySearchResponse: Codable, Hashable { /* ... */
+    let albums: Albums
+}
+struct Albums: Codable, Hashable { /* ... */
+    let href: String
+    let limit: Int
+    let next: String?
+    let offset: Int
+    let previous: String?
+    let total: Int
+    let items: [AlbumItem]
+}
+struct AlbumItem: Codable, Identifiable, Hashable { /* ... */
+    let id: String
+    let album_type: String
+    let total_tracks: Int
+    let available_markets: [String]?
+    let external_urls: ExternalUrls
+    let href: String
+    let images: [SpotifyImage]
+    let name: String
+    let release_date: String
+    let release_date_precision: String
+    let type: String // "album"
+    let uri: String
+    let artists: [Artist]
+
+    // --- Helper computed properties ---
+    var bestImageURL: URL? {
+        images.first { $0.width == 640 }?.urlObject ??
+        images.first { $0.width == 300 }?.urlObject ??
+        images.first?.urlObject
+    }
+    var listImageURL: URL? {
+        images.first { $0.width == 300 }?.urlObject ??
+        images.first { $0.width == 64 }?.urlObject ??
+        images.first?.urlObject
+    }
+    var formattedArtists: String {
+        artists.map { $0.name }.joined(separator: ", ")
+    }
+    func formattedReleaseDate() -> String {
+        let dateFormatter = DateFormatter()
+        switch release_date_precision {
+        case "year":
+            dateFormatter.dateFormat = "yyyy"
+            if let date = dateFormatter.date(from: release_date) {
+                return dateFormatter.string(from: date)
+            }
+        case "month":
+            dateFormatter.dateFormat = "yyyy-MM"
+            if let date = dateFormatter.date(from: release_date) {
+                dateFormatter.dateFormat = "MMM yyyy" // e.g., Aug 1959
+                return dateFormatter.string(from: date)
+            }
+        case "day":
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            if let date = dateFormatter.date(from: release_date) {
+                 // Use shortened month for a slightly more retro feel maybe?
+                 dateFormatter.dateFormat = "d MMM yyyy" // e.g., 17 Aug 1959
+                return dateFormatter.string(from: date)
+                // Or keep using system long format:
+                // return date.formatted(date: .long, time: .omitted)
+            }
+        default: break
+        }
+        return release_date // Fallback
+    }
+}
+struct Artist: Codable, Identifiable, Hashable { /* ... */
+    let id: String
+    let external_urls: ExternalUrls? // Make optional if sometimes missing
+    let href: String
+    let name: String
+    let type: String // "artist"
+    let uri: String
+}
+struct SpotifyImage: Codable, Hashable { /* ... */
+    let height: Int?
+    let url: String
+    let width: Int?
+    var urlObject: URL? { URL(string: url) }
+}
+struct ExternalUrls: Codable, Hashable { /* ... */
+    let spotify: String? // Make optional if sometimes missing
+}
+struct AlbumTracksResponse: Codable, Hashable { /* ... */
+    let items: [Track]
+    // Add other fields like href, limit, next, offset, previous, total if needed
+}
+struct Track: Codable, Identifiable, Hashable { /* ... */
+    let id: String
+    let artists: [Artist]
+    let disc_number: Int
+    let duration_ms: Int
+    let explicit: Bool
+    let external_urls: ExternalUrls?
+    let href: String
+    let name: String
+    let preview_url: String?
+    let track_number: Int
+    let type: String // "track"
+    let uri: String
+
+    var formattedDuration: String {
+        let totalSeconds = duration_ms / 1000
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+    var formattedArtists: String {
+        artists.map { $0.name }.joined(separator: ", ")
+    }
+}
+
 //// MARK: - Spotify Embed WebView (Unchanged, kept from previous versions)
 //
 //final class SpotifyPlaybackState: ObservableObject { /* ... */

@@ -188,8 +188,9 @@
 //    static let synthNeonCyan = Color(hex: "#00FFFF")    // Bright Cyan
 //    static let synthLightPink = Color(hex: "#FF8AC3")   // Lighter pink for secondary text
 //    static let synthSubtleCyan = Color(hex: "#7FFFD4")   // Softer cyan for accents/progress
+//    static let gold = Color(hex: "#CBA328")
 //}
-//
+////
 //// Helper to initialize Color from hex string
 //extension Color {
 //    init(hex: String) {
@@ -217,7 +218,7 @@
 //        )
 //    }
 //}
-//
+
 //// MARK: - SwiftUI Views
 //
 //// MARK: - List View using Cards
