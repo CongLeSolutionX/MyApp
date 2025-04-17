@@ -169,55 +169,55 @@ class SpeechRecognizer: ObservableObject {
 // Extension for SpeechRecognizer Delegate (Optional)
 extension SpeechRecognizer: SFSpeechRecognizerDelegate {
     func isEqual(_ object: Any?) -> Bool {
-        <#code#>
+        return true
     }
     
     var hash: Int {
-        <#code#>
+        return 0
     }
     
     var superclass: AnyClass? {
-        <#code#>
+        return nil
     }
     
     func `self`() -> Self {
-        <#code#>
+        return self
     }
     
     func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>! {
-        <#code#>
+        return Unmanaged.passUnretained(self)
     }
     
     func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>! {
-        <#code#>
+        return Unmanaged.passUnretained(self)
     }
     
     func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>! {
-        <#code#>
+        return Unmanaged.passUnretained(self)
     }
     
     func isProxy() -> Bool {
-        <#code#>
+        return true
     }
     
     func isKind(of aClass: AnyClass) -> Bool {
-        <#code#>
+        return true
     }
     
     func isMember(of aClass: AnyClass) -> Bool {
-        <#code#>
+        return true
     }
     
     func conforms(to aProtocol: Protocol) -> Bool {
-        <#code#>
+        return true
     }
     
     func responds(to aSelector: Selector!) -> Bool {
-        <#code#>
+        return true
     }
     
     var description: String {
-        <#code#>
+        return ""
     }
     
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
@@ -334,6 +334,16 @@ struct GeminiLiveView: View {
     
     // Initialize the delegate object WITHOUT the logic closure here
        private var speechSynthesizerDelegate = SpeechSynthesizerDelegateWrapper()
+    
+    // --- ADD THIS INITIALIZER ---
+       init(isPresented: Binding<Bool>) {
+           self._isPresented = isPresented // Initialize the binding
+           // Other properties like speechRecognizer, speechSynthesizer, etc.,
+           // will use their default initializations defined above.
+           // Make sure the delegate is assigned *after* self is available if needed,
+           // but the lazy var handles this correctly here.
+           // speechSynthesizer.delegate = speechSynthesizerDelegate // This line can stay in onAppear or be moved here if needed immediately.
+       }
 
 
     // Synthesizer Delegate
@@ -731,17 +741,20 @@ struct GeminiLiveView: View {
         generateAssistantResponse(for: textToSend)
     }
 }
-
-// MARK: - Preview
-struct GeminiLiveView_Previews: PreviewProvider {
-    // Dummy binding for preview
-    @State static var isPresented = true
-
-    static var previews: some View {
-        // You can embed this in a simple container for preview if needed,
-        // but direct preview should also work.
-        GeminiLiveView(isPresented: $isPresented)
-            // Dark mode is applied inside the view itself now
-            // .preferredColorScheme(.dark)
-    }
+#Preview(){
+    GeminiLiveView(isPresented: .constant(true))
 }
+//
+//// MARK: - Preview
+//struct GeminiLiveView_Previews: PreviewProvider {
+//    // Dummy binding for preview
+//    @State static var isPresented = true
+//
+//    static var previews: some View {
+//        // You can embed this in a simple container for preview if needed,
+//        // but direct preview should also work.
+//        GeminiLiveView(isPresented: $isPresented)
+//            // Dark mode is applied inside the view itself now
+//            // .preferredColorScheme(.dark)
+//    }
+//}
