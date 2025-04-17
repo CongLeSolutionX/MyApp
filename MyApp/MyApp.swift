@@ -5,14 +5,14 @@
 //  Created by Cong Le on 8/19/24.
 //
 
-import SwiftUI
-
-// Step 3: Embed in main app structure
-@main
-struct MyAppApp: App {
-    var body: some Scene {
-        WindowGroup {
-            SpeechRecognizerView_ContentView()
-        }
-    }
-}
+//import SwiftUI
+//
+//// Step 3: Embed in main app structure
+//@main
+//struct MyAppApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            SpeechRecognizerView_ContentView()
+//        }
+//    }
+//}

@@ -13,6 +13,7 @@
 		9A61B3772DB1146B00F7D724 /* GeminiLiveView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61B3762DB1146A00F7D724 /* GeminiLiveView_V4.swift */; };
 		9A61B3792DB1150A00F7D724 /* GeminiLiveView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61B3782DB1150800F7D724 /* GeminiLiveView_V5.swift */; };
 		9A61B37B2DB116AD00F7D724 /* GeminiLiveView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61B37A2DB116AB00F7D724 /* GeminiLiveView_V6.swift */; };
+		9A61B37D2DB118DC00F7D724 /* GeminiLiveView_V7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61B37C2DB118DA00F7D724 /* GeminiLiveView_V7.swift */; };
 		9AA115512CB60F0D002D468C /* SpeechRecognizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA115502CB60F0D002D468C /* SpeechRecognizerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -28,6 +29,7 @@
 		9A61B3762DB1146A00F7D724 /* GeminiLiveView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V4.swift; sourceTree = "<group>"; };
 		9A61B3782DB1150800F7D724 /* GeminiLiveView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V5.swift; sourceTree = "<group>"; };
 		9A61B37A2DB116AB00F7D724 /* GeminiLiveView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V6.swift; sourceTree = "<group>"; };
+		9A61B37C2DB118DA00F7D724 /* GeminiLiveView_V7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V7.swift; sourceTree = "<group>"; };
 		9AA115502CB60F0D002D468C /* SpeechRecognizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 				9A61B3762DB1146A00F7D724 /* GeminiLiveView_V4.swift */,
 				9A61B3782DB1150800F7D724 /* GeminiLiveView_V5.swift */,
 				9A61B37A2DB116AB00F7D724 /* GeminiLiveView_V6.swift */,
+				9A61B37C2DB118DA00F7D724 /* GeminiLiveView_V7.swift */,
 			);
 			path = GeminiLiveView;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				9A61B3752DB1136F00F7D724 /* GeminiLiveView_V3.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A61B37D2DB118DC00F7D724 /* GeminiLiveView_V7.swift in Sources */,
 				9A61B3792DB1150A00F7D724 /* GeminiLiveView_V5.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A61B37B2DB116AD00F7D724 /* GeminiLiveView_V6.swift in Sources */,
