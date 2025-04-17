@@ -283,7 +283,9 @@ struct SpotifyPlayerView: View {
         .padding()
         // .background(BackgroundBlurView()) // Optional: Add a blur background
         .onAppear(perform: setupInitialState)
-        .onChange(of: isPlaying, perform: handlePlaybackChange)
+        .onChange(of: isPlaying) {
+            handlePlaybackChange(newValue: isPlaying)
+        }
     }
 
     // --- Helper Functions ---
