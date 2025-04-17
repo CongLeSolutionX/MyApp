@@ -14,7 +14,9 @@
 		9A97237E2DB1C15B003D5966 /* RetroGridBackgroundView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97237D2DB1C159003D5966 /* RetroGridBackgroundView_V2.swift */; };
 		9A9723802DB1C168003D5966 /* default_V2.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A97237F2DB1C167003D5966 /* default_V2.metal */; };
 		9A9723832DB1C358003D5966 /* RetroGridBackgroundView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723822DB1C356003D5966 /* RetroGridBackgroundView_V3.swift */; };
-		9A9723852DB1C362003D5966 /* default.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723842DB1C35F003D5966 /* default.metal */; };
+		9A9723852DB1C362003D5966 /* default_V3.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723842DB1C35F003D5966 /* default_V3.metal */; };
+		9A9723872DB1C754003D5966 /* RetroGridBackgroundView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723862DB1C752003D5966 /* RetroGridBackgroundView_V4.swift */; };
+		9A97238A2DB1C768003D5966 /* default.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723892DB1C763003D5966 /* default.metal */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -30,7 +32,9 @@
 		9A97237D2DB1C159003D5966 /* RetroGridBackgroundView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroGridBackgroundView_V2.swift; sourceTree = "<group>"; };
 		9A97237F2DB1C167003D5966 /* default_V2.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = default_V2.metal; sourceTree = "<group>"; };
 		9A9723822DB1C356003D5966 /* RetroGridBackgroundView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroGridBackgroundView_V3.swift; sourceTree = "<group>"; };
-		9A9723842DB1C35F003D5966 /* default.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = default.metal; sourceTree = "<group>"; };
+		9A9723842DB1C35F003D5966 /* default_V3.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = default_V3.metal; sourceTree = "<group>"; };
+		9A9723862DB1C752003D5966 /* RetroGridBackgroundView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroGridBackgroundView_V4.swift; sourceTree = "<group>"; };
+		9A9723892DB1C763003D5966 /* default.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = default.metal; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,10 +85,19 @@
 		9A9723812DB1C34E003D5966 /* RetroGridBackgroundView_V3 */ = {
 			isa = PBXGroup;
 			children = (
-				9A9723842DB1C35F003D5966 /* default.metal */,
+				9A9723842DB1C35F003D5966 /* default_V3.metal */,
 				9A9723822DB1C356003D5966 /* RetroGridBackgroundView_V3.swift */,
 			);
 			path = RetroGridBackgroundView_V3;
+			sourceTree = "<group>";
+		};
+		9A9723882DB1C757003D5966 /* RetroGridBackgroundView_V4 */ = {
+			isa = PBXGroup;
+			children = (
+				9A9723892DB1C763003D5966 /* default.metal */,
+				9A9723862DB1C752003D5966 /* RetroGridBackgroundView_V4.swift */,
+			);
+			path = RetroGridBackgroundView_V4;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -109,6 +122,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A9723882DB1C757003D5966 /* RetroGridBackgroundView_V4 */,
 				9A9723812DB1C34E003D5966 /* RetroGridBackgroundView_V3 */,
 				9A97237C2DB1C152003D5966 /* RetroGridBackgroundView_V2 */,
 				9A9723772DB1BC49003D5966 /* RetroGridBackgroundView_V1 */,
@@ -199,11 +213,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A9723792DB1BC54003D5966 /* RetroGridBackgroundView_V1.swift in Sources */,
+				9A97238A2DB1C768003D5966 /* default.metal in Sources */,
 				9A9723752DB1BBE7003D5966 /* gridFragmentShader.metal in Sources */,
 				9A9723802DB1C168003D5966 /* default_V2.metal in Sources */,
-				9A9723852DB1C362003D5966 /* default.metal in Sources */,
+				9A9723852DB1C362003D5966 /* default_V3.metal in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9723832DB1C358003D5966 /* RetroGridBackgroundView_V3.swift in Sources */,
+				9A9723872DB1C754003D5966 /* RetroGridBackgroundView_V4.swift in Sources */,
 				9A97237B2DB1BC92003D5966 /* default_V1.metal in Sources */,
 				9A9723732DB1BB46003D5966 /* RetroGridBackgroundView_V0.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
