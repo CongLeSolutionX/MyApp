@@ -88,6 +88,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView.swift */; };
 		9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */; };
 		9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */; };
 		9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */; };
@@ -180,6 +181,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView.swift; sourceTree = "<group>"; };
 		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 		9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V1.swift; sourceTree = "<group>"; };
 		9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V2.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */,
+				9AF356052DB0CD2B006D2E67 /* PsychedelicCardView.swift */,
 				9A5F07542DB0C6F900DC089D /* SynthwaveView_V1.swift */,
 			);
 			path = NEW_APP_UI_DESIGN;
@@ -557,6 +560,7 @@
 			files = (
 				9A5F074C2DB0B6A400DC089D /* FriendListeningManager_V4.swift in Sources */,
 				9AA1A5272DA57187000178B3 /* AVPlayerItemDocumentationView.swift in Sources */,
+				9AF356062DB0CD2E006D2E67 /* PsychedelicCardView.swift in Sources */,
 				9A8D5D662DAFF7280078B786 /* AlbumDetailView_V4.swift in Sources */,
 				9AA1A55C2DA609B5000178B3 /* KeychainStoredTokens.swift in Sources */,
 				9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */,
@@ -786,7 +790,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -826,7 +830,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
