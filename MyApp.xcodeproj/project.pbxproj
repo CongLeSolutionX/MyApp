@@ -91,6 +91,8 @@
 		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */; };
 		9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */; };
 		9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */; };
+		9AF3560C2DB0D788006D2E67 /* RetroSpotifyExplorer_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3560B2DB0D782006D2E67 /* RetroSpotifyExplorer_V1.swift */; };
+		9AF3560E2DB0D8F2006D2E67 /* RetroSpotifyExplorer_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3560D2DB0D8F0006D2E67 /* RetroSpotifyExplorer_V2.swift */; };
 		9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */; };
 		9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */; };
 		9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */; };
@@ -186,6 +188,8 @@
 		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V1.swift; sourceTree = "<group>"; };
 		9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V2.swift; sourceTree = "<group>"; };
 		9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroFuturisticMusicPlayerView.swift; sourceTree = "<group>"; };
+		9AF3560B2DB0D782006D2E67 /* RetroSpotifyExplorer_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V1.swift; sourceTree = "<group>"; };
+		9AF3560D2DB0D8F0006D2E67 /* RetroSpotifyExplorer_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V2.swift; sourceTree = "<group>"; };
 		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 		9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V1.swift; sourceTree = "<group>"; };
 		9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V2.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
+				9AF3560D2DB0D8F0006D2E67 /* RetroSpotifyExplorer_V2.swift */,
+				9AF3560B2DB0D782006D2E67 /* RetroSpotifyExplorer_V1.swift */,
 				9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */,
 				9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */,
 				9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */,
@@ -602,6 +608,7 @@
 				9AA1A5372DA5969C000178B3 /* AdvertisementView.swift in Sources */,
 				9A999C632DB0924E00E8E226 /* GetPlaybackStateDemoView_V2.swift in Sources */,
 				9A5AAED92D94C515006A955A /* TheComprehensiveStep.swift in Sources */,
+				9AF3560E2DB0D8F2006D2E67 /* RetroSpotifyExplorer_V2.swift in Sources */,
 				9A8D5D612DAFF2F50078B786 /* AlbumDetailView_V3.swift in Sources */,
 				9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */,
 				9A999C572DB068E500E8E226 /* SearchForItemAPIDocDemoView_V3.swift in Sources */,
@@ -613,6 +620,7 @@
 				9AA1A55A2DA5B09E000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V3.swift in Sources */,
 				9A999C382DB0590800E8E226 /* AppEntryPoint.swift in Sources */,
 				9A8D5D562DAF69AD0078B786 /* AuthenticationFlowView_V3 - TBD.swift in Sources */,
+				9AF3560C2DB0D788006D2E67 /* RetroSpotifyExplorer_V1.swift in Sources */,
 				9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */,
 				9A5AAE772D93BD49006A955A /* SpotifyMusicAPI.swift in Sources */,
 				9AA1A5822DA69684000178B3 /* ComprehensiveView_V3.swift in Sources */,

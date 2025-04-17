@@ -82,7 +82,7 @@
 //        return release_date
 //    }
 //}
-
+//
 //// MARK: - Artist - Unchanged
 //struct Artist: Codable, Identifiable, Hashable {
 //    let id: String
@@ -101,7 +101,7 @@
 //
 //    var urlObject: URL? { URL(string: url) }
 //}
-
+//
 //// MARK: - External URLs
 //struct ExternalUrls: Codable, Hashable {
 //    let spotify: String? // Make optional if sometimes missing
@@ -536,7 +536,7 @@
 //
 //// MARK: - API Service Helper (Unchanged)
 //// ... (SpotifyAPIError, SpotifyAPIService including placeholder token warning, makeRequest, searchAlbums, getAlbumTracks) ...
-//let placeholderSpotifyToken = "BQC3Hv-5ccCuhexiRRruxtO79MQ4eP7jS7Ep1w0dhDFmMdXfCZ-FCOTZM6D1khnObW07TwNpdJqNv0pcpM8-gfxjgMnRMWf2kPjsms04y40W8o1Oy2cphjLwHihbS4c4yoIhrZS8AaX1jJIDBtzTUWTK_Dximn7RQyjILTqoKjbxzGT0TAzxVjzF6Q4Sxu1r174UdN8phIonAeEwr4He32P-vlPyHjtIsZc3dt0bpZ8QfZ7kmpD1Gfi0uuR51CsNWoBjQt3YqfHGWVnbmCXQDsBPdPoVWNUObuK6j9oeEE-RBNEyTEGyGqwV7Y8IGvCC"
+//let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE"
 //
 //enum SpotifyAPIError: Error, LocalizedError {
 //    case invalidURL
