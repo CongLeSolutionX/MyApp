@@ -36,7 +36,8 @@
 		9A999C592DB06ABC00E8E226 /* SearchForItemAPIDocDemoView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C582DB06ABA00E8E226 /* SearchForItemAPIDocDemoView_V4.swift */; };
 		9A999C5B2DB06F1300E8E226 /* SearchForItemAPIDocDemoView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C5A2DB06F1100E8E226 /* SearchForItemAPIDocDemoView_V5.swift */; };
 		9A999C5D2DB0732800E8E226 /* SearchForItemAPIDocDemoView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C5C2DB0732500E8E226 /* SearchForItemAPIDocDemoView_V6.swift */; };
-		9A999C612DB0911F00E8E226 /* GetPlaybackStateDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView.swift */; };
+		9A999C612DB0911F00E8E226 /* GetPlaybackStateDemoView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView_V1.swift */; };
+		9A999C632DB0924E00E8E226 /* GetPlaybackStateDemoView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C622DB0924C00E8E226 /* GetPlaybackStateDemoView_V2.swift */; };
 		9AA1A5132DA4FFC9000178B3 /* AuthenticationFlowView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5122DA4FFC6000178B3 /* AuthenticationFlowView_V2.swift */; };
 		9AA1A5162DA514E7000178B3 /* PlaylistInteractionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */; };
 		9AA1A51C2DA51D16000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1A51B2DA51D15000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift */; };
@@ -113,7 +114,8 @@
 		9A999C582DB06ABA00E8E226 /* SearchForItemAPIDocDemoView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForItemAPIDocDemoView_V4.swift; sourceTree = "<group>"; };
 		9A999C5A2DB06F1100E8E226 /* SearchForItemAPIDocDemoView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForItemAPIDocDemoView_V5.swift; sourceTree = "<group>"; };
 		9A999C5C2DB0732500E8E226 /* SearchForItemAPIDocDemoView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForItemAPIDocDemoView_V6.swift; sourceTree = "<group>"; };
-		9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlaybackStateDemoView.swift; sourceTree = "<group>"; };
+		9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlaybackStateDemoView_V1.swift; sourceTree = "<group>"; };
+		9A999C622DB0924C00E8E226 /* GetPlaybackStateDemoView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPlaybackStateDemoView_V2.swift; sourceTree = "<group>"; };
 		9AA1A5112DA4F392000178B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9AA1A5122DA4FFC6000178B3 /* AuthenticationFlowView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowView_V2.swift; sourceTree = "<group>"; };
 		9AA1A5152DA514E0000178B3 /* PlaylistInteractionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistInteractionView.swift; sourceTree = "<group>"; };
@@ -255,7 +257,8 @@
 		9A999C5F2DB090FF00E8E226 /* GetPlaybackState */ = {
 			isa = PBXGroup;
 			children = (
-				9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView.swift */,
+				9A999C602DB0911900E8E226 /* GetPlaybackStateDemoView_V1.swift */,
+				9A999C622DB0924C00E8E226 /* GetPlaybackStateDemoView_V2.swift */,
 			);
 			path = GetPlaybackState;
 			sourceTree = "<group>";
@@ -504,7 +507,7 @@
 				9A5AAE792D93BED3006A955A /* GetYourTop5TracksView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AA1A5482DA5A024000178B3 /* MusicAdView_V3.swift in Sources */,
-				9A999C612DB0911F00E8E226 /* GetPlaybackStateDemoView.swift in Sources */,
+				9A999C612DB0911F00E8E226 /* GetPlaybackStateDemoView_V1.swift in Sources */,
 				9AA1A52B2DA57AC2000178B3 /* AVPlayerView_V2.swift in Sources */,
 				9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */,
 				9A630AA72D92A10000C035AF /* SpotifyHomeView.swift in Sources */,
@@ -524,6 +527,7 @@
 				9AA1A5512DA5A6D3000178B3 /* SpotifyView.swift in Sources */,
 				9AA1A5292DA578FE000178B3 /* AVPlayerView_V1.swift in Sources */,
 				9AA1A5372DA5969C000178B3 /* AdvertisementView.swift in Sources */,
+				9A999C632DB0924E00E8E226 /* GetPlaybackStateDemoView_V2.swift in Sources */,
 				9A5AAED92D94C515006A955A /* TheComprehensiveStep.swift in Sources */,
 				9A8D5D612DAFF2F50078B786 /* AlbumDetailView_V3.swift in Sources */,
 				9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */,
