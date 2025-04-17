@@ -14,10 +14,10 @@ struct RetroBackgroundView: View {
         MetalViewRepresentable()
             .edgesIgnoringSafeArea(.all) // Make it a background
         // Add overlay content on top of this background if needed
-        // .overlay(
-        //     Text("Your Content Here")
-        //         .foregroundColor(.white)
-        // )
+         .overlay(
+             Text("CongLeSolutionX")
+                 .foregroundColor(.white)
+         )
     }
 }
 #Preview("Retro Background View") {
