@@ -512,7 +512,7 @@
 //        }
 //    }
 //}
-//
+
 //// MARK: - Preview
 //struct GeminiLiveView_Previews: PreviewProvider {
 //    @State static var isPresented = true
