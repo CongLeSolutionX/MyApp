@@ -239,7 +239,9 @@ struct SpotifyPlayerView: View {
                  .disabled(!(isPlaying ? playbackActions.pausing : playbackActions.resuming) || currentTrack == nil)
 
                 // Next Button
-                Button(action: playNextTrack) {
+                Button { // Use trailing closure syntax for the action
+                    playNextTrack() // Call the function *inside* the closure
+                } label: {
                     Image(systemName: "forward.fill")
                         .font(.title)
                 }
@@ -419,7 +421,6 @@ struct SpotifyPlayerView: View {
         // If the track finished naturally, keep playing. If manually skipped, keep current play state.
         if trackJustFinished && !isPlaying { isPlaying = true }
         impactMedium.impactOccurred()
-
     }
 
     private func playPreviousTrack() {
