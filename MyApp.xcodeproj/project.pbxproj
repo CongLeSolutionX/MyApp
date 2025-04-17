@@ -16,6 +16,10 @@
 		9A61B37D2DB118DC00F7D724 /* GeminiLiveView_V7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61B37C2DB118DA00F7D724 /* GeminiLiveView_V7.swift */; };
 		9A9723582DB12600003D5966 /* GeminiLiveView_V8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723572DB12600003D5966 /* GeminiLiveView_V8.swift */; };
 		9A97235A2DB12E83003D5966 /* GeminiLiveView_V9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723592DB12E81003D5966 /* GeminiLiveView_V9.swift */; };
+		9A9723642DB1347B003D5966 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A9723632DB1347B003D5966 /* GoogleService-Info.plist */; };
+		9A9723672DB134F7003D5966 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9723662DB134F7003D5966 /* FirebaseAnalytics */; };
+		9A9723692DB134F7003D5966 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9A9723682DB134F7003D5966 /* FirebaseCore */; };
+		9A97236B2DB13578003D5966 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 9A97236A2DB13578003D5966 /* FirebaseAppCheck */; };
 		9AA115512CB60F0D002D468C /* SpeechRecognizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA115502CB60F0D002D468C /* SpeechRecognizerView.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
@@ -34,6 +38,7 @@
 		9A61B37C2DB118DA00F7D724 /* GeminiLiveView_V7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V7.swift; sourceTree = "<group>"; };
 		9A9723572DB12600003D5966 /* GeminiLiveView_V8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V8.swift; sourceTree = "<group>"; };
 		9A9723592DB12E81003D5966 /* GeminiLiveView_V9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiLiveView_V9.swift; sourceTree = "<group>"; };
+		9A9723632DB1347B003D5966 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9AA115502CB60F0D002D468C /* SpeechRecognizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
@@ -49,6 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A9723692DB134F7003D5966 /* FirebaseCore in Frameworks */,
+				9A97236B2DB13578003D5966 /* FirebaseAppCheck in Frameworks */,
+				9A9723672DB134F7003D5966 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +98,7 @@
 		9AAC417A2C74668B00AC0A60 /* MyApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A9723632DB1347B003D5966 /* GoogleService-Info.plist */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
@@ -154,6 +163,9 @@
 				Base,
 			);
 			mainGroup = 9AAC416F2C74668B00AC0A60;
+			packageReferences = (
+				9A9723652DB134F7003D5966 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 9AAC41792C74668B00AC0A60 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -170,6 +182,7 @@
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
+				9A9723642DB1347B003D5966 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +436,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9A9723652DB134F7003D5966 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9A9723662DB134F7003D5966 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A9723652DB134F7003D5966 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		9A9723682DB134F7003D5966 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A9723652DB134F7003D5966 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		9A97236A2DB13578003D5966 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A9723652DB134F7003D5966 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9AAC41702C74668B00AC0A60 /* Project object */;
 }
