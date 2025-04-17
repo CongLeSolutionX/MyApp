@@ -31,17 +31,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     return true
   }
 }
-
-@main
-struct VertexAISampleApp: App {
-  @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
-
-  var body: some Scene {
-    WindowGroup {
-        SpeechRecognizerView_ContentView()
-    }
-  }
-}
+//
+//@main
+//struct VertexAISampleApp: App {
+//  @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
+//
+//  var body: some Scene {
+//    WindowGroup {
+//        SpeechRecognizerView_ContentView()
+//    }
+//  }
+//}
 
 /// Placeholder App Check provider factory that returns a simple ``AppCheckNotConfigured`` error.
 private class AppCheckNotConfiguredFactory: NSObject, AppCheckProviderFactory {
