@@ -1,5 +1,5 @@
 //
-//  RetroGridBackgroundView_V2.swift
+//  default.metal
 //  MyApp
 //
 //  Created by Cong Le on 4/17/25.
