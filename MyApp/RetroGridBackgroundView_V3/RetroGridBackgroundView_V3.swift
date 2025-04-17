@@ -318,7 +318,7 @@ class Renderer: NSObject, MTKViewDelegate {
             renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0) // Vertex Data -> Buffer 0
             var drawMode: Int32 = 0 // 0 for Sky
             // Bind drawMode to BOTH shader stages with their respective indices
-            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)   // <<< ADD THIS LINE
+            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)
             renderEncoder.setFragmentBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 1) // Draw Mode -> Fragment Buffer 1
             renderEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4)
         }
@@ -329,7 +329,7 @@ class Renderer: NSObject, MTKViewDelegate {
             renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0)
             var drawMode: Int32 = 1 // 1 for Horizon
             // Bind drawMode to BOTH shader stages
-            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)   // <<< ADD THIS LINE
+            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)
             renderEncoder.setFragmentBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 1)
             renderEncoder.setTriangleFillMode(.lines) // Use .lines for line primitives
             renderEncoder.drawPrimitives(type: .lineStrip, vertexStart: 0, vertexCount: 2) // Use LineStrip
@@ -341,7 +341,7 @@ class Renderer: NSObject, MTKViewDelegate {
             renderEncoder.setVertexBuffer(buffer, offset: 0, index: 0)
             var drawMode: Int32 = 2 // 2 for Grid
             // Bind drawMode to BOTH shader stages
-            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)   // <<< ADD THIS LINE
+            renderEncoder.setVertexBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 2)
             renderEncoder.setFragmentBytes(&drawMode, length: MemoryLayout<Int32>.stride, index: 1)
             renderEncoder.setTriangleFillMode(.lines) // Use .lines for line primitives
             renderEncoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: buffer.length / MemoryLayout<SIMD4<Float>>.stride) // Draw all lines
