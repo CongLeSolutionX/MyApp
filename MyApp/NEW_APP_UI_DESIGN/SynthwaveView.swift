@@ -54,6 +54,30 @@ struct AlbumItem: Codable, Identifiable, Hashable {
     var formattedArtists: String {
         artists.map { $0.name }.joined(separator: ", ")
     }
+    
+    func formattedReleaseDate() -> String {
+        let dateFormatter = DateFormatter()
+        switch release_date_precision {
+        case "year":
+            dateFormatter.dateFormat = "yyyy"
+            if let date = dateFormatter.date(from: release_date) {
+                return dateFormatter.string(from: date)
+            }
+        case "month":
+            dateFormatter.dateFormat = "yyyy-MM"
+            if let date = dateFormatter.date(from: release_date) {
+                dateFormatter.dateFormat = "MMM yyyy"
+                return dateFormatter.string(from: date)
+            }
+        case "day":
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            if let date = dateFormatter.date(from: release_date) {
+                return date.formatted(date: .long, time: .omitted)
+            }
+        default: break
+        }
+        return release_date
+    }
 }
 
 // MARK: - Artist
