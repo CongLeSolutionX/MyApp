@@ -92,6 +92,14 @@ struct MetalViewRepresentable: UIViewRepresentable {
 
 // MARK: - Metal Renderer Class
 class Renderer: NSObject, MTKViewDelegate {
+    
+    struct Uniforms {
+        var projectionMatrix: matrix_float4x4 = matrix_identity_float4x4
+        var viewMatrix: matrix_float4x4 = matrix_identity_float4x4
+        var viewportSize: vector_float2 = .zero
+        var currentTime: Float = 0.0
+    }
+    
     // Make properties optional where initialization might fail
     var device: MTLDevice? // Keep track of the device
     var commandQueue: MTLCommandQueue?
@@ -151,8 +159,8 @@ class Renderer: NSObject, MTKViewDelegate {
         guard skyPipelineState != nil, gridPipelineState != nil else {
              print("❌ Failed to create essential pipeline states (sky or grid).")
              // Decide if rendering can partially continue or should stop
-             // isSetupComplete = false // Or allow partial rendering
-             // return
+              isSetupComplete = false // Or allow partial rendering
+              return
         }
 
         // --- Vertex Data Setup ---
