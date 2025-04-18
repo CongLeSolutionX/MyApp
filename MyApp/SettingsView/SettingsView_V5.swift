@@ -182,6 +182,10 @@ struct PlaceholderTabView: View {
 
 // MARK: - Settings Screen View ("Me" Tab Content)
 struct SettingsScreen: View {
+    @AppStorage("appLockEnabled") var appLockEnabled: Bool = false
+    @AppStorage("shareAnalyticsEnabled") var shareAnalyticsEnabled: Bool = true
+
+    
     // Bindings and State
     @Binding var isDarkMode: Bool
     @Binding var userProfile: UserProfile
@@ -229,6 +233,9 @@ struct SettingsScreen: View {
         [
             SettingItem(iconName: "person.text.rectangle", title: "Account", navigationType: .detailView(AnyView(AccountSettingsView(userProfile: $userProfile, showLogoutAlert: $showLogoutAlert, activeTabColor: activeTabColor)))),
             SettingItem(iconName: "slider.horizontal.3", title: "Common Settings", navigationType: .detailView(AnyView(CommonSettingsView(enableFeatureX: $enableFeatureX, appIconBadgeEnabled: $appIconBadgeEnabled)))),
+            // *** NEW ITEM ADDED HERE ***
+            SettingItem(iconName: "shield.lefthalf.filled", title: "Privacy & Security", navigationType: .detailView(AnyView(PrivacySecurityView(appLockEnabled: $appLockEnabled, shareAnalyticsEnabled: $shareAnalyticsEnabled, accentColor: activeTabColor)))),
+            // **************************
             SettingItem(iconName: "brain.filled.head.profile", title: "System Assistant", navigationType: .detailView(AnyView(AssistantSettingsView(responseLength: $systemResponseLength, creativityLevel: $systemCreativityLevel)))),
             SettingItem(iconName: "cpu", title: "Language Model", navigationType: .detailView(AnyView(LanguageModelView(availableModels: availableModels, selectedModelId: $selectedLanguageModelId)))),
             SettingItem(iconName: "speaker.wave.3", title: "Text-to-Speech", navigationType: .detailView(AnyView(TTSView(speed: $ttsSpeed, accentColor: activeTabColor)))),
