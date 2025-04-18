@@ -74,9 +74,9 @@ struct PrivacySecurityView: View {
         } header: {
             Text("Security")
         } footer: {
-//            if canUseBiometries {
+            if self.canUseBiometrics {
                 Text("When enabled, requires biometric authentication whenever the app is launched or brought to the foreground after a period of inactivity.")
-//            }
+            }
         }
     }
 
@@ -143,27 +143,38 @@ struct PrivacySecurityView: View {
     // MARK: - Logic Functions
 
     private func checkBiometricAvailability() {
-        let context = LAContext()
-        var error: NSError?
-        // Check if the device can evaluate the policy (has sensor, is enabled)
-        canUseBiometrics = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+           let context = LAContext()
+           var error: NSError?
 
-        if !canUseBiometrics {
-            if let nsError = error {
-                print("Biometric check failed: \(nsError.localizedDescription) (Code: \(nsError.code))")
-                // LAError codes can give more specific reasons (e.g., .biometryNotAvailable, .biometryNotEnrolled)
-            } else {
-                print("Biometrics not available for an unknown reason.")
-            }
-            // If biometrics somehow became unavailable while toggle was on, forcefully turn it off.
-            if appLockEnabled {
-                 print("Biometrics became unavailable, disabling App Lock.")
-                 appLockEnabled = false
-            }
-        } else {
-            print("Biometrics are available.")
-        }
-    }
+           // Check if the device can evaluate the policy (has sensor, is enabled)
+           let canEvaluate = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+
+           // Update the state variable ON THE MAIN THREAD
+           DispatchQueue.main.async {
+               self.canUseBiometrics = canEvaluate
+           }
+
+           if !canEvaluate {
+               if let nsError = error {
+                   print("Biometric check failed: \(nsError.localizedDescription) (Code: \(nsError.code))")
+                   // Optionally show an alert to the user based on the error code
+                   // Example: LAError.biometryNotEnrolled might prompt them to set it up
+                    self.authErrorMessage = "Biometrics not available: \(nsError.localizedDescription)"
+                    self.showingAuthErrorAlert = true // if you want to show errors
+               } else {
+                   print("Biometrics not available for an unknown reason.")
+                    self.authErrorMessage = "Biometrics are not available on this device."
+                    self.showingAuthErrorAlert = true // if you want to show errors
+               }
+                // If biometrics somehow became unavailable while toggle was ON, turn it off.
+               if appLockEnabled {
+                    print("Biometrics became unavailable, disabling App Lock.")
+                    appLockEnabled = false // Force disable if hardware state changed
+               }
+           } else {
+               print("Biometrics are available.")
+           }
+       }
 
     private func handleAppLockToggleChange(isEnabling: Bool) {
         if isEnabling {
@@ -266,6 +277,5 @@ struct PrivacySecurityView_Previews: PreviewProvider {
                     // Preview will show the toggle if system CAN use biometrics.
                     print("Preview: Assuming biometrics are available for layout.")
                 }
-
     }
 }
