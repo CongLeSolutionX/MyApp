@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A76CC212DB2EC6A00B4EB3B /* MetalRenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC202DB2EC6900B4EB3B /* MetalRenderViewController.swift */; };
+		9A76CC232DB2EC8D00B4EB3B /* ComputeShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC222DB2EC8D00B4EB3B /* ComputeShader.swift */; };
+		9A76CC252DB2EC9D00B4EB3B /* MetalDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC242DB2EC9C00B4EB3B /* MetalDevice.swift */; };
+		9A76CC272DB2ECAC00B4EB3B /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC262DB2ECAB00B4EB3B /* Renderer.swift */; };
+		9A76CC292DB2ECBB00B4EB3B /* RenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC282DB2ECBB00B4EB3B /* RenderShader.swift */; };
+		9A76CC2B2DB2ECD000B4EB3B /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC2A2DB2ECCF00B4EB3B /* Shaders.metal */; };
+		9A76CC2D2DB2ED7D00B4EB3B /* Slab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC2C2DB2ED7C00B4EB3B /* Slab.swift */; };
 		9A9723732DB1BB46003D5966 /* RetroGridBackgroundView_V0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723722DB1BB3D003D5966 /* RetroGridBackgroundView_V0.swift */; };
 		9A9723752DB1BBE7003D5966 /* gridFragmentShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723742DB1BBE1003D5966 /* gridFragmentShader.metal */; };
 		9A9723792DB1BC54003D5966 /* RetroGridBackgroundView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723782DB1BC52003D5966 /* RetroGridBackgroundView_V1.swift */; };
@@ -25,6 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A76CC202DB2EC6900B4EB3B /* MetalRenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderViewController.swift; sourceTree = "<group>"; };
+		9A76CC222DB2EC8D00B4EB3B /* ComputeShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputeShader.swift; sourceTree = "<group>"; };
+		9A76CC242DB2EC9C00B4EB3B /* MetalDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalDevice.swift; sourceTree = "<group>"; };
+		9A76CC262DB2ECAB00B4EB3B /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		9A76CC282DB2ECBB00B4EB3B /* RenderShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderShader.swift; sourceTree = "<group>"; };
+		9A76CC2A2DB2ECCF00B4EB3B /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		9A76CC2C2DB2ED7C00B4EB3B /* Slab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slab.swift; sourceTree = "<group>"; };
 		9A9723722DB1BB3D003D5966 /* RetroGridBackgroundView_V0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroGridBackgroundView_V0.swift; sourceTree = "<group>"; };
 		9A9723742DB1BBE1003D5966 /* gridFragmentShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = gridFragmentShader.metal; sourceTree = "<group>"; };
 		9A9723782DB1BC52003D5966 /* RetroGridBackgroundView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroGridBackgroundView_V1.swift; sourceTree = "<group>"; };
@@ -55,6 +69,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A76CC1F2DB2EC5400B4EB3B /* MetalFluidDynamicView */ = {
+			isa = PBXGroup;
+			children = (
+				9A76CC202DB2EC6900B4EB3B /* MetalRenderViewController.swift */,
+				9A76CC222DB2EC8D00B4EB3B /* ComputeShader.swift */,
+				9A76CC242DB2EC9C00B4EB3B /* MetalDevice.swift */,
+				9A76CC262DB2ECAB00B4EB3B /* Renderer.swift */,
+				9A76CC2A2DB2ECCF00B4EB3B /* Shaders.metal */,
+				9A76CC2C2DB2ED7C00B4EB3B /* Slab.swift */,
+				9A76CC282DB2ECBB00B4EB3B /* RenderShader.swift */,
+			);
+			path = MetalFluidDynamicView;
+			sourceTree = "<group>";
+		};
 		9A9723762DB1BC2B003D5966 /* RetroGridBackgroundView_V0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +150,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A76CC1F2DB2EC5400B4EB3B /* MetalFluidDynamicView */,
 				9A9723882DB1C757003D5966 /* RetroGridBackgroundView_V4 */,
 				9A9723812DB1C34E003D5966 /* RetroGridBackgroundView_V3 */,
 				9A97237C2DB1C152003D5966 /* RetroGridBackgroundView_V2 */,
@@ -212,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A76CC2B2DB2ECD000B4EB3B /* Shaders.metal in Sources */,
 				9A9723792DB1BC54003D5966 /* RetroGridBackgroundView_V1.swift in Sources */,
 				9A97238A2DB1C768003D5966 /* default.metal in Sources */,
 				9A9723752DB1BBE7003D5966 /* gridFragmentShader.metal in Sources */,
@@ -219,12 +249,18 @@
 				9A9723852DB1C362003D5966 /* default_V3.metal in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A9723832DB1C358003D5966 /* RetroGridBackgroundView_V3.swift in Sources */,
+				9A76CC232DB2EC8D00B4EB3B /* ComputeShader.swift in Sources */,
 				9A9723872DB1C754003D5966 /* RetroGridBackgroundView_V4.swift in Sources */,
 				9A97237B2DB1BC92003D5966 /* default_V1.metal in Sources */,
 				9A9723732DB1BB46003D5966 /* RetroGridBackgroundView_V0.swift in Sources */,
+				9A76CC212DB2EC6A00B4EB3B /* MetalRenderViewController.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A97237E2DB1C15B003D5966 /* RetroGridBackgroundView_V2.swift in Sources */,
+				9A76CC292DB2ECBB00B4EB3B /* RenderShader.swift in Sources */,
+				9A76CC272DB2ECAC00B4EB3B /* Renderer.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A76CC252DB2EC9D00B4EB3B /* MetalDevice.swift in Sources */,
+				9A76CC2D2DB2ED7D00B4EB3B /* Slab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

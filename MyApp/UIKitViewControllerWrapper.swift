@@ -10,15 +10,15 @@ import UIKit
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyUIKitViewController
+    typealias UIViewControllerType = MetalRenderViewController
     
     // Step 1b: Required methods implementation
-    func makeUIViewController(context: Context) -> MyUIKitViewController {
+    func makeUIViewController(context: Context) -> MetalRenderViewController {
         // Step 1c: Instantiate and return the UIKit view controller
-        return MyUIKitViewController()
+        return MetalRenderViewController()
     }
     
-    func updateUIViewController(_ uiViewController: MyUIKitViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: MetalRenderViewController, context: Context) {
         // Update the view controller if needed
     }
 }
