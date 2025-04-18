@@ -229,10 +229,10 @@ struct SpotifyEmbedWebView: UIViewRepresentable { // Keep functional structure
     }
     func updateUIView(_ webView: WKWebView, context: Context) { /* ... JS loading logic from previous version ... */
         if context.coordinator.isApiReady && context.coordinator.lastLoadedUri != spotifyUri {
-            context.coordinator.loadUri(spotifyUri)
-            DispatchQueue.main.async { if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri } }
+            context.coordinator.loadUri(spotifyUri ?? "No URI")
+            DispatchQueue.main.async { if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri ?? "No URI" } }
         } else if !context.coordinator.isApiReady {
-            context.coordinator.updateDesiredUriBeforeReady(spotifyUri)
+            context.coordinator.updateDesiredUriBeforeReady(spotifyUri ?? "No URI")
         }
     }
     static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) { /* ... Cleanup from previous version ... */
@@ -263,9 +263,11 @@ struct SpotifyEmbedWebView: UIViewRepresentable { // Keep functional structure
         private func handleApiReady() { /* ... */
             print("✅ Embed: API Ready.")
             isApiReady = true
-            guard let initialUri = desiredUriBeforeReady ?? parent.spotifyUri else { return "NO INITIAL URI" }
-            createSpotifyController(with: initialUri)
-            desiredUriBeforeReady = nil
+            
+            if let initialUri = desiredUriBeforeReady ?? parent.spotifyUri {
+                createSpotifyController(with: initialUri)
+                desiredUriBeforeReady = nil
+            }
         }
         private func handleEvent(event: String, data: Any?) { /* ... Handle specific events like previous version ... */
             switch event {
