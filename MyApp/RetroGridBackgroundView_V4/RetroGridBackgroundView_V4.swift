@@ -206,8 +206,8 @@ class Renderer: NSObject, MTKViewDelegate {
         vertexDescriptor.attributes[0].offset = 0
         vertexDescriptor.attributes[0].bufferIndex = 0
         vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD4<Float>>.stride
-        // vertexDescriptor.layouts[0].stepRate = 1 (default)
-        // vertexDescriptor.layouts[0].stepFunction = .perVertex (default)
+         vertexDescriptor.layouts[0].stepRate = 1 //(default)
+        vertexDescriptor.layouts[0].stepFunction = .perVertex 
         pipelineDescriptor.vertexDescriptor = vertexDescriptor
         
         // Use try? to safely attempt creation, returns nil on failure
