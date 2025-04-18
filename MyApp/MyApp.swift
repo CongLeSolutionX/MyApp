@@ -14,8 +14,9 @@ struct MyApp: App {
         WindowGroup {
             //AuthenticationFlowView()
             //SpotifyEmbedView()
-            ContentView()
+            //ContentView()
             //SpotifyAlbumListView()
+            MusicPlayerView()
         }
     }
 }
