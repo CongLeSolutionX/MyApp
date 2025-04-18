@@ -625,11 +625,11 @@ struct SpotifyAlbumListView: View {
     private func styleSearchPlaceholderAppearance() {
          // Attempt to style search bar placeholder via UIKit appearance
          // Note: This can be fragile and might break in future iOS versions.
- //        let placeholderAttributes: [NSAttributedString.Key: Any] = [
- //            .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
- //            .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
- //        ]
- //        UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
+         let placeholderAttributes: [NSAttributedString.Key: Any] = [
+             .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
+             .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
+         ]
+         UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
     }
 
     // --- Debounced Search Logic (Unchanged) ---
