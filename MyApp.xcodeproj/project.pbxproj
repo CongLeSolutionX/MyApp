@@ -16,6 +16,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AF576892DB205B7005F5562 /* SettingsView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF576882DB205B7005F5562 /* SettingsView_V5.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AF576882DB205B7005F5562 /* SettingsView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView_V5.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +48,7 @@
 		9A97238F2DB1FC73003D5966 /* SettingsView */ = {
 			isa = PBXGroup;
 			children = (
+				9AF576882DB205B7005F5562 /* SettingsView_V5.swift */,
 				9A9723922DB20005003D5966 /* SettingsView_V4.swift */,
 				9A9723902DB1FD3B003D5966 /* SettingsView_V3.swift */,
 				9A97238D2DB1FC6C003D5966 /* SettingsView_V2.swift */,
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AF576892DB205B7005F5562 /* SettingsView_V5.swift in Sources */,
 				9A97238C2DB1FB1D003D5966 /* SettingsView_V1.swift in Sources */,
 				9A9723932DB20007003D5966 /* SettingsView_V4.swift in Sources */,
 				9A9723912DB1FD3C003D5966 /* SettingsView_V3.swift in Sources */,
