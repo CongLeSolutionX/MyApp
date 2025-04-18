@@ -97,6 +97,8 @@
 		9AF356122DB10072006D2E67 /* LiquidGoldThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356112DB1006B006D2E67 /* LiquidGoldThemeLook.swift */; };
 		9AF356142DB102AA006D2E67 /* LiquidGoldMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */; };
 		9AF356162DB1091C006D2E67 /* SpotifyThemedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */; };
+		9AF576912DB21567005F5562 /* MusicPlayerView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF576902DB21565005F5562 /* MusicPlayerView_V1.swift */; };
+		9AF576932DB2164E005F5562 /* MusicPlayerView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF576922DB2164C005F5562 /* MusicPlayerView_V3.swift */; };
 		9AFB732E2DAED6C900A985BF /* SpotifyInitializationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */; };
 		9AFB73302DAED83000A985BF /* SpotifyEmbedView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */; };
 		9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */; };
@@ -198,6 +200,8 @@
 		9AF356112DB1006B006D2E67 /* LiquidGoldThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGoldThemeLook.swift; sourceTree = "<group>"; };
 		9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGoldMusicPlayerView.swift; sourceTree = "<group>"; };
 		9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyThemedApp.swift; sourceTree = "<group>"; };
+		9AF576902DB21565005F5562 /* MusicPlayerView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V1.swift; sourceTree = "<group>"; };
+		9AF576922DB2164C005F5562 /* MusicPlayerView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V3.swift; sourceTree = "<group>"; };
 		9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyInitializationFlowView.swift; sourceTree = "<group>"; };
 		9AFB732F2DAED82D00A985BF /* SpotifyEmbedView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V1.swift; sourceTree = "<group>"; };
 		9AFB73312DAED9C700A985BF /* SpotifyEmbedView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEmbedView_V2.swift; sourceTree = "<group>"; };
@@ -483,6 +487,7 @@
 				9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */,
 				9AA1A5812DA6967F000178B3 /* ComprehensiveView_V3.swift */,
 				9AFB732D2DAED6C600A985BF /* SpotifyInitializationFlowView.swift */,
+				9AF5768F2DB2155E005F5562 /* MusicPlayerViews */,
 				9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */,
 				9A5F07442DB0B51B00DC089D /* NEW_APP_FEATURE */,
 				9A999C5E2DB090F000E8E226 /* Player */,
@@ -510,6 +515,15 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AF5768F2DB2155E005F5562 /* MusicPlayerViews */ = {
+			isa = PBXGroup;
+			children = (
+				9AF576922DB2164C005F5562 /* MusicPlayerView_V3.swift */,
+				9AF576902DB21565005F5562 /* MusicPlayerView_V1.swift */,
+			);
+			path = MusicPlayerViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -592,6 +606,7 @@
 				9AA1A52D2DA5862B000178B3 /* AVPlayerView_V3.swift in Sources */,
 				9A5AAE792D93BED3006A955A /* GetYourTop5TracksView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AF576932DB2164E005F5562 /* MusicPlayerView_V3.swift in Sources */,
 				9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */,
 				9A999C682DB097E200E8E226 /* GetCurrentlyPlayingTrackView_V2.swift in Sources */,
 				9AA1A5482DA5A024000178B3 /* MusicAdView_V3.swift in Sources */,
@@ -675,6 +690,7 @@
 				9A8D5D5B2DAF88BA0078B786 /* AlbumDetailView_V1.swift in Sources */,
 				9A8D5D5D2DAF893B0078B786 /* AlbumDetailView_V2.swift in Sources */,
 				9AF356102DB0FBF9006D2E67 /* ArtDecoThemeLook.swift in Sources */,
+				9AF576912DB21567005F5562 /* MusicPlayerView_V1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
