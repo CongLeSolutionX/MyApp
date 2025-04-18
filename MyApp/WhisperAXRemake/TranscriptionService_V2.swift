@@ -587,7 +587,7 @@ class TranscriptionService: TranscriptionServiceProtocol, ObservableObject {
     }
     
     // Core transcription function called by file/streaming modes
-    private func performTranscription(on samples: [Float], options: DecodingOptions, isStreaming: Bool) async throws -> [TranscriptionResult] {
+    func performTranscription(on samples: [Float], options: DecodingOptions, isStreaming: Bool) async throws -> [TranscriptionResult] {
         guard let whisperKit = whisperKit else { throw TranscriptionServiceError.modelNotLoaded }
         
         var transcriptionOptions = options
