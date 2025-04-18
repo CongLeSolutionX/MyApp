@@ -26,6 +26,7 @@
 		9A5F07572DB0CAC300DC089D /* SynthwaveView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */; };
 		9A630A9D2D92989800C035AF /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A630A9C2D92988E00C035AF /* ShareView.swift */; };
 		9A630AA72D92A10000C035AF /* SpotifyHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */; };
+		9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */; };
 		9A76F6452DB217F4004B7B89 /* MusicPlayerView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6442DB217F3004B7B89 /* MusicPlayerView_V5.swift */; };
 		9A76F6472DB218D5004B7B89 /* MusicPlayerView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6462DB218D3004B7B89 /* MusicPlayerView_V6.swift */; };
 		9A76F64D2DB21B87004B7B89 /* song1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9A76F64C2DB21B87004B7B89 /* song1.wav */; };
@@ -132,6 +133,7 @@
 		9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthwaveView_V2.swift; sourceTree = "<group>"; };
 		9A630A9C2D92988E00C035AF /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyHomeView.swift; sourceTree = "<group>"; };
+		9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicThemeLook.swift; sourceTree = "<group>"; };
 		9A76F6442DB217F3004B7B89 /* MusicPlayerView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V5.swift; sourceTree = "<group>"; };
 		9A76F6462DB218D3004B7B89 /* MusicPlayerView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V6.swift; sourceTree = "<group>"; };
 		9A76F64C2DB21B87004B7B89 /* song1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = song1.wav; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
+				9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */,
 				9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */,
 				9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */,
 				9AF356112DB1006B006D2E67 /* LiquidGoldThemeLook.swift */,
@@ -661,6 +664,7 @@
 				9A5AAED92D94C515006A955A /* TheComprehensiveStep.swift in Sources */,
 				9AF3560E2DB0D8F2006D2E67 /* RetroSpotifyExplorer_V2.swift in Sources */,
 				9A8D5D612DAFF2F50078B786 /* AlbumDetailView_V3.swift in Sources */,
+				9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook.swift in Sources */,
 				9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */,
 				9A999C572DB068E500E8E226 /* SearchForItemAPIDocDemoView_V3.swift in Sources */,
 				9AA1A53C2DA599CD000178B3 /* AdvertisementView_V3.swift in Sources */,
