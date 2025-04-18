@@ -9,7 +9,7 @@
 ////  Copyright © 2024 Argmax, Inc. All rights reserved.
 //
 //import SwiftUI
-//import WhisperKit
+import WhisperKit
 //#if canImport(UIKit)
 //import UIKit
 //#elseif canImport(AppKit)
