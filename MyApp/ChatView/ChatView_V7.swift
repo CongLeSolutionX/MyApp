@@ -111,7 +111,8 @@ struct ChatView: View {
                     }
                 }
                 // Potential: Scroll when AI response starts streaming
-                .onChange(of: conversationTurns.last?.aiResponse?.isStreaming) { isStreaming in
+                .onChange(of: conversationTurns.last?.aiResponse?.isStreaming) {
+                    let isStreaming = conversationTurns.last?.aiResponse?.isStreaming
                      if isStreaming == true, let lastTurnId = conversationTurns.last?.id {
                          withAnimation {
                              scrollViewProxy.scrollTo(lastTurnId, anchor: .bottom)
@@ -282,7 +283,7 @@ struct ChatView: View {
     func sendAudioChunkViaWebSocket(data: Data) {
         guard let session = currentSession, webSocketConnected else { return }
         // In a real app, send `data` over the actual WebSocketTask
-        // print("Simulating: Sending audio chunk (\(data.count) bytes) via WebSocket.")
+         print("Simulating: Sending audio chunk (\(data.count) bytes) via WebSocket.")
         
         // NOTE: Simulation of AI responses is handled separately for simplicity here,
         // triggered by transcription or text messages. In reality, the API responds
@@ -364,48 +365,107 @@ struct ChatView: View {
     }
 
     // Adds or updates the AI response in the latest turn
-    func addOrUpdateAIResponse(textChunk: String? = nil, audioData: Data? = nil, isFinal: Bool) {
-        guard !conversationTurns.isEmpty else {
-            print("Debug: Cannot add AI response - No turns exist.")
-            return
-        } // Need a turn first
-        guard var lastTurn = conversationTurns.last else { return } // Should exist if not empty
-        guard lastTurn.userMessage != nil && lastTurn.userMessage!.isFinal else {
-             print("Debug: Cannot add AI response - User message in last turn is missing or not final.")
-            return // Need a final user message to respond to
-        }
-
-        if lastTurn.aiResponse == nil {
-            // Create new AI response if one doesn't exist
-            lastTurn.aiResponse = MessageContent(
-                text: textChunk ?? "",
-                audioData: audioData,
-                isFinal: isFinal,
-                sourceModel: currentSession?.model ?? "gpt-4o-realtime-preview", isUser: false,
-                isStreaming: !isFinal // Streaming if not final
-            )
-             print("Debug: Created new AI response. Final: \(isFinal)")
-        } else {
-            // Append to existing AI response if it's not final
-            if !lastTurn.aiResponse!.isFinal {
-                if let chunk = textChunk {
-                    lastTurn.aiResponse?.text += chunk
-                }
-                if let data = audioData {
-                     // Append audio data if needed (simplififed here)
-                     //lastTurn.aiResponse?.audioData = (lastTurn.aiResponse!.audioData ?? Data()) + data
-                }
-                lastTurn.aiResponse?.isFinal = isFinal
-                lastTurn.aiResponse?.isStreaming = !isFinal
-                 print("Debug: Updated AI response. Final: \(isFinal)")
-            } else {
-                 print("Debug: Skipping update - AI response already final.")
+    // Adds or updates the AI response in the latest turn
+        func addOrUpdateAIResponse(textChunk: String? = nil, audioData: Data? = nil, isFinal: Bool) {
+            guard !conversationTurns.isEmpty else {
+                print("Debug: Cannot add AI response - No turns exist.")
+                return
+            } // Need a turn first
+            // Make `lastTurn` mutable to modify it before reassigning.
+            // Using index access avoids issues with local copies if `ConversationTurn` were a class.
+            // Since it's a struct, direct index access is more robust for mutation.
+            let lastTurnIndex = conversationTurns.count - 1
+            guard conversationTurns[lastTurnIndex].userMessage != nil && conversationTurns[lastTurnIndex].userMessage!.isFinal else {
+                 print("Debug: Cannot add AI response - User message in last turn is missing or not final.")
+                return // Need a final user message to respond to
             }
+
+            if conversationTurns[lastTurnIndex].aiResponse == nil {
+                // Create new AI response if one doesn't exist
+                conversationTurns[lastTurnIndex].aiResponse = MessageContent(
+                    text: textChunk ?? "",
+                    audioData: audioData, // Directly assign initial audio data
+                    isFinal: isFinal,
+                    sourceModel: currentSession?.model ?? "gpt-4o-realtime-preview", isUser: false,
+                    isStreaming: !isFinal // Streaming if not final
+                )
+                 print("Debug: Created new AI response. Final: \(isFinal)")
+            } else {
+                // Append to existing AI response if it's not final
+                // Use direct index access and check `isFinal` safely
+                if let isResponseFinal = conversationTurns[lastTurnIndex].aiResponse?.isFinal, !isResponseFinal {
+                     // Append text if provided
+                     if let chunk = textChunk {
+                         conversationTurns[lastTurnIndex].aiResponse!.text += chunk
+                     }
+
+                     // --- Corrected Audio Data Handling ---
+                     if let newData = audioData {
+                         // 1. Get current data (or empty if nil) into a local variable from the array element
+                         var currentAudio = conversationTurns[lastTurnIndex].aiResponse!.audioData ?? Data()
+                         // 2. Append the new data to the local variable
+                         currentAudio += newData
+                         // 3. Assign the result back to the array element
+                         conversationTurns[lastTurnIndex].aiResponse!.audioData = currentAudio
+                     }
+                     // --- End Correction ---
+
+                     // Update final and streaming status
+                     conversationTurns[lastTurnIndex].aiResponse!.isFinal = isFinal
+                     conversationTurns[lastTurnIndex].aiResponse!.isStreaming = !isFinal
+                     print("Debug: Updated AI response. Final: \(isFinal)")
+                } else {
+                     print("Debug: Skipping update - AI response already final or doesn't exist.")
+                }
+            }
+            
+            // No need to reassign the whole turn back if we modified the array element directly via index.
+            // The update happens in place within the array's element.
         }
-        
-        // Update the actual array item
-        conversationTurns[conversationTurns.count - 1] = lastTurn
-    }
+    
+    
+//    func addOrUpdateAIResponse(textChunk: String? = nil, audioData: Data? = nil, isFinal: Bool) {
+//        guard !conversationTurns.isEmpty else {
+//            print("Debug: Cannot add AI response - No turns exist.")
+//            return
+//        } // Need a turn first
+//        guard var lastTurn = conversationTurns.last else { return } // Should exist if not empty
+//        guard lastTurn.userMessage != nil && lastTurn.userMessage!.isFinal else {
+//             print("Debug: Cannot add AI response - User message in last turn is missing or not final.")
+//            return // Need a final user message to respond to
+//        }
+//
+//        if lastTurn.aiResponse == nil {
+//            // Create new AI response if one doesn't exist
+//            lastTurn.aiResponse = MessageContent(
+//                text: textChunk ?? "",
+//                audioData: audioData,
+//                isFinal: isFinal,
+//                sourceModel: currentSession?.model ?? "gpt-4o-realtime-preview", isUser: false,
+//                isStreaming: !isFinal // Streaming if not final
+//            )
+//             print("Debug: Created new AI response. Final: \(isFinal)")
+//        } else {
+//            // Append to existing AI response if it's not final
+//            if !lastTurn.aiResponse!.isFinal {
+//                if let chunk = textChunk {
+//                    lastTurn.aiResponse?.text += chunk
+//                }
+//                if let data = audioData {
+//                     // Append audio data if needed (simplififed here)
+//                     lastTurn.aiResponse?.audioData = (lastTurn.aiResponse!.audioData ?? Data()) + data
+//                }
+//                lastTurn.aiResponse?.isFinal = isFinal
+//                lastTurn.aiResponse?.isStreaming = !isFinal
+//                 print("Debug: Updated AI response. Final: \(isFinal)")
+//            } else {
+//                 print("Debug: Skipping update - AI response already final.")
+//            }
+//        }
+//        
+//        // Update the actual array item
+//        conversationTurns[conversationTurns.count - 1] = lastTurn
+//    }
 
     // MARK: - Audio Handling Logic (Simulated)
 
