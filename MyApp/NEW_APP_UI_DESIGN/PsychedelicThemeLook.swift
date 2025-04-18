@@ -1403,10 +1403,10 @@ struct PsychedelicButton: View {
             .foregroundColor(textColor)
             .clipShape(Capsule()) // Capsule shape remains good
             .shadow(color: .black.opacity(0.3), radius: 5, y: 3) // Standard shadow for depth
-            //            .overlay K( // Add subtle inner/outer border for effect
-            //                Capsule()
-            //                    .stroke(LinearGradient(gradient: Gradient(colors: [.white.opacity(0.3), .clear]), startPoint: .top, endPoint: .center).opacity(0.5), lineWidth: 1) // Top highlight
-            //            )
+            .overlay( // Add subtle inner/outer border for effect
+                Capsule()
+                    .stroke(LinearGradient(gradient: Gradient(colors: [.white.opacity(0.3), .clear]), startPoint: .top, endPoint: .center).opacity(0.5), lineWidth: 1) // Top highlight
+            )
             .overlay(
                 Capsule()
                     .stroke(LinearGradient(gradient: Gradient(colors: [.clear, .black.opacity(0.3)]), startPoint: .center, endPoint: .bottom).opacity(0.5), lineWidth: 1) // Bottom shadow
