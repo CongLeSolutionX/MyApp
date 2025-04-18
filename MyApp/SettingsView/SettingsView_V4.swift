@@ -298,88 +298,91 @@ struct SettingsScreen: View {
 
     // --- Body ---
     var body: some View {
-        ZStack(alignment: .bottom) {
-            NavigationStack {
-                List {
-                    // --- User Info Header ---
-                    NavigationLink(destination: AccountSettingsView(userProfile: $userProfile, showLogoutAlert: $showLogoutAlert, activeTabColor: activeTabColor)) {
-                        UserInfoHeader(
-                            userProfile: userProfile,
-                            textColor: textColor,
-                            secondaryTextColor: secondaryTextColor,
-                            iconColor: iconColor // Pass icon/accent color
-                        )
-                    }
-                    .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 15))
-                    .listRowBackground(listRowBackgroundColor)
-                    .listRowSeparator(.hidden)
-
-                    // --- Sections ---
-                    Section {
-                        ForEach(generalSettings) { row(for: $0) }
-                    } header: {
-                        Text("General")
-                            .fontWeight(.medium) // Slightly bolder header
-                            .foregroundColor(secondaryTextColor)
-                    }
-                    .listRowInsets(EdgeInsets(top: 12, leading: 15, bottom: 12, trailing: 15))
-                    .listRowBackground(listRowBackgroundColor)
-                    .listRowSeparatorTint(Color.gray.opacity(0.4)) // Slightly more visible separator
-
-                    Section {
-                        ForEach(appInfoSettings) { row(for: $0) }
-                    } header: {
-                        Text("Application")
-                            .fontWeight(.medium)
-                            .foregroundColor(secondaryTextColor)
-                    }
-                    .listRowInsets(EdgeInsets(top: 12, leading: 15, bottom: 12, trailing: 15))
-                    .listRowBackground(listRowBackgroundColor)
-                    .listRowSeparatorTint(Color.gray.opacity(0.4))
-
-                    // --- Footer ---
-                    footer
-                         .listRowBackground(Color.clear) // Make footer background transparent
-                        .listRowSeparator(.hidden)
-
-                }
-                .listStyle(.insetGrouped)
-                .background(backgroundColor.ignoresSafeArea()) // Apply background to the list container
-                .scrollContentBackground(.hidden) // Essential for custom background color
-                .navigationTitle("Me")
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        darkModeToggleButton
-                    }
-                }
-                // --- Modifiers ---
-                .sheet(item: $showingSheetForItem) { item in
-                     sheetContent(for: item)
-                          .preferredColorScheme(isDarkMode ? .dark : .light)
-                          .presentationDetents([.medium, .large]) // Allow resizing
-                }
-                .alert("Clear Cache", isPresented: $showClearCacheAlert, actions: clearCacheAlertButtons, message: clearCacheAlertMessage)
-                .alert("Log Out", isPresented: $showLogoutAlert, actions: logoutAlertButtons, message: logoutAlertMessage)
-                .alert(item: $showingAlertForItem, content: genericActionAlert) // Use content parameter
-
-            } // End NavigationStack
-            .background(backgroundColor.edgesIgnoringSafeArea(.all)) // Ensure background covers everything
-            .ignoresSafeArea(.keyboard)
-
-            // --- Cache Cleared Banner ---
-            if showCacheClearedBanner {
-                NotificationBanner(text: "Cache Cleared Successfully!", iconName: "checkmark.circle.fill", style: .success)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .onAppear {
-                        // Ensure VoiceOver reads the banner when it appears
-                         UIAccessibility.post(notification: .announcement, argument: "Cache Cleared Successfully!")
-                     }
-                    .padding(.bottom, 50) // Adjust position above tab bar
-            }
-
-        } // End ZStack
+        EmptyView()
     }
+//    var body: some View {
+//        ZStack(alignment: .bottom) {
+//            NavigationStack {
+//                List {
+//                    // --- User Info Header ---
+//                    NavigationLink(destination: AccountSettingsView(userProfile: $userProfile, showLogoutAlert: $showLogoutAlert, activeTabColor: activeTabColor)) {
+//                        UserInfoHeader(
+//                            userProfile: userProfile,
+//                            textColor: textColor,
+//                            secondaryTextColor: secondaryTextColor,
+//                            iconColor: iconColor // Pass icon/accent color
+//                        )
+//                    }
+//                    .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 15))
+//                    .listRowBackground(listRowBackgroundColor)
+//                    .listRowSeparator(.hidden)
+//
+//                    // --- Sections ---
+//                    Section {
+//                        ForEach(generalSettings) { row(for: $0) }
+//                    } header: {
+//                        Text("General")
+//                            .fontWeight(.medium) // Slightly bolder header
+//                            .foregroundColor(secondaryTextColor)
+//                    }
+//                    .listRowInsets(EdgeInsets(top: 12, leading: 15, bottom: 12, trailing: 15))
+//                    .listRowBackground(listRowBackgroundColor)
+//                    .listRowSeparatorTint(Color.gray.opacity(0.4)) // Slightly more visible separator
+//
+//                    Section {
+//                        ForEach(appInfoSettings) { row(for: $0) }
+//                    } header: {
+//                        Text("Application")
+//                            .fontWeight(.medium)
+//                            .foregroundColor(secondaryTextColor)
+//                    }
+//                    .listRowInsets(EdgeInsets(top: 12, leading: 15, bottom: 12, trailing: 15))
+//                    .listRowBackground(listRowBackgroundColor)
+//                    .listRowSeparatorTint(Color.gray.opacity(0.4))
+//
+//                    // --- Footer ---
+//                    footer
+//                         .listRowBackground(Color.clear) // Make footer background transparent
+//                        .listRowSeparator(.hidden)
+//
+//                }
+//                .listStyle(.insetGrouped)
+//                .background(backgroundColor.ignoresSafeArea()) // Apply background to the list container
+//                .scrollContentBackground(.hidden) // Essential for custom background color
+//                .navigationTitle("Me")
+//                .navigationBarTitleDisplayMode(.large)
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        darkModeToggleButton
+//                    }
+//                }
+//                // --- Modifiers ---
+//                .sheet(item: $showingSheetForItem) { item in
+//                     sheetContent(for: item)
+//                          .preferredColorScheme(isDarkMode ? .dark : .light)
+//                          .presentationDetents([.medium, .large]) // Allow resizing
+//                }
+//                .alert("Clear Cache", isPresented: $showClearCacheAlert, actions: clearCacheAlertButtons, message: clearCacheAlertMessage)
+//                .alert("Log Out", isPresented: $showLogoutAlert, actions: logoutAlertButtons, message: logoutAlertMessage)
+//                .alert(item: $showingAlertForItem, content: genericActionAlert) // Use content parameter
+//
+//            } // End NavigationStack
+//            .background(backgroundColor.edgesIgnoringSafeArea(.all)) // Ensure background covers everything
+//            .ignoresSafeArea(.keyboard)
+//
+//            // --- Cache Cleared Banner ---
+//            if showCacheClearedBanner {
+//                NotificationBanner(text: "Cache Cleared Successfully!", iconName: "checkmark.circle.fill", style: .success)
+//                    .transition(.move(edge: .bottom).combined(with: .opacity))
+//                    .onAppear {
+//                        // Ensure VoiceOver reads the banner when it appears
+//                         UIAccessibility.post(notification: .announcement, argument: "Cache Cleared Successfully!")
+//                     }
+//                    .padding(.bottom, 50) // Adjust position above tab bar
+//            }
+//
+//        } // End ZStack
+//    }
 
     // --- Row Builder ---
     @ViewBuilder
@@ -415,10 +418,10 @@ struct SettingsScreen: View {
             .buttonStyle(.plain)
             .accessibilityHint("Opens link in browser") // Accessibility improvement
         case .action(let action):
-//            Button(action: action) label: { // Directly assign the action
-//                SettingsRowContent(item: item, iconColor: iconColor, textColor: textColor)
-//            }
-//            .buttonStyle(.plain)
+            Button(action: action, label: {
+                SettingsRowContent(item: item, iconColor: iconColor, textColor: textColor)
+            })
+            .buttonStyle(.plain)
         case .none: EmptyView()
         }
     }
@@ -647,8 +650,10 @@ struct CommonSettingsView: View {
                      .tint(Color.orange)
                      .onChange(of: appIconBadgeEnabled) { _, newValue in
                          // Update actual app badge setting here
-                          UIApplication.shared.applicationIconBadgeNumber = newValue ? 1 : 0 // Example
-                          print("App icon badge \(newValue ? "enabled" : "disabled")")
+                         // UIApplication.shared.applicationIconBadgeNumber = newValue ? 1 : 0 // Example
+                         //  -[UNUserNotificationCenter setBadgeCount:withCompletionHandler:] instead.
+                         print("\(String(describing: UNUserNotificationCenter.setBadgeCount(.current())))")
+                         print("App icon badge \(newValue ? "enabled" : "disabled")")
                       }
              }
              // Add more common settings...
@@ -895,7 +900,7 @@ struct DataStorageView: View {
 
     var body: some View {
         Form {
-            Section("Current Usage") {
+            Section {
                 HStack {
                     Label("Application Cache", systemImage: "archivebox")
                     Spacer()
@@ -934,7 +939,7 @@ struct ProfileEditView: View {
     @State private var showSaveAlert = false
 
     var isInputValid: Bool {
-        !editedName.trimmingCharacters(in: .weights).isEmpty &&
+        !editedName.trimmingCharacters(in: .illegalCharacters).isEmpty &&
         (editedEmail.isEmpty || isValidEmail(editedEmail)) // Allow empty email or validate format
     }
 
@@ -992,7 +997,7 @@ struct ProfileEditView: View {
                     Button("Save") {
                         if isInputValid {
                             // Update the actual profile binding
-                            userProfile.name = editedName.trimmingCharacters(in: .weights)
+                            userProfile.name = editedName.trimmingCharacters(in: .illegalCharacters)
                             userProfile.email = editedEmail.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
                             // Persist changes explicitly if needed (instead of relying only on onChange)
                             // saveUserProfile(userProfile)
