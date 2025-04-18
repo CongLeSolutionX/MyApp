@@ -78,8 +78,14 @@ struct EnhancedChatView: View {
                     .padding(.top)
                 }
                 // Scroll logic remains sensitive to message count and loading state changes
-                .onChange(of: messages.count) { scrollToBottom(proxy: scrollViewProxy) }
-                .onChange(of: isWaitingForResponse) { if isWaitingForResponse { scrollToBottom(proxy: scrollViewProxy, anchor: .bottom, id: UUID()) } }
+                .onChange(of: messages.count) {
+                    scrollToBottom(proxy: scrollViewProxy)
+                }
+                .onChange(of: isWaitingForResponse) {
+                    if isWaitingForResponse {
+                        scrollToBottom(proxy: scrollViewProxy, anchor: .bottom, id: UUID())
+                    }
+                }
             }
             
             // --- Error Display Area ---
@@ -106,7 +112,7 @@ struct EnhancedChatView: View {
                         .resizable()
                         .frame(width: 30, height: 30)
                         .foregroundColor(newMessageText.isEmpty && !isWaitingForResponse ? .gray : .yellow)
-                    //  .foregroundColor(isWaitingForResponse ? .red : (newMessageText.isEmpty ? .gray : .yellow))
+                      .foregroundColor(isWaitingForResponse ? .red : (newMessageText.isEmpty ? .gray : .yellow))
                 }
                 .disabled(newMessageText.isEmpty && !isWaitingForResponse) // Can always stop if waiting
             }
@@ -122,7 +128,11 @@ struct EnhancedChatView: View {
     
     // --- Helper Functions ---
     
-    func scrollToBottom(proxy: ScrollViewProxy, anchor: UnitPoint = .bottom, id: UUID? = nil) {
+    func scrollToBottom(
+        proxy: ScrollViewProxy,
+        anchor: UnitPoint = .bottom,
+        id: UUID? = nil
+    ) {
         let targetId = id ?? messages.last?.id
         guard let targetId = targetId else { return }
         withAnimation {
