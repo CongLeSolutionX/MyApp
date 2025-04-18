@@ -461,154 +461,212 @@ struct SpotifyAPIService { // Unchanged Functionality
 
 // MARK: - Main List View (Themed)
 struct SpotifyAlbumListView: View {
+    // --- State Variables (Unchanged) ---
     @State private var searchQuery: String = ""
     @State private var displayedAlbums: [AlbumItem] = []
     @State private var isLoading: Bool = false
     @State private var searchInfo: Albums? = nil
     @State private var currentError: SpotifyAPIError? = nil
     
-    
+    // --- Main Body ---
     var body: some View {
-        EmptyView()
+        NavigationView {
+            ZStack {
+                // Build the background view
+                viewBackground()
+                
+                // Build the main content area (handles loading/error/empty/list states)
+                mainContentContainer()
+                
+                // Build the loading overlay (shown on top when loading *more*)
+                loadingIndicatorOverlay()
+            }
+            // --- Modifiers applied to the ZStack's container (NavigationView) ---
+            .navigationTitle("Psychedelic Search") // Keep title setup here
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar { toolbarContent() } // Extracted Toolbar Content
+            //.toolbarBackground(toolbarBackground(), for: .navigationBar) // Extracted Toolbar Background
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
+                // Suggestions view can be added here if desired
+            }
+            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
+            .task(id: searchQuery) { await performDebouncedSearch() } // Debounce on query change
+            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } } // Reset error on new search
+        }
+        .accentColor(psychedelicAccentPink) // Apply accent color to the whole navigation view
+        .onAppear { styleSearchPlaceholderAppearance() } // Attempt placeholder styling on appear
     }
     
-    //    var body: some View {
-    //        NavigationView {
-    //            ZStack {
-    //                // --- Psychedelic Background ---
-    //                LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
-    //                    .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08)) // Subtle animation
-    //                    .ignoresSafeArea()
-    //
-    //                // --- Conditional Content ---
-    //                Group {
-    //                    if isLoading && displayedAlbums.isEmpty {
-    //                        ProgressView()
-    //                            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
-    //                            .scaleEffect(1.8)
-    //                            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
-    //                    } else if let error = currentError {
-    //                        ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } } // Themed Error View
-    //                    } else if displayedAlbums.isEmpty {
-    //                        EmptyStatePlaceholderView(searchQuery: searchQuery) // Themed Empty View
-    //                    } else {
-    //                        albumList // Themed List
-    //                    }
-    //                }
-    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
-    //                .transition(.opacity.animation(.easeOut(duration: 0.5)))
-    //
-    //                // --- Loading Indicator Overlay (Themed) ---
-    //                if isLoading && !displayedAlbums.isEmpty {
-    //                    VStack {
-    //                        HStack {
-    //                            Spacer()
-    //                            ProgressView().tint(psychedelicAccentLime)
-    //                            Text("LOADING...")
-    //                                .font(psychedelicBodyFont(size: 11, weight: .bold))
-    //                                .foregroundColor(psychedelicAccentLime)
-    //                                .tracking(1.5)
-    //                            Spacer()
-    //                        }
-    //                        .padding(.vertical, 5)
-    //                        .padding(.horizontal, 15)
-    //                        .background(.black.opacity(0.7).blur(radius: 5)) // More pronounced bg
-    //                        .clipShape(Capsule())
-    //                        .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
-    //                        .shadow(color: psychedelicAccentLime, radius: 5)
-    //                        .padding(.top, 10)
-    //                        .transition(.opacity.animation(.easeInOut))
-    //                        Spacer()
-    //                    }
-    //                }
-    //            }
-    //            .navigationTitle("Psychedelic Search")
-    //            .navigationBarTitleDisplayMode(.large)
-    //            .toolbar { // Custom Title View for Large Title Area
-    //                ToolbarItem(placement: .principal) {
-    //                    Text("Psychedelic Search")
-    //                        .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example: Expressive Font
-    //                    // .font(psychedelicTitleFont(size: 26)) // Use your themed title font
-    //                        .foregroundStyle(
-    //                            LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
-    //                        )
-    //                        .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
-    //                }
-    //            }
-    //            // Themed Navigation Bar Background (Subtle)
-    //            .toolbarBackground(
-    //                LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-    //                    .blur(radius: 8), // Blurred background
-    //                for: .navigationBar
-    //            )
-    //            .toolbarBackground(.visible, for: .navigationBar)
-    //            .toolbarColorScheme(.dark, for: .navigationBar) // Keep controls white
-    //
-    //            // --- Search Bar (Themed placeholder styling) ---
-    //            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
-    //                // Suggestions view can be added here if desired
-    //            }
-    //            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
-    //            .task(id: searchQuery) { await performDebouncedSearch() }
-    //            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
-    //            // Change search bar accent color if possible
-    //            .accentColor(psychedelicAccentPink)
-    //            .onAppear { // Style the search text field placeholder if possible (might need UIKit introspection)
-    //                //                  UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search Albums / Artists...", attributes: [.foregroundColor: UIColor(Color.white.opacity(0.6)), .font: UIFont.systemFont(ofSize: 16, weight: .regular, width: .condensed)]) // Example styling
-    //            }
-    //        }
-    //    }
+    // MARK: - @ViewBuilder Sub-Components
     
-    // --- Themed List Composition---
-    private var albumList: some View {
-        ScrollView { // Use ScrollView for more background control
-            LazyVStack(spacing: 0) { // Use LazyVStack within ScrollView
-                // --- Themed Metadata Header ---
+    // Builds the primary background gradient and noise effect
+    @ViewBuilder
+    private func viewBackground() -> some View {
+        LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
+            .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08))
+            .ignoresSafeArea()
+    }
+    
+    // Builds the main content: switches between loading, error, empty, or the album list
+    @ViewBuilder
+    private func mainContentContainer() -> some View {
+        Group { // Group is necessary for the conditional logic within @ViewBuilder
+            if isLoading && displayedAlbums.isEmpty {
+                initialLoadingView() // Extracted initial loading indicator
+            } else if let error = currentError {
+                ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } }
+            } else if displayedAlbums.isEmpty && !searchQuery.isEmpty { // Show empty state only after a search attempt
+                EmptyStatePlaceholderView(searchQuery: searchQuery)
+            } else if displayedAlbums.isEmpty && searchQuery.isEmpty { // Show initial prompt
+                 EmptyStatePlaceholderView(searchQuery: searchQuery) // Or a dedicated initial view
+            } else {
+                albumList() // Show the actual list
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure content area fills space
+        .transition(.opacity.animation(.easeOut(duration: 0.4))) // Fade transition
+    }
+    
+    // Builds the initial loading indicator (when the list is empty)
+    @ViewBuilder
+    private func initialLoadingView() -> some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
+            .scaleEffect(1.8)
+            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
+    }
+    
+    // Builds the overlay loading indicator (shown when fetching more/refreshing)
+    @ViewBuilder
+    private func loadingIndicatorOverlay() -> some View {
+        // Only show this overlay if we are loading *and* there are already albums displayed
+        if isLoading && !displayedAlbums.isEmpty {
+            VStack {
+                HStack {
+                    Spacer()
+                    ProgressView().tint(psychedelicAccentLime)
+                    Text("LOADING...")
+                        .font(psychedelicBodyFont(size: 11, weight: .bold))
+                        .foregroundColor(psychedelicAccentLime)
+                        .tracking(1.5)
+                    Spacer()
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 15)
+               // .background(.black.opacity(0.7).blur(radius: 5))
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
+                .shadow(color: psychedelicAccentLime, radius: 5)
+                .padding(.top, 10) // Position it from the top
+                .transition(.opacity.animation(.easeInOut))
+                Spacer() // Pushes the indicator to the top
+            }
+        } else {
+             EmptyView() // Return EmptyView when the condition is false
+        }
+    }
+
+    // Builds the scrollable list of album cards
+    @ViewBuilder
+    private func albumList() -> some View {
+        ScrollView {
+            LazyVStack(spacing: 0) { // spacing: 0; padding added to the card itself
+                // --- Search Metadata Header ---
                 if let info = searchInfo, info.total > 0 {
                     SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
                         .padding(.horizontal)
                         .padding(.bottom, 10)
                 }
+                
                 // --- Album Cards ---
                 ForEach(displayedAlbums) { album in
                     NavigationLink(destination: AlbumDetailView(album: album)) {
-                        PsychedelicAlbumCard(album: album) // Themed Card
-                            .padding(.vertical, 12) // Increased spacing between cards
-                            .padding(.horizontal)
+                        PsychedelicAlbumCard(album: album)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal) // Padding around each card
                     }
-                    .buttonStyle(.plain) // Ensure NavLink doesn't style the card itself
+                    .buttonStyle(.plain) // Remove default NavLink styling
                 }
+                
+                // TODO: Add pagination / load more indicator here if needed
             }
-            .padding(.top, 10) // Padding at the top of the scroll content
+            .padding(.top, 10) // Padding above the first item in the list
         }
-        .scrollDismissesKeyboard(.interactively)
+        .scrollDismissesKeyboard(.interactively) // Dismiss keyboard on scroll
+    }
+
+    // Builds the content for the navigation bar's toolbar
+    @ViewBuilder
+    private func toolbarContent() -> some View {
+//        ToolbarItem(placement: .automatic) { // Use .principal for centered large title area
+            Text("Psychedelic Search")
+                .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example expressive font
+                .foregroundStyle(
+                    LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
+                .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
+//        }
+        // Add other toolbar items if needed (e.g., Filter button)
+        // ToolbarItem(placement: .navigationBarTrailing) { Button("Filter") {} }
+    }
+
+    // Builds the background view for the toolbar
+    @ViewBuilder
+    private func toolbarBackground() -> some View {
+        LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+            .blur(radius: 8)
     }
     
-    // --- Debounced Search Logic ---
+    // --- Helper Methods ---
+    
+    // Placeholder styling (Keep implementation attempt)
+    private func styleSearchPlaceholderAppearance() {
+         // Attempt to style search bar placeholder via UIKit appearance
+         // Note: This can be fragile and might break in future iOS versions.
+ //        let placeholderAttributes: [NSAttributedString.Key: Any] = [
+ //            .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
+ //            .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
+ //        ]
+ //        UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
+    }
+
+    // --- Debounced Search Logic (Unchanged) ---
     private func performDebouncedSearch(immediate: Bool = false) async {
         let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // If query is empty, clear results immediately
         guard !trimmedQuery.isEmpty else {
             await MainActor.run {
-                displayedAlbums = []; searchInfo = nil
+                displayedAlbums = []
+                searchInfo = nil
                 isLoading = false
                 currentError = nil
             }
             return
         }
+        
+        // Debounce logic
         if !immediate {
             do {
                 try await Task.sleep(for: .milliseconds(600))
-                try Task.checkCancellation()
-            } // Increased debounce slightly
-            catch {
+                try Task.checkCancellation() // Check if task was cancelled (e.g., user typed again)
+            } catch {
                 print("Search task cancelled (debounce).")
-                return
+                return // Exit if cancelled
             }
         }
+        
+        // Start loading state
         await MainActor.run { isLoading = true }
+        
+        // Perform API call
         do {
-            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
-            try Task.checkCancellation()
+            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0) // Reset offset for new search
+            try Task.checkCancellation() // Check again after API call
+            
+            // Update UI on main thread
             await MainActor.run {
                 displayedAlbums = response.albums.items
                 searchInfo = response.albums
@@ -617,7 +675,7 @@ struct SpotifyAlbumListView: View {
             }
         } catch is CancellationError {
             print("Search task cancelled.")
-            await MainActor.run { isLoading = false }
+            await MainActor.run { isLoading = false } // Ensure loading stops if cancelled during API call
         } catch let apiError as SpotifyAPIError {
             print("❌ API Error: \(apiError.localizedDescription)")
             await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
@@ -627,6 +685,181 @@ struct SpotifyAlbumListView: View {
         }
     }
 }
+
+struct SpotifyAlbumListView_Previews_Refactored: PreviewProvider {
+    static var previews: some View {
+        SpotifyAlbumListView() // Preview the refactored view
+            .preferredColorScheme(.dark)
+    }
+}
+
+//struct SpotifyAlbumListView: View {
+//    @State private var searchQuery: String = ""
+//    @State private var displayedAlbums: [AlbumItem] = []
+//    @State private var isLoading: Bool = false
+//    @State private var searchInfo: Albums? = nil
+//    @State private var currentError: SpotifyAPIError? = nil
+//    
+//    
+//    var body: some View {
+//        EmptyView()
+//    }
+//    
+//    //    var body: some View {
+//    //        NavigationView {
+//    //            ZStack {
+//    //                // --- Psychedelic Background ---
+//    //                LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
+//    //                    .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08)) // Subtle animation
+//    //                    .ignoresSafeArea()
+//    //
+//    //                // --- Conditional Content ---
+//    //                Group {
+//    //                    if isLoading && displayedAlbums.isEmpty {
+//    //                        ProgressView()
+//    //                            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
+//    //                            .scaleEffect(1.8)
+//    //                            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
+//    //                    } else if let error = currentError {
+//    //                        ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } } // Themed Error View
+//    //                    } else if displayedAlbums.isEmpty {
+//    //                        EmptyStatePlaceholderView(searchQuery: searchQuery) // Themed Empty View
+//    //                    } else {
+//    //                        albumList // Themed List
+//    //                    }
+//    //                }
+//    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//    //                .transition(.opacity.animation(.easeOut(duration: 0.5)))
+//    //
+//    //                // --- Loading Indicator Overlay (Themed) ---
+//    //                if isLoading && !displayedAlbums.isEmpty {
+//    //                    VStack {
+//    //                        HStack {
+//    //                            Spacer()
+//    //                            ProgressView().tint(psychedelicAccentLime)
+//    //                            Text("LOADING...")
+//    //                                .font(psychedelicBodyFont(size: 11, weight: .bold))
+//    //                                .foregroundColor(psychedelicAccentLime)
+//    //                                .tracking(1.5)
+//    //                            Spacer()
+//    //                        }
+//    //                        .padding(.vertical, 5)
+//    //                        .padding(.horizontal, 15)
+//    //                        .background(.black.opacity(0.7).blur(radius: 5)) // More pronounced bg
+//    //                        .clipShape(Capsule())
+//    //                        .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
+//    //                        .shadow(color: psychedelicAccentLime, radius: 5)
+//    //                        .padding(.top, 10)
+//    //                        .transition(.opacity.animation(.easeInOut))
+//    //                        Spacer()
+//    //                    }
+//    //                }
+//    //            }
+//    //            .navigationTitle("Psychedelic Search")
+//    //            .navigationBarTitleDisplayMode(.large)
+//    //            .toolbar { // Custom Title View for Large Title Area
+//    //                ToolbarItem(placement: .principal) {
+//    //                    Text("Psychedelic Search")
+//    //                        .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example: Expressive Font
+//    //                    // .font(psychedelicTitleFont(size: 26)) // Use your themed title font
+//    //                        .foregroundStyle(
+//    //                            LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+//    //                        )
+//    //                        .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
+//    //                }
+//    //            }
+//    //            // Themed Navigation Bar Background (Subtle)
+//    //            .toolbarBackground(
+//    //                LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+//    //                    .blur(radius: 8), // Blurred background
+//    //                for: .navigationBar
+//    //            )
+//    //            .toolbarBackground(.visible, for: .navigationBar)
+//    //            .toolbarColorScheme(.dark, for: .navigationBar) // Keep controls white
+//    //
+//    //            // --- Search Bar (Themed placeholder styling) ---
+//    //            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
+//    //                // Suggestions view can be added here if desired
+//    //            }
+//    //            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
+//    //            .task(id: searchQuery) { await performDebouncedSearch() }
+//    //            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
+//    //            // Change search bar accent color if possible
+//    //            .accentColor(psychedelicAccentPink)
+//    //            .onAppear { // Style the search text field placeholder if possible (might need UIKit introspection)
+//    //                //                  UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search Albums / Artists...", attributes: [.foregroundColor: UIColor(Color.white.opacity(0.6)), .font: UIFont.systemFont(ofSize: 16, weight: .regular, width: .condensed)]) // Example styling
+//    //            }
+//    //        }
+//    //    }
+//    
+//    // --- Themed List Composition---
+//    private var albumList: some View {
+//        ScrollView { // Use ScrollView for more background control
+//            LazyVStack(spacing: 0) { // Use LazyVStack within ScrollView
+//                // --- Themed Metadata Header ---
+//                if let info = searchInfo, info.total > 0 {
+//                    SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
+//                        .padding(.horizontal)
+//                        .padding(.bottom, 10)
+//                }
+//                // --- Album Cards ---
+//                ForEach(displayedAlbums) { album in
+//                    NavigationLink(destination: AlbumDetailView(album: album)) {
+//                        PsychedelicAlbumCard(album: album) // Themed Card
+//                            .padding(.vertical, 12) // Increased spacing between cards
+//                            .padding(.horizontal)
+//                    }
+//                    .buttonStyle(.plain) // Ensure NavLink doesn't style the card itself
+//                }
+//            }
+//            .padding(.top, 10) // Padding at the top of the scroll content
+//        }
+//        .scrollDismissesKeyboard(.interactively)
+//    }
+//    
+//    // --- Debounced Search Logic ---
+//    private func performDebouncedSearch(immediate: Bool = false) async {
+//        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+//        guard !trimmedQuery.isEmpty else {
+//            await MainActor.run {
+//                displayedAlbums = []; searchInfo = nil
+//                isLoading = false
+//                currentError = nil
+//            }
+//            return
+//        }
+//        if !immediate {
+//            do {
+//                try await Task.sleep(for: .milliseconds(600))
+//                try Task.checkCancellation()
+//            } // Increased debounce slightly
+//            catch {
+//                print("Search task cancelled (debounce).")
+//                return
+//            }
+//        }
+//        await MainActor.run { isLoading = true }
+//        do {
+//            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
+//            try Task.checkCancellation()
+//            await MainActor.run {
+//                displayedAlbums = response.albums.items
+//                searchInfo = response.albums
+//                currentError = nil
+//                isLoading = false
+//            }
+//        } catch is CancellationError {
+//            print("Search task cancelled.")
+//            await MainActor.run { isLoading = false }
+//        } catch let apiError as SpotifyAPIError {
+//            print("❌ API Error: \(apiError.localizedDescription)")
+//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
+//        } catch {
+//            print("❌ Unexpected Error: \(error.localizedDescription)")
+//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
+//        }
+//    }
+//}
 
 // MARK: - Psychedelic Album Card (Themed)
 struct PsychedelicAlbumCard: View {
