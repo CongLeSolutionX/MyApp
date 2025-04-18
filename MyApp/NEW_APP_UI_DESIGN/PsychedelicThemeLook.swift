@@ -472,92 +472,92 @@ struct SpotifyAlbumListView: View {
         EmptyView()
     }
     
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                // --- Psychedelic Background ---
-//                LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
-//                    .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08)) // Subtle animation
-//                    .ignoresSafeArea()
-//                
-//                // --- Conditional Content ---
-//                Group {
-//                    if isLoading && displayedAlbums.isEmpty {
-//                        ProgressView()
-//                            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
-//                            .scaleEffect(1.8)
-//                            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
-//                    } else if let error = currentError {
-//                        ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } } // Themed Error View
-//                    } else if displayedAlbums.isEmpty {
-//                        EmptyStatePlaceholderView(searchQuery: searchQuery) // Themed Empty View
-//                    } else {
-//                        albumList // Themed List
-//                    }
-//                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .transition(.opacity.animation(.easeOut(duration: 0.5)))
-//                
-//                // --- Loading Indicator Overlay (Themed) ---
-//                if isLoading && !displayedAlbums.isEmpty {
-//                    VStack {
-//                        HStack {
-//                            Spacer()
-//                            ProgressView().tint(psychedelicAccentLime)
-//                            Text("LOADING...")
-//                                .font(psychedelicBodyFont(size: 11, weight: .bold))
-//                                .foregroundColor(psychedelicAccentLime)
-//                                .tracking(1.5)
-//                            Spacer()
-//                        }
-//                        .padding(.vertical, 5)
-//                        .padding(.horizontal, 15)
-//                        .background(.black.opacity(0.7).blur(radius: 5)) // More pronounced bg
-//                        .clipShape(Capsule())
-//                        .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
-//                        .shadow(color: psychedelicAccentLime, radius: 5)
-//                        .padding(.top, 10)
-//                        .transition(.opacity.animation(.easeInOut))
-//                        Spacer()
-//                    }
-//                }
-//            }
-//            .navigationTitle("Psychedelic Search")
-//            .navigationBarTitleDisplayMode(.large)
-//            .toolbar { // Custom Title View for Large Title Area
-//                ToolbarItem(placement: .principal) {
-//                    Text("Psychedelic Search")
-//                        .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example: Expressive Font
-//                    // .font(psychedelicTitleFont(size: 26)) // Use your themed title font
-//                        .foregroundStyle(
-//                            LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
-//                        )
-//                        .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
-//                }
-//            }
-//            // Themed Navigation Bar Background (Subtle)
-//            .toolbarBackground(
-//                LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-//                    .blur(radius: 8), // Blurred background
-//                for: .navigationBar
-//            )
-//            .toolbarBackground(.visible, for: .navigationBar)
-//            .toolbarColorScheme(.dark, for: .navigationBar) // Keep controls white
-//            
-//            // --- Search Bar (Themed placeholder styling) ---
-//            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
-//                // Suggestions view can be added here if desired
-//            }
-//            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
-//            .task(id: searchQuery) { await performDebouncedSearch() }
-//            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
-//            // Change search bar accent color if possible
-//            .accentColor(psychedelicAccentPink)
-//            .onAppear { // Style the search text field placeholder if possible (might need UIKit introspection)
-//                //                  UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search Albums / Artists...", attributes: [.foregroundColor: UIColor(Color.white.opacity(0.6)), .font: UIFont.systemFont(ofSize: 16, weight: .regular, width: .condensed)]) // Example styling
-//            }
-//        }
-//    }
+    //    var body: some View {
+    //        NavigationView {
+    //            ZStack {
+    //                // --- Psychedelic Background ---
+    //                LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
+    //                    .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08)) // Subtle animation
+    //                    .ignoresSafeArea()
+    //
+    //                // --- Conditional Content ---
+    //                Group {
+    //                    if isLoading && displayedAlbums.isEmpty {
+    //                        ProgressView()
+    //                            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
+    //                            .scaleEffect(1.8)
+    //                            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
+    //                    } else if let error = currentError {
+    //                        ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } } // Themed Error View
+    //                    } else if displayedAlbums.isEmpty {
+    //                        EmptyStatePlaceholderView(searchQuery: searchQuery) // Themed Empty View
+    //                    } else {
+    //                        albumList // Themed List
+    //                    }
+    //                }
+    //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+    //                .transition(.opacity.animation(.easeOut(duration: 0.5)))
+    //
+    //                // --- Loading Indicator Overlay (Themed) ---
+    //                if isLoading && !displayedAlbums.isEmpty {
+    //                    VStack {
+    //                        HStack {
+    //                            Spacer()
+    //                            ProgressView().tint(psychedelicAccentLime)
+    //                            Text("LOADING...")
+    //                                .font(psychedelicBodyFont(size: 11, weight: .bold))
+    //                                .foregroundColor(psychedelicAccentLime)
+    //                                .tracking(1.5)
+    //                            Spacer()
+    //                        }
+    //                        .padding(.vertical, 5)
+    //                        .padding(.horizontal, 15)
+    //                        .background(.black.opacity(0.7).blur(radius: 5)) // More pronounced bg
+    //                        .clipShape(Capsule())
+    //                        .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
+    //                        .shadow(color: psychedelicAccentLime, radius: 5)
+    //                        .padding(.top, 10)
+    //                        .transition(.opacity.animation(.easeInOut))
+    //                        Spacer()
+    //                    }
+    //                }
+    //            }
+    //            .navigationTitle("Psychedelic Search")
+    //            .navigationBarTitleDisplayMode(.large)
+    //            .toolbar { // Custom Title View for Large Title Area
+    //                ToolbarItem(placement: .principal) {
+    //                    Text("Psychedelic Search")
+    //                        .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example: Expressive Font
+    //                    // .font(psychedelicTitleFont(size: 26)) // Use your themed title font
+    //                        .foregroundStyle(
+    //                            LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+    //                        )
+    //                        .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
+    //                }
+    //            }
+    //            // Themed Navigation Bar Background (Subtle)
+    //            .toolbarBackground(
+    //                LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+    //                    .blur(radius: 8), // Blurred background
+    //                for: .navigationBar
+    //            )
+    //            .toolbarBackground(.visible, for: .navigationBar)
+    //            .toolbarColorScheme(.dark, for: .navigationBar) // Keep controls white
+    //
+    //            // --- Search Bar (Themed placeholder styling) ---
+    //            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
+    //                // Suggestions view can be added here if desired
+    //            }
+    //            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
+    //            .task(id: searchQuery) { await performDebouncedSearch() }
+    //            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
+    //            // Change search bar accent color if possible
+    //            .accentColor(psychedelicAccentPink)
+    //            .onAppear { // Style the search text field placeholder if possible (might need UIKit introspection)
+    //                //                  UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search Albums / Artists...", attributes: [.foregroundColor: UIColor(Color.white.opacity(0.6)), .font: UIFont.systemFont(ofSize: 16, weight: .regular, width: .condensed)]) // Example styling
+    //            }
+    //        }
+    //    }
     
     // --- Themed List Composition---
     private var albumList: some View {
@@ -675,7 +675,7 @@ struct PsychedelicAlbumCard: View {
                         .foregroundColor(.white.opacity(0.8))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-//                        .background(.black.opacity(0.4).blur(radius: 3), in: Capsule()) // Blurred capsule
+                    //                        .background(.black.opacity(0.4).blur(radius: 3), in: Capsule()) // Blurred capsule
                     
                     Text("•")
                         .foregroundColor(.white.opacity(0.5))
@@ -849,29 +849,29 @@ struct ErrorPlaceholderView: View {
                 .padding(.horizontal, 20)
                 .lineSpacing(5)
             
-              // TODO: Conformation to BinaryInteger
-//            if error != .invalidToken,
-//                let retryAction = retryAction {
-//                PsychedelicButton(
-//                    text: "RETRY SEQUENCE",
-//                    action: retryAction, // Themed button
-//                    iconName: "arrow.clockwise.circle.fill",
-//                    gradient: Gradient(colors: [psychedelicAccentLime, psychedelicAccentCyan]))
-//                .padding(.top, 15)
-//            } else if error == .invalidToken {
-                Text("Token Expired / Invalid.\nRestart or Check Code.")
-                    .font(psychedelicBodyFont(size: 12))
-                    .foregroundColor(psychedelicAccentPink.opacity(0.8))
-                    .multilineTextAlignment(.center)
-                    .padding(.top, 10)
-//            }
+            // TODO: Conformation to BinaryInteger
+            //            if error != .invalidToken,
+            //                let retryAction = retryAction {
+            //                PsychedelicButton(
+            //                    text: "RETRY SEQUENCE",
+            //                    action: retryAction, // Themed button
+            //                    iconName: "arrow.clockwise.circle.fill",
+            //                    gradient: Gradient(colors: [psychedelicAccentLime, psychedelicAccentCyan]))
+            //                .padding(.top, 15)
+            //            } else if error == .invalidToken {
+            Text("Token Expired / Invalid.\nRestart or Check Code.")
+                .font(psychedelicBodyFont(size: 12))
+                .foregroundColor(psychedelicAccentPink.opacity(0.8))
+                .multilineTextAlignment(.center)
+                .padding(.top, 10)
+            //            }
         }
         .padding(30)
         .background(
             .ultraThinMaterial.opacity(0.8) // Frosted glass background
-                //.overlay(psychedelicPurples[2].opacity(0.1)) // Subtle purple tint
-                //.clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                //.overlay(RoundedRectangle(cornerRadius: 30, style: .continuous).stroke(LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing).opacity(0.3), lineWidth: 1))
+            //.overlay(psychedelicPurples[2].opacity(0.1)) // Subtle purple tint
+            //.clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            //.overlay(RoundedRectangle(cornerRadius: 30, style: .continuous).stroke(LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing).opacity(0.3), lineWidth: 1))
         )
         .padding(20)
     }
@@ -942,7 +942,7 @@ struct EmptyStatePlaceholderView: View {
             }
         }
         // Apply consistent font to the whole attributed string
-       // message.font = retroFont(size: 14)
+        // message.font = retroFont(size: 14)
         message.foregroundColor = .white.opacity(0.8)
         // Optionally target and style the bold part (requires more complex AttributedString manipulation)
         return message
@@ -1003,11 +1003,11 @@ struct AlbumDetailView: View {
         .navigationTitle(album.name)
         .navigationBarTitleDisplayMode(.inline)
         // Consistent Themed Navigation Bar
-//        .toolbarBackground(
-//            LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-//                .blur(radius: 8),
-//            for: .navigationBar
-//        )
+        //        .toolbarBackground(
+        //            LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+        //                .blur(radius: 8),
+        //            for: .navigationBar
+        //        )
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .task { await fetchTracks() }
@@ -1155,58 +1155,58 @@ struct TracksSectionView: View {
         EmptyView()
     }
     
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 0) { // Use VStack, remove Section for custom header
-//            // --- Custom Section Header ---
-//            Text("TRACKLIST FREQUENCIES")
-//                .font(psychedelicBodyFont(size: 14, weight: .bold))
-//                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
-//                .tracking(2.5) // Wider tracking
-//                .padding(.horizontal)
-//                .padding(.bottom, 15)
-//                .frame(maxWidth: .infinity, alignment: .center)
-//            
-//            // --- Content Area with Themed Background ---
-//            Group { // Group content to apply background/padding once
-//                if isLoading {
-//                    HStack { Spacer(); ProgressView().tint(psychedelicAccentCyan); Text("Scanning...") .font(psychedelicBodyFont(size: 14)); Spacer() }
-//                        .padding(.vertical, 30)
-//                } else if let error = error {
-//                    ErrorPlaceholderView(error: error, retryAction: retryAction) // Use themed error view
-//                        .padding(.vertical, 20)
-//                } else if tracks.isEmpty {
-//                    Text("Signal Lost - No Tracks Found")
-//                        .font(psychedelicBodyFont(size: 14))
-//                        .foregroundColor(.white.opacity(0.6))
-//                        .frame(maxWidth: .infinity, alignment: .center)
-//                        .padding(.vertical, 30)
-//                } else {
-//                    ForEach(tracks) { track in
-//                        TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
-//                            .contentShape(Rectangle())
-//                            .onTapGesture { selectedTrackUri = track.uri }
-//                        // --- Themed Selection Background ---
-//                            .background(
-//                                track.uri == selectedTrackUri
-//                                ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
-//                                    .blur(radius: 8) // Slightly more pronounced blur
-//                                : Color.clear
-//                            )
-//                            .listRowSeparator(.hidden) // Hide separators if needed
-//                        Divider().background(Color.white.opacity(0.1)).padding(.leading) // Subtle custom divider
-//                    }
-//                }
-//            }
-//            .padding(.horizontal) // Apply horizontal padding to content within the background
-//            .background(
-//                .black.opacity(0.2) // Dark, semi-transparent background for the track list area
-//                    .blur(radius: 5)
-//            )
-//            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
-//            .padding(.horizontal) // Padding around the track list background
-//            
-//        }
-//    }
+    //    var body: some View {
+    //        VStack(alignment: .leading, spacing: 0) { // Use VStack, remove Section for custom header
+    //            // --- Custom Section Header ---
+    //            Text("TRACKLIST FREQUENCIES")
+    //                .font(psychedelicBodyFont(size: 14, weight: .bold))
+    //                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
+    //                .tracking(2.5) // Wider tracking
+    //                .padding(.horizontal)
+    //                .padding(.bottom, 15)
+    //                .frame(maxWidth: .infinity, alignment: .center)
+    //
+    //            // --- Content Area with Themed Background ---
+    //            Group { // Group content to apply background/padding once
+    //                if isLoading {
+    //                    HStack { Spacer(); ProgressView().tint(psychedelicAccentCyan); Text("Scanning...") .font(psychedelicBodyFont(size: 14)); Spacer() }
+    //                        .padding(.vertical, 30)
+    //                } else if let error = error {
+    //                    ErrorPlaceholderView(error: error, retryAction: retryAction) // Use themed error view
+    //                        .padding(.vertical, 20)
+    //                } else if tracks.isEmpty {
+    //                    Text("Signal Lost - No Tracks Found")
+    //                        .font(psychedelicBodyFont(size: 14))
+    //                        .foregroundColor(.white.opacity(0.6))
+    //                        .frame(maxWidth: .infinity, alignment: .center)
+    //                        .padding(.vertical, 30)
+    //                } else {
+    //                    ForEach(tracks) { track in
+    //                        TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
+    //                            .contentShape(Rectangle())
+    //                            .onTapGesture { selectedTrackUri = track.uri }
+    //                        // --- Themed Selection Background ---
+    //                            .background(
+    //                                track.uri == selectedTrackUri
+    //                                ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
+    //                                    .blur(radius: 8) // Slightly more pronounced blur
+    //                                : Color.clear
+    //                            )
+    //                            .listRowSeparator(.hidden) // Hide separators if needed
+    //                        Divider().background(Color.white.opacity(0.1)).padding(.leading) // Subtle custom divider
+    //                    }
+    //                }
+    //            }
+    //            .padding(.horizontal) // Apply horizontal padding to content within the background
+    //            .background(
+    //                .black.opacity(0.2) // Dark, semi-transparent background for the track list area
+    //                    .blur(radius: 5)
+    //            )
+    //            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
+    //            .padding(.horizontal) // Padding around the track list background
+    //
+    //        }
+    //    }
 }
 
 struct TrackRowView: View {
@@ -1418,7 +1418,7 @@ struct SpotifyPsychedelicApp: App { // Renamed App struct
         }
         // --- Global UI Appearance (Optional - Less needed with direct view styling) ---
         // Global tint could be set here if desired for elements like ActivityIndicator
-        // UIView.appearance().tintColor = UIColor(psychedelicAccentCyan)
+         UIView.appearance().tintColor = UIColor(psychedelicAccentCyan)
     }
     
     var body: some Scene {
