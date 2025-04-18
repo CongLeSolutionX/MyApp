@@ -17,7 +17,8 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AF576892DB205B7005F5562 /* SettingsView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF576882DB205B7005F5562 /* SettingsView_V5.swift */; };
-		9AF5768B2DB20B3A005F5562 /* PrivacySecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF5768A2DB20B39005F5562 /* PrivacySecurityView.swift */; };
+		9AF5768B2DB20B3A005F5562 /* PrivacySecurityView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF5768A2DB20B39005F5562 /* PrivacySecurityView_V1.swift */; };
+		9AF5768D2DB20E63005F5562 /* PrivacySecurityView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF5768C2DB20E61005F5562 /* PrivacySecurityView_V2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +34,8 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AF576882DB205B7005F5562 /* SettingsView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView_V5.swift; sourceTree = "<group>"; };
-		9AF5768A2DB20B39005F5562 /* PrivacySecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySecurityView.swift; sourceTree = "<group>"; };
+		9AF5768A2DB20B39005F5562 /* PrivacySecurityView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySecurityView_V1.swift; sourceTree = "<group>"; };
+		9AF5768C2DB20E61005F5562 /* PrivacySecurityView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySecurityView_V2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +53,6 @@
 			isa = PBXGroup;
 			children = (
 				9AF576882DB205B7005F5562 /* SettingsView_V5.swift */,
-				9AF5768A2DB20B39005F5562 /* PrivacySecurityView.swift */,
 				9A9723922DB20005003D5966 /* SettingsView_V4.swift */,
 				9A9723902DB1FD3B003D5966 /* SettingsView_V3.swift */,
 				9A97238D2DB1FC6C003D5966 /* SettingsView_V2.swift */,
@@ -82,6 +83,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AF5768E2DB20E6B005F5562 /* PrivacySecurityView */,
 				9A97238F2DB1FC73003D5966 /* SettingsView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -96,6 +98,15 @@
 				9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9AF5768E2DB20E6B005F5562 /* PrivacySecurityView */ = {
+			isa = PBXGroup;
+			children = (
+				9AF5768C2DB20E61005F5562 /* PrivacySecurityView_V2.swift */,
+				9AF5768A2DB20B39005F5562 /* PrivacySecurityView_V1.swift */,
+			);
+			path = PrivacySecurityView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,12 +180,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AF5768D2DB20E63005F5562 /* PrivacySecurityView_V2.swift in Sources */,
 				9AF576892DB205B7005F5562 /* SettingsView_V5.swift in Sources */,
 				9A97238C2DB1FB1D003D5966 /* SettingsView_V1.swift in Sources */,
 				9A9723932DB20007003D5966 /* SettingsView_V4.swift in Sources */,
 				9A9723912DB1FD3C003D5966 /* SettingsView_V3.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
-				9AF5768B2DB20B3A005F5562 /* PrivacySecurityView.swift in Sources */,
+				9AF5768B2DB20B3A005F5562 /* PrivacySecurityView_V1.swift in Sources */,
 				9A97238E2DB1FC6E003D5966 /* SettingsView_V2.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
