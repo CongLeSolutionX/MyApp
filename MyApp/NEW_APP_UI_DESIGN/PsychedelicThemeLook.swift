@@ -1331,8 +1331,10 @@ struct AlbumImageView: View { // Keep fundamental AsyncImage logic
             switch phase {
             case .empty: // Placeholder while loading
                 ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius).fill(psychedelicBackgroundEnd.opacity(0.5))
-                    ProgressView().tint(psychedelicAccentCyan)
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(psychedelicBackgroundEnd.opacity(0.5))
+                    ProgressView()
+                        .tint(psychedelicAccentCyan)
                 }
             case .success(let image):
                 image.resizable()
@@ -1340,7 +1342,8 @@ struct AlbumImageView: View { // Keep fundamental AsyncImage logic
                     .transition(.opacity.animation(.easeIn))
             case .failure: // Placeholder on error
                 ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius).fill(psychedelicBackgroundEnd.opacity(0.5))
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(psychedelicBackgroundEnd.opacity(0.5))
                     Image(systemName: "exclamationmark.triangle.fill") // More prominent error icon
                         .resizable().scaledToFit()
                         .foregroundColor(psychedelicAccentPink.opacity(0.7))
@@ -1349,7 +1352,12 @@ struct AlbumImageView: View { // Keep fundamental AsyncImage logic
             @unknown default: EmptyView()
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)) // Consistent rounding
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: cornerRadius,
+                style: .continuous
+            )
+        ) // Consistent rounding
     }
 }
 
@@ -1371,7 +1379,7 @@ struct SearchMetadataHeader: View {
         .tracking(1.2)
         .padding(.horizontal, 5) // Less padding needed if parent adds it
         .padding(.vertical, 5)
-        //.background(.black.opacity(0.2).blur(radius: 3))
+        .background(Color.white.opacity(0.2).blur(radius: 3))
         .clipShape(Capsule()) // Capsule shape for metadata
     }
 }
@@ -1381,7 +1389,11 @@ struct PsychedelicButton: View {
     let text: String
     let action: () -> Void
     var iconName: String? = nil
-    var gradient: Gradient = Gradient(colors: [psychedelicAccentPink, psychedelicAccentOrange]) // Default gradient
+    
+    var gradient: Gradient = Gradient(
+        colors: [psychedelicAccentPink, psychedelicAccentOrange]
+    ) // Default gradient
+    
     var textColor: Color = .white
     var glowColor: Color? = psychedelicAccentPink // Optional glow
     
@@ -1402,16 +1414,33 @@ struct PsychedelicButton: View {
             .background(LinearGradient(gradient: gradient, startPoint: .leading, endPoint: .trailing))
             .foregroundColor(textColor)
             .clipShape(Capsule()) // Capsule shape remains good
-            .shadow(color: .black.opacity(0.3), radius: 5, y: 3) // Standard shadow for depth
+            .shadow(
+                color: .black.opacity(0.3),
+                radius: 5,
+                y: 3
+            ) // Standard shadow for depth
             .overlay( // Add subtle inner/outer border for effect
                 Capsule()
-                    .stroke(LinearGradient(gradient: Gradient(colors: [.white.opacity(0.3), .clear]), startPoint: .top, endPoint: .center).opacity(0.5), lineWidth: 1) // Top highlight
+                    .stroke(
+                        LinearGradient(gradient: Gradient(colors: [.white.opacity(0.3), .clear]),
+                        startPoint: .top,
+                        endPoint: .center)
+                        .opacity(0.5),lineWidth: 1
+                    ) // Top highlight
             )
             .overlay(
                 Capsule()
-                    .stroke(LinearGradient(gradient: Gradient(colors: [.clear, .black.opacity(0.3)]), startPoint: .center, endPoint: .bottom).opacity(0.5), lineWidth: 1) // Bottom shadow
+                    .stroke(
+                        LinearGradient(gradient: Gradient(colors: [.clear, .black.opacity(0.3)]),
+                                       startPoint: .center,
+                                       endPoint: .bottom)
+                        .opacity(0.5),
+                        lineWidth: 1) // Bottom shadow
             )
-            .modifier(ConditionalPsychedelicGlow(color: glowColor ?? gradient.stops.first?.color ?? psychedelicAccentPink, apply: glowColor != nil, radius: 12))
+            .modifier(
+                ConditionalPsychedelicGlow(
+                    color: glowColor ?? gradient.stops.first?.color ?? psychedelicAccentPink,
+                    apply: glowColor != nil, radius: 12))
             
         }
         .buttonStyle(.plain) // Ensure customization takes precedence
