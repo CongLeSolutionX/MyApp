@@ -11,7 +11,7 @@
 ////
 ////  Created by Cong Le on 4/18/25.
 ////
-//
+//// https://huggingface.co/argmaxinc/whisperkit-coreml/tree/main
 ////
 ////  EnhancedChatView.swift
 ////  MyApp // Assumed App Name

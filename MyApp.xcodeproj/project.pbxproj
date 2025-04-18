@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A39B8952DB2CFB0006C6F39 /* OpenAIResponseView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A39B8942DB2CFAF006C6F39 /* OpenAIResponseView_V1.swift */; };
+		9A39B8972DB2D0B9006C6F39 /* OpenAIResponseView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A39B8962DB2D0B8006C6F39 /* OpenAIResponseView_V2.swift */; };
 		9A76F6542DB2290E004B7B89 /* DiscoverView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6532DB2290B004B7B89 /* DiscoverView_V1.swift */; };
 		9A76F6562DB229AB004B7B89 /* DiscoverView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6552DB229AA004B7B89 /* DiscoverView_V2.swift */; };
 		9A76F6582DB22AF8004B7B89 /* DiscoverView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6572DB22AF6004B7B89 /* DiscoverView_V3.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A39B8942DB2CFAF006C6F39 /* OpenAIResponseView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIResponseView_V1.swift; sourceTree = "<group>"; };
+		9A39B8962DB2D0B8006C6F39 /* OpenAIResponseView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIResponseView_V2.swift; sourceTree = "<group>"; };
 		9A76F6532DB2290B004B7B89 /* DiscoverView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V1.swift; sourceTree = "<group>"; };
 		9A76F6552DB229AA004B7B89 /* DiscoverView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V2.swift; sourceTree = "<group>"; };
 		9A76F6572DB22AF6004B7B89 /* DiscoverView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V3.swift; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
+				9A39B8962DB2D0B8006C6F39 /* OpenAIResponseView_V2.swift */,
+				9A39B8942DB2CFAF006C6F39 /* OpenAIResponseView_V1.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A85DE3F2DB2C9E800D0AB12 /* EnhancedChatView_V2_Good_start.swift */,
 				9A85DE3D2DB2C9C000D0AB12 /* EnhancedChatView_V1.swift */,
@@ -305,6 +311,7 @@
 				9A85DE402DB2C9EA00D0AB12 /* EnhancedChatView_V2_Good_start.swift in Sources */,
 				9A85DE172DB2AF8600D0AB12 /* WhisperAXAppContentView.swift in Sources */,
 				9A85DE272DB2B35700D0AB12 /* DetailView.swift in Sources */,
+				9A39B8952DB2CFB0006C6F39 /* OpenAIResponseView_V1.swift in Sources */,
 				9A85DE332DB2B95A00D0AB12 /* ContentViewModel_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A85DE2D2DB2B39300D0AB12 /* TranscriptionDisplayView.swift in Sources */,
@@ -334,6 +341,7 @@
 				9A76F6562DB229AB004B7B89 /* DiscoverView_V2.swift in Sources */,
 				9A97238E2DB1FC6E003D5966 /* SettingsView_V2.swift in Sources */,
 				9A85DE392DB2BDD000D0AB12 /* AppSettings_V2.swift in Sources */,
+				9A39B8972DB2D0B9006C6F39 /* OpenAIResponseView_V2.swift in Sources */,
 				9A85DE252DB2B34A00D0AB12 /* SidebarView.swift in Sources */,
 				9A76F65E2DB2370B004B7B89 /* ChatView_V2.swift in Sources */,
 				9A85DE1F2DB2B31400D0AB12 /* AppSettings_V1.swift in Sources */,
