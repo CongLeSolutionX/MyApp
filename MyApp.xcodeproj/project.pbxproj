@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9A76F6542DB2290E004B7B89 /* DiscoverView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6532DB2290B004B7B89 /* DiscoverView_V1.swift */; };
 		9A76F6562DB229AB004B7B89 /* DiscoverView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6552DB229AA004B7B89 /* DiscoverView_V2.swift */; };
+		9A76F6582DB22AF8004B7B89 /* DiscoverView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6572DB22AF6004B7B89 /* DiscoverView_V3.swift */; };
 		9A97238C2DB1FB1D003D5966 /* SettingsView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97238B2DB1FB19003D5966 /* SettingsView_V1.swift */; };
 		9A97238E2DB1FC6E003D5966 /* SettingsView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A97238D2DB1FC6C003D5966 /* SettingsView_V2.swift */; };
 		9A9723912DB1FD3C003D5966 /* SettingsView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9723902DB1FD3B003D5966 /* SettingsView_V3.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		9A76F6532DB2290B004B7B89 /* DiscoverView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V1.swift; sourceTree = "<group>"; };
 		9A76F6552DB229AA004B7B89 /* DiscoverView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V2.swift; sourceTree = "<group>"; };
+		9A76F6572DB22AF6004B7B89 /* DiscoverView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView_V3.swift; sourceTree = "<group>"; };
 		9A97238B2DB1FB19003D5966 /* SettingsView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView_V1.swift; sourceTree = "<group>"; };
 		9A97238D2DB1FC6C003D5966 /* SettingsView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView_V2.swift; sourceTree = "<group>"; };
 		9A9723902DB1FD3B003D5966 /* SettingsView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView_V3.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 		9A76F6522DB22903004B7B89 /* DiscoverView */ = {
 			isa = PBXGroup;
 			children = (
+				9A76F6572DB22AF6004B7B89 /* DiscoverView_V3.swift */,
 				9A76F6552DB229AA004B7B89 /* DiscoverView_V2.swift */,
 				9A76F6532DB2290B004B7B89 /* DiscoverView_V1.swift */,
 			);
@@ -198,6 +201,7 @@
 				9AF576892DB205B7005F5562 /* SettingsView_V5.swift in Sources */,
 				9A97238C2DB1FB1D003D5966 /* SettingsView_V1.swift in Sources */,
 				9A76F6542DB2290E004B7B89 /* DiscoverView_V1.swift in Sources */,
+				9A76F6582DB22AF8004B7B89 /* DiscoverView_V3.swift in Sources */,
 				9A9723932DB20007003D5966 /* SettingsView_V4.swift in Sources */,
 				9A9723912DB1FD3C003D5966 /* SettingsView_V3.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
