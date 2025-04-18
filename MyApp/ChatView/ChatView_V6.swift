@@ -390,7 +390,7 @@ struct ChatView: View { // Renamed back to ChatView
                         }
                         break // Exit loop
                     }
-                    await updateMessageText(fragment: fragment) // Call the main actor update function
+                    updateMessageText(fragment: fragment) // Call the main actor update function
                 }
                 
                 // Stream finished successfully (or cancellation handled)
