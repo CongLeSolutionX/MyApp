@@ -29,8 +29,9 @@ let psychedelicVibrantGradient = Gradient(colors: [
 func psychedelicTitleFont(size: CGFloat) -> Font {
     // A more decorative/expressive font - e.g., a Script or Serif style might fit
     // Using a system Serif temporarily
-    Font.system(size: size, weight: .bold, design: .serif)
+    //Font.system(size: size, weight: .bold, design: .serif)
     // Example custom font: Font.custom("YourPsychedelicFontName", size: size)
+    Font.custom("SuperBread-ywdRV", size: 20.0)
 }
 
 func psychedelicBodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
