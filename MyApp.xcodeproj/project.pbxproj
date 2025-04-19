@@ -23,6 +23,7 @@
 		9A04EB252DB3978D0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */; };
 		9A04EB282DB3BC630007A8E4 /* GlassmorphicTheme_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */; };
 		9A04EB2B2DB3BEC00007A8E4 /* GlassmorphicTheme_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB2A2DB3BEBE0007A8E4 /* GlassmorphicTheme_V2.swift */; };
+		9A04EB2D2DB3CE230007A8E4 /* PsychedelicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB2C2DB3CE220007A8E4 /* PsychedelicTheme.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -152,6 +153,7 @@
 		9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme_V2.swift; sourceTree = "<group>"; };
 		9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicTheme_V1.swift; sourceTree = "<group>"; };
 		9A04EB2A2DB3BEBE0007A8E4 /* GlassmorphicTheme_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicTheme_V2.swift; sourceTree = "<group>"; };
+		9A04EB2C2DB3CE220007A8E4 /* PsychedelicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicTheme.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */,
+				9A04EB2C2DB3CE220007A8E4 /* PsychedelicTheme.swift */,
 				9A8F5BB42DB3278600E04D62 /* CavellaExtruderight.otf */,
 				9A8F5BB22DB3273100E04D62 /* RetroCool.ttf */,
 				9A8F5BB02DB326E700E04D62 /* Psycha.otf */,
@@ -744,6 +747,7 @@
 				9AA1A5132DA4FFC9000178B3 /* AuthenticationFlowView_V2.swift in Sources */,
 				9AA1A5602DA62F3A000178B3 /* AppleMusicAuthManager.swift in Sources */,
 				9A8D5D642DAFF6D00078B786 /* AudioPlayerManager.swift in Sources */,
+				9A04EB2D2DB3CE230007A8E4 /* PsychedelicTheme.swift in Sources */,
 				9AA1A51E2DA53041000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V2.swift in Sources */,
 				9A5F07522DB0B8B000DC089D /* FriendListeningManager_V7.swift in Sources */,
 				9AA1A51C2DA51D16000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow.swift in Sources */,
