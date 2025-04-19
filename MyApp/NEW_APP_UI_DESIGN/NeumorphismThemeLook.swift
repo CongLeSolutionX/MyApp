@@ -447,7 +447,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
 
 // MARK: - API Service (Unchanged)
 
-let placeholderSpotifyToken = "BQCTSV0UBhP3ittQgvrBE3ShubwjvUvOjkIR5XvqT3-U5fK-5AtSRfRLHFwQwqxl-YfMLQQXrycH6SlNSwc808_gnpRNJ7h-J7hDb1O3jG-UN2nkW-FwRQT4OKdu95GbNwRtluhh05fc9qqXCl5p-H3CHOIdnDo_r1LpGAXI1IPo3dMm5J437dqStIqVx1ueKfkHbQMfZCOD_AbwMwKD5-4YgknRWlfUkC8GWYS1b8kBxXv4z98ABq3kEKyiJ8VXPB5Dr0LA-W2upGcjmaF2A4HrZlO-KNnrH9m56sdgH-Rj-b5BDnY5iCkfAcYgCQO5" // Replace with your token
+let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE" // Replace with your token
 
 enum SpotifyAPIError: Error, LocalizedError {
     case invalidURL
