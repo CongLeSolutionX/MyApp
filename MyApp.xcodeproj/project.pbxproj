@@ -22,6 +22,7 @@
 		9A04EB232DB390530007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift */; };
 		9A04EB252DB3978D0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */; };
 		9A04EB282DB3BC630007A8E4 /* GlassmorphicTheme_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */; };
+		9A04EB2B2DB3BEC00007A8E4 /* GlassmorphicTheme_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB2A2DB3BEBE0007A8E4 /* GlassmorphicTheme_V2.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -150,6 +151,7 @@
 		9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme_V1.swift; sourceTree = "<group>"; };
 		9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme_V2.swift; sourceTree = "<group>"; };
 		9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicTheme_V1.swift; sourceTree = "<group>"; };
+		9A04EB2A2DB3BEBE0007A8E4 /* GlassmorphicTheme_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicTheme_V2.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 		9A04EB292DB3BC660007A8E4 /* Glassmorphic_Themes */ = {
 			isa = PBXGroup;
 			children = (
+				9A04EB2A2DB3BEBE0007A8E4 /* GlassmorphicTheme_V2.swift */,
 				9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */,
 			);
 			path = Glassmorphic_Themes;
@@ -723,6 +726,7 @@
 				9AA1A53E2DA59BD8000178B3 /* AdvertisementView_V4.swift in Sources */,
 				9AA1A52D2DA5862B000178B3 /* AVPlayerView_V3.swift in Sources */,
 				9A5AAE792D93BED3006A955A /* GetYourTop5TracksView.swift in Sources */,
+				9A04EB2B2DB3BEC00007A8E4 /* GlassmorphicTheme_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AF576932DB2164E005F5562 /* MusicPlayerView_V3.swift in Sources */,
 				9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */,
