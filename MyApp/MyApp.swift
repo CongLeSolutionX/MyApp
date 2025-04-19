@@ -1,21 +1,21 @@
+////
+////  MyApp.swift
+////  MyApp
+////
+////  Created by Cong Le on 8/19/24.
+////
 //
-//  MyApp.swift
-//  MyApp
+//import SwiftUI
 //
-//  Created by Cong Le on 8/19/24.
-//
-
-import SwiftUI
-
-// Step 3: Embed in main app structure
-@main
-struct MyApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ColorPaletteShowcaseView()
-            //ContentView()
-            //ColorPaletteDemoView()
-            //ColorPaletteMasterView()
-        }
-    }
-}
+//// Step 3: Embed in main app structure
+//@main
+//struct MyApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ColorPaletteShowcaseView()
+//            //ContentView()
+//            //ColorPaletteDemoView()
+//            //ColorPaletteMasterView()
+//        }
+//    }
+//}

@@ -1,15 +1,15 @@
-////
-////  ColorPalettesApp_V2.swift
-////  MyApp
-////
-////  Created by Cong Le on 4/18/25.
-////
 //
-//import SwiftUI
-//import UIKit // Needed for UIPasteboard and UIColor conversion for hex
+//  ColorPalettesApp_V2.swift
+//  MyApp
 //
-//// --- Data Structure for Color Information ---
+//  Created by Cong Le on 4/18/25.
 //
+
+import SwiftUI
+import UIKit // Needed for UIPasteboard and UIColor conversion for hex
+
+// --- Data Structure for Color Information ---
+
 //struct ColorInfo: Identifiable, Equatable {
 //    let id = UUID()
 //    let name: String
@@ -98,140 +98,140 @@
 //    ]
 //}
 //
-//// --- Interactive UI Components ---
-//
-//// Updated Palette Section with tap interaction
-//struct InteractivePaletteSection: View {
-//    let title: String
-//    let colors: [ColorInfo]
-//    @Binding var selectedColorInfo: ColorInfo? // Bind to the parent view's state
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            Text(title)
-//                .font(.title2)
-//                .padding(.bottom, 5)
-//            ScrollView(.horizontal, showsIndicators: false) {
-//                HStack(spacing: 15) {
-//                    ForEach(colors) { info in
-//                        Button {
-//                            selectedColorInfo = info // Update the selection
-//                        } label: {
-//                            VStack {
-//                                Rectangle()
-//                                    .fill(info.color)
-//                                    .frame(width: 60, height: 60)
-//                                    .cornerRadius(8)
-//                                    .overlay(
-//                                        RoundedRectangle(cornerRadius: 8)
-//                                            .stroke(selectedColorInfo == info ? Color.blue : Color.gray.opacity(0.5), lineWidth: selectedColorInfo == info ? 3 : 1) // Highlight selected
-//                                    )
-//                                Text(info.name)
-//                                    .font(.caption)
-//                                    .foregroundColor(.primary) // Use adaptive text color
-//                                    .frame(width: 70, height: 35) // Fixed height for alignment
-//                                    .multilineTextAlignment(.center)
-//                            }
-//                        }
-//                        .buttonStyle(.plain) // Use plain style to avoid default button appearance
-//                    }
-//                }
-//                .padding(.horizontal, 5) // Padding inside scroll view
-//            }
-//        }
-//    }
-//}
-//
-//// View to show applied theme using selected color
-//struct ThemePreviewView: View {
-//    @Binding var selectedColorInfo: ColorInfo?
-//    @State private var progress: Double = 0.75 // Mock progress
-//
-//    // Define adaptive colors for contrast demonstration
-//    let adaptiveTextColor = Color.primary
-//    let adaptiveBackgroundColor = Color(UIColor.systemBackground) // Adapts to Light/Dark Mode
-//    let adaptiveSecondaryBackgroundColor = Color(UIColor.secondarySystemBackground)
-//
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            Text("Theme Preview")
-//                .font(.title2)
-//                .padding(.bottom, 5)
-//
-//            if let info = selectedColorInfo {
-//                VStack(alignment: .leading, spacing: 15) {
-//                    // 1. Text Examples
-//                    Text("Primary text on adaptive background")
-//                        .foregroundColor(adaptiveTextColor)
-//                    Text("Selected color text on adaptive background")
-//                        .foregroundColor(info.color)
-//                    Text("Adaptive text on selected color background")
-//                        .foregroundColor(adaptiveTextColor)
-//                        .padding(5)
-//                        .background(info.color)
-//                        .cornerRadius(4)
-//
-//                    Divider()
-//
-//                    // 2. Button Examples
-//                    HStack {
-//                        Button("Tinted Button") { }
-//                            .buttonStyle(.borderedProminent)
-//                            .tint(info.color) // Use selected color as tint
-//
-//                        Button("Tinted Bordered") { }
-//                            .buttonStyle(.bordered)
-//                            .tint(info.color)
-//                    }
-//
-//                    Divider()
-//
-//                    // 3. Icon and Progress
-//                    HStack(spacing: 20) {
-//                        Image(systemName: "swift")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 40, height: 40)
-//                            .foregroundColor(info.color) // Icon colored with selection
-//
-//                        VStack(alignment: .leading) {
-//                            Text("Progress Bar")
-//                            ProgressView(value: progress)
-//                                .progressViewStyle(LinearProgressViewStyle(tint: info.color))
-//                            Slider(value: $progress, in: 0...1) // Control the mock progress
-//                                .tint(info.color)
-//                        }
-//                    }
-//
-//                    Divider()
-//
-//                    // 4. Background Contrast Example
-//                    Text("Selected color on Adapting Background")
-//                        .font(.caption)
-//                        .padding(8)
-//                        .background(adaptiveSecondaryBackgroundColor) // Use adaptive secondary bg
-//                        .foregroundColor(info.color) // Selected color text
-//                        .cornerRadius(5)
-//
-//                }
-//                .padding()
-//                .background(adaptiveBackgroundColor) // Main adaptive background
-//                .cornerRadius(10)
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-//                )
-//
-//            } else {
-//                Text("Tap a color swatch above to see a theme preview.")
-//                    .foregroundColor(.secondary)
-//                    .frame(maxWidth: .infinity, alignment: .center)
-//                    .padding()
-//            }
-//        }
-//    }
-//}
-//
+// --- Interactive UI Components ---
+
+// Updated Palette Section with tap interaction
+struct InteractivePaletteSection: View {
+    let title: String
+    let colors: [ColorInfo]
+    @Binding var selectedColorInfo: ColorInfo? // Bind to the parent view's state
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.title2)
+                .padding(.bottom, 5)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    ForEach(colors) { info in
+                        Button {
+                            selectedColorInfo = info // Update the selection
+                        } label: {
+                            VStack {
+                                Rectangle()
+                                    .fill(info.color)
+                                    .frame(width: 60, height: 60)
+                                    .cornerRadius(8)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(selectedColorInfo == info ? Color.blue : Color.gray.opacity(0.5), lineWidth: selectedColorInfo == info ? 3 : 1) // Highlight selected
+                                    )
+                                Text(info.name)
+                                    .font(.caption)
+                                    .foregroundColor(.primary) // Use adaptive text color
+                                    .frame(width: 70, height: 35) // Fixed height for alignment
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .buttonStyle(.plain) // Use plain style to avoid default button appearance
+                    }
+                }
+                .padding(.horizontal, 5) // Padding inside scroll view
+            }
+        }
+    }
+}
+
+// View to show applied theme using selected color
+struct ThemePreviewView: View {
+    @Binding var selectedColorInfo: ColorInfo?
+    @State private var progress: Double = 0.75 // Mock progress
+
+    // Define adaptive colors for contrast demonstration
+    let adaptiveTextColor = Color.primary
+    let adaptiveBackgroundColor = Color(UIColor.systemBackground) // Adapts to Light/Dark Mode
+    let adaptiveSecondaryBackgroundColor = Color(UIColor.secondarySystemBackground)
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Theme Preview")
+                .font(.title2)
+                .padding(.bottom, 5)
+
+            if let info = selectedColorInfo {
+                VStack(alignment: .leading, spacing: 15) {
+                    // 1. Text Examples
+                    Text("Primary text on adaptive background")
+                        .foregroundColor(adaptiveTextColor)
+                    Text("Selected color text on adaptive background")
+                        .foregroundColor(info.color)
+                    Text("Adaptive text on selected color background")
+                        .foregroundColor(adaptiveTextColor)
+                        .padding(5)
+                        .background(info.color)
+                        .cornerRadius(4)
+
+                    Divider()
+
+                    // 2. Button Examples
+                    HStack {
+                        Button("Tinted Button") { }
+                            .buttonStyle(.borderedProminent)
+                            .tint(info.color) // Use selected color as tint
+
+                        Button("Tinted Bordered") { }
+                            .buttonStyle(.bordered)
+                            .tint(info.color)
+                    }
+
+                    Divider()
+
+                    // 3. Icon and Progress
+                    HStack(spacing: 20) {
+                        Image(systemName: "swift")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(info.color) // Icon colored with selection
+
+                        VStack(alignment: .leading) {
+                            Text("Progress Bar")
+                            ProgressView(value: progress)
+                                .progressViewStyle(LinearProgressViewStyle(tint: info.color))
+                            Slider(value: $progress, in: 0...1) // Control the mock progress
+                                .tint(info.color)
+                        }
+                    }
+
+                    Divider()
+
+                    // 4. Background Contrast Example
+                    Text("Selected color on Adapting Background")
+                        .font(.caption)
+                        .padding(8)
+                        .background(adaptiveSecondaryBackgroundColor) // Use adaptive secondary bg
+                        .foregroundColor(info.color) // Selected color text
+                        .cornerRadius(5)
+
+                }
+                .padding()
+                .background(adaptiveBackgroundColor) // Main adaptive background
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                )
+
+            } else {
+                Text("Tap a color swatch above to see a theme preview.")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding()
+            }
+        }
+    }
+}
+
 //// View to show color details and copy button
 //struct ColorDetailView: View {
 //    let colorInfo: ColorInfo? // Now takes optional ColorInfo
