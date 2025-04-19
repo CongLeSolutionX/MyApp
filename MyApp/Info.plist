@@ -15,5 +15,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SuperBread-ywdRV.ttf</string>
+	</array>
 </dict>
 </plist>
