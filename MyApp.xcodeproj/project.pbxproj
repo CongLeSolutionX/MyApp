@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9A04EAD22DB32B030007A8E4 /* Nashirafree.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */; };
 		9A04EAD42DB33CC10007A8E4 /* RetroSpotifyExplorer_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */; };
+		9A04EAD62DB34C0F0007A8E4 /* NeumorphismThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -124,6 +125,7 @@
 /* Begin PBXFileReference section */
 		9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nashirafree.otf; sourceTree = "<group>"; };
 		9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V3.swift; sourceTree = "<group>"; };
+		9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphismThemeLook.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
+				9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */,
 				9A20639F2DB323C50045C84F /* PsychedelicThemeLook */,
 				9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */,
 				9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */,
@@ -713,6 +716,7 @@
 				9AA1A54C2DA5A26E000178B3 /* AdPlayerView_V2.swift in Sources */,
 				9AA1A55A2DA5B09E000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V3.swift in Sources */,
 				9A999C382DB0590800E8E226 /* AppEntryPoint.swift in Sources */,
+				9A04EAD62DB34C0F0007A8E4 /* NeumorphismThemeLook.swift in Sources */,
 				9A8D5D562DAF69AD0078B786 /* AuthenticationFlowView_V3 - TBD.swift in Sources */,
 				9AF3560C2DB0D788006D2E67 /* RetroSpotifyExplorer_V1.swift in Sources */,
 				9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */,
