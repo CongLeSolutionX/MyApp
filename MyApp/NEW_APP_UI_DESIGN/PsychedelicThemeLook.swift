@@ -9,7 +9,7 @@
 //
 
 import SwiftUI
-@preconcurrency import WebKit // Needed for WebView
+@preconcurrency import WebKit
 import Foundation
 
 // MARK: - Psychedelic Theme Constants & Modifiers
@@ -395,7 +395,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable { // Keep functional structure
 
 let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE" // Needs replacement!
 
-enum SpotifyAPIError: Error, LocalizedError { /* ... Enum cases (Unchanged) ... */
+enum SpotifyAPIError: Error, LocalizedError { /* ... Enum cases ... */
     case invalidURL
     case networkError(Error)
     case invalidResponse(Int, String?)
@@ -403,7 +403,7 @@ enum SpotifyAPIError: Error, LocalizedError { /* ... Enum cases (Unchanged) ... 
     case invalidToken
     case missingData
     
-    var errorDescription: String? { /* ... Descriptions (Unchanged) ... */
+    var errorDescription: String? { /* ... Descriptions... */
         switch self {
         case .invalidURL: return "Invalid API URL."
         case .networkError(let error): return "Network error: \(error.localizedDescription)"
@@ -414,17 +414,17 @@ enum SpotifyAPIError: Error, LocalizedError { /* ... Enum cases (Unchanged) ... 
         }
     }
 }
-struct SpotifyAPIService { // Unchanged Functionality
+struct SpotifyAPIService {
     static let shared = SpotifyAPIService()
     private let session: URLSession
     
-    init() { /* ... Session setup (Unchanged) ... */
+    init() { /* ... Session setup... */
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         session = URLSession(configuration: configuration)
     }
     
-    private func makeRequest<T: Decodable>(url: URL) async throws -> T { /* ... Request Logic (Unchanged) ... */
+    private func makeRequest<T: Decodable>(url: URL) async throws -> T { /* ... Request Logic... */
         guard !placeholderSpotifyToken.isEmpty, placeholderSpotifyToken != "YOUR_SPOTIFY_BEARER_TOKEN_HERE" else { throw SpotifyAPIError.invalidToken }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -442,14 +442,14 @@ struct SpotifyAPIService { // Unchanged Functionality
             catch { throw SpotifyAPIError.decodingError(error) }
         } catch let error where !(error is CancellationError) { throw error is SpotifyAPIError ? error : SpotifyAPIError.networkError(error) }
     }
-    // searchAlbums, getAlbumTracks (Unchanged)
-    func searchAlbums(query: String, limit: Int = 20, offset: Int = 0) async throws -> SpotifySearchResponse { /* ... */
+    // searchAlbums, getAlbumTracks
+    func searchAlbums(query: String, limit: Int = 20, offset: Int = 0) async throws -> SpotifySearchResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/search")
         components?.queryItems = [ URLQueryItem(name: "q", value: query), URLQueryItem(name: "type", value: "album"), URLQueryItem(name: "include_external", value: "audio"), URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)") ]
         guard let url = components?.url else { throw SpotifyAPIError.invalidURL }
         return try await makeRequest(url: url)
     }
-    func getAlbumTracks(albumId: String, limit: Int = 50, offset: Int = 0) async throws -> AlbumTracksResponse { /* ... */
+    func getAlbumTracks(albumId: String, limit: Int = 50, offset: Int = 0) async throws -> AlbumTracksResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/albums/\(albumId)/tracks")
         components?.queryItems = [ URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)") ]
         guard let url = components?.url else { throw SpotifyAPIError.invalidURL }
@@ -461,7 +461,7 @@ struct SpotifyAPIService { // Unchanged Functionality
 
 // MARK: - Main List View (Themed)
 struct SpotifyAlbumListView: View {
-    // --- State Variables (Unchanged) ---
+    // --- State Variables ---
     @State private var searchQuery: String = ""
     @State private var displayedAlbums: [AlbumItem] = []
     @State private var isLoading: Bool = false
@@ -484,8 +484,10 @@ struct SpotifyAlbumListView: View {
             // --- Modifiers applied to the ZStack's container (NavigationView) ---
             .navigationTitle("Psychedelic Search") // Keep title setup here
             .navigationBarTitleDisplayMode(.large)
-            .toolbar { toolbarContent() } // Extracted Toolbar Content
-            //.toolbarBackground(toolbarBackground(), for: .navigationBar) // Extracted Toolbar Background
+            .toolbar {
+                toolbarContent()
+            } // Extracted Toolbar Content
+            .toolbarBackgroundVisibility(.visible) // Extracted Toolbar Background
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
@@ -1208,71 +1210,138 @@ struct SpotifyEmbedPlayerView: View {
         return String(format: "%d:%02d", minutes, seconds)
     }
 }
-
 struct TracksSectionView: View {
+    // --- Properties (Unchanged) ---
     let tracks: [Track]
     let isLoading: Bool
     let error: SpotifyAPIError?
     @Binding var selectedTrackUri: String?
     let retryAction: () -> Void
     
+    // --- Main Body ---
     var body: some View {
-        EmptyView()
+        VStack(alignment: .leading, spacing: 0) { // Root VStack
+            tracksHeader() // Extracted Header
+            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
+                .padding(.horizontal) // Padding around the themed background area
+        }
     }
     
-    //    var body: some View {
-    //        VStack(alignment: .leading, spacing: 0) { // Use VStack, remove Section for custom header
-    //            // --- Custom Section Header ---
-    //            Text("TRACKLIST FREQUENCIES")
-    //                .font(psychedelicBodyFont(size: 14, weight: .bold))
-    //                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
-    //                .tracking(2.5) // Wider tracking
-    //                .padding(.horizontal)
-    //                .padding(.bottom, 15)
-    //                .frame(maxWidth: .infinity, alignment: .center)
-    //
-    //            // --- Content Area with Themed Background ---
-    //            Group { // Group content to apply background/padding once
-    //                if isLoading {
-    //                    HStack { Spacer(); ProgressView().tint(psychedelicAccentCyan); Text("Scanning...") .font(psychedelicBodyFont(size: 14)); Spacer() }
-    //                        .padding(.vertical, 30)
-    //                } else if let error = error {
-    //                    ErrorPlaceholderView(error: error, retryAction: retryAction) // Use themed error view
-    //                        .padding(.vertical, 20)
-    //                } else if tracks.isEmpty {
-    //                    Text("Signal Lost - No Tracks Found")
-    //                        .font(psychedelicBodyFont(size: 14))
-    //                        .foregroundColor(.white.opacity(0.6))
-    //                        .frame(maxWidth: .infinity, alignment: .center)
-    //                        .padding(.vertical, 30)
-    //                } else {
-    //                    ForEach(tracks) { track in
-    //                        TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
-    //                            .contentShape(Rectangle())
-    //                            .onTapGesture { selectedTrackUri = track.uri }
-    //                        // --- Themed Selection Background ---
-    //                            .background(
-    //                                track.uri == selectedTrackUri
-    //                                ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
-    //                                    .blur(radius: 8) // Slightly more pronounced blur
-    //                                : Color.clear
-    //                            )
-    //                            .listRowSeparator(.hidden) // Hide separators if needed
-    //                        Divider().background(Color.white.opacity(0.1)).padding(.leading) // Subtle custom divider
-    //                    }
-    //                }
-    //            }
-    //            .padding(.horizontal) // Apply horizontal padding to content within the background
-    //            .background(
-    //                .black.opacity(0.2) // Dark, semi-transparent background for the track list area
-    //                    .blur(radius: 5)
-    //            )
-    //            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
-    //            .padding(.horizontal) // Padding around the track list background
-    //
-    //        }
-    //    }
-}
+    // MARK: - @ViewBuilder Sub-Components
+    
+    // Builds the themed section header
+    @ViewBuilder
+    private func tracksHeader() -> some View {
+        Text("TRACKLIST FREQUENCIES")
+            .font(psychedelicBodyFont(size: 14, weight: .bold))
+            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
+            .tracking(2.5) // Wider tracking
+            .padding(.horizontal) // Padding for the header text itself
+            .padding(.bottom, 15)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+    
+    // Builds the container that holds the conditional content (loading, error, etc.)
+    // This container includes the themed background.
+    @ViewBuilder
+    private func tracksContentContainer() -> some View {
+        Group { // Group is necessary to apply modifiers to the result of the conditional logic
+            conditionalTracksContent() // Calls the function with the if/else logic
+        }
+        .padding(.horizontal) // Apply horizontal padding INSIDE the background
+        .background(
+            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
+                .blur(radius: 5)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
+    }
+    
+    // Builds the actual content based on loading/error/empty/data state
+    @ViewBuilder
+    private func conditionalTracksContent() -> some View {
+        if isLoading {
+            loadingView()
+        } else if let error = error {
+            // Note: Using the existing ErrorPlaceholderView is fine.
+            // If it were much larger, it could also be refactored.
+            ErrorPlaceholderView(error: error, retryAction: retryAction)
+                .padding(.vertical, 20) // Padding when showing error
+        } else if tracks.isEmpty {
+            emptyTracksView()
+        } else {
+            trackListView() // The list itself
+        }
+    }
+    
+    // Builds the loading indicator view
+    @ViewBuilder
+    private func loadingView() -> some View {
+        HStack {
+            Spacer()
+            ProgressView().tint(psychedelicAccentCyan)
+            Text("Scanning...")
+                .font(psychedelicBodyFont(size: 14))
+                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
+            Spacer()
+        }
+        .padding(.vertical, 40) // Give loading state some vertical space
+    }
+    
+    // Builds the empty state view
+    @ViewBuilder
+    private func emptyTracksView() -> some View {
+        Text("Signal Lost - No Tracks Found")
+            .font(psychedelicBodyFont(size: 14))
+            .foregroundColor(.white.opacity(0.6))
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.vertical, 40) // Give empty state some vertical space
+    }
+    
+    // Builds the list of track rows using ForEach
+    @ViewBuilder
+    private func trackListView() -> some View {
+        // Using LazyVStack internally if you expect potentially very long lists,
+        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
+        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
+            ForEach(tracks) { track in
+                trackRow(track: track) // Extracted individual track row
+            }
+            .padding(.bottom, 5) // Add minor padding below the last track if needed
+        }
+        // Add top/bottom padding if the list content needs space from the container edges
+        .padding(.vertical, 10)
+    }
+    
+    // Builds a single track row and its interactivity
+    @ViewBuilder
+    private func trackRow(track: Track) -> some View {
+        let isSelected = track.uri == selectedTrackUri
+        VStack(spacing: 0) { // Wrap row content and divider
+            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
+                .contentShape(Rectangle()) // Make the whole row tappable
+                .onTapGesture {
+                    // Animate the URI change if desired
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        selectedTrackUri = track.uri
+                    }
+                }
+                .background( // Apply themed background based on selection
+                    isSelected
+                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
+                        .blur(radius: 8) as! Color // Slightly more pronounced blur
+                    : Color.clear
+                )
+                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
+            
+            // Subtle custom divider (don't draw after the last item)
+            if track.id != tracks.last?.id {
+                Divider()
+                    .background(Color.white.opacity(0.1))
+                    .padding(.leading, 55) // Indent divider past track number/icon area
+            }
+        }
+    }
+} // End of TracksSectionView
 
 struct TrackRowView: View {
     let track: Track
@@ -1423,8 +1492,8 @@ struct PsychedelicButton: View {
                 Capsule()
                     .stroke(
                         LinearGradient(gradient: Gradient(colors: [.white.opacity(0.3), .clear]),
-                        startPoint: .top,
-                        endPoint: .center)
+                                       startPoint: .top,
+                                       endPoint: .center)
                         .opacity(0.5),lineWidth: 1
                     ) // Top highlight
             )
@@ -1474,14 +1543,43 @@ struct SpotifyAlbumListView_Previews: PreviewProvider {
 
 struct PsychedelicAlbumCard_Previews: PreviewProvider {
     // Reusing mock data from previous previews
-    static let mockArtist = Artist(id: "artist1", external_urls: nil, href: "", name: "Miles Davis Mock", type: "artist", uri: "")
-    static let mockImage = SpotifyImage(height: 300, url: "https://i.scdn.co/image/ab67616d00001e027ab89c25093ea3787b1995b4", width: 300)
-    static let mockAlbumItem = AlbumItem(id: "album1", album_type: "album", total_tracks: 5, available_markets: ["US"], external_urls: ExternalUrls(spotify: ""), href: "", images: [mockImage], name: "Kind of Blue [Psychedelic Preview]", release_date: "1959-08-17", release_date_precision: "day", type: "album", uri: "spotify:album:1weenld61qoidwYuZ1GESA", artists: [mockArtist])
+    static let mockArtist = Artist(
+        id: "artist1",
+        external_urls: nil,
+        href: "",
+        name: "Miles Davis Mock",
+        type: "artist",
+        uri: ""
+    )
+    static let mockImage = SpotifyImage(
+        height: 300,
+        url: "https://i.scdn.co/image/ab67616d00001e027ab89c25093ea3787b1995b4",
+        width: 300
+    )
+    static let mockAlbumItem = AlbumItem(
+        id: "album1",
+        album_type: "album",
+        total_tracks: 5,
+        available_markets: ["US"],
+        external_urls: ExternalUrls(spotify: ""),
+        href: "",
+        images: [mockImage],
+        name: "Kind of Blue [Psychedelic Preview]",
+        release_date: "1959-08-17",
+        release_date_precision: "day",
+        type: "album",
+        uri: "spotify:album:1weenld61qoidwYuZ1GESA",
+        artists: [mockArtist]
+    )
     
     static var previews: some View {
         PsychedelicAlbumCard(album: mockAlbumItem)
             .padding()
-            .background(LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom))
+            .background(
+                LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]),
+                               startPoint: .top,
+                               endPoint: .bottom)
+            )
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }
@@ -1503,7 +1601,7 @@ struct AlbumDetailView_Previews: PreviewProvider {
 // MARK: - App Entry Point
 
 @main
-struct SpotifyPsychedelicApp: App { // Renamed App struct
+struct SpotifyPsychedelicApp: App {
     init() {
         // --- Token Check ---
         if placeholderSpotifyToken == "YOUR_SPOTIFY_BEARER_TOKEN_HERE" {
