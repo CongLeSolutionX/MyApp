@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2063A42DB3257C0045C84F /* FontDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A32DB3257B0045C84F /* FontDisplayView.swift */; };
 		9A7FECC02DA1AA8400BD52BB /* CustomFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7FECBF2DA1AA7F00BD52BB /* CustomFontView.swift */; };
 		9A7FECC52DA1AB0000BD52BB /* DopestbyMARSNEVlight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A7FECC32DA1AB0000BD52BB /* DopestbyMARSNEVlight.otf */; };
 		9A7FECC62DA1AB0000BD52BB /* DopestbyMARSNEVlightitalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A7FECC42DA1AB0000BD52BB /* DopestbyMARSNEVlightitalic.otf */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A2063A32DB3257B0045C84F /* FontDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDisplayView.swift; sourceTree = "<group>"; };
 		9A7FECBF2DA1AA7F00BD52BB /* CustomFontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontView.swift; sourceTree = "<group>"; };
 		9A7FECC12DA1AB0000BD52BB /* DopestbyMARSNEV.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DopestbyMARSNEV.otf; sourceTree = "<group>"; };
 		9A7FECC22DA1AB0000BD52BB /* DopestbyMARSNEV-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DopestbyMARSNEV-Italic.otf"; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			children = (
 				9A7FECC92DA1AB5100BD52BB /* Info.plist */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
+				9A2063A32DB3257B0045C84F /* FontDisplayView.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A7FECBF2DA1AA7F00BD52BB /* CustomFontView.swift */,
@@ -168,6 +171,7 @@
 			files = (
 				9A7FECC02DA1AA8400BD52BB /* CustomFontView.swift in Sources */,
 				9A7FECCB2DA1AD5800BD52BB /* FontVariantPreview.swift in Sources */,
+				9A2063A42DB3257C0045C84F /* FontDisplayView.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
