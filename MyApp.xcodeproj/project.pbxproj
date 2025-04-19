@@ -12,7 +12,8 @@
 		9A04EAEA2DB36B710007A8E4 /* ColorPaletteDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAE92DB36B700007A8E4 /* ColorPaletteDemoView.swift */; };
 		9A04EAED2DB36CB40007A8E4 /* ColorLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAEC2DB36CB30007A8E4 /* ColorLabApp.swift */; };
 		9A04EAEF2DB36F6F0007A8E4 /* ColorPalettesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAEE2DB36F6F0007A8E4 /* ColorPalettesApp.swift */; };
-		9A04EAF22DB3721B0007A8E4 /* ColorPaletteMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView.swift */; };
+		9A04EAF22DB3721B0007A8E4 /* ColorPaletteMasterView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView_V1.swift */; };
+		9A04EAF52DB373D30007A8E4 /* ColorPaletteMasterView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAF42DB373D10007A8E4 /* ColorPaletteMasterView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -27,7 +28,8 @@
 		9A04EAEC2DB36CB30007A8E4 /* ColorLabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabApp.swift; sourceTree = "<group>"; };
 		9A04EAEE2DB36F6F0007A8E4 /* ColorPalettesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalettesApp.swift; sourceTree = "<group>"; };
 		9A04EAF02DB3711D0007A8E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteMasterView.swift; sourceTree = "<group>"; };
+		9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteMasterView_V1.swift; sourceTree = "<group>"; };
+		9A04EAF42DB373D10007A8E4 /* ColorPaletteMasterView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteMasterView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,15 @@
 			path = ColorLabApp;
 			sourceTree = "<group>";
 		};
+		9A04EAF32DB373CC0007A8E4 /* ColorPaletteMasterView */ = {
+			isa = PBXGroup;
+			children = (
+				9A04EAF42DB373D10007A8E4 /* ColorPaletteMasterView_V2.swift */,
+				9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView_V1.swift */,
+			);
+			path = ColorPaletteMasterView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -78,12 +89,12 @@
 				9A04EAF02DB3711D0007A8E4 /* Info.plist */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
-				9A04EAF12DB3721A0007A8E4 /* ColorPaletteMasterView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A04EAE52DB36AAC0007A8E4 /* ColorPaletteShowcaseView.swift */,
 				9A04EAE72DB36AF60007A8E4 /* ColorPaletteDemoApp.swift */,
 				9A04EAE92DB36B700007A8E4 /* ColorPaletteDemoView.swift */,
 				9A04EAEE2DB36F6F0007A8E4 /* ColorPalettesApp.swift */,
+				9A04EAF32DB373CC0007A8E4 /* ColorPaletteMasterView */,
 				9A04EAEB2DB36C960007A8E4 /* ColorLabApp */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -170,7 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A04EAF22DB3721B0007A8E4 /* ColorPaletteMasterView.swift in Sources */,
+				9A04EAF22DB3721B0007A8E4 /* ColorPaletteMasterView_V1.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A04EAED2DB36CB40007A8E4 /* ColorLabApp.swift in Sources */,
@@ -178,6 +189,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A04EAE62DB36AB30007A8E4 /* ColorPaletteShowcaseView.swift in Sources */,
 				9A04EAE82DB36AF70007A8E4 /* ColorPaletteDemoApp.swift in Sources */,
+				9A04EAF52DB373D30007A8E4 /* ColorPaletteMasterView_V2.swift in Sources */,
 				9A04EAEA2DB36B710007A8E4 /* ColorPaletteDemoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
