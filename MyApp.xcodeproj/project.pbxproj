@@ -16,6 +16,7 @@
 		9A04EADE2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EADD2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift */; };
 		9A04EAE02DB35F3A0007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EADF2DB35F380007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift */; };
 		9A04EB1B2DB3856C0007A8E4 /* DarkNeumorphismThemeLook_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB1A2DB3856A0007A8E4 /* DarkNeumorphismThemeLook_V3.swift */; };
+		9A04EB1D2DB388B00007A8E4 /* LightNeumorphicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -138,6 +139,7 @@
 		9A04EADD2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismThemeLook_V2.swift; sourceTree = "<group>"; };
 		9A04EADF2DB35F380007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift; sourceTree = "<group>"; };
 		9A04EB1A2DB3856A0007A8E4 /* DarkNeumorphismThemeLook_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismThemeLook_V3.swift; sourceTree = "<group>"; };
+		9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightNeumorphicTheme.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook_V1.swift */,
 				9A04EADD2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift */,
 				9A04EB1A2DB3856A0007A8E4 /* DarkNeumorphismThemeLook_V3.swift */,
+				9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */,
 				9A04EADF2DB35F380007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift */,
 				9A04EADB2DB354970007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V2.swift */,
 				9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V1.swift */,
@@ -770,6 +773,7 @@
 				9A5F07482DB0B58E00DC089D /* FriendListeningManager_V2.swift in Sources */,
 				9A8D5D502DAF63AF0078B786 /* SpotifyEmbedView_V5.swift in Sources */,
 				9A5F07462DB0B53500DC089D /* FriendListeningManager_V1.swift in Sources */,
+				9A04EB1D2DB388B00007A8E4 /* LightNeumorphicTheme.swift in Sources */,
 				9AA1A5222DA53789000178B3 /* GoogleAdView_V2.swift in Sources */,
 				9A8D5D5F2DAF8A550078B786 /* ArtistDetailView.swift in Sources */,
 				9A5F07572DB0CAC300DC089D /* SynthwaveView_V2.swift in Sources */,
