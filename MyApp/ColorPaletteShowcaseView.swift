@@ -4,11 +4,11 @@
 ////
 ////  Created by Cong Le on 4/18/25.
 ////
-//
-//import SwiftUI
-//
-//// --- Color Palettes Leveraging Unique Apple Color System Features ---
-//
+
+import SwiftUI
+
+// --- Color Palettes Leveraging Unique Apple Color System Features ---
+
 ///// Palette using the Display P3 color space for potentially more vibrant colors
 ///// on compatible wide-gamut displays. These are constant colors.
 //struct DisplayP3Palette {
@@ -44,22 +44,22 @@
 //    // Extreme values might not produce intuitive results or could be clamped.
 //    // Best used subtly or for specific HDR content scenarios.
 //}
-//
-///// Standard HSB Palette for comparison and completeness (Constant Colors)
-//struct HSBPalette {
-//    static let sunshineYellow: Color = Color(hue: 0.15, saturation: 0.9, brightness: 1.0) // 54 degrees
-//    static let skyBlue: Color = Color(hue: 0.6, saturation: 0.7, brightness: 0.9)       // 216 degrees
-//    static let forestGreen: Color = Color(hue: 0.35, saturation: 0.8, brightness: 0.6)   // 126 degrees
-//    static let fieryOrange: Color = Color(hue: 0.08, saturation: 1.0, brightness: 1.0)   // 29 degrees
-//}
-//
-///// Standard Grayscale Palette (Constant Colors)
-//struct GrayscalePalette {
-//    static let lightGray: Color = Color(white: 0.8)
-//    static let mediumGray: Color = Color(white: 0.5)
-//    static let darkGray: Color = Color(white: 0.2)
-//}
-//
+
+/// Standard HSB Palette for comparison and completeness (Constant Colors)
+struct HSBPalette {
+    static let sunshineYellow: Color = Color(hue: 0.15, saturation: 0.9, brightness: 1.0) // 54 degrees
+    static let skyBlue: Color = Color(hue: 0.6, saturation: 0.7, brightness: 0.9)       // 216 degrees
+    static let forestGreen: Color = Color(hue: 0.35, saturation: 0.8, brightness: 0.6)   // 126 degrees
+    static let fieryOrange: Color = Color(hue: 0.08, saturation: 1.0, brightness: 1.0)   // 29 degrees
+}
+
+/// Standard Grayscale Palette (Constant Colors)
+struct GrayscalePalette {
+    static let lightGray: Color = Color(white: 0.8)
+    static let mediumGray: Color = Color(white: 0.5)
+    static let darkGray: Color = Color(white: 0.2)
+}
+
 //// --- Example Usage View ---
 //
 //struct ColorPaletteShowcaseView: View {
