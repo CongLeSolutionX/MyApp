@@ -11,6 +11,7 @@
 		9A04EAD42DB33CC10007A8E4 /* RetroSpotifyExplorer_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */; };
 		9A04EAD62DB34C0F0007A8E4 /* NeumorphismThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */; };
 		9A04EAD82DB350580007A8E4 /* DarkNeumorphismThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook.swift */; };
+		9A04EADA2DB352CA0007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -128,6 +129,7 @@
 		9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V3.swift; sourceTree = "<group>"; };
 		9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeumorphismThemeLook.swift; sourceTree = "<group>"; };
 		9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismThemeLook.swift; sourceTree = "<group>"; };
+		9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismLiquidGoldAccentThemeLook.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook.swift */,
+				9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook.swift */,
 				9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */,
 				9A20639F2DB323C50045C84F /* PsychedelicThemeLook */,
 				9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */,
@@ -757,6 +760,7 @@
 				9A5F074A2DB0B63B00DC089D /* FriendListeningManager_V3.swift in Sources */,
 				9A999C3D2DB063A400E8E226 /* SearchForItemAPIDocDemoView_V2.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
+				9A04EADA2DB352CA0007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook.swift in Sources */,
 				9AA1A5162DA514E7000178B3 /* PlaylistInteractionView.swift in Sources */,
 				9AA1A5802DA693BD000178B3 /* ComprehensiveView_V2.swift in Sources */,
 				9AA1A53A2DA59872000178B3 /* AdvertisementView_V2.swift in Sources */,
