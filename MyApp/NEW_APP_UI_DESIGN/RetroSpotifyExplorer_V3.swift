@@ -849,7 +849,7 @@ struct AlbumDetailView: View {
             // --- Retro Background ---
             retroDeepPurple.ignoresSafeArea()
             // Optional: Add subtle background pattern/noise
-            // Image("retro_grid_background").resizable().scaledToFill().opacity(0.1).ignoresSafeArea()
+             Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
             
             List {
                 // --- Header Section ---
