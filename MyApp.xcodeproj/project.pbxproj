@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A04EAD22DB32B030007A8E4 /* Nashirafree.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */; };
+		9A04EAD42DB33CC10007A8E4 /* RetroSpotifyExplorer_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -122,6 +123,7 @@
 
 /* Begin PBXFileReference section */
 		9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nashirafree.otf; sourceTree = "<group>"; };
+		9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V3.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */,
 				9AF356112DB1006B006D2E67 /* LiquidGoldThemeLook.swift */,
 				9AF3560F2DB0FBF4006D2E67 /* ArtDecoThemeLook.swift */,
+				9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */,
 				9AF3560D2DB0D8F0006D2E67 /* RetroSpotifyExplorer_V2.swift */,
 				9AF3560B2DB0D782006D2E67 /* RetroSpotifyExplorer_V1.swift */,
 				9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */,
@@ -703,6 +706,7 @@
 				9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */,
 				9A999C572DB068E500E8E226 /* SearchForItemAPIDocDemoView_V3.swift in Sources */,
 				9AA1A53C2DA599CD000178B3 /* AdvertisementView_V3.swift in Sources */,
+				9A04EAD42DB33CC10007A8E4 /* RetroSpotifyExplorer_V3.swift in Sources */,
 				9A5AAE7B2D93C0AD006A955A /* GetYourTop5TracksRealAPIView.swift in Sources */,
 				9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */,
 				9AA1A5532DA5A6DA000178B3 /* SpotifyView_V2.swift in Sources */,
