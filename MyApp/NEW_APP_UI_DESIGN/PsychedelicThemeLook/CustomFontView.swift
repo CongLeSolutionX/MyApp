@@ -54,7 +54,7 @@ struct CustomFontDemoView: View {
     // Example Font Name (Replace with your actual discovered font name)
     // This name MUST match the one found using the discovery code below,
     // NOT necessarily the filename.
-    let customFontName = "SuperBread" // As discovered in the article's example
+    let customFontName = "Nashirafree-Regular" // As discovered in the article's example
 
     // Dynamic Padding using @ScaledMetric
     // This padding will scale relative to the .title text style,

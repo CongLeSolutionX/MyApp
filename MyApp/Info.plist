@@ -18,6 +18,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>SuperBread.ttf</string>
+		<string>Psycha.otf</string>
+		<string>RetroCool.ttf</string>
+		<string>CavellaExtruderight.otf</string>
+		<string>Nashirafree.otf</string>
 	</array>
 </dict>
 </plist>

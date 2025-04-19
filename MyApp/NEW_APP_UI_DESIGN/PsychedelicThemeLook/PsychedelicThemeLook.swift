@@ -36,7 +36,8 @@ func psychedelicTitleFont(size: CGFloat) -> Font {
 
 func psychedelicBodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
     // A clean, readable sans-serif
-    Font.system(size: size, weight: weight, design: .rounded) // Rounded might feel more organic
+    //Font.system(size: size, weight: weight, design: .rounded) // Rounded might feel more organic
+    Font.custom("Nashirafree-Regular", size: 16.0)
 }
 
 // Custom Modifier for Psychedelic Effects (Example: Subtle Bloom/Blur)

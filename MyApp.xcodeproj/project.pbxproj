@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A04EAD22DB32B030007A8E4 /* Nashirafree.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */; };
+		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
 		9A5AAE772D93BD49006A955A /* SpotifyMusicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5AAE762D93BD43006A955A /* SpotifyMusicAPI.swift */; };
@@ -43,6 +45,9 @@
 		9A8D5D642DAFF6D00078B786 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D5D632DAFF6D00078B786 /* AudioPlayerManager.swift */; };
 		9A8D5D662DAFF7280078B786 /* AlbumDetailView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D5D652DAFF7280078B786 /* AlbumDetailView_V4.swift */; };
 		9A8D5D682DAFF7780078B786 /* ArtistDetailView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */; };
+		9A8F5BB12DB326E700E04D62 /* Psycha.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A8F5BB02DB326E700E04D62 /* Psycha.otf */; };
+		9A8F5BB32DB3273100E04D62 /* RetroCool.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A8F5BB22DB3273100E04D62 /* RetroCool.ttf */; };
+		9A8F5BB52DB3278600E04D62 /* CavellaExtruderight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9A8F5BB42DB3278600E04D62 /* CavellaExtruderight.otf */; };
 		9A98F3262DA47B8C00C08001 /* AuthenticationFlowView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A98F3252DA47B8700C08001 /* AuthenticationFlowView_V1.swift */; };
 		9A999C382DB0590800E8E226 /* AppEntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C372DB0590500E8E226 /* AppEntryPoint.swift */; };
 		9A999C3B2DB0620100E8E226 /* SearchForItemAPIDocDemoView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A999C3A2DB061FC00E8E226 /* SearchForItemAPIDocDemoView_V1.swift */; };
@@ -116,6 +121,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nashirafree.otf; sourceTree = "<group>"; };
+		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
 		9A5AAE762D93BD43006A955A /* SpotifyMusicAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicAPI.swift; sourceTree = "<group>"; };
@@ -152,6 +159,9 @@
 		9A8D5D632DAFF6D00078B786 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
 		9A8D5D652DAFF7280078B786 /* AlbumDetailView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView_V4.swift; sourceTree = "<group>"; };
 		9A8D5D672DAFF7780078B786 /* ArtistDetailView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailView_V2.swift; sourceTree = "<group>"; };
+		9A8F5BB02DB326E700E04D62 /* Psycha.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Psycha.otf; sourceTree = "<group>"; };
+		9A8F5BB22DB3273100E04D62 /* RetroCool.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RetroCool.ttf; sourceTree = "<group>"; };
+		9A8F5BB42DB3278600E04D62 /* CavellaExtruderight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CavellaExtruderight.otf; sourceTree = "<group>"; };
 		9A98F3252DA47B8700C08001 /* AuthenticationFlowView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFlowView_V1.swift; sourceTree = "<group>"; };
 		9A999C372DB0590500E8E226 /* AppEntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntryPoint.swift; sourceTree = "<group>"; };
 		9A999C3A2DB061FC00E8E226 /* SearchForItemAPIDocDemoView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForItemAPIDocDemoView_V1.swift; sourceTree = "<group>"; };
@@ -241,8 +251,13 @@
 		9A20639F2DB323C50045C84F /* PsychedelicThemeLook */ = {
 			isa = PBXGroup;
 			children = (
+				9A04EAD12DB32B030007A8E4 /* Nashirafree.otf */,
+				9A8F5BB42DB3278600E04D62 /* CavellaExtruderight.otf */,
+				9A8F5BB22DB3273100E04D62 /* RetroCool.ttf */,
+				9A8F5BB02DB326E700E04D62 /* Psycha.otf */,
 				9AA9C39D2DB320BA001ACE8C /* SuperBread.ttf */,
 				9AA9C39F2DB3223D001ACE8C /* CustomFontView.swift */,
+				9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */,
 				9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */,
 			);
 			path = PsychedelicThemeLook;
@@ -620,8 +635,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A76F6512DB21BA0004B7B89 /* song3.wav in Resources */,
+				9A8F5BB12DB326E700E04D62 /* Psycha.otf in Resources */,
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
+				9A04EAD22DB32B030007A8E4 /* Nashirafree.otf in Resources */,
+				9A8F5BB32DB3273100E04D62 /* RetroCool.ttf in Resources */,
 				9A76F64F2DB21B9A004B7B89 /* song2.wav in Resources */,
+				9A8F5BB52DB3278600E04D62 /* CavellaExtruderight.otf in Resources */,
 				9A76F64D2DB21B87004B7B89 /* song1.wav in Resources */,
 				9AA9C39E2DB320BA001ACE8C /* SuperBread.ttf in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
@@ -697,6 +716,7 @@
 				9AA1A5822DA69684000178B3 /* ComprehensiveView_V3.swift in Sources */,
 				9A999C5D2DB0732800E8E226 /* SearchForItemAPIDocDemoView_V6.swift in Sources */,
 				9AFB73352DAEDDED00A985BF /* SpotifyEmbedView_V3.swift in Sources */,
+				9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */,
 				9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */,
 				9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */,
 				9A8D5D682DAFF7780078B786 /* ArtistDetailView_V2.swift in Sources */,
