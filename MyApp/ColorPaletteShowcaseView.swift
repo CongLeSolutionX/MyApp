@@ -9,22 +9,22 @@ import SwiftUI
 
 // --- Color Palettes Leveraging Unique Apple Color System Features ---
 
-///// Palette using the Display P3 color space for potentially more vibrant colors
-///// on compatible wide-gamut displays. These are constant colors.
-//struct DisplayP3Palette {
-//    /// A vibrant red, potentially outside the standard sRGB gamut.
-//    static let vibrantRed: Color = Color(.displayP3, red: 1.0, green: 0.1, blue: 0.1, opacity: 1.0)
-//
-//    /// A lush green, potentially more saturated than standard sRGB greens.
-//    static let lushGreen: Color = Color(.displayP3, red: 0.1, green: 0.9, blue: 0.2, opacity: 1.0)
-//
-//    /// A deep P3 blue.
-//    static let deepBlue: Color = Color(.displayP3, red: 0.1, green: 0.2, blue: 0.95, opacity: 1.0)
-//
-//    /// A bright P3 magenta.
-//    static let brightMagenta: Color = Color(.displayP3, red: 0.95, green: 0.1, blue: 0.8, opacity: 1.0)
-//}
-//
+/// Palette using the Display P3 color space for potentially more vibrant colors
+/// on compatible wide-gamut displays. These are constant colors.
+struct DisplayP3Palette {
+    /// A vibrant red, potentially outside the standard sRGB gamut.
+    static let vibrantRed: Color = Color(.displayP3, red: 1.0, green: 0.1, blue: 0.1, opacity: 1.0)
+
+    /// A lush green, potentially more saturated than standard sRGB greens.
+    static let lushGreen: Color = Color(.displayP3, red: 0.1, green: 0.9, blue: 0.2, opacity: 1.0)
+
+    /// A deep P3 blue.
+    static let deepBlue: Color = Color(.displayP3, red: 0.1, green: 0.2, blue: 0.95, opacity: 1.0)
+
+    /// A bright P3 magenta.
+    static let brightMagenta: Color = Color(.displayP3, red: 0.95, green: 0.1, blue: 0.8, opacity: 1.0)
+}
+
 ///// Palette demonstrating the use of extended range values (outside 0.0-1.0).
 ///// The visual effect heavily depends on the display's capabilities and how
 ///// the system renders these values. These are constant colors.
