@@ -406,7 +406,11 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         }
 
         func loadUri(_ uri: String?) {
-            guard let webView = webView, isApiReady, lastLoadedUri != nil, let newUri = uri, lastLoadedUri != newUri else {
+            guard let webView = webView,
+                    isApiReady,
+                    lastLoadedUri != nil,
+                    let newUri = uri,
+                    lastLoadedUri != newUri else {
                 // Don't load if not ready, controller not created, URI is nil, or URI hasn't changed
                 return
             }
@@ -443,7 +447,11 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         }
 
         // WKUIDelegate Method (Handles JS alert panels)
-        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        func webView(_ webView: WKWebView,
+                     runJavaScriptAlertPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping () -> Void
+        ) {
             print("ℹ️ Spotify Embed JS Alert: \(message)")
             // Map common alerts to error state
             if message.lowercased().contains("premium required") {
@@ -511,31 +519,57 @@ struct SpotifyAPIService {
         print("🚀 API Request: \(url.absoluteString)")
         let (data, response) = try await session.data(for: request)
 
-        guard let httpResponse = response as? HTTPURLResponse else { throw SpotifyAPIError.invalidResponse(0, "Not HTTP response.") }
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw SpotifyAPIError.invalidResponse(0, "Not HTTP response.")
+        }
         print("🚦 API Status: \(httpResponse.statusCode)")
 
         guard (200...299).contains(httpResponse.statusCode) else {
-            throw SpotifyAPIError.invalidResponse(httpResponse.statusCode, String(data: data, encoding: .utf8))
+            throw SpotifyAPIError.invalidResponse(
+                httpResponse.statusCode,
+                String(data: data, encoding: .utf8)
+            )
         }
 
-        do { return try JSONDecoder().decode(T.self, from: data) }
-        catch { print("❌ Decode Error: \(error)"); throw SpotifyAPIError.decodingError(error) }
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            print("❌ Decode Error: \(error)")
+            throw SpotifyAPIError.decodingError(error)
+        }
     }
 
-    func searchAlbums(query: String, limit: Int = 20, offset: Int = 0) async throws -> SpotifySearchResponse {
+    func searchAlbums(
+        query: String,
+        limit: Int = 20,
+        offset: Int = 0
+    ) async throws -> SpotifySearchResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/search")!
         components.queryItems = [ /* ... query items ... */
-            URLQueryItem(name: "q", value: query), URLQueryItem(name: "type", value: "album"),
-            URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)") ]
-        guard let url = components.url else { throw SpotifyAPIError.invalidURL }
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "type", value: "album"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+            URLQueryItem(name: "offset", value: "\(offset)")
+        ]
+        guard let url = components.url else {
+            throw SpotifyAPIError.invalidURL
+        }
         return try await makeRequest(url: url)
     }
 
-    func getAlbumTracks(albumId: String, limit: Int = 50, offset: Int = 0) async throws -> AlbumTracksResponse {
+    func getAlbumTracks(
+        albumId: String,
+        limit: Int = 50,
+        offset: Int = 0
+    ) async throws -> AlbumTracksResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/albums/\(albumId)/tracks")!
         components.queryItems = [ /* ... query items ... */
-            URLQueryItem(name: "limit", value: "\(limit)"), URLQueryItem(name: "offset", value: "\(offset)") ]
-        guard let url = components.url else { throw SpotifyAPIError.invalidURL }
+            URLQueryItem(name: "limit", value: "\(limit)"),
+            URLQueryItem(name: "offset", value: "\(offset)")
+        ]
+        guard let url = components.url else {
+            throw SpotifyAPIError.invalidURL
+        }
         return try await makeRequest(url: url)
     }
 }
@@ -567,9 +601,14 @@ struct SpotifyAlbumListView: View {
                 .toolbarColorScheme(.dark, for: .navigationBar)
 
                 // --- Search Bar ---
-                .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: Text("Search Albums & Artists").foregroundColor(NeumorphicTheme.secondaryText))
+                .searchable(
+                    text: $searchQuery,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: Text("Search Albums & Artists")
+                        .foregroundColor(NeumorphicTheme.secondaryText)
+                )
                 .onSubmit(of: .search) { triggerSearch(immediate: true) }
-                .onChange(of: searchQuery) { _ in
+                .onChange(of: searchQuery) {
                     currentError = nil // Clear error on new typing
                     triggerSearch() // Trigger debounced search
                 }
