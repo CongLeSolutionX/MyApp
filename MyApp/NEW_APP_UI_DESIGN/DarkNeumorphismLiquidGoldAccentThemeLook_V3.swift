@@ -1144,7 +1144,7 @@ struct EmptyStatePlaceholderView: View {
     }
 
      private var isInitialState: Bool { searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-     private var iconName: String { isInitialState ? "music.magnifyingglass" : "questionmark.circle" }
+     private var iconName: String { isInitialState ? "magnifyinglass" : "questionmark.circle" }
      private var title: String { isInitialState ? "Spotify Album Search" : "No Results Found" }
      private var message: String {
          isInitialState ? "Enter an album or artist name above." : "No matches found for \"\(searchQuery)\". Try different keywords."
