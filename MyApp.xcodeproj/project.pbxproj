@@ -28,6 +28,8 @@
 		9A04EB102DB37B270007A8E4 /* ColorPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */; };
 		9A04EB122DB37C300007A8E4 /* ColorTool_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB112DB37C2D0007A8E4 /* ColorTool_V1.swift */; };
 		9A04EB142DB37D540007A8E4 /* ColorTool_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB132DB37D530007A8E4 /* ColorTool_V2.swift */; };
+		9A04EB172DB37E680007A8E4 /* ColorPalettesApp_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB162DB37E5F0007A8E4 /* ColorPalettesApp_V2.swift */; };
+		9A04EB192DB37FBE0007A8E4 /* ColorPalettesApp_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB182DB37FBC0007A8E4 /* ColorPalettesApp_V3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -58,6 +60,8 @@
 		9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteView.swift; sourceTree = "<group>"; };
 		9A04EB112DB37C2D0007A8E4 /* ColorTool_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTool_V1.swift; sourceTree = "<group>"; };
 		9A04EB132DB37D530007A8E4 /* ColorTool_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTool_V2.swift; sourceTree = "<group>"; };
+		9A04EB162DB37E5F0007A8E4 /* ColorPalettesApp_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalettesApp_V2.swift; sourceTree = "<group>"; };
+		9A04EB182DB37FBC0007A8E4 /* ColorPalettesApp_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalettesApp_V3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 				9A04EB0B2DB378320007A8E4 /* ColorPaletteShowcaseView_V2.swift */,
 				9A04EB0D2DB37A270007A8E4 /* NotesApp.swift */,
 				9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */,
+				9A04EB162DB37E5F0007A8E4 /* ColorPalettesApp_V2.swift */,
+				9A04EB182DB37FBC0007A8E4 /* ColorPalettesApp_V3.swift */,
 				9A04EB152DB37D590007A8E4 /* ColorTool */,
 				9A04EAF62DB376AF0007A8E4 /* ColorStylePreviewerApp */,
 				9A04EAF32DB373CC0007A8E4 /* ColorPaletteMasterView */,
@@ -241,6 +247,7 @@
 			files = (
 				9A04EAF22DB3721B0007A8E4 /* ColorPaletteMasterView_V1.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9A04EB192DB37FBE0007A8E4 /* ColorPalettesApp_V3.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A04EB0C2DB378390007A8E4 /* ColorPaletteShowcaseView_V2.swift in Sources */,
 				9A04EB022DB3770B0007A8E4 /* HomeView.swift in Sources */,
@@ -261,6 +268,7 @@
 				9A04EAF52DB373D30007A8E4 /* ColorPaletteMasterView_V2.swift in Sources */,
 				9A04EB102DB37B270007A8E4 /* ColorPaletteView.swift in Sources */,
 				9A04EAEA2DB36B710007A8E4 /* ColorPaletteDemoView.swift in Sources */,
+				9A04EB172DB37E680007A8E4 /* ColorPalettesApp_V2.swift in Sources */,
 				9A04EAF82DB376BF0007A8E4 /* ColorStylePreviewerApp.swift in Sources */,
 				9A04EAFA2DB376D00007A8E4 /* ColorPalette.swift in Sources */,
 			);

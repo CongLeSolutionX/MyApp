@@ -12,7 +12,8 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ColorPaletteShowcaseView()
+            //ContentView()
             //ColorPaletteDemoView()
             //ColorPaletteMasterView()
         }
