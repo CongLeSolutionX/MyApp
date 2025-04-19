@@ -19,7 +19,9 @@
 		9A04EB1D2DB388B00007A8E4 /* LightNeumorphicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */; };
 		9A04EB1F2DB38B9E0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB1E2DB38B9D0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift */; };
 		9A04EB212DB38D610007A8E4 /* IntenseRedNeumorphicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB202DB38D600007A8E4 /* IntenseRedNeumorphicTheme.swift */; };
-		9A04EB232DB390530007A8E4 /* SpotifyNeumorphicMixedColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme.swift */; };
+		9A04EB232DB390530007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift */; };
+		9A04EB252DB3978D0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */; };
+		9A04EB282DB3BC630007A8E4 /* GlassmorphicTheme_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */; };
 		9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */; };
 		9A2539D82D88E85B0038EA83 /* MusicPlayerView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */; };
 		9A2539DA2D88EAA10038EA83 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */; };
@@ -145,7 +147,9 @@
 		9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightNeumorphicTheme.swift; sourceTree = "<group>"; };
 		9A04EB1E2DB38B9D0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkNeumorphismThemeIntenseRed.swift; sourceTree = "<group>"; };
 		9A04EB202DB38D600007A8E4 /* IntenseRedNeumorphicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntenseRedNeumorphicTheme.swift; sourceTree = "<group>"; };
-		9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme.swift; sourceTree = "<group>"; };
+		9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme_V1.swift; sourceTree = "<group>"; };
+		9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNeumorphicMixedColorTheme_V2.swift; sourceTree = "<group>"; };
+		9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicTheme_V1.swift; sourceTree = "<group>"; };
 		9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontVariantPreview.swift; sourceTree = "<group>"; };
 		9A2539D72D88E85A0038EA83 /* MusicPlayerView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V2.swift; sourceTree = "<group>"; };
 		9A2539D92D88EAA10038EA83 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
@@ -272,6 +276,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A04EB262DB3BBE40007A8E4 /* Neumorphism_Themes */ = {
+			isa = PBXGroup;
+			children = (
+				9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift */,
+				9A04EB242DB3978B0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift */,
+				9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook_V1.swift */,
+				9A04EADD2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift */,
+				9A04EB1A2DB3856A0007A8E4 /* DarkNeumorphismThemeLook_V3.swift */,
+				9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */,
+				9A04EB202DB38D600007A8E4 /* IntenseRedNeumorphicTheme.swift */,
+				9A04EB1E2DB38B9D0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift */,
+				9A04EADF2DB35F380007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift */,
+				9A04EADB2DB354970007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V2.swift */,
+				9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V1.swift */,
+				9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */,
+			);
+			path = Neumorphism_Themes;
+			sourceTree = "<group>";
+		};
+		9A04EB292DB3BC660007A8E4 /* Glassmorphic_Themes */ = {
+			isa = PBXGroup;
+			children = (
+				9A04EB272DB3BC600007A8E4 /* GlassmorphicTheme_V1.swift */,
+			);
+			path = Glassmorphic_Themes;
+			sourceTree = "<group>";
+		};
 		9A20639F2DB323C50045C84F /* PsychedelicThemeLook */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,17 +347,8 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
-				9A04EB222DB390400007A8E4 /* SpotifyNeumorphicMixedColorTheme.swift */,
-				9A04EAD72DB350550007A8E4 /* DarkNeumorphismThemeLook_V1.swift */,
-				9A04EADD2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift */,
-				9A04EB1A2DB3856A0007A8E4 /* DarkNeumorphismThemeLook_V3.swift */,
-				9A04EB1C2DB388A90007A8E4 /* LightNeumorphicTheme.swift */,
-				9A04EB202DB38D600007A8E4 /* IntenseRedNeumorphicTheme.swift */,
-				9A04EB1E2DB38B9D0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift */,
-				9A04EADF2DB35F380007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift */,
-				9A04EADB2DB354970007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V2.swift */,
-				9A04EAD92DB352C10007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V1.swift */,
-				9A04EAD52DB34BFD0007A8E4 /* NeumorphismThemeLook.swift */,
+				9A04EB292DB3BC660007A8E4 /* Glassmorphic_Themes */,
+				9A04EB262DB3BBE40007A8E4 /* Neumorphism_Themes */,
 				9A20639F2DB323C50045C84F /* PsychedelicThemeLook */,
 				9AF356152DB1091B006D2E67 /* SpotifyThemedApp.swift */,
 				9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */,
@@ -708,6 +730,7 @@
 				9AA1A5482DA5A024000178B3 /* MusicAdView_V3.swift in Sources */,
 				9AF356142DB102AA006D2E67 /* LiquidGoldMusicPlayerView.swift in Sources */,
 				9A5F07552DB0C6FD00DC089D /* SynthwaveView_V1.swift in Sources */,
+				9A04EB252DB3978D0007A8E4 /* SpotifyNeumorphicMixedColorTheme_V2.swift in Sources */,
 				9A04EB1F2DB38B9E0007A8E4 /* DarkNeumorphismThemeIntenseRed.swift in Sources */,
 				9A999C662DB096C200E8E226 /* GetCurrentlyPlayingTrackView_V1.swift in Sources */,
 				9A999C612DB0911F00E8E226 /* GetPlaybackStateDemoView_V1.swift in Sources */,
@@ -759,6 +782,7 @@
 				9AA1A5822DA69684000178B3 /* ComprehensiveView_V3.swift in Sources */,
 				9A999C5D2DB0732800E8E226 /* SearchForItemAPIDocDemoView_V6.swift in Sources */,
 				9AFB73352DAEDDED00A985BF /* SpotifyEmbedView_V3.swift in Sources */,
+				9A04EB282DB3BC630007A8E4 /* GlassmorphicTheme_V1.swift in Sources */,
 				9A2063A62DB325EF0045C84F /* FontVariantPreview.swift in Sources */,
 				9AFB73322DAED9C800A985BF /* SpotifyEmbedView_V2.swift in Sources */,
 				9AA1A5202DA536A5000178B3 /* GoogleAdView_V1.swift in Sources */,
@@ -785,7 +809,7 @@
 				9A8D5D502DAF63AF0078B786 /* SpotifyEmbedView_V5.swift in Sources */,
 				9A5F07462DB0B53500DC089D /* FriendListeningManager_V1.swift in Sources */,
 				9A04EB1D2DB388B00007A8E4 /* LightNeumorphicTheme.swift in Sources */,
-				9A04EB232DB390530007A8E4 /* SpotifyNeumorphicMixedColorTheme.swift in Sources */,
+				9A04EB232DB390530007A8E4 /* SpotifyNeumorphicMixedColorTheme_V1.swift in Sources */,
 				9AA1A5222DA53789000178B3 /* GoogleAdView_V2.swift in Sources */,
 				9A8D5D5F2DAF8A550078B786 /* ArtistDetailView.swift in Sources */,
 				9A5F07572DB0CAC300DC089D /* SynthwaveView_V2.swift in Sources */,
