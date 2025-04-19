@@ -26,7 +26,8 @@
 		9A04EB0C2DB378390007A8E4 /* ColorPaletteShowcaseView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB0B2DB378320007A8E4 /* ColorPaletteShowcaseView_V2.swift */; };
 		9A04EB0E2DB37A270007A8E4 /* NotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB0D2DB37A270007A8E4 /* NotesApp.swift */; };
 		9A04EB102DB37B270007A8E4 /* ColorPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */; };
-		9A04EB122DB37C300007A8E4 /* ColorTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB112DB37C2D0007A8E4 /* ColorTool.swift */; };
+		9A04EB122DB37C300007A8E4 /* ColorTool_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB112DB37C2D0007A8E4 /* ColorTool_V1.swift */; };
+		9A04EB142DB37D540007A8E4 /* ColorTool_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A04EB132DB37D530007A8E4 /* ColorTool_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -55,7 +56,8 @@
 		9A04EB0B2DB378320007A8E4 /* ColorPaletteShowcaseView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteShowcaseView_V2.swift; sourceTree = "<group>"; };
 		9A04EB0D2DB37A270007A8E4 /* NotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesApp.swift; sourceTree = "<group>"; };
 		9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteView.swift; sourceTree = "<group>"; };
-		9A04EB112DB37C2D0007A8E4 /* ColorTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTool.swift; sourceTree = "<group>"; };
+		9A04EB112DB37C2D0007A8E4 /* ColorTool_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTool_V1.swift; sourceTree = "<group>"; };
+		9A04EB132DB37D530007A8E4 /* ColorTool_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTool_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,15 @@
 			path = ColorStylePreviewerApp;
 			sourceTree = "<group>";
 		};
+		9A04EB152DB37D590007A8E4 /* ColorTool */ = {
+			isa = PBXGroup;
+			children = (
+				9A04EB132DB37D530007A8E4 /* ColorTool_V2.swift */,
+				9A04EB112DB37C2D0007A8E4 /* ColorTool_V1.swift */,
+			);
+			path = ColorTool;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -139,7 +150,7 @@
 				9A04EB0B2DB378320007A8E4 /* ColorPaletteShowcaseView_V2.swift */,
 				9A04EB0D2DB37A270007A8E4 /* NotesApp.swift */,
 				9A04EB0F2DB37B270007A8E4 /* ColorPaletteView.swift */,
-				9A04EB112DB37C2D0007A8E4 /* ColorTool.swift */,
+				9A04EB152DB37D590007A8E4 /* ColorTool */,
 				9A04EAF62DB376AF0007A8E4 /* ColorStylePreviewerApp */,
 				9A04EAF32DB373CC0007A8E4 /* ColorPaletteMasterView */,
 				9A04EAEB2DB36C960007A8E4 /* ColorLabApp */,
@@ -237,11 +248,12 @@
 				9A04EAEF2DB36F6F0007A8E4 /* ColorPalettesApp.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A04EB0E2DB37A270007A8E4 /* NotesApp.swift in Sources */,
+				9A04EB142DB37D540007A8E4 /* ColorTool_V2.swift in Sources */,
 				9A04EAFE2DB376E20007A8E4 /* ColorService.swift in Sources */,
 				9A04EAE62DB36AB30007A8E4 /* ColorPaletteShowcaseView.swift in Sources */,
 				9A04EB0A2DB3775B0007A8E4 /* ColorDetailSheet.swift in Sources */,
 				9A04EAE82DB36AF70007A8E4 /* ColorPaletteDemoApp.swift in Sources */,
-				9A04EB122DB37C300007A8E4 /* ColorTool.swift in Sources */,
+				9A04EB122DB37C300007A8E4 /* ColorTool_V1.swift in Sources */,
 				9A04EB042DB3771A0007A8E4 /* PalettePickerView.swift in Sources */,
 				9A04EB062DB3772B0007A8E4 /* ColorCell.swift in Sources */,
 				9A04EB082DB377450007A8E4 /* ColorDetailPreview.swift in Sources */,
