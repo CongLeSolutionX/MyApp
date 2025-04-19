@@ -746,19 +746,19 @@ struct ErrorPlaceholderView: View {
                     .padding(.horizontal, 30)
             default:
                 Button("RETRY") {
-                    Text("RETRY")
-                        .font(retroFont(size: 16, weight: .bold))
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
-                        .background(LinearGradient(colors: [retroNeonPink, .orange], startPoint: .leading, endPoint: .trailing))
-                        .foregroundColor(retroDeepPurple)
-                        .clipShape(Capsule())
-                        .neonGlow(.orange, radius: 10)
+                    //Text("RETRY")
+                       // .font(retroFont(size: 16, weight: .bold))
+                        //.padding(.horizontal, 30)
+                       // .padding(.vertical, 10)
+                        //.background(LinearGradient(colors: [retroNeonPink, .orange], startPoint: .leading, endPoint: .trailing))
+                        //.foregroundColor(retroDeepPurple)
+                        //.clipShape(Capsule())
+                        //.neonGlow(.orange, radius: 10)
                 }
             }
         }
         .padding(30)
-        //         .background(.black.opacity(0.4).blur(radius: 10)) // Optional blurred background
+        .background(Color.black.opacity(0.4)).blur(radius: 10)
         .cornerRadius(20)
         .padding(20) // Padding around the whole error view
     }
@@ -1024,56 +1024,104 @@ struct TracksSectionView: View {
     let tracks: [Track]
     let isLoading: Bool
     let error: SpotifyAPIError?
-    @Binding var selectedTrackUri: String?
+    @Binding var selectedTrackUri: String? // Binding to update parent
     let retryAction: () -> Void
-    
+
     var body: some View {
-        EmptyView()
+        // No encompassing VStack needed if used directly in List Section
+        if isLoading {
+            HStack { // Center progress view within the list section area
+                Spacer()
+                ProgressView()
+                Text("Loading Tracks...")
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 5)
+                Spacer()
+            }
+            .padding(.vertical, 20) // Give loading indicator space
+        } else if let error = error {
+            // Use the new ErrorPlaceholderView
+            ErrorPlaceholderView(error: error, retryAction: retryAction)
+                .padding(.vertical, 20) // Give error view space
+        } else if tracks.isEmpty {
+            // Message for when tracks array is empty *after* successful load
+            Text("No tracks found for this album.")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+        } else {
+            // Use ForEach directly within the List Section
+            ForEach(tracks) { track in
+                TrackRowView(
+                    track: track,
+                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
+                )
+                .contentShape(Rectangle()) // Make the whole row tappable
+                .onTapGesture {
+                    // Update the selected URI - animation handled by parent
+                    selectedTrackUri = track.uri
+                }
+                // Apply background highlight directly or via listRowBackground
+                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
+            }
+        }
     }
-    
-    //    var body: some View {
-    //        Group { // Use Group to apply padding once if needed
-    //            if isLoading {
-    //                 HStack {
-    //                    Spacer()
-    //                     ProgressView().tint(retroNeonCyan)
-    //                     Text("Loading Tracks...")
-    //                        .font(retroFont(size: 14))
-    //                        .foregroundColor(retroNeonCyan)
-    //                        .padding(.leading, 8)
-    //                    Spacer()
-    //                }
-    //                .padding(.vertical, 25)
-    //            } else if let error = error {
-    //                ErrorPlaceholderView(error: error, retryAction: retryAction)
-    //                     .padding(.vertical, 25) // Add padding around error view
-    //            } else if tracks.isEmpty {
-    //                Text("Track Information Unavailable")
-    //                    .font(retroFont(size: 14))
-    //                    .foregroundColor(.white.opacity(0.6))
-    //                    .frame(maxWidth: .infinity, alignment: .center)
-    //                    .padding(.vertical, 25)
-    //            } else {
-    //                // Track rows directly in the section
-    //                 ForEach(tracks) { track in
-    //                     TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
-    //                         .contentShape(Rectangle())
-    //                         .onTapGesture {
-    //                             selectedTrackUri = track.uri
-    //                         }
-    //                         // Themed selection background
-    //                          .listRowBackground(
-    //                             track.uri == selectedTrackUri
-    //                              ? LinearGradient(colors: [retroNeonCyan.opacity(0.2), retroNeonPink.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
-    //                                 .blur(radius: 5) // Soft blurred background highlight
-    //                              : Color.clear
-    //                          )
-    //                }
-    //            }
-    //        }
-    //         // Apply common modifiers to the Group if needed, e.g., .padding(.horizontal)
-    //    }
 }
+
+//struct TracksSectionView: View {
+//    let tracks: [Track]
+//    let isLoading: Bool
+//    let error: SpotifyAPIError?
+//    @Binding var selectedTrackUri: String?
+//    let retryAction: () -> Void
+//    
+//    var body: some View {
+//        EmptyView()
+//    }
+//    
+//    //    var body: some View {
+//    //        Group { // Use Group to apply padding once if needed
+//    //            if isLoading {
+//    //                 HStack {
+//    //                    Spacer()
+//    //                     ProgressView().tint(retroNeonCyan)
+//    //                     Text("Loading Tracks...")
+//    //                        .font(retroFont(size: 14))
+//    //                        .foregroundColor(retroNeonCyan)
+//    //                        .padding(.leading, 8)
+//    //                    Spacer()
+//    //                }
+//    //                .padding(.vertical, 25)
+//    //            } else if let error = error {
+//    //                ErrorPlaceholderView(error: error, retryAction: retryAction)
+//    //                     .padding(.vertical, 25) // Add padding around error view
+//    //            } else if tracks.isEmpty {
+//    //                Text("Track Information Unavailable")
+//    //                    .font(retroFont(size: 14))
+//    //                    .foregroundColor(.white.opacity(0.6))
+//    //                    .frame(maxWidth: .infinity, alignment: .center)
+//    //                    .padding(.vertical, 25)
+//    //            } else {
+//    //                // Track rows directly in the section
+//    //                 ForEach(tracks) { track in
+//    //                     TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
+//    //                         .contentShape(Rectangle())
+//    //                         .onTapGesture {
+//    //                             selectedTrackUri = track.uri
+//    //                         }
+//    //                         // Themed selection background
+//    //                          .listRowBackground(
+//    //                             track.uri == selectedTrackUri
+//    //                              ? LinearGradient(colors: [retroNeonCyan.opacity(0.2), retroNeonPink.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
+//    //                                 .blur(radius: 5) // Soft blurred background highlight
+//    //                              : Color.clear
+//    //                          )
+//    //                }
+//    //            }
+//    //        }
+//    //         // Apply common modifiers to the Group if needed, e.g., .padding(.horizontal)
+//    //    }
+//}
 
 struct TrackRowView: View {
     let track: Track
