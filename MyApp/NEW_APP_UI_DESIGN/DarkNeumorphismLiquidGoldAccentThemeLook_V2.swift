@@ -495,7 +495,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
 // MARK: - API Service (Unchanged - Requires Token)
 
 // <<----- IMPORTANT: PASTE YOUR BEARER TOKEN HERE ----->>
-let spotifyBearerToken = "BQCTSV0UBhP3ittQgvrBE3ShubwjvUvOjkIR5XvqT3-U5fK-5AtSRfRLHFwQwqxl-YfMLQQXrycH6SlNSwc808_gnpRNJ7h-J7hDb1O3jG-UN2nkW-FwRQT4OKdu95GbNwRtluhh05fc9qqXCl5p-H3CHOIdnDo_r1LpGAXI1IPo3dMm5J437dqStIqVx1ueKfkHbQMfZCOD_AbwMwKD5-4YgknRWlfUkC8GWYS1b8kBxXv4z98ABq3kEKyiJ8VXPB5Dr0LA-W2upGcjmaF2A4HrZlO-KNnrH9m56sdgH-Rj-b5BDnY5iCkfAcYgCQO5" // Replace or use a secure method!
+let spotifyBearerToken = "TOKEN_HERE" // Replace or use a secure method!
 // <<----------------------------------------------------->>
 
 enum SpotifyAPIError: Error, LocalizedError {
@@ -1077,6 +1077,10 @@ struct NeumorphicPlayerView: View {
     }
 }
 
+#Preview("NeumorphicPlayerView") {
+    NeumorphicPlayerView(playbackState: .init(), spotifyUri: "asdasdasdasdasdasdsad")
+}
+
 struct TracksSectionView: View {
     let tracks: [Track]
     let isLoading: Bool
@@ -1281,7 +1285,7 @@ struct AlbumImageView: View { // Uses standard AsyncImage, placeholder is themed
             }
         }
         // Apply neumorphic shadow to the AsyncImage frame itself
-        // .neumorphicShadow(cornerRadius: 10, shadowRadius: 4, shadowOffset: 3) // Moved to card/header view
+         .neumorphicShadow(cornerRadius: 10, shadowRadius: 4, shadowOffset: 3) // Moved to card/header view
     }
 }
 
@@ -1361,7 +1365,8 @@ struct ErrorPlaceholderView: View {
             }
 
             // Retry Button (only if action provided and not a token error)
-            if let retryAction = retryAction, case .invalidToken = error {} else if let retryAction = retryAction {
+            if let retryAction = retryAction,
+               case .invalidToken = error {} else if let retryAction = retryAction {
                 NeumorphicButton(
                     action: retryAction,
                     label: { Text("Retry") },
@@ -1427,6 +1432,10 @@ struct EmptyStatePlaceholderView: View {
              return "Could not find any albums matching \"\(searchQuery)\".\nTry refining your search terms."
          }
      }
+}
+
+#Preview("SpotifyAlbumListView") {
+    SpotifyAlbumListView()
 }
 
 // MARK: - App Entry Point
