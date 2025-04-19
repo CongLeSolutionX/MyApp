@@ -5,17 +5,37 @@
 //  Created by Cong Le on 4/18/25.
 //
 
-//
-//  SpotifyNeumorphicApp.swift
-//  MyApp // Or your desired app name
-//
 //  Created by Cong Le on // <Date, eg., 4/19/25>
 //  Single File Implementation: Deep Dark Neumorphism with Liquid Gold Accent
 //
 
 import SwiftUI
-@preconcurrency import WebKit // For WebView communication
-import Foundation // For URL, Codable, etc.
+@preconcurrency import WebKit // For Spotify Embed WebView
+import Foundation
+
+// MARK: - Dark Neumorphism Theme Constants & Helpers
+
+struct DarkNeumorphicTheme {
+    static let background = Color(red: 0.14, green: 0.16, blue: 0.19) // Dark gray base
+    static let elementBackground = Color(red: 0.18, green: 0.20, blue: 0.23) // Slightly lighter for elements
+    static let lightShadow = Color.white.opacity(0.1) // Subtle white highlight
+    static let darkShadow = Color.black.opacity(0.5)  // Deeper black shadow
+    
+    static let primaryText = Color.white.opacity(0.85)
+    static let secondaryText = Color.gray.opacity(0.7)
+    
+    // Accent color (subtle) - Adjust saturation/brightness as needed
+    static let accentColor = Color(hue: 0.6, saturation: 0.3, brightness: 0.7) // Muted blue/purple
+    static let errorColor = Color(hue: 0.0, saturation: 0.5, brightness: 0.7) // Muted red
+    
+    static let shadowRadius: CGFloat = 6
+    static let shadowOffset: CGFloat = 4
+}
+
+// Font helper (using system fonts for simplicity)
+func neumorphicFont(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design = .default) -> Font {
+    return Font.system(size: size, weight: weight, design: design)
+}
 
 // MARK: - Theme: Deep Dark Neumorphism & Liquid Gold Accent
 
@@ -280,217 +300,592 @@ struct Track: Codable, Identifiable, Hashable {
     }
 }
 
-// MARK: - Spotify Embed WebView (Largely Unchanged Internally)
-
-// IMPORTANT: The Spotify Embed itself cannot easily be styled with Neumorphism.
-// We will style its *container* using Neumorphism.
+// MARK: - Spotify Embed WebView (Minor adjustments for theme consistency)
 
 final class SpotifyPlaybackState: ObservableObject {
     @Published var isPlaying: Bool = false
     @Published var currentPosition: Double = 0 // seconds
     @Published var duration: Double = 0 // seconds
     @Published var currentUri: String = ""
-    @Published var isReady: Bool = false
-    @Published var error: String? = nil
+    @Published var isReady: Bool = false // Track readiness
+    @Published var error: String? = nil // Track embed errors
 }
 
 struct SpotifyEmbedWebView: UIViewRepresentable {
     @ObservedObject var playbackState: SpotifyPlaybackState
-    let spotifyUri: String?
-
+    let spotifyUri: String? // URI to load
+    
     func makeCoordinator() -> Coordinator { Coordinator(self) }
-
+    
     func makeUIView(context: Context) -> WKWebView {
         // --- Configuration ---
         let userContentController = WKUserContentController()
         userContentController.add(context.coordinator, name: "spotifyController")
-
+        
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
-        configuration.allowsInlineMediaPlayback = true
-        configuration.mediaTypesRequiringUserActionForPlayback = []
-
+        configuration.allowsInlineMediaPlayback = true // Important for embed player
+        configuration.mediaTypesRequiringUserActionForPlayback = [] // Attempt auto-play
+        
         // --- WebView Creation ---
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         webView.isOpaque = false
-        webView.backgroundColor = .clear // <-- Keep transparent for SwiftUI background
-        webView.scrollView.isScrollEnabled = false // Prevent scrolling within embed
-
-        // --- Load HTML ---
-        let html = generateHTML()
-        webView.loadHTMLString(html, baseURL: nil)
-
-        // --- Store reference ---
+        webView.backgroundColor = .clear // Keep transparent; SwiftUI container handles background
+        webView.scrollView.isScrollEnabled = false // Disable scrolling for the embed
+        
+        // --- Initial Load ---
+        webView.loadHTMLString(generateHTML(), baseURL: nil)
+        
+        // --- Store Coordinator Reference ---
         context.coordinator.webView = webView
         return webView
     }
-
+    
     func updateUIView(_ webView: WKWebView, context: Context) {
-        // Check if the API is ready and the URI needs updating
+        print("🔄 Spotify Embed WebView: updateUIView called. API Ready: \(context.coordinator.isApiReady), Last/Current URI: \(context.coordinator.lastLoadedUri ?? "nil") / \(spotifyUri ?? "nil")")
+        
+        // Only load a new URI if the API is ready and the URI has actually changed.
         if context.coordinator.isApiReady && context.coordinator.lastLoadedUri != spotifyUri {
+            print(" -> Loading URI in updateUIView.")
             context.coordinator.loadUri(spotifyUri ?? "")
-            DispatchQueue.main.async {
-                if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri ?? "" }
-                playbackState.error = nil // Clear error on new URI load attempt
-            }
         } else if !context.coordinator.isApiReady {
+            // If updateUIView is called *before* the API is ready,
+            // make sure the coordinator knows the latest desired URI.
             context.coordinator.updateDesiredUriBeforeReady(spotifyUri ?? "")
         }
     }
-
-    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
-        print("Spotify Embed WebView: Dismantling.")
-        uiView.stopLoading()
-        uiView.configuration.userContentController.removeScriptMessageHandler(forName: "spotifyController")
-        coordinator.webView = nil
+    
+    static func dismantleUIView(_ webView: WKWebView, coordinator: Coordinator) {
+        print("🧹 Spotify Embed WebView: Dismantling.")
+        webView.stopLoading()
+        // Safely remove the message handler
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "spotifyController")
+        coordinator.webView = nil // Clear coordinator's reference
     }
-
-    // --- Coordinator ---
+    
+    // --- Coordinator Class ---
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
         var parent: SpotifyEmbedWebView
         weak var webView: WKWebView?
         var isApiReady = false
         var lastLoadedUri: String?
         private var desiredUriBeforeReady: String? = nil
-
+        
         init(_ parent: SpotifyEmbedWebView) { self.parent = parent }
-
-        func updateDesiredUriBeforeReady(_ uri: String) {
-            if !isApiReady { desiredUriBeforeReady = uri }
+        
+        func updateDesiredUriBeforeReady(_ uri: String?) {
+            if !isApiReady {
+                desiredUriBeforeReady = uri
+                print("📥 Spotify Embed Coordinator: Storing desired URI before ready: \(uri ?? "nil")")
+            }
         }
-
+        
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            print("Spotify Embed WebView: HTML content finished loading.")
+            print("📄 Spotify Embed WebView: HTML content finished loading.")
+            // Don't assume API is ready here; wait for JS message.
         }
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-            print("❌ Spotify Embed WebView Provisional Load Error: \(error.localizedDescription)")
-            DispatchQueue.main.async { self.parent.playbackState.error = "Failed to load player resources." }
-        }
+        
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            print("❌ Spotify Embed WebView Load Error: \(error.localizedDescription)")
-            DispatchQueue.main.async { self.parent.playbackState.error = "Player navigation failed." }
+            print("❌ Spotify Embed WebView: Navigation failed: \(error.localizedDescription)")
+            DispatchQueue.main.async { self.parent.playbackState.error = "WebView Navigation Failed: \(error.localizedDescription)" }
         }
+        
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("❌ Spotify Embed WebView: Provisional navigation failed: \(error.localizedDescription)")
+            DispatchQueue.main.async { self.parent.playbackState.error = "WebView Provisional Navigation Failed: \(error.localizedDescription)" }
+        }
+        
+        // Handle messages from JavaScript
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             guard message.name == "spotifyController" else { return }
+            
             if let bodyDict = message.body as? [String: Any], let event = bodyDict["event"] as? String {
-                print("📦 Spotify Native Received Event: '\(event)', Data: \(bodyDict)")
+                print("📩 JS Event: '\(event)' Data: \(bodyDict["data"] ?? "nil")")
                 handleEvent(event: event, data: bodyDict["data"])
             } else if let bodyString = message.body as? String {
-                print("📦 Spotify Native Received String: '\(bodyString)'")
+                print("📩 JS Message: '\(bodyString)'")
                 if bodyString == "ready" { handleApiReady() }
-            } else { print("❓ Spotify Native Received Unknown: \(message.body)") }
+                else { print("❓ Spotify Embed Native: Unknown JS string message: \(bodyString)") }
+            } else {
+                print("❓ Spotify Embed Native: Unknown JS message format: \(message.body)")
+            }
         }
-
+        
         private func handleApiReady() {
-            if isApiReady { return } // Prevent double calls
-            print("✅ Spotify Embed Native: API Ready.")
+            print("✅ Spotify Embed Native: Spotify IFrame API reported READY.")
             isApiReady = true
-             DispatchQueue.main.async { self.parent.playbackState.isReady = true }
+            DispatchQueue.main.async { self.parent.playbackState.isReady = true }
+            
             // Use the most recently desired URI when creating the controller
             if let initialUri = desiredUriBeforeReady ?? parent.spotifyUri {
                 createSpotifyController(with: initialUri)
+                desiredUriBeforeReady = nil // Clear it after use
+            } else {
+                print("⚠️ Spotify Embed Native: API Ready, but no initial URI to load.")
             }
-            desiredUriBeforeReady = nil // Clear it after use
         }
-
+        
         private func handleEvent(event: String, data: Any?) {
             switch event {
             case "controllerCreated":
-                print("✅ Spotify Embed Native: Controller Created.")
-                DispatchQueue.main.async { self.parent.playbackState.error = nil } // Clear error if success
+                print("✅ Spotify Embed Native: Embed controller successfully created.")
+                // No state update needed here, but good for debugging.
             case "playbackUpdate":
                 if let updateData = data as? [String: Any] { updatePlaybackState(with: updateData) }
             case "error":
-                let errorMessage = (data as? [String: Any])?["message"] as? String ?? (data as? String) ?? "Unknown player error"
+                let errorMessage = (data as? [String: Any])?["message"] as? String ?? (data as? String) ?? "Unknown JS error"
                 print("❌ Spotify Embed JS Error: \(errorMessage)")
-                 DispatchQueue.main.async { self.parent.playbackState.error = errorMessage }
+                DispatchQueue.main.async { self.parent.playbackState.error = errorMessage }
             default:
-                print("❓ Spotify Embed Native: Received unknown event: \(event)")
+                print("❓ Spotify Embed Native: Received unknown event type: \(event)")
             }
         }
-
+        
         private func updatePlaybackState(with data: [String: Any]) {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                var stateChanged = false
+                
                 if let isPaused = data["paused"] as? Bool {
-                    if self.parent.playbackState.isPlaying == isPaused { self.parent.playbackState.isPlaying = !isPaused }
+                    if self.parent.playbackState.isPlaying == isPaused {
+                        self.parent.playbackState.isPlaying = !isPaused
+                        stateChanged = true
+                    }
                 }
                 if let posMs = data["position"] as? Double {
                     let newPosition = posMs / 1000.0
-                    // Add tolerance check if updates are too frequent
-                    self.parent.playbackState.currentPosition = newPosition
+                    if abs(self.parent.playbackState.currentPosition - newPosition) > 0.1 {
+                        self.parent.playbackState.currentPosition = newPosition
+                        stateChanged = true
+                    }
                 }
                 if let durMs = data["duration"] as? Double {
                     let newDuration = durMs / 1000.0
-                     if abs(self.parent.playbackState.duration - newDuration) > 0.1 || self.parent.playbackState.duration == 0 {
+                    if abs(self.parent.playbackState.duration - newDuration) > 0.1 || self.parent.playbackState.duration == 0 {
                         self.parent.playbackState.duration = newDuration
+                        stateChanged = true
                     }
                 }
-                 if let uri = data["uri"] as? String, self.parent.playbackState.currentUri != uri {
-                     self.parent.playbackState.currentUri = uri
-                 }
-                self.parent.playbackState.error = nil // Clear error on successful update
-            }
-        }
-
-        private func createSpotifyController(with initialUri: String) {
-            guard let webView = webView, isApiReady else { print("⚠️ Spotify Embed Native: createSpotifyController called too early or webView missing."); return }
-             guard lastLoadedUri == nil else {
-                 print("ℹ️ Spotify Embed Native: Controller already initialized or attempt pending.")
-                 // Reload if URI changed *while* API was loading
-                 if let finalDesiredUri = desiredUriBeforeReady ?? parent.spotifyUri, finalDesiredUri != lastLoadedUri {
-                     loadUri(finalDesiredUri)
-                     desiredUriBeforeReady = nil
-                 }
-                 return
-             }
-            print("🚀 Spotify Embed Native: Creating controller for URI: \(initialUri)")
-            lastLoadedUri = initialUri // Mark as attempting
-
-            let script = "// ... JS code for creating controller & adding listeners (same as previous version) ..."
-            webView.evaluateJavaScript(script) { _, error in
-                if let error = error {
-                    print("⚠️ Spotify Embed Native: Error evaluating JS controller creation: \(error.localizedDescription)")
-                    DispatchQueue.main.async { self.parent.playbackState.error = "Failed to initialize player (JS error)." }
+                // Update URI importantly, reset position/duration if URI changes
+                if let uri = data["uri"] as? String, self.parent.playbackState.currentUri != uri {
+                    self.parent.playbackState.currentUri = uri
+                    self.parent.playbackState.currentPosition = 0 // Reset position on track change
+                    self.parent.playbackState.duration = data["duration"] as? Double ?? 0 // Reset/update duration
+                    stateChanged = true
                 }
-            }
-        }
-
-        func loadUri(_ uri: String) {
-            guard let webView = webView, isApiReady, lastLoadedUri != nil else { return } // Must be ready & initialized
-            guard lastLoadedUri != uri else { return }
-            print("🚀 Spotify Embed Native: Loading new URI: \(uri)")
-            lastLoadedUri = uri // Update the last loaded URI
-
-             let script = "// ... JS code for loading URI (same as previous version) ..."
-            webView.evaluateJavaScript(script) { _, error in
-                if let error = error {
-                    print("⚠️ Spotify Embed Native: Error evaluating JS load URI \(uri): \(error.localizedDescription)")
-                    DispatchQueue.main.async { self.parent.playbackState.error = "Failed to load track (JS error)." }
+                
+                // Clear error if we get a valid playback update
+                if stateChanged && self.parent.playbackState.error != nil {
+                    self.parent.playbackState.error = nil
                 }
             }
         }
         
-        // --- WKUIDelegate (Alert Panel Handling) ---
-         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-             print("ℹ️ Spotify Embed Received JS Alert: \(message)")
-             // Handle specific alerts if needed, e.g., "Premium required"
-             if message.lowercased().contains("premium required") {
-                 DispatchQueue.main.async { self.parent.playbackState.error = "Spotify Premium required for playback." }
-             }
-             completionHandler()
-         }
+        private func createSpotifyController(with initialUri: String) {
+            guard let webView = webView, isApiReady else {
+                print("⚠️ Spotify Embed Native: Cannot create controller - WebView or API not ready.")
+                return
+            }
+            // Prevent re-initialization if already loaded or attempted
+            guard lastLoadedUri == nil else {
+                print("ℹ️ Spotify Embed Native: Controller already initialized or creation pending. Desired URI: \(initialUri)")
+                // If the desired URI changed *after* API ready but *before* controller creation finished
+                if let latestDesired = desiredUriBeforeReady ?? parent.spotifyUri, latestDesired != lastLoadedUri {
+                    print(" -> Correcting URI before loading: \(latestDesired)")
+                    loadUri(latestDesired)
+                }
+                desiredUriBeforeReady = nil // Ensure it's cleared
+                return
+            }
+            
+            print("🚀 Spotify Embed Native: Attempting to create controller for URI: \(initialUri)")
+            lastLoadedUri = initialUri // Mark as attempting/loaded
+            
+            // --- JavaScript for Controller Creation ---
+            let script = """
+            console.log('Spotify Embed JS: Running create controller script.');
+            window.embedController = null; // Clear any old reference
+            const element = document.getElementById('embed-iframe');
+            if (!element) { console.error('JS Error: #embed-iframe not found!'); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'HTML element embed-iframe not found' }}); }
+            else if (!window.IFrameAPI) { console.error('JS Error: IFrameAPI not loaded!'); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Spotify IFrame API not loaded' }}); }
+            else {
+                console.log('JS: Found element and API. Creating controller for: \(initialUri)');
+                const options = { uri: '\(initialUri)', width: '100%', height: '100%' }; // Use 100% height
+                const callback = (controller) => {
+                    if (!controller) { console.error('JS Error: createController callback received null!'); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'JS callback received null controller' }}); return; }
+                    console.log('✅ JS: Controller instance received.');
+                    window.embedController = controller;
+                    window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'controllerCreated' });
+                    
+                    // --- Add Listeners ---
+                    controller.addListener('ready', () => { console.log('🎧 JS Event: Controller Ready.'); }); // API ready is different from controller ready
+                    controller.addListener('playback_update', e => { window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'playbackUpdate', data: e.data }); });
+                    controller.addListener('account_error', e => { console.warn('💰 JS Event: Account Error:', e.data); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Account Error: ' + (e.data?.message ?? 'Premium or Login Required') }}); });
+                    controller.addListener('autoplay_failed', () => { console.warn('⏯️ JS Event: Autoplay failed'); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Autoplay Failed' }}); controller.play(); }); // Attempt manual play
+                    controller.addListener('initialization_error', e => { console.error('💥 JS Event: Init Error:', e.data); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Initialization Error: ' + (e.data?.message ?? 'Failed to init player') }}); });
+                };
+                try {
+                    console.log('JS: Calling IFrameAPI.createController...');
+                    window.IFrameAPI.createController(element, options, callback);
+                } catch (e) {
+                    console.error('💥 JS Exception during createController:', e);
+                    window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'JS Exception: ' + e.message }});
+                    // Consider resetting lastLoadedUri here if the exception means creation failed fundamentally
+                    lastLoadedUri = nil;
+                }
+            }
+            """
+            webView.evaluateJavaScript(script) { _, error in
+                if let error = error { print("⚠️ Spotify Native: Error evaluating JS for controller creation: \(error.localizedDescription)") }
+            }
+        }
+        
+        func loadUri(_ uri: String) {
+            guard let webView = webView, isApiReady else { return }
+            guard let currentControllerUri = lastLoadedUri, currentControllerUri != uri else {
+                print("ℹ️ Spotify Embed Native: Skipping loadUri - controller not ready or URI hasn't changed (\(lastLoadedUri ?? "nil") vs \(uri)).")
+                // If URI hasn't changed, maybe just ensure it's playing?
+                // if currentControllerUri == uri { executeJsCommand("play") }
+                return
+            }
+            
+            print("🚀 Spotify Embed Native: Loading new URI via JS: \(uri)")
+            lastLoadedUri = uri // Update the loaded URI
+            
+            let script = """
+            if (window.embedController) {
+                console.log('JS: Loading URI: \(uri)');
+                window.embedController.loadUri('\(uri)');
+                window.embedController.play(); // Attempt to play immediately
+            } else { console.error('JS Error: embedController not found for loadUri \(uri).'); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'JS embedController missing during loadUri' }}); }
+            """
+            webView.evaluateJavaScript(script) { _, error in
+                if let error = error { print("⚠️ Spotify Native: Error evaluating JS load URI \(uri): \(error.localizedDescription)") }
+            }
+        }
+        
+        // Generic JS command function (optional helper)
+        func executeJsCommand(_ command: String) {
+            guard let webView = webView, lastLoadedUri != nil else { return }
+            print("▶️ Spotify Embed Native: Executing JS command: \(command)")
+            let script = "if (window.embedController) { window.embedController.\(command)(); } else { console.warn('JS Warning: Controller not ready for command \(command)'); }"
+            webView.evaluateJavaScript(script) { _, error in
+                if let error = error { print("⚠️ Spotify Native: Error running JS command \(command): \(error.localizedDescription)") }
+            }
+        }
+        
+        // WKUIDelegate method (optional, for JS alerts)
+        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+            print("ℹ️ Spotify Embed Received JS Alert: \(message)")
+            completionHandler() // Just dismiss the alert
+        }
     }
-
-    // --- Generate HTML (Ensure API script has error handling) ---
+    
+    // --- Generate HTML ---
     private func generateHTML() -> String {
-        """
-        <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Spotify Embed</title><style>html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: transparent; } #embed-iframe { width: 100%; height: 100%; box-sizing: border-box; display: block; border: none; }</style></head><body><div id="embed-iframe"></div><script src="https://open.spotify.com/embed/iframe-api/v1" async></script><script> console.log('Spotify Embed JS: Initial script running.'); window.onSpotifyIframeApiReady = (IFrameAPI) => { console.log('✅ Spotify Embed JS: API Ready.'); window.IFrameAPI = IFrameAPI; if (window.webkit?.messageHandlers?.spotifyController) { window.webkit.messageHandlers.spotifyController.postMessage("ready"); } else { console.error('❌ Spotify Embed JS: Native message handler not found!'); } }; const scriptTag = document.querySelector('script[src*="iframe-api"]'); if (scriptTag) { scriptTag.onerror = (event) => { console.error('❌ Spotify Embed JS: Failed to load API script:', event); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Failed to load Spotify API script' }}); }; } else { console.warn('⚠️ Spotify Embed JS: Could not find API script tag.'); } </script></body></html>
+        // Basic HTML structure for the embed iframe
+        return """
+        <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Spotify Embed</title><style>html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: transparent; } #embed-iframe { width: 100%; height: 100%; box-sizing: border-box; display: block; border: none; }</style></head><body><div id="embed-iframe"></div><script src="https://open.spotify.com/embed/iframe-api/v1" async></script><script> console.log('Spotify Embed JS: Initial script running.'); var spotifyControllerCallbackIsSet = false; window.onSpotifyIframeApiReady = (IFrameAPI) => { if (spotifyControllerCallbackIsSet) return; /* Prevent double calls */ console.log('✅ Spotify Embed JS: API Ready.'); window.IFrameAPI = IFrameAPI; spotifyControllerCallbackIsSet = true; if (window.webkit?.messageHandlers?.spotifyController) { window.webkit.messageHandlers.spotifyController.postMessage("ready"); } else { console.error('❌ JS: Native message handler (spotifyController) not found!'); } }; const scriptTag = document.querySelector('script[src*="iframe-api"]'); if (scriptTag) { scriptTag.onerror = (event) => { console.error('❌ JS: Failed to load Spotify API script:', event); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Failed to load Spotify API script' }}); }; } else { console.warn('⚠️ JS: Could not find API script tag.'); } </script></body></html>
         """
     }
 }
+
+// MARK: - Spotify Embed WebView (Largely Unchanged Internally)
+struct SpotifyEmbedPlayerView: View {
+    @ObservedObject var playbackState: SpotifyPlaybackState
+    let spotifyUri: String?
+    private let playerCornerRadius: CGFloat = 15
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            // --- WebView Embed ---
+            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+                .frame(height: 80) // Standard height for the embed
+                .clipShape(RoundedRectangle(cornerRadius: playerCornerRadius)) // Clip the webview itself
+                .disabled(!playbackState.isReady) // Disable interaction until ready
+                .overlay( // Show loading/error overlay if needed
+                    Group {
+                        if !playbackState.isReady {
+                            ProgressView().tint(DarkNeumorphicTheme.accentColor)
+                        } else if let error = playbackState.error {
+                            VStack {
+                                Image(systemName: "exclamationmark.triangle")
+                                    .foregroundColor(DarkNeumorphicTheme.errorColor)
+                                Text(error)
+                                    .font(.caption)
+                                    .foregroundColor(DarkNeumorphicTheme.errorColor)
+                                    .lineLimit(1)
+                            }
+                             .padding(5)
+                        }
+                    }
+                 )
+                 // --- Neumorphic Background/Frame for the player ---
+                 .background(
+                     RoundedRectangle(cornerRadius: playerCornerRadius)
+                         .fill(DarkNeumorphicTheme.elementBackground)
+                         .shadow(color: DarkNeumorphicTheme.darkShadow, radius: 5, x: 3, y: 3)
+                         .shadow(color: DarkNeumorphicTheme.lightShadow, radius: 5, x: -3, y: -3)
+                 )
+            
+            // --- Playback Status Text ---
+            HStack {
+                // Display error prominently if it exists
+                if let error = playbackState.error, !error.isEmpty {
+                     Text("Error: \(error)")
+                         .font(neumorphicFont(size: 10, weight: .medium))
+                         .foregroundColor(DarkNeumorphicTheme.errorColor)
+                         .lineLimit(1)
+                         .frame(maxWidth: .infinity, alignment: .leading)
+                 } else if !playbackState.isReady {
+                     Text("Loading Player...")
+                         .font(neumorphicFont(size: 10, weight: .medium))
+                        .foregroundColor(DarkNeumorphicTheme.secondaryText)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else if playbackState.duration > 0.1 { // Show time only if duration is valid
+                    Text(playbackState.isPlaying ? "Playing" : "Paused")
+                        .font(neumorphicFont(size: 10, weight: .medium))
+                        .foregroundColor(playbackState.isPlaying ? DarkNeumorphicTheme.accentColor : DarkNeumorphicTheme.secondaryText)
+                    
+                    Spacer()
+                    
+                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
+                        .font(neumorphicFont(size: 10, weight: .medium))
+                        .foregroundColor(DarkNeumorphicTheme.secondaryText)
+                        .frame(width: 90, alignment: .trailing) // Fixed width for time
+                } else {
+                     // Player ready but no duration yet (or zero duration track)
+                     Text("Ready")
+                         .font(neumorphicFont(size: 10, weight: .medium))
+                         .foregroundColor(DarkNeumorphicTheme.secondaryText)
+                         .frame(maxWidth: .infinity, alignment: .leading)
+                 }
+            }
+            .padding(.horizontal, 8) // Small padding for status text
+            .frame(height: 15) // Minimal height
+            
+        } // End VStack
+    }
+    
+    private func formatTime(_ time: Double) -> String {
+        let totalSeconds = max(0, Int(time))
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+// IMPORTANT: The Spotify Embed itself cannot easily be styled with Neumorphism.
+// We will style its *container* using Neumorphism.
+
+//final class SpotifyPlaybackState: ObservableObject {
+//    @Published var isPlaying: Bool = false
+//    @Published var currentPosition: Double = 0 // seconds
+//    @Published var duration: Double = 0 // seconds
+//    @Published var currentUri: String = ""
+//    @Published var isReady: Bool = false
+//    @Published var error: String? = nil
+//}
+
+//struct SpotifyEmbedWebView: UIViewRepresentable {
+//    @ObservedObject var playbackState: SpotifyPlaybackState
+//    let spotifyUri: String?
+//
+//    func makeCoordinator() -> Coordinator { Coordinator(self) }
+//
+//    func makeUIView(context: Context) -> WKWebView {
+//        // --- Configuration ---
+//        let userContentController = WKUserContentController()
+//        userContentController.add(context.coordinator, name: "spotifyController")
+//
+//        let configuration = WKWebViewConfiguration()
+//        configuration.userContentController = userContentController
+//        configuration.allowsInlineMediaPlayback = true
+//        configuration.mediaTypesRequiringUserActionForPlayback = []
+//
+//        // --- WebView Creation ---
+//        let webView = WKWebView(frame: .zero, configuration: configuration)
+//        webView.navigationDelegate = context.coordinator
+//        webView.uiDelegate = context.coordinator
+//        webView.isOpaque = false
+//        webView.backgroundColor = .clear // <-- Keep transparent for SwiftUI background
+//        webView.scrollView.isScrollEnabled = false // Prevent scrolling within embed
+//
+//        // --- Load HTML ---
+//        let html = generateHTML()
+//        webView.loadHTMLString(html, baseURL: nil)
+//
+//        // --- Store reference ---
+//        context.coordinator.webView = webView
+//        return webView
+//    }
+//
+//    func updateUIView(_ webView: WKWebView, context: Context) {
+//        // Check if the API is ready and the URI needs updating
+//        if context.coordinator.isApiReady && context.coordinator.lastLoadedUri != spotifyUri {
+//            context.coordinator.loadUri(spotifyUri ?? "")
+//            DispatchQueue.main.async {
+//                if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri ?? "" }
+//                playbackState.error = nil // Clear error on new URI load attempt
+//            }
+//        } else if !context.coordinator.isApiReady {
+//            context.coordinator.updateDesiredUriBeforeReady(spotifyUri ?? "")
+//        }
+//    }
+//
+//    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
+//        print("Spotify Embed WebView: Dismantling.")
+//        uiView.stopLoading()
+//        uiView.configuration.userContentController.removeScriptMessageHandler(forName: "spotifyController")
+//        coordinator.webView = nil
+//    }
+//
+//    // --- Coordinator ---
+//    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+//        var parent: SpotifyEmbedWebView
+//        weak var webView: WKWebView?
+//        var isApiReady = false
+//        var lastLoadedUri: String?
+//        private var desiredUriBeforeReady: String? = nil
+//
+//        init(_ parent: SpotifyEmbedWebView) { self.parent = parent }
+//
+//        func updateDesiredUriBeforeReady(_ uri: String) {
+//            if !isApiReady { desiredUriBeforeReady = uri }
+//        }
+//
+//        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+//            print("Spotify Embed WebView: HTML content finished loading.")
+//        }
+//        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+//            print("❌ Spotify Embed WebView Provisional Load Error: \(error.localizedDescription)")
+//            DispatchQueue.main.async { self.parent.playbackState.error = "Failed to load player resources." }
+//        }
+//        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//            print("❌ Spotify Embed WebView Load Error: \(error.localizedDescription)")
+//            DispatchQueue.main.async { self.parent.playbackState.error = "Player navigation failed." }
+//        }
+//        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+//            guard message.name == "spotifyController" else { return }
+//            if let bodyDict = message.body as? [String: Any], let event = bodyDict["event"] as? String {
+//                print("📦 Spotify Native Received Event: '\(event)', Data: \(bodyDict)")
+//                handleEvent(event: event, data: bodyDict["data"])
+//            } else if let bodyString = message.body as? String {
+//                print("📦 Spotify Native Received String: '\(bodyString)'")
+//                if bodyString == "ready" { handleApiReady() }
+//            } else { print("❓ Spotify Native Received Unknown: \(message.body)") }
+//        }
+//
+//        private func handleApiReady() {
+//            if isApiReady { return } // Prevent double calls
+//            print("✅ Spotify Embed Native: API Ready.")
+//            isApiReady = true
+//             DispatchQueue.main.async { self.parent.playbackState.isReady = true }
+//            // Use the most recently desired URI when creating the controller
+//            if let initialUri = desiredUriBeforeReady ?? parent.spotifyUri {
+//                createSpotifyController(with: initialUri)
+//            }
+//            desiredUriBeforeReady = nil // Clear it after use
+//        }
+//
+//        private func handleEvent(event: String, data: Any?) {
+//            switch event {
+//            case "controllerCreated":
+//                print("✅ Spotify Embed Native: Controller Created.")
+//                DispatchQueue.main.async { self.parent.playbackState.error = nil } // Clear error if success
+//            case "playbackUpdate":
+//                if let updateData = data as? [String: Any] { updatePlaybackState(with: updateData) }
+//            case "error":
+//                let errorMessage = (data as? [String: Any])?["message"] as? String ?? (data as? String) ?? "Unknown player error"
+//                print("❌ Spotify Embed JS Error: \(errorMessage)")
+//                 DispatchQueue.main.async { self.parent.playbackState.error = errorMessage }
+//            default:
+//                print("❓ Spotify Embed Native: Received unknown event: \(event)")
+//            }
+//        }
+//
+//        private func updatePlaybackState(with data: [String: Any]) {
+//            DispatchQueue.main.async { [weak self] in
+//                guard let self = self else { return }
+//                if let isPaused = data["paused"] as? Bool {
+//                    if self.parent.playbackState.isPlaying == isPaused { self.parent.playbackState.isPlaying = !isPaused }
+//                }
+//                if let posMs = data["position"] as? Double {
+//                    let newPosition = posMs / 1000.0
+//                    // Add tolerance check if updates are too frequent
+//                    self.parent.playbackState.currentPosition = newPosition
+//                }
+//                if let durMs = data["duration"] as? Double {
+//                    let newDuration = durMs / 1000.0
+//                     if abs(self.parent.playbackState.duration - newDuration) > 0.1 || self.parent.playbackState.duration == 0 {
+//                        self.parent.playbackState.duration = newDuration
+//                    }
+//                }
+//                 if let uri = data["uri"] as? String, self.parent.playbackState.currentUri != uri {
+//                     self.parent.playbackState.currentUri = uri
+//                 }
+//                self.parent.playbackState.error = nil // Clear error on successful update
+//            }
+//        }
+//
+//        private func createSpotifyController(with initialUri: String) {
+//            guard let webView = webView, isApiReady else { print("⚠️ Spotify Embed Native: createSpotifyController called too early or webView missing."); return }
+//             guard lastLoadedUri == nil else {
+//                 print("ℹ️ Spotify Embed Native: Controller already initialized or attempt pending.")
+//                 // Reload if URI changed *while* API was loading
+//                 if let finalDesiredUri = desiredUriBeforeReady ?? parent.spotifyUri, finalDesiredUri != lastLoadedUri {
+//                     loadUri(finalDesiredUri)
+//                     desiredUriBeforeReady = nil
+//                 }
+//                 return
+//             }
+//            print("🚀 Spotify Embed Native: Creating controller for URI: \(initialUri)")
+//            lastLoadedUri = initialUri // Mark as attempting
+//
+//            let script = "// ... JS code for creating controller & adding listeners (same as previous version) ..."
+//            webView.evaluateJavaScript(script) { _, error in
+//                if let error = error {
+//                    print("⚠️ Spotify Embed Native: Error evaluating JS controller creation: \(error.localizedDescription)")
+//                    DispatchQueue.main.async { self.parent.playbackState.error = "Failed to initialize player (JS error)." }
+//                }
+//            }
+//        }
+//
+//        func loadUri(_ uri: String) {
+//            guard let webView = webView, isApiReady, lastLoadedUri != nil else { return } // Must be ready & initialized
+//            guard lastLoadedUri != uri else { return }
+//            print("🚀 Spotify Embed Native: Loading new URI: \(uri)")
+//            lastLoadedUri = uri // Update the last loaded URI
+//
+//             let script = "// ... JS code for loading URI (same as previous version) ..."
+//            webView.evaluateJavaScript(script) { _, error in
+//                if let error = error {
+//                    print("⚠️ Spotify Embed Native: Error evaluating JS load URI \(uri): \(error.localizedDescription)")
+//                    DispatchQueue.main.async { self.parent.playbackState.error = "Failed to load track (JS error)." }
+//                }
+//            }
+//        }
+//        
+//        // --- WKUIDelegate (Alert Panel Handling) ---
+//         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+//             print("ℹ️ Spotify Embed Received JS Alert: \(message)")
+//             // Handle specific alerts if needed, e.g., "Premium required"
+//             if message.lowercased().contains("premium required") {
+//                 DispatchQueue.main.async { self.parent.playbackState.error = "Spotify Premium required for playback." }
+//             }
+//             completionHandler()
+//         }
+//    }
+//
+//    // --- Generate HTML (Ensure API script has error handling) ---
+//    private func generateHTML() -> String {
+//        """
+//        <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Spotify Embed</title><style>html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: transparent; } #embed-iframe { width: 100%; height: 100%; box-sizing: border-box; display: block; border: none; }</style></head><body><div id="embed-iframe"></div><script src="https://open.spotify.com/embed/iframe-api/v1" async></script><script> console.log('Spotify Embed JS: Initial script running.'); window.onSpotifyIframeApiReady = (IFrameAPI) => { console.log('✅ Spotify Embed JS: API Ready.'); window.IFrameAPI = IFrameAPI; if (window.webkit?.messageHandlers?.spotifyController) { window.webkit.messageHandlers.spotifyController.postMessage("ready"); } else { console.error('❌ Spotify Embed JS: Native message handler not found!'); } }; const scriptTag = document.querySelector('script[src*="iframe-api"]'); if (scriptTag) { scriptTag.onerror = (event) => { console.error('❌ Spotify Embed JS: Failed to load API script:', event); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Failed to load Spotify API script' }}); }; } else { console.warn('⚠️ Spotify Embed JS: Could not find API script tag.'); } </script></body></html>
+//        """
+//    }
+//}
 
 // MARK: - API Service (Unchanged - Requires Token)
 
@@ -1078,7 +1473,7 @@ struct NeumorphicPlayerView: View {
 }
 
 #Preview("NeumorphicPlayerView") {
-    NeumorphicPlayerView(playbackState: .init(), spotifyUri: "asdasdasdasdasdasdsad")
+    NeumorphicPlayerView(playbackState: .init(), spotifyUri: "spotify:album:1weenld61qoidwYuZ1GESA")
 }
 
 struct TracksSectionView: View {

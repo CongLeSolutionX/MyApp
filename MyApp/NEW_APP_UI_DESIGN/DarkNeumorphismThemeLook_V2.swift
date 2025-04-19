@@ -345,7 +345,7 @@
 //        return try await makeRequest(url: url)
 //    }
 //}
-//
+
 //// MARK: - Spotify Embed WebView (Minor adjustments for theme consistency)
 //
 //final class SpotifyPlaybackState: ObservableObject {
