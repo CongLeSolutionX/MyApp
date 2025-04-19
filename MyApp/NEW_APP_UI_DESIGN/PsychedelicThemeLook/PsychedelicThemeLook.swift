@@ -31,7 +31,7 @@ func psychedelicTitleFont(size: CGFloat) -> Font {
     // Using a system Serif temporarily
     //Font.system(size: size, weight: .bold, design: .serif)
     // Example custom font: Font.custom("YourPsychedelicFontName", size: size)
-    Font.custom("SuperBread-ywdRV", size: 20.0)
+    Font.custom("SuperBread", size: 36.0)
 }
 
 func psychedelicBodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
