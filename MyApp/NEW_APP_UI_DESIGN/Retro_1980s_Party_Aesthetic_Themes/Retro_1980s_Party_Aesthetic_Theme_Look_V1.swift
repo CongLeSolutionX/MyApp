@@ -14,7 +14,7 @@
 //
 
 import SwiftUI
-import WebKit // Needed for SpotifyEmbedWebView
+@preconcurrency import WebKit // Needed for SpotifyEmbedWebView
 import Foundation // Needed for URLSession, Codable, etc.
 
 // MARK: - Retro 1980s Party Aesthetic Theme Constants & Helpers
@@ -723,12 +723,12 @@ struct SpotifyAlbumListView: View {
                 debounceTask?.cancel() // Cancel any pending debounce
                 Task { await performSearch(query: searchQuery, immediate: true) }
             }
-            .onChange(of: searchQuery) { newValue in
+            .onChange(of: searchQuery) {
                 // Reset error on new input
                 if currentError != nil { currentError = nil }
                 // Setup or reset debounce task
                 debounceTask?.cancel()
-                debounceTask = Task { await performSearch(query: newValue) }
+                debounceTask = Task { await performSearch(query: searchQuery) }
             }
             .accentColor(retroNeonPink) // Tints cursor, cancel button
             
