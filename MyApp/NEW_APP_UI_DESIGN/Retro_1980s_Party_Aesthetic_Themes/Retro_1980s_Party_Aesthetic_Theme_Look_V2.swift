@@ -1237,34 +1237,34 @@ struct SpotifyEmbedPlayerView: View {
     }
 }
 // MARK: - Tracks Section (Refactored Parent View) -
-
-struct TracksSectionView: View {
-    // Inputs remain the same
-    let tracks: [Track]
-    let isLoading: Bool
-    let error: SpotifyAPIError?
-    @Binding var selectedTrackUri: String? // Binding to update parent
-    let retryAction: () -> Void
-    
-    var body: some View {
-        // The main view now simply switches between the specialized sub-views
-        Group {
-            if isLoading {
-                TrackLoadingView() // Specific view for loading state
-            } else if let error = error {
-                TrackErrorView(error: error, retryAction: retryAction) // Specific view for error state
-            } else if tracks.isEmpty {
-                TrackEmptyView() // Specific view for empty state (after loading)
-            } else {
-                // Specific view for displaying the list of tracks
-                TrackListView(tracks: tracks, selectedTrackUri: $selectedTrackUri)
-            }
-        }
-        // Modifiers like listRowBackground, listRowInsets, etc.,
-        // are typically applied by the parent List Section containing this view.
-        // So, no padding or background specific to the *section* itself is needed here.
-    }
-}
+//
+//struct TracksSectionView: View {
+//    // Inputs remain the same
+//    let tracks: [Track]
+//    let isLoading: Bool
+//    let error: SpotifyAPIError?
+//    @Binding var selectedTrackUri: String? // Binding to update parent
+//    let retryAction: () -> Void
+//    
+//    var body: some View {
+//        // The main view now simply switches between the specialized sub-views
+//        Group {
+//            if isLoading {
+//                TrackLoadingView() // Specific view for loading state
+//            } else if let error = error {
+//                TrackErrorView(error: error, retryAction: retryAction) // Specific view for error state
+//            } else if tracks.isEmpty {
+//                TrackEmptyView() // Specific view for empty state (after loading)
+//            } else {
+//                // Specific view for displaying the list of tracks
+//                TrackListView(tracks: tracks, selectedTrackUri: $selectedTrackUri)
+//            }
+//        }
+//        // Modifiers like listRowBackground, listRowInsets, etc.,
+//        // are typically applied by the parent List Section containing this view.
+//        // So, no padding or background specific to the *section* itself is needed here.
+//    }
+//}
 
 // MARK: - Tracks Section Sub-Views -
 
@@ -1313,41 +1313,193 @@ struct TrackEmptyView: View {
 }
 
 // 4. View for Displaying the List of Tracks
+//struct TrackListView: View {
+//    let tracks: [Track]
+//    @Binding var selectedTrackUri: String? // Needs binding to update selection
+//    
+//    var body: some View {
+//        Text("TrackListView")
+//    }
+//    
+////    var body: some View {
+////        // The ForEach loop containing the actual track rows
+////        // This doesn't need to be a List itself, as it will be placed *inside* a List Section.
+////        ForEach(tracks) { track in
+////            TrackRowView( // Using the existing TrackRowView
+////                track: track,
+////                isSelected: track.uri == selectedTrackUri // Pass selection state
+////            )
+////            .contentShape(Rectangle()) // Ensure the whole row area is tappable
+////            .onTapGesture {
+////                // Update the binding when a row is tapped
+////                selectedTrackUri = track.uri
+////                print("Selected track URI (from TrackListView): \(track.uri)")
+////            }
+////            // Apply visual selection state using row background
+////            // This modifier *is* relevant here as it applies per-row based on selection
+////            .listRowBackground(
+////                track.uri == selectedTrackUri
+////                // Subtle gradient highlight for the selected row
+////                 ? LinearGradient(colors: [retroNeonPink.opacity(0.15), retroNeonCyan.opacity(0.1)], startPoint: .leading, endPoint: .trailing)
+////                        .blur(radius: 5)
+////                        .transition(.opacity.animation(.easeInOut)) // Animate background change
+////                : Color.clear // Transparent background normally
+////            )
+////        }
+////    }
+//}
+
+
+// MARK: - Tracks Section Sub-Views (Continued Refactoring) -
+
+// 4. View for Displaying the List of Tracks (Parent Container)
 struct TrackListView: View {
     let tracks: [Track]
-    @Binding var selectedTrackUri: String? // Needs binding to update selection
-    
+    @Binding var selectedTrackUri: String? // Pass binding down
+
     var body: some View {
-        Text("TrackListView")
+        // This ForEach now generates TappableTrackRow for each track
+        ForEach(tracks) { track in
+            TappableTrackRow(
+                track: track,
+                selectedTrackUri: $selectedTrackUri // Pass the binding
+            )
+        }
+        // Modifiers like listRowSeparator, listRowInsets are applied to the *Section*
+        // containing this TrackListView in the parent view (AlbumDetailView).
     }
-    
-//    var body: some View {
-//        // The ForEach loop containing the actual track rows
-//        // This doesn't need to be a List itself, as it will be placed *inside* a List Section.
-//        ForEach(tracks) { track in
-//            TrackRowView( // Using the existing TrackRowView
-//                track: track,
-//                isSelected: track.uri == selectedTrackUri // Pass selection state
-//            )
-//            .contentShape(Rectangle()) // Ensure the whole row area is tappable
-//            .onTapGesture {
-//                // Update the binding when a row is tapped
-//                selectedTrackUri = track.uri
-//                print("Selected track URI (from TrackListView): \(track.uri)")
-//            }
-//            // Apply visual selection state using row background
-//            // This modifier *is* relevant here as it applies per-row based on selection
-//            .listRowBackground(
-//                track.uri == selectedTrackUri
-//                // Subtle gradient highlight for the selected row
-//                 ? LinearGradient(colors: [retroNeonPink.opacity(0.15), retroNeonCyan.opacity(0.1)], startPoint: .leading, endPoint: .trailing)
-//                        .blur(radius: 5)
-//                        .transition(.opacity.animation(.easeInOut)) // Animate background change
-//                : Color.clear // Transparent background normally
-//            )
-//        }
-//    }
 }
+
+// 5. New View: Represents a single tappable track row with selection logic
+struct TappableTrackRow: View {
+    let track: Track
+    @Binding var selectedTrackUri: String? // Binding to update the selection
+
+    // Computed property to determine if *this specific* row is selected
+    private var isSelected: Bool {
+        track.uri == selectedTrackUri
+    }
+
+    var body: some View {
+        // Use the existing view for the row's visual content
+        TrackRowView(
+            track: track,
+            isSelected: isSelected // Pass the computed selection state
+        )
+        .contentShape(Rectangle()) // Make the entire rendered area tappable
+        .onTapGesture {
+            // Update the selected URI binding when tapped
+            selectedTrackUri = track.uri
+            print("Selected track URI (from TappableTrackRow): \(track.uri)")
+        }
+        // Apply the conditional background modifier based on selection state
+        .listRowBackground(
+            isSelected
+            ? Color.yellow.opacity(0.5)// Use helper for selected background
+             : Color.clear        // Transparent background otherwise
+        )
+        // Ensure list row separators and insets are handled by the parent List/Section
+    }
+
+    // Helper computed property for the selected background view
+    private var selectedBackground: some View {
+        LinearGradient(
+             colors: [retroNeonPink.opacity(0.15), retroNeonCyan.opacity(0.1)],
+             startPoint: .leading,
+             endPoint: .trailing
+        )
+        .blur(radius: 5) // Apply blur for a softer highlight
+        .transition(.opacity.animation(.easeInOut)) // Animate the background change
+    }
+}
+
+// MARK: - Existing TrackRowView (Still Unchanged) -
+// This view remains purely presentational
+//
+//struct TrackRowView: View {
+//    let track: Track
+//    let isSelected: Bool
+//
+//    var body: some View {
+//        HStack(spacing: 12) {
+//            // --- Track Number ---
+//            Text("\(track.track_number)")
+//                .font(retroFont(size: 12, weight: .medium))
+//                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
+//                .frame(width: 25, alignment: .center)
+//                .padding(.leading, 15)
+//
+//            // --- Track Info (Name & Artist) ---
+//            VStack(alignment: .leading, spacing: 2) {
+//                Text(track.name)
+//                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular))
+//                    .foregroundColor(isSelected ? retroNeonCyan : .white)
+//                    .lineLimit(1)
+//
+//                Text(track.formattedArtists)
+//                    .font(retroFont(size: 11))
+//                    .foregroundColor(.white.opacity(0.7))
+//                    .lineLimit(1)
+//            }
+//
+//            Spacer() // Push duration and icon to the right
+//
+//            // --- Duration ---
+//            Text(track.formattedDuration)
+//                .font(retroFont(size: 12, weight: .medium))
+//                .foregroundColor(.white.opacity(0.7))
+//                .padding(.trailing, 5)
+//
+//            // --- Play / Selected Indicator Icon ---
+//            Image(systemName: isSelected ? "waveform.and.magnifyingglass" : "play.circle")
+//                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.7))
+//                .font(.body.weight(.semibold))
+//                .frame(width: 25, height: 25)
+//                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+//                .padding(.trailing, 15)
+//        }
+//        .padding(.vertical, 12)
+//        .background( // Subtle separator line visually
+//            VStack {
+//                Spacer()
+//                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+//            }
+//                .opacity(isSelected ? 0 : 1) // Hide divider for selected row
+//        )
+//    }
+//}
+
+// MARK: - Reminder: Parent TracksSectionView and other sub-views -
+// The definitions for TracksSectionView, TrackLoadingView, TrackErrorView,
+// and TrackEmptyView created previously should still be present.
+
+// Example of TracksSectionView using the updated TrackListView
+struct TracksSectionView: View {
+    let tracks: [Track]
+    let isLoading: Bool
+    let error: SpotifyAPIError?
+    @Binding var selectedTrackUri: String?
+    let retryAction: () -> Void
+
+    var body: some View {
+        Group {
+            if isLoading {
+                TrackLoadingView()
+            } else if let error = error {
+                TrackErrorView(error: error, retryAction: retryAction)
+            } else if tracks.isEmpty {
+                TrackEmptyView()
+            } else {
+                // Use the TrackListView which now generates TappableTrackRow internally
+                 TrackListView(tracks: tracks, selectedTrackUri: $selectedTrackUri)
+            }
+        }
+    }
+}
+
+// Other sub-views (TrackLoadingView, TrackErrorView, TrackEmptyView)
+// should remain as defined in the previous step.
+
 
 // MARK: - Existing TrackRowView (No changes needed to this specific view) -
 //
