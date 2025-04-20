@@ -460,235 +460,6 @@ struct SpotifyAPIService {
 }
 
 // MARK: - SwiftUI Views (Themed)
-//
-//// MARK: - Main List View (Themed)
-//struct SpotifyAlbumListView: View {
-//    // --- State Variables ---
-//    @State private var searchQuery: String = ""
-//    @State private var displayedAlbums: [AlbumItem] = []
-//    @State private var isLoading: Bool = false
-//    @State private var searchInfo: Albums? = nil
-//    @State private var currentError: SpotifyAPIError? = nil
-//    
-//    // --- Main Body ---
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                // Build the background view
-//                viewBackground()
-//                
-//                // Build the main content area (handles loading/error/empty/list states)
-//                mainContentContainer()
-//                
-//                // Build the loading overlay (shown on top when loading *more*)
-//                loadingIndicatorOverlay()
-//            }
-//            // --- Modifiers applied to the ZStack's container (NavigationView) ---
-//            .navigationTitle("Psychedelic Search") // Keep title setup here
-//            .navigationBarTitleDisplayMode(.large)
-//            .toolbar {
-//                toolbarContent()
-//            } // Extracted Toolbar Content
-//            .toolbarBackgroundVisibility(.visible) // Extracted Toolbar Background
-//            .toolbarBackground(.visible, for: .navigationBar)
-//            .toolbarColorScheme(.dark, for: .navigationBar)
-//            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
-//                // Suggestions view can be added here if desired
-//            }
-//            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
-//            .task(id: searchQuery) { await performDebouncedSearch() } // Debounce on query change
-//            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } } // Reset error on new search
-//        }
-//        .accentColor(psychedelicAccentPink) // Apply accent color to the whole navigation view
-//        .onAppear { styleSearchPlaceholderAppearance() } // Attempt placeholder styling on appear
-//    }
-//    
-//    // MARK: - @ViewBuilder Sub-Components
-//    
-//    // Builds the primary background gradient and noise effect
-//    @ViewBuilder
-//    private func viewBackground() -> some View {
-//        LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
-//            .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08))
-//            .ignoresSafeArea()
-//    }
-//    
-//    // Builds the main content: switches between loading, error, empty, or the album list
-//    @ViewBuilder
-//    private func mainContentContainer() -> some View {
-//        Group { // Group is necessary for the conditional logic within @ViewBuilder
-//            if isLoading && displayedAlbums.isEmpty {
-//                initialLoadingView() // Extracted initial loading indicator
-//            } else if let error = currentError {
-//                ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } }
-//            } else if displayedAlbums.isEmpty && !searchQuery.isEmpty { // Show empty state only after a search attempt
-//                EmptyStatePlaceholderView(searchQuery: searchQuery)
-//            } else if displayedAlbums.isEmpty && searchQuery.isEmpty { // Show initial prompt
-//                EmptyStatePlaceholderView(searchQuery: searchQuery) // Or a dedicated initial view
-//            } else {
-//                albumList() // Show the actual list
-//            }
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure content area fills space
-//        .transition(.opacity.animation(.easeOut(duration: 0.4))) // Fade transition
-//    }
-//    
-//    // Builds the initial loading indicator (when the list is empty)
-//    @ViewBuilder
-//    private func initialLoadingView() -> some View {
-//        ProgressView()
-//            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
-//            .scaleEffect(1.8)
-//            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
-//    }
-//    
-//    // Builds the overlay loading indicator (shown when fetching more/refreshing)
-//    @ViewBuilder
-//    private func loadingIndicatorOverlay() -> some View {
-//        // Only show this overlay if we are loading *and* there are already albums displayed
-//        if isLoading && !displayedAlbums.isEmpty {
-//            VStack {
-//                HStack {
-//                    Spacer()
-//                    ProgressView().tint(psychedelicAccentLime)
-//                    Text("LOADING...")
-//                        .font(psychedelicBodyFont(size: 11, weight: .bold))
-//                        .foregroundColor(psychedelicAccentLime)
-//                        .tracking(1.5)
-//                    Spacer()
-//                }
-//                .padding(.vertical, 5)
-//                .padding(.horizontal, 15)
-//                // .background(.black.opacity(0.7).blur(radius: 5))
-//                .clipShape(Capsule())
-//                .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
-//                .shadow(color: psychedelicAccentLime, radius: 5)
-//                .padding(.top, 10) // Position it from the top
-//                .transition(.opacity.animation(.easeInOut))
-//                Spacer() // Pushes the indicator to the top
-//            }
-//        } else {
-//            EmptyView() // Return EmptyView when the condition is false
-//        }
-//    }
-//    
-//    // Builds the scrollable list of album cards
-//    @ViewBuilder
-//    private func albumList() -> some View {
-//        ScrollView {
-//            LazyVStack(spacing: 0) { // spacing: 0; padding added to the card itself
-//                // --- Search Metadata Header ---
-//                if let info = searchInfo, info.total > 0 {
-//                    SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
-//                        .padding(.horizontal)
-//                        .padding(.bottom, 10)
-//                }
-//                
-//                // --- Album Cards ---
-//                ForEach(displayedAlbums) { album in
-//                    NavigationLink(destination: AlbumDetailView(album: album)) {
-//                        PsychedelicAlbumCard(album: album)
-//                            .padding(.vertical, 12)
-//                            .padding(.horizontal) // Padding around each card
-//                    }
-//                    .buttonStyle(.plain) // Remove default NavLink styling
-//                }
-//                
-//                // TODO: Add pagination / load more indicator here if needed
-//            }
-//            .padding(.top, 10) // Padding above the first item in the list
-//        }
-//        .scrollDismissesKeyboard(.interactively) // Dismiss keyboard on scroll
-//    }
-//    
-//    // Builds the content for the navigation bar's toolbar
-//    @ViewBuilder
-//    private func toolbarContent() -> some View {
-//        //        ToolbarItem(placement: .automatic) { // Use .principal for centered large title area
-//        Text("Psychedelic Search")
-//            .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example expressive font
-//            .foregroundStyle(
-//                LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
-//            )
-//            .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
-//        //        }
-//        // Add other toolbar items if needed (e.g., Filter button)
-//        // ToolbarItem(placement: .navigationBarTrailing) { Button("Filter") {} }
-//    }
-//    
-//    // Builds the background view for the toolbar
-//    @ViewBuilder
-//    private func toolbarBackground() -> some View {
-//        LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-//            .blur(radius: 8)
-//    }
-//    
-//    // --- Helper Methods ---
-//    
-//    // Placeholder styling (Keep implementation attempt)
-//    private func styleSearchPlaceholderAppearance() {
-//        // Attempt to style search bar placeholder via UIKit appearance
-//        // Note: This can be fragile and might break in future iOS versions.
-//        let placeholderAttributes: [NSAttributedString.Key: Any] = [
-//            .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
-//            .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
-//        ]
-//        UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
-//    }
-//    
-//    // --- Debounced Search Logic (Unchanged) ---
-//    private func performDebouncedSearch(immediate: Bool = false) async {
-//        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        // If query is empty, clear results immediately
-//        guard !trimmedQuery.isEmpty else {
-//            await MainActor.run {
-//                displayedAlbums = []
-//                searchInfo = nil
-//                isLoading = false
-//                currentError = nil
-//            }
-//            return
-//        }
-//        
-//        // Debounce logic
-//        if !immediate {
-//            do {
-//                try await Task.sleep(for: .milliseconds(600))
-//                try Task.checkCancellation() // Check if task was cancelled (e.g., user typed again)
-//            } catch {
-//                print("Search task cancelled (debounce).")
-//                return // Exit if cancelled
-//            }
-//        }
-//        
-//        // Start loading state
-//        await MainActor.run { isLoading = true }
-//        
-//        // Perform API call
-//        do {
-//            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0) // Reset offset for new search
-//            try Task.checkCancellation() // Check again after API call
-//            
-//            // Update UI on main thread
-//            await MainActor.run {
-//                displayedAlbums = response.albums.items
-//                searchInfo = response.albums
-//                currentError = nil
-//                isLoading = false
-//            }
-//        } catch is CancellationError {
-//            print("Search task cancelled.")
-//            await MainActor.run { isLoading = false } // Ensure loading stops if cancelled during API call
-//        } catch let apiError as SpotifyAPIError {
-//            print("❌ API Error: \(apiError.localizedDescription)")
-//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
-//        } catch {
-//            print("❌ Unexpected Error: \(error.localizedDescription)")
-//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
-//        }
-//    }
-//}
 
 struct SpotifyAlbumListView_Previews_Refactored: PreviewProvider {
     static var previews: some View {
@@ -1041,7 +812,7 @@ struct EmptyStatePlaceholderView: View {
             }
         }
         // Apply consistent font to the whole attributed string
-         message.font = retroFont(size: 14)
+        message.font = retroFont(size: 14)
         message.foregroundColor = .white.opacity(0.8)
         // Optionally target and style the bold part (requires more complex AttributedString manipulation)
         return message
@@ -1049,421 +820,289 @@ struct EmptyStatePlaceholderView: View {
 }
 
 // MARK: - Album Detail View (Themed)
-//struct AlbumDetailView: View {
-//    let album: AlbumItem
-//    @State private var tracks: [Track] = []
-//    @State private var isLoadingTracks: Bool = false
-//    @State private var trackFetchError: SpotifyAPIError? = nil
-//    @State private var selectedTrackUri: String? = nil
-//    @StateObject private var playbackState = SpotifyPlaybackState()
-//    @Environment(\.openURL) var openURL
-//    
-//    var body: some View {
-//        ZStack {
-//            // --- Psychedelic Background (Consistent) ---
-//            LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .topLeading, endPoint: .bottomTrailing)
-//                .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.05)) // Subtle noise
-//                .ignoresSafeArea()
-//            
-//            ScrollView { // Use ScrollView for content
-//                VStack(spacing: 0) { // Use VStack within ScrollView
-//                    // --- Header Section (Themed) ---
-//                    AlbumHeaderView(album: album) // Themed Header
-//                        .padding(.bottom, 25)
-//                    
-//                    // --- Player Section (Themed) ---
-//                    if let uriToPlay = selectedTrackUri {
-//                        SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) // Themed Player container
-//                            .padding(.horizontal) // Padding around player
-//                            .padding(.bottom, 25)
-//                            .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.spring(response: 0.4, dampingFraction: 0.7))) // Spring animation
-//                    }
-//                    
-//                    // --- Tracks Section (Themed) ---
-//                    TracksSectionView(
-//                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
-//                        selectedTrackUri: $selectedTrackUri,
-//                        retryAction: { Task { await fetchTracks() } }
-//                    ) // Themed tracks section
-//                    .padding(.bottom, 25)
-//                    
-//                    // --- External Link Section (Themed) ---
-//                    if let spotifyURLString = album.external_urls.spotify, let url = URL(string: spotifyURLString) {
-//                        PsychedelicButton(text: "EXPLORE ON SPOTIFY", action: { openURL(url) },
-//                                          iconName: "arrow.up.right.circle.fill",
-//                                          gradient: Gradient(colors: [psychedelicAccentLime, psychedelicAccentCyan])) // Themed button
-//                        .padding(.horizontal)
-//                        .padding(.bottom, 30) // Extra padding at bottom
-//                    }
-//                }
-//            }
-//            .scrollDismissesKeyboard(.interactively)
-//        }
-//        .navigationTitle(album.name)
-//        .navigationBarTitleDisplayMode(.inline)
-//        // Consistent Themed Navigation Bar
-//        //        .toolbarBackground(
-//        //            LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-//        //                .blur(radius: 8),
-//        //            for: .navigationBar
-//        //        )
-//        .toolbarBackground(.visible, for: .navigationBar)
-//        .toolbarColorScheme(.dark, for: .navigationBar)
-//        .task { await fetchTracks() }
-//        .refreshable { await fetchTracks(forceReload: true) }
-//    }
-//    
-//    // --- Fetch Tracks Logic (Unchanged) ---
-//    private func fetchTracks(forceReload: Bool = false) async { /* ... Logic from previous versions ... */
-//        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-//        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
-//        do {
-//            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
-//            try Task.checkCancellation()
-//            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
-//        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
-//        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
-//        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
-//    }
-//}
+struct AlbumDetailView: View {
+    let album: AlbumItem
+    @State private var tracks: [Track] = []
+    @State private var isLoadingTracks: Bool = false
+    @State private var trackFetchError: SpotifyAPIError? = nil
+    @State private var selectedTrackUri: String? = nil
+    @StateObject private var playbackState = SpotifyPlaybackState()
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        ZStack {
+            // --- Retro Background ---
+            retroDeepPurple.ignoresSafeArea()
+            // Optional: Add subtle background pattern/noise
+            Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
+            
+            List {
+                // --- Header Section ---
+                Section { AlbumHeaderView(album: album) }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                
+                // --- Player Section (Themed) ---
+                if let uriToPlay = selectedTrackUri {
+                    Section { SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+                        .listRowBackground(Color.clear)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.easeInOut(duration: 0.4)))
+                }
+                
+                // --- Tracks Section (Themed) ---
+                Section {
+                    TracksSectionView(
+                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
+                        selectedTrackUri: $selectedTrackUri,
+                        retryAction: { Task { await fetchTracks() } }
+                    )
+                } header: {
+                    Text("TRACK LIST") // Retro header style
+                        .font(retroFont(size: 14, weight: .bold))
+                        .foregroundColor(retroNeonLime)
+                        .tracking(2)
+                        .frame(maxWidth: .infinity, alignment: .center) // Center header
+                        .padding(.vertical, 8)
+                        .background(.black.opacity(0.3)) // Subtle background for header
+                }
+                .listRowInsets(EdgeInsets()) // Remove insets for tracks section
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                
+                // --- External Link Section (Themed) ---
+                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
+                    Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
+                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                }
+                
+            } // End List
+            .listStyle(PlainListStyle())
+            .scrollContentBackground(.hidden) // Allow ZStack background to show
+        } // End ZStack
+        .navigationTitle(album.name)
+        .navigationBarTitleDisplayMode(.inline)
+        // Match nav bar theme from List view
+        .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar) // Consistent dark theme for nav bar
+        .task { await fetchTracks() }
+        .animation(.easeInOut, value: selectedTrackUri) // Animate player appearance/track selection
+        .refreshable { await fetchTracks(forceReload: true) }
+    }
+    
+    // --- Fetch Tracks Logic (Unchanged) ---
+    private func fetchTracks(forceReload: Bool = false) async { /* ... */
+        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
+        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
+        do {
+            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
+            try Task.checkCancellation()
+            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
+        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
+        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
+        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
+    }
+}
 
 // MARK: - DetailView Sub-Components (Themed)
 
-//struct AlbumHeaderView: View {
-//    let album: AlbumItem
-//    
-//    var body: some View {
-//        VStack(spacing: 18) {
-//            AlbumImageView(url: album.bestImageURL)
-//                .aspectRatio(1.0, contentMode: .fit)
-//                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // More rounded
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 30, style: .continuous)
-//                        .stroke(
-//                            AngularGradient(gradient: psychedelicVibrantGradient, center: .center, angle: .degrees(90))
-//                                .opacity(0.5), // Use angular gradient for border
-//                            lineWidth: 2
-//                        )
-//                )
-//                .psychedelicGlow(psychedelicAccentCyan, radius: 25) // Stronger glow for main art
-//                .padding(.horizontal, 40) // More padding around art
-//            
-//            VStack(spacing: 8) {
-//                Text(album.name)
-//                    .font(psychedelicTitleFont(size: 26))
-//                    .foregroundColor(.white)
-//                    .multilineTextAlignment(.center)
-//                    .shadow(color: .black.opacity(0.4), radius: 2, y: 1)
-//                
-//                Text("by \(album.formattedArtists)")
-//                    .font(psychedelicBodyFont(size: 17, weight: .semibold ))
-//                    .foregroundStyle( // Gradient text for artist
-//                        LinearGradient(gradient: Gradient(colors:[psychedelicAccentLime, psychedelicAccentCyan]), startPoint: .leading, endPoint: .trailing)
-//                    )
-//                    .multilineTextAlignment(.center)
-//                
-//                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
-//                    .font(psychedelicBodyFont(size: 13, weight: .regular))
-//                    .foregroundColor(.white.opacity(0.7))
-//            }
-//            .padding(.horizontal)
-//            
-//        }
-//        .padding(.top, 20) // Padding above the header content
-//    }
-//}
+struct AlbumHeaderView: View {
+    let album: AlbumItem
+    
+    var body: some View {
+        VStack(spacing: 15) {
+            AlbumImageView(url: album.bestImageURL)
+                .aspectRatio(1.0, contentMode: .fit) // Keep square
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
+                .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
+                .padding(.horizontal, 50)
+            
+            VStack(spacing: 5) {
+                Text(album.name)
+                    .font(retroFont(size: 22, weight: .bold))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .shadow(color: .black.opacity(0.5), radius: 2, y: 1) // Text shadow
+                
+                Text("by \(album.formattedArtists)")
+                    .font(retroFont(size: 16, weight: .regular))
+                    .foregroundColor(retroNeonLime) // Artist accent color
+                    .multilineTextAlignment(.center)
+                
+                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
+                    .font(retroFont(size: 12, weight: .medium))
+                    .foregroundColor(.white.opacity(0.7))
+            }
+            .padding(.horizontal)
+            
+        }
+        .padding(.vertical, 25)
+    }
+}
 
-//struct SpotifyEmbedPlayerView: View {
-//    @ObservedObject var playbackState: SpotifyPlaybackState
-//    let spotifyUri: String
-//    
-//    var body: some View {
-//        EmptyView()
-//    }
-//    
-//    //    var body: some View {
-//    //        VStack(spacing: 10) { // Increased spacing
-//    //            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-//    //                .frame(height: 85) // Slightly more vertical space for player
-//    //                .background(
-//    //                    ZStack { // Layered background for depth
-//    //                        LinearGradient(gradient: Gradient(colors: [psychedelicPurples[0].opacity(0.5), .black.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
-//    //                        PsychedelicWave(startColor: psychedelicAccentCyan.opacity(0.1), endColor: psychedelicAccentPink.opacity(0.1)) // Faint wave in bg
-//    //                            .blur(radius: 5)
-//    //                    }
-//    //                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded container
-//    //                        .overlay(
-//    //                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-//    //                                .stroke( // Animated border based on playback
-//    //                                    LinearGradient(gradient: Gradient(colors: playbackState.isPlaying ? [psychedelicAccentLime, psychedelicAccentCyan] : [psychedelicAccentPink, psychedelicPurples[1]]), startPoint: .leading, endPoint: .trailing),
-//    //                                    lineWidth: 1.5
-//    //                                       )
-//    //                                .opacity(playbackState.isPlaying ? 1.0 : 0.6) // Fade border when paused
-//    //                        )
-//    //                )
-//    //                .psychedelicGlow(playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink, radius: 15) // Dynamic glow
-//    //                .animation(.easeInOut (duration: 0.5), value: playbackState.isPlaying) // Smooth animation for glow/border
-//    //
-//    //            // --- Themed Playback Status ---
-//    //            HStack {
-//    //                let statusText = playbackState.isPlaying ? "TRANSMITTING" : "PAUSED"
-//    //                let statusColor = playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink
-//    //
-//    //                Text(statusText)
-//    //                    .font(psychedelicBodyFont(size: 11, weight: .bold))
-//    //                    .foregroundColor(statusColor)
-//    //                    .tracking(2.0) // Wider letter spacing for psychedelic feel
-//    //                    .shadow(color: statusColor.opacity(0.5), radius: 3)
-//    //                    .lineLimit(1)
-//    //                    .frame(minWidth: 100, alignment: .leading) // Ensure minimum width
-//    //
-//    //                Spacer()
-//    //
-//    //                if playbackState.duration > 0.1 {
-//    //                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
-//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-//    //                        .foregroundColor(.white.opacity(0.85))
-//    //                } else {
-//    //                    Text("--:-- / --:--")
-//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-//    //                        .foregroundColor(.white.opacity(0.6))
-//    //                }
-//    //            }
-//    //            .padding(.horizontal, 10) // Less horizontal padding for status bar
-//    //
-//    //        }
-//    //    }
-//    
-//    // Format time (Unchanged)
-//    private func formatTime(_ time: Double) -> String { /* ... */
-//        let totalSeconds = max(0, Int(time))
-//        let minutes = totalSeconds / 60
-//        let seconds = totalSeconds % 60
-//        return String(format: "%d:%02d", minutes, seconds)
-//    }
-//}
+struct SpotifyEmbedPlayerView: View {
+    @ObservedObject var playbackState: SpotifyPlaybackState
+    let spotifyUri: String
+    
+    var body: some View {
+        VStack(spacing: 8) { // Added spacing
+            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+                .frame(height: 85) // Standard embed height + buffer
+            // Custom Player Frame/Background
+                .background(
+                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
+                        .overlay(.ultraThinMaterial) // Frosted glass
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
+                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
+                )
+                .padding(.horizontal)
+            
+            // --- Themed Playback Status ---
+            HStack {
+                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
+                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
+                
+                Text(statusText)
+                    .font(retroFont(size: 10, weight: .bold))
+                    .foregroundColor(statusColor)
+                    .tracking(1.5) // Add letter spacing
+                    .neonGlow(statusColor, radius: 4)
+                    .lineLimit(1)
+                    .frame(width: 80, alignment: .leading) // Fixed width for status
+                
+                Spacer()
+                
+                if playbackState.duration > 0.1 { // Only show if duration is valid
+                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.8))
+                } else {
+                    Text("--:-- | --:--") // Placeholder time
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+            .padding(.horizontal, 25) // Align with player padding
+            .padding(.top, 5)
+            .frame(minHeight: 15)
+            
+        } // End VStack
+        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
+    }
+    
+    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
+        let totalSeconds = max(0, Int(time))
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
 
-//struct TracksSectionView: View {
-//    // --- Properties (Unchanged) ---
-//    let tracks: [Track]
-//    let isLoading: Bool
-//    let error: SpotifyAPIError?
-//    @Binding var selectedTrackUri: String?
-//    let retryAction: () -> Void
-//    
-//    // --- Main Body ---
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 0) { // Root VStack
-//            tracksHeader() // Extracted Header
-//            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
-//                .padding(.horizontal) // Padding around the themed background area
-//        }
-//    }
-//    
-//    // MARK: - @ViewBuilder Sub-Components
-//    
-//    // Builds the themed section header
-//    @ViewBuilder
-//    private func tracksHeader() -> some View {
-//        Text("TRACKLIST FREQUENCIES")
-//            .font(psychedelicBodyFont(size: 14, weight: .bold))
-//            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
-//            .tracking(2.5) // Wider tracking
-//            .padding(.horizontal) // Padding for the header text itself
-//            .padding(.bottom, 15)
-//            .frame(maxWidth: .infinity, alignment: .center)
-//    }
-//    
-//    // Builds the container that holds the conditional content (loading, error, etc.)
-//    // This container includes the themed background.
-//    @ViewBuilder
-//    private func tracksContentContainer() -> some View {
-//        Group { // Group is necessary to apply modifiers to the result of the conditional logic
-//            conditionalTracksContent() // Calls the function with the if/else logic
-//        }
-//        .padding(.horizontal) // Apply horizontal padding INSIDE the background
-//        .background(
-//            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
-//                .blur(radius: 5)
-//        )
-//        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
-//    }
-//    
-//    // Builds the actual content based on loading/error/empty/data state
-//    @ViewBuilder
-//    private func conditionalTracksContent() -> some View {
-//        if isLoading {
-//            loadingView()
-//        } else if let error = error {
-//            // Note: Using the existing ErrorPlaceholderView is fine.
-//            // If it were much larger, it could also be refactored.
-//            ErrorPlaceholderView(error: error, retryAction: retryAction)
-//                .padding(.vertical, 20) // Padding when showing error
-//        } else if tracks.isEmpty {
-//            emptyTracksView()
-//        } else {
-//            trackListView() // The list itself
-//        }
-//    }
-//    
-//    // Builds the loading indicator view
-//    @ViewBuilder
-//    private func loadingView() -> some View {
-//        HStack {
-//            Spacer()
-//            ProgressView().tint(psychedelicAccentCyan)
-//            Text("Scanning...")
-//                .font(psychedelicBodyFont(size: 14))
-//                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
-//            Spacer()
-//        }
-//        .padding(.vertical, 40) // Give loading state some vertical space
-//    }
-//    
-//    // Builds the empty state view
-//    @ViewBuilder
-//    private func emptyTracksView() -> some View {
-//        Text("Signal Lost - No Tracks Found")
-//            .font(psychedelicBodyFont(size: 14))
-//            .foregroundColor(.white.opacity(0.6))
-//            .frame(maxWidth: .infinity, alignment: .center)
-//            .padding(.vertical, 40) // Give empty state some vertical space
-//    }
-//    
-//    // Builds the list of track rows using ForEach
-//    @ViewBuilder
-//    private func trackListView() -> some View {
-//        // Using LazyVStack internally if you expect potentially very long lists,
-//        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
-//        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
-//            ForEach(tracks) { track in
-//                trackRow(track: track) // Extracted individual track row
-//            }
-//            .padding(.bottom, 5) // Add minor padding below the last track if needed
-//        }
-//        // Add top/bottom padding if the list content needs space from the container edges
-//        .padding(.vertical, 10)
-//    }
-//    
-//    // Builds a single track row and its interactivity
-//    @ViewBuilder
-//    private func trackRow(track: Track) -> some View {
-//        let isSelected = track.uri == selectedTrackUri
-//        VStack(spacing: 0) { // Wrap row content and divider
-//            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
-//                .contentShape(Rectangle()) // Make the whole row tappable
-//                .onTapGesture {
-//                    // Animate the URI change if desired
-//                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-//                        selectedTrackUri = track.uri
-//                    }
-//                }
-//                .background( // Apply themed background based on selection
-//                    isSelected
-//                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
-//                        .blur(radius: 8) as! Color // Slightly more pronounced blur
-//                    : Color.clear
-//                )
-//                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
-//            
-//            // Subtle custom divider (don't draw after the last item)
-//            if track.id != tracks.last?.id {
-//                Divider()
-//                    .background(Color.white.opacity(0.1))
-//                    .padding(.leading, 55) // Indent divider past track number/icon area
-//            }
-//        }
-//    }
-//} // End of TracksSectionView
-//
-//struct TrackRowView: View {
-//    let track: Track
-//    let isSelected: Bool
-//    
-//    var body: some View {
-//        HStack(spacing: 15) { // Increased spacing
-//            // --- Track Number ---
-//            Text("\(track.track_number)")
-//                .font(psychedelicBodyFont(size: 14, weight: .medium))
-//                .foregroundColor(isSelected ? psychedelicAccentLime : .white.opacity(0.6))
-//                .frame(width: 25, alignment: .center)
-//                .shadow(color: isSelected ? psychedelicAccentLime.opacity(0.5) : .clear, radius: 3)
-//            
-//            // --- Track Info ---
-//            VStack(alignment: .leading, spacing: 4) { // Increased spacing
-//                Text(track.name)
-//                    .font(psychedelicBodyFont(size: 16, weight: isSelected ? .bold : .regular))
-//                    .foregroundColor(isSelected ? .white : .white.opacity(0.9)) // Brighter white when selected
-//                    .lineLimit(1)
-//                Text(track.formattedArtists)
-//                    .font(psychedelicBodyFont(size: 12, weight: .light)) // Lighter weight for artist
-//                    .foregroundColor(.white.opacity(0.7))
-//                    .lineLimit(1)
-//            }
-//            Spacer()
-//            // --- Duration ---
-//            Text(track.formattedDuration)
-//                .font(psychedelicBodyFont(size: 13, weight: .regular)) // Slightly larger duration font
-//                .foregroundColor(.white.opacity(0.7))
-//                .padding(.trailing, 5)
-//            
-//            // --- Play Indicator ---
-//            Image(systemName: isSelected ? "waveform.path.ecg" : "play.circle.fill") // Use filled play icon
-//                .font(.system(size: 20)) // Larger icon
-//                .foregroundColor(isSelected ? psychedelicAccentCyan : .white.opacity(0.6))
-//                .shadow(color: isSelected ? psychedelicAccentCyan.opacity(0.6): .clear, radius: 5)
-//                .symbolEffect(.variableColor.reversing.cumulative, options: .speed(1).repeat(isSelected ? 3 : 0) , value: isSelected) // Example subtle animation
-//                .animation(.easeInOut, value: isSelected) // Smooth transition
-//            
-//        }
-//        .padding(.vertical, 15) // More vertical padding
-//        .padding(.horizontal, 10) // Adjust horizontal padding if needed
-//        // Remove listRowBackground here, apply it in TracksSectionView's ForEach
-//    }
-//}
+struct TracksSectionView: View {
+    let tracks: [Track]
+    let isLoading: Bool
+    let error: SpotifyAPIError?
+    @Binding var selectedTrackUri: String? // Binding to update parent
+    let retryAction: () -> Void
+    
+    var body: some View {
+        // No encompassing VStack needed if used directly in List Section
+        if isLoading {
+            HStack { // Center progress view within the list section area
+                Spacer()
+                ProgressView()
+                Text("Loading Tracks...")
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 5)
+                Spacer()
+            }
+            .padding(.vertical, 20) // Give loading indicator space
+        } else if let error = error {
+            // Use the new ErrorPlaceholderView
+            ErrorPlaceholderView(error: error, retryAction: retryAction)
+                .padding(.vertical, 20) // Give error view space
+        } else if tracks.isEmpty {
+            // Message for when tracks array is empty *after* successful load
+            Text("No tracks found for this album.")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+        } else {
+            // Use ForEach directly within the List Section
+            ForEach(tracks) { track in
+                TrackRowView(
+                    track: track,
+                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
+                )
+                .contentShape(Rectangle()) // Make the whole row tappable
+                .onTapGesture {
+                    // Update the selected URI - animation handled by parent
+                    selectedTrackUri = track.uri
+                }
+                // Apply background highlight directly or via listRowBackground
+                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
+            }
+        }
+    }
+}
+
+struct TrackRowView: View {
+    let track: Track
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // --- Track Number ---
+            Text("\(track.track_number)")
+                .font(retroFont(size: 12, weight: .medium))
+                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
+                .frame(width: 25, alignment: .center)
+                .padding(.leading, 10) // Ensure space from edge
+            
+            // --- Track Info ---
+            VStack(alignment: .leading, spacing: 3) {
+                Text(track.name)
+                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track
+                    .foregroundColor(isSelected ? retroNeonCyan : .white)
+                    .lineLimit(1)
+                
+                Text(track.formattedArtists)
+                    .font(retroFont(size: 11))
+                    .foregroundColor(.white.opacity(0.7))
+                    .lineLimit(1)
+            }
+            
+            Spacer()
+            
+            // --- Duration ---
+            Text(track.formattedDuration)
+                .font(retroFont(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+                .padding(.trailing, 5)
+            
+            // --- Play Indicator ---
+            Image(systemName: isSelected ? "waveform.path.ecg" : "play.fill") // More fitting icons
+                .foregroundColor(isSelected ? retroNeonCyan : .white.opacity(0.7))
+                .font(.body) // Adjust size slightly
+                .frame(width: 25, height: 25)
+                .animation(.easeInOut(duration: 0.2), value: isSelected)
+                .padding(.trailing, 10)
+            
+        }
+        .padding(.vertical, 12) // Increase vertical padding for tap target
+        // Remove internal horizontal padding, let parent list handle row padding
+        // .padding(.horizontal) NO - causes misalignment if rowBackground is used
+    }
+}
 
 // MARK: - Other Supporting Views (Themed)
-
-//struct AlbumImageView: View { // Keep fundamental AsyncImage logic
-//    let url: URL?
-//    var cornerRadius: CGFloat = 15 // Default corner radius
-//    
-//    var body: some View {
-//        AsyncImage(url: url) { phase in
-//            switch phase {
-//            case .empty: // Placeholder while loading
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: cornerRadius)
-//                        .fill(psychedelicBackgroundEnd.opacity(0.5))
-//                    ProgressView()
-//                        .tint(psychedelicAccentCyan)
-//                }
-//            case .success(let image):
-//                image.resizable()
-//                    .scaledToFit() // Can be .fit or .fill depending on usage
-//                    .transition(.opacity.animation(.easeIn))
-//            case .failure: // Placeholder on error
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: cornerRadius)
-//                        .fill(psychedelicBackgroundEnd.opacity(0.5))
-//                    Image(systemName: "exclamationmark.triangle.fill") // More prominent error icon
-//                        .resizable().scaledToFit()
-//                        .foregroundColor(psychedelicAccentPink.opacity(0.7))
-//                        .padding(15) // Larger padding
-//                }
-//            @unknown default: EmptyView()
-//            }
-//        }
-//        .clipShape(
-//            RoundedRectangle(
-//                cornerRadius: cornerRadius,
-//                style: .continuous
-//            )
-//        ) // Consistent rounding
-//    }
-//}
-
-//// MARK: - Other Supporting Views (Themed)
 //
 struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
     let url: URL?

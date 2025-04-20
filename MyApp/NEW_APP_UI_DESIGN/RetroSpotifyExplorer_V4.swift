@@ -836,287 +836,287 @@ struct RetroAlbumCard: View {
 //}
 
 // MARK: - Album Detail View (Themed)
-struct AlbumDetailView: View {
-    let album: AlbumItem
-    @State private var tracks: [Track] = []
-    @State private var isLoadingTracks: Bool = false
-    @State private var trackFetchError: SpotifyAPIError? = nil
-    @State private var selectedTrackUri: String? = nil
-    @StateObject private var playbackState = SpotifyPlaybackState()
-    @Environment(\.openURL) var openURL
-    
-    var body: some View {
-        ZStack {
-            // --- Retro Background ---
-            retroDeepPurple.ignoresSafeArea()
-            // Optional: Add subtle background pattern/noise
-            Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
-            
-            List {
-                // --- Header Section ---
-                Section { AlbumHeaderView(album: album) }
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                
-                // --- Player Section (Themed) ---
-                if let uriToPlay = selectedTrackUri {
-                    Section { SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) }
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
-                        .listRowBackground(Color.clear)
-                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.easeInOut(duration: 0.4)))
-                }
-                
-                // --- Tracks Section (Themed) ---
-                Section {
-                    TracksSectionView(
-                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
-                        selectedTrackUri: $selectedTrackUri,
-                        retryAction: { Task { await fetchTracks() } }
-                    )
-                } header: {
-                    Text("TRACK LIST") // Retro header style
-                        .font(retroFont(size: 14, weight: .bold))
-                        .foregroundColor(retroNeonLime)
-                        .tracking(2)
-                        .frame(maxWidth: .infinity, alignment: .center) // Center header
-                        .padding(.vertical, 8)
-                        .background(.black.opacity(0.3)) // Subtle background for header
-                }
-                .listRowInsets(EdgeInsets()) // Remove insets for tracks section
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                
-                // --- External Link Section (Themed) ---
-                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
-                    Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
-                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                }
-                
-            } // End List
-            .listStyle(PlainListStyle())
-            .scrollContentBackground(.hidden) // Allow ZStack background to show
-        } // End ZStack
-        .navigationTitle(album.name)
-        .navigationBarTitleDisplayMode(.inline)
-        // Match nav bar theme from List view
-        .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar) // Consistent dark theme for nav bar
-        .task { await fetchTracks() }
-        .animation(.easeInOut, value: selectedTrackUri) // Animate player appearance/track selection
-        .refreshable { await fetchTracks(forceReload: true) }
-    }
-    
-    // --- Fetch Tracks Logic (Unchanged) ---
-    private func fetchTracks(forceReload: Bool = false) async { /* ... */
-        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
-        do {
-            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
-            try Task.checkCancellation()
-            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
-        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
-        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
-        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
-    }
-}
+//struct AlbumDetailView: View {
+//    let album: AlbumItem
+//    @State private var tracks: [Track] = []
+//    @State private var isLoadingTracks: Bool = false
+//    @State private var trackFetchError: SpotifyAPIError? = nil
+//    @State private var selectedTrackUri: String? = nil
+//    @StateObject private var playbackState = SpotifyPlaybackState()
+//    @Environment(\.openURL) var openURL
+//    
+//    var body: some View {
+//        ZStack {
+//            // --- Retro Background ---
+//            retroDeepPurple.ignoresSafeArea()
+//            // Optional: Add subtle background pattern/noise
+//            Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
+//            
+//            List {
+//                // --- Header Section ---
+//                Section { AlbumHeaderView(album: album) }
+//                    .listRowInsets(EdgeInsets())
+//                    .listRowSeparator(.hidden)
+//                    .listRowBackground(Color.clear)
+//                
+//                // --- Player Section (Themed) ---
+//                if let uriToPlay = selectedTrackUri {
+//                    Section { SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) }
+//                        .listRowSeparator(.hidden)
+//                        .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+//                        .listRowBackground(Color.clear)
+//                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.easeInOut(duration: 0.4)))
+//                }
+//                
+//                // --- Tracks Section (Themed) ---
+//                Section {
+//                    TracksSectionView(
+//                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
+//                        selectedTrackUri: $selectedTrackUri,
+//                        retryAction: { Task { await fetchTracks() } }
+//                    )
+//                } header: {
+//                    Text("TRACK LIST") // Retro header style
+//                        .font(retroFont(size: 14, weight: .bold))
+//                        .foregroundColor(retroNeonLime)
+//                        .tracking(2)
+//                        .frame(maxWidth: .infinity, alignment: .center) // Center header
+//                        .padding(.vertical, 8)
+//                        .background(.black.opacity(0.3)) // Subtle background for header
+//                }
+//                .listRowInsets(EdgeInsets()) // Remove insets for tracks section
+//                .listRowSeparator(.hidden)
+//                .listRowBackground(Color.clear)
+//                
+//                // --- External Link Section (Themed) ---
+//                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
+//                    Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
+//                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+//                        .listRowSeparator(.hidden)
+//                        .listRowBackground(Color.clear)
+//                }
+//                
+//            } // End List
+//            .listStyle(PlainListStyle())
+//            .scrollContentBackground(.hidden) // Allow ZStack background to show
+//        } // End ZStack
+//        .navigationTitle(album.name)
+//        .navigationBarTitleDisplayMode(.inline)
+//        // Match nav bar theme from List view
+//        .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar)
+//        .toolbarBackground(.visible, for: .navigationBar)
+//        .toolbarColorScheme(.dark, for: .navigationBar) // Consistent dark theme for nav bar
+//        .task { await fetchTracks() }
+//        .animation(.easeInOut, value: selectedTrackUri) // Animate player appearance/track selection
+//        .refreshable { await fetchTracks(forceReload: true) }
+//    }
+//    
+//    // --- Fetch Tracks Logic (Unchanged) ---
+//    private func fetchTracks(forceReload: Bool = false) async { /* ... */
+//        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
+//        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
+//        do {
+//            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
+//            try Task.checkCancellation()
+//            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
+//        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
+//        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
+//        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
+//    }
+//}
 
-// MARK: - DetailView Sub-Components (Themed)
-
-struct AlbumHeaderView: View {
-    let album: AlbumItem
-    
-    var body: some View {
-        VStack(spacing: 15) {
-            AlbumImageView(url: album.bestImageURL)
-                .aspectRatio(1.0, contentMode: .fit) // Keep square
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
-                .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
-                .padding(.horizontal, 50)
-            
-            VStack(spacing: 5) {
-                Text(album.name)
-                    .font(retroFont(size: 22, weight: .bold))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .shadow(color: .black.opacity(0.5), radius: 2, y: 1) // Text shadow
-                
-                Text("by \(album.formattedArtists)")
-                    .font(retroFont(size: 16, weight: .regular))
-                    .foregroundColor(retroNeonLime) // Artist accent color
-                    .multilineTextAlignment(.center)
-                
-                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
-                    .font(retroFont(size: 12, weight: .medium))
-                    .foregroundColor(.white.opacity(0.7))
-            }
-            .padding(.horizontal)
-            
-        }
-        .padding(.vertical, 25)
-    }
-}
-
-struct SpotifyEmbedPlayerView: View {
-    @ObservedObject var playbackState: SpotifyPlaybackState
-    let spotifyUri: String
-    
-    var body: some View {
-        VStack(spacing: 8) { // Added spacing
-            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-                .frame(height: 85) // Standard embed height + buffer
-            // Custom Player Frame/Background
-                .background(
-                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
-                        .overlay(.ultraThinMaterial) // Frosted glass
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
-                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
-                )
-                .padding(.horizontal)
-            
-            // --- Themed Playback Status ---
-            HStack {
-                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
-                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
-                
-                Text(statusText)
-                    .font(retroFont(size: 10, weight: .bold))
-                    .foregroundColor(statusColor)
-                    .tracking(1.5) // Add letter spacing
-                    .neonGlow(statusColor, radius: 4)
-                    .lineLimit(1)
-                    .frame(width: 80, alignment: .leading) // Fixed width for status
-                
-                Spacer()
-                
-                if playbackState.duration > 0.1 { // Only show if duration is valid
-                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
-                        .font(retroFont(size: 11, weight: .medium))
-                        .foregroundColor(.white.opacity(0.8))
-                } else {
-                    Text("--:-- | --:--") // Placeholder time
-                        .font(retroFont(size: 11, weight: .medium))
-                        .foregroundColor(.white.opacity(0.5))
-                }
-            }
-            .padding(.horizontal, 25) // Align with player padding
-            .padding(.top, 5)
-            .frame(minHeight: 15)
-            
-        } // End VStack
-        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
-    }
-    
-    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
-        let totalSeconds = max(0, Int(time))
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%d:%02d", minutes, seconds)
-    }
-}
-
-struct TracksSectionView: View {
-    let tracks: [Track]
-    let isLoading: Bool
-    let error: SpotifyAPIError?
-    @Binding var selectedTrackUri: String? // Binding to update parent
-    let retryAction: () -> Void
-    
-    var body: some View {
-        // No encompassing VStack needed if used directly in List Section
-        if isLoading {
-            HStack { // Center progress view within the list section area
-                Spacer()
-                ProgressView()
-                Text("Loading Tracks...")
-                    .foregroundColor(.secondary)
-                    .padding(.leading, 5)
-                Spacer()
-            }
-            .padding(.vertical, 20) // Give loading indicator space
-        } else if let error = error {
-            // Use the new ErrorPlaceholderView
-            ErrorPlaceholderView(error: error, retryAction: retryAction)
-                .padding(.vertical, 20) // Give error view space
-        } else if tracks.isEmpty {
-            // Message for when tracks array is empty *after* successful load
-            Text("No tracks found for this album.")
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.vertical, 20)
-        } else {
-            // Use ForEach directly within the List Section
-            ForEach(tracks) { track in
-                TrackRowView(
-                    track: track,
-                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
-                )
-                .contentShape(Rectangle()) // Make the whole row tappable
-                .onTapGesture {
-                    // Update the selected URI - animation handled by parent
-                    selectedTrackUri = track.uri
-                }
-                // Apply background highlight directly or via listRowBackground
-                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
-            }
-        }
-    }
-}
-
-struct TrackRowView: View {
-    let track: Track
-    let isSelected: Bool
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            // --- Track Number ---
-            Text("\(track.track_number)")
-                .font(retroFont(size: 12, weight: .medium))
-                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
-                .frame(width: 25, alignment: .center)
-                .padding(.leading, 10) // Ensure space from edge
-            
-            // --- Track Info ---
-            VStack(alignment: .leading, spacing: 3) {
-                Text(track.name)
-                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track
-                    .foregroundColor(isSelected ? retroNeonCyan : .white)
-                    .lineLimit(1)
-                
-                Text(track.formattedArtists)
-                    .font(retroFont(size: 11))
-                    .foregroundColor(.white.opacity(0.7))
-                    .lineLimit(1)
-            }
-            
-            Spacer()
-            
-            // --- Duration ---
-            Text(track.formattedDuration)
-                .font(retroFont(size: 12, weight: .medium))
-                .foregroundColor(.white.opacity(0.7))
-                .padding(.trailing, 5)
-            
-            // --- Play Indicator ---
-            Image(systemName: isSelected ? "waveform.path.ecg" : "play.fill") // More fitting icons
-                .foregroundColor(isSelected ? retroNeonCyan : .white.opacity(0.7))
-                .font(.body) // Adjust size slightly
-                .frame(width: 25, height: 25)
-                .animation(.easeInOut(duration: 0.2), value: isSelected)
-                .padding(.trailing, 10)
-            
-        }
-        .padding(.vertical, 12) // Increase vertical padding for tap target
-        // Remove internal horizontal padding, let parent list handle row padding
-        // .padding(.horizontal) NO - causes misalignment if rowBackground is used
-    }
-}
+//// MARK: - DetailView Sub-Components (Themed)
+//
+//struct AlbumHeaderView: View {
+//    let album: AlbumItem
+//    
+//    var body: some View {
+//        VStack(spacing: 15) {
+//            AlbumImageView(url: album.bestImageURL)
+//                .aspectRatio(1.0, contentMode: .fit) // Keep square
+//                .clipShape(RoundedRectangle(cornerRadius: 15))
+//                .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
+//                .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
+//                .padding(.horizontal, 50)
+//            
+//            VStack(spacing: 5) {
+//                Text(album.name)
+//                    .font(retroFont(size: 22, weight: .bold))
+//                    .foregroundColor(.white)
+//                    .multilineTextAlignment(.center)
+//                    .shadow(color: .black.opacity(0.5), radius: 2, y: 1) // Text shadow
+//                
+//                Text("by \(album.formattedArtists)")
+//                    .font(retroFont(size: 16, weight: .regular))
+//                    .foregroundColor(retroNeonLime) // Artist accent color
+//                    .multilineTextAlignment(.center)
+//                
+//                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
+//                    .font(retroFont(size: 12, weight: .medium))
+//                    .foregroundColor(.white.opacity(0.7))
+//            }
+//            .padding(.horizontal)
+//            
+//        }
+//        .padding(.vertical, 25)
+//    }
+//}
+//
+//struct SpotifyEmbedPlayerView: View {
+//    @ObservedObject var playbackState: SpotifyPlaybackState
+//    let spotifyUri: String
+//    
+//    var body: some View {
+//        VStack(spacing: 8) { // Added spacing
+//            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+//                .frame(height: 85) // Standard embed height + buffer
+//            // Custom Player Frame/Background
+//                .background(
+//                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
+//                        .overlay(.ultraThinMaterial) // Frosted glass
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
+//                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
+//                )
+//                .padding(.horizontal)
+//            
+//            // --- Themed Playback Status ---
+//            HStack {
+//                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
+//                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
+//                
+//                Text(statusText)
+//                    .font(retroFont(size: 10, weight: .bold))
+//                    .foregroundColor(statusColor)
+//                    .tracking(1.5) // Add letter spacing
+//                    .neonGlow(statusColor, radius: 4)
+//                    .lineLimit(1)
+//                    .frame(width: 80, alignment: .leading) // Fixed width for status
+//                
+//                Spacer()
+//                
+//                if playbackState.duration > 0.1 { // Only show if duration is valid
+//                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
+//                        .font(retroFont(size: 11, weight: .medium))
+//                        .foregroundColor(.white.opacity(0.8))
+//                } else {
+//                    Text("--:-- | --:--") // Placeholder time
+//                        .font(retroFont(size: 11, weight: .medium))
+//                        .foregroundColor(.white.opacity(0.5))
+//                }
+//            }
+//            .padding(.horizontal, 25) // Align with player padding
+//            .padding(.top, 5)
+//            .frame(minHeight: 15)
+//            
+//        } // End VStack
+//        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
+//    }
+//    
+//    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
+//        let totalSeconds = max(0, Int(time))
+//        let minutes = totalSeconds / 60
+//        let seconds = totalSeconds % 60
+//        return String(format: "%d:%02d", minutes, seconds)
+//    }
+//}
+//
+//struct TracksSectionView: View {
+//    let tracks: [Track]
+//    let isLoading: Bool
+//    let error: SpotifyAPIError?
+//    @Binding var selectedTrackUri: String? // Binding to update parent
+//    let retryAction: () -> Void
+//    
+//    var body: some View {
+//        // No encompassing VStack needed if used directly in List Section
+//        if isLoading {
+//            HStack { // Center progress view within the list section area
+//                Spacer()
+//                ProgressView()
+//                Text("Loading Tracks...")
+//                    .foregroundColor(.secondary)
+//                    .padding(.leading, 5)
+//                Spacer()
+//            }
+//            .padding(.vertical, 20) // Give loading indicator space
+//        } else if let error = error {
+//            // Use the new ErrorPlaceholderView
+//            ErrorPlaceholderView(error: error, retryAction: retryAction)
+//                .padding(.vertical, 20) // Give error view space
+//        } else if tracks.isEmpty {
+//            // Message for when tracks array is empty *after* successful load
+//            Text("No tracks found for this album.")
+//                .foregroundColor(.secondary)
+//                .frame(maxWidth: .infinity, alignment: .center)
+//                .padding(.vertical, 20)
+//        } else {
+//            // Use ForEach directly within the List Section
+//            ForEach(tracks) { track in
+//                TrackRowView(
+//                    track: track,
+//                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
+//                )
+//                .contentShape(Rectangle()) // Make the whole row tappable
+//                .onTapGesture {
+//                    // Update the selected URI - animation handled by parent
+//                    selectedTrackUri = track.uri
+//                }
+//                // Apply background highlight directly or via listRowBackground
+//                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
+//            }
+//        }
+//    }
+//}
+//
+//struct TrackRowView: View {
+//    let track: Track
+//    let isSelected: Bool
+//    
+//    var body: some View {
+//        HStack(spacing: 12) {
+//            // --- Track Number ---
+//            Text("\(track.track_number)")
+//                .font(retroFont(size: 12, weight: .medium))
+//                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
+//                .frame(width: 25, alignment: .center)
+//                .padding(.leading, 10) // Ensure space from edge
+//            
+//            // --- Track Info ---
+//            VStack(alignment: .leading, spacing: 3) {
+//                Text(track.name)
+//                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track
+//                    .foregroundColor(isSelected ? retroNeonCyan : .white)
+//                    .lineLimit(1)
+//                
+//                Text(track.formattedArtists)
+//                    .font(retroFont(size: 11))
+//                    .foregroundColor(.white.opacity(0.7))
+//                    .lineLimit(1)
+//            }
+//            
+//            Spacer()
+//            
+//            // --- Duration ---
+//            Text(track.formattedDuration)
+//                .font(retroFont(size: 12, weight: .medium))
+//                .foregroundColor(.white.opacity(0.7))
+//                .padding(.trailing, 5)
+//            
+//            // --- Play Indicator ---
+//            Image(systemName: isSelected ? "waveform.path.ecg" : "play.fill") // More fitting icons
+//                .foregroundColor(isSelected ? retroNeonCyan : .white.opacity(0.7))
+//                .font(.body) // Adjust size slightly
+//                .frame(width: 25, height: 25)
+//                .animation(.easeInOut(duration: 0.2), value: isSelected)
+//                .padding(.trailing, 10)
+//            
+//        }
+//        .padding(.vertical, 12) // Increase vertical padding for tap target
+//        // Remove internal horizontal padding, let parent list handle row padding
+//        // .padding(.horizontal) NO - causes misalignment if rowBackground is used
+//    }
+//}
 
 ////// MARK: - Other Supporting Views (Themed)
 ////
