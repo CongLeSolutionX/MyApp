@@ -1021,103 +1021,103 @@ struct SpotifyEmbedPlayerView: View {
     }
 }
 
-//struct TracksSectionView: View {
-//    let tracks: [Track]
-//    let isLoading: Bool
-//    let error: SpotifyAPIError?
-//    @Binding var selectedTrackUri: String? // Binding to update parent
-//    let retryAction: () -> Void
-//    
-//    var body: some View {
-//        // No encompassing VStack needed if used directly in List Section
-//        if isLoading {
-//            HStack { // Center progress view within the list section area
-//                Spacer()
-//                ProgressView()
-//                Text("Loading Tracks...")
-//                    .foregroundColor(.secondary)
-//                    .padding(.leading, 5)
-//                Spacer()
-//            }
-//            .padding(.vertical, 20) // Give loading indicator space
-//        } else if let error = error {
-//            // Use the new ErrorPlaceholderView
-//            ErrorPlaceholderView(error: error, retryAction: retryAction)
-//                .padding(.vertical, 20) // Give error view space
-//        } else if tracks.isEmpty {
-//            // Message for when tracks array is empty *after* successful load
-//            Text("No tracks found for this album.")
-//                .foregroundColor(.secondary)
-//                .frame(maxWidth: .infinity, alignment: .center)
-//                .padding(.vertical, 20)
-//        } else {
-//            // Use ForEach directly within the List Section
-//            ForEach(tracks) { track in
-//                TrackRowView(
-//                    track: track,
-//                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
-//                )
-//                .contentShape(Rectangle()) // Make the whole row tappable
-//                .onTapGesture {
-//                    // Update the selected URI - animation handled by parent
-//                    selectedTrackUri = track.uri
-//                }
-//                // Apply background highlight directly or via listRowBackground
-//                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
-//            }
-//        }
-//    }
-//}
-//
-//struct TrackRowView: View {
-//    let track: Track
-//    let isSelected: Bool
-//    
-//    var body: some View {
-//        HStack(spacing: 12) {
-//            // --- Track Number ---
-//            Text("\(track.track_number)")
-//                .font(retroFont(size: 12, weight: .medium))
-//                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
-//                .frame(width: 25, alignment: .center)
-//                .padding(.leading, 10) // Ensure space from edge
-//            
-//            // --- Track Info ---
-//            VStack(alignment: .leading, spacing: 3) {
-//                Text(track.name)
-//                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track
-//                    .foregroundColor(isSelected ? retroNeonCyan : .white)
-//                    .lineLimit(1)
-//                
-//                Text(track.formattedArtists)
-//                    .font(retroFont(size: 11))
-//                    .foregroundColor(.white.opacity(0.7))
-//                    .lineLimit(1)
-//            }
-//            
-//            Spacer()
-//            
-//            // --- Duration ---
-//            Text(track.formattedDuration)
-//                .font(retroFont(size: 12, weight: .medium))
-//                .foregroundColor(.white.opacity(0.7))
-//                .padding(.trailing, 5)
-//            
-//            // --- Play Indicator ---
-//            Image(systemName: isSelected ? "waveform.path.ecg" : "play.fill") // More fitting icons
-//                .foregroundColor(isSelected ? retroNeonCyan : .white.opacity(0.7))
-//                .font(.body) // Adjust size slightly
-//                .frame(width: 25, height: 25)
-//                .animation(.easeInOut(duration: 0.2), value: isSelected)
-//                .padding(.trailing, 10)
-//            
-//        }
-//        .padding(.vertical, 12) // Increase vertical padding for tap target
-//        // Remove internal horizontal padding, let parent list handle row padding
-//        // .padding(.horizontal) NO - causes misalignment if rowBackground is used
-//    }
-//}
-//
+struct TracksSectionView: View {
+    let tracks: [Track]
+    let isLoading: Bool
+    let error: SpotifyAPIError?
+    @Binding var selectedTrackUri: String? // Binding to update parent
+    let retryAction: () -> Void
+    
+    var body: some View {
+        // No encompassing VStack needed if used directly in List Section
+        if isLoading {
+            HStack { // Center progress view within the list section area
+                Spacer()
+                ProgressView()
+                Text("Loading Tracks...")
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 5)
+                Spacer()
+            }
+            .padding(.vertical, 20) // Give loading indicator space
+        } else if let error = error {
+            // Use the new ErrorPlaceholderView
+            ErrorPlaceholderView(error: error, retryAction: retryAction)
+                .padding(.vertical, 20) // Give error view space
+        } else if tracks.isEmpty {
+            // Message for when tracks array is empty *after* successful load
+            Text("No tracks found for this album.")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+        } else {
+            // Use ForEach directly within the List Section
+            ForEach(tracks) { track in
+                TrackRowView(
+                    track: track,
+                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
+                )
+                .contentShape(Rectangle()) // Make the whole row tappable
+                .onTapGesture {
+                    // Update the selected URI - animation handled by parent
+                    selectedTrackUri = track.uri
+                }
+                // Apply background highlight directly or via listRowBackground
+                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
+            }
+        }
+    }
+}
+
+struct TrackRowView: View {
+    let track: Track
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // --- Track Number ---
+            Text("\(track.track_number)")
+                .font(retroFont(size: 12, weight: .medium))
+                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
+                .frame(width: 25, alignment: .center)
+                .padding(.leading, 10) // Ensure space from edge
+            
+            // --- Track Info ---
+            VStack(alignment: .leading, spacing: 3) {
+                Text(track.name)
+                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track
+                    .foregroundColor(isSelected ? retroNeonCyan : .white)
+                    .lineLimit(1)
+                
+                Text(track.formattedArtists)
+                    .font(retroFont(size: 11))
+                    .foregroundColor(.white.opacity(0.7))
+                    .lineLimit(1)
+            }
+            
+            Spacer()
+            
+            // --- Duration ---
+            Text(track.formattedDuration)
+                .font(retroFont(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+                .padding(.trailing, 5)
+            
+            // --- Play Indicator ---
+            Image(systemName: isSelected ? "waveform.path.ecg" : "play.fill") // More fitting icons
+                .foregroundColor(isSelected ? retroNeonCyan : .white.opacity(0.7))
+                .font(.body) // Adjust size slightly
+                .frame(width: 25, height: 25)
+                .animation(.easeInOut(duration: 0.2), value: isSelected)
+                .padding(.trailing, 10)
+            
+        }
+        .padding(.vertical, 12) // Increase vertical padding for tap target
+        // Remove internal horizontal padding, let parent list handle row padding
+        // .padding(.horizontal) NO - causes misalignment if rowBackground is used
+    }
+}
+
 //// MARK: - Other Supporting Views (Themed)
 //
 //struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage

@@ -1243,184 +1243,184 @@ struct AlbumHeaderView: View {
 //    }
 //}
 
-struct TracksSectionView: View {
-    // --- Properties (Unchanged) ---
-    let tracks: [Track]
-    let isLoading: Bool
-    let error: SpotifyAPIError?
-    @Binding var selectedTrackUri: String?
-    let retryAction: () -> Void
-    
-    // --- Main Body ---
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) { // Root VStack
-            tracksHeader() // Extracted Header
-            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
-                .padding(.horizontal) // Padding around the themed background area
-        }
-    }
-    
-    // MARK: - @ViewBuilder Sub-Components
-    
-    // Builds the themed section header
-    @ViewBuilder
-    private func tracksHeader() -> some View {
-        Text("TRACKLIST FREQUENCIES")
-            .font(psychedelicBodyFont(size: 14, weight: .bold))
-            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
-            .tracking(2.5) // Wider tracking
-            .padding(.horizontal) // Padding for the header text itself
-            .padding(.bottom, 15)
-            .frame(maxWidth: .infinity, alignment: .center)
-    }
-    
-    // Builds the container that holds the conditional content (loading, error, etc.)
-    // This container includes the themed background.
-    @ViewBuilder
-    private func tracksContentContainer() -> some View {
-        Group { // Group is necessary to apply modifiers to the result of the conditional logic
-            conditionalTracksContent() // Calls the function with the if/else logic
-        }
-        .padding(.horizontal) // Apply horizontal padding INSIDE the background
-        .background(
-            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
-                .blur(radius: 5)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
-    }
-    
-    // Builds the actual content based on loading/error/empty/data state
-    @ViewBuilder
-    private func conditionalTracksContent() -> some View {
-        if isLoading {
-            loadingView()
-        } else if let error = error {
-            // Note: Using the existing ErrorPlaceholderView is fine.
-            // If it were much larger, it could also be refactored.
-            ErrorPlaceholderView(error: error, retryAction: retryAction)
-                .padding(.vertical, 20) // Padding when showing error
-        } else if tracks.isEmpty {
-            emptyTracksView()
-        } else {
-            trackListView() // The list itself
-        }
-    }
-    
-    // Builds the loading indicator view
-    @ViewBuilder
-    private func loadingView() -> some View {
-        HStack {
-            Spacer()
-            ProgressView().tint(psychedelicAccentCyan)
-            Text("Scanning...")
-                .font(psychedelicBodyFont(size: 14))
-                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
-            Spacer()
-        }
-        .padding(.vertical, 40) // Give loading state some vertical space
-    }
-    
-    // Builds the empty state view
-    @ViewBuilder
-    private func emptyTracksView() -> some View {
-        Text("Signal Lost - No Tracks Found")
-            .font(psychedelicBodyFont(size: 14))
-            .foregroundColor(.white.opacity(0.6))
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.vertical, 40) // Give empty state some vertical space
-    }
-    
-    // Builds the list of track rows using ForEach
-    @ViewBuilder
-    private func trackListView() -> some View {
-        // Using LazyVStack internally if you expect potentially very long lists,
-        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
-        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
-            ForEach(tracks) { track in
-                trackRow(track: track) // Extracted individual track row
-            }
-            .padding(.bottom, 5) // Add minor padding below the last track if needed
-        }
-        // Add top/bottom padding if the list content needs space from the container edges
-        .padding(.vertical, 10)
-    }
-    
-    // Builds a single track row and its interactivity
-    @ViewBuilder
-    private func trackRow(track: Track) -> some View {
-        let isSelected = track.uri == selectedTrackUri
-        VStack(spacing: 0) { // Wrap row content and divider
-            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
-                .contentShape(Rectangle()) // Make the whole row tappable
-                .onTapGesture {
-                    // Animate the URI change if desired
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        selectedTrackUri = track.uri
-                    }
-                }
-                .background( // Apply themed background based on selection
-                    isSelected
-                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
-                        .blur(radius: 8) as! Color // Slightly more pronounced blur
-                    : Color.clear
-                )
-                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
-            
-            // Subtle custom divider (don't draw after the last item)
-            if track.id != tracks.last?.id {
-                Divider()
-                    .background(Color.white.opacity(0.1))
-                    .padding(.leading, 55) // Indent divider past track number/icon area
-            }
-        }
-    }
-} // End of TracksSectionView
-
-struct TrackRowView: View {
-    let track: Track
-    let isSelected: Bool
-    
-    var body: some View {
-        HStack(spacing: 15) { // Increased spacing
-            // --- Track Number ---
-            Text("\(track.track_number)")
-                .font(psychedelicBodyFont(size: 14, weight: .medium))
-                .foregroundColor(isSelected ? psychedelicAccentLime : .white.opacity(0.6))
-                .frame(width: 25, alignment: .center)
-                .shadow(color: isSelected ? psychedelicAccentLime.opacity(0.5) : .clear, radius: 3)
-            
-            // --- Track Info ---
-            VStack(alignment: .leading, spacing: 4) { // Increased spacing
-                Text(track.name)
-                    .font(psychedelicBodyFont(size: 16, weight: isSelected ? .bold : .regular))
-                    .foregroundColor(isSelected ? .white : .white.opacity(0.9)) // Brighter white when selected
-                    .lineLimit(1)
-                Text(track.formattedArtists)
-                    .font(psychedelicBodyFont(size: 12, weight: .light)) // Lighter weight for artist
-                    .foregroundColor(.white.opacity(0.7))
-                    .lineLimit(1)
-            }
-            Spacer()
-            // --- Duration ---
-            Text(track.formattedDuration)
-                .font(psychedelicBodyFont(size: 13, weight: .regular)) // Slightly larger duration font
-                .foregroundColor(.white.opacity(0.7))
-                .padding(.trailing, 5)
-            
-            // --- Play Indicator ---
-            Image(systemName: isSelected ? "waveform.path.ecg" : "play.circle.fill") // Use filled play icon
-                .font(.system(size: 20)) // Larger icon
-                .foregroundColor(isSelected ? psychedelicAccentCyan : .white.opacity(0.6))
-                .shadow(color: isSelected ? psychedelicAccentCyan.opacity(0.6): .clear, radius: 5)
-                .symbolEffect(.variableColor.reversing.cumulative, options: .speed(1).repeat(isSelected ? 3 : 0) , value: isSelected) // Example subtle animation
-                .animation(.easeInOut, value: isSelected) // Smooth transition
-            
-        }
-        .padding(.vertical, 15) // More vertical padding
-        .padding(.horizontal, 10) // Adjust horizontal padding if needed
-        // Remove listRowBackground here, apply it in TracksSectionView's ForEach
-    }
-}
+//struct TracksSectionView: View {
+//    // --- Properties (Unchanged) ---
+//    let tracks: [Track]
+//    let isLoading: Bool
+//    let error: SpotifyAPIError?
+//    @Binding var selectedTrackUri: String?
+//    let retryAction: () -> Void
+//    
+//    // --- Main Body ---
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 0) { // Root VStack
+//            tracksHeader() // Extracted Header
+//            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
+//                .padding(.horizontal) // Padding around the themed background area
+//        }
+//    }
+//    
+//    // MARK: - @ViewBuilder Sub-Components
+//    
+//    // Builds the themed section header
+//    @ViewBuilder
+//    private func tracksHeader() -> some View {
+//        Text("TRACKLIST FREQUENCIES")
+//            .font(psychedelicBodyFont(size: 14, weight: .bold))
+//            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
+//            .tracking(2.5) // Wider tracking
+//            .padding(.horizontal) // Padding for the header text itself
+//            .padding(.bottom, 15)
+//            .frame(maxWidth: .infinity, alignment: .center)
+//    }
+//    
+//    // Builds the container that holds the conditional content (loading, error, etc.)
+//    // This container includes the themed background.
+//    @ViewBuilder
+//    private func tracksContentContainer() -> some View {
+//        Group { // Group is necessary to apply modifiers to the result of the conditional logic
+//            conditionalTracksContent() // Calls the function with the if/else logic
+//        }
+//        .padding(.horizontal) // Apply horizontal padding INSIDE the background
+//        .background(
+//            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
+//                .blur(radius: 5)
+//        )
+//        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
+//    }
+//    
+//    // Builds the actual content based on loading/error/empty/data state
+//    @ViewBuilder
+//    private func conditionalTracksContent() -> some View {
+//        if isLoading {
+//            loadingView()
+//        } else if let error = error {
+//            // Note: Using the existing ErrorPlaceholderView is fine.
+//            // If it were much larger, it could also be refactored.
+//            ErrorPlaceholderView(error: error, retryAction: retryAction)
+//                .padding(.vertical, 20) // Padding when showing error
+//        } else if tracks.isEmpty {
+//            emptyTracksView()
+//        } else {
+//            trackListView() // The list itself
+//        }
+//    }
+//    
+//    // Builds the loading indicator view
+//    @ViewBuilder
+//    private func loadingView() -> some View {
+//        HStack {
+//            Spacer()
+//            ProgressView().tint(psychedelicAccentCyan)
+//            Text("Scanning...")
+//                .font(psychedelicBodyFont(size: 14))
+//                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
+//            Spacer()
+//        }
+//        .padding(.vertical, 40) // Give loading state some vertical space
+//    }
+//    
+//    // Builds the empty state view
+//    @ViewBuilder
+//    private func emptyTracksView() -> some View {
+//        Text("Signal Lost - No Tracks Found")
+//            .font(psychedelicBodyFont(size: 14))
+//            .foregroundColor(.white.opacity(0.6))
+//            .frame(maxWidth: .infinity, alignment: .center)
+//            .padding(.vertical, 40) // Give empty state some vertical space
+//    }
+//    
+//    // Builds the list of track rows using ForEach
+//    @ViewBuilder
+//    private func trackListView() -> some View {
+//        // Using LazyVStack internally if you expect potentially very long lists,
+//        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
+//        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
+//            ForEach(tracks) { track in
+//                trackRow(track: track) // Extracted individual track row
+//            }
+//            .padding(.bottom, 5) // Add minor padding below the last track if needed
+//        }
+//        // Add top/bottom padding if the list content needs space from the container edges
+//        .padding(.vertical, 10)
+//    }
+//    
+//    // Builds a single track row and its interactivity
+//    @ViewBuilder
+//    private func trackRow(track: Track) -> some View {
+//        let isSelected = track.uri == selectedTrackUri
+//        VStack(spacing: 0) { // Wrap row content and divider
+//            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
+//                .contentShape(Rectangle()) // Make the whole row tappable
+//                .onTapGesture {
+//                    // Animate the URI change if desired
+//                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+//                        selectedTrackUri = track.uri
+//                    }
+//                }
+//                .background( // Apply themed background based on selection
+//                    isSelected
+//                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
+//                        .blur(radius: 8) as! Color // Slightly more pronounced blur
+//                    : Color.clear
+//                )
+//                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
+//            
+//            // Subtle custom divider (don't draw after the last item)
+//            if track.id != tracks.last?.id {
+//                Divider()
+//                    .background(Color.white.opacity(0.1))
+//                    .padding(.leading, 55) // Indent divider past track number/icon area
+//            }
+//        }
+//    }
+//} // End of TracksSectionView
+//
+//struct TrackRowView: View {
+//    let track: Track
+//    let isSelected: Bool
+//    
+//    var body: some View {
+//        HStack(spacing: 15) { // Increased spacing
+//            // --- Track Number ---
+//            Text("\(track.track_number)")
+//                .font(psychedelicBodyFont(size: 14, weight: .medium))
+//                .foregroundColor(isSelected ? psychedelicAccentLime : .white.opacity(0.6))
+//                .frame(width: 25, alignment: .center)
+//                .shadow(color: isSelected ? psychedelicAccentLime.opacity(0.5) : .clear, radius: 3)
+//            
+//            // --- Track Info ---
+//            VStack(alignment: .leading, spacing: 4) { // Increased spacing
+//                Text(track.name)
+//                    .font(psychedelicBodyFont(size: 16, weight: isSelected ? .bold : .regular))
+//                    .foregroundColor(isSelected ? .white : .white.opacity(0.9)) // Brighter white when selected
+//                    .lineLimit(1)
+//                Text(track.formattedArtists)
+//                    .font(psychedelicBodyFont(size: 12, weight: .light)) // Lighter weight for artist
+//                    .foregroundColor(.white.opacity(0.7))
+//                    .lineLimit(1)
+//            }
+//            Spacer()
+//            // --- Duration ---
+//            Text(track.formattedDuration)
+//                .font(psychedelicBodyFont(size: 13, weight: .regular)) // Slightly larger duration font
+//                .foregroundColor(.white.opacity(0.7))
+//                .padding(.trailing, 5)
+//            
+//            // --- Play Indicator ---
+//            Image(systemName: isSelected ? "waveform.path.ecg" : "play.circle.fill") // Use filled play icon
+//                .font(.system(size: 20)) // Larger icon
+//                .foregroundColor(isSelected ? psychedelicAccentCyan : .white.opacity(0.6))
+//                .shadow(color: isSelected ? psychedelicAccentCyan.opacity(0.6): .clear, radius: 5)
+//                .symbolEffect(.variableColor.reversing.cumulative, options: .speed(1).repeat(isSelected ? 3 : 0) , value: isSelected) // Example subtle animation
+//                .animation(.easeInOut, value: isSelected) // Smooth transition
+//            
+//        }
+//        .padding(.vertical, 15) // More vertical padding
+//        .padding(.horizontal, 10) // Adjust horizontal padding if needed
+//        // Remove listRowBackground here, apply it in TracksSectionView's ForEach
+//    }
+//}
 
 // MARK: - Other Supporting Views (Themed)
 
