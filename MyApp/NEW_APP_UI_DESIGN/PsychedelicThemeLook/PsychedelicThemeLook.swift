@@ -1129,49 +1129,49 @@ struct EmptyStatePlaceholderView: View {
 
 // MARK: - DetailView Sub-Components (Themed)
 
-struct AlbumHeaderView: View {
-    let album: AlbumItem
-    
-    var body: some View {
-        VStack(spacing: 18) {
-            AlbumImageView(url: album.bestImageURL)
-                .aspectRatio(1.0, contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // More rounded
-                .overlay(
-                    RoundedRectangle(cornerRadius: 30, style: .continuous)
-                        .stroke(
-                            AngularGradient(gradient: psychedelicVibrantGradient, center: .center, angle: .degrees(90))
-                                .opacity(0.5), // Use angular gradient for border
-                            lineWidth: 2
-                        )
-                )
-                .psychedelicGlow(psychedelicAccentCyan, radius: 25) // Stronger glow for main art
-                .padding(.horizontal, 40) // More padding around art
-            
-            VStack(spacing: 8) {
-                Text(album.name)
-                    .font(psychedelicTitleFont(size: 26))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .shadow(color: .black.opacity(0.4), radius: 2, y: 1)
-                
-                Text("by \(album.formattedArtists)")
-                    .font(psychedelicBodyFont(size: 17, weight: .semibold ))
-                    .foregroundStyle( // Gradient text for artist
-                        LinearGradient(gradient: Gradient(colors:[psychedelicAccentLime, psychedelicAccentCyan]), startPoint: .leading, endPoint: .trailing)
-                    )
-                    .multilineTextAlignment(.center)
-                
-                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
-                    .font(psychedelicBodyFont(size: 13, weight: .regular))
-                    .foregroundColor(.white.opacity(0.7))
-            }
-            .padding(.horizontal)
-            
-        }
-        .padding(.top, 20) // Padding above the header content
-    }
-}
+//struct AlbumHeaderView: View {
+//    let album: AlbumItem
+//    
+//    var body: some View {
+//        VStack(spacing: 18) {
+//            AlbumImageView(url: album.bestImageURL)
+//                .aspectRatio(1.0, contentMode: .fit)
+//                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous)) // More rounded
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+//                        .stroke(
+//                            AngularGradient(gradient: psychedelicVibrantGradient, center: .center, angle: .degrees(90))
+//                                .opacity(0.5), // Use angular gradient for border
+//                            lineWidth: 2
+//                        )
+//                )
+//                .psychedelicGlow(psychedelicAccentCyan, radius: 25) // Stronger glow for main art
+//                .padding(.horizontal, 40) // More padding around art
+//            
+//            VStack(spacing: 8) {
+//                Text(album.name)
+//                    .font(psychedelicTitleFont(size: 26))
+//                    .foregroundColor(.white)
+//                    .multilineTextAlignment(.center)
+//                    .shadow(color: .black.opacity(0.4), radius: 2, y: 1)
+//                
+//                Text("by \(album.formattedArtists)")
+//                    .font(psychedelicBodyFont(size: 17, weight: .semibold ))
+//                    .foregroundStyle( // Gradient text for artist
+//                        LinearGradient(gradient: Gradient(colors:[psychedelicAccentLime, psychedelicAccentCyan]), startPoint: .leading, endPoint: .trailing)
+//                    )
+//                    .multilineTextAlignment(.center)
+//                
+//                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
+//                    .font(psychedelicBodyFont(size: 13, weight: .regular))
+//                    .foregroundColor(.white.opacity(0.7))
+//            }
+//            .padding(.horizontal)
+//            
+//        }
+//        .padding(.top, 20) // Padding above the header content
+//    }
+//}
 
 //struct SpotifyEmbedPlayerView: View {
 //    @ObservedObject var playbackState: SpotifyPlaybackState

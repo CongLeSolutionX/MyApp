@@ -925,42 +925,42 @@ struct AlbumDetailView: View {
     }
 }
 
-//// MARK: - DetailView Sub-Components (Themed)
-//
-//struct AlbumHeaderView: View {
-//    let album: AlbumItem
-//    
-//    var body: some View {
-//        VStack(spacing: 15) {
-//            AlbumImageView(url: album.bestImageURL)
-//                .aspectRatio(1.0, contentMode: .fit) // Keep square
-//                .clipShape(RoundedRectangle(cornerRadius: 15))
-//                .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
-//                .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
-//                .padding(.horizontal, 50)
-//            
-//            VStack(spacing: 5) {
-//                Text(album.name)
-//                    .font(retroFont(size: 22, weight: .bold))
-//                    .foregroundColor(.white)
-//                    .multilineTextAlignment(.center)
-//                    .shadow(color: .black.opacity(0.5), radius: 2, y: 1) // Text shadow
-//                
-//                Text("by \(album.formattedArtists)")
-//                    .font(retroFont(size: 16, weight: .regular))
-//                    .foregroundColor(retroNeonLime) // Artist accent color
-//                    .multilineTextAlignment(.center)
-//                
-//                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
-//                    .font(retroFont(size: 12, weight: .medium))
-//                    .foregroundColor(.white.opacity(0.7))
-//            }
-//            .padding(.horizontal)
-//            
-//        }
-//        .padding(.vertical, 25)
-//    }
-//}
+// MARK: - DetailView Sub-Components (Themed)
+
+struct AlbumHeaderView: View {
+    let album: AlbumItem
+    
+    var body: some View {
+        VStack(spacing: 15) {
+            AlbumImageView(url: album.bestImageURL)
+                .aspectRatio(1.0, contentMode: .fit) // Keep square
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .overlay(RoundedRectangle(cornerRadius: 15).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .top, endPoint: .bottom), lineWidth: 2))
+                .neonGlow(retroNeonCyan, radius: 15) // Glow effect on album art
+                .padding(.horizontal, 50)
+            
+            VStack(spacing: 5) {
+                Text(album.name)
+                    .font(retroFont(size: 22, weight: .bold))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .shadow(color: .black.opacity(0.5), radius: 2, y: 1) // Text shadow
+                
+                Text("by \(album.formattedArtists)")
+                    .font(retroFont(size: 16, weight: .regular))
+                    .foregroundColor(retroNeonLime) // Artist accent color
+                    .multilineTextAlignment(.center)
+                
+                Text("\(album.album_type.capitalized) • \(album.formattedReleaseDate())")
+                    .font(retroFont(size: 12, weight: .medium))
+                    .foregroundColor(.white.opacity(0.7))
+            }
+            .padding(.horizontal)
+            
+        }
+        .padding(.vertical, 25)
+    }
+}
 
 struct SpotifyEmbedPlayerView: View {
     @ObservedObject var playbackState: SpotifyPlaybackState
