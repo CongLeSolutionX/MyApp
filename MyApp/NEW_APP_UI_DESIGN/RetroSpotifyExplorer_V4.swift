@@ -1,49 +1,49 @@
-////
-////  Retro_V3.swift
-////  MyApp
-////
-////  Created by Cong Le on 4/18/25.
-////
 //
-//import SwiftUI
-//@preconcurrency import WebKit // Needed for WebView
-//import Foundation
+//  Retro_V3.swift
+//  MyApp
 //
-//// MARK: - Theme Constants & Modifiers
+//  Created by Cong Le on 4/18/25.
 //
-//let retroDeepPurple = Color(red: 0.15, green: 0.05, blue: 0.25) // Dark background
-//let retroNeonPink = Color(red: 1.0, green: 0.1, blue: 0.5)
-//let retroNeonCyan = Color(red: 0.1, green: 0.9, blue: 0.9)
-//let retroNeonLime = Color(red: 0.7, green: 1.0, blue: 0.3)
-//let retroGradients: [Color] = [
-//    Color(red: 0.25, green: 0.12, blue: 0.4), // Deep purple
-//    Color(red: 0.55, green: 0.19, blue: 0.66), // Mid purple/pink
-//    Color(red: 0.95, green: 0.29, blue: 0.56), // Neon pinkish
-//    Color(red: 0.18, green: 0.5, blue: 0.96)    // Neon blue
-//]
-//
-//// Custom Font Helper (adjust font names if needed)
-//func retroFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
-//    // Example: Using Menlo (built-in monospaced)
-//    // return Font.system(size: size, weight: weight, design: .monospaced)
-//    
-//    // Example: Using a custom font (replace "YourRetroFontName" if you add one)
-//    // return Font.custom("YourRetroFontName", size: size).weight(weight)
-//    
-//    // Defaulting to system monospaced
-//    return Font.system(size: size, design: .monospaced).weight(weight)
-//}
-//
-//extension View {
-//    // Apply consistent neon glow
-//    func neonGlow(_ color: Color, radius: CGFloat = 8) -> some View {
-//        self
-//            .shadow(color: color.opacity(0.6), radius: radius / 2, x: 0, y: 0) // Inner sharp glow
-//            .shadow(color: color.opacity(0.4), radius: radius, x: 0, y: 0)     // Mid soft glow
-//            .shadow(color: color.opacity(0.2), radius: radius * 1.5, x: 0, y: 0) // Outer faint glow
-//    }
-//}
-//
+
+import SwiftUI
+@preconcurrency import WebKit // Needed for WebView
+import Foundation
+
+// MARK: - Theme Constants & Modifiers
+
+let retroDeepPurple = Color(red: 0.15, green: 0.05, blue: 0.25) // Dark background
+let retroNeonPink = Color(red: 1.0, green: 0.1, blue: 0.5)
+let retroNeonCyan = Color(red: 0.1, green: 0.9, blue: 0.9)
+let retroNeonLime = Color(red: 0.7, green: 1.0, blue: 0.3)
+let retroGradients: [Color] = [
+    Color(red: 0.25, green: 0.12, blue: 0.4), // Deep purple
+    Color(red: 0.55, green: 0.19, blue: 0.66), // Mid purple/pink
+    Color(red: 0.95, green: 0.29, blue: 0.56), // Neon pinkish
+    Color(red: 0.18, green: 0.5, blue: 0.96)    // Neon blue
+]
+
+// Custom Font Helper (adjust font names if needed)
+func retroFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
+    // Example: Using Menlo (built-in monospaced)
+    // return Font.system(size: size, weight: weight, design: .monospaced)
+    
+    // Example: Using a custom font (replace "YourRetroFontName" if you add one)
+    // return Font.custom("YourRetroFontName", size: size).weight(weight)
+    
+    // Defaulting to system monospaced
+    return Font.system(size: size, design: .monospaced).weight(weight)
+}
+
+extension View {
+    // Apply consistent neon glow
+    func neonGlow(_ color: Color, radius: CGFloat = 8) -> some View {
+        self
+            .shadow(color: color.opacity(0.6), radius: radius / 2, x: 0, y: 0) // Inner sharp glow
+            .shadow(color: color.opacity(0.4), radius: radius, x: 0, y: 0)     // Mid soft glow
+            .shadow(color: color.opacity(0.2), radius: radius * 1.5, x: 0, y: 0) // Outer faint glow
+    }
+}
+
 //// MARK: - Data Models (Unchanged from previous versions)
 //
 //struct SpotifySearchResponse: Codable, Hashable { /* ... */
@@ -834,97 +834,97 @@
 //        return message
 //    }
 //}
-//
-//// MARK: - Album Detail View (Themed)
-//struct AlbumDetailView: View {
-//    let album: AlbumItem
-//    @State private var tracks: [Track] = []
-//    @State private var isLoadingTracks: Bool = false
-//    @State private var trackFetchError: SpotifyAPIError? = nil
-//    @State private var selectedTrackUri: String? = nil
-//    @StateObject private var playbackState = SpotifyPlaybackState()
-//    @Environment(\.openURL) var openURL
-//    
-//    var body: some View {
-//        ZStack {
-//            // --- Retro Background ---
-//            retroDeepPurple.ignoresSafeArea()
-//            // Optional: Add subtle background pattern/noise
-//            Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
-//            
-//            List {
-//                // --- Header Section ---
-//                Section { AlbumHeaderView(album: album) }
-//                    .listRowInsets(EdgeInsets())
-//                    .listRowSeparator(.hidden)
-//                    .listRowBackground(Color.clear)
-//                
-//                // --- Player Section (Themed) ---
-//                if let uriToPlay = selectedTrackUri {
-//                    Section { SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) }
-//                        .listRowSeparator(.hidden)
-//                        .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
-//                        .listRowBackground(Color.clear)
-//                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.easeInOut(duration: 0.4)))
-//                }
-//                
-//                // --- Tracks Section (Themed) ---
-//                Section {
-//                    TracksSectionView(
-//                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
-//                        selectedTrackUri: $selectedTrackUri,
-//                        retryAction: { Task { await fetchTracks() } }
-//                    )
-//                } header: {
-//                    Text("TRACK LIST") // Retro header style
-//                        .font(retroFont(size: 14, weight: .bold))
-//                        .foregroundColor(retroNeonLime)
-//                        .tracking(2)
-//                        .frame(maxWidth: .infinity, alignment: .center) // Center header
-//                        .padding(.vertical, 8)
-//                        .background(.black.opacity(0.3)) // Subtle background for header
-//                }
-//                .listRowInsets(EdgeInsets()) // Remove insets for tracks section
-//                .listRowSeparator(.hidden)
-//                .listRowBackground(Color.clear)
-//                
-//                // --- External Link Section (Themed) ---
-//                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
-//                    Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
-//                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-//                        .listRowSeparator(.hidden)
-//                        .listRowBackground(Color.clear)
-//                }
-//                
-//            } // End List
-//            .listStyle(PlainListStyle())
-//            .scrollContentBackground(.hidden) // Allow ZStack background to show
-//        } // End ZStack
-//        .navigationTitle(album.name)
-//        .navigationBarTitleDisplayMode(.inline)
-//        // Match nav bar theme from List view
-//        .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar)
-//        .toolbarBackground(.visible, for: .navigationBar)
-//        .toolbarColorScheme(.dark, for: .navigationBar) // Consistent dark theme for nav bar
-//        .task { await fetchTracks() }
-//        .animation(.easeInOut, value: selectedTrackUri) // Animate player appearance/track selection
-//        .refreshable { await fetchTracks(forceReload: true) }
-//    }
-//    
-//    // --- Fetch Tracks Logic (Unchanged) ---
-//    private func fetchTracks(forceReload: Bool = false) async { /* ... */
-//        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-//        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
-//        do {
-//            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
-//            try Task.checkCancellation()
-//            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
-//        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
-//        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
-//        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
-//    }
-//}
-//
+
+// MARK: - Album Detail View (Themed)
+struct AlbumDetailView: View {
+    let album: AlbumItem
+    @State private var tracks: [Track] = []
+    @State private var isLoadingTracks: Bool = false
+    @State private var trackFetchError: SpotifyAPIError? = nil
+    @State private var selectedTrackUri: String? = nil
+    @StateObject private var playbackState = SpotifyPlaybackState()
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        ZStack {
+            // --- Retro Background ---
+            retroDeepPurple.ignoresSafeArea()
+            // Optional: Add subtle background pattern/noise
+            Image("retro_grid_background").resizable().scaledToFit().opacity(0.1)
+            
+            List {
+                // --- Header Section ---
+                Section { AlbumHeaderView(album: album) }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                
+                // --- Player Section (Themed) ---
+                if let uriToPlay = selectedTrackUri {
+                    Section { SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+                        .listRowBackground(Color.clear)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.easeInOut(duration: 0.4)))
+                }
+                
+                // --- Tracks Section (Themed) ---
+                Section {
+                    TracksSectionView(
+                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
+                        selectedTrackUri: $selectedTrackUri,
+                        retryAction: { Task { await fetchTracks() } }
+                    )
+                } header: {
+                    Text("TRACK LIST") // Retro header style
+                        .font(retroFont(size: 14, weight: .bold))
+                        .foregroundColor(retroNeonLime)
+                        .tracking(2)
+                        .frame(maxWidth: .infinity, alignment: .center) // Center header
+                        .padding(.vertical, 8)
+                        .background(.black.opacity(0.3)) // Subtle background for header
+                }
+                .listRowInsets(EdgeInsets()) // Remove insets for tracks section
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                
+                // --- External Link Section (Themed) ---
+                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
+                    Section { ExternalLinkButton(url: spotifyURL, primaryColor: retroNeonLime, secondaryColor: .green) } // Use themed button
+                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                }
+                
+            } // End List
+            .listStyle(PlainListStyle())
+            .scrollContentBackground(.hidden) // Allow ZStack background to show
+        } // End ZStack
+        .navigationTitle(album.name)
+        .navigationBarTitleDisplayMode(.inline)
+        // Match nav bar theme from List view
+        .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar) // Consistent dark theme for nav bar
+        .task { await fetchTracks() }
+        .animation(.easeInOut, value: selectedTrackUri) // Animate player appearance/track selection
+        .refreshable { await fetchTracks(forceReload: true) }
+    }
+    
+    // --- Fetch Tracks Logic (Unchanged) ---
+    private func fetchTracks(forceReload: Bool = false) async { /* ... */
+        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
+        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
+        do {
+            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
+            try Task.checkCancellation()
+            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
+        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
+        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
+        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
+    }
+}
+
 //// MARK: - DetailView Sub-Components (Themed)
 //
 //struct AlbumHeaderView: View {
@@ -1167,67 +1167,67 @@
 //        .padding(.bottom, 5)
 //    }
 //}
-//
-//// Generic Themed Button (Replaces ExternalLinkButton for consistency)
-//struct RetroButton: View {
-//    let text: String
-//    let action: () -> Void
-//    var primaryColor: Color = retroNeonPink
-//    var secondaryColor: Color = .purple // For gradient
-//    var iconName: String? = nil
-//    
-//    var body: some View {
-//        Button(action: action) {
-//            HStack(spacing: 8) {
-//                if let iconName = iconName {
-//                    Image(systemName: iconName)
-//                }
-//                Text(text)
-//                    .tracking(1.5) // Letter spacing
-//            }
-//            .font(retroFont(size: 15, weight: .bold))
-//            .padding(.horizontal, 25)
-//            .padding(.vertical, 12)
-//            .frame(maxWidth: .infinity) // Make button expand
-//            .background(LinearGradient(colors: [primaryColor, secondaryColor], startPoint: .leading, endPoint: .trailing))
-//            .foregroundColor(retroDeepPurple) // Dark text on bright button
-//            .clipShape(Capsule())
-//            .overlay(Capsule().stroke(Color.white.opacity(0.5), lineWidth: 1)) // Subtle white edge
-//            .neonGlow(primaryColor, radius: 12)
-//        }
-//        .buttonStyle(.plain) // Ensure custom background/foreground work
-//    }
-//}
-//
-//// Re-implementation of ExternalLinkButton using RetroButton
-//struct ExternalLinkButton: View {
-//    let text: String = "OPEN IN SPOTIFY" // Default text
-//    let url: URL
-//    var primaryColor: Color = retroNeonLime
-//    var secondaryColor: Color = .green // Spotify Green gradient end
-//    var iconName: String? = "arrow.up.forward.app.fill" // More appropriate icon
-//    
-//    @Environment(\.openURL) var openURL
-//    
-//    var body: some View {
-//        RetroButton(
-//            text: text,
-//            action: {
-//                print("Attempting to open external URL: \(url)")
-//                openURL(url) { accepted in
-//                    if !accepted {
-//                        print("⚠️ Warning: URL scheme \(url.scheme ?? "") could not be opened.")
-//                        // Consider showing user an alert here
-//                    }
-//                }
-//            },
-//            primaryColor: primaryColor,
-//            secondaryColor: secondaryColor,
-//            iconName: iconName
-//        )
-//    }
-//}
-//
+
+// Generic Themed Button (Replaces ExternalLinkButton for consistency)
+struct RetroButton: View {
+    let text: String
+    let action: () -> Void
+    var primaryColor: Color = retroNeonPink
+    var secondaryColor: Color = .purple // For gradient
+    var iconName: String? = nil
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                if let iconName = iconName {
+                    Image(systemName: iconName)
+                }
+                Text(text)
+                    .tracking(1.5) // Letter spacing
+            }
+            .font(retroFont(size: 15, weight: .bold))
+            .padding(.horizontal, 25)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity) // Make button expand
+            .background(LinearGradient(colors: [primaryColor, secondaryColor], startPoint: .leading, endPoint: .trailing))
+            .foregroundColor(retroDeepPurple) // Dark text on bright button
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.white.opacity(0.5), lineWidth: 1)) // Subtle white edge
+            .neonGlow(primaryColor, radius: 12)
+        }
+        .buttonStyle(.plain) // Ensure custom background/foreground work
+    }
+}
+
+// Re-implementation of ExternalLinkButton using RetroButton
+struct ExternalLinkButton: View {
+    let text: String = "OPEN IN SPOTIFY" // Default text
+    let url: URL
+    var primaryColor: Color = retroNeonLime
+    var secondaryColor: Color = .green // Spotify Green gradient end
+    var iconName: String? = "arrow.up.forward.app.fill" // More appropriate icon
+    
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        RetroButton(
+            text: text,
+            action: {
+                print("Attempting to open external URL: \(url)")
+                openURL(url) { accepted in
+                    if !accepted {
+                        print("⚠️ Warning: URL scheme \(url.scheme ?? "") could not be opened.")
+                        // Consider showing user an alert here
+                    }
+                }
+            },
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            iconName: iconName
+        )
+    }
+}
+
 //// MARK: - Preview Providers (Updated for Themed Views)
 //
 //struct SpotifyAlbumListView_Previews: PreviewProvider {

@@ -1019,83 +1019,83 @@ struct EmptyStatePlaceholderView: View {
 }
 
 // MARK: - Album Detail View (Themed)
-struct AlbumDetailView: View {
-    let album: AlbumItem
-    @State private var tracks: [Track] = []
-    @State private var isLoadingTracks: Bool = false
-    @State private var trackFetchError: SpotifyAPIError? = nil
-    @State private var selectedTrackUri: String? = nil
-    @StateObject private var playbackState = SpotifyPlaybackState()
-    @Environment(\.openURL) var openURL
-    
-    var body: some View {
-        ZStack {
-            // --- Psychedelic Background (Consistent) ---
-            LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.05)) // Subtle noise
-                .ignoresSafeArea()
-            
-            ScrollView { // Use ScrollView for content
-                VStack(spacing: 0) { // Use VStack within ScrollView
-                    // --- Header Section (Themed) ---
-                    AlbumHeaderView(album: album) // Themed Header
-                        .padding(.bottom, 25)
-                    
-                    // --- Player Section (Themed) ---
-                    if let uriToPlay = selectedTrackUri {
-                        SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) // Themed Player container
-                            .padding(.horizontal) // Padding around player
-                            .padding(.bottom, 25)
-                            .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.spring(response: 0.4, dampingFraction: 0.7))) // Spring animation
-                    }
-                    
-                    // --- Tracks Section (Themed) ---
-                    TracksSectionView(
-                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
-                        selectedTrackUri: $selectedTrackUri,
-                        retryAction: { Task { await fetchTracks() } }
-                    ) // Themed tracks section
-                    .padding(.bottom, 25)
-                    
-                    // --- External Link Section (Themed) ---
-                    if let spotifyURLString = album.external_urls.spotify, let url = URL(string: spotifyURLString) {
-                        PsychedelicButton(text: "EXPLORE ON SPOTIFY", action: { openURL(url) },
-                                          iconName: "arrow.up.right.circle.fill",
-                                          gradient: Gradient(colors: [psychedelicAccentLime, psychedelicAccentCyan])) // Themed button
-                        .padding(.horizontal)
-                        .padding(.bottom, 30) // Extra padding at bottom
-                    }
-                }
-            }
-            .scrollDismissesKeyboard(.interactively)
-        }
-        .navigationTitle(album.name)
-        .navigationBarTitleDisplayMode(.inline)
-        // Consistent Themed Navigation Bar
-        //        .toolbarBackground(
-        //            LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-        //                .blur(radius: 8),
-        //            for: .navigationBar
-        //        )
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .task { await fetchTracks() }
-        .refreshable { await fetchTracks(forceReload: true) }
-    }
-    
-    // --- Fetch Tracks Logic (Unchanged) ---
-    private func fetchTracks(forceReload: Bool = false) async { /* ... Logic from previous versions ... */
-        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
-        do {
-            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
-            try Task.checkCancellation()
-            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
-        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
-        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
-        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
-    }
-}
+//struct AlbumDetailView: View {
+//    let album: AlbumItem
+//    @State private var tracks: [Track] = []
+//    @State private var isLoadingTracks: Bool = false
+//    @State private var trackFetchError: SpotifyAPIError? = nil
+//    @State private var selectedTrackUri: String? = nil
+//    @StateObject private var playbackState = SpotifyPlaybackState()
+//    @Environment(\.openURL) var openURL
+//    
+//    var body: some View {
+//        ZStack {
+//            // --- Psychedelic Background (Consistent) ---
+//            LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .topLeading, endPoint: .bottomTrailing)
+//                .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.05)) // Subtle noise
+//                .ignoresSafeArea()
+//            
+//            ScrollView { // Use ScrollView for content
+//                VStack(spacing: 0) { // Use VStack within ScrollView
+//                    // --- Header Section (Themed) ---
+//                    AlbumHeaderView(album: album) // Themed Header
+//                        .padding(.bottom, 25)
+//                    
+//                    // --- Player Section (Themed) ---
+//                    if let uriToPlay = selectedTrackUri {
+//                        SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay) // Themed Player container
+//                            .padding(.horizontal) // Padding around player
+//                            .padding(.bottom, 25)
+//                            .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)).animation(.spring(response: 0.4, dampingFraction: 0.7))) // Spring animation
+//                    }
+//                    
+//                    // --- Tracks Section (Themed) ---
+//                    TracksSectionView(
+//                        tracks: tracks, isLoading: isLoadingTracks, error: trackFetchError,
+//                        selectedTrackUri: $selectedTrackUri,
+//                        retryAction: { Task { await fetchTracks() } }
+//                    ) // Themed tracks section
+//                    .padding(.bottom, 25)
+//                    
+//                    // --- External Link Section (Themed) ---
+//                    if let spotifyURLString = album.external_urls.spotify, let url = URL(string: spotifyURLString) {
+//                        PsychedelicButton(text: "EXPLORE ON SPOTIFY", action: { openURL(url) },
+//                                          iconName: "arrow.up.right.circle.fill",
+//                                          gradient: Gradient(colors: [psychedelicAccentLime, psychedelicAccentCyan])) // Themed button
+//                        .padding(.horizontal)
+//                        .padding(.bottom, 30) // Extra padding at bottom
+//                    }
+//                }
+//            }
+//            .scrollDismissesKeyboard(.interactively)
+//        }
+//        .navigationTitle(album.name)
+//        .navigationBarTitleDisplayMode(.inline)
+//        // Consistent Themed Navigation Bar
+//        //        .toolbarBackground(
+//        //            LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+//        //                .blur(radius: 8),
+//        //            for: .navigationBar
+//        //        )
+//        .toolbarBackground(.visible, for: .navigationBar)
+//        .toolbarColorScheme(.dark, for: .navigationBar)
+//        .task { await fetchTracks() }
+//        .refreshable { await fetchTracks(forceReload: true) }
+//    }
+//    
+//    // --- Fetch Tracks Logic (Unchanged) ---
+//    private func fetchTracks(forceReload: Bool = false) async { /* ... Logic from previous versions ... */
+//        guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
+//        await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
+//        do {
+//            let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
+//            try Task.checkCancellation()
+//            await MainActor.run { self.tracks = response.items; self.isLoadingTracks = false }
+//        } catch is CancellationError { await MainActor.run { isLoadingTracks = false } }
+//        catch let apiError as SpotifyAPIError { await MainActor.run { self.trackFetchError = apiError; self.isLoadingTracks = false; self.tracks = [] } }
+//        catch { await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] } }
+//    }
+//}
 
 // MARK: - DetailView Sub-Components (Themed)
 
