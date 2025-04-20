@@ -44,7 +44,7 @@
 		9A5F07572DB0CAC300DC089D /* SynthwaveView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */; };
 		9A630A9D2D92989800C035AF /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A630A9C2D92988E00C035AF /* ShareView.swift */; };
 		9A630AA72D92A10000C035AF /* SpotifyHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */; };
-		9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */; };
+		9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook_V2.swift */; };
 		9A76F6452DB217F4004B7B89 /* MusicPlayerView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6442DB217F3004B7B89 /* MusicPlayerView_V5.swift */; };
 		9A76F6472DB218D5004B7B89 /* MusicPlayerView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A76F6462DB218D3004B7B89 /* MusicPlayerView_V6.swift */; };
 		9A76F64D2DB21B87004B7B89 /* song1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9A76F64C2DB21B87004B7B89 /* song1.wav */; };
@@ -118,6 +118,7 @@
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AAE06F82DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE06F72DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift */; };
+		9AAE06FA2DB4D4C80035A0FA /* PsychedelicThemeLook_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE06F92DB4D4C60035A0FA /* PsychedelicThemeLook_V1.swift */; };
 		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */; };
 		9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */; };
 		9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */; };
@@ -175,7 +176,7 @@
 		9A5F07562DB0CAC100DC089D /* SynthwaveView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthwaveView_V2.swift; sourceTree = "<group>"; };
 		9A630A9C2D92988E00C035AF /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		9A630AA62D92A0FA00C035AF /* SpotifyHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyHomeView.swift; sourceTree = "<group>"; };
-		9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicThemeLook.swift; sourceTree = "<group>"; };
+		9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicThemeLook_V2.swift; sourceTree = "<group>"; };
 		9A76F6442DB217F3004B7B89 /* MusicPlayerView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V5.swift; sourceTree = "<group>"; };
 		9A76F6462DB218D3004B7B89 /* MusicPlayerView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerView_V6.swift; sourceTree = "<group>"; };
 		9A76F64C2DB21B87004B7B89 /* song1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = song1.wav; sourceTree = "<group>"; };
@@ -252,6 +253,7 @@
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AAE06F72DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V4.swift; sourceTree = "<group>"; };
+		9AAE06F92DB4D4C60035A0FA /* PsychedelicThemeLook_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicThemeLook_V1.swift; sourceTree = "<group>"; };
 		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V1.swift; sourceTree = "<group>"; };
 		9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V2.swift; sourceTree = "<group>"; };
 		9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroFuturisticMusicPlayerView.swift; sourceTree = "<group>"; };
@@ -321,7 +323,8 @@
 				9AA9C39D2DB320BA001ACE8C /* SuperBread.ttf */,
 				9AA9C39F2DB3223D001ACE8C /* CustomFontView.swift */,
 				9A2063A52DB325EF0045C84F /* FontVariantPreview.swift */,
-				9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook.swift */,
+				9AAE06F92DB4D4C60035A0FA /* PsychedelicThemeLook_V1.swift */,
+				9A76CC322DB3109100B4EB3B /* PsychedelicThemeLook_V2.swift */,
 			);
 			path = PsychedelicThemeLook;
 			sourceTree = "<group>";
@@ -771,7 +774,7 @@
 				9AF3560E2DB0D8F2006D2E67 /* RetroSpotifyExplorer_V2.swift in Sources */,
 				9A8D5D612DAFF2F50078B786 /* AlbumDetailView_V3.swift in Sources */,
 				9AA9C3A02DB3223E001ACE8C /* CustomFontView.swift in Sources */,
-				9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook.swift in Sources */,
+				9A76CC332DB3109A00B4EB3B /* PsychedelicThemeLook_V2.swift in Sources */,
 				9AA1A5452DA59EE5000178B3 /* MusicAdView_V2.swift in Sources */,
 				9A999C572DB068E500E8E226 /* SearchForItemAPIDocDemoView_V3.swift in Sources */,
 				9AA1A53C2DA599CD000178B3 /* AdvertisementView_V3.swift in Sources */,
@@ -784,6 +787,7 @@
 				9A04EB1B2DB3856C0007A8E4 /* DarkNeumorphismThemeLook_V3.swift in Sources */,
 				9A04EADE2DB3562A0007A8E4 /* DarkNeumorphismThemeLook_V2.swift in Sources */,
 				9AA1A55A2DA5B09E000178B3 /* Fetching_Tracks_for_a_Playlist_Workflow_V3.swift in Sources */,
+				9AAE06FA2DB4D4C80035A0FA /* PsychedelicThemeLook_V1.swift in Sources */,
 				9A999C382DB0590800E8E226 /* AppEntryPoint.swift in Sources */,
 				9A04EAD62DB34C0F0007A8E4 /* NeumorphismThemeLook.swift in Sources */,
 				9A8D5D562DAF69AD0078B786 /* AuthenticationFlowView_V3 - TBD.swift in Sources */,
