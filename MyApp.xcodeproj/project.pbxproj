@@ -122,6 +122,7 @@
 		9AAE06FD2DB4D95C0035A0FA /* SynthwaveThemeLoook_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE06FC2DB4D9550035A0FA /* SynthwaveThemeLoook_V1.swift */; };
 		9AAE07002DB4DDDD0035A0FA /* NostalgiaThemeLook_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE06FF2DB4DDD90035A0FA /* NostalgiaThemeLook_V1.swift */; };
 		9AAE07022DB4E06A0035A0FA /* NostalgiaThemeLook_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE07012DB4E06A0035A0FA /* NostalgiaThemeLook_V2.swift */; };
+		9AAE07052DB4E2570035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE07042DB4E2510035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift */; };
 		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */; };
 		9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */; };
 		9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */; };
@@ -260,6 +261,7 @@
 		9AAE06FC2DB4D9550035A0FA /* SynthwaveThemeLoook_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthwaveThemeLoook_V1.swift; sourceTree = "<group>"; };
 		9AAE06FF2DB4DDD90035A0FA /* NostalgiaThemeLook_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostalgiaThemeLook_V1.swift; sourceTree = "<group>"; };
 		9AAE07012DB4E06A0035A0FA /* NostalgiaThemeLook_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostalgiaThemeLook_V2.swift; sourceTree = "<group>"; };
+		9AAE07042DB4E2510035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift; sourceTree = "<group>"; };
 		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V1.swift; sourceTree = "<group>"; };
 		9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V2.swift; sourceTree = "<group>"; };
 		9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroFuturisticMusicPlayerView.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
+				9AAE07032DB4E2290035A0FA /* Retro_1990s_Party_Aesthetic_Themes */,
 				9AAE06FE2DB4DDCE0035A0FA /* NostalgiaThemes */,
 				9AAE06FB2DB4D90C0035A0FA /* SynthwaveThemes */,
 				9A04EB292DB3BC660007A8E4 /* Glassmorphic_Themes */,
@@ -656,6 +659,14 @@
 			path = NostalgiaThemes;
 			sourceTree = "<group>";
 		};
+		9AAE07032DB4E2290035A0FA /* Retro_1990s_Party_Aesthetic_Themes */ = {
+			isa = PBXGroup;
+			children = (
+				9AAE07042DB4E2510035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift */,
+			);
+			path = Retro_1990s_Party_Aesthetic_Themes;
+			sourceTree = "<group>";
+		};
 		9AF5768F2DB2155E005F5562 /* MusicPlayerViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -868,6 +879,7 @@
 				9AA1A5632DA63439000178B3 /* AppleMusicContentView.swift in Sources */,
 				9A5F07502DB0B82400DC089D /* FriendListeningManager_V6.swift in Sources */,
 				9A8D5D5B2DAF88BA0078B786 /* AlbumDetailView_V1.swift in Sources */,
+				9AAE07052DB4E2570035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift in Sources */,
 				9A8D5D5D2DAF893B0078B786 /* AlbumDetailView_V2.swift in Sources */,
 				9AF356102DB0FBF9006D2E67 /* ArtDecoThemeLook.swift in Sources */,
 				9AF576912DB21567005F5562 /* MusicPlayerView_V1.swift in Sources */,
