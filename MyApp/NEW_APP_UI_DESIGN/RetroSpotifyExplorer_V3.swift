@@ -1337,17 +1337,16 @@
 //        // You could set global navigation bar appearance here if desired,
 //        // but we're doing it directly in the views for more control.
 //        // Example:
-//        /*
-//         let appearance = UINavigationBarAppearance()
-//         appearance.configureWithOpaqueBackground()
-//         appearance.backgroundColor = UIColor(retroDeepPurple.opacity(0.8)) // Convert SwiftUI Color
-//         appearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.monospacedSystemFont(ofSize: 18, weight: .bold)]
-//         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.monospacedSystemFont(ofSize: 30, weight: .bold)]
-//         UINavigationBar.appearance().standardAppearance = appearance
-//         UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//         UINavigationBar.appearance().compactAppearance = appearance
-//         UINavigationBar.appearance().tintColor = UIColor(retroNeonPink) // Back button color etc.
-//         */
+//     
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = UIColor(retroDeepPurple.opacity(0.8)) // Convert SwiftUI Color
+//        appearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.monospacedSystemFont(ofSize: 18, weight: .bold)]
+//        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.monospacedSystemFont(ofSize: 30, weight: .bold)]
+//        UINavigationBar.appearance().standardAppearance = appearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//        UINavigationBar.appearance().compactAppearance = appearance
+//        UINavigationBar.appearance().tintColor = UIColor(retroNeonPink) // Back button color etc.
 //    }
 //    
 //    var body: some Scene {
