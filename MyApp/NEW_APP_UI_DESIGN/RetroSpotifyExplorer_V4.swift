@@ -494,226 +494,226 @@ extension View {
 //}
 //
 //// MARK: - SwiftUI Views
-//
-//// MARK: - Main List View (Themed)
-//struct SpotifyAlbumListView: View {
-//    @State private var searchQuery: String = ""
-//    @State private var displayedAlbums: [AlbumItem] = []
-//    @State private var isLoading: Bool = false
-//    @State private var searchInfo: Albums? = nil
-//    @State private var currentError: SpotifyAPIError? = nil
-//    
-//    var body: some View {
-//        NavigationView {
-//            ZStack {
-//                // --- Retro Background ---
-//                retroDeepPurple.ignoresSafeArea() // Extend background
-//                
-//                // --- Conditional Content ---
-//                //                Group {
-//                if isLoading && displayedAlbums.isEmpty {
-//                    ProgressView()
-//                        .progressViewStyle(CircularProgressViewStyle(tint: retroNeonCyan))
-//                        .scaleEffect(1.5)
-//                        .padding(.bottom, 50) // Offset from center
-//                } else if let error = currentError {
-//                    ErrorPlaceholderView(error: error) {
-//                        Task { await performDebouncedSearch() }
-//                    }
-//                } else if displayedAlbums.isEmpty {
-//                    EmptyStatePlaceholderView(searchQuery: searchQuery)
-//                } else {
-//                    albumList // Themed list content
-//                }
-//                //                }
-//                //                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                //                .transition(.opacity.animation(.easeInOut(duration: 0.4)))
-//                //
-//                // --- Ongoing Loading Overlay (Themed) ---
-//                if isLoading && !displayedAlbums.isEmpty {
-//                    VStack {
-//                        HStack {
-//                            Spacer()
-//                            ProgressView()
-//                                .progressViewStyle(CircularProgressViewStyle(tint: retroNeonLime))
-//                                .padding(.trailing, 5)
-//                            Text("Loading...")
-//                                .font(retroFont(size: 12, weight: .bold))
-//                                .foregroundColor(retroNeonLime)
-//                            Spacer()
-//                        }
-//                        .padding(.vertical, 6)
-//                        .padding(.horizontal, 15)
-//                        .background(.black.opacity(0.6), in: Capsule())
-//                        .overlay(Capsule().stroke(retroNeonLime.opacity(0.5), lineWidth: 1))
-//                        .shadow(color: retroNeonLime, radius: 5)
-//                        .padding(.top, 8)
-//                        Spacer()
-//                    }
-//                    .transition(.opacity.animation(.easeInOut))
-//                }
-//                
-//            } // End ZStack
-//            .navigationTitle("Retro Spotify Search")
-//            .navigationBarTitleDisplayMode(.inline)
-//            // --- Themed Navigation Bar ---
-//            .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar) // Translucent retro bg
-//            .toolbarBackground(.visible, for: .navigationBar)
-//            .toolbarColorScheme(.dark, for: .navigationBar) // Ensures white title/buttons
-//            
-//            // --- Search Bar (System Default - harder to theme deeply) ---
-//            .searchable(text: $searchQuery,
-//                        placement: .navigationBarDrawer(displayMode: .always),
-//                        prompt: Text("Search Albums / Artists").foregroundColor(.gray))
-//            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
-//            .task(id: searchQuery) { await performDebouncedSearch() }
-//            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
-//            .accentColor(retroNeonPink) // Tint cursor/cancel button if possible
-//            
-//        } // End NavigationView
-//        // Apply accent color to the whole view for potential global tinting
-//        .accentColor(retroNeonPink)
-//    }
-//    
-//    // --- Themed Album List ---
-//    private var albumList: some View {
-//        List {
-//            // --- Themed Metadata Header ---
-//            if let info = searchInfo, info.total > 0 { // Only show if results exist
-//                SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
-//                    .listRowSeparator(.hidden)
-//                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
-//                    .listRowBackground(Color.clear) // Ensure row is transparent
-//            }
-//            
-//            // --- Album Cards ---
-//            ForEach(displayedAlbums) { album in
-//                NavigationLink(destination: AlbumDetailView(album: album)) {
-//                    RetroAlbumCard(album: album) // Use the themed card
-//                        .padding(.vertical, 8) // Space between cards
-//                }
-//                .listRowSeparator(.hidden)
-//                .listRowInsets(EdgeInsets()) // Remove default padding
-//                .listRowBackground(Color.clear) // Make row transparent
-//            }
-//        }
-//        .listStyle(PlainListStyle())
-//        .background(Color.clear) // Make List background transparent
-//        .scrollContentBackground(.hidden) // Essential for background color to show
-//    }
-//    
-//    // --- Debounced Search Logic ---
-//    private func performDebouncedSearch(immediate: Bool = false) async { /* ... */
-//        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-//        guard !trimmedQuery.isEmpty else {
-//            await MainActor.run { displayedAlbums = []; searchInfo = nil; isLoading = false; currentError = nil }
-//            return
-//        }
-//        if !immediate {
-//            do { try await Task.sleep(for: .milliseconds(600)); try Task.checkCancellation() } // Increased debounce slightly
-//            catch { print("Search task cancelled (debounce)."); return }
-//        }
-//        await MainActor.run { isLoading = true }
-//        do {
-//            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
-//            try Task.checkCancellation()
-//            await MainActor.run {
-//                displayedAlbums = response.albums.items
-//                searchInfo = response.albums
-//                currentError = nil
-//                isLoading = false
-//            }
-//        } catch is CancellationError {
-//            print("Search task cancelled.")
-//            await MainActor.run { isLoading = false }
-//        } catch let apiError as SpotifyAPIError {
-//            print("❌ API Error: \(apiError.localizedDescription)")
-//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
-//        } catch {
-//            print("❌ Unexpected Error: \(error.localizedDescription)")
-//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
-//        }
-//    }
-//}
-//
-//// MARK: - Retro Album Card (Themed)
-//struct RetroAlbumCard: View {
-//    let album: AlbumItem
-//    
-//    var body: some View {
-//        ZStack {
-//            // Shiny background with gradient and subtle noise/texture? (Optional advanced)
-//            LinearGradient(
-//                gradient: Gradient(colors: retroGradients.shuffled()), // Shuffle for variety?
-//                startPoint: .topLeading,
-//                endPoint: .bottomTrailing
-//            )
-//            // Inner content blurred background (frosted glass effect)
-//            .overlay(.ultraThinMaterial) // Can remove if too busy
-//            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//            // Neon outline
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 20, style: .continuous)
-//                    .stroke(retroNeonCyan.opacity(0.7), lineWidth: 1.5) // Use a consistent neon color
-//            )
-//            .neonGlow(retroNeonCyan, radius: 10) // Apply glow to the shape
-//            .padding(.horizontal, 5) // Padding around the card itself
-//            
-//            // --- Content ---
-//            HStack(spacing: 15) {
-//                // --- Album Art ---
-//                AlbumImageView(url: album.listImageURL)
-//                    .frame(width: 100, height: 100)
-//                    .clipShape(RoundedRectangle(cornerRadius: 12))
-//                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.5), retroNeonCyan.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1))
-//                    .shadow(color: .black, radius: 5, y: 3) // Standard shadow for depth
-//                
-//                // --- Text Details ---
-//                VStack(alignment: .leading, spacing: 5) {
-//                    Text(album.name)
-//                        .font(retroFont(size: 16, weight: .bold))
-//                        .foregroundColor(.white)
-//                        .lineLimit(2)
-//                    
-//                    Text(album.formattedArtists)
-//                        .font(retroFont(size: 14, weight: .regular))
-//                        .foregroundColor(retroNeonLime.opacity(0.9)) // Accent color for artist
-//                        .lineLimit(1)
-//                    
-//                    Spacer() // Push bottom info down
-//                    
-//                    HStack {
-//                        Label(album.album_type.capitalized, systemImage: "rectangle.stack.fill")
-//                            .font(retroFont(size: 11, weight: .medium))
-//                            .foregroundColor(.white.opacity(0.8))
-//                            .padding(.horizontal, 8)
-//                            .padding(.vertical, 3)
-//                            .background(.white.opacity(0.1), in: Capsule())
-//                        
-//                        Text("•")
-//                            .foregroundColor(.white.opacity(0.5))
-//                        
-//                        Text(album.formattedReleaseDate())
-//                            .font(retroFont(size: 11, weight: .medium))
-//                            .foregroundColor(.white.opacity(0.8))
-//                    }
-//                    
-//                    Text("\(album.total_tracks) Tracks")
-//                        .font(retroFont(size: 11, weight: .medium))
-//                        .foregroundColor(.white.opacity(0.7))
-//                        .padding(.top, 1)
-//                    
-//                } // End Text VStack
-//                .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take space
-//                
-//            } // End HStack
-//            .padding(15) // Padding inside the card
-//            
-//        } // End ZStack
-//        .frame(height: 130) // Fixed height for list consistency
-//    }
-//}
-//
+
+// MARK: - Main List View (Themed)
+struct SpotifyAlbumListView: View {
+    @State private var searchQuery: String = ""
+    @State private var displayedAlbums: [AlbumItem] = []
+    @State private var isLoading: Bool = false
+    @State private var searchInfo: Albums? = nil
+    @State private var currentError: SpotifyAPIError? = nil
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                // --- Retro Background ---
+                retroDeepPurple.ignoresSafeArea() // Extend background
+                
+                // --- Conditional Content ---
+                //                Group {
+                if isLoading && displayedAlbums.isEmpty {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: retroNeonCyan))
+                        .scaleEffect(1.5)
+                        .padding(.bottom, 50) // Offset from center
+                } else if let error = currentError {
+                    ErrorPlaceholderView(error: error) {
+                        Task { await performDebouncedSearch() }
+                    }
+                } else if displayedAlbums.isEmpty {
+                    EmptyStatePlaceholderView(searchQuery: searchQuery)
+                } else {
+                    albumList // Themed list content
+                }
+                //                }
+                //                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                //                .transition(.opacity.animation(.easeInOut(duration: 0.4)))
+                //
+                // --- Ongoing Loading Overlay (Themed) ---
+                if isLoading && !displayedAlbums.isEmpty {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: retroNeonLime))
+                                .padding(.trailing, 5)
+                            Text("Loading...")
+                                .font(retroFont(size: 12, weight: .bold))
+                                .foregroundColor(retroNeonLime)
+                            Spacer()
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 15)
+                        .background(.black.opacity(0.6), in: Capsule())
+                        .overlay(Capsule().stroke(retroNeonLime.opacity(0.5), lineWidth: 1))
+                        .shadow(color: retroNeonLime, radius: 5)
+                        .padding(.top, 8)
+                        Spacer()
+                    }
+                    .transition(.opacity.animation(.easeInOut))
+                }
+                
+            } // End ZStack
+            .navigationTitle("Retro Spotify Search")
+            .navigationBarTitleDisplayMode(.inline)
+            // --- Themed Navigation Bar ---
+            .toolbarBackground(retroDeepPurple.opacity(0.8), for: .navigationBar) // Translucent retro bg
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar) // Ensures white title/buttons
+            
+            // --- Search Bar (System Default - harder to theme deeply) ---
+            .searchable(text: $searchQuery,
+                        placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: Text("Search Albums / Artists").foregroundColor(.gray))
+            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
+            .task(id: searchQuery) { await performDebouncedSearch() }
+            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } }
+            .accentColor(retroNeonPink) // Tint cursor/cancel button if possible
+            
+        } // End NavigationView
+        // Apply accent color to the whole view for potential global tinting
+        .accentColor(retroNeonPink)
+    }
+    
+    // --- Themed Album List ---
+    private var albumList: some View {
+        List {
+            // --- Themed Metadata Header ---
+            if let info = searchInfo, info.total > 0 { // Only show if results exist
+                SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+                    .listRowBackground(Color.clear) // Ensure row is transparent
+            }
+            
+            // --- Album Cards ---
+            ForEach(displayedAlbums) { album in
+                NavigationLink(destination: AlbumDetailView(album: album)) {
+                    RetroAlbumCard(album: album) // Use the themed card
+                        .padding(.vertical, 8) // Space between cards
+                }
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets()) // Remove default padding
+                .listRowBackground(Color.clear) // Make row transparent
+            }
+        }
+        .listStyle(PlainListStyle())
+        .background(Color.clear) // Make List background transparent
+        .scrollContentBackground(.hidden) // Essential for background color to show
+    }
+    
+    // --- Debounced Search Logic ---
+    private func performDebouncedSearch(immediate: Bool = false) async { /* ... */
+        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedQuery.isEmpty else {
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; isLoading = false; currentError = nil }
+            return
+        }
+        if !immediate {
+            do { try await Task.sleep(for: .milliseconds(600)); try Task.checkCancellation() } // Increased debounce slightly
+            catch { print("Search task cancelled (debounce)."); return }
+        }
+        await MainActor.run { isLoading = true }
+        do {
+            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
+            try Task.checkCancellation()
+            await MainActor.run {
+                displayedAlbums = response.albums.items
+                searchInfo = response.albums
+                currentError = nil
+                isLoading = false
+            }
+        } catch is CancellationError {
+            print("Search task cancelled.")
+            await MainActor.run { isLoading = false }
+        } catch let apiError as SpotifyAPIError {
+            print("❌ API Error: \(apiError.localizedDescription)")
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
+        } catch {
+            print("❌ Unexpected Error: \(error.localizedDescription)")
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
+        }
+    }
+}
+
+// MARK: - Retro Album Card (Themed)
+struct RetroAlbumCard: View {
+    let album: AlbumItem
+    
+    var body: some View {
+        ZStack {
+            // Shiny background with gradient and subtle noise/texture? (Optional advanced)
+            LinearGradient(
+                gradient: Gradient(colors: retroGradients.shuffled()), // Shuffle for variety?
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            // Inner content blurred background (frosted glass effect)
+            .overlay(.ultraThinMaterial) // Can remove if too busy
+            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            // Neon outline
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(retroNeonCyan.opacity(0.7), lineWidth: 1.5) // Use a consistent neon color
+            )
+            .neonGlow(retroNeonCyan, radius: 10) // Apply glow to the shape
+            .padding(.horizontal, 5) // Padding around the card itself
+            
+            // --- Content ---
+            HStack(spacing: 15) {
+                // --- Album Art ---
+                AlbumImageView(url: album.listImageURL)
+                    .frame(width: 100, height: 100)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.5), retroNeonCyan.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1))
+                    .shadow(color: .black, radius: 5, y: 3) // Standard shadow for depth
+                
+                // --- Text Details ---
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(album.name)
+                        .font(retroFont(size: 16, weight: .bold))
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                    
+                    Text(album.formattedArtists)
+                        .font(retroFont(size: 14, weight: .regular))
+                        .foregroundColor(retroNeonLime.opacity(0.9)) // Accent color for artist
+                        .lineLimit(1)
+                    
+                    Spacer() // Push bottom info down
+                    
+                    HStack {
+                        Label(album.album_type.capitalized, systemImage: "rectangle.stack.fill")
+                            .font(retroFont(size: 11, weight: .medium))
+                            .foregroundColor(.white.opacity(0.8))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(.white.opacity(0.1), in: Capsule())
+                        
+                        Text("•")
+                            .foregroundColor(.white.opacity(0.5))
+                        
+                        Text(album.formattedReleaseDate())
+                            .font(retroFont(size: 11, weight: .medium))
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                    
+                    Text("\(album.total_tracks) Tracks")
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                        .padding(.top, 1)
+                    
+                } // End Text VStack
+                .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take space
+                
+            } // End HStack
+            .padding(15) // Padding inside the card
+            
+        } // End ZStack
+        .frame(height: 130) // Fixed height for list consistency
+    }
+}
+
 //// MARK: - Themed Placeholders (Similar to previous versions, but themed)
 //
 //struct ErrorPlaceholderView: View {
@@ -1120,32 +1120,32 @@ struct TrackRowView: View {
 
 //// MARK: - Other Supporting Views (Themed)
 //
-//struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
-//    let url: URL?
-//    var body: some View {
-//        AsyncImage(url: url) { phase in
-//            switch phase {
-//            case .empty:
-//                ZStack {
-//                    // Themed placeholder background
-//                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
-//                    ProgressView().tint(retroNeonCyan)
-//                }
-//            case .success(let image):
-//                image.resizable().scaledToFit()
-//            case .failure:
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
-//                    Image(systemName: "photo.fill") // Keep system icon
-//                        .resizable().scaledToFit()
-//                        .foregroundColor(retroNeonPink.opacity(0.5))
-//                        .padding(10)
-//                }
-//            @unknown default: EmptyView()
-//            }
-//        }
-//    }
-//}
+struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
+    let url: URL?
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ZStack {
+                    // Themed placeholder background
+                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
+                    ProgressView().tint(retroNeonCyan)
+                }
+            case .success(let image):
+                image.resizable().scaledToFit()
+            case .failure:
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
+                    Image(systemName: "photo.fill") // Keep system icon
+                        .resizable().scaledToFit()
+                        .foregroundColor(retroNeonPink.opacity(0.5))
+                        .padding(10)
+                }
+            @unknown default: EmptyView()
+            }
+        }
+    }
+}
 //
 //struct SearchMetadataHeader: View {
 //    let totalResults: Int

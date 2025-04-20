@@ -460,235 +460,235 @@ struct SpotifyAPIService {
 }
 
 // MARK: - SwiftUI Views (Themed)
-
-// MARK: - Main List View (Themed)
-struct SpotifyAlbumListView: View {
-    // --- State Variables ---
-    @State private var searchQuery: String = ""
-    @State private var displayedAlbums: [AlbumItem] = []
-    @State private var isLoading: Bool = false
-    @State private var searchInfo: Albums? = nil
-    @State private var currentError: SpotifyAPIError? = nil
-    
-    // --- Main Body ---
-    var body: some View {
-        NavigationView {
-            ZStack {
-                // Build the background view
-                viewBackground()
-                
-                // Build the main content area (handles loading/error/empty/list states)
-                mainContentContainer()
-                
-                // Build the loading overlay (shown on top when loading *more*)
-                loadingIndicatorOverlay()
-            }
-            // --- Modifiers applied to the ZStack's container (NavigationView) ---
-            .navigationTitle("Psychedelic Search") // Keep title setup here
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                toolbarContent()
-            } // Extracted Toolbar Content
-            .toolbarBackgroundVisibility(.visible) // Extracted Toolbar Background
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
-                // Suggestions view can be added here if desired
-            }
-            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
-            .task(id: searchQuery) { await performDebouncedSearch() } // Debounce on query change
-            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } } // Reset error on new search
-        }
-        .accentColor(psychedelicAccentPink) // Apply accent color to the whole navigation view
-        .onAppear { styleSearchPlaceholderAppearance() } // Attempt placeholder styling on appear
-    }
-    
-    // MARK: - @ViewBuilder Sub-Components
-    
-    // Builds the primary background gradient and noise effect
-    @ViewBuilder
-    private func viewBackground() -> some View {
-        LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
-            .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08))
-            .ignoresSafeArea()
-    }
-    
-    // Builds the main content: switches between loading, error, empty, or the album list
-    @ViewBuilder
-    private func mainContentContainer() -> some View {
-        Group { // Group is necessary for the conditional logic within @ViewBuilder
-            if isLoading && displayedAlbums.isEmpty {
-                initialLoadingView() // Extracted initial loading indicator
-            } else if let error = currentError {
-                ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } }
-            } else if displayedAlbums.isEmpty && !searchQuery.isEmpty { // Show empty state only after a search attempt
-                EmptyStatePlaceholderView(searchQuery: searchQuery)
-            } else if displayedAlbums.isEmpty && searchQuery.isEmpty { // Show initial prompt
-                EmptyStatePlaceholderView(searchQuery: searchQuery) // Or a dedicated initial view
-            } else {
-                albumList() // Show the actual list
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure content area fills space
-        .transition(.opacity.animation(.easeOut(duration: 0.4))) // Fade transition
-    }
-    
-    // Builds the initial loading indicator (when the list is empty)
-    @ViewBuilder
-    private func initialLoadingView() -> some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
-            .scaleEffect(1.8)
-            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
-    }
-    
-    // Builds the overlay loading indicator (shown when fetching more/refreshing)
-    @ViewBuilder
-    private func loadingIndicatorOverlay() -> some View {
-        // Only show this overlay if we are loading *and* there are already albums displayed
-        if isLoading && !displayedAlbums.isEmpty {
-            VStack {
-                HStack {
-                    Spacer()
-                    ProgressView().tint(psychedelicAccentLime)
-                    Text("LOADING...")
-                        .font(psychedelicBodyFont(size: 11, weight: .bold))
-                        .foregroundColor(psychedelicAccentLime)
-                        .tracking(1.5)
-                    Spacer()
-                }
-                .padding(.vertical, 5)
-                .padding(.horizontal, 15)
-                // .background(.black.opacity(0.7).blur(radius: 5))
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
-                .shadow(color: psychedelicAccentLime, radius: 5)
-                .padding(.top, 10) // Position it from the top
-                .transition(.opacity.animation(.easeInOut))
-                Spacer() // Pushes the indicator to the top
-            }
-        } else {
-            EmptyView() // Return EmptyView when the condition is false
-        }
-    }
-    
-    // Builds the scrollable list of album cards
-    @ViewBuilder
-    private func albumList() -> some View {
-        ScrollView {
-            LazyVStack(spacing: 0) { // spacing: 0; padding added to the card itself
-                // --- Search Metadata Header ---
-                if let info = searchInfo, info.total > 0 {
-                    SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
-                        .padding(.horizontal)
-                        .padding(.bottom, 10)
-                }
-                
-                // --- Album Cards ---
-                ForEach(displayedAlbums) { album in
-                    NavigationLink(destination: AlbumDetailView(album: album)) {
-                        PsychedelicAlbumCard(album: album)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal) // Padding around each card
-                    }
-                    .buttonStyle(.plain) // Remove default NavLink styling
-                }
-                
-                // TODO: Add pagination / load more indicator here if needed
-            }
-            .padding(.top, 10) // Padding above the first item in the list
-        }
-        .scrollDismissesKeyboard(.interactively) // Dismiss keyboard on scroll
-    }
-    
-    // Builds the content for the navigation bar's toolbar
-    @ViewBuilder
-    private func toolbarContent() -> some View {
-        //        ToolbarItem(placement: .automatic) { // Use .principal for centered large title area
-        Text("Psychedelic Search")
-            .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example expressive font
-            .foregroundStyle(
-                LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
-            )
-            .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
-        //        }
-        // Add other toolbar items if needed (e.g., Filter button)
-        // ToolbarItem(placement: .navigationBarTrailing) { Button("Filter") {} }
-    }
-    
-    // Builds the background view for the toolbar
-    @ViewBuilder
-    private func toolbarBackground() -> some View {
-        LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
-            .blur(radius: 8)
-    }
-    
-    // --- Helper Methods ---
-    
-    // Placeholder styling (Keep implementation attempt)
-    private func styleSearchPlaceholderAppearance() {
-        // Attempt to style search bar placeholder via UIKit appearance
-        // Note: This can be fragile and might break in future iOS versions.
-        let placeholderAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
-            .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
-        ]
-        UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
-    }
-    
-    // --- Debounced Search Logic (Unchanged) ---
-    private func performDebouncedSearch(immediate: Bool = false) async {
-        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        // If query is empty, clear results immediately
-        guard !trimmedQuery.isEmpty else {
-            await MainActor.run {
-                displayedAlbums = []
-                searchInfo = nil
-                isLoading = false
-                currentError = nil
-            }
-            return
-        }
-        
-        // Debounce logic
-        if !immediate {
-            do {
-                try await Task.sleep(for: .milliseconds(600))
-                try Task.checkCancellation() // Check if task was cancelled (e.g., user typed again)
-            } catch {
-                print("Search task cancelled (debounce).")
-                return // Exit if cancelled
-            }
-        }
-        
-        // Start loading state
-        await MainActor.run { isLoading = true }
-        
-        // Perform API call
-        do {
-            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0) // Reset offset for new search
-            try Task.checkCancellation() // Check again after API call
-            
-            // Update UI on main thread
-            await MainActor.run {
-                displayedAlbums = response.albums.items
-                searchInfo = response.albums
-                currentError = nil
-                isLoading = false
-            }
-        } catch is CancellationError {
-            print("Search task cancelled.")
-            await MainActor.run { isLoading = false } // Ensure loading stops if cancelled during API call
-        } catch let apiError as SpotifyAPIError {
-            print("❌ API Error: \(apiError.localizedDescription)")
-            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
-        } catch {
-            print("❌ Unexpected Error: \(error.localizedDescription)")
-            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
-        }
-    }
-}
+//
+//// MARK: - Main List View (Themed)
+//struct SpotifyAlbumListView: View {
+//    // --- State Variables ---
+//    @State private var searchQuery: String = ""
+//    @State private var displayedAlbums: [AlbumItem] = []
+//    @State private var isLoading: Bool = false
+//    @State private var searchInfo: Albums? = nil
+//    @State private var currentError: SpotifyAPIError? = nil
+//    
+//    // --- Main Body ---
+//    var body: some View {
+//        NavigationView {
+//            ZStack {
+//                // Build the background view
+//                viewBackground()
+//                
+//                // Build the main content area (handles loading/error/empty/list states)
+//                mainContentContainer()
+//                
+//                // Build the loading overlay (shown on top when loading *more*)
+//                loadingIndicatorOverlay()
+//            }
+//            // --- Modifiers applied to the ZStack's container (NavigationView) ---
+//            .navigationTitle("Psychedelic Search") // Keep title setup here
+//            .navigationBarTitleDisplayMode(.large)
+//            .toolbar {
+//                toolbarContent()
+//            } // Extracted Toolbar Content
+//            .toolbarBackgroundVisibility(.visible) // Extracted Toolbar Background
+//            .toolbarBackground(.visible, for: .navigationBar)
+//            .toolbarColorScheme(.dark, for: .navigationBar)
+//            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always)) {
+//                // Suggestions view can be added here if desired
+//            }
+//            .onSubmit(of: .search) { Task { await performDebouncedSearch(immediate: true) } }
+//            .task(id: searchQuery) { await performDebouncedSearch() } // Debounce on query change
+//            .onChange(of: searchQuery) { if currentError != nil { currentError = nil } } // Reset error on new search
+//        }
+//        .accentColor(psychedelicAccentPink) // Apply accent color to the whole navigation view
+//        .onAppear { styleSearchPlaceholderAppearance() } // Attempt placeholder styling on appear
+//    }
+//    
+//    // MARK: - @ViewBuilder Sub-Components
+//    
+//    // Builds the primary background gradient and noise effect
+//    @ViewBuilder
+//    private func viewBackground() -> some View {
+//        LinearGradient(gradient: Gradient(colors: [psychedelicBackgroundStart, psychedelicBackgroundEnd]), startPoint: .top, endPoint: .bottom)
+//            .overlay(AnimatedPsychedelicBackgroundNoise().opacity(0.08))
+//            .ignoresSafeArea()
+//    }
+//    
+//    // Builds the main content: switches between loading, error, empty, or the album list
+//    @ViewBuilder
+//    private func mainContentContainer() -> some View {
+//        Group { // Group is necessary for the conditional logic within @ViewBuilder
+//            if isLoading && displayedAlbums.isEmpty {
+//                initialLoadingView() // Extracted initial loading indicator
+//            } else if let error = currentError {
+//                ErrorPlaceholderView(error: error) { Task { await performDebouncedSearch() } }
+//            } else if displayedAlbums.isEmpty && !searchQuery.isEmpty { // Show empty state only after a search attempt
+//                EmptyStatePlaceholderView(searchQuery: searchQuery)
+//            } else if displayedAlbums.isEmpty && searchQuery.isEmpty { // Show initial prompt
+//                EmptyStatePlaceholderView(searchQuery: searchQuery) // Or a dedicated initial view
+//            } else {
+//                albumList() // Show the actual list
+//            }
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure content area fills space
+//        .transition(.opacity.animation(.easeOut(duration: 0.4))) // Fade transition
+//    }
+//    
+//    // Builds the initial loading indicator (when the list is empty)
+//    @ViewBuilder
+//    private func initialLoadingView() -> some View {
+//        ProgressView()
+//            .progressViewStyle(CircularProgressViewStyle(tint: psychedelicAccentCyan))
+//            .scaleEffect(1.8)
+//            .shadow(color: psychedelicAccentCyan.opacity(0.6), radius: 8)
+//    }
+//    
+//    // Builds the overlay loading indicator (shown when fetching more/refreshing)
+//    @ViewBuilder
+//    private func loadingIndicatorOverlay() -> some View {
+//        // Only show this overlay if we are loading *and* there are already albums displayed
+//        if isLoading && !displayedAlbums.isEmpty {
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    ProgressView().tint(psychedelicAccentLime)
+//                    Text("LOADING...")
+//                        .font(psychedelicBodyFont(size: 11, weight: .bold))
+//                        .foregroundColor(psychedelicAccentLime)
+//                        .tracking(1.5)
+//                    Spacer()
+//                }
+//                .padding(.vertical, 5)
+//                .padding(.horizontal, 15)
+//                // .background(.black.opacity(0.7).blur(radius: 5))
+//                .clipShape(Capsule())
+//                .overlay(Capsule().stroke(psychedelicAccentLime.opacity(0.4), lineWidth: 1))
+//                .shadow(color: psychedelicAccentLime, radius: 5)
+//                .padding(.top, 10) // Position it from the top
+//                .transition(.opacity.animation(.easeInOut))
+//                Spacer() // Pushes the indicator to the top
+//            }
+//        } else {
+//            EmptyView() // Return EmptyView when the condition is false
+//        }
+//    }
+//    
+//    // Builds the scrollable list of album cards
+//    @ViewBuilder
+//    private func albumList() -> some View {
+//        ScrollView {
+//            LazyVStack(spacing: 0) { // spacing: 0; padding added to the card itself
+//                // --- Search Metadata Header ---
+//                if let info = searchInfo, info.total > 0 {
+//                    SearchMetadataHeader(totalResults: info.total, limit: info.limit, offset: info.offset)
+//                        .padding(.horizontal)
+//                        .padding(.bottom, 10)
+//                }
+//                
+//                // --- Album Cards ---
+//                ForEach(displayedAlbums) { album in
+//                    NavigationLink(destination: AlbumDetailView(album: album)) {
+//                        PsychedelicAlbumCard(album: album)
+//                            .padding(.vertical, 12)
+//                            .padding(.horizontal) // Padding around each card
+//                    }
+//                    .buttonStyle(.plain) // Remove default NavLink styling
+//                }
+//                
+//                // TODO: Add pagination / load more indicator here if needed
+//            }
+//            .padding(.top, 10) // Padding above the first item in the list
+//        }
+//        .scrollDismissesKeyboard(.interactively) // Dismiss keyboard on scroll
+//    }
+//    
+//    // Builds the content for the navigation bar's toolbar
+//    @ViewBuilder
+//    private func toolbarContent() -> some View {
+//        //        ToolbarItem(placement: .automatic) { // Use .principal for centered large title area
+//        Text("Psychedelic Search")
+//            .font(Font.custom("Papyrus", size: 26).weight(.bold)) // Example expressive font
+//            .foregroundStyle(
+//                LinearGradient(gradient: psychedelicVibrantGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+//            )
+//            .shadow(color: .black.opacity(0.3), radius: 1, y: 1)
+//        //        }
+//        // Add other toolbar items if needed (e.g., Filter button)
+//        // ToolbarItem(placement: .navigationBarTrailing) { Button("Filter") {} }
+//    }
+//    
+//    // Builds the background view for the toolbar
+//    @ViewBuilder
+//    private func toolbarBackground() -> some View {
+//        LinearGradient(colors: [psychedelicBackgroundEnd.opacity(0.9), psychedelicBackgroundStart.opacity(0.8)], startPoint: .top, endPoint: .bottom)
+//            .blur(radius: 8)
+//    }
+//    
+//    // --- Helper Methods ---
+//    
+//    // Placeholder styling (Keep implementation attempt)
+//    private func styleSearchPlaceholderAppearance() {
+//        // Attempt to style search bar placeholder via UIKit appearance
+//        // Note: This can be fragile and might break in future iOS versions.
+//        let placeholderAttributes: [NSAttributedString.Key: Any] = [
+//            .foregroundColor: UIColor(psychedelicAccentPink.opacity(0.7)),
+//            .font: UIFont.systemFont(ofSize: 17, weight: .regular) // Adjust font as needed
+//        ]
+//        UISearchTextField.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).attributedPlaceholder = NSAttributedString(string: "Search vibes...", attributes: placeholderAttributes)
+//    }
+//    
+//    // --- Debounced Search Logic (Unchanged) ---
+//    private func performDebouncedSearch(immediate: Bool = false) async {
+//        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+//        
+//        // If query is empty, clear results immediately
+//        guard !trimmedQuery.isEmpty else {
+//            await MainActor.run {
+//                displayedAlbums = []
+//                searchInfo = nil
+//                isLoading = false
+//                currentError = nil
+//            }
+//            return
+//        }
+//        
+//        // Debounce logic
+//        if !immediate {
+//            do {
+//                try await Task.sleep(for: .milliseconds(600))
+//                try Task.checkCancellation() // Check if task was cancelled (e.g., user typed again)
+//            } catch {
+//                print("Search task cancelled (debounce).")
+//                return // Exit if cancelled
+//            }
+//        }
+//        
+//        // Start loading state
+//        await MainActor.run { isLoading = true }
+//        
+//        // Perform API call
+//        do {
+//            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0) // Reset offset for new search
+//            try Task.checkCancellation() // Check again after API call
+//            
+//            // Update UI on main thread
+//            await MainActor.run {
+//                displayedAlbums = response.albums.items
+//                searchInfo = response.albums
+//                currentError = nil
+//                isLoading = false
+//            }
+//        } catch is CancellationError {
+//            print("Search task cancelled.")
+//            await MainActor.run { isLoading = false } // Ensure loading stops if cancelled during API call
+//        } catch let apiError as SpotifyAPIError {
+//            print("❌ API Error: \(apiError.localizedDescription)")
+//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
+//        } catch {
+//            print("❌ Unexpected Error: \(error.localizedDescription)")
+//            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
+//        }
+//    }
+//}
 
 struct SpotifyAlbumListView_Previews_Refactored: PreviewProvider {
     static var previews: some View {
@@ -1424,44 +1424,44 @@ struct AlbumHeaderView: View {
 
 // MARK: - Other Supporting Views (Themed)
 
-struct AlbumImageView: View { // Keep fundamental AsyncImage logic
-    let url: URL?
-    var cornerRadius: CGFloat = 15 // Default corner radius
-    
-    var body: some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty: // Placeholder while loading
-                ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(psychedelicBackgroundEnd.opacity(0.5))
-                    ProgressView()
-                        .tint(psychedelicAccentCyan)
-                }
-            case .success(let image):
-                image.resizable()
-                    .scaledToFit() // Can be .fit or .fill depending on usage
-                    .transition(.opacity.animation(.easeIn))
-            case .failure: // Placeholder on error
-                ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(psychedelicBackgroundEnd.opacity(0.5))
-                    Image(systemName: "exclamationmark.triangle.fill") // More prominent error icon
-                        .resizable().scaledToFit()
-                        .foregroundColor(psychedelicAccentPink.opacity(0.7))
-                        .padding(15) // Larger padding
-                }
-            @unknown default: EmptyView()
-            }
-        }
-        .clipShape(
-            RoundedRectangle(
-                cornerRadius: cornerRadius,
-                style: .continuous
-            )
-        ) // Consistent rounding
-    }
-}
+//struct AlbumImageView: View { // Keep fundamental AsyncImage logic
+//    let url: URL?
+//    var cornerRadius: CGFloat = 15 // Default corner radius
+//    
+//    var body: some View {
+//        AsyncImage(url: url) { phase in
+//            switch phase {
+//            case .empty: // Placeholder while loading
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: cornerRadius)
+//                        .fill(psychedelicBackgroundEnd.opacity(0.5))
+//                    ProgressView()
+//                        .tint(psychedelicAccentCyan)
+//                }
+//            case .success(let image):
+//                image.resizable()
+//                    .scaledToFit() // Can be .fit or .fill depending on usage
+//                    .transition(.opacity.animation(.easeIn))
+//            case .failure: // Placeholder on error
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: cornerRadius)
+//                        .fill(psychedelicBackgroundEnd.opacity(0.5))
+//                    Image(systemName: "exclamationmark.triangle.fill") // More prominent error icon
+//                        .resizable().scaledToFit()
+//                        .foregroundColor(psychedelicAccentPink.opacity(0.7))
+//                        .padding(15) // Larger padding
+//                }
+//            @unknown default: EmptyView()
+//            }
+//        }
+//        .clipShape(
+//            RoundedRectangle(
+//                cornerRadius: cornerRadius,
+//                style: .continuous
+//            )
+//        ) // Consistent rounding
+//    }
+//}
 
 struct SearchMetadataHeader: View {
     let totalResults: Int
