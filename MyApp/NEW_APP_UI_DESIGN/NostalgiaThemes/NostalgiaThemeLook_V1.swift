@@ -12,13 +12,13 @@
 ////  Created by AI Synthesizer on Today
 ////  Comprehensive single-file implementation with a Nostalgia Theme
 ////
-//
-//import SwiftUI
-//@preconcurrency import WebKit // For Spotify Embed
-//import Foundation
-//
-//// MARK: - Nostalgia Theme Constants & Helpers
-//
+
+import SwiftUI
+@preconcurrency import WebKit // For Spotify Embed
+import Foundation
+
+// MARK: - Nostalgia Theme Constants & Helpers
+
 //// Color Palette (Muted, retro feel - think faded photos, old tech)
 //let nostalgiaBackground = Color(hex: "F0EFEB") // Off-white, paper-like
 //let nostalgiaPrimaryText = Color(hex: "4A4A4A") // Dark Gray, not pure black

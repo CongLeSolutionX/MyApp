@@ -125,6 +125,7 @@
 		9AAE07052DB4E2570035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE07042DB4E2510035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift */; };
 		9AAE07082DB4E5130035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE07072DB4E50A0035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V1.swift */; };
 		9AAE070A2DB4E8160035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE07092DB4E8160035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V2.swift */; };
+		9AAE070D2DB4F8770035A0FA /* Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE070C2DB4F8700035A0FA /* Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift */; };
 		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */; };
 		9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */; };
 		9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */; };
@@ -266,6 +267,7 @@
 		9AAE07042DB4E2510035A0FA /* Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retro_1990s_Party_Aesthetic_Theme_Look_V1.swift; sourceTree = "<group>"; };
 		9AAE07072DB4E50A0035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retro_1980s_Party_Aesthetic_Theme_Look_V1.swift; sourceTree = "<group>"; };
 		9AAE07092DB4E8160035A0FA /* Retro_1980s_Party_Aesthetic_Theme_Look_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retro_1980s_Party_Aesthetic_Theme_Look_V2.swift; sourceTree = "<group>"; };
+		9AAE070C2DB4F8700035A0FA /* Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift; sourceTree = "<group>"; };
 		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V1.swift; sourceTree = "<group>"; };
 		9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V2.swift; sourceTree = "<group>"; };
 		9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroFuturisticMusicPlayerView.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 		9A5F07532DB0C6EA00DC089D /* NEW_APP_UI_DESIGN */ = {
 			isa = PBXGroup;
 			children = (
+				9AAE070B2DB4F8680035A0FA /* Retro_1970s_Party_Aesthetic_Themes */,
 				9AAE07062DB4E5050035A0FA /* Retro_1980s_Party_Aesthetic_Themes */,
 				9AAE07032DB4E2290035A0FA /* Retro_1990s_Party_Aesthetic_Themes */,
 				9AAE06FE2DB4DDCE0035A0FA /* NostalgiaThemes */,
@@ -681,6 +684,14 @@
 			path = Retro_1980s_Party_Aesthetic_Themes;
 			sourceTree = "<group>";
 		};
+		9AAE070B2DB4F8680035A0FA /* Retro_1970s_Party_Aesthetic_Themes */ = {
+			isa = PBXGroup;
+			children = (
+				9AAE070C2DB4F8700035A0FA /* Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift */,
+			);
+			path = Retro_1970s_Party_Aesthetic_Themes;
+			sourceTree = "<group>";
+		};
 		9AF5768F2DB2155E005F5562 /* MusicPlayerViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,6 +841,7 @@
 				9A999C572DB068E500E8E226 /* SearchForItemAPIDocDemoView_V3.swift in Sources */,
 				9AA1A53C2DA599CD000178B3 /* AdvertisementView_V3.swift in Sources */,
 				9A04EAD42DB33CC10007A8E4 /* RetroSpotifyExplorer_V3.swift in Sources */,
+				9AAE070D2DB4F8770035A0FA /* Retro_1970s_Party_Aesthetic_Theme_Look_V1.swift in Sources */,
 				9A5AAE7B2D93C0AD006A955A /* GetYourTop5TracksRealAPIView.swift in Sources */,
 				9AA610172D87D90700ADD329 /* SpotifyMusicPlayerView.swift in Sources */,
 				9A04EAE02DB35F3A0007A8E4 /* DarkNeumorphismLiquidGoldAccentThemeLook_V3.swift in Sources */,
