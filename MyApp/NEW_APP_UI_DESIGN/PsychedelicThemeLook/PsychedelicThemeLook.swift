@@ -393,7 +393,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable { // Keep functional structure
     }
 }
 
-// MARK: - API Service (Unchanged Functionality, Use Placeholder Token)
+// MARK: - API Service (Use Placeholder Token)
 
 let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE" // Needs replacement!
 
@@ -744,7 +744,7 @@ struct PsychedelicAlbumCard: View {
                         .foregroundColor(.white.opacity(0.8))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                    //                        .background(.black.opacity(0.4).blur(radius: 3), in: Capsule()) // Blurred capsule
+                        .background(Color.black.opacity(0.4).cornerRadius(3))
                     
                     Text("•")
                         .foregroundColor(.white.opacity(0.5))
@@ -759,12 +759,18 @@ struct PsychedelicAlbumCard: View {
             .padding(.horizontal, 18)
             .padding(.vertical, 12)
             .background(
-                LinearGradient(colors: [.black.opacity(0.7), .black.opacity(0.3)], startPoint: .bottom, endPoint: .top)
-                    .blur(radius: 10) // Blurred background behind text for readability
+                LinearGradient(
+                    colors: [.black.opacity(0.7), .black.opacity(0.3)],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .blur(radius: 10) // Blurred background behind text for readability
             )
             .frame(maxWidth: .infinity, alignment: .leading) // Ensure text background spans width
             // Clip text background area to match card rounding
-            .mask(alignment: .bottom) { RoundedRectangle(cornerRadius: 25, style: .continuous) }
+            .mask(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 25, style: .continuous)
+            }
             
         }
         .frame(height: 160) // Ensure consistent card height
@@ -871,10 +877,26 @@ struct NoiseTexture: View {
                 let x = Double.random(in: 0...size.width, using: &rng)
                 let y = Double.random(in: 0...size.height, using: &rng)
                 let radius = Double.random(in: 0.5...1.5, using: &rng)
-                let randomColor = Color(hue: Double.random(in: 0...1, using: &rng), saturation: 0.8, brightness: 1.0)
+                
+                let randomColor = Color(
+                    hue: Double.random(in: 0...1, using: &rng),
+                    saturation: 0.8,
+                    brightness: 1.0
+                )
                 context.fill(
-                    Path(ellipseIn: CGRect(x: x - radius / 2, y: y - radius / 2, width: radius, height: radius)),
-                    with: .color(randomColor.opacity(Double.random(in: 0.3...0.7, using: &rng)))
+                    Path(
+                        ellipseIn: CGRect(
+                            x: x - radius / 2,
+                            y: y - radius / 2,
+                            width: radius,
+                            height: radius
+                        )
+                    ),
+                    with: .color(
+                        randomColor.opacity(
+                            Double.random(in: 0.3...0.7, using: &rng)
+                        )
+                    )
                 )
             }
         }
@@ -882,7 +904,9 @@ struct NoiseTexture: View {
 }
 struct SeededRandomNumberGenerator: RandomNumberGenerator {
     private var state: UInt64
-    init(seed: UInt64) { state = seed == 0 ? 1 : seed } // Avoid zero state
+    init(seed: UInt64) {
+        state = seed == 0 ? 1 : seed
+    } // Avoid zero state
     mutating func next() -> UInt64 {
         state = state &* 1103515245 &+ 12345 // Simple LCG (not cryptographically secure)
         return state
@@ -900,7 +924,13 @@ struct ErrorPlaceholderView: View {
             Image(systemName: iconName)
                 .font(.system(size: 70))
                 .foregroundStyle(
-                    LinearGradient(gradient: Gradient(colors: [psychedelicAccentPink, psychedelicAccentOrange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    LinearGradient(
+                        gradient: Gradient(
+                            colors: [psychedelicAccentPink, psychedelicAccentOrange]
+                        ),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
                 )
                 .psychedelicGlow(psychedelicAccentPink, radius: 20) // Stronger glow for error icon
                 .padding(.bottom, 10)
@@ -1011,7 +1041,7 @@ struct EmptyStatePlaceholderView: View {
             }
         }
         // Apply consistent font to the whole attributed string
-        // message.font = retroFont(size: 14)
+         message.font = retroFont(size: 14)
         message.foregroundColor = .white.opacity(0.8)
         // Optionally target and style the bold part (requires more complex AttributedString manipulation)
         return message
