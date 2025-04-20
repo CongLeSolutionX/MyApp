@@ -208,21 +208,21 @@ final class SpotifyPlaybackState: ObservableObject {
 struct SpotifyEmbedWebView: UIViewRepresentable {
     @ObservedObject var playbackState: SpotifyPlaybackState
     let spotifyUri: String? // The URI to load (e.g., "spotify:track:...")
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     func makeUIView(context: Context) -> WKWebView {
         // Configure user controller for JS communication
         let userContentController = WKUserContentController()
         userContentController.add(context.coordinator, name: "spotifyController") // Native -> JS bridge
-
+        
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
         configuration.allowsInlineMediaPlayback = true // Important for player
         configuration.mediaTypesRequiringUserActionForPlayback = [] // Allow autoplay if possible
-
+        
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator // Handle JS alerts, etc.
@@ -230,23 +230,23 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         webView.backgroundColor = .clear // Crucial: Make WebView transparent
         webView.scrollView.backgroundColor = .clear
         webView.scrollView.isScrollEnabled = false // Disable scrolling within embed fixed frame
-
+        
         // Load the initial HTML structure
         let html = generateHTML()
         webView.loadHTMLString(html, baseURL: nil)
-
+        
         context.coordinator.webView = webView // Hold reference in coordinator
         return webView
     }
-
+    
     func updateUIView(_ webView: WKWebView, context: Context) {
         // Logic to load or update the URI when the view updates or API becomes ready
         if context.coordinator.isApiReady {
-             if context.coordinator.lastLoadedUri != spotifyUri {
-                 context.coordinator.loadUri(spotifyUri ?? "No URI")
-                 // Update state immediately if URI changes programmatically
-                 DispatchQueue.main.async { if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri ?? "No URI" } }
-             }
+            if context.coordinator.lastLoadedUri != spotifyUri {
+                context.coordinator.loadUri(spotifyUri ?? "No URI")
+                // Update state immediately if URI changes programmatically
+                DispatchQueue.main.async { if playbackState.currentUri != spotifyUri { playbackState.currentUri = spotifyUri ?? "No URI" } }
+            }
         } else {
             // If API not ready, store the desired URI to load once it is
             context.coordinator.updateDesiredUriBeforeReady(spotifyUri ?? "No URI")
@@ -260,14 +260,14 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         coordinator.webView = nil // Release weak reference
         print("Embed: WebView dismantled.")
     }
-
+    
     // Generates the basic HTML for the Spotify Embed IFrame API
     private func generateHTML() -> String {
          """
          <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Spotify Embed</title><style>html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: transparent; } #embed-iframe { width: 100%; height: 100%; box-sizing: border-box; display: block; border: none; }</style></head><body><div id="embed-iframe"></div><script src="https://open.spotify.com/embed/iframe-api/v1" async></script><script> console.log('JS: Initial script embed.js.'); window.onSpotifyIframeApiReady = (IFrameAPI) => { console.log('✅ JS: API Ready.'); window.IFrameAPI = IFrameAPI; if (window.webkit?.messageHandlers?.spotifyController) { window.webkit.messageHandlers.spotifyController.postMessage("ready"); } else { console.error('❌ JS: Native handler missing!'); } }; const scriptTag = document.querySelector('script[src*="iframe-api"]'); scriptTag.onerror = (event) => { console.error('❌ JS: Failed API script load:', event); window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'Failed API script load' }}); }; </script></body></html>
          """
     }
-
+    
     // --- Coordinator Class ---
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
         var parent: SpotifyEmbedWebView
@@ -275,7 +275,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         var isApiReady = false
         var lastLoadedUri: String? = nil
         private var desiredUriBeforeReady: String? = nil // Store URI if API isn't ready yet
-
+        
         init(_ parent: SpotifyEmbedWebView) {
             self.parent = parent
         }
@@ -286,35 +286,35 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
                 desiredUriBeforeReady = uri
             }
         }
-
+        
         // --- WKNavigationDelegate Methods ---
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             print("Embed: HTML structure loaded.")
             // HTML finished loading, but IFrame API might still be loading via its async script.
         }
-
+        
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             print("❌ Embed Navigation Error: \(error.localizedDescription)")
             DispatchQueue.main.async { self.parent.playbackState.error = "Failed to load Spotify embed: \(error.localizedDescription)" }
         }
-
+        
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-             print("❌ Embed Provisional Navigation Error: \(error.localizedDescription)")
-             DispatchQueue.main.async { self.parent.playbackState.error = "Failed to start loading Spotify embed: \(error.localizedDescription)" }
+            print("❌ Embed Provisional Navigation Error: \(error.localizedDescription)")
+            DispatchQueue.main.async { self.parent.playbackState.error = "Failed to start loading Spotify embed: \(error.localizedDescription)" }
         }
-
+        
         // --- WKUIDelegate Methods ---
         // Handle JavaScript alerts (useful for debugging JS)
         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
             print("ℹ️ Embed JS Alert: \(message)")
             completionHandler()
         }
-
+        
         // --- WKScriptMessageHandler ---
         // Handle messages sent from JavaScript using `window.webkit.messageHandlers.spotifyController.postMessage(...)`
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             guard message.name == "spotifyController" else { return }
-
+            
             // Check if the message is the "ready" signal
             if let bodyString = message.body as? String, bodyString == "ready" {
                 handleApiReady()
@@ -332,35 +332,35 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
         
         // Called when the IFrame API script signals readiness
         private func handleApiReady() {
-             print("✅ Embed Native: API Ready signal received from JS.")
-             isApiReady = true
-             
-             // If a URI was set *before* the API was ready, attempt to load it now.
-             // Otherwise, use the current URI from the parent view state.
-             if let initialUri = desiredUriBeforeReady ?? parent.spotifyUri {
-                 // Attempt to create the controller *once* the API is ready
-                 createSpotifyController(with: initialUri)
-                 // Clear the stored URI after attempting to use it
-                 desiredUriBeforeReady = nil
-             } else {
-                 print("ℹ️ Embed Native: API ready, but no initial URI specified.")
-             }
-         }
-
+            print("✅ Embed Native: API Ready signal received from JS.")
+            isApiReady = true
+            
+            // If a URI was set *before* the API was ready, attempt to load it now.
+            // Otherwise, use the current URI from the parent view state.
+            if let initialUri = desiredUriBeforeReady ?? parent.spotifyUri {
+                // Attempt to create the controller *once* the API is ready
+                createSpotifyController(with: initialUri)
+                // Clear the stored URI after attempting to use it
+                desiredUriBeforeReady = nil
+            } else {
+                print("ℹ️ Embed Native: API ready, but no initial URI specified.")
+            }
+        }
+        
         // Handles specific events forwarded from the JS embed controller
         private func handleEvent(event: String, data: Any?) {
             // Update playback state based on events
             switch event {
             case "controllerCreated":
-                 print("✅ Embed Native: Controller instance created.") // Log success
+                print("✅ Embed Native: Controller instance created.") // Log success
             case "playbackUpdate":
                 if let updateData = data as? [String: Any] {
                     updatePlaybackState(with: updateData)
                 }
             case "error":
-                 let errorMessage = (data as? [String: Any])?["message"] as? String ?? "\(data ?? "Unknown Embed Error")"
-                 print("❌ Embed JS Error Reported: \(errorMessage)")
-                 DispatchQueue.main.async { self.parent.playbackState.error = errorMessage }
+                let errorMessage = (data as? [String: Any])?["message"] as? String ?? "\(data ?? "Unknown Embed Error")"
+                print("❌ Embed JS Error Reported: \(errorMessage)")
+                DispatchQueue.main.async { self.parent.playbackState.error = errorMessage }
             default:
                 print("❓ Embed Native: Received unknown JS event: \(event)")
             }
@@ -376,30 +376,30 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
                         self.parent.playbackState.isPlaying = !isPaused
                     }
                 }
-                 if let posMs = data["position"] as? Double {
-                     let newPos = posMs / 1000.0
-                     // Update if significantly different or first update
-                     if abs(self.parent.playbackState.currentPosition - newPos) > 0.1 {
-                         self.parent.playbackState.currentPosition = newPos
-                     }
-                 }
-                 if let durMs = data["duration"] as? Double {
-                     let newDur = durMs / 1000.0
-                     if abs(self.parent.playbackState.duration - newDur) > 0.1 || self.parent.playbackState.duration == 0 {
-                         self.parent.playbackState.duration = newDur
-                     }
-                 }
+                if let posMs = data["position"] as? Double {
+                    let newPos = posMs / 1000.0
+                    // Update if significantly different or first update
+                    if abs(self.parent.playbackState.currentPosition - newPos) > 0.1 {
+                        self.parent.playbackState.currentPosition = newPos
+                    }
+                }
+                if let durMs = data["duration"] as? Double {
+                    let newDur = durMs / 1000.0
+                    if abs(self.parent.playbackState.duration - newDur) > 0.1 || self.parent.playbackState.duration == 0 {
+                        self.parent.playbackState.duration = newDur
+                    }
+                }
                 if let uri = data["uri"] as? String {
                     if self.parent.playbackState.currentUri != uri {
-                         self.parent.playbackState.currentUri = uri
-                         self.lastLoadedUri = uri // Keep coordinator in sync
+                        self.parent.playbackState.currentUri = uri
+                        self.lastLoadedUri = uri // Keep coordinator in sync
                     }
-                 }
-                 // Clear previous errors on successful playback update
-                 if self.parent.playbackState.error != nil { self.parent.playbackState.error = nil }
+                }
+                // Clear previous errors on successful playback update
+                if self.parent.playbackState.error != nil { self.parent.playbackState.error = nil }
             }
         }
-
+        
         // Executes JS to create the Spotify IFrame Controller
         private func createSpotifyController(with initialUri: String) {
             guard let webView = webView else { print("Error: WebView reference missing."); return }
@@ -412,14 +412,14 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
                     loadUri(latestDesired)
                     desiredUriBeforeReady = nil // Clear after use
                 } else {
-                     print("ℹ️ Spotify Embed Native: Controller already initialized or initialization attempt pending.")
-                 }
+                    print("ℹ️ Spotify Embed Native: Controller already initialized or initialization attempt pending.")
+                }
                 return
             }
             
             print("🚀 Spotify Embed Native: Attempting to create controller for URI: \(initialUri)")
             lastLoadedUri = initialUri // Mark as attempting to load this URI
-
+            
             let script = """
              // --- JS to Create Spotify Controller ---
              console.log('Spotify Embed JS: Initial script block running.');
@@ -459,31 +459,31 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
                  }
              } // End of else block
              """ // End of JS script string
-
+            
             webView.evaluateJavaScript(script) { result, error in
                 if let error = error {
                     print("⚠️ Spotify Embed Native: Error evaluating JS for controller creation: \(error.localizedDescription)")
                     // Potentially reset lastLoadedUri if JS call itself fails badly? Depends on recovery strategy.
-                     //lastLoadedUri = nil;
+                    //lastLoadedUri = nil;
                 } else {
                     // JS execution started, but creation is async via the callback.
                 }
             }
         }
-
+        
         // Executes JS to load a new URI into the existing controller
         func loadUri(_ uri: String) {
-             guard let webView = webView else { return }
-             guard isApiReady else { return }
-             // Only load if the URI is actually different and controller creation was attempted
-             guard lastLoadedUri != nil, lastLoadedUri != uri else { return }
-             
-             print("🚀 Embed Native: Loading new URI via JS: \(uri)")
-             lastLoadedUri = uri // Update the last *attempted* load URI
-             // Also update the parent state's current URI *immediately* for responsiveness
-             DispatchQueue.main.async { self.parent.playbackState.currentUri = uri }
-             
-             let script = """
+            guard let webView = webView else { return }
+            guard isApiReady else { return }
+            // Only load if the URI is actually different and controller creation was attempted
+            guard lastLoadedUri != nil, lastLoadedUri != uri else { return }
+            
+            print("🚀 Embed Native: Loading new URI via JS: \(uri)")
+            lastLoadedUri = uri // Update the last *attempted* load URI
+            // Also update the parent state's current URI *immediately* for responsiveness
+            DispatchQueue.main.async { self.parent.playbackState.currentUri = uri }
+            
+            let script = """
               if (window.embedController) {
                   console.log('JS: Loading URI: \(uri)');
                   window.embedController.loadUri('\(uri)');
@@ -494,11 +494,11 @@ struct SpotifyEmbedWebView: UIViewRepresentable {
                   window.webkit?.messageHandlers?.spotifyController?.postMessage({ event: 'error', data: { message: 'JS Controller not found for loadUri operation' }});
               }
               """ // End of JS script string
-             
-             webView.evaluateJavaScript(script) { _, error in
-                 if let error = error { print("⚠️ Embed Native: Error evaluating JS for loadUri: \(error)") }
-             }
-         }
+            
+            webView.evaluateJavaScript(script) { _, error in
+                if let error = error { print("⚠️ Embed Native: Error evaluating JS for loadUri: \(error)") }
+            }
+        }
     } // End Coordinator Class
 }
 
@@ -514,7 +514,7 @@ enum SpotifyAPIError: Error, LocalizedError {
     case decodingError(Error)
     case invalidToken // Specific error for 401 Unauthorized
     case missingData
-
+    
     var errorDescription: String? {
         switch self {
         case .invalidURL: return "The API URL was invalid."
@@ -531,13 +531,13 @@ enum SpotifyAPIError: Error, LocalizedError {
 struct SpotifyAPIService {
     static let shared = SpotifyAPIService()
     private let session: URLSession
-
+    
     private init() {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData // Avoid stale cache
         session = URLSession(configuration: configuration)
     }
-
+    
     // Generic Request Function
     private func makeRequest<T: Decodable>(url: URL) async throws -> T {
         // --- Token Check ---
@@ -545,23 +545,23 @@ struct SpotifyAPIService {
             print("❌ ERROR: Spotify token is missing or is the placeholder.")
             throw SpotifyAPIError.invalidToken
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(placeholderSpotifyToken)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.timeoutInterval = 20 // 20 seconds timeout
-
+        
         do {
             print("🚀 Performing API Request to: \(url.absoluteString)") // Log request URL
             let (data, response) = try await session.data(for: request)
-
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw SpotifyAPIError.invalidResponse(0, "Response was not HTTP.")
             }
-
+            
             print("⬇️ API Response Status Code: \(httpResponse.statusCode)") // Log status code
-
+            
             // --- Handle HTTP Status Codes ---
             guard (200...299).contains(httpResponse.statusCode) else {
                 if httpResponse.statusCode == 401 { throw SpotifyAPIError.invalidToken }
@@ -570,7 +570,7 @@ struct SpotifyAPIService {
                 print("❌ API Error Response Body: \(errorBody ?? "N/A")")
                 throw SpotifyAPIError.invalidResponse(httpResponse.statusCode, errorBody)
             }
-
+            
             // --- Decode Successful Response ---
             do {
                 // Uncomment to debug raw JSON response:
@@ -588,9 +588,9 @@ struct SpotifyAPIService {
             throw error is SpotifyAPIError ? error : SpotifyAPIError.networkError(error)
         }
     }
-
+    
     // MARK: Specific API Endpoints
-
+    
     func searchAlbums(query: String, limit: Int = 20, offset: Int = 0) async throws -> SpotifySearchResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/search")
         components?.queryItems = [
@@ -603,7 +603,7 @@ struct SpotifyAPIService {
         guard let url = components?.url else { throw SpotifyAPIError.invalidURL }
         return try await makeRequest(url: url)
     }
-
+    
     func getAlbumTracks(albumId: String, limit: Int = 50, offset: Int = 0) async throws -> AlbumTracksResponse {
         var components = URLComponents(string: "https://api.spotify.com/v1/albums/\(albumId)/tracks")
         // Add market query item? Spotify suggests it for track relinking/availability.
@@ -627,26 +627,26 @@ struct SpotifyAlbumListView: View {
     @State private var searchInfo: Albums? = nil // To store total results, offset, etc.
     @State private var currentError: SpotifyAPIError? = nil
     @State private var debounceTask: Task<Void, Never>? = nil
-
+    
     var body: some View {
         NavigationView {
             ZStack {
                 // --- Retro Background ---
                 retroDeepPurple.ignoresSafeArea() // Base color
-
+                
                 // Optional: Subtle Grid Pattern Overlay
                 LinearGradient(colors: [.black.opacity(0.1), .clear], startPoint: .top, endPoint: .bottom)
-                     .blendMode(.overlay)
-                     .overlay (
-                         Image("retro_grid_background") // Assuming you have this image
-                             .resizable()
-                             .scaledToFill()
-                             .blendMode(.screen)
-                             .opacity(0.08)
-                     )
-                     .ignoresSafeArea()
-
-
+                    .blendMode(.overlay)
+                    .overlay (
+                        Image("retro_grid_background") // Assuming you have this image
+                            .resizable()
+                            .scaledToFill()
+                            .blendMode(.screen)
+                            .opacity(0.08)
+                    )
+                    .ignoresSafeArea()
+                
+                
                 // --- Conditional Content Area ---
                 Group {
                     if isLoading && displayedAlbums.isEmpty {
@@ -667,10 +667,10 @@ struct SpotifyAlbumListView: View {
                             Task { await performSearch(query: searchQuery, immediate: true) }
                         }
                     } else if displayedAlbums.isEmpty && !searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                         // No Results Found
+                        // No Results Found
                         EmptyStatePlaceholderView(searchQuery: searchQuery, state: .noResults)
                     } else if displayedAlbums.isEmpty {
-                         // Initial Empty State
+                        // Initial Empty State
                         EmptyStatePlaceholderView(searchQuery: searchQuery, state: .initial)
                     }
                     else {
@@ -680,7 +680,7 @@ struct SpotifyAlbumListView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity) // Center content
                 .transition(.opacity.animation(.easeInOut(duration: 0.3)))
-
+                
                 // --- Ongoing Loading Indicator (Top) ---
                 if isLoading && !displayedAlbums.isEmpty {
                     VStack {
@@ -706,7 +706,7 @@ struct SpotifyAlbumListView: View {
                     }
                     .transition(.opacity.animation(.easeInOut))
                 }
-
+                
             } // End ZStack
             .navigationTitle("80s Spotify Search") // Themed Title
             .navigationBarTitleDisplayMode(.inline)
@@ -714,28 +714,28 @@ struct SpotifyAlbumListView: View {
             .toolbarBackground(retroDeepPurple.opacity(0.9), for: .navigationBar) // Dark, slightly translucent
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar) // Ensure title/buttons are light
-
+            
             // --- Search Bar ---
             .searchable(text: $searchQuery,
                         placement: .navigationBarDrawer(displayMode: .always),
                         prompt: Text("Search Albums or Artists...").foregroundColor(.gray))
             .onSubmit(of: .search) { // Perform search immediately on submit
-                 debounceTask?.cancel() // Cancel any pending debounce
-                 Task { await performSearch(query: searchQuery, immediate: true) }
+                debounceTask?.cancel() // Cancel any pending debounce
+                Task { await performSearch(query: searchQuery, immediate: true) }
             }
             .onChange(of: searchQuery) { newValue in
-                 // Reset error on new input
-                 if currentError != nil { currentError = nil }
-                 // Setup or reset debounce task
-                  debounceTask?.cancel()
-                  debounceTask = Task { await performSearch(query: newValue) }
+                // Reset error on new input
+                if currentError != nil { currentError = nil }
+                // Setup or reset debounce task
+                debounceTask?.cancel()
+                debounceTask = Task { await performSearch(query: newValue) }
             }
             .accentColor(retroNeonPink) // Tints cursor, cancel button
-
+            
         } // End NavigationView
         .accentColor(retroNeonPink) // Set global accent for potential other uses
     }
-
+    
     // --- Computed View for the List ---
     private var albumList: some View {
         List {
@@ -747,19 +747,19 @@ struct SpotifyAlbumListView: View {
                     .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 8, trailing: 15)) // Add standard padding
                     .listRowBackground(Color.clear)
             }
-
+            
             // --- Album Cards ---
             ForEach(displayedAlbums) { album in
                 // Use NavigationLink to push Detail View
                 NavigationLink(destination: AlbumDetailView(album: album)) {
-                     RetroAlbumCard(album: album) // Themed card view
+                    RetroAlbumCard(album: album) // Themed card view
                         .padding(.vertical, 6) // Space between cards
                 }
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)) // Standard padding
                 .listRowBackground(Color.clear) // Make rows transparent
             }
-
+            
             // TODO: Add pagination / "Load More" functionality here if needed
             // Example: Check if info.next is not nil and show a button/indicator
         }
@@ -767,16 +767,16 @@ struct SpotifyAlbumListView: View {
         .background(Color.clear) // Make List background transparent
         .scrollContentBackground(.hidden) // Required for ZStack background to show
     }
-
+    
     // --- Search Function with Debounce ---
     private func performSearch(query: String, immediate: Bool = false) async {
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-
+        
         guard !trimmedQuery.isEmpty else {
             await MainActor.run { displayedAlbums = []; searchInfo = nil; isLoading = false; currentError = nil }
             return
         }
-
+        
         // Debounce logic
         if !immediate {
             do {
@@ -787,20 +787,20 @@ struct SpotifyAlbumListView: View {
                 return // Exit if cancelled
             }
         }
-
+        
         // Check if the query is still the same after the debounce period
         guard trimmedQuery == searchQuery.trimmingCharacters(in: .whitespacesAndNewlines) else {
             print("Query changed during debounce, skipping API call.")
             return
         }
-
-
+        
+        
         await MainActor.run { isLoading = true } // Set loading state
-
+        
         do {
             let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
             try Task.checkCancellation() // Check cancellation after API call
-
+            
             await MainActor.run {
                 displayedAlbums = response.albums.items
                 searchInfo = response.albums
@@ -839,42 +839,42 @@ struct AlbumDetailView: View {
     @State private var selectedTrackUri: String? = nil // Store the URI of the track to play
     @StateObject private var playbackState = SpotifyPlaybackState() // State for the embed player
     @Environment(\.dismiss) var dismiss // To potentially close view on error
-
+    
     var body: some View {
         ZStack {
             // --- Retro Background ---
             retroDeepPurple.ignoresSafeArea() // Base color
             LinearGradient(colors: [.black.opacity(0.2), .clear], startPoint: .top, endPoint: .bottom)
-                  .blendMode(.overlay)
-                  .overlay (
-                     Image("retro_grid_background") // Assuming you have this image
-                         .resizable()
-                         .scaledToFill()
-                         .blendMode(.screen)
-                         .opacity(0.1) // Make grid more subtle
-                  )
-                  .ignoresSafeArea()
-
+                .blendMode(.overlay)
+                .overlay (
+                    Image("retro_grid_background") // Assuming you have this image
+                        .resizable()
+                        .scaledToFill()
+                        .blendMode(.screen)
+                        .opacity(0.1) // Make grid more subtle
+                )
+                .ignoresSafeArea()
+            
             List {
                 // --- Header Section ---
-                 Section { AlbumHeaderView(album: album) }
-                     .listRowInsets(EdgeInsets()) // Fill width
-                     .listRowSeparator(.hidden)
-                     .listRowBackground(Color.clear) // Transparent row
-
-                 // --- Player Section (Shows when a track is selected) ---
-                 if let uriToPlay = selectedTrackUri {
-                     Section {
-                          SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay)
-                              .padding(.horizontal, 15) // Add padding around player
-                     }
+                Section { AlbumHeaderView(album: album) }
+                    .listRowInsets(EdgeInsets()) // Fill width
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear) // Transparent row
+                
+                // --- Player Section (Shows when a track is selected) ---
+                if let uriToPlay = selectedTrackUri {
+                    Section {
+                        SpotifyEmbedPlayerView(playbackState: playbackState, spotifyUri: uriToPlay)
+                            .padding(.horizontal, 15) // Add padding around player
+                    }
                     .listRowInsets(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
-                     .listRowSeparator(.hidden)
-                     .listRowBackground(Color.clear)
-                     // Smooth appearance/disappearance
-                     .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)))
-                 }
-
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    // Smooth appearance/disappearance
+                    .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)))
+                }
+                
                 // --- Tracks Section ---
                 Section {
                     TracksSectionView(
@@ -886,38 +886,38 @@ struct AlbumDetailView: View {
                     )
                 } header: {
                     // --- Tracks Section Header ---
-                     Text("TRACKLIST")
-                         .font(retroFont(size: 12, weight: .bold))
-                         .foregroundColor(retroNeonLime)
-                         .tracking(2.5) // Wide tracking
-                         .frame(maxWidth: .infinity, alignment: .center)
-                         .padding(.vertical, 8)
-                         .background(.black.opacity(0.4)) // Subtle background bar
-                 }
-                 .listRowInsets(EdgeInsets()) // Let content fill width
-                 .listRowSeparator(.hidden)
-                 .listRowBackground(Color.clear)
-
-                 // --- External Link Section ---
-                 if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
-                     Section {
-                         ExternalLinkButton( // Uses RetroButton internally
+                    Text("TRACKLIST")
+                        .font(retroFont(size: 12, weight: .bold))
+                        .foregroundColor(retroNeonLime)
+                        .tracking(2.5) // Wide tracking
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 8)
+                        .background(.black.opacity(0.4)) // Subtle background bar
+                }
+                .listRowInsets(EdgeInsets()) // Let content fill width
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                
+                // --- External Link Section ---
+                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
+                    Section {
+                        ExternalLinkButton( // Uses RetroButton internally
                             text: "BLAST ON SPOTIFY",
                             url: spotifyURL,
                             primaryColor: retroNeonLime,
                             secondaryColor: .green // Spotify green accent
-                         )
-                     }
-                     .listRowInsets(EdgeInsets(top: 20, leading: 15, bottom: 20, trailing: 15))
-                     .listRowSeparator(.hidden)
-                     .listRowBackground(Color.clear)
-                 }
-
+                        )
+                    }
+                    .listRowInsets(EdgeInsets(top: 20, leading: 15, bottom: 20, trailing: 15))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                }
+                
             } // End List
             .listStyle(PlainListStyle())
             .scrollContentBackground(.hidden) // Allow ZStack background
             .refreshable { await fetchTracks(forceReload: true) } // Pull-to-refresh
-
+            
         } // End ZStack
         .navigationTitle(album.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -927,28 +927,28 @@ struct AlbumDetailView: View {
         .toolbarColorScheme(.dark, for: .navigationBar)
         .task { await fetchTracks() } // Fetch tracks when view appears
         .animation(.easeInOut(duration: 0.3), value: selectedTrackUri) // Animate player appearance smoothly
-        .onChange(of: trackFetchError) { error in // Handle fatal track errors
-            if error == .invalidToken {
-                // Optionally dismiss the view or show a more prominent error if token fails here
-                print("Error: Invalid token while fetching tracks.")
-                // dismiss() // Example: Close detail view on token error
-            }
-        }
+        //        .onChange(of: trackFetchError) { error in // Handle fatal track errors
+        //            if error == .invalidToken {
+        //                // Optionally dismiss the view or show a more prominent error if token fails here
+        //                print("Error: Invalid token while fetching tracks.")
+        //                // dismiss() // Example: Close detail view on token error
+        //            }
+        //        }
     }
-
+    
     // --- Fetch Tracks Logic ---
     private func fetchTracks(forceReload: Bool = false) async {
         // If already loading, don't start another request
         guard !isLoadingTracks else { return }
         // Only fetch if forced, or if tracks are empty, or if there was a previous error
         guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-
+        
         print("Fetching tracks for Album ID: \(album.id)")
         await MainActor.run {
             isLoadingTracks = true
             trackFetchError = nil // Clear previous error on retry/reload
         }
-
+        
         do {
             let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
             try Task.checkCancellation()
@@ -971,7 +971,7 @@ struct AlbumDetailView: View {
 
 struct RetroAlbumCard: View {
     let album: AlbumItem
-
+    
     var body: some View {
         HStack(spacing: 15) {
             // --- Album Art ---
@@ -980,58 +980,58 @@ struct RetroAlbumCard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8)) // Less rounded
                 .overlay(RoundedRectangle(cornerRadius: 8).stroke(LinearGradient(colors: [retroNeonPink.opacity(0.4), retroNeonCyan.opacity(0.4)], startPoint: .top, endPoint: .bottom), lineWidth: 1))
                 .shadow(color: .black.opacity(0.4), radius: 4, y: 2)
-
+            
             // --- Text Details ---
             VStack(alignment: .leading, spacing: 4) {
                 Text(album.name)
                     .font(retroFont(size: 15, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(2) // Allow two lines for name
-
+                
                 Text(album.formattedArtists)
                     .font(retroFont(size: 13))
                     .foregroundColor(retroNeonLime) // Artist accent
                     .lineLimit(1)
-
+                
                 Spacer() // Push bottom info down
-
+                
                 HStack(spacing: 6) {
                     // Simplified Type/Date display
                     Label(album.album_type.capitalized, systemImage: iconForAlbumType(album.album_type))
                         .font(retroFont(size: 10, weight: .medium))
                         .foregroundColor(.white.opacity(0.7))
                         .lineLimit(1)
-
+                    
                     Text("•")
                         .foregroundColor(.white.opacity(0.5))
-
+                    
                     Text( "Released: \(album.formattedReleaseDate())")
-                         .font(retroFont(size: 10, weight: .medium))
-                         .foregroundColor(.white.opacity(0.7))
-                         .lineLimit(1)
-
+                        .font(retroFont(size: 10, weight: .medium))
+                        .foregroundColor(.white.opacity(0.7))
+                        .lineLimit(1)
+                    
                     Spacer() // Push track count right
-
+                    
                     Text("\(album.total_tracks) Tracks")
                         .font(retroFont(size: 10, weight: .medium))
                         .foregroundColor(.white.opacity(0.6))
-
+                    
                 }
             } // End Text VStack
             .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take space
-
+            
         } // End HStack
         .padding(12) // Padding inside the card
         // --- Card Background ---
         .background(
-             LinearGradient(colors: [.black.opacity(0.4), .black.opacity(0.1)], startPoint: .top, endPoint: .bottom) // Subtle gradient
-                 .overlay(.ultraThinMaterial.opacity(0.5)) // Frosted glass effect
-                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)) // Use continuous for smoother curves
-                 .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(retroNeonCyan.opacity(0.3), lineWidth: 1)) // Fainter outline
+            LinearGradient(colors: [.black.opacity(0.4), .black.opacity(0.1)], startPoint: .top, endPoint: .bottom) // Subtle gradient
+                .overlay(.ultraThinMaterial.opacity(0.5)) // Frosted glass effect
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)) // Use continuous for smoother curves
+                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(retroNeonCyan.opacity(0.3), lineWidth: 1)) // Fainter outline
         )
         .frame(height: 110) // Slightly taller card
     }
-
+    
     // Helper for album type icon
     private func iconForAlbumType(_ type: String) -> String {
         switch type.lowercased() {
@@ -1046,7 +1046,7 @@ struct RetroAlbumCard: View {
 
 struct AlbumImageView: View {
     let url: URL?
-
+    
     var body: some View {
         AsyncImage(url: url) { phase in
             switch phase {
@@ -1067,7 +1067,7 @@ struct AlbumImageView: View {
             case .failure:
                 // Themed Failure Placeholder
                 ZStack {
-                     RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(LinearGradient(colors: [retroDeepPurple.opacity(0.5), .black.opacity(0.4)], startPoint: .top, endPoint: .bottom))
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(retroNeonPink.opacity(0.5), lineWidth: 1)) // Error outline
                     Image(systemName: "photo.on.rectangle.angled") // More descriptive icon
@@ -1087,14 +1087,14 @@ struct SearchMetadataHeader: View {
     let totalResults: Int
     let limit: Int
     let offset: Int
-
+    
     private var showingRange: String {
         guard totalResults > 0 else { return "" }
         let start = offset + 1
         let end = min(offset + limit, totalResults)
         return "\(start)-\(end) of \(totalResults)"
     }
-
+    
     var body: some View {
         HStack {
             Label("TOTALLY \(totalResults) RESULTS!", systemImage: "sparkle.magnifyingglass") // Retro themed icon and text
@@ -1114,15 +1114,550 @@ struct SearchMetadataHeader: View {
 }
 
 // MARK: - Detail View Sub-Components (Themed)
-//
-//struct AlbumHeaderView: View {
-//    let album: AlbumItem
-//
-//    var body: some View {
-//        VStack(spacing: 15) {
-//            // --- Album Art ---
-//            AlbumImageView(url: album.bestImageURL)
-//                .aspectRatio(1.0, contentMode: .fit) // Keep it square
-//                .clipShape(RoundedRectangle(cornerRadius: 15))
-//                .overlay(
-//                    RoundedRectangle(
+
+struct AlbumHeaderView: View {
+    let album: AlbumItem
+    
+    var body: some View {
+        VStack(spacing: 15) {
+            // --- Album Art ---
+            AlbumImageView(url: album.bestImageURL)
+                .aspectRatio(1.0, contentMode: .fit) // Keep it square
+                .clipShape(RoundedRectangle(cornerRadius: 15))
+                .overlay(
+                    // Subtle gradient border
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(LinearGradient(colors: [retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 2)
+                )
+                .neonGlow(retroNeonCyan, radius: 18) // Stronger glow for header image
+                .padding(.horizontal, 50) // Give it space
+                .padding(.top, 10) // Add top padding
+            
+            // --- Text Info Below Art ---
+            VStack(spacing: 5) {
+                Text(album.name)
+                    .font(retroFont(size: 22, weight: .bold)) // Larger, bold title
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .shadow(color: .black.opacity(0.6), radius: 2, y: 1) // Text shadow for readability
+                
+                Text("by \(album.formattedArtists)")
+                    .font(retroFont(size: 16))
+                    .foregroundColor(retroNeonLime) // Artist accent color
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 5) // Add space after artist
+                
+                // Album Type & Release Date
+                Text("\(album.album_type.capitalized) • Released \(album.formattedReleaseDate())")
+                    .font(retroFont(size: 12, weight: .medium))
+                    .foregroundColor(.white.opacity(0.75)) // Slightly brighter secondary text
+            }
+            .padding(.horizontal) // Padding for text block
+            
+        }
+        .padding(.vertical, 25) // Vertical padding for the whole header section
+    }
+}
+
+struct SpotifyEmbedPlayerView: View {
+    @ObservedObject var playbackState: SpotifyPlaybackState
+    let spotifyUri: String // URI is passed in, not optional here
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            // --- WebView Embed ---
+            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+                .frame(height: 85) // Standard embed height + small buffer
+            // Player Frame/Background
+                .background(
+                    // Darker background with gradient overlay
+                    LinearGradient(colors: [.black.opacity(0.6), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom)
+                        .overlay( // Add a slight material blur for effect
+                            .ultraThinMaterial.opacity(0.6)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 12)) // Rounded corners
+                    // Neon stroke outline that changes with play state
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(LinearGradient(colors: [playbackState.isPlaying ? retroNeonLime.opacity(0.7) : retroNeonPink.opacity(0.6), retroNeonCyan.opacity(0.5)], startPoint: .leading, endPoint: .trailing), lineWidth: 1.5)
+                        )
+                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 10) // Dynamic glow
+                )
+                .padding(.horizontal) // Padding added by parent DetailView section
+            
+            // --- Themed Playback Status Text and Time ---
+            HStack {
+                let statusText = playbackState.isPlaying ? "NOW PLAYING" : (playbackState.currentPosition > 0.1 ? "PAUSED" : "READY")
+                let statusColor = playbackState.isPlaying ? retroNeonLime : (playbackState.currentPosition > 0.1 ? retroNeonOrange : retroNeonPink)
+                
+                // Status Text
+                Text(statusText)
+                    .font(retroFont(size: 10, weight: .bold))
+                    .foregroundColor(statusColor)
+                    .tracking(1.5) // Letter spacing
+                    .neonGlow(statusColor, radius: 5) // Subtle glow on text
+                    .lineLimit(1)
+                    .frame(width: 100, alignment: .leading) // Fixed width for status text
+                
+                Spacer()
+                
+                // Time Display
+                if playbackState.duration > 0.1 {
+                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
+                        .font(retroFont(size: 10, weight: .medium))
+                        .foregroundColor(.white.opacity(0.8))
+                } else {
+                    Text("--:-- / --:--") // Placeholder if duration not loaded
+                        .font(retroFont(size: 10, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+            .padding(.horizontal, 25) // Align with player frame padding
+            .padding(.top, 2) // Small space above status line
+            .frame(minHeight: 15) // Ensure height even if time is missing
+            
+            // --- Error Display ---
+            if let error = playbackState.error {
+                Text("Player Error: \(error)")
+                    .font(retroFont(size: 9))
+                    .foregroundColor(retroNeonPink)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 4)
+            }
+            
+        } // End VStack
+        .animation(.easeInOut(duration: 0.4), value: playbackState.isPlaying) // Animate play state changes
+        .animation(.easeInOut, value: playbackState.error) // Animate error display
+    }
+    
+    private func formatTime(_ time: Double) -> String {
+        let totalSeconds = max(0, Int(time)) // Ensure non-negative
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+struct TracksSectionView: View {
+    let tracks: [Track]
+    let isLoading: Bool
+    let error: SpotifyAPIError?
+    @Binding var selectedTrackUri: String? // Binding to update selected track in parent
+    let retryAction: () -> Void
+    
+    var body: some View {
+        Text("Track Section View")
+    }
+    
+    //    var body: some View {
+    //        // Group to contain the conditional logic, used within a List Section
+    //        Group {
+    //            if isLoading {
+    //                // Centered Loading Indicator for Tracks
+    //                HStack {
+    //                    Spacer()
+    //                    ProgressView {
+    //                        Text("Loading Tracks...")
+    //                            .font(retroFont(size: 12))
+    //                            .foregroundColor(retroNeonCyan.opacity(0.8))
+    //                     }
+    //                    .progressViewStyle(CircularProgressViewStyle(tint: retroNeonCyan))
+    //                    Spacer()
+    //                }
+    //                .frame(height: 100) // Give it some space
+    //            } else if let error = error {
+    //                // Use ErrorPlaceholderView for track loading errors
+    //                 ErrorPlaceholderView(error: error, retryAction: retryAction)
+    //                    // No extra padding needed if row insets handle it
+    //            } else if tracks.isEmpty {
+    //                 // Specific message if tracks loaded successfully but none were found
+    //                Text("This album seems to be empty!\nNo tracks found.")
+    //                    .font(retroFont(size: 13))
+    //                    .foregroundColor(.white.opacity(0.6))
+    //                    .multilineTextAlignment(.center)
+    //                    .frame(maxWidth: .infinity, alignment: .center)
+    //                    .padding(.vertical, 30) // Give empty message space
+    //            } else {
+    //                // Display Track Rows
+    //                ForEach(tracks) { track in
+    //                    TrackRowView(
+    //                        track: track,
+    //                        isSelected: track.uri == selectedTrackUri // Highlight based on binding
+    //                    )
+    //                    .contentShape(Rectangle()) // Make whole row tappable
+    //                    .onTapGesture {
+    //                        // Update the binding when a row is tapped
+    //                        selectedTrackUri = track.uri
+    //                        print("Selected track URI: \(track.uri)")
+    //                    }
+    //                    // Apply visual selection state using row background
+    //                    .listRowBackground(
+    //                        track.uri == selectedTrackUri
+    //                         ? LinearGradient(colors: [retroNeonPink.opacity(0.15), retroNeonCyan.opacity(0.1)], startPoint: .leading, endPoint: .trailing).blur(radius: 5) // Subtle gradient background for selected
+    //                        : Color.clear // Transparent background otherwise
+    //                    )
+    //                }
+    //            }
+    //        }
+    //    }
+}
+
+struct TrackRowView: View {
+    let track: Track
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // --- Track Number ---
+            Text("\(track.track_number)")
+                .font(retroFont(size: 12, weight: .medium))
+            // Highlight number color if selected
+                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.6))
+                .frame(width: 25, alignment: .center)
+                .padding(.leading, 15) // Indent track number
+            
+            // --- Track Info (Name & Artist) ---
+            VStack(alignment: .leading, spacing: 2) { // Reduced spacing
+                Text(track.name)
+                    .font(retroFont(size: 15, weight: isSelected ? .bold : .regular)) // Bold selected track name
+                    .foregroundColor(isSelected ? retroNeonCyan : .white) // Highlight selected name
+                    .lineLimit(1)
+                
+                Text(track.formattedArtists)
+                    .font(retroFont(size: 11))
+                    .foregroundColor(.white.opacity(0.7)) // Standard artist color
+                    .lineLimit(1)
+            }
+            
+            Spacer() // Push duration and icon to the right
+            
+            // --- Duration ---
+            Text(track.formattedDuration)
+                .font(retroFont(size: 12, weight: .medium))
+                .foregroundColor(.white.opacity(0.7))
+                .padding(.trailing, 5)
+            
+            // --- Play / Selected Indicator Icon ---
+            Image(systemName: isSelected ? "waveform.and.magnifyingglass" : "play.circle") // Retro-ish icons
+                .foregroundColor(isSelected ? retroNeonLime : .white.opacity(0.7))
+                .font(.body.weight(.semibold)) // Make icon slightly bolder
+                .frame(width: 25, height: 25)
+                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected) // Bouncy animation
+                .padding(.trailing, 15) // Space from right edge
+            
+        }
+        .padding(.vertical, 12) // Comfortable tap height
+        // No horizontal padding here; handled by list row insets
+        .background( // Add subtle separator line visually (optional)
+            VStack {
+                Spacer()
+                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50) // Indented divider like classic lists
+            }
+                .opacity(isSelected ? 0 : 1) // Hide divider for selected row
+        )
+    }
+}
+
+// MARK: - Generic Themed Button Component
+
+struct RetroButton: View {
+    let text: String
+    let action: () -> Void
+    var primaryColor: Color = retroNeonPink // Default neon color
+    var secondaryColor: Color = retroNeonOrange // Default gradient end
+    var iconName: String? = nil
+    
+    // Button State for Pressed Effect
+    @State private var isPressed: Bool = false
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) { // Increased spacing
+                if let iconName = iconName {
+                    Image(systemName: iconName)
+                        .font(.body.weight(.bold)) // Bold icon
+                }
+                Text(text)
+                    .tracking(2.0) // Wider letter spacing
+            }
+            .font(retroFont(size: 15, weight: .bold))
+            .padding(.horizontal, 30) // More horizontal padding
+            .padding(.vertical, 14) // Taller button
+            .frame(maxWidth: .infinity) // Expand to fill width
+            .background(
+                // Use primary/secondary for gradient
+                LinearGradient(colors: [primaryColor, secondaryColor], startPoint: .topLeading, endPoint: .bottomTrailing)
+            )
+            .foregroundColor(retroDeepPurple) // Dark text contrasts well
+            .clipShape(Capsule())
+            // Subtle white top edge highlight
+            .overlay(Capsule().stroke(Color.white.opacity(0.6), lineWidth: 1).blur(radius: 1).padding(1).offset(y:-1).mask(Capsule()))
+            // Subtle dark bottom edge shadow
+            .overlay(Capsule().stroke(Color.black.opacity(0.4), lineWidth: 1).blur(radius: 1).padding(1).offset(y: 1).mask(Capsule()))
+            .neonGlow(primaryColor, radius: isPressed ? 6 : 12) // Reduce glow when pressed
+            .scaleEffect(isPressed ? 0.97 : 1.0) // Scale down slightly when pressed
+        }
+        .buttonStyle(PlainButtonStyle()) // Use PlainButtonStyle to enable full customization
+        // --- Add Press Gesture ---
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged({ _ in if !isPressed { withAnimation(.easeInOut(duration: 0.1)) { isPressed = true } }})
+                .onEnded({ _ in withAnimation(.easeInOut(duration: 0.2)) { isPressed = false }})
+        )
+    }
+}
+
+// --- ExternalLinkButton (Using RetroButton) ---
+struct ExternalLinkButton: View {
+    let text: String // Allow custom text
+    let url: URL
+    var primaryColor: Color = retroNeonLime
+    var secondaryColor: Color = .green // Spotify green accent
+    var iconName: String? = "arrow.up.right.square.fill" // Fitting icon for external link
+    
+    @Environment(\.openURL) var openURL
+    
+    var body: some View {
+        RetroButton(
+            text: text,
+            action: {
+                print("ACTION: Opening external URL: \(url)")
+                openURL(url) { accepted in
+                    if !accepted {
+                        print("⚠️ WARNING: Could not open URL: \(url)")
+                        // Ideally, show an alert to the user here
+                    }
+                }
+            },
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            iconName: iconName
+        )
+    }
+}
+
+// MARK: - Placeholder Views (Themed)
+
+struct ErrorPlaceholderView: View {
+    let error: SpotifyAPIError
+    let retryAction: (() -> Void)?
+    
+    var body: some View {
+        VStack(spacing: 25) {
+            // --- Error Icon ---
+            Image(systemName: iconNameForError(error))
+                .font(.system(size: 70, weight: .light)) // Large, light icon
+                .foregroundStyle(
+                    LinearGradient(
+                        gradient: Gradient(colors: [retroNeonPink, retroNeonOrange]), // Pink/Orange gradient for error
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
+                .neonGlow(retroNeonPink, radius: 20) // Strong pink glow for error
+                .padding(.bottom, 10)
+            
+            // --- Error Title ---
+            Text("SYSTEM ERROR!") // Classic error message style
+                .font(retroFont(size: 24, weight: .bold))
+                .foregroundColor(.white)
+                .tracking(2.0) // Tracking for title
+                .shadow(color: .black.opacity(0.5), radius: 2, y: 1)
+            
+            // --- Error Message ---
+            Text(errorMessageForError(error))
+                .font(retroFont(size: 15))
+                .foregroundColor(.white.opacity(0.85))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 20)
+                .lineSpacing(5)
+            
+            // --- Retry Button (Conditional) ---
+            //            if error != .invalidToken, // Don't show retry for token error
+            //                let retryAction = retryAction {
+            //                RetroButton(
+            //                    text: "RETRY",
+            //                    action: retryAction,
+            //                    primaryColor: retroNeonLime,
+            //                    secondaryColor: retroNeonCyan, // Green/Cyan gradient for retry
+            //                    iconName: "arrow.clockwise"
+            //                )
+            //                .padding(.top, 15)
+            //            } else if error == .invalidToken {
+            //                // Specific message for token error
+            //                 Text("Invalid Spotify Token!\nCheck your API Key in the code.")
+            //                    .font(retroFont(size: 12))
+            //                    .foregroundColor(retroNeonPink)
+            //                    .multilineTextAlignment(.center)
+            //                    .padding(.top, 10)
+            //            }
+            Text("Invalid Spotify Token!\nCheck your API Key in the code.")
+                .font(retroFont(size: 12))
+                .foregroundColor(retroNeonPink)
+                .multilineTextAlignment(.center)
+                .padding(.top, 10)
+        }
+        .padding(30)
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // Take available space
+        // Use a material background for the placeholder container
+//        .background(
+//           // .ultraThinMaterial.opacity(0.8)
+//            .background(retroDeepPurple.opacity(0.5)) // Tint the material
+//                .clipShape(RoundedRectangle(cornerRadius: 20))
+//                .overlay(RoundedRectangle(cornerRadius: 20).stroke(retroNeonPink.opacity(0.3), lineWidth: 1))
+//               // .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+//        )
+        .padding(20) // Padding around the frosted glass container
+    }
+    
+    // --- Helper functions for Error Display ---
+    private func iconNameForError(_ error: SpotifyAPIError) -> String {
+        switch error {
+        case .invalidToken: return "key.slash" // Key symbol with slash
+        case .networkError: return "wifi.exclamationmark" // Wifi symbol with alert
+        case .invalidResponse: return "server.rack" // Server icon
+        case .decodingError: return "doc.text.magnifyingglass" // Document inspection icon
+        case .missingData: return "questionmark.folder" // Question mark folder
+        case .invalidURL: return "link.badge.plus" // Link icon with issue badge
+        }
+    }
+    
+    private func errorMessageForError(_ error: SpotifyAPIError) -> String {
+        switch error {
+        case .invalidToken: return "Authentication failure. Your Spotify access token is invalid or expired."
+        case .networkError: return "Cound not connect to the network. Check your internet connection."
+        case .invalidResponse(let code, _): return "Received an unexpected response from the server (Code: \(code)). Please try again later."
+        case .decodingError: return "Failed to understand the data received from the server."
+        case .missingData: return "Some expected data was missing in the server response."
+        case .invalidURL: return "The request URL was malformed." // Should ideally not happen
+        }
+    }
+}
+
+enum EmptyState { case initial, noResults }
+
+struct EmptyStatePlaceholderView: View {
+    let searchQuery: String
+    let state: EmptyState
+    
+    var body: some View {
+        VStack(spacing: 25) {
+            // --- Icon/Image ---
+            Image(systemName: iconName) // Use SFSymbols for easier theming
+                .font(.system(size: 80, weight: .thin)) // Large, thin icon
+                .foregroundStyle(
+                    LinearGradient(
+                        gradient: Gradient(colors: gradientColors),
+                        startPoint: .top, endPoint: .bottom)
+                )
+                .neonGlow(glowColor, radius: 20)
+                .padding(.bottom, 15)
+            
+            // --- Title ---
+            Text(title)
+                .font(retroFont(size: 24, weight: .bold))
+                .foregroundColor(.white)
+                .tracking(1.5)
+                .shadow(color: .black.opacity(0.4), radius: 1, y: 1)
+            
+            /// --- Message (Using AttributedString for potential Markdown) ---
+            Text(messageAttributedString)
+                .font(retroFont(size: 15)) // Ensure consistent font
+                .foregroundColor(.white.opacity(0.85))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 30)
+                .lineSpacing(5)
+        }
+        .padding(30)
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // Center placeholder
+        // No extra background needed if main view has themed background
+    }
+    
+    // --- Computed properties based on state ---
+    private var iconName: String {
+        state == .initial ? "music.mic.circle" : "magnifyingglass.circle"
+    }
+    
+    private var title: String {
+        state == .initial ? "READY TO ROCK!" : "NO HITS FOUND"
+    }
+    
+    private var gradientColors: [Color] {
+        state == .initial ? [retroNeonCyan, retroElectricBlue] : [retroNeonOrange, retroNeonPink]
+    }
+    
+    private var glowColor: Color {
+        state == .initial ? retroNeonCyan : retroNeonOrange
+    }
+    
+    private var messageAttributedString: AttributedString {
+        var message: AttributedString
+        if state == .initial {
+            message = AttributedString("Dial in an album or artist\nin the search bar above!")
+        } else {
+            // Using AttributedString's Markdown capability for bolding the query
+            do {
+                let query = searchQuery.isEmpty ? "that search" : searchQuery // Handle empty string case
+                message = try AttributedString(markdown: "Zilch found for **\(query)**.\nTry rewinding and searching again!")
+            } catch {
+                // Fallback if markdown fails (shouldn't usually happen for simple bold)
+                message = AttributedString("Zilch found for \"\(searchQuery)\". Try rewinding and searching again!")
+            }
+        }
+        // Apply consistent styling to the entire attributed string
+        message.font = retroFont(size: 15)
+        message.foregroundColor = .white.opacity(0.85)
+        // Optional: Further styling specific parts if needed
+        // e.g., message.range(of: searchQuery)?.foregroundColor = retroNeonLime
+        
+        return message
+    }
+}
+
+#Preview("SpotifyAlbumListView") {
+    SpotifyAlbumListView()
+}
+// MARK: - App Entry Point
+
+@main
+struct SpotifyRetroPartyApp: App {
+    init() {
+        // --- CRITICAL TOKEN CHECK ---
+        if placeholderSpotifyToken == "YOUR_SPOTIFY_BEARER_TOKEN_HERE" {
+            print("🚨🚨🚨 WICKED WARNING: Spotify Bearer Token is MISSING! 🚨🚨🚨")
+            print("➡️ FIX IT: Open the Swift file and replace 'YOUR_SPOTIFY_BEARER_TOKEN_HERE' with your actual token.")
+            print("➡️ API calls will FAIL until fixed!")
+        }
+        
+        // --- Optional Global UI Appearance (Less critical with SwiftUI theming) ---
+        // Example: Setting a global tint color (affects some standard controls)
+        // UIView.appearance().tintColor = UIColor(retroNeonPink)
+        
+        // Example: Customizing Navigation Bar appearance globally (can be overridden)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(retroDeepPurple.opacity(0.9)) // Match nav bar background
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Menlo-Bold", size: 18) ?? UIFont.boldSystemFont(ofSize: 18) // Use retro font
+        ]
+        appearance.largeTitleTextAttributes = [ // If using large titles
+            .foregroundColor: UIColor.white,
+            .font: UIFont(name: "Menlo-Bold", size: 34) ?? UIFont.boldSystemFont(ofSize: 34)
+        ]
+        appearance.shadowColor = .clear // Remove default separator line
+        
+        // Apply appearances
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance // For landscape/compact
+        UINavigationBar.appearance().tintColor = UIColor(retroNeonPink) // Back button / bar button items color
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            SpotifyAlbumListView() // Start with the main list view
+                .preferredColorScheme(.dark) // Force dark mode for theme
+        }
+    }
+}
