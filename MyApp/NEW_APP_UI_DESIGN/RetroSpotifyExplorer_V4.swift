@@ -307,6 +307,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable { /* ... */
                 }
             }
         }
+        
         private func createSpotifyController(with initialUri: String) { /* ... JS execution ... */
             guard let webView = webView else { /* ... */ return }
             guard isApiReady else { /* ... */ return }
@@ -399,7 +400,7 @@ struct SpotifyEmbedWebView: UIViewRepresentable { /* ... */
     }
 }
 
-// MARK: - API Service (Unchanged, uses placeholder token)
+// MARK: - API Service
 
 // IMPORTANT: Replace this with your actual Spotify Bearer Token
 let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE"
@@ -601,7 +602,7 @@ struct SpotifyAlbumListView: View {
         .scrollContentBackground(.hidden) // Essential for background color to show
     }
     
-    // --- Debounced Search Logic (Unchanged) ---
+    // --- Debounced Search Logic ---
     private func performDebouncedSearch(immediate: Bool = false) async { /* ... */
         let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedQuery.isEmpty else {
@@ -1068,61 +1069,6 @@ struct TracksSectionView: View {
     }
 }
 
-////struct TracksSectionView: View {
-////    let tracks: [Track]
-////    let isLoading: Bool
-////    let error: SpotifyAPIError?
-////    @Binding var selectedTrackUri: String?
-////    let retryAction: () -> Void
-////
-////    var body: some View {
-////        EmptyView()
-////    }
-////
-////    //    var body: some View {
-////    //        Group { // Use Group to apply padding once if needed
-////    //            if isLoading {
-////    //                 HStack {
-////    //                    Spacer()
-////    //                     ProgressView().tint(retroNeonCyan)
-////    //                     Text("Loading Tracks...")
-////    //                        .font(retroFont(size: 14))
-////    //                        .foregroundColor(retroNeonCyan)
-////    //                        .padding(.leading, 8)
-////    //                    Spacer()
-////    //                }
-////    //                .padding(.vertical, 25)
-////    //            } else if let error = error {
-////    //                ErrorPlaceholderView(error: error, retryAction: retryAction)
-////    //                     .padding(.vertical, 25) // Add padding around error view
-////    //            } else if tracks.isEmpty {
-////    //                Text("Track Information Unavailable")
-////    //                    .font(retroFont(size: 14))
-////    //                    .foregroundColor(.white.opacity(0.6))
-////    //                    .frame(maxWidth: .infinity, alignment: .center)
-////    //                    .padding(.vertical, 25)
-////    //            } else {
-////    //                // Track rows directly in the section
-////    //                 ForEach(tracks) { track in
-////    //                     TrackRowView(track: track, isSelected: track.uri == selectedTrackUri)
-////    //                         .contentShape(Rectangle())
-////    //                         .onTapGesture {
-////    //                             selectedTrackUri = track.uri
-////    //                         }
-////    //                         // Themed selection background
-////    //                          .listRowBackground(
-////    //                             track.uri == selectedTrackUri
-////    //                              ? LinearGradient(colors: [retroNeonCyan.opacity(0.2), retroNeonPink.opacity(0.2), .clear], startPoint: .leading, endPoint: .trailing)
-////    //                                 .blur(radius: 5) // Soft blurred background highlight
-////    //                              : Color.clear
-////    //                          )
-////    //                }
-////    //            }
-////    //        }
-////    //         // Apply common modifiers to the Group if needed, e.g., .padding(.horizontal)
-////    //    }
-////}
-
 struct TrackRowView: View {
     let track: Track
     let isSelected: Bool
@@ -1282,45 +1228,45 @@ struct ExternalLinkButton: View {
     }
 }
 
-//// MARK: - Preview Providers (Updated for Themed Views)
-//
-//struct SpotifyAlbumListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SpotifyAlbumListView()
-//            .preferredColorScheme(.dark) // Preview in dark mode
-//    }
-//}
-//
-//struct RetroAlbumCard_Previews: PreviewProvider {
-//    // Reusing mock data from previous previews
-//    static let mockArtist = Artist(id: "artist1", external_urls: nil, href: "", name: "Miles Davis Mock", type: "artist", uri: "")
-//    static let mockImage = SpotifyImage(height: 300, url: "https://i.scdn.co/image/ab67616d00001e027ab89c25093ea3787b1995b4", width: 300) // Use 300px image
-//    static let mockAlbumItem = AlbumItem(id: "album1", album_type: "album", total_tracks: 5, available_markets: ["US"], external_urls: ExternalUrls(spotify: ""), href: "", images: [mockImage], name: "Kind of Blue [PREVIEW]", release_date: "1959-08-17", release_date_precision: "day", type: "album", uri: "spotify:album:1weenld61qoidwYuZ1GESA", artists: [mockArtist])
-//
-//    static var previews: some View {
-//        RetroAlbumCard(album: mockAlbumItem)
-//            .padding()
-//            .background(retroDeepPurple)
-//            .previewLayout(.fixed(width: 400, height: 180))
-//            .preferredColorScheme(.dark)
-//
-//    }
-//}
-//
-//struct AlbumDetailView_Previews: PreviewProvider {
-//    static let mockArtist = Artist(id: "artist1", external_urls: nil, href: "", name: "Miles Davis Mock", type: "artist", uri: "")
-//    // Use 640px image for detail view
-//    static let mockImage = SpotifyImage(height: 640, url: "https://i.scdn.co/image/ab67616d0000b2737ab89c25093ea3787b1995b4", width: 640)
-//    static let mockAlbum = AlbumItem(id: "1weenld61qoidwYuZ1GESA", album_type: "album", total_tracks: 5, available_markets: ["US", "GB"], external_urls: ExternalUrls(spotify: "https://open.spotify.com/album/1weenld61qoidwYuZ1GESA"), href: "", images: [mockImage], name: "Kind Of Blue (Preview)", release_date: "1959-08-17", release_date_precision: "day", type: "album", uri: "spotify:album:1weenld61qoidwYuZ1GESA", artists: [mockArtist])
-//
-//    static var previews: some View {
-//        NavigationView { // Wrap in NavigationView for realistic preview
-//            AlbumDetailView(album: mockAlbum)
-//        }
-//        .preferredColorScheme(.dark) // Essential for retro theme
-//    }
-//}
-//
+// MARK: - Preview Providers (Updated for Themed Views)
+
+struct SpotifyAlbumListView_Previews: PreviewProvider {
+    static var previews: some View {
+        SpotifyAlbumListView()
+            .preferredColorScheme(.dark) // Preview in dark mode
+    }
+}
+
+struct RetroAlbumCard_Previews: PreviewProvider {
+    // Reusing mock data from previous previews
+    static let mockArtist = Artist(id: "artist1", external_urls: nil, href: "", name: "Miles Davis Mock", type: "artist", uri: "")
+    static let mockImage = SpotifyImage(height: 300, url: "https://i.scdn.co/image/ab67616d00001e027ab89c25093ea3787b1995b4", width: 300) // Use 300px image
+    static let mockAlbumItem = AlbumItem(id: "album1", album_type: "album", total_tracks: 5, available_markets: ["US"], external_urls: ExternalUrls(spotify: ""), href: "", images: [mockImage], name: "Kind of Blue [PREVIEW]", release_date: "1959-08-17", release_date_precision: "day", type: "album", uri: "spotify:album:1weenld61qoidwYuZ1GESA", artists: [mockArtist])
+    
+    static var previews: some View {
+        RetroAlbumCard(album: mockAlbumItem)
+            .padding()
+            .background(retroDeepPurple)
+            .previewLayout(.fixed(width: 400, height: 180))
+            .preferredColorScheme(.dark)
+        
+    }
+}
+
+struct AlbumDetailView_Previews: PreviewProvider {
+    static let mockArtist = Artist(id: "artist1", external_urls: nil, href: "", name: "Miles Davis Mock", type: "artist", uri: "")
+    // Use 640px image for detail view
+    static let mockImage = SpotifyImage(height: 640, url: "https://i.scdn.co/image/ab67616d0000b2737ab89c25093ea3787b1995b4", width: 640)
+    static let mockAlbum = AlbumItem(id: "1weenld61qoidwYuZ1GESA", album_type: "album", total_tracks: 5, available_markets: ["US", "GB"], external_urls: ExternalUrls(spotify: "https://open.spotify.com/album/1weenld61qoidwYuZ1GESA"), href: "", images: [mockImage], name: "Kind Of Blue (Preview)", release_date: "1959-08-17", release_date_precision: "day", type: "album", uri: "spotify:album:1weenld61qoidwYuZ1GESA", artists: [mockArtist])
+    
+    static var previews: some View {
+        NavigationView { // Wrap in NavigationView for realistic preview
+            AlbumDetailView(album: mockAlbum)
+        }
+        .preferredColorScheme(.dark) // Essential for retro theme
+    }
+}
+
 //// MARK: - App Entry Point
 //
 //@main
