@@ -129,22 +129,22 @@ struct SparkleOverlay: View {
 // --- Hex Color Extension (Unchanged) ---
 extension Color {
     init(hex: String) { /* ... Hex init implementation from previous versions ... */
-         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-         var int: UInt64 = 0
-         Scanner(string: hex).scanHexInt64(&int)
-         let a, r, g, b: UInt64
-         switch hex.count {
-         case 3: // RGB (12-bit)
-             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-         case 6: // RGB (24-bit)
-             (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-         case 8: // ARGB (32-bit)
-             (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-         default:
-             (a, r, g, b) = (255, 0, 0, 0)
-         }
-         self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
-     }
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
+    }
 }
 
 // --- Seeded RNG ---
@@ -176,7 +176,7 @@ struct SeededRandomNumberGenerator: RandomNumberGenerator {
 //    let type: String
 //    let uri: String
 //    let artists: [Artist]
-//    
+//
 //    var bestImageURL: URL? { /* ... Logic ... */ }
 //    var listImageURL: URL? { /* ... Logic ... */ }
 //    var formattedArtists: String { /* ... Logic ... */ }
@@ -197,7 +197,7 @@ struct SeededRandomNumberGenerator: RandomNumberGenerator {
 //    let artists: [Artist]
 //    /* ... other fields ... */
 //    let uri: String
-//    
+//
 //    var formattedDuration: String { /* ... Logic ... */ }
 //    var formattedArtists: String { /* ... Logic ... */ }
 //}
@@ -208,13 +208,13 @@ struct SeededRandomNumberGenerator: RandomNumberGenerator {
 //struct SpotifyEmbedWebView: UIViewRepresentable {
 //    @ObservedObject var playbackState: SpotifyPlaybackState
 //    let spotifyUri: String?
-//    
+//
 //    func makeCoordinator() -> Coordinator { Coordinator(self) }
 //    func makeUIView(context: Context) -> WKWebView { /* ... WebView setup, background clear ... */ }
 //    func updateUIView(_ webView: WKWebView, context: Context) { /* ... JS loading logic ... */ }
 //    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) { /* ... Cleanup ... */ }
 //    private func generateHTML() -> String { /* ... HTML structure ... */ }
-//    
+//
 //    // --- COORDINATOR CLASS (Assume functional code from previous versions) ---
 //    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
 //          var parent: SpotifyEmbedWebView
@@ -223,12 +223,12 @@ struct SeededRandomNumberGenerator: RandomNumberGenerator {
 //          var lastLoadedUri: String? = nil
 //          var currentSpotifyUri: String? = nil
 //          var desiredUriBeforeReady: String? = nil
-//        
+//
 //        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) { /* ... Logic ... */ }
 //        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { /* ... Logic ... */ }
 //        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { /* ... Logic ... */ }
 //        func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) { /* ... Logic ... */ }
-//        
+//
 //          init(_ parent: SpotifyEmbedWebView) { self.parent = parent }
 //          // --- Implementation details for handling JS communication, omitted for brevity - Use previous version's ---
 //          func updateDesiredUriBeforeReady(_ uri: String?) { if !isApiReady { desiredUriBeforeReady = uri } }
@@ -248,7 +248,7 @@ let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE" // CRITICAL: Repl
 //struct SpotifyAPIService {
 //    static let shared = SpotifyAPIService()
 //    private let session: URLSession
-//    
+//
 //    init() { /* ... Session setup ... */ }
 //    private func makeRequest<T: Decodable>(url: URL) async throws -> T { /* ... Request logic, token check ... */ }
 //    func searchAlbums(query: String, limit: Int = 20, offset: Int = 0) async throws -> SpotifySearchResponse { /* ... Search endpoint logic ... */ }
@@ -358,7 +358,7 @@ struct DiscoAlbumCard: View {
 //struct ErrorPlaceholderView: View {
 //    let error: SpotifyAPIError
 //    let retryAction: (() -> Void)?
-//    
+//
 //    var body: some View {
 //        VStack(spacing: 20) {
 //            Image(systemName: iconName)
@@ -366,19 +366,19 @@ struct DiscoAlbumCard: View {
 //                .foregroundStyle(discoAccentGradient) // Apply accent gradient
 //                .discoSparkleGlow(color: discoOrange, radius: 15)
 //                .padding(.bottom, 10)
-//            
+//
 //            Text("PARTY FOUL!") // Themed title
 //                .font(discoTitleFont(size: 28))
 //                .foregroundColor(discoCream)
 //                .shadow(color: .black.opacity(0.6), radius: 3, y: 1)
-//            
+//
 //            Text(errorMessage)
 //                .font(discoBodyFont(size: 15, weight: .light))
 //                .foregroundColor(discoCream.opacity(0.85))
 //                .multilineTextAlignment(.center)
 //                .padding(.horizontal, 20)
 //                .lineSpacing(5)
-//            
+//
 //            // TODO: Confirmation to BinaryInteger
 //            //            if error != .invalidToken, let retryAction = retryAction {
 //            //                DiscoButton( // Use themed button
@@ -404,7 +404,7 @@ struct DiscoAlbumCard: View {
 //        .shadow(color: .black.opacity(0.4), radius: 10, y: 5)
 //        .padding(20) // Padding around the error view
 //    }
-//    
+//
 //    // Icon and message logic remains unchanged
 //    private var iconName: String { /* ... from previous version ... */ }
 //    private var errorMessage: String { /* ... from previous version ... */ }
@@ -437,7 +437,7 @@ struct EmptyStatePlaceholderView: View {
         .padding(30)
         // Background inherent from ZStack in parent view
     }
-
+    
     // Logic remains unchanged
     private var isInitialState: Bool { searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
     private var title: String { isInitialState ? "FEEL THE GROOVE" : "CAN'T FIND IT" }
@@ -503,13 +503,13 @@ struct AlbumDetailView: View {
                 .listRowBackground(Color.clear)
                 
                 // External Link (Themed)
-//                if let stringURL = album.external_urls ?? "google.com",
-//                   let spotifyURL = URL(string: stringURL) {
-//                    Section { ExternalLinkDiscoButton(url: spotifyURL) }
-//                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-//                        .listRowSeparator(.hidden)
-//                        .listRowBackground(Color.clear)
-//                }
+                //                if let stringURL = album.external_urls ?? "google.com",
+                //                   let spotifyURL = URL(string: stringURL) {
+                //                    Section { ExternalLinkDiscoButton(url: spotifyURL) }
+                //                        .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                //                        .listRowSeparator(.hidden)
+                //                        .listRowBackground(Color.clear)
+                //                }
                 
                 Section {
                     ExternalLinkDiscoButton(
@@ -517,9 +517,9 @@ struct AlbumDetailView: View {
                               URL(string: "google.com"))!
                     )
                 }
-                    .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
                 
             } // End List
             .listStyle(PlainListStyle())
@@ -528,11 +528,11 @@ struct AlbumDetailView: View {
         .navigationTitle(album.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarColorScheme(.dark, for: .navigationBar) // Dark scheme for NavBar items
-//        .toolbarBackground( // Match background gradient in NavBar
-//            discoGradientBackground.opacity(0.8)
-//                .blur(radius: 5), // Slight blur for effect
-//            for: .navigationBar
-//        )
+        //        .toolbarBackground( // Match background gradient in NavBard
+        //            discoGradientBackground.opacity(0.8)
+        //                .blur(radius: 5), // Slight blur for effect
+        //            for: .navigationBar
+        //        )
         .toolbarBackground(.visible, for: .navigationBar)
         .accentColor(discoGold) // Tint back button etc.
         .task { await fetchTracks() }
@@ -550,7 +550,7 @@ struct AlbumDetailView: View {
 struct DiscoLightsBackground: View {
     @State private var animate = false
     let colors: [Color] = [discoGold, discoOrange, discoHighlightPurple, discoSilver]
-
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -566,8 +566,8 @@ struct DiscoLightsBackground: View {
                         .scaleEffect(animate ? 1.1 : 0.9)
                         .animation(
                             .easeInOut(duration: Double.random(in: 2...5))
-                                .repeatForever(autoreverses: true)
-                                .delay(Double.random(in: 0...1)),
+                            .repeatForever(autoreverses: true)
+                            .delay(Double.random(in: 0...1)),
                             value: animate
                         )
                 }
@@ -622,7 +622,7 @@ struct DiscoEmbedPlayerView: View {
         VStack(spacing: 10) {
             SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
                 .frame(height: 85) // Default embed height + buffer
-                // Player Frame/Background: Dark base with gold accents
+            // Player Frame/Background: Dark base with gold accents
                 .background(
                     discoBackgroundStart.opacity(0.7)
                         .overlay(.ultraThinMaterial) // Frosted glass
@@ -630,14 +630,14 @@ struct DiscoEmbedPlayerView: View {
                         .overlay( // Gold border
                             RoundedRectangle(cornerRadius: 18, style: .continuous)
                                 .stroke(discoGold.opacity(0.6), lineWidth: 1)
-                        )
-                      // .discoSparkleGlow($playbackState.isPlaying ? discoGold : discoSilver, radius: 9) // Dynamic glow color
+                                )
+                    // .discoSparkleGlow($playbackState.isPlaying ? discoGold : discoSilver, radius: 9) // Dynamic glow color
                 )
                 .padding(.horizontal) // Padding around the player
             
             // Playback Status Text (Themed)
             HStack {
-               // let statusText = playbackState.isPlaying ? "GROOVIN'" : "PAUSED"
+                // let statusText = playbackState.isPlaying ? "GROOVIN'" : "PAUSED"
                 let statusText = "GROOVIN'"
                 let statusColor = discoGold //playbackState.isPlaying ? discoGold : discoSilver.opacity(0.8)
                 
@@ -660,7 +660,7 @@ struct DiscoEmbedPlayerView: View {
             .frame(height: 15)
             
         }
-       // .animation(.easeInOut, value: $playbackState.isPlaying) // Animate glow
+        // .animation(.easeInOut, value: $playbackState.isPlaying) // Animate glow
     }
     
     private func formatTime(_ time: Double) -> String {
@@ -677,7 +677,7 @@ struct TracksSectionView: View {
     let error: SpotifyAPIError?
     @Binding var selectedTrackUri: String?
     let retryAction: () -> Void
-
+    
     var body: some View {
         if isLoading {
             HStack { // Center progress view
@@ -719,7 +719,7 @@ struct TracksSectionView: View {
 struct TrackRowView: View {
     let track: Track
     let isSelected: Bool
-
+    
     var body: some View {
         HStack(spacing: 12) {
             // Track Number (Styled)
@@ -728,7 +728,7 @@ struct TrackRowView: View {
                 .foregroundColor(isSelected ? discoGold : discoCream.opacity(0.6))
                 .frame(width: 25, alignment: .center)
                 .padding(.leading, 15)
-
+            
             // Track Info
             VStack(alignment: .leading, spacing: 3) {
                 Text(track.name)
@@ -740,15 +740,15 @@ struct TrackRowView: View {
                     .foregroundColor(discoCream.opacity(0.7))
                     .lineLimit(1)
             }
-
+            
             Spacer()
-
+            
             // Duration
             Text(track.formattedDuration)
                 .font(discoBodyFont(size: 12, weight: .medium))
                 .foregroundColor(discoCream.opacity(0.7))
                 .padding(.trailing, 5)
-
+            
             // Play/Selected Indicator (Disco Ball)
             Image(systemName: isSelected ? "stop.circle.fill" : "play.circle.fill") // Changed icons
                 .foregroundColor(isSelected ? discoGold : discoSilver.opacity(0.8))
@@ -757,7 +757,7 @@ struct TrackRowView: View {
                 .frame(width: 30, height: 30)
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
                 .padding(.trailing, 10)
-
+            
         }
         .padding(.vertical, 10) // Slightly less vertical padding
     }
@@ -766,40 +766,40 @@ struct TrackRowView: View {
 // --- Other Supporting Views (Themed) ---
 
 struct AlbumImageView: View { // Reusable Image View - uses AsyncImage
-     let url: URL?
-     var placeholderColor1: Color = discoBackgroundEnd.opacity(0.5)
-     var placeholderColor2: Color = discoBackgroundStart.opacity(0.5)
-     var errorColor: Color = discoOrange.opacity(0.4)
+    let url: URL?
+    var placeholderColor1: Color = discoBackgroundEnd.opacity(0.5)
+    var placeholderColor2: Color = discoBackgroundStart.opacity(0.5)
+    var errorColor: Color = discoOrange.opacity(0.4)
     
-     var body: some View {
-         AsyncImage(url: url) { phase in
-             switch phase {
-             case .empty:
-                 ZStack {
-                     LinearGradient(colors: [placeholderColor1, placeholderColor2], startPoint: .top, endPoint: .bottom)
-                     ProgressView().tint(discoGold) // Gold tint
-                 }
-             case .success(let image):
-                 image.resizable().scaledToFit()
-             case .failure:
-                 ZStack {
-                     LinearGradient(colors: [placeholderColor1, placeholderColor2], startPoint: .top, endPoint: .bottom)
-                     Image(systemName: "photo.on.rectangle.angled") // Disc icon
-                         .resizable().scaledToFit()
-                         .foregroundColor(errorColor)
-                         .padding(15)
-                 }
-             @unknown default: EmptyView()
-             }
-         }
-     }
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ZStack {
+                    LinearGradient(colors: [placeholderColor1, placeholderColor2], startPoint: .top, endPoint: .bottom)
+                    ProgressView().tint(discoGold) // Gold tint
+                }
+            case .success(let image):
+                image.resizable().scaledToFit()
+            case .failure:
+                ZStack {
+                    LinearGradient(colors: [placeholderColor1, placeholderColor2], startPoint: .top, endPoint: .bottom)
+                    Image(systemName: "photo.on.rectangle.angled") // Disc icon
+                        .resizable().scaledToFit()
+                        .foregroundColor(errorColor)
+                        .padding(15)
+                }
+            @unknown default: EmptyView()
+            }
+        }
+    }
 }
 
 struct SearchMetadataHeader: View {
     let totalResults: Int
     let limit: Int
     let offset: Int
-
+    
     var body: some View {
         HStack {
             Label("\(totalResults) Grooves Found", systemImage: "music.note.list")
@@ -827,7 +827,7 @@ struct DiscoButton: View {
     var gradient: LinearGradient = discoAccentGradient // Default gradient
     var textColor: Color = discoBackgroundStart // Dark text on bright button
     var glowColor: Color = discoGold
-
+    
     var body: some View {
         Button(action: action) {
             HStack(spacing: 10) {
@@ -855,7 +855,7 @@ struct ExternalLinkDiscoButton: View {
     let text: String = "OPEN IN SPOTIFY"
     let url: URL
     @Environment(\.openURL) var openURL
-
+    
     var body: some View {
         DiscoButton(
             text: text,
@@ -930,10 +930,10 @@ struct SpotifyAlbumListView: View {
             .navigationTitle("Disco Spotify Finder")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark)
-//            .toolbarBackground( // Gradient Navbar
-//                discoGradientBackground.opacity(0.8).blur(radius: 5),
-//                for: .navigationBar
-//            )
+            //            .toolbarBackground( // Gradient Navbar
+            //                discoGradientBackground.opacity(0.8).blur(radius: 5),
+            //                for: .navigationBar
+            //            )
             .toolbarBackground(.visible, for: .navigationBar)
             
             // --- Search Bar (System default styling with accent) ---
@@ -978,7 +978,42 @@ struct SpotifyAlbumListView: View {
     }
     
     // --- Debounced Search Logic (Unchanged) ---
-    private func performDebouncedSearch(immediate: Bool = false) async { /* ... Debounce & API call logic ... */ }
+    private func performDebouncedSearch(immediate: Bool = false) async { /* ... */
+        let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedQuery.isEmpty else {
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; isLoading = false; currentError = nil }
+            return
+        }
+        if !immediate {
+            do { try await Task.sleep(for: .milliseconds(500)); try Task.checkCancellation() }
+            catch { print("Search task cancelled (debounce)."); return }
+        }
+        // Start loading only if query hasn't changed during debounce
+        guard trimmedQuery == searchQuery.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        
+        await MainActor.run { isLoading = true }
+        print("⚡️ Performing search for: \(trimmedQuery)")
+        do {
+            let response = try await SpotifyAPIService.shared.searchAlbums(query: trimmedQuery, offset: 0)
+            try Task.checkCancellation()
+            await MainActor.run {
+                displayedAlbums = response.albums.items
+                searchInfo = response.albums
+                currentError = nil
+                isLoading = false
+                print("✅ Search success: \(response.albums.items.count) items loaded.")
+            }
+        } catch is CancellationError {
+            print("Search task cancelled.")
+            await MainActor.run { isLoading = false } // Reset loading if cancelled
+        } catch let apiError as SpotifyAPIError {
+            print("❌ Search API Error: \(apiError.localizedDescription) for query '\(trimmedQuery)'")
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = apiError; isLoading = false }
+        } catch {
+            print("❌ Search Unexpected Error: \(error.localizedDescription) for query '\(trimmedQuery)'")
+            await MainActor.run { displayedAlbums = []; searchInfo = nil; currentError = .networkError(error); isLoading = false }
+        }
+    }
 }
 
 // MARK: - App Entry Point
@@ -993,32 +1028,32 @@ struct DiscoSpotifyApp: App {
             print("👉 API calls will FAIL until this is fixed.")
             // Note: In a real app, you might fetch this dynamically or use a more robust config system.
         }
-
+        
         // --- Global UI Appearance (Optional) ---
         // Set global tint color for elements like the back button arrow, progress views
         UIView.appearance().tintColor = UIColor(discoGold)
-
+        
         // Customize Navigation Bar Title Appearance (Disco Style)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-
+        
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(discoCream),
             .font: UIFont(name: "Funkydori", size: 20) ?? UIFont.systemFont(ofSize: 20, weight: .bold), // Use disco font if available
             .kern: 1.5, // Add slight letter spacing
             .paragraphStyle: paragraphStyle,
-             .shadow: { // Add subtle shadow to title text
-                 let shadow = NSShadow()
-                 shadow.shadowColor = UIColor.black.withAlphaComponent(0.4)
-                 shadow.shadowOffset = CGSize(width: 0, height: 1)
-                 shadow.shadowBlurRadius = 2
-                 return shadow
-             }()
+            .shadow: { // Add subtle shadow to title text
+                let shadow = NSShadow()
+                shadow.shadowColor = UIColor.black.withAlphaComponent(0.4)
+                shadow.shadowOffset = CGSize(width: 0, height: 1)
+                shadow.shadowBlurRadius = 2
+                return shadow
+            }()
         ]
         UINavigationBar.appearance().titleTextAttributes = titleAttributes
         UINavigationBar.appearance().largeTitleTextAttributes = titleAttributes // For consistency if large titles were used
     }
-
+    
     var body: some Scene {
         WindowGroup {
             SpotifyAlbumListView() // Start with the disco-themed list
