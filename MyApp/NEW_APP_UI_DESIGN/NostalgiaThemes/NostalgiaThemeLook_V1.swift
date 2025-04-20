@@ -224,7 +224,7 @@ struct Track: Codable, Identifiable, Hashable {
 
 // MARK: - API Service (Complete & Unchanged - Placeholder Token)
 
-let placeholderSpotifyToken = "YOUR_SPOTIFY_BEARER_TOKEN_HERE" // !! REPLACE THIS !!
+let placeholderSpotifyToken = "" // !! REPLACE THIS !!
 
 enum SpotifyAPIError: Error, LocalizedError {
     case invalidURL
