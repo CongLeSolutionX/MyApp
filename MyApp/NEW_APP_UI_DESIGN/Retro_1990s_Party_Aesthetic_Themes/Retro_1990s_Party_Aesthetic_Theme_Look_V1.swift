@@ -1634,6 +1634,10 @@ struct SpotifyAlbumListView: View {
     }
 }
 
+#Preview("SpotifyAlbumListView") {
+    SpotifyAlbumListView()
+}
+
 // MARK: - App Entry Point
 
 @main
