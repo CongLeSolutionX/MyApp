@@ -1,15 +1,15 @@
-////
-////  SpotifyThemedApp.swift
-////  MyApp
-////
-////  Created by Cong Le on 4/17/25.
-////
 //
-//import SwiftUI
-//@preconcurrency import WebKit // Needed for WebView
-//import Foundation
-//import Combine // Needed for ThemeManager @Published etc.
+//  SpotifyThemedApp.swift
+//  MyApp
 //
+//  Created by Cong Le on 4/17/25.
+//
+
+import SwiftUI
+@preconcurrency import WebKit // Needed for WebView
+import Foundation
+import Combine // Needed for ThemeManager @Published etc.
+
 //// MARK: - Theme System Definition
 //
 //// Enum to represent available themes
@@ -23,32 +23,32 @@
 //
 //    var id: String { self.rawValue }
 //}
-//
-//// Struct to hold the settings for a specific theme
-//struct ThemeSettings: Equatable { // Conforming to Equatable for animation checks
-//    let name: String
-//    let colorScheme: ColorScheme? // nil for system-adaptive, .light or .dark otherwise
-//    let primaryBackgroundColor: Color
-//    let secondaryBackgroundColor: Color // For gradients or sections
-//    let cardGradient: AnyGradient // Flexible card backgrounds
-//    let cardStrokeColor: Color
-//    let primaryTextColor: Color
-//    let secondaryTextColor: Color
-//    let accentColor1: Color // Main interactive elements
-//    let accentColor2: Color // Secondary highlights (e.g., artist names)
-//    let errorColor: Color
-//    let successColor: Color
-//    let glowColor: Color? // Optional glow effect color
-//    let glowRadius: CGFloat
-//    let fontDesign: Font.Design // e.g., .monospaced, .default, .serif
-//    let baseFontSize: CGFloat
-//
-//    // Equatable conformance
-//    static func == (lhs: ThemeSettings, rhs: ThemeSettings) -> Bool {
-//        return lhs.name == rhs.name // Compare by name for simplicity
-//    }
-//}
-//
+
+// Struct to hold the settings for a specific theme
+struct ThemeSettings: Equatable { // Conforming to Equatable for animation checks
+    let name: String
+    let colorScheme: ColorScheme? // nil for system-adaptive, .light or .dark otherwise
+    let primaryBackgroundColor: Color
+    let secondaryBackgroundColor: Color // For gradients or sections
+    let cardGradient: AnyGradient // Flexible card backgrounds
+    let cardStrokeColor: Color
+    let primaryTextColor: Color
+    let secondaryTextColor: Color
+    let accentColor1: Color // Main interactive elements
+    let accentColor2: Color // Secondary highlights (e.g., artist names)
+    let errorColor: Color
+    let successColor: Color
+    let glowColor: Color? // Optional glow effect color
+    let glowRadius: CGFloat
+    let fontDesign: Font.Design // e.g., .monospaced, .default, .serif
+    let baseFontSize: CGFloat
+
+    // Equatable conformance
+    static func == (lhs: ThemeSettings, rhs: ThemeSettings) -> Bool {
+        return lhs.name == rhs.name // Compare by name for simplicity
+    }
+}
+
 //// MARK: - Theme Definitions
 //
 //extension ThemeSettings {
@@ -197,37 +197,37 @@
 //        self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
 //    }
 //}
-//
-//// Gradient helper (Make sure it's Equatable)
-//struct AnyGradient: ShapeStyle, Equatable {
-//    private let gradientIdentifier: String // Use a string identifier for Equatable
-//    private let gradientResolver: (EnvironmentValues) -> AnyShapeStyle
-//
-//    init<S: ShapeStyle>(_ gradient: S) where S.Resolved == AnyShapeStyle, S: Hashable {
-//        // Use Hashable conformance to generate a somewhat unique identifier
-//        self.gradientIdentifier = String(describing: gradient.hashValue)
-//        self.gradientResolver = { _ in AnyShapeStyle(gradient) } // Simple capture
-//    }
-//
-//    // Special handling for Color and standard gradients
-//    init(_ color: Color) {
-//        self.gradientIdentifier = "Color:\(color.hashValue)"
-//        self.gradientResolver = { _ in AnyShapeStyle(color) }
-//    }
-//     init (_ linearGradient: LinearGradient) {
-//         self.gradientIdentifier = "Linear:\(linearGradient.gradient.stops.map { "\($0.color.hashValue)@\($0.location)" }.joined())"
-//         self.gradientResolver = { _ in AnyShapeStyle(linearGradient)}
-//     }
-//     // Add similar initializers for RadialGradient, AngularGradient if needed
-//
-//    func resolve(in environment: EnvironmentValues) -> AnyShapeStyle {
-//        gradientResolver(environment)
-//    }
-//
-//    static func == (lhs: AnyGradient, rhs: AnyGradient) -> Bool {
-//        lhs.gradientIdentifier == rhs.gradientIdentifier
-//    }
-//}
+
+// Gradient helper (Make sure it's Equatable)
+struct AnyGradient: ShapeStyle, Equatable {
+    private let gradientIdentifier: String // Use a string identifier for Equatable
+    private let gradientResolver: (EnvironmentValues) -> AnyShapeStyle
+
+    init<S: ShapeStyle>(_ gradient: S) where S.Resolved == AnyShapeStyle, S: Hashable {
+        // Use Hashable conformance to generate a somewhat unique identifier
+        self.gradientIdentifier = String(describing: gradient.hashValue)
+        self.gradientResolver = { _ in AnyShapeStyle(gradient) } // Simple capture
+    }
+
+    // Special handling for Color and standard gradients
+    init(_ color: Color) {
+        self.gradientIdentifier = "Color:\(color.hashValue)"
+        self.gradientResolver = { _ in AnyShapeStyle(color) }
+    }
+     init (_ linearGradient: LinearGradient) {
+         self.gradientIdentifier = "Linear:" //"Linear:\(linearGradient.gradient.stops.map { "\($0.color.hashValue)@\($0.location)" }.joined())"
+         self.gradientResolver = { _ in AnyShapeStyle(linearGradient)}
+     }
+     // Add similar initializers for RadialGradient, AngularGradient if needed
+
+    func resolve(in environment: EnvironmentValues) -> AnyShapeStyle {
+        gradientResolver(environment)
+    }
+
+    static func == (lhs: AnyGradient, rhs: AnyGradient) -> Bool {
+        lhs.gradientIdentifier == rhs.gradientIdentifier
+    }
+}
 //
 //// MARK: - Theme Manager
 //
@@ -348,82 +348,82 @@
 //
 //    }
 //}
-//
-//// MARK: - Helper Theme Modifiers
-//
-//extension View {
-//    // Apply themed glow effect
-//    func themedGlow(theme: ThemeSettings) -> some View {
-//        if let glowColor = theme.glowColor, theme.glowRadius > 0 {
-//            // Use multiple shadows for a better glow
-//            return self.shadow(color: glowColor.opacity(0.6), radius: theme.glowRadius / 2)
-//                       .shadow(color: glowColor.opacity(0.4), radius: theme.glowRadius)
-//                       .shadow(color: glowColor.opacity(0.2), radius: theme.glowRadius * 1.5)
-//        } else {
-//            // Return self directly without wrapping in AnyView
-//            return self
-//        }
-//    }
-//
-//    // Apply themed font
-//    func themedFont(_ style: Font.TextStyle = .body, weight: Font.Weight = .regular, theme: ThemeSettings) -> some View {
-//        // Use a more robust way to calculate size based on style or keep it simple
-//        let size: CGFloat
-//        switch style {
-//            case .largeTitle: size = theme.baseFontSize * 2.2
-//            case .title: size = theme.baseFontSize * 1.8
-//            case .title2: size = theme.baseFontSize * 1.5
-//            case .title3: size = theme.baseFontSize * 1.3
-//            case .headline: size = theme.baseFontSize * 1.15
-//            case .body: size = theme.baseFontSize
-//            case .callout: size = theme.baseFontSize * 0.95
-//            case .subheadline: size = theme.baseFontSize * 0.9
-//            case .footnote: size = theme.baseFontSize * 0.85
-//            case .caption: size = theme.baseFontSize * 0.8
-//            case .caption2: size = theme.baseFontSize * 0.75
-//            default: size = theme.baseFontSize
-//        }
-//        return self.font(Font.system(size: size, weight: weight, design: theme.fontDesign))
-//    }
-//
-//    // Apply themed primary background
-//     func themedBackground(theme: ThemeSettings) -> some View {
-//        self.background(theme.primaryBackgroundColor.ignoresSafeArea())
-//    }
-//
-//    // Common themed card styling
-//    func themedCardStyle(theme: ThemeSettings) -> some View {
-//        self.background(theme.cardGradient)
-//            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)) // Slightly smaller radius
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 12, style: .continuous)
-//                    .stroke(theme.cardStrokeColor, lineWidth: 1)
-//            )
-//             .themedGlow(theme: theme) // Apply themed glow if present
-//    }
-//
-//    // Conditional Modifiers (Keep these)
-//     @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
-//         if condition {
-//             transform(self)
-//         } else {
-//             self
-//         }
-//     }
-//
-//     @ViewBuilder func `if`<TrueContent: View, FalseContent: View>(
-//         _ condition: Bool,
-//         @ViewBuilder then trueTransform: (Self) -> TrueContent,
-//         @ViewBuilder else falseTransform: (Self) -> FalseContent
-//     ) -> some View {
-//          if condition {
-//              trueTransform(self)
-//          } else {
-//               falseTransform(self)
-//          }
-//     }
-//}
-//
+
+// MARK: - Helper Theme Modifiers
+
+extension View {
+    // Apply themed glow effect
+    func themedGlow(theme: ThemeSettings) -> some View {
+        if let glowColor = theme.glowColor, theme.glowRadius > 0 {
+            // Use multiple shadows for a better glow
+            return self.shadow(color: glowColor.opacity(0.6), radius: theme.glowRadius / 2)
+                       .shadow(color: glowColor.opacity(0.4), radius: theme.glowRadius)
+                       .shadow(color: glowColor.opacity(0.2), radius: theme.glowRadius * 1.5)
+        } else {
+            // Return self directly without wrapping in AnyView
+            return self
+        }
+    }
+
+    // Apply themed font
+    func themedFont(_ style: Font.TextStyle = .body, weight: Font.Weight = .regular, theme: ThemeSettings) -> some View {
+        // Use a more robust way to calculate size based on style or keep it simple
+        let size: CGFloat
+        switch style {
+            case .largeTitle: size = theme.baseFontSize * 2.2
+            case .title: size = theme.baseFontSize * 1.8
+            case .title2: size = theme.baseFontSize * 1.5
+            case .title3: size = theme.baseFontSize * 1.3
+            case .headline: size = theme.baseFontSize * 1.15
+            case .body: size = theme.baseFontSize
+            case .callout: size = theme.baseFontSize * 0.95
+            case .subheadline: size = theme.baseFontSize * 0.9
+            case .footnote: size = theme.baseFontSize * 0.85
+            case .caption: size = theme.baseFontSize * 0.8
+            case .caption2: size = theme.baseFontSize * 0.75
+            default: size = theme.baseFontSize
+        }
+        return self.font(Font.system(size: size, weight: weight, design: theme.fontDesign))
+    }
+
+    // Apply themed primary background
+     func themedBackground(theme: ThemeSettings) -> some View {
+        self.background(theme.primaryBackgroundColor.ignoresSafeArea())
+    }
+
+    // Common themed card styling
+    func themedCardStyle(theme: ThemeSettings) -> some View {
+        self.background(theme.cardGradient)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous)) // Slightly smaller radius
+            .overlay(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(theme.cardStrokeColor, lineWidth: 1)
+            )
+             .themedGlow(theme: theme) // Apply themed glow if present
+    }
+
+    // Conditional Modifiers (Keep these)
+     @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+         if condition {
+             transform(self)
+         } else {
+             self
+         }
+     }
+
+     @ViewBuilder func `if`<TrueContent: View, FalseContent: View>(
+         _ condition: Bool,
+         @ViewBuilder then trueTransform: (Self) -> TrueContent,
+         @ViewBuilder else falseTransform: (Self) -> FalseContent
+     ) -> some View {
+          if condition {
+              trueTransform(self)
+          } else {
+               falseTransform(self)
+          }
+     }
+}
+
 //// MARK: - Data Models (Unchanged)
 //
 //struct SpotifySearchResponse: Codable, Hashable {
