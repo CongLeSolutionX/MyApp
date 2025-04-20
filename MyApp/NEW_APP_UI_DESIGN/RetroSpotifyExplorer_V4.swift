@@ -961,66 +961,66 @@ struct AlbumDetailView: View {
 //        .padding(.vertical, 25)
 //    }
 //}
-//
-//struct SpotifyEmbedPlayerView: View {
-//    @ObservedObject var playbackState: SpotifyPlaybackState
-//    let spotifyUri: String
-//    
-//    var body: some View {
-//        VStack(spacing: 8) { // Added spacing
-//            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-//                .frame(height: 85) // Standard embed height + buffer
-//            // Custom Player Frame/Background
-//                .background(
-//                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
-//                        .overlay(.ultraThinMaterial) // Frosted glass
-//                        .clipShape(RoundedRectangle(cornerRadius: 12))
-//                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
-//                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
-//                )
-//                .padding(.horizontal)
-//            
-//            // --- Themed Playback Status ---
-//            HStack {
-//                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
-//                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
-//                
-//                Text(statusText)
-//                    .font(retroFont(size: 10, weight: .bold))
-//                    .foregroundColor(statusColor)
-//                    .tracking(1.5) // Add letter spacing
-//                    .neonGlow(statusColor, radius: 4)
-//                    .lineLimit(1)
-//                    .frame(width: 80, alignment: .leading) // Fixed width for status
-//                
-//                Spacer()
-//                
-//                if playbackState.duration > 0.1 { // Only show if duration is valid
-//                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
-//                        .font(retroFont(size: 11, weight: .medium))
-//                        .foregroundColor(.white.opacity(0.8))
-//                } else {
-//                    Text("--:-- | --:--") // Placeholder time
-//                        .font(retroFont(size: 11, weight: .medium))
-//                        .foregroundColor(.white.opacity(0.5))
-//                }
-//            }
-//            .padding(.horizontal, 25) // Align with player padding
-//            .padding(.top, 5)
-//            .frame(minHeight: 15)
-//            
-//        } // End VStack
-//        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
-//    }
-//    
-//    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
-//        let totalSeconds = max(0, Int(time))
-//        let minutes = totalSeconds / 60
-//        let seconds = totalSeconds % 60
-//        return String(format: "%d:%02d", minutes, seconds)
-//    }
-//}
-//
+
+struct SpotifyEmbedPlayerView: View {
+    @ObservedObject var playbackState: SpotifyPlaybackState
+    let spotifyUri: String
+    
+    var body: some View {
+        VStack(spacing: 8) { // Added spacing
+            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+                .frame(height: 85) // Standard embed height + buffer
+            // Custom Player Frame/Background
+                .background(
+                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
+                        .overlay(.ultraThinMaterial) // Frosted glass
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
+                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
+                )
+                .padding(.horizontal)
+            
+            // --- Themed Playback Status ---
+            HStack {
+                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
+                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
+                
+                Text(statusText)
+                    .font(retroFont(size: 10, weight: .bold))
+                    .foregroundColor(statusColor)
+                    .tracking(1.5) // Add letter spacing
+                    .neonGlow(statusColor, radius: 4)
+                    .lineLimit(1)
+                    .frame(width: 80, alignment: .leading) // Fixed width for status
+                
+                Spacer()
+                
+                if playbackState.duration > 0.1 { // Only show if duration is valid
+                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.8))
+                } else {
+                    Text("--:-- | --:--") // Placeholder time
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+            .padding(.horizontal, 25) // Align with player padding
+            .padding(.top, 5)
+            .frame(minHeight: 15)
+            
+        } // End VStack
+        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
+    }
+    
+    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
+        let totalSeconds = max(0, Int(time))
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
 //struct TracksSectionView: View {
 //    let tracks: [Track]
 //    let isLoading: Bool

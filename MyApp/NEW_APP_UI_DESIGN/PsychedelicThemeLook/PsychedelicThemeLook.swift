@@ -1173,75 +1173,75 @@ struct AlbumHeaderView: View {
     }
 }
 
-struct SpotifyEmbedPlayerView: View {
-    @ObservedObject var playbackState: SpotifyPlaybackState
-    let spotifyUri: String
-    
-    var body: some View {
-        EmptyView()
-    }
-    
-    //    var body: some View {
-    //        VStack(spacing: 10) { // Increased spacing
-    //            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-    //                .frame(height: 85) // Slightly more vertical space for player
-    //                .background(
-    //                    ZStack { // Layered background for depth
-    //                        LinearGradient(gradient: Gradient(colors: [psychedelicPurples[0].opacity(0.5), .black.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
-    //                        PsychedelicWave(startColor: psychedelicAccentCyan.opacity(0.1), endColor: psychedelicAccentPink.opacity(0.1)) // Faint wave in bg
-    //                            .blur(radius: 5)
-    //                    }
-    //                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded container
-    //                        .overlay(
-    //                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-    //                                .stroke( // Animated border based on playback
-    //                                    LinearGradient(gradient: Gradient(colors: playbackState.isPlaying ? [psychedelicAccentLime, psychedelicAccentCyan] : [psychedelicAccentPink, psychedelicPurples[1]]), startPoint: .leading, endPoint: .trailing),
-    //                                    lineWidth: 1.5
-    //                                       )
-    //                                .opacity(playbackState.isPlaying ? 1.0 : 0.6) // Fade border when paused
-    //                        )
-    //                )
-    //                .psychedelicGlow(playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink, radius: 15) // Dynamic glow
-    //                .animation(.easeInOut (duration: 0.5), value: playbackState.isPlaying) // Smooth animation for glow/border
-    //
-    //            // --- Themed Playback Status ---
-    //            HStack {
-    //                let statusText = playbackState.isPlaying ? "TRANSMITTING" : "PAUSED"
-    //                let statusColor = playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink
-    //
-    //                Text(statusText)
-    //                    .font(psychedelicBodyFont(size: 11, weight: .bold))
-    //                    .foregroundColor(statusColor)
-    //                    .tracking(2.0) // Wider letter spacing for psychedelic feel
-    //                    .shadow(color: statusColor.opacity(0.5), radius: 3)
-    //                    .lineLimit(1)
-    //                    .frame(minWidth: 100, alignment: .leading) // Ensure minimum width
-    //
-    //                Spacer()
-    //
-    //                if playbackState.duration > 0.1 {
-    //                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
-    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-    //                        .foregroundColor(.white.opacity(0.85))
-    //                } else {
-    //                    Text("--:-- / --:--")
-    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-    //                        .foregroundColor(.white.opacity(0.6))
-    //                }
-    //            }
-    //            .padding(.horizontal, 10) // Less horizontal padding for status bar
-    //
-    //        }
-    //    }
-    
-    // Format time (Unchanged)
-    private func formatTime(_ time: Double) -> String { /* ... */
-        let totalSeconds = max(0, Int(time))
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%d:%02d", minutes, seconds)
-    }
-}
+//struct SpotifyEmbedPlayerView: View {
+//    @ObservedObject var playbackState: SpotifyPlaybackState
+//    let spotifyUri: String
+//    
+//    var body: some View {
+//        EmptyView()
+//    }
+//    
+//    //    var body: some View {
+//    //        VStack(spacing: 10) { // Increased spacing
+//    //            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+//    //                .frame(height: 85) // Slightly more vertical space for player
+//    //                .background(
+//    //                    ZStack { // Layered background for depth
+//    //                        LinearGradient(gradient: Gradient(colors: [psychedelicPurples[0].opacity(0.5), .black.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
+//    //                        PsychedelicWave(startColor: psychedelicAccentCyan.opacity(0.1), endColor: psychedelicAccentPink.opacity(0.1)) // Faint wave in bg
+//    //                            .blur(radius: 5)
+//    //                    }
+//    //                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded container
+//    //                        .overlay(
+//    //                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+//    //                                .stroke( // Animated border based on playback
+//    //                                    LinearGradient(gradient: Gradient(colors: playbackState.isPlaying ? [psychedelicAccentLime, psychedelicAccentCyan] : [psychedelicAccentPink, psychedelicPurples[1]]), startPoint: .leading, endPoint: .trailing),
+//    //                                    lineWidth: 1.5
+//    //                                       )
+//    //                                .opacity(playbackState.isPlaying ? 1.0 : 0.6) // Fade border when paused
+//    //                        )
+//    //                )
+//    //                .psychedelicGlow(playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink, radius: 15) // Dynamic glow
+//    //                .animation(.easeInOut (duration: 0.5), value: playbackState.isPlaying) // Smooth animation for glow/border
+//    //
+//    //            // --- Themed Playback Status ---
+//    //            HStack {
+//    //                let statusText = playbackState.isPlaying ? "TRANSMITTING" : "PAUSED"
+//    //                let statusColor = playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink
+//    //
+//    //                Text(statusText)
+//    //                    .font(psychedelicBodyFont(size: 11, weight: .bold))
+//    //                    .foregroundColor(statusColor)
+//    //                    .tracking(2.0) // Wider letter spacing for psychedelic feel
+//    //                    .shadow(color: statusColor.opacity(0.5), radius: 3)
+//    //                    .lineLimit(1)
+//    //                    .frame(minWidth: 100, alignment: .leading) // Ensure minimum width
+//    //
+//    //                Spacer()
+//    //
+//    //                if playbackState.duration > 0.1 {
+//    //                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
+//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
+//    //                        .foregroundColor(.white.opacity(0.85))
+//    //                } else {
+//    //                    Text("--:-- / --:--")
+//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
+//    //                        .foregroundColor(.white.opacity(0.6))
+//    //                }
+//    //            }
+//    //            .padding(.horizontal, 10) // Less horizontal padding for status bar
+//    //
+//    //        }
+//    //    }
+//    
+//    // Format time (Unchanged)
+//    private func formatTime(_ time: Double) -> String { /* ... */
+//        let totalSeconds = max(0, Int(time))
+//        let minutes = totalSeconds / 60
+//        let seconds = totalSeconds % 60
+//        return String(format: "%d:%02d", minutes, seconds)
+//    }
+//}
 
 struct TracksSectionView: View {
     // --- Properties (Unchanged) ---
