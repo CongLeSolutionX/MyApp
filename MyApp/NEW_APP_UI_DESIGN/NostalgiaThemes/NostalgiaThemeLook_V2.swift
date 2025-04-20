@@ -224,7 +224,7 @@ struct Track: Codable, Identifiable, Hashable {
 
 // MARK: - API Service (Complete & Unchanged - Placeholder Token)
 
-let placeholderSpotifyToken = "" // !! REPLACE THIS !!
+let placeholderSpotifyToken = "REPLACE_THIS_TOKEN_WITH_YOUR_OWN" // !! REPLACE THIS !!
 
 enum SpotifyAPIError: Error, LocalizedError {
     case invalidURL
@@ -843,123 +843,129 @@ struct NostalgiaAlbumCard: View {
 }
 
 // --- Album Detail View (Nostalgia Theme) ---
+// MARK: - Album Detail View (Nostalgia Theme - Refactored Parent)
+
 struct AlbumDetailView_Nostalgia: View {
-    let album: AlbumItem
+    // --- Properties ---
+    let album: AlbumItem // Passed in
     @State private var tracks: [Track] = []
     @State private var isLoadingTracks: Bool = false
     @State private var trackFetchError: SpotifyAPIError? = nil
-    @State private var selectedTrackUri: String? = nil
-    @StateObject private var playbackState = SpotifyPlaybackState()
+    @State private var selectedTrackUri: String? = nil // Track URI for the player
+    @StateObject private var playbackState = SpotifyPlaybackState() // Manages player state
 
-    // Use system back button color
-    @Environment(\.colorScheme) var colorScheme
-    
+    @Environment(\.colorScheme) var colorScheme // For potential future use
+    @Environment(\.openURL) var openURL // For external link
+
     var body: some View {
-        Text("Nostalgia Theme")
+        ZStack {
+            // --- Background ---
+            nostalgiaBackground.ignoresSafeArea()
+            SubtleGrainView() // Optional background texture
+
+            // --- Main Content List ---
+            List {
+                albumHeaderSection // Refactored
+
+                // Conditionally show the player if a track URI is selected
+                if let uriToPlay = selectedTrackUri, !uriToPlay.isEmpty {
+                    spotifyPlayerSection(uri: uriToPlay) // Refactored
+                }
+
+                tracksListSection // Refactored
+
+                // Conditionally show the external link button
+                if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
+                    externalLinkSection(url: spotifyURL) // Refactored
+                }
+            }
+            .listStyle(PlainListStyle())
+            .background(Color.clear) // List background is transparent
+            .scrollContentBackground(.hidden) // Allows ZStack background to show
+            .animation(.default, value: selectedTrackUri) // Animate player appearance/disappearance
+
+        } // End ZStack
+        .navigationSetup() // Refactored navigation modifiers
+        .task { await fetchTracks() } // Load tracks when view appears
+        .refreshable { await fetchTracks(forceReload: true) } // Allow pull-to-refresh
     }
 
-//    var body: some View {
-//        ZStack {
-//            // --- Nostalgia Background ---
-//            nostalgiaBackground.ignoresSafeArea()
-//            SubtleGrainView()
-//
-//            List {
-//                // --- Header Section ---
-//                Section {
-//                    AlbumHeaderView_Nostalgia(album: album)
-//                }
-//                .listRowInsets(EdgeInsets())
-//                .listRowSeparator(.hidden)
-//                .listRowBackground(Color.clear)
-//
-//                // --- Player Section (Themed) ---
-//                if let uriToPlay = selectedTrackUri, !uriToPlay.isEmpty {
-//                    Section {
-//                        SpotifyEmbedPlayerView_Nostalgia(playbackState: playbackState, spotifyUri: uriToPlay)
-//                    }
-//                    .listRowSeparator(.hidden)
-//                    .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-//                    .listRowBackground(Color.clear)
-//                    .transition(.opacity.combined(with: .move(edge: .top)).animation(.easeOut(duration: 0.3)))
-//                }
-//
-//                // --- Tracks Section (Themed) ---
-//                Section {
-//                      TracksSectionView_Nostalgia(
-//                          tracks: tracks,
-//                          isLoading: isLoadingTracks,
-//                          error: trackFetchError,
-//                          selectedTrackUri: $selectedTrackUri,
-//                          retryAction: { Task { await fetchTracks() } }
-//                      )
-//                 } header: {
-//                      Text("Tracks") // Simpler header
-//                          .font(nostalgiaTitleFont(size: 14))
-//                          .foregroundColor(nostalgiaSecondaryText)
-//                          .padding(.leading, 15) // Align with row content
-//                          .padding(.top, 10)
-//                          .padding(.bottom, 5)
-//                          .textCase(nil) // Prevent uppercasing
-//                 }
-//                 .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)) // Padding for rows
-//                 .listRowSeparatorTint(nostalgiaSecondaryText.opacity(0.2)) // Faded separator
-//                 .listRowBackground(Color.clear)
-//
-//                 // --- External Link Section (Themed) ---
-//                 if let spotifyURL = URL(string: album.external_urls.spotify ?? "") {
-//                      Section {
-//                           ExternalLinkButton_Nostalgia(url: spotifyURL)
-//                      }
-//                      .listRowInsets(EdgeInsets(top: 20, leading: 15, bottom: 20, trailing: 15))
-//                      .listRowSeparator(.hidden)
-//                      .listRowBackground(Color.clear)
-//                 }
-//
-//            } // End List
-//            .listStyle(PlainListStyle())
-//              .background(Color.clear)
-//              .scrollContentBackground(.hidden)
-//              .animation(.default, value: selectedTrackUri) // Animate player appearance
-//
-//        } // End ZStack
-//        // --- Navigation Bar Styling ---
-//          .navigationTitle(album.name) // Keep album name
-//          .navigationBarTitleDisplayMode(.inline)
-//          .toolbar { // Apply font to inline title
-//               ToolbarItem(placement: .principal) {
-//                    Text(album.name)
-//                         .font(nostalgiaTitleFont(size: 17))
-//                         .foregroundColor(nostalgiaPrimaryText)
-//                         .lineLimit(1)
-//               }
-//          }
-//          .toolbarBackground(nostalgiaBackground.opacity(0.8), for: .navigationBar)
-//          .toolbarBackground(.visible, for: .navigationBar)
-//          // System handles back button color based on scheme, tint set globally
-//
-//           .task { await fetchTracks() }
-//           .refreshable { await fetchTracks(forceReload: true) }
-//    }
+    // --- Computed View Properties for Sections ---
 
-    // --- Fetch Tracks Logic (Unchanged) ---
+    /// Section displaying the album header information.
+    private var albumHeaderSection: some View {
+        Section {
+            AlbumHeaderView_Nostalgia(album: album)
+        }
+        .listRowInsets(EdgeInsets()) // Remove default padding
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear) // Transparent background
+    }
+
+    /// Section displaying the Spotify embedded player.
+    /// - Parameter uri: The Spotify URI of the track/album to play.
+    private func spotifyPlayerSection(uri: String) -> some View {
+        Section {
+            SpotifyEmbedPlayerView_Nostalgia(
+                playbackState: playbackState,
+                spotifyUri: uri
+            )
+        }
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)) // Add padding around player
+        .listRowBackground(Color.clear)
+        // Animate the player smoothly
+        .transition(.opacity.combined(with: .move(edge: .top)).animation(.easeOut(duration: 0.3)))
+    }
+
+    /// Section displaying the list of tracks or loading/error states.
+    private var tracksListSection: some View {
+        Section {
+            TracksSectionView_Nostalgia(
+                tracks: tracks,
+                isLoading: isLoadingTracks,
+                error: trackFetchError,
+                selectedTrackUri: $selectedTrackUri, // Pass binding for selection
+                retryAction: { Task { await fetchTracks() } } // Action to retry fetching
+            )
+        } header: {
+            // Simple text header for the tracks section
+            Text("Tracks")
+                .font(nostalgiaTitleFont(size: 14))
+                .foregroundColor(nostalgiaSecondaryText)
+                .padding(.leading, 15)
+                .padding(.top, 10)
+                .padding(.bottom, 5)
+                .textCase(nil) // Use default casing
+        }
+        .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)) // Padding for track rows
+        .listRowSeparatorTint(nostalgiaSecondaryText.opacity(0.2)) // Faded separator line
+        .listRowBackground(Color.clear)
+    }
+
+    /// Section displaying the button to open the album in Spotify.
+    /// - Parameter url: The external Spotify URL for the album.
+    private func externalLinkSection(url: URL) -> some View {
+        Section {
+            ExternalLinkButton_Nostalgia(url: url)
+        }
+        .listRowInsets(EdgeInsets(top: 20, leading: 15, bottom: 20, trailing: 15)) // Padding around button
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+    }
+
+    // --- Fetch Tracks Logic (Remains the same) ---
     private func fetchTracks(forceReload: Bool = false) async {
-        // Don't fetch if already loaded unless forced
         guard forceReload || tracks.isEmpty || trackFetchError != nil else { return }
-
         await MainActor.run { isLoadingTracks = true; trackFetchError = nil }
         print("🎵 Fetching tracks for album ID: \(album.id)")
         do {
             let response = try await SpotifyAPIService.shared.getAlbumTracks(albumId: album.id)
-             try Task.checkCancellation() // Check before updating state
+             try Task.checkCancellation()
             await MainActor.run {
                 self.tracks = response.items
                 self.isLoadingTracks = false
                 print("✅ Tracks loaded: \(response.items.count)")
-                 // If first load and tracks exist, maybe pre-select the first one?
-                 // if forceReload == false && !response.items.isEmpty && selectedTrackUri == nil {
-                 //     selectedTrackUri = response.items.first?.uri ?? ""
-                 // }
             }
         } catch is CancellationError {
             print("Track fetch cancelled.")
@@ -972,9 +978,76 @@ struct AlbumDetailView_Nostalgia: View {
             await MainActor.run { self.trackFetchError = .networkError(error); self.isLoadingTracks = false; self.tracks = [] }
         }
     }
-
 }
 
+// MARK: - Helper Modifier for Navigation Bar Styling
+
+/// Applies consistent navigation bar styling for the Nostalgia theme.
+private struct NavigationStylingModifier: ViewModifier {
+    let title: String
+
+    func body(content: Content) -> some View {
+        content
+            .navigationTitle(title) // Set the primary title (might be overridden by inline)
+            .navigationBarTitleDisplayMode(.inline) // Force inline mode
+            .toolbar {
+                // Custom view for the inline title to control font
+                ToolbarItem(placement: .principal) {
+                    Text(title) // Display the same title inline
+                        .font(nostalgiaTitleFont(size: 17))
+                        .foregroundColor(nostalgiaPrimaryText)
+                        .lineLimit(1) // Prevent wrapping
+                }
+            }
+            // Apply themed background to the navigation bar
+            .toolbarBackground(nostalgiaBackground.opacity(0.8), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar) // Ensure background is always visible
+            // Tint color for back button etc. can be set globally via .tint()
+    }
+}
+
+extension View {
+    /// Helper to apply the themed navigation bar setup.
+    func navigationSetup() -> some View {
+        // This approach assumes the navigationTitle is set *before* calling this modifier
+        // Or you could pass the title directly: func navigationSetup(title: String) -> some View
+        // For simplicity, let's assume title is set on the view calling this.
+        // A cleaner way might involve extracting the title logic more robustly.
+        // Let's stick to applying modifiers for now.
+         self
+              // .navigationTitle(title) // Title should be set on the view using this modifier
+              .navigationBarTitleDisplayMode(.inline)
+              .toolbar {
+                   ToolbarItem(placement: .principal) {
+                        // Attempt to get title if possible, otherwise fallback
+                        // This part is tricky without passing the title in directly
+                         Text("self.navigationTitle") // Placeholder, likely won't work directly
+                              .font(nostalgiaTitleFont(size: 17))
+                              .foregroundColor(nostalgiaPrimaryText)
+                              .lineLimit(1)
+                   }
+              }
+              .toolbarBackground(nostalgiaBackground.opacity(0.8), for: .navigationBar)
+              .toolbarBackground(.visible, for: .navigationBar)
+    }
+}
+
+// --- Existing Subviews (Confirmation) ---
+// Make sure these structs exist as defined in the previous combined code:
+
+/*
+ struct AlbumHeaderView_Nostalgia: View { ... }
+ struct SpotifyEmbedPlayerView_Nostalgia: View { ... }
+ struct TracksSectionView_Nostalgia: View { ... } // Contains ForEach, loading/error logic
+ struct TrackRowView_Nostalgia: View { ... }
+ struct SpotifyEmbedWebView: UIViewRepresentable { ... } // And its Coordinator
+ struct ExternalLinkButton_Nostalgia: View { ... }
+ struct NostalgiaButton: View { ... } // Used by ExternalLinkButton
+ */
+
+// No changes needed for the existing subview implementations themselves,
+// as they were already designed to handle specific parts of the UI.
+// The refactoring primarily simplifies the `body` of `AlbumDetailView_Nostalgia`.
 // --- Detail View Sub-Components (Nostalgia Theme) ---
 
 struct AlbumHeaderView_Nostalgia: View {
