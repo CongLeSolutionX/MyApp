@@ -117,6 +117,7 @@
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
 		9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */; };
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
+		9AAE06F82DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE06F72DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift */; };
 		9AF356062DB0CD2E006D2E67 /* PsychedelicCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */; };
 		9AF356082DB0D029006D2E67 /* PsychedelicCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */; };
 		9AF3560A2DB0D234006D2E67 /* RetroFuturisticMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */; };
@@ -250,6 +251,7 @@
 		9AAC41812C74668C00AC0A60 /* MyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyApp.entitlements; sourceTree = "<group>"; };
 		9AAC41832C74668C00AC0A60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
+		9AAE06F72DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroSpotifyExplorer_V4.swift; sourceTree = "<group>"; };
 		9AF356052DB0CD2B006D2E67 /* PsychedelicCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V1.swift; sourceTree = "<group>"; };
 		9AF356072DB0D028006D2E67 /* PsychedelicCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicCardView_V2.swift; sourceTree = "<group>"; };
 		9AF356092DB0D231006D2E67 /* RetroFuturisticMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroFuturisticMusicPlayerView.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				9AF356132DB102A9006D2E67 /* LiquidGoldMusicPlayerView.swift */,
 				9AF356112DB1006B006D2E67 /* LiquidGoldThemeLook.swift */,
 				9AF3560F2DB0FBF4006D2E67 /* ArtDecoThemeLook.swift */,
+				9AAE06F72DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift */,
 				9A04EAD32DB33CBC0007A8E4 /* RetroSpotifyExplorer_V3.swift */,
 				9AF3560D2DB0D8F0006D2E67 /* RetroSpotifyExplorer_V2.swift */,
 				9AF3560B2DB0D782006D2E67 /* RetroSpotifyExplorer_V1.swift */,
@@ -799,6 +802,7 @@
 				9A76F6472DB218D5004B7B89 /* MusicPlayerView_V6.swift in Sources */,
 				9A5F074E2DB0B71A00DC089D /* FriendListeningManager_V5.swift in Sources */,
 				9A8D5D542DAF667E0078B786 /* SpotifyEmbedView_V7.swift in Sources */,
+				9AAE06F82DB4C2060035A0FA /* RetroSpotifyExplorer_V4.swift in Sources */,
 				9A76F6452DB217F4004B7B89 /* MusicPlayerView_V5.swift in Sources */,
 				9AA1A52F2DA58900000178B3 /* AVPlayerView_V4.swift in Sources */,
 				9AA1A5252DA5399C000178B3 /* GoogleAdView_V3.swift in Sources */,
