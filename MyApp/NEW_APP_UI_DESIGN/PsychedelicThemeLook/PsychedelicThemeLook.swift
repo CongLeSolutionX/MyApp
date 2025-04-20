@@ -1143,207 +1143,208 @@ struct AlbumHeaderView: View {
     }
 }
 
-struct SpotifyEmbedPlayerView: View {
-    @ObservedObject var playbackState: SpotifyPlaybackState
-    let spotifyUri: String
-    
-    var body: some View {
-        EmptyView()
-    }
-    
-    //    var body: some View {
-    //        VStack(spacing: 10) { // Increased spacing
-    //            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-    //                .frame(height: 85) // Slightly more vertical space for player
-    //                .background(
-    //                    ZStack { // Layered background for depth
-    //                        LinearGradient(gradient: Gradient(colors: [psychedelicPurples[0].opacity(0.5), .black.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
-    //                        PsychedelicWave(startColor: psychedelicAccentCyan.opacity(0.1), endColor: psychedelicAccentPink.opacity(0.1)) // Faint wave in bg
-    //                            .blur(radius: 5)
-    //                    }
-    //                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded container
-    //                        .overlay(
-    //                            RoundedRectangle(cornerRadius: 20, style: .continuous)
-    //                                .stroke( // Animated border based on playback
-    //                                    LinearGradient(gradient: Gradient(colors: playbackState.isPlaying ? [psychedelicAccentLime, psychedelicAccentCyan] : [psychedelicAccentPink, psychedelicPurples[1]]), startPoint: .leading, endPoint: .trailing),
-    //                                    lineWidth: 1.5
-    //                                       )
-    //                                .opacity(playbackState.isPlaying ? 1.0 : 0.6) // Fade border when paused
-    //                        )
-    //                )
-    //                .psychedelicGlow(playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink, radius: 15) // Dynamic glow
-    //                .animation(.easeInOut (duration: 0.5), value: playbackState.isPlaying) // Smooth animation for glow/border
-    //
-    //            // --- Themed Playback Status ---
-    //            HStack {
-    //                let statusText = playbackState.isPlaying ? "TRANSMITTING" : "PAUSED"
-    //                let statusColor = playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink
-    //
-    //                Text(statusText)
-    //                    .font(psychedelicBodyFont(size: 11, weight: .bold))
-    //                    .foregroundColor(statusColor)
-    //                    .tracking(2.0) // Wider letter spacing for psychedelic feel
-    //                    .shadow(color: statusColor.opacity(0.5), radius: 3)
-    //                    .lineLimit(1)
-    //                    .frame(minWidth: 100, alignment: .leading) // Ensure minimum width
-    //
-    //                Spacer()
-    //
-    //                if playbackState.duration > 0.1 {
-    //                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
-    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-    //                        .foregroundColor(.white.opacity(0.85))
-    //                } else {
-    //                    Text("--:-- / --:--")
-    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
-    //                        .foregroundColor(.white.opacity(0.6))
-    //                }
-    //            }
-    //            .padding(.horizontal, 10) // Less horizontal padding for status bar
-    //
-    //        }
-    //    }
-    
-    // Format time (Unchanged)
-    private func formatTime(_ time: Double) -> String { /* ... */
-        let totalSeconds = max(0, Int(time))
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%d:%02d", minutes, seconds)
-    }
-}
-struct TracksSectionView: View {
-    // --- Properties (Unchanged) ---
-    let tracks: [Track]
-    let isLoading: Bool
-    let error: SpotifyAPIError?
-    @Binding var selectedTrackUri: String?
-    let retryAction: () -> Void
-    
-    // --- Main Body ---
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) { // Root VStack
-            tracksHeader() // Extracted Header
-            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
-                .padding(.horizontal) // Padding around the themed background area
-        }
-    }
-    
-    // MARK: - @ViewBuilder Sub-Components
-    
-    // Builds the themed section header
-    @ViewBuilder
-    private func tracksHeader() -> some View {
-        Text("TRACKLIST FREQUENCIES")
-            .font(psychedelicBodyFont(size: 14, weight: .bold))
-            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
-            .tracking(2.5) // Wider tracking
-            .padding(.horizontal) // Padding for the header text itself
-            .padding(.bottom, 15)
-            .frame(maxWidth: .infinity, alignment: .center)
-    }
-    
-    // Builds the container that holds the conditional content (loading, error, etc.)
-    // This container includes the themed background.
-    @ViewBuilder
-    private func tracksContentContainer() -> some View {
-        Group { // Group is necessary to apply modifiers to the result of the conditional logic
-            conditionalTracksContent() // Calls the function with the if/else logic
-        }
-        .padding(.horizontal) // Apply horizontal padding INSIDE the background
-        .background(
-            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
-                .blur(radius: 5)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
-    }
-    
-    // Builds the actual content based on loading/error/empty/data state
-    @ViewBuilder
-    private func conditionalTracksContent() -> some View {
-        if isLoading {
-            loadingView()
-        } else if let error = error {
-            // Note: Using the existing ErrorPlaceholderView is fine.
-            // If it were much larger, it could also be refactored.
-            ErrorPlaceholderView(error: error, retryAction: retryAction)
-                .padding(.vertical, 20) // Padding when showing error
-        } else if tracks.isEmpty {
-            emptyTracksView()
-        } else {
-            trackListView() // The list itself
-        }
-    }
-    
-    // Builds the loading indicator view
-    @ViewBuilder
-    private func loadingView() -> some View {
-        HStack {
-            Spacer()
-            ProgressView().tint(psychedelicAccentCyan)
-            Text("Scanning...")
-                .font(psychedelicBodyFont(size: 14))
-                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
-            Spacer()
-        }
-        .padding(.vertical, 40) // Give loading state some vertical space
-    }
-    
-    // Builds the empty state view
-    @ViewBuilder
-    private func emptyTracksView() -> some View {
-        Text("Signal Lost - No Tracks Found")
-            .font(psychedelicBodyFont(size: 14))
-            .foregroundColor(.white.opacity(0.6))
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.vertical, 40) // Give empty state some vertical space
-    }
-    
-    // Builds the list of track rows using ForEach
-    @ViewBuilder
-    private func trackListView() -> some View {
-        // Using LazyVStack internally if you expect potentially very long lists,
-        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
-        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
-            ForEach(tracks) { track in
-                trackRow(track: track) // Extracted individual track row
-            }
-            .padding(.bottom, 5) // Add minor padding below the last track if needed
-        }
-        // Add top/bottom padding if the list content needs space from the container edges
-        .padding(.vertical, 10)
-    }
-    
-    // Builds a single track row and its interactivity
-    @ViewBuilder
-    private func trackRow(track: Track) -> some View {
-        let isSelected = track.uri == selectedTrackUri
-        VStack(spacing: 0) { // Wrap row content and divider
-            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
-                .contentShape(Rectangle()) // Make the whole row tappable
-                .onTapGesture {
-                    // Animate the URI change if desired
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        selectedTrackUri = track.uri
-                    }
-                }
-                .background( // Apply themed background based on selection
-                    isSelected
-                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
-                        .blur(radius: 8) as! Color // Slightly more pronounced blur
-                    : Color.clear
-                )
-                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
-            
-            // Subtle custom divider (don't draw after the last item)
-            if track.id != tracks.last?.id {
-                Divider()
-                    .background(Color.white.opacity(0.1))
-                    .padding(.leading, 55) // Indent divider past track number/icon area
-            }
-        }
-    }
-} // End of TracksSectionView
+//struct SpotifyEmbedPlayerView: View {
+//    @ObservedObject var playbackState: SpotifyPlaybackState
+//    let spotifyUri: String
+//    
+//    var body: some View {
+//        EmptyView()
+//    }
+//    
+//    //    var body: some View {
+//    //        VStack(spacing: 10) { // Increased spacing
+//    //            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+//    //                .frame(height: 85) // Slightly more vertical space for player
+//    //                .background(
+//    //                    ZStack { // Layered background for depth
+//    //                        LinearGradient(gradient: Gradient(colors: [psychedelicPurples[0].opacity(0.5), .black.opacity(0.6)]), startPoint: .top, endPoint: .bottom)
+//    //                        PsychedelicWave(startColor: psychedelicAccentCyan.opacity(0.1), endColor: psychedelicAccentPink.opacity(0.1)) // Faint wave in bg
+//    //                            .blur(radius: 5)
+//    //                    }
+//    //                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded container
+//    //                        .overlay(
+//    //                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+//    //                                .stroke( // Animated border based on playback
+//    //                                    LinearGradient(gradient: Gradient(colors: playbackState.isPlaying ? [psychedelicAccentLime, psychedelicAccentCyan] : [psychedelicAccentPink, psychedelicPurples[1]]), startPoint: .leading, endPoint: .trailing),
+//    //                                    lineWidth: 1.5
+//    //                                       )
+//    //                                .opacity(playbackState.isPlaying ? 1.0 : 0.6) // Fade border when paused
+//    //                        )
+//    //                )
+//    //                .psychedelicGlow(playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink, radius: 15) // Dynamic glow
+//    //                .animation(.easeInOut (duration: 0.5), value: playbackState.isPlaying) // Smooth animation for glow/border
+//    //
+//    //            // --- Themed Playback Status ---
+//    //            HStack {
+//    //                let statusText = playbackState.isPlaying ? "TRANSMITTING" : "PAUSED"
+//    //                let statusColor = playbackState.isPlaying ? psychedelicAccentLime : psychedelicAccentPink
+//    //
+//    //                Text(statusText)
+//    //                    .font(psychedelicBodyFont(size: 11, weight: .bold))
+//    //                    .foregroundColor(statusColor)
+//    //                    .tracking(2.0) // Wider letter spacing for psychedelic feel
+//    //                    .shadow(color: statusColor.opacity(0.5), radius: 3)
+//    //                    .lineLimit(1)
+//    //                    .frame(minWidth: 100, alignment: .leading) // Ensure minimum width
+//    //
+//    //                Spacer()
+//    //
+//    //                if playbackState.duration > 0.1 {
+//    //                    Text("\(formatTime(playbackState.currentPosition)) / \(formatTime(playbackState.duration))")
+//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
+//    //                        .foregroundColor(.white.opacity(0.85))
+//    //                } else {
+//    //                    Text("--:-- / --:--")
+//    //                        .font(psychedelicBodyFont(size: 12, weight: .medium))
+//    //                        .foregroundColor(.white.opacity(0.6))
+//    //                }
+//    //            }
+//    //            .padding(.horizontal, 10) // Less horizontal padding for status bar
+//    //
+//    //        }
+//    //    }
+//    
+//    // Format time (Unchanged)
+//    private func formatTime(_ time: Double) -> String { /* ... */
+//        let totalSeconds = max(0, Int(time))
+//        let minutes = totalSeconds / 60
+//        let seconds = totalSeconds % 60
+//        return String(format: "%d:%02d", minutes, seconds)
+//    }
+//}
+
+//struct TracksSectionView: View {
+//    // --- Properties (Unchanged) ---
+//    let tracks: [Track]
+//    let isLoading: Bool
+//    let error: SpotifyAPIError?
+//    @Binding var selectedTrackUri: String?
+//    let retryAction: () -> Void
+//    
+//    // --- Main Body ---
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 0) { // Root VStack
+//            tracksHeader() // Extracted Header
+//            tracksContentContainer() // Extracted Content Area (Loading/Error/Empty/List)
+//                .padding(.horizontal) // Padding around the themed background area
+//        }
+//    }
+//    
+//    // MARK: - @ViewBuilder Sub-Components
+//    
+//    // Builds the themed section header
+//    @ViewBuilder
+//    private func tracksHeader() -> some View {
+//        Text("TRACKLIST FREQUENCIES")
+//            .font(psychedelicBodyFont(size: 14, weight: .bold))
+//            .foregroundStyle(LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan, psychedelicAccentLime]), startPoint: .leading, endPoint: .trailing))
+//            .tracking(2.5) // Wider tracking
+//            .padding(.horizontal) // Padding for the header text itself
+//            .padding(.bottom, 15)
+//            .frame(maxWidth: .infinity, alignment: .center)
+//    }
+//    
+//    // Builds the container that holds the conditional content (loading, error, etc.)
+//    // This container includes the themed background.
+//    @ViewBuilder
+//    private func tracksContentContainer() -> some View {
+//        Group { // Group is necessary to apply modifiers to the result of the conditional logic
+//            conditionalTracksContent() // Calls the function with the if/else logic
+//        }
+//        .padding(.horizontal) // Apply horizontal padding INSIDE the background
+//        .background(
+//            Color.black.opacity(0.2) // Dark, semi-transparent background for the track list area
+//                .blur(radius: 5)
+//        )
+//        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // Rounded background for track list
+//    }
+//    
+//    // Builds the actual content based on loading/error/empty/data state
+//    @ViewBuilder
+//    private func conditionalTracksContent() -> some View {
+//        if isLoading {
+//            loadingView()
+//        } else if let error = error {
+//            // Note: Using the existing ErrorPlaceholderView is fine.
+//            // If it were much larger, it could also be refactored.
+//            ErrorPlaceholderView(error: error, retryAction: retryAction)
+//                .padding(.vertical, 20) // Padding when showing error
+//        } else if tracks.isEmpty {
+//            emptyTracksView()
+//        } else {
+//            trackListView() // The list itself
+//        }
+//    }
+//    
+//    // Builds the loading indicator view
+//    @ViewBuilder
+//    private func loadingView() -> some View {
+//        HStack {
+//            Spacer()
+//            ProgressView().tint(psychedelicAccentCyan)
+//            Text("Scanning...")
+//                .font(psychedelicBodyFont(size: 14))
+//                .foregroundStyle(psychedelicAccentCyan.opacity(0.8))
+//            Spacer()
+//        }
+//        .padding(.vertical, 40) // Give loading state some vertical space
+//    }
+//    
+//    // Builds the empty state view
+//    @ViewBuilder
+//    private func emptyTracksView() -> some View {
+//        Text("Signal Lost - No Tracks Found")
+//            .font(psychedelicBodyFont(size: 14))
+//            .foregroundColor(.white.opacity(0.6))
+//            .frame(maxWidth: .infinity, alignment: .center)
+//            .padding(.vertical, 40) // Give empty state some vertical space
+//    }
+//    
+//    // Builds the list of track rows using ForEach
+//    @ViewBuilder
+//    private func trackListView() -> some View {
+//        // Using LazyVStack internally if you expect potentially very long lists,
+//        // otherwise ForEach directly is fine for moderate lists within a ScrollView.
+//        LazyVStack(spacing: 0) { // Use LazyVStack for efficient row loading
+//            ForEach(tracks) { track in
+//                trackRow(track: track) // Extracted individual track row
+//            }
+//            .padding(.bottom, 5) // Add minor padding below the last track if needed
+//        }
+//        // Add top/bottom padding if the list content needs space from the container edges
+//        .padding(.vertical, 10)
+//    }
+//    
+//    // Builds a single track row and its interactivity
+//    @ViewBuilder
+//    private func trackRow(track: Track) -> some View {
+//        let isSelected = track.uri == selectedTrackUri
+//        VStack(spacing: 0) { // Wrap row content and divider
+//            TrackRowView(track: track, isSelected: isSelected) // Use the existing Row View
+//                .contentShape(Rectangle()) // Make the whole row tappable
+//                .onTapGesture {
+//                    // Animate the URI change if desired
+//                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+//                        selectedTrackUri = track.uri
+//                    }
+//                }
+//                .background( // Apply themed background based on selection
+//                    isSelected
+//                    ? LinearGradient(gradient: Gradient(colors: [psychedelicAccentCyan.opacity(0.25), psychedelicAccentPink.opacity(0.15)]), startPoint: .leading, endPoint: .trailing)
+//                        .blur(radius: 8) as! Color // Slightly more pronounced blur
+//                    : Color.clear
+//                )
+//                .animation(.easeInOut(duration: 0.3), value: isSelected) // Animate background change
+//            
+//            // Subtle custom divider (don't draw after the last item)
+//            if track.id != tracks.last?.id {
+//                Divider()
+//                    .background(Color.white.opacity(0.1))
+//                    .padding(.leading, 55) // Indent divider past track number/icon area
+//            }
+//        }
+//    }
+//} // End of TracksSectionView
 
 struct TrackRowView: View {
     let track: Track

@@ -1,49 +1,49 @@
-////
-////  Retro_V3.swift
-////  MyApp
-////
-////  Created by Cong Le on 4/18/25.
-////
 //
-//import SwiftUI
-//@preconcurrency import WebKit // Needed for WebView
-//import Foundation
+//  Retro_V3.swift
+//  MyApp
 //
-//// MARK: - Theme Constants & Modifiers
+//  Created by Cong Le on 4/18/25.
 //
-//let retroDeepPurple = Color(red: 0.15, green: 0.05, blue: 0.25) // Dark background
-//let retroNeonPink = Color(red: 1.0, green: 0.1, blue: 0.5)
-//let retroNeonCyan = Color(red: 0.1, green: 0.9, blue: 0.9)
-//let retroNeonLime = Color(red: 0.7, green: 1.0, blue: 0.3)
-//let retroGradients: [Color] = [
-//    Color(red: 0.25, green: 0.12, blue: 0.4), // Deep purple
-//    Color(red: 0.55, green: 0.19, blue: 0.66), // Mid purple/pink
-//    Color(red: 0.95, green: 0.29, blue: 0.56), // Neon pinkish
-//    Color(red: 0.18, green: 0.5, blue: 0.96)    // Neon blue
-//]
-//
-//// Custom Font Helper (adjust font names if needed)
-//func retroFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
-//    // Example: Using Menlo (built-in monospaced)
-//    // return Font.system(size: size, weight: weight, design: .monospaced)
-//    
-//    // Example: Using a custom font (replace "YourRetroFontName" if you add one)
-//    // return Font.custom("YourRetroFontName", size: size).weight(weight)
-//    
-//    // Defaulting to system monospaced
-//    return Font.system(size: size, design: .monospaced).weight(weight)
-//}
-//
-//extension View {
-//    // Apply consistent neon glow
-//    func neonGlow(_ color: Color, radius: CGFloat = 8) -> some View {
-//        self
-//            .shadow(color: color.opacity(0.6), radius: radius / 2, x: 0, y: 0) // Inner sharp glow
-//            .shadow(color: color.opacity(0.4), radius: radius, x: 0, y: 0)     // Mid soft glow
-//            .shadow(color: color.opacity(0.2), radius: radius * 1.5, x: 0, y: 0) // Outer faint glow
-//    }
-//}
-//
+
+import SwiftUI
+@preconcurrency import WebKit // Needed for WebView
+import Foundation
+
+// MARK: - Theme Constants & Modifiers
+
+let retroDeepPurple = Color(red: 0.15, green: 0.05, blue: 0.25) // Dark background
+let retroNeonPink = Color(red: 1.0, green: 0.1, blue: 0.5)
+let retroNeonCyan = Color(red: 0.1, green: 0.9, blue: 0.9)
+let retroNeonLime = Color(red: 0.7, green: 1.0, blue: 0.3)
+let retroGradients: [Color] = [
+    Color(red: 0.25, green: 0.12, blue: 0.4), // Deep purple
+    Color(red: 0.55, green: 0.19, blue: 0.66), // Mid purple/pink
+    Color(red: 0.95, green: 0.29, blue: 0.56), // Neon pinkish
+    Color(red: 0.18, green: 0.5, blue: 0.96)    // Neon blue
+]
+
+// Custom Font Helper (adjust font names if needed)
+func retroFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
+    // Example: Using Menlo (built-in monospaced)
+    // return Font.system(size: size, weight: weight, design: .monospaced)
+    
+    // Example: Using a custom font (replace "YourRetroFontName" if you add one)
+    // return Font.custom("YourRetroFontName", size: size).weight(weight)
+    
+    // Defaulting to system monospaced
+    return Font.system(size: size, design: .monospaced).weight(weight)
+}
+
+extension View {
+    // Apply consistent neon glow
+    func neonGlow(_ color: Color, radius: CGFloat = 8) -> some View {
+        self
+            .shadow(color: color.opacity(0.6), radius: radius / 2, x: 0, y: 0) // Inner sharp glow
+            .shadow(color: color.opacity(0.4), radius: radius, x: 0, y: 0)     // Mid soft glow
+            .shadow(color: color.opacity(0.2), radius: radius * 1.5, x: 0, y: 0) // Outer faint glow
+    }
+}
+
 //// MARK: - Data Models (Unchanged from previous versions)
 //
 //struct SpotifySearchResponse: Codable, Hashable { /* ... */
@@ -960,114 +960,114 @@
 //        .padding(.vertical, 25)
 //    }
 //}
-//
-//struct SpotifyEmbedPlayerView: View {
-//    @ObservedObject var playbackState: SpotifyPlaybackState
-//    let spotifyUri: String
-//    
-//    var body: some View {
-//        VStack(spacing: 8) { // Added spacing
-//            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
-//                .frame(height: 85) // Standard embed height + buffer
-//            // Custom Player Frame/Background
-//                .background(
-//                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
-//                        .overlay(.ultraThinMaterial) // Frosted glass
-//                        .clipShape(RoundedRectangle(cornerRadius: 12))
-//                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
-//                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
-//                )
-//                .padding(.horizontal)
-//            
-//            // --- Themed Playback Status ---
-//            HStack {
-//                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
-//                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
-//                
-//                Text(statusText)
-//                    .font(retroFont(size: 10, weight: .bold))
-//                    .foregroundColor(statusColor)
-//                    .tracking(1.5) // Add letter spacing
-//                    .neonGlow(statusColor, radius: 4)
-//                    .lineLimit(1)
-//                    .frame(width: 80, alignment: .leading) // Fixed width for status
-//                
-//                Spacer()
-//                
-//                if playbackState.duration > 0.1 { // Only show if duration is valid
-//                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
-//                        .font(retroFont(size: 11, weight: .medium))
-//                        .foregroundColor(.white.opacity(0.8))
-//                } else {
-//                    Text("--:-- | --:--") // Placeholder time
-//                        .font(retroFont(size: 11, weight: .medium))
-//                        .foregroundColor(.white.opacity(0.5))
-//                }
-//            }
-//            .padding(.horizontal, 25) // Align with player padding
-//            .padding(.top, 5)
-//            .frame(minHeight: 15)
-//            
-//        } // End VStack
-//        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
-//    }
-//    
-//    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
-//        let totalSeconds = max(0, Int(time))
-//        let minutes = totalSeconds / 60
-//        let seconds = totalSeconds % 60
-//        return String(format: "%d:%02d", minutes, seconds)
-//    }
-//}
-//
-//struct TracksSectionView: View {
-//    let tracks: [Track]
-//    let isLoading: Bool
-//    let error: SpotifyAPIError?
-//    @Binding var selectedTrackUri: String? // Binding to update parent
-//    let retryAction: () -> Void
-//
-//    var body: some View {
-//        // No encompassing VStack needed if used directly in List Section
-//        if isLoading {
-//            HStack { // Center progress view within the list section area
-//                Spacer()
-//                ProgressView()
-//                Text("Loading Tracks...")
-//                    .foregroundColor(.secondary)
-//                    .padding(.leading, 5)
-//                Spacer()
-//            }
-//            .padding(.vertical, 20) // Give loading indicator space
-//        } else if let error = error {
-//            // Use the new ErrorPlaceholderView
-//            ErrorPlaceholderView(error: error, retryAction: retryAction)
-//                .padding(.vertical, 20) // Give error view space
-//        } else if tracks.isEmpty {
-//            // Message for when tracks array is empty *after* successful load
-//            Text("No tracks found for this album.")
-//                .foregroundColor(.secondary)
-//                .frame(maxWidth: .infinity, alignment: .center)
-//                .padding(.vertical, 20)
-//        } else {
-//            // Use ForEach directly within the List Section
-//            ForEach(tracks) { track in
-//                TrackRowView(
-//                    track: track,
-//                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
-//                )
-//                .contentShape(Rectangle()) // Make the whole row tappable
-//                .onTapGesture {
-//                    // Update the selected URI - animation handled by parent
-//                    selectedTrackUri = track.uri
-//                }
-//                // Apply background highlight directly or via listRowBackground
-//                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
-//            }
-//        }
-//    }
-//}
-//
+
+struct SpotifyEmbedPlayerView: View {
+    @ObservedObject var playbackState: SpotifyPlaybackState
+    let spotifyUri: String
+    
+    var body: some View {
+        VStack(spacing: 8) { // Added spacing
+            SpotifyEmbedWebView(playbackState: playbackState, spotifyUri: spotifyUri)
+                .frame(height: 85) // Standard embed height + buffer
+            // Custom Player Frame/Background
+                .background(
+                    LinearGradient(colors: [.black.opacity(0.5), .black.opacity(0.2)], startPoint: .top, endPoint: .bottom)
+                        .overlay(.ultraThinMaterial) // Frosted glass
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(LinearGradient(colors: [retroNeonCyan.opacity(0.4), retroNeonPink.opacity(0.4)], startPoint: .leading, endPoint: .trailing), lineWidth: 1))
+                        .neonGlow(playbackState.isPlaying ? retroNeonLime : retroNeonPink, radius: 8) // Dynamic glow based on state
+                )
+                .padding(.horizontal)
+            
+            // --- Themed Playback Status ---
+            HStack {
+                let statusText = playbackState.isPlaying ? "PLAYING" : "PAUSED"
+                let statusColor = playbackState.isPlaying ? retroNeonLime : retroNeonPink
+                
+                Text(statusText)
+                    .font(retroFont(size: 10, weight: .bold))
+                    .foregroundColor(statusColor)
+                    .tracking(1.5) // Add letter spacing
+                    .neonGlow(statusColor, radius: 4)
+                    .lineLimit(1)
+                    .frame(width: 80, alignment: .leading) // Fixed width for status
+                
+                Spacer()
+                
+                if playbackState.duration > 0.1 { // Only show if duration is valid
+                    Text("\(formatTime(playbackState.currentPosition)) | \(formatTime(playbackState.duration))")
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.8))
+                } else {
+                    Text("--:-- | --:--") // Placeholder time
+                        .font(retroFont(size: 11, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+            .padding(.horizontal, 25) // Align with player padding
+            .padding(.top, 5)
+            .frame(minHeight: 15)
+            
+        } // End VStack
+        .animation(.easeInOut, value: playbackState.isPlaying) // Animate glow color change
+    }
+    
+    private func formatTime(_ time: Double) -> String { /* ... Unchanged ... */
+        let totalSeconds = max(0, Int(time))
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+struct TracksSectionView: View {
+    let tracks: [Track]
+    let isLoading: Bool
+    let error: SpotifyAPIError?
+    @Binding var selectedTrackUri: String? // Binding to update parent
+    let retryAction: () -> Void
+
+    var body: some View {
+        // No encompassing VStack needed if used directly in List Section
+        if isLoading {
+            HStack { // Center progress view within the list section area
+                Spacer()
+                ProgressView()
+                Text("Loading Tracks...")
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 5)
+                Spacer()
+            }
+            .padding(.vertical, 20) // Give loading indicator space
+        } else if let error = error {
+            // Use the new ErrorPlaceholderView
+            ErrorPlaceholderView(error: error, retryAction: retryAction)
+                .padding(.vertical, 20) // Give error view space
+        } else if tracks.isEmpty {
+            // Message for when tracks array is empty *after* successful load
+            Text("No tracks found for this album.")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+        } else {
+            // Use ForEach directly within the List Section
+            ForEach(tracks) { track in
+                TrackRowView(
+                    track: track,
+                    isSelected: track.uri == selectedTrackUri // Check if this track is the selected one
+                )
+                .contentShape(Rectangle()) // Make the whole row tappable
+                .onTapGesture {
+                    // Update the selected URI - animation handled by parent
+                    selectedTrackUri = track.uri
+                }
+                // Apply background highlight directly or via listRowBackground
+                .listRowBackground(track.uri == selectedTrackUri ? Color.accentColor.opacity(0.15) : Color.clear)
+            }
+        }
+    }
+}
+
 ////struct TracksSectionView: View {
 ////    let tracks: [Track]
 ////    let isLoading: Bool
