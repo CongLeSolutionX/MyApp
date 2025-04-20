@@ -1118,34 +1118,34 @@ struct TrackRowView: View {
     }
 }
 
-//// MARK: - Other Supporting Views (Themed)
-//
-struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
-    let url: URL?
-    var body: some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty:
-                ZStack {
-                    // Themed placeholder background
-                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
-                    ProgressView().tint(retroNeonCyan)
-                }
-            case .success(let image):
-                image.resizable().scaledToFit()
-            case .failure:
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
-                    Image(systemName: "photo.fill") // Keep system icon
-                        .resizable().scaledToFit()
-                        .foregroundColor(retroNeonPink.opacity(0.5))
-                        .padding(10)
-                }
-            @unknown default: EmptyView()
-            }
-        }
-    }
-}
+////// MARK: - Other Supporting Views (Themed)
+////
+//struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
+//    let url: URL?
+//    var body: some View {
+//        AsyncImage(url: url) { phase in
+//            switch phase {
+//            case .empty:
+//                ZStack {
+//                    // Themed placeholder background
+//                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
+//                    ProgressView().tint(retroNeonCyan)
+//                }
+//            case .success(let image):
+//                image.resizable().scaledToFit()
+//            case .failure:
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 8).fill(LinearGradient(colors: [.gray.opacity(0.2), .black.opacity(0.3)], startPoint: .top, endPoint: .bottom))
+//                    Image(systemName: "photo.fill") // Keep system icon
+//                        .resizable().scaledToFit()
+//                        .foregroundColor(retroNeonPink.opacity(0.5))
+//                        .padding(10)
+//                }
+//            @unknown default: EmptyView()
+//            }
+//        }
+//    }
+//}
 //
 //struct SearchMetadataHeader: View {
 //    let totalResults: Int
@@ -1168,65 +1168,65 @@ struct AlbumImageView: View { // Unchanged fundamentally, uses AsyncImage
 //    }
 //}
 
-// Generic Themed Button (Replaces ExternalLinkButton for consistency)
-struct RetroButton: View {
-    let text: String
-    let action: () -> Void
-    var primaryColor: Color = retroNeonPink
-    var secondaryColor: Color = .purple // For gradient
-    var iconName: String? = nil
-    
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 8) {
-                if let iconName = iconName {
-                    Image(systemName: iconName)
-                }
-                Text(text)
-                    .tracking(1.5) // Letter spacing
-            }
-            .font(retroFont(size: 15, weight: .bold))
-            .padding(.horizontal, 25)
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity) // Make button expand
-            .background(LinearGradient(colors: [primaryColor, secondaryColor], startPoint: .leading, endPoint: .trailing))
-            .foregroundColor(retroDeepPurple) // Dark text on bright button
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(Color.white.opacity(0.5), lineWidth: 1)) // Subtle white edge
-            .neonGlow(primaryColor, radius: 12)
-        }
-        .buttonStyle(.plain) // Ensure custom background/foreground work
-    }
-}
-
-// Re-implementation of ExternalLinkButton using RetroButton
-struct ExternalLinkButton: View {
-    let text: String = "OPEN IN SPOTIFY" // Default text
-    let url: URL
-    var primaryColor: Color = retroNeonLime
-    var secondaryColor: Color = .green // Spotify Green gradient end
-    var iconName: String? = "arrow.up.forward.app.fill" // More appropriate icon
-    
-    @Environment(\.openURL) var openURL
-    
-    var body: some View {
-        RetroButton(
-            text: text,
-            action: {
-                print("Attempting to open external URL: \(url)")
-                openURL(url) { accepted in
-                    if !accepted {
-                        print("⚠️ Warning: URL scheme \(url.scheme ?? "") could not be opened.")
-                        // Consider showing user an alert here
-                    }
-                }
-            },
-            primaryColor: primaryColor,
-            secondaryColor: secondaryColor,
-            iconName: iconName
-        )
-    }
-}
+//// Generic Themed Button (Replaces ExternalLinkButton for consistency)
+//struct RetroButton: View {
+//    let text: String
+//    let action: () -> Void
+//    var primaryColor: Color = retroNeonPink
+//    var secondaryColor: Color = .purple // For gradient
+//    var iconName: String? = nil
+//    
+//    var body: some View {
+//        Button(action: action) {
+//            HStack(spacing: 8) {
+//                if let iconName = iconName {
+//                    Image(systemName: iconName)
+//                }
+//                Text(text)
+//                    .tracking(1.5) // Letter spacing
+//            }
+//            .font(retroFont(size: 15, weight: .bold))
+//            .padding(.horizontal, 25)
+//            .padding(.vertical, 12)
+//            .frame(maxWidth: .infinity) // Make button expand
+//            .background(LinearGradient(colors: [primaryColor, secondaryColor], startPoint: .leading, endPoint: .trailing))
+//            .foregroundColor(retroDeepPurple) // Dark text on bright button
+//            .clipShape(Capsule())
+//            .overlay(Capsule().stroke(Color.white.opacity(0.5), lineWidth: 1)) // Subtle white edge
+//            .neonGlow(primaryColor, radius: 12)
+//        }
+//        .buttonStyle(.plain) // Ensure custom background/foreground work
+//    }
+//}
+//
+//// Re-implementation of ExternalLinkButton using RetroButton
+//struct ExternalLinkButton: View {
+//    let text: String = "OPEN IN SPOTIFY" // Default text
+//    let url: URL
+//    var primaryColor: Color = retroNeonLime
+//    var secondaryColor: Color = .green // Spotify Green gradient end
+//    var iconName: String? = "arrow.up.forward.app.fill" // More appropriate icon
+//    
+//    @Environment(\.openURL) var openURL
+//    
+//    var body: some View {
+//        RetroButton(
+//            text: text,
+//            action: {
+//                print("Attempting to open external URL: \(url)")
+//                openURL(url) { accepted in
+//                    if !accepted {
+//                        print("⚠️ Warning: URL scheme \(url.scheme ?? "") could not be opened.")
+//                        // Consider showing user an alert here
+//                    }
+//                }
+//            },
+//            primaryColor: primaryColor,
+//            secondaryColor: secondaryColor,
+//            iconName: iconName
+//        )
+//    }
+//}
 
 //// MARK: - Preview Providers (Updated for Themed Views)
 //
