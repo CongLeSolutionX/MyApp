@@ -4,7 +4,6 @@
 ////
 ////  Created by Cong Le on 4/21/25.
 ////
-//
 //import SwiftUI
 //
 //// Data structure for the membership pass
@@ -14,7 +13,7 @@
 //    let memberId: String
 //    let barcodeData: String // The string data to encode in the barcode/QR
 //    let level: String
-//    let organizationName: String = "CongLeSolutionX"
+//    let organizationName: String = "Lift It"
 //    let cardTitle: String = "MEMBERSHIP CARD"
 //
 //    // Mock data instance
