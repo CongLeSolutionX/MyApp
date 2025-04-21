@@ -13,6 +13,7 @@
 		9A1D225A2DB6988700E5FD17 /* StoreCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D22592DB6988600E5FD17 /* StoreCardView_V1.swift */; };
 		9A1D225C2DB698E600E5FD17 /* StoreCardView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D225B2DB698E500E5FD17 /* StoreCardView_V2.swift */; };
 		9A1D225E2DB69A0700E5FD17 /* StoreCardView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D225D2DB69A0600E5FD17 /* StoreCardView_V3.swift */; };
+		9A1D22612DB69B1300E5FD17 /* DriverLicenseCardView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D22602DB69B0D00E5FD17 /* DriverLicenseCardView_V1.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		9A1D22592DB6988600E5FD17 /* StoreCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView_V1.swift; sourceTree = "<group>"; };
 		9A1D225B2DB698E500E5FD17 /* StoreCardView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView_V2.swift; sourceTree = "<group>"; };
 		9A1D225D2DB69A0600E5FD17 /* StoreCardView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView_V3.swift; sourceTree = "<group>"; };
+		9A1D22602DB69B0D00E5FD17 /* DriverLicenseCardView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverLicenseCardView_V1.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,14 @@
 			path = StoreCard;
 			sourceTree = "<group>";
 		};
+		9A1D225F2DB69AFB00E5FD17 /* DriverLicenseCard */ = {
+			isa = PBXGroup;
+			children = (
+				9A1D22602DB69B0D00E5FD17 /* DriverLicenseCardView_V1.swift */,
+			);
+			path = DriverLicenseCard;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +98,9 @@
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
-				9A1D22572DB696BC00E5FD17 /* BoardingPassView */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9A1D225F2DB69AFB00E5FD17 /* DriverLicenseCard */,
+				9A1D22572DB696BC00E5FD17 /* BoardingPassView */,
 				9A1D22582DB6978300E5FD17 /* StoreCard */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -185,6 +196,7 @@
 				9A1D22562DB696B000E5FD17 /* BoardingPassView_V3.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A1D225A2DB6988700E5FD17 /* StoreCardView_V1.swift in Sources */,
+				9A1D22612DB69B1300E5FD17 /* DriverLicenseCardView_V1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
