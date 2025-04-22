@@ -34,7 +34,8 @@
 		9AE86F4E2DB74D7F005B1527 /* KeyCardDesignView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */; };
 		9AE86F502DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */; };
 		9AE86F522DB75256005B1527 /* KeyCardDesignView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */; };
-		9AE86F582DB76D71005B1527 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F572DB76D70005B1527 /* NotificationView.swift */; };
+		9AE86F582DB76D71005B1527 /* NotificationView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F572DB76D70005B1527 /* NotificationView_V1.swift */; };
+		9AE86F5A2DB76E74005B1527 /* NotificationView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F592DB76E72005B1527 /* NotificationView_V2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +68,8 @@
 		9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V2.swift; sourceTree = "<group>"; };
 		9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V2_Part2.swift; sourceTree = "<group>"; };
 		9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V3.swift; sourceTree = "<group>"; };
-		9AE86F572DB76D70005B1527 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		9AE86F572DB76D70005B1527 /* NotificationView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V1.swift; sourceTree = "<group>"; };
+		9AE86F592DB76E72005B1527 /* NotificationView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
+				9AE86F5B2DB76E83005B1527 /* NotificationDesign */,
 				9AE86F4C2DB74D2E005B1527 /* KeyCardDesigns */,
 				9A1D22762DB7028E00E5FD17 /* CouponDesignView */,
 				9A1D226F2DB6FE1700E5FD17 /* GenericCardDesign */,
@@ -192,9 +195,17 @@
 				9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */,
 				9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */,
 				9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */,
-				9AE86F572DB76D70005B1527 /* NotificationView.swift */,
 			);
 			path = KeyCardDesigns;
+			sourceTree = "<group>";
+		};
+		9AE86F5B2DB76E83005B1527 /* NotificationDesign */ = {
+			isa = PBXGroup;
+			children = (
+				9AE86F572DB76D70005B1527 /* NotificationView_V1.swift */,
+				9AE86F592DB76E72005B1527 /* NotificationView_V2.swift */,
+			);
+			path = NotificationDesign;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,10 +278,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AE86F5A2DB76E74005B1527 /* NotificationView_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A1D22692DB69EB400E5FD17 /* TicketView_V1.swift in Sources */,
 				9A1D22672DB69CD100E5FD17 /* DriverLicenseCardView_V3.swift in Sources */,
-				9AE86F582DB76D71005B1527 /* NotificationView.swift in Sources */,
+				9AE86F582DB76D71005B1527 /* NotificationView_V1.swift in Sources */,
 				9A1D22542DB694FF00E5FD17 /* BoardingPassView_V2.swift in Sources */,
 				9A1D22632DB69BC900E5FD17 /* DriverLicenseCardView_V2.swift in Sources */,
 				9A1D225C2DB698E600E5FD17 /* StoreCardView_V2.swift in Sources */,
