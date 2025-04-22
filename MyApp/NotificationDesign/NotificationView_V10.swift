@@ -265,7 +265,7 @@ class RemindersManager: ObservableObject {
     }
 }
 
-// MARK: – UIKit Wrappers
+// MARK: - UIKit Wrappers
 
 // Message Composer
 struct MessageComposeView: UIViewControllerRepresentable {
@@ -329,7 +329,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-// MARK: – SwiftUI Views
+// MARK: - SwiftUI Views
 
 struct NotificationViewRow: View {
     let data: NotificationData
@@ -357,164 +357,433 @@ struct NotificationViewRow: View {
     }
 }
 
-struct InteractiveRow: View {
-    let data: NotificationData
-    let onTap: (FeatureDestination) -> Void
-    let onDelete: () -> Void
+// MARK: - CONTENT VIEW - Refactored SwiftUI Views
+
+// MARK: 1. Background View
+struct BackgroundView: View {
+    var body: some View {
+        LinearGradient(colors: [.blue.opacity(0.8), .indigo.opacity(0.8)], startPoint: .topLeading, endPoint: .bottomTrailing)
+            .ignoresSafeArea()
+    }
+}
+
+// MARK: 2. Loading/Error Status View
+struct LoadingErrorStatusView: View {
+    @ObservedObject var calMgr: CalendarManager
+    @ObservedObject var remMgr: RemindersManager
     
     var body: some View {
-        Button {
-            Haptics.shared.tap()
-            onTap(data.destination)
-        } label: {
-            NotificationViewRow(data: data)
-        }
-        .buttonStyle(.plain)
-        .swipeActions(edge:.trailing) {
-            Button(role:.destructive) {
-                onDelete()
-            } label: { Label("Clear", systemImage:"trash.fill") }
+        Group {
+            // Display loading/error states concisely
+            if calMgr.loading || remMgr.loading {
+                ProgressView().tint(.white)
+                    .padding(.vertical, 5) // Add some spacing
+            }
+            if let err = calMgr.error ?? remMgr.error { // Show first available error
+                Text(err)
+                    .font(.caption)
+                    .foregroundColor(.yellow)
+                    .padding(6)
+                    .background(.black.opacity(0.4))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.center)
+                
+            }
         }
     }
 }
 
+// MARK: 3. Expand/Collapse Buttons View
+struct ExpandCollapseControlsView: View {
+    let isCollapsed: Bool
+    let totalItemCount: Int
+    let maxShowWhenCollapsed: Int
+    let expandAction: () -> Void
+    let collapseAction: () -> Void
+    
+    var body: some View {
+        if isCollapsed && totalItemCount > maxShowWhenCollapsed {
+            // Use existing ExpandButton (ensure it's defined)
+            ExpandButton(count: totalItemCount - maxShowWhenCollapsed, action: expandAction)
+        } else if !isCollapsed && totalItemCount > maxShowWhenCollapsed {
+            // Use existing CollapseButton (ensure it's defined)
+            CollapseButton(action: collapseAction)
+        }
+        // No button needed if not collapsible (count <= max)
+    }
+}
+
+// MARK: 4. Notification List View (Displays the rows)
+struct NotificationListView: View {
+    let items: [NotificationData]
+    let launchAction: (FeatureDestination) -> Void
+    let deleteAction: (UUID) -> Void // Changed to accept UUID
+    
+    var body: some View {
+        // Add a subtle header only when showing the full list and it's not empty
+        if !items.isEmpty {
+            Text("Notifications")
+                .font(.caption2)
+                .foregroundColor(.white.opacity(0.8))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 5) // Indent slightly
+        }
+        
+        // The actual list of notifications
+        ForEach(items) { note in
+            // Use existing InteractiveRow (ensure it's defined)
+            InteractiveRow(data: note, onTap: launchAction, onDelete: {
+                // Call delete action with the item's ID
+                deleteAction(note.id)
+            })
+        }
+    }
+}
+
+// MARK: 5. Notification Stack Container (Handles Collapsed/Expanded Logic)
+struct NotificationStackContainerView: View {
+    let items: [NotificationData] // Pass the base items
+    let calendarEvents: [EKEvent] // Pass fetched events
+    @Binding var isCollapsed: Bool
+    let maxShowWhenCollapsed: Int
+    let launchAction: (FeatureDestination) -> Void
+    let deleteAction: (UUID) -> Void
+    
+    // Computed property to prepare the final, sorted list including calendar events
+    private var preparedAndSortedItems: [NotificationData] {
+        var combined = items // Start with base items
+        // Add calendar events as NotificationData *only if not already present*
+        for ev in calendarEvents {
+            let noteId = ev.eventIdentifier // Use event ID as the unique identifier
+            if !combined.contains(where: { $0.id.uuidString == noteId }) { // Check for pre-existing ID
+                let calNote = NotificationData(
+                    icon: "calendar",
+                    appName: "Calendar",
+                    title: ev.title ?? "Event",
+                    body: (ev.location ?? ""),
+                    //body: (ev.location ?? "") + " — \(ev.startDate ?? Date(), style: .time)",
+                    date: ev.startDate ?? Date(), // Use start date for sorting
+                    destination: .showEventDetail(ev)
+                )
+                combined.append(calNote)
+            }
+        }
+        // Sort the final combined list
+        return combined.sorted { $0.date > $1.date }
+    }
+    
+    // Determine which items to display based on collapsed state
+    private var itemsToDisplay: [NotificationData] {
+        if isCollapsed && preparedAndSortedItems.count > maxShowWhenCollapsed {
+            return Array(preparedAndSortedItems.prefix(maxShowWhenCollapsed))
+        } else {
+            return preparedAndSortedItems
+        }
+    }
+    
+    var body: some View {
+        VStack(spacing:12) {
+            // Display the list (either prefix or full list)
+            NotificationListView(
+                items: itemsToDisplay,
+                launchAction: launchAction,
+                deleteAction: deleteAction
+            )
+            
+            // Display the Expand/Collapse button
+            ExpandCollapseControlsView(
+                isCollapsed: isCollapsed,
+                totalItemCount: preparedAndSortedItems.count, // Use count of full prepared list
+                maxShowWhenCollapsed: maxShowWhenCollapsed,
+                expandAction: { withAnimation(.spring()) { isCollapsed = false; Haptics.shared.tap() } },
+                collapseAction: { withAnimation(.spring()) { isCollapsed = true; Haptics.shared.tap() } }
+            )
+            
+            // Display empty state if the *prepared* list is empty after combining
+            if preparedAndSortedItems.isEmpty {
+                Text("No Notifications")
+                    .foregroundColor(.white.opacity(0.7))
+                    .padding(.vertical, 40)
+            }
+        }
+    }
+}
+
+// MARK: 6. Bottom Bar View
+struct BottomBarView: View {
+    @Binding var flashlightOn: Bool
+    let toggleFlashAction: () -> Void
+    let launchCameraAction: () -> Void
+    let showRemindersAction: () -> Void
+    
+    var body: some View {
+        HStack(spacing: 80) { // Keep spacing or adjust as needed
+            // Flashlight Button
+            Button {
+                toggleFlashAction() // Use the passed action
+            } label: {
+                Image(systemName: flashlightOn ? "flashlight.on.fill" : "flashlight.off.fill")
+                    .font(.title2)
+                    .frame(width: 50, height: 50)
+                    .background(.black.opacity(0.35)) // Slightly more opaque background
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain) // Use plain style to avoid default button appearance
+            
+            // Camera Button
+            Button {
+                launchCameraAction() // Use the passed action
+            } label: {
+                Image(systemName: "camera.fill")
+                    .font(.title2)
+                    .frame(width: 50, height: 50)
+                    .background(.black.opacity(0.35))
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain)
+            
+            // Reminders Button
+            Button {
+                showRemindersAction() // Use the passed action
+            } label: {
+                Image(systemName: "list.bullet")
+                    .font(.title2)
+                    .frame(width: 50, height: 50)
+                    .background(.black.opacity(0.35))
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain)
+            
+        }
+        .padding(.bottom, 40) // Bottom padding for safe area
+        .foregroundColor(.white) // Ensure icons are white
+        .frame(maxWidth: .infinity) // Ensure HStack takes full width for centering
+        .background(.ultraThinMaterial.opacity(0.1)) // Optional subtle background for the bar itself
+    }
+}
+
+// MARK: - Main ContentView (Orchestrator)
 struct ContentView: View {
+    // MARK: State Objects and State Variables
     @StateObject private var calMgr = CalendarManager()
     @StateObject private var remMgr = RemindersManager()
     
-    // Master list
-    @State private var items: [NotificationData] = [
-        .init(icon:"message.fill", appName:"Messages", title:"Lunch?", body:"Hey, free for lunch?", date:Date().addingTimeInterval(-300), destination:.composeMessage),
-        .init(icon:"envelope.fill", appName:"Mail", title:"Weekly Digest", body:"Your roundup is ready.", date:Date().addingTimeInterval(-3600), destination:.composeMail),
-        .init(icon:"photo.on.rectangle", appName:"Photos", title:"New Memory", body:"Your trip memory is here.", date:Date().addingTimeInterval(-86400), destination:.pickPhoto(source:.photoLibrary)),
+    @State private var items: [NotificationData] = [ // Base items
+        .init(icon: "message.fill", appName: "Messages", title: "Lunch?", body: "Hey, free for lunch?", date: Date().addingTimeInterval(-300), destination: .composeMessage),
+        .init(icon: "envelope.fill", appName: "Mail", title: "Weekly Digest", body: "Your roundup is ready.", date: Date().addingTimeInterval(-3600), destination: .composeMail),
+        .init(icon: "photo.on.rectangle", appName: "Photos", title: "New Memory", body: "Your trip memory is here.", date: Date().addingTimeInterval(-86400), destination: .pickPhoto(source: .photoLibrary)),
+        // Add more sample data if needed
     ]
-    @State private var collapsed = true
-    @State private var flashlightOn = false
-    
-    // Presentation
-    @State private var destination: FeatureDestination? = nil
+    @State private var isCollapsed = true
+    @State private var isFlashlightOn = false // Renamed to avoid conflict with binding name
+    @State private var activeDestination: FeatureDestination? = nil // Renamed to avoid conflict
     @State private var showRemindersSheet = false
     
-    private let maxShow = 2
+    // Constants
+    private let maxShowWhenCollapsed = 3 // Increased slightly
     
-    var sorted: [NotificationData] {
-        items.sorted { $0.date > $1.date }
-    }
-    
+    // MARK: Body
     var body: some View {
-        Text("ContentView")
+        ZStack {
+            BackgroundView()
+            
+            ScrollView {
+                VStack(spacing: 15) { // Consistent spacing
+                    HeaderView() // Existing header
+                    
+                    LoadingErrorStatusView(calMgr: calMgr, remMgr: remMgr) // Extracted status view
+                    
+                    // Use the container view for notifications
+                    NotificationStackContainerView(
+                        items: items,   // Pass the base items
+                        calendarEvents: calMgr.events, // Pass fetched calendar events
+                        isCollapsed: $isCollapsed,
+                        maxShowWhenCollapsed: maxShowWhenCollapsed,
+                        launchAction: launchDestination, // Pass the launch function
+                        deleteAction: removeNotification // Pass the remove function
+                    )
+                    
+                }
+                .padding(.horizontal, 10)
+                .padding(.top, 50) // Top padding for status bar etc.
+                .padding(.bottom, 140) // Ample bottom padding for scroll over bottom bar
+            }
+            .scrollDismissesKeyboard(.interactively) // Good practice
+            
+            // Overlay the Bottom Bar
+            VStack {
+                Spacer() // Pushes the bar to the bottom
+                BottomBarView(
+                    flashlightOn: $isFlashlightOn,
+                    toggleFlashAction: toggleFlashlight, // Pass the toggle function
+                    launchCameraAction: { launchDestination(.pickPhoto(source: .camera)) }, // Pass camera launch closure
+                    showRemindersAction: presentReminders // Pass reminders launch closure
+                )
+            }
+            .ignoresSafeArea(.keyboard) // Prevent keyboard from pushing bar up
+        }
+        // MARK: Sheet Modifiers
+        .sheet(item: $activeDestination) { destination in // Use 'item' for identifiable destinations
+            // Destination View Builder
+            destinationView(for: destination)
+                .onAppear { Haptics.shared.openSheet() } // Haptic on sheet appear
+        }
+        .sheet(isPresented: $showRemindersSheet) {
+            // Reminders Sheet
+            NavigationView { // Wrap in NavigationView for title/toolbar
+                RemindersListView(manager: remMgr)
+                    .navigationTitle("Upcoming Reminders")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) { // Correct placement
+                            Button("Done") { showRemindersSheet = false; Haptics.shared.select() }
+                        }
+                    }
+            }
+            .onAppear { Haptics.shared.openSheet() } // Haptic on sheet appear
+        }
+        // MARK: Lifecycle and Appearance
+        .task { // Use .task for async operations on appear
+            await calMgr.requestAndFetch()
+        }
+        .preferredColorScheme(.dark) // Keep dark mode preference
     }
     
-    //    var body: some View {
-    //        ZStack {
-    //            LinearGradient(colors:[.blue.opacity(0.8),.indigo.opacity(0.8)], startPoint:.topLeading, endPoint:.bottomTrailing)
-    //                .ignoresSafeArea()
-    //
-    //            ScrollView {
-    //                VStack(spacing:12) {
-    //                    HeaderView()
-    //
-    //                    Group {
-    //                        if calMgr.loading { ProgressView().tint(.white) }
-    //                        if let err = calMgr.error {
-    //                            Text(err).foregroundColor(.yellow).padding(6).background(.black.opacity(0.3)).clipShape(RoundedRectangle(cornerRadius:8))
-    //                        }
-    //                        if remMgr.loading { ProgressView("Loading Reminders…").tint(.white) }
-    //                    }
-    //
-    //                    // Merge calendar events when available
-    //                    ForEach(calMgr.events) { ev in
-    //                        let note = NotificationData(
-    //                            icon:"calendar",
-    //                            appName:"Calendar",
-    //                            title:ev.title ?? "Event",
-    //                            body:(ev.location ?? "") + " — \(ev.startDate, style:.time)",
-    //                            date:ev.startDate,
-    //                            destination:.showEventDetail(ev)
-    //                        )
-    //                        if !items.contains(where:{ $0.id == note.id }) {
-    //                            items.append(note)
-    //                        }
-    //                    }
-    //
-    //                    if collapsed && sorted.count > maxShow {
-    //                        ForEach(sorted.prefix(maxShow)) { note in
-    //                            InteractiveRow(data:note,onTap:launch, onDelete:{
-    //                                withAnimation { items.removeAll{ $0.id == note.id } }
-    //                            })
-    //                        }
-    //                        ExpandButton(count: sorted.count - maxShow) {
-    //                            withAnimation(.spring()) { collapsed = false }
-    //                        }
-    //                    } else {
-    //                        Text("Notifications").font(.caption2).foregroundColor(.white.opacity(0.8)).frame(maxWidth:.infinity,alignment:.leading)
-    //                        ForEach(sorted) { note in
-    //                            InteractiveRow(data:note,onTap:launch, onDelete:{
-    //                                withAnimation { items.removeAll{ $0.id == note.id } }
-    //                            })
-    //                        }
-    //                        if sorted.count > maxShow {
-    //                            CollapseButton { withAnimation(.spring()) { collapsed = true } }
-    //                        }
-    //                    }
-    //                }
-    //                .padding(.horizontal,10)
-    //                .padding(.top,50)
-    //                .padding(.bottom,140)
-    //            }
-    //
-    //            BottomBar(
-    //                flashlightOn: $flashlightOn,
-    //                onCamera: { launch(.pickPhoto(source:.camera)) },
-    //                onReminders: {
-    //                    Haptics.shared.openSheet()
-    //                    remMgr.requestAndFetch()
-    //                    showRemindersSheet = true
-    //                },
-    //                toggleFlash: toggleFlash
-    //            )
-    //        }
-    //        .sheet(item:$destination) { dest in
-    //            switch dest {
-    //            case .composeMessage:
-    //                MessageComposeView()
-    //            case .composeMail:
-    //                MailComposeView()
-    //            case .pickPhoto(let src):
-    //                ImagePicker(source: src)
-    //            case .showEventDetail(let ev):
-    //                CalendarEventDetail(event:ev)
-    //            default:
-    //                EmptyView()
-    //            }
-    //        }
-    //        .sheet(isPresented:$showRemindersSheet) {
-    //            RemindersListView(manager: remMgr)
-    //        }
-    //        .onAppear {
-    //            calMgr.requestAndFetch()
-    //        }
-    //        .preferredColorScheme(.dark)
-    //    }
-    
-    private func launch(_ dest: FeatureDestination) {
-        destination = dest
-        Haptics.shared.openSheet()
+    // MARK: Helper Functions
+    private func launchDestination(_ destination: FeatureDestination) {
+        guard destination.id != FeatureDestination.none.id else { return }
+        self.activeDestination = destination // Set the active destination to trigger the sheet
     }
     
-    private func toggleFlash() {
-        guard let dev = AVCaptureDevice.default(for:.video), dev.hasTorch else { return }
+    private func removeNotification(id: UUID) {
+        withAnimation(.easeOut(duration: 0.3)) {
+            items.removeAll { $0.id == id }
+        }
+        Haptics.shared.tap() // Light tap for delete
+    }
+    
+    private func toggleFlashlight() {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else {
+            print("Device does not have a torch.")
+            return
+        }
+        
         do {
-            try dev.lockForConfiguration()
-            dev.torchMode = dev.torchMode == .on ? .off : .on
-            dev.unlockForConfiguration()
-            flashlightOn.toggle()
-            Haptics.shared.select()
-        } catch { print("Torch error:",error) }
+            try device.lockForConfiguration()
+            device.torchMode = device.torchMode == .on ? .off : .on
+            device.unlockForConfiguration()
+            isFlashlightOn.toggle() // Update state AFTER successful toggle
+            Haptics.shared.select() // Selection haptic for toggle
+        } catch {
+            print("Error toggling torch: \(error.localizedDescription)")
+            // Optionally provide user feedback here
+        }
+    }
+    
+    private func presentReminders() {
+        Task { // Fetch reminders when the button is tapped
+            await remMgr.requestAndFetch()
+            // Only show the sheet *after* potentially getting permission/data
+            showRemindersSheet = true // Trigger the reminders sheet
+        }
+    }
+    
+    // MARK: Destination View Builder (Helper for sheet(item:))
+    @ViewBuilder
+    private func destinationView(for destination: FeatureDestination) -> some View {
+        switch destination {
+        case .composeMessage:
+            MessageComposeView()
+        case .composeMail:
+            MailComposeView()
+        case .pickPhoto(let source):
+            ImagePicker(source: source)
+        case .showEventDetail(let event):
+            // Embed in NavigationView for potential title/buttons later
+            NavigationView {
+                CalendarEventDetail(event: event)
+                    .navigationTitle("Event Details") // Add a title
+                    .toolbar { // Add a Done button
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { activeDestination = nil; Haptics.shared.select() }
+                        }
+                    }
+            }
+        case .showReminders: // This case is handled by the other sheet modifier
+            EmptyView() // Should not be reached via activeDestination
+        case .none:
+            EmptyView()
+        }
     }
 }
 
-// MARK: – Subviews
+// MARK: - SUBVIEWS
+
+// Ensure ExpandButton and CollapseButton are defined as in the original code:
+struct ExpandButton: View {
+    let count: Int
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Text("+\(count) more notification\(count > 1 ? "s" : "")") // Improved text
+                    .font(.footnote).bold()
+                Spacer()
+                Image(systemName: "chevron.down")
+            }
+            .padding(10) // Slightly larger padding
+            .background(.black.opacity(0.25))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .foregroundColor(.white) // Ensure text/icon color
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct CollapseButton: View {
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Label("Show Less", systemImage: "chevron.up")
+                .font(.footnote).bold() // Make bold to match expand button
+                .padding(10) // Match padding
+                .background(.black.opacity(0.25))
+                .clipShape(RoundedRectangle(cornerRadius: 12)) // Match shape
+                .foregroundColor(.white) // Ensure text/icon color
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// Make sure InteractiveRow is defined as well
+struct InteractiveRow: View {
+    let data: NotificationData
+    let onTap: (FeatureDestination) -> Void
+    let onDelete: () -> Void // Keep original onDelete signature for now
+    
+    var body: some View {
+        // NotificationViewRow needs to be defined as per the original code.
+        // Assume NotificationViewRow struct exists.
+        NotificationViewRow(data: data)
+            .contentShape(Rectangle()) // Ensure the whole row is tappable
+            .onTapGesture {
+                Haptics.shared.tap() // Tap haptic
+                onTap(data.destination)
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) { // Disable full swipe delete
+                Button(role: .destructive) {
+                    onDelete() // Calls the closure passed from the parent
+                } label: {
+                    Label("Clear", systemImage: "trash.fill")
+                }
+                .tint(.red) // Ensure destructive tint
+            }
+        // Accessibility Enhancements
+            .accessibilityElement(children: .combine) // Combine child elements for better reading
+            .accessibilityLabel("\(data.appName): \(data.title)") // Clear label
+            .accessibilityHint("Tap to open or swipe left to clear") // Hint for actions
+    }
+}
 
 struct HeaderView: View {
     var body: some View {
@@ -523,33 +792,6 @@ struct HeaderView: View {
             Text(Date(), style:.time).font(.system(size:70, weight:.thin)).foregroundColor(.white)
         }
         .shadow(radius:3)
-    }
-}
-
-struct ExpandButton: View {
-    let count:Int, action:() -> Void
-    var body: some View {
-        Button(action:action) {
-            HStack {
-                Text("+\(count) more").font(.footnote).bold()
-                Spacer()
-                Image(systemName:"chevron.down")
-            }
-            .padding(8).background(.black.opacity(0.25)).clipShape(RoundedRectangle(cornerRadius:12))
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-struct CollapseButton: View {
-    let action:() -> Void
-    var body: some View {
-        Button(action:action) {
-            Label("Show Less", systemImage:"chevron.up")
-                .font(.footnote).padding(8)
-                .background(.black.opacity(0.25)).clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
     }
 }
 
@@ -637,7 +879,7 @@ struct RemindersListView: View {
         }
     }
 }
-
+// MARK: - Extension
 // Helper to dismiss sheets from UIKit (Updated for iOS 15+)
 extension UIApplication {
     func dismissAllSheets(animated: Bool = true) {
@@ -668,15 +910,7 @@ extension UIApplication {
     }
 }
 
-// MARK: – Previews
-#Preview() {
+// MARK: - Preview
+#Preview("Content View") {
     ContentView()
 }
-
-//
-//struct ContentView_FullFeature_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//            .previewDevice("iPhone 14 Pro")
-//    }
-//}
