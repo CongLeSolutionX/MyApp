@@ -467,7 +467,7 @@ struct HoldNearReaderPrompt: View {
 #Preview {
     // Create more detailed mock data
     let mockCoupon = Coupon(
-        companyName: "Uniform Goods Co.",
+        companyName: "CongLeSolutionX Goods Co.",
         offerDescription: "15% OFF",
         expiryDate: Calendar.current.date(byAdding: .month, value: 2, to: Date())!, // Expires in 2 months
         applicableItems: ["tshirt.fill", "figure.stand", "jacket.fill", "bag.fill"], // Added one more item
