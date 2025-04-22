@@ -604,10 +604,33 @@ struct RemindersListView: View {
     }
 }
 
-// Helper to dismiss sheets from UIKit
+// Helper to dismiss sheets from UIKit (Updated for iOS 15+)
 extension UIApplication {
-    func dismissAllSheets() {
-        windows.first?.rootViewController?.dismiss(animated:true)
+    func dismissAllSheets(animated: Bool = true) {
+        // Get active scenes
+        let scenes = UIApplication.shared.connectedScenes
+
+        // Filter for foreground active UIWindowScene
+        guard let windowScene = scenes
+            .filter({ $0.activationState == .foregroundActive })
+            .first(where: { $0 is UIWindowScene }) as? UIWindowScene else {
+            print("Could not find active window scene to dismiss sheet.")
+            return
+        }
+
+        // Find the key window or the first window in that scene
+        guard let window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first else {
+            print("Could not find window in scene to dismiss sheet.")
+            return
+        }
+
+        // Check if there's actually something presented to dismiss
+        if window.rootViewController?.presentedViewController != nil {
+           window.rootViewController?.dismiss(animated: animated, completion: nil)
+           print("Dismissing presented view controller.")
+        } else {
+           print("No view controller presented to dismiss.")
+        }
     }
 }
 
