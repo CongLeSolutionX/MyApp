@@ -93,7 +93,7 @@ class CalendarManager: ObservableObject {
             self.loading = true
             self.error = nil
         }
-
+        
         do {
             var granted = false
             if #available(iOS 17.0, *) {
@@ -103,7 +103,7 @@ class CalendarManager: ObservableObject {
                 // Fallback for older iOS versions
                 granted = try await store.requestAccess(to: .event) // Use await with the older async wrapper
             }
-
+            
             guard granted else {
                 await MainActor.run {
                     self.error = "Calendar access denied."
@@ -111,10 +111,10 @@ class CalendarManager: ObservableObject {
                 }
                 return
             }
-
+            
             // If access granted, proceed to fetch (make fetch async too if needed)
             await fetchEvents() // Rename or make fetch async
-
+            
         } catch {
             await MainActor.run {
                 self.error = "Error requesting calendar access: \(error.localizedDescription)"
@@ -122,20 +122,20 @@ class CalendarManager: ObservableObject {
             }
         }
     }
-
+    
     // Make fetch async as well for consistency and potentially long operations
     private func fetchEvents() async {
         let start = Date()
         let end = Calendar.current.date(byAdding: .day, value: 1, to: start)!
         let pred = store.predicateForEvents(withStart: start, end: end, calendars: store.calendars(for: .event))
-
+        
         // Perform the potentially blocking fetch on a background task
         let fetchedEvents = await Task.detached(priority: .userInitiated) {
             return self.store.events(matching: pred)
                 .filter { !$0.isAllDay }
                 .sorted { $0.startDate < $1.startDate }
         }.value // Get the result from the detached task
-
+        
         // Update the published properties back on the main thread
         await MainActor.run {
             self.events = fetchedEvents
@@ -164,17 +164,59 @@ class RemindersManager: ObservableObject {
     @Published var loading = false
     private let store = EKEventStore()
     
-    func requestAndFetch() {
-        loading = true
-        error = nil
-        store.requestAccess(to: .reminder) { granted, err in
-            DispatchQueue.main.async {
-                guard granted else {
+    func requestAndFetch() async { // Mark the function as async
+        await MainActor.run {
+            self.loading = true
+            self.error = nil
+        }
+        
+        do {
+            var granted = false
+            if #available(iOS 17.0, *) {
+                // Use the newer API for iOS 17+
+                granted = try await store.requestFullAccessToReminders()
+            } else {
+                // Fallback for older iOS versions
+                granted = try await store.requestAccess(to: .reminder) // Use await with the older async wrapper
+            }
+            
+            guard granted else {
+                await MainActor.run {
                     self.error = "Reminders access denied."
                     self.loading = false
-                    return
                 }
-                self.fetch()
+                return
+            }
+            // If access granted, proceed to fetch
+            await fetchReminders() // Make fetch async
+            
+        } catch {
+            await MainActor.run {
+                self.error = "Error requesting reminders access: \(error.localizedDescription)"
+                self.loading = false
+            }
+        }
+    }
+    
+    // Make fetchReminders async
+    private func fetchReminders() async {
+        await MainActor.run { self.loading = true } // Still useful to indicate loading during fetch
+        
+        let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
+        
+        // Use the async version of fetchReminders
+        do {
+            let fetchedReminders = try await store.reminders(matching: pred)
+                .filter { $0.isCompleted == false }
+            
+            await MainActor.run {
+                self.reminders = fetchedReminders
+                self.loading = false
+            }
+        } catch {
+            await MainActor.run {
+                self.error = "Error fetching reminders: \(error.localizedDescription)"
+                self.loading = false
             }
         }
     }
@@ -329,97 +371,97 @@ struct ContentView: View {
         Text("ContentView")
     }
     
-//    var body: some View {
-//        ZStack {
-//            LinearGradient(colors:[.blue.opacity(0.8),.indigo.opacity(0.8)], startPoint:.topLeading, endPoint:.bottomTrailing)
-//                .ignoresSafeArea()
-//            
-//            ScrollView {
-//                VStack(spacing:12) {
-//                    HeaderView()
-//                    
-//                    Group {
-//                        if calMgr.loading { ProgressView().tint(.white) }
-//                        if let err = calMgr.error {
-//                            Text(err).foregroundColor(.yellow).padding(6).background(.black.opacity(0.3)).clipShape(RoundedRectangle(cornerRadius:8))
-//                        }
-//                        if remMgr.loading { ProgressView("Loading Reminders…").tint(.white) }
-//                    }
-//                    
-//                    // Merge calendar events when available
-//                    ForEach(calMgr.events) { ev in
-//                        let note = NotificationData(
-//                            icon:"calendar",
-//                            appName:"Calendar",
-//                            title:ev.title ?? "Event",
-//                            body:(ev.location ?? "") + " — \(ev.startDate, style:.time)",
-//                            date:ev.startDate,
-//                            destination:.showEventDetail(ev)
-//                        )
-//                        if !items.contains(where:{ $0.id == note.id }) {
-//                            items.append(note)
-//                        }
-//                    }
-//                    
-//                    if collapsed && sorted.count > maxShow {
-//                        ForEach(sorted.prefix(maxShow)) { note in
-//                            InteractiveRow(data:note,onTap:launch, onDelete:{
-//                                withAnimation { items.removeAll{ $0.id == note.id } }
-//                            })
-//                        }
-//                        ExpandButton(count: sorted.count - maxShow) {
-//                            withAnimation(.spring()) { collapsed = false }
-//                        }
-//                    } else {
-//                        Text("Notifications").font(.caption2).foregroundColor(.white.opacity(0.8)).frame(maxWidth:.infinity,alignment:.leading)
-//                        ForEach(sorted) { note in
-//                            InteractiveRow(data:note,onTap:launch, onDelete:{
-//                                withAnimation { items.removeAll{ $0.id == note.id } }
-//                            })
-//                        }
-//                        if sorted.count > maxShow {
-//                            CollapseButton { withAnimation(.spring()) { collapsed = true } }
-//                        }
-//                    }
-//                }
-//                .padding(.horizontal,10)
-//                .padding(.top,50)
-//                .padding(.bottom,140)
-//            }
-//            
-//            BottomBar(
-//                flashlightOn: $flashlightOn,
-//                onCamera: { launch(.pickPhoto(source:.camera)) },
-//                onReminders: {
-//                    Haptics.shared.openSheet()
-//                    remMgr.requestAndFetch()
-//                    showRemindersSheet = true
-//                },
-//                toggleFlash: toggleFlash
-//            )
-//        }
-//        .sheet(item:$destination) { dest in
-//            switch dest {
-//            case .composeMessage:
-//                MessageComposeView()
-//            case .composeMail:
-//                MailComposeView()
-//            case .pickPhoto(let src):
-//                ImagePicker(source: src)
-//            case .showEventDetail(let ev):
-//                CalendarEventDetail(event:ev)
-//            default:
-//                EmptyView()
-//            }
-//        }
-//        .sheet(isPresented:$showRemindersSheet) {
-//            RemindersListView(manager: remMgr)
-//        }
-//        .onAppear {
-//            calMgr.requestAndFetch()
-//        }
-//        .preferredColorScheme(.dark)
-//    }
+    //    var body: some View {
+    //        ZStack {
+    //            LinearGradient(colors:[.blue.opacity(0.8),.indigo.opacity(0.8)], startPoint:.topLeading, endPoint:.bottomTrailing)
+    //                .ignoresSafeArea()
+    //
+    //            ScrollView {
+    //                VStack(spacing:12) {
+    //                    HeaderView()
+    //
+    //                    Group {
+    //                        if calMgr.loading { ProgressView().tint(.white) }
+    //                        if let err = calMgr.error {
+    //                            Text(err).foregroundColor(.yellow).padding(6).background(.black.opacity(0.3)).clipShape(RoundedRectangle(cornerRadius:8))
+    //                        }
+    //                        if remMgr.loading { ProgressView("Loading Reminders…").tint(.white) }
+    //                    }
+    //
+    //                    // Merge calendar events when available
+    //                    ForEach(calMgr.events) { ev in
+    //                        let note = NotificationData(
+    //                            icon:"calendar",
+    //                            appName:"Calendar",
+    //                            title:ev.title ?? "Event",
+    //                            body:(ev.location ?? "") + " — \(ev.startDate, style:.time)",
+    //                            date:ev.startDate,
+    //                            destination:.showEventDetail(ev)
+    //                        )
+    //                        if !items.contains(where:{ $0.id == note.id }) {
+    //                            items.append(note)
+    //                        }
+    //                    }
+    //
+    //                    if collapsed && sorted.count > maxShow {
+    //                        ForEach(sorted.prefix(maxShow)) { note in
+    //                            InteractiveRow(data:note,onTap:launch, onDelete:{
+    //                                withAnimation { items.removeAll{ $0.id == note.id } }
+    //                            })
+    //                        }
+    //                        ExpandButton(count: sorted.count - maxShow) {
+    //                            withAnimation(.spring()) { collapsed = false }
+    //                        }
+    //                    } else {
+    //                        Text("Notifications").font(.caption2).foregroundColor(.white.opacity(0.8)).frame(maxWidth:.infinity,alignment:.leading)
+    //                        ForEach(sorted) { note in
+    //                            InteractiveRow(data:note,onTap:launch, onDelete:{
+    //                                withAnimation { items.removeAll{ $0.id == note.id } }
+    //                            })
+    //                        }
+    //                        if sorted.count > maxShow {
+    //                            CollapseButton { withAnimation(.spring()) { collapsed = true } }
+    //                        }
+    //                    }
+    //                }
+    //                .padding(.horizontal,10)
+    //                .padding(.top,50)
+    //                .padding(.bottom,140)
+    //            }
+    //
+    //            BottomBar(
+    //                flashlightOn: $flashlightOn,
+    //                onCamera: { launch(.pickPhoto(source:.camera)) },
+    //                onReminders: {
+    //                    Haptics.shared.openSheet()
+    //                    remMgr.requestAndFetch()
+    //                    showRemindersSheet = true
+    //                },
+    //                toggleFlash: toggleFlash
+    //            )
+    //        }
+    //        .sheet(item:$destination) { dest in
+    //            switch dest {
+    //            case .composeMessage:
+    //                MessageComposeView()
+    //            case .composeMail:
+    //                MailComposeView()
+    //            case .pickPhoto(let src):
+    //                ImagePicker(source: src)
+    //            case .showEventDetail(let ev):
+    //                CalendarEventDetail(event:ev)
+    //            default:
+    //                EmptyView()
+    //            }
+    //        }
+    //        .sheet(isPresented:$showRemindersSheet) {
+    //            RemindersListView(manager: remMgr)
+    //        }
+    //        .onAppear {
+    //            calMgr.requestAndFetch()
+    //        }
+    //        .preferredColorScheme(.dark)
+    //    }
     
     private func launch(_ dest: FeatureDestination) {
         destination = dest
