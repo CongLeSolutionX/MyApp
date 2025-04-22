@@ -14,17 +14,17 @@ struct Haptics {
     private let selectionGenerator = UISelectionFeedbackGenerator()
     private let impactLightGenerator = UIImpactFeedbackGenerator(style: .light)
     private let impactMediumGenerator = UIImpactFeedbackGenerator(style: .medium)
-
+    
     private init() {
         selectionGenerator.prepare()
         impactLightGenerator.prepare()
         impactMediumGenerator.prepare()
     }
-
+    
     func playSelectionChanged() {
         selectionGenerator.selectionChanged()
     }
-
+    
     func playImpactLight() {
         impactLightGenerator.impactOccurred()
     }
@@ -42,7 +42,7 @@ enum NotificationDestination: Identifiable {
     case calendarEvent(eventTitle: String)
     case genericApp(appName: String)
     case camera // Added for the camera button
-
+    
     var id: String { // Conformance to Identifiable for .sheet
         switch self {
         case .messageThread(let userName): return "msg-\(userName)"
@@ -70,7 +70,7 @@ struct NotificationData: Identifiable {
 // View for a Single Notification Row (Visuals Only - Unchanged)
 struct NotificationView: View {
     let notification: NotificationData
-
+    
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             Image(systemName: notification.iconName)
@@ -80,7 +80,7 @@ struct NotificationView: View {
                 .padding(6)
                 .background(Color.gray.opacity(0.15))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-
+            
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
                     Text(notification.appName)
@@ -93,11 +93,11 @@ struct NotificationView: View {
                         .foregroundColor(.secondary)
                 }
                 .padding(.bottom, 1)
-
+                
                 Text(notification.title)
                     .font(.headline)
                     .foregroundColor(.primary)
-
+                
                 Text(notification.description)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
@@ -117,7 +117,7 @@ struct InteractiveNotificationView: View {
     let notification: NotificationData
     let tapAction: () -> Void
     let clearAction: () -> Void
-
+    
     var body: some View {
         Button(action: {
             Haptics.shared.playImpactLight() // Haptic feedback on tap
@@ -143,26 +143,26 @@ struct InteractiveNotificationView: View {
 // View to show when a destination is activated (Sheet Content)
 struct DestinationView: View {
     let destination: NotificationDestination
-
+    
     var body: some View {
         NavigationView { // Embed in NavigationView for optional title/toolbar
             VStack(spacing: 25) {
                 Spacer() // Push content down slightly
-
+                
                 Image(systemName: iconForDestination)
                     .font(.system(size: 60)) // Larger icon
                     .foregroundColor(colorForDestination)
-
+                
                 Text(titleForDestination)
                     .font(.title.bold())
                     .multilineTextAlignment(.center)
-
+                
                 Text(detailsForDestination)
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-
+                
                 Spacer()
                 Spacer() // Add more space at the bottom
             }
@@ -179,7 +179,7 @@ struct DestinationView: View {
             }
         }
     }
-
+    
     // Helper properties for sheet content based on destination
     private var iconForDestination: String {
         switch destination {
@@ -189,16 +189,16 @@ struct DestinationView: View {
         case .camera: return "camera.fill"
         }
     }
-
+    
     private var colorForDestination: Color {
-         switch destination {
-         case .messageThread: return .blue
-         case .calendarEvent: return .red
-         case .genericApp: return .orange
-         case .camera: return .gray
-         }
-     }
-
+        switch destination {
+        case .messageThread: return .blue
+        case .calendarEvent: return .red
+        case .genericApp: return .orange
+        case .camera: return .gray
+        }
+    }
+    
     private var titleForDestination: String {
         switch destination {
         case .messageThread(let userName): return "Opened Message"
@@ -216,7 +216,7 @@ struct DestinationView: View {
         case .camera: return "Camera"
         }
     }
-
+    
     private var detailsForDestination: String {
         switch destination {
         case .messageThread(let userName): return "Simulating navigation to chat with \(userName)."
@@ -234,26 +234,26 @@ struct ContentView: View {
     @State private var showCollapsed = true // Control stack expansion
     @State private var activeSheet: NotificationDestination? = nil // Control sheet presentation
     @State private var isFlashlightOn: Bool = false // Control flashlight state
-
+    
     let maxVisibleNotifications = 2 // Max notifs before collapsing
-
+    
     // --- Body ---
     var body: some View {
         ZStack {
             // Background
             LinearGradient(gradient: Gradient(colors: [Color.indigo.opacity(0.9), Color.purple.opacity(0.7)]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
-
+            
             // Main Content ScrollView
             ScrollView {
                 VStack(spacing: 8) { // Reduced spacing for tighter packing
                     // Lock Screen Time/Date Context
                     HeaderView() // Extracted header for clarity
                         .padding(.bottom, 20)
-
+                    
                     // --- Display Notifications ---
                     if notifications.isEmpty {
-                         EmptyNotificationsView() // Extracted view for empty state
+                        EmptyNotificationsView() // Extracted view for empty state
                     } else {
                         NotificationStackView( // Extracted notification stack logic
                             notifications: $notifications,
@@ -268,34 +268,34 @@ struct ContentView: View {
                 .padding(.bottom, 120) // Ensure space above bottom buttons
             }
             .contentMargins(.top, 50, for: .scrollContent) // Add top padding for status bar area
-
+            
         }
-         // --- Sheet Presentation (Unified) ---
+        // --- Sheet Presentation (Unified) ---
         .sheet(item: $activeSheet) { destination in
-             DestinationView(destination: destination)
-                 .presentationDetents([.medium, .large]) // Allow sheet resizing
-                 .presentationDragIndicator(.visible) // Show the grab handle
+            DestinationView(destination: destination)
+                .presentationDetents([.medium, .large]) // Allow sheet resizing
+                .presentationDragIndicator(.visible) // Show the grab handle
         }
         // --- Bottom Shortcuts Overlay ---
         .overlay(alignment: .bottom) {
-             BottomShortcutsView( // Extracted bottom shortcuts
-                 isFlashlightOn: $isFlashlightOn,
-                 activateCameraSheet: { activateSheet(for: .camera) }, // Use unified sheet activation
-                 toggleFlashlight: toggleFlashlight // Pass function
-             )
+            BottomShortcutsView( // Extracted bottom shortcuts
+                isFlashlightOn: $isFlashlightOn,
+                activateCameraSheet: { activateSheet(for: .camera) }, // Use unified sheet activation
+                toggleFlashlight: toggleFlashlight // Pass function
+            )
         }
         // Ensure dark mode styling is consistent
         .preferredColorScheme(.dark)
     }
-
+    
     // --- Action Functions ---
-
+    
     // Activates the sheet for a given destination
     private func activateSheet(for destination: NotificationDestination) {
         Haptics.shared.playImpactMedium() // Stronger haptic for opening something
         activeSheet = destination
     }
-
+    
     // Removes a notification with animation and haptics
     private func removeNotification(id: UUID) {
         withAnimation(.easeOut(duration: 0.3)) {
@@ -307,7 +307,7 @@ struct ContentView: View {
         }
         Haptics.shared.playImpactLight() // Haptic feedback for dismissal
     }
-
+    
     // Toggles the flashlight state with feedback
     private func toggleFlashlight() {
         isFlashlightOn.toggle()
@@ -321,14 +321,14 @@ struct HeaderView: View {
     var body: some View {
         VStack {
             Text(Date(), style: .date)
-                 .font(.title3)
-                 .fontWeight(.medium)
-                 .foregroundColor(.white.opacity(0.9))
-                 .shadow(radius: 2)
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundColor(.white.opacity(0.9))
+                .shadow(radius: 2)
             Text(Date(), style: .time)
                 .font(.system(size: 80, weight: .thin))
-                 .foregroundColor(.white)
-                 .shadow(radius: 2)
+                .foregroundColor(.white)
+                .shadow(radius: 2)
         }
     }
 }
@@ -349,18 +349,18 @@ struct NotificationStackView: View {
     let maxVisibleNotifications: Int
     let activateSheet: (NotificationDestination) -> Void
     let removeNotification: (UUID) -> Void
-
+    
     var body: some View {
         // Conditional display based on collapsed state and count
         if showCollapsed && notifications.count > maxVisibleNotifications {
-             // --- Collapsed View ---
-             VStack(spacing: 8) {
+            // --- Collapsed View ---
+            VStack(spacing: 8) {
                 ForEach(notifications.prefix(maxVisibleNotifications)) { notification in
-                     InteractiveNotificationView(
+                    InteractiveNotificationView(
                         notification: notification,
                         tapAction: { activateSheet(notification.destination) },
                         clearAction: { removeNotification(notification.id) }
-                     )
+                    )
                 }
                 // Summary Line Button
                 ExpandButton(
@@ -372,27 +372,27 @@ struct NotificationStackView: View {
                         Haptics.shared.playImpactLight()
                     }
                 )
-             }
-             .transition(.opacity) // Animate stack change
-
+            }
+            .transition(.opacity) // Animate stack change
+            
         } else {
-             // --- Expanded View ---
-             VStack(spacing: 8) {
-                 Text("Notifications")
+            // --- Expanded View ---
+            VStack(spacing: 8) {
+                Text("Notifications")
                     .font(.caption.weight(.semibold))
                     .foregroundColor(.white.opacity(0.8))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 5)
-
-                 ForEach(notifications) { notification in
-                     InteractiveNotificationView(
+                
+                ForEach(notifications) { notification in
+                    InteractiveNotificationView(
                         notification: notification,
                         tapAction: { activateSheet(notification.destination) },
                         clearAction: { removeNotification(notification.id) }
-                     )
+                    )
                 }
-
-                 // Button to collapse (only show if expanded and count allows collapsing)
+                
+                // Button to collapse (only show if expanded and count allows collapsing)
                 if notifications.count > maxVisibleNotifications {
                     CollapseButton(action: {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
@@ -410,7 +410,7 @@ struct NotificationStackView: View {
 struct ExpandButton: View {
     let count: Int
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             HStack {
@@ -436,10 +436,10 @@ struct ExpandButton: View {
 
 struct CollapseButton: View {
     let action: () -> Void
-
+    
     var body: some View {
-         Button(action: action) {
-             Label("Show Less", systemImage: "chevron.up")
+        Button(action: action) {
+            Label("Show Less", systemImage: "chevron.up")
                 .font(.footnote)
                 .fontWeight(.medium)
                 .foregroundColor(.white.opacity(0.8))
@@ -448,10 +448,10 @@ struct CollapseButton: View {
                 .background(.black.opacity(0.25)) // Slightly more prominent background
                 .clipShape(Capsule())
                 .contentShape(Capsule()) // Ensure the whole capsule is tappable
-         }
-         .buttonStyle(.plain)
-         .padding(.top, 5)
-         .accessibilityHint("Double tap to collapse the notification stack")
+        }
+        .buttonStyle(.plain)
+        .padding(.top, 5)
+        .accessibilityHint("Double tap to collapse the notification stack")
     }
 }
 
@@ -459,39 +459,39 @@ struct BottomShortcutsView: View {
     @Binding var isFlashlightOn: Bool
     let activateCameraSheet: () -> Void
     let toggleFlashlight: () -> Void
-
+    
     var body: some View {
-         HStack(spacing: 60) { // Add more spacing between buttons
-             // Flashlight Button
-             Button(action: toggleFlashlight) {
-                 Image(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill")
-                     .imageScale(.large) // Consistent sizing
-                     .font(.title2) // Slightly smaller font size
-                     .frame(width: 50, height: 50) // Explicit frame for consistent tap target
-                     .background(isFlashlightOn ? .white.opacity(0.3) : .black.opacity(0.3))
-                     .clipShape(Circle())
-                     .animation(.bouncy, value: isFlashlightOn) // Add bouncy effect
-             }
-             .accessibilityLabel(isFlashlightOn ? "Flashlight On" : "Flashlight Off")
-             .accessibilityHint("Double tap to toggle flashlight")
-
-             // Camera Button
-             Button(action: activateCameraSheet) {
-                 Image(systemName: "camera.fill")
-                      .imageScale(.large)
-                      .font(.title2)
-                     .frame(width: 50, height: 50)
-                     .background(.black.opacity(0.3))
-                     .clipShape(Circle())
-             }
-             .accessibilityLabel("Camera")
-             .accessibilityHint("Double tap to open camera")
+        HStack(spacing: 60) { // Add more spacing between buttons
+            // Flashlight Button
+            Button(action: toggleFlashlight) {
+                Image(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill")
+                    .imageScale(.large) // Consistent sizing
+                    .font(.title2) // Slightly smaller font size
+                    .frame(width: 50, height: 50) // Explicit frame for consistent tap target
+                    .background(isFlashlightOn ? .white.opacity(0.3) : .black.opacity(0.3))
+                    .clipShape(Circle())
+                    .animation(.bouncy, value: isFlashlightOn) // Add bouncy effect
+            }
+            .accessibilityLabel(isFlashlightOn ? "Flashlight On" : "Flashlight Off")
+            .accessibilityHint("Double tap to toggle flashlight")
+            
+            // Camera Button
+            Button(action: activateCameraSheet) {
+                Image(systemName: "camera.fill")
+                    .imageScale(.large)
+                    .font(.title2)
+                    .frame(width: 50, height: 50)
+                    .background(.black.opacity(0.3))
+                    .clipShape(Circle())
+            }
+            .accessibilityLabel("Camera")
+            .accessibilityHint("Double tap to open camera")
         }
-         .buttonStyle(.plain)
-         .foregroundColor(.white)
-         .padding(.horizontal, 40)
-         .padding(.bottom, 40) // Adjust bottom padding as needed
-         .shadow(radius: 3)
+        .buttonStyle(.plain)
+        .foregroundColor(.white)
+        .padding(.horizontal, 40)
+        .padding(.bottom, 40) // Adjust bottom padding as needed
+        .shadow(radius: 3)
     }
 }
 
@@ -502,7 +502,7 @@ let mockNotifications: [NotificationData] = [
     NotificationData(iconName: "envelope.fill", appName: "Mail", title: "Weekly Digest", description: "Your curated list of top tech articles is ready.", timeString: "9:30 AM", destination: .genericApp(appName: "Mail")),
     NotificationData(iconName: "bell.fill", appName: "Reminders", title: "Grocery Shopping", description: "Pick up milk, eggs, bread, and coffee beans", timeString: "Yesterday", destination: .genericApp(appName: "Reminders")),
     NotificationData(iconName: "photo.on.rectangle.angled", appName: "Photos", title: "Memory Available", description: "A new memory from your trip to the coast last year.", timeString: "Yesterday", destination: .genericApp(appName: "Photos")),
-     NotificationData(iconName: "message.fill", appName: "Messages", title: "Jane Doe", description: "Did you see the latest WWDC announcements?", timeString: "2 days ago", destination: .messageThread(userName: "Jane Doe"))
+    NotificationData(iconName: "message.fill", appName: "Messages", title: "Jane Doe", description: "Did you see the latest WWDC announcements?", timeString: "2 days ago", destination: .messageThread(userName: "Jane Doe"))
 ]
 
 // --- Previews ---
@@ -510,14 +510,14 @@ let mockNotifications: [NotificationData] = [
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            // You can add more preview variations here if needed
-            // e.g., with no notifications:
-//             ContentView(notifications: [], showCollapsed: false)
-//                 .previewDisplayName("Empty State")
-
-            // e.g., with few notifications (should be expanded):
-//             ContentView(notifications: Array(mockNotifications.prefix(2)), showCollapsed: true)
-//                .previewDisplayName("Few Notifications")
+        // You can add more preview variations here if needed
+        // e.g., with no notifications:
+        //             ContentView(notifications: [], showCollapsed: false)
+        //                 .previewDisplayName("Empty State")
+        
+        // e.g., with few notifications (should be expanded):
+        //             ContentView(notifications: Array(mockNotifications.prefix(2)), showCollapsed: true)
+        //                .previewDisplayName("Few Notifications")
     }
 }
 #endif
