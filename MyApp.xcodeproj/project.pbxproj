@@ -39,6 +39,7 @@
 		9AE86F5D2DB76FF6005B1527 /* NotificationView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F5C2DB76FF5005B1527 /* NotificationView_V3.swift */; };
 		9AE86F5F2DB774D8005B1527 /* NotificationView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F5E2DB774D6005B1527 /* NotificationView_V4.swift */; };
 		9AE86F612DB77750005B1527 /* NotificationView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F602DB77750005B1527 /* NotificationView_V5.swift */; };
+		9AE86F632DB77935005B1527 /* NotificationView_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F622DB77933005B1527 /* NotificationView_V6.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		9AE86F5C2DB76FF5005B1527 /* NotificationView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V3.swift; sourceTree = "<group>"; };
 		9AE86F5E2DB774D6005B1527 /* NotificationView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V4.swift; sourceTree = "<group>"; };
 		9AE86F602DB77750005B1527 /* NotificationView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V5.swift; sourceTree = "<group>"; };
+		9AE86F622DB77933005B1527 /* NotificationView_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V6.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				9AE86F5C2DB76FF5005B1527 /* NotificationView_V3.swift */,
 				9AE86F5E2DB774D6005B1527 /* NotificationView_V4.swift */,
 				9AE86F602DB77750005B1527 /* NotificationView_V5.swift */,
+				9AE86F622DB77933005B1527 /* NotificationView_V6.swift */,
 			);
 			path = NotificationDesign;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				9A1D227C2DB7043100E5FD17 /* CouponCardView_V3.swift in Sources */,
 				9AE86F4B2DB74D23005B1527 /* KeyCardDesignView_V1.swift in Sources */,
 				9A1D22732DB6FEF700E5FD17 /* GenericCardView_V2.swift in Sources */,
+				9AE86F632DB77935005B1527 /* NotificationView_V6.swift in Sources */,
 				9A1D22752DB6FFA300E5FD17 /* GenericCardView_V3.swift in Sources */,
 				9A1D22502DB6948100E5FD17 /* BoardingPassView_V1.swift in Sources */,
 				9A1D225E2DB69A0700E5FD17 /* StoreCardView_V3.swift in Sources */,
