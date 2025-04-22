@@ -188,8 +188,8 @@ class RemindersManager: ObservableObject {
                 return
             }
             // If access granted, proceed to fetch
-            //await fetchReminders() // Make fetch async
-            fetch()
+            await fetchReminders() // Make fetch async
+            //fetch() // the old way to fetching data
             
         } catch {
             await MainActor.run {
@@ -200,27 +200,60 @@ class RemindersManager: ObservableObject {
     }
     
     // Make fetchReminders async
-//    private func fetchReminders() async {
-//        await MainActor.run { self.loading = true } // Still useful to indicate loading during fetch
-//        
-//        let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
-//        
-//        // Use the async version of fetchReminders
-//        do {
-//            let fetchedReminders = try await store.reminders(matching: pred)
-//                .filter { $0.isCompleted == false }
-//            
-//            await MainActor.run {
-//                self.reminders = fetchedReminders
-//                self.loading = false
-//            }
-//        } catch {
-//            await MainActor.run {
-//                self.error = "Error fetching reminders: \(error.localizedDescription)"
-//                self.loading = false
-//            }
-//        }
-//    }
+    private func fetchReminders() async {
+        await MainActor.run {
+            self.loading = true
+            self.error = nil // Reset error state at the beginning
+        }
+        
+        let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
+        
+        do {
+            // Bridge the completion handler API to async/await
+            let fetchedItems: [EKReminder] = try await withCheckedThrowingContinuation { continuation in
+                store.fetchReminders(matching: pred) { reminders in
+                    // This completion handler might not be on the main thread
+                    if let reminders = reminders {
+                        continuation.resume(returning: reminders)
+                    } else {
+                        // Handle the case where reminders are nil, perhaps return an empty array
+                        // or resume with an error depending on expected behavior.
+                        // Returning empty array is safer if nil is unexpected but possible.
+                        // continuation.resume(returning: [])
+                        // Or, if nil signifies an error state:
+                        continuation.resume(
+                            throwing:
+                                NSError(
+                                    domain: "RemindersFetch",
+                                    code: -1,
+                                    userInfo: [NSLocalizedDescriptionKey: "Failed to fetch reminders, returned nil."]
+                                )
+                        )
+                    }
+                    // Note: Error handling specific to the fetchReminders *method itself*
+                    // isn't directly provided in its completion handler signature,
+                    // unlike some other Apple APIs. We rely on the outer do-catch.
+                }
+            }
+            
+            // Filter the reminders *after* fetching them
+            let filteredReminders = fetchedItems.filter { $0.isCompleted == false }
+            
+            // Update state back on the Main Actor
+            await MainActor.run {
+                self.reminders = filteredReminders
+                self.loading = false
+            }
+            
+        } catch {
+            // Catch errors from withCheckedThrowingContinuation or permission checks
+            await MainActor.run {
+                self.error = "Error fetching reminders: \(error.localizedDescription)"
+                self.loading = false
+            }
+        }
+    }
+    
     private func fetch() {
         let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
         store.fetchReminders(matching: pred) { items in
@@ -610,7 +643,7 @@ extension UIApplication {
     func dismissAllSheets(animated: Bool = true) {
         // Get active scenes
         let scenes = UIApplication.shared.connectedScenes
-
+        
         // Filter for foreground active UIWindowScene
         guard let windowScene = scenes
             .filter({ $0.activationState == .foregroundActive })
@@ -618,19 +651,19 @@ extension UIApplication {
             print("Could not find active window scene to dismiss sheet.")
             return
         }
-
+        
         // Find the key window or the first window in that scene
         guard let window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first else {
             print("Could not find window in scene to dismiss sheet.")
             return
         }
-
+        
         // Check if there's actually something presented to dismiss
         if window.rootViewController?.presentedViewController != nil {
-           window.rootViewController?.dismiss(animated: animated, completion: nil)
-           print("Dismissing presented view controller.")
+            window.rootViewController?.dismiss(animated: animated, completion: nil)
+            print("Dismissing presented view controller.")
         } else {
-           print("No view controller presented to dismiss.")
+            print("No view controller presented to dismiss.")
         }
     }
 }
