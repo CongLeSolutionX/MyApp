@@ -201,7 +201,7 @@ struct DestinationView: View {
     
     private var titleForDestination: String {
         switch destination {
-        case .messageThread(let userName): return "Opened Message"
+        case .messageThread(let userName): return "\(userName) Opened Message"
         case .calendarEvent: return "Opened Calendar Event"
         case .genericApp(let appName): return "Opened \(appName)"
         case .camera: return "Camera Activated"
