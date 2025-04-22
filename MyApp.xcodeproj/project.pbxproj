@@ -33,6 +33,7 @@
 		9AE86F4B2DB74D23005B1527 /* KeyCardDesignView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F4A2DB74D19005B1527 /* KeyCardDesignView_V1.swift */; };
 		9AE86F4E2DB74D7F005B1527 /* KeyCardDesignView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */; };
 		9AE86F502DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */; };
+		9AE86F522DB75256005B1527 /* KeyCardDesignView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		9AE86F4A2DB74D19005B1527 /* KeyCardDesignView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V1.swift; sourceTree = "<group>"; };
 		9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V2.swift; sourceTree = "<group>"; };
 		9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V2_Part2.swift; sourceTree = "<group>"; };
+		9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCardDesignView_V3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				9AE86F4A2DB74D19005B1527 /* KeyCardDesignView_V1.swift */,
 				9AE86F4D2DB74D7D005B1527 /* KeyCardDesignView_V2.swift */,
 				9AE86F4F2DB74EF7005B1527 /* KeyCardDesignView_V2_Part2.swift */,
+				9AE86F512DB75254005B1527 /* KeyCardDesignView_V3.swift */,
 			);
 			path = KeyCardDesigns;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				9A1D22502DB6948100E5FD17 /* BoardingPassView_V1.swift in Sources */,
 				9A1D225E2DB69A0700E5FD17 /* StoreCardView_V3.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9AE86F522DB75256005B1527 /* KeyCardDesignView_V3.swift in Sources */,
 				9A1D226E2DB69FCD00E5FD17 /* TicketView_V3.swift in Sources */,
 				9A1D22562DB696B000E5FD17 /* BoardingPassView_V3.swift in Sources */,
 				9A1D22712DB6FE3100E5FD17 /* GenericCardView_V1.swift in Sources */,
