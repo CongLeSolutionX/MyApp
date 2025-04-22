@@ -474,6 +474,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "This app needs your permission to use Calenders app.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to use Camera app.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "This app needs your permission to use Reminders app.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -515,6 +516,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "This app needs your permission to use Calenders app.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your permission to use Camera app.";
 				INFOPLIST_KEY_NSRemindersUsageDescription = "This app needs your permission to use Reminders app.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
