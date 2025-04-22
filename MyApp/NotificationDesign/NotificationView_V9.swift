@@ -188,7 +188,8 @@ class RemindersManager: ObservableObject {
                 return
             }
             // If access granted, proceed to fetch
-            await fetchReminders() // Make fetch async
+            //await fetchReminders() // Make fetch async
+            fetch()
             
         } catch {
             await MainActor.run {
@@ -199,27 +200,27 @@ class RemindersManager: ObservableObject {
     }
     
     // Make fetchReminders async
-    private func fetchReminders() async {
-        await MainActor.run { self.loading = true } // Still useful to indicate loading during fetch
-        
-        let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
-        
-        // Use the async version of fetchReminders
-        do {
-            let fetchedReminders = try await store.reminders(matching: pred)
-                .filter { $0.isCompleted == false }
-            
-            await MainActor.run {
-                self.reminders = fetchedReminders
-                self.loading = false
-            }
-        } catch {
-            await MainActor.run {
-                self.error = "Error fetching reminders: \(error.localizedDescription)"
-                self.loading = false
-            }
-        }
-    }
+//    private func fetchReminders() async {
+//        await MainActor.run { self.loading = true } // Still useful to indicate loading during fetch
+//        
+//        let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
+//        
+//        // Use the async version of fetchReminders
+//        do {
+//            let fetchedReminders = try await store.reminders(matching: pred)
+//                .filter { $0.isCompleted == false }
+//            
+//            await MainActor.run {
+//                self.reminders = fetchedReminders
+//                self.loading = false
+//            }
+//        } catch {
+//            await MainActor.run {
+//                self.error = "Error fetching reminders: \(error.localizedDescription)"
+//                self.loading = false
+//            }
+//        }
+//    }
     private func fetch() {
         let pred = store.predicateForReminders(in: store.calendars(for: .reminder))
         store.fetchReminders(matching: pred) { items in
