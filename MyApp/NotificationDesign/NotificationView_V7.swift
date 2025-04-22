@@ -501,7 +501,7 @@ struct RemindersListView: View {
                 } else if let err = manager.error {
                     Text(err).foregroundColor(.red)
                 } else {
-                    ForEach(manager.reminders) { r in
+                    ForEach(manager.reminders, id: \.calendarItemIdentifier) { r in
                         HStack {
                             Text(r.title)
                             Spacer()
