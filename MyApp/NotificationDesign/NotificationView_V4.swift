@@ -1,10 +1,3 @@
-//
-//  NotificationView_V4.swift
-//  MyApp
-//
-//  Created by Cong Le on 4/21/25.
-//
-
 //  ContentView_RealData.swift
 //  MyApp // Replace with your app name
 //
@@ -79,7 +72,7 @@ class EventStoreManager: ObservableObject {
         }
     }
     
-    private func fetchUpcomingEvents() {
+    func fetchUpcomingEvents() {
         guard accessGranted else {
             errorMessage = "Access not granted to fetch events."
             print(errorMessage!)
@@ -310,7 +303,7 @@ struct ContentView: View {
         .overlay(alignment: .bottom) {
             BottomShortcutsView(
                 isFlashlightOn: $isFlashlightOn,
-                activateCamera: { handleNotificationTap(.cameraApp) }, // Directly trigger action
+                activateCamera: { handleNotificationTap(for: .cameraApp) }, // Directly trigger action
                 toggleFlashlight: toggleFlashlight // Pass flashlight function
             )
         }
@@ -454,7 +447,7 @@ struct ContentView: View {
                  iconName: "calendar",
                  appName: "Calendar",
                  title: event.title ?? "Calendar Event",
-                 description: event.notes ?? "Starts at \(event.startDate.formatted(date: .omitted, time: .short))",
+                 description: event.notes ?? "Starts at \(event.startDate.formatted(date: .omitted, time: .shortened))",
                  notificationDate: event.startDate, // Use event start date as notification time
                  destination: .calendarApp
              )
