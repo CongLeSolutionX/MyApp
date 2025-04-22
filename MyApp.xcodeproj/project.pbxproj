@@ -44,6 +44,7 @@
 		9AE86F672DB7805C005B1527 /* NotificationView_V8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F662DB7805C005B1527 /* NotificationView_V8.swift */; };
 		9AE86F692DB785E0005B1527 /* NotificationView_V9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F682DB785E0005B1527 /* NotificationView_V9.swift */; };
 		9AE86F6B2DB787CB005B1527 /* NotificationView_V10.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F6A2DB787CB005B1527 /* NotificationView_V10.swift */; };
+		9AE86F6D2DB78C3D005B1527 /* NotificationView_V11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE86F6C2DB78C3D005B1527 /* NotificationView_V11.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		9AE86F662DB7805C005B1527 /* NotificationView_V8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V8.swift; sourceTree = "<group>"; };
 		9AE86F682DB785E0005B1527 /* NotificationView_V9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V9.swift; sourceTree = "<group>"; };
 		9AE86F6A2DB787CB005B1527 /* NotificationView_V10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V10.swift; sourceTree = "<group>"; };
+		9AE86F6C2DB78C3D005B1527 /* NotificationView_V11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_V11.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +230,7 @@
 				9AE86F662DB7805C005B1527 /* NotificationView_V8.swift */,
 				9AE86F682DB785E0005B1527 /* NotificationView_V9.swift */,
 				9AE86F6A2DB787CB005B1527 /* NotificationView_V10.swift */,
+				9AE86F6C2DB78C3D005B1527 /* NotificationView_V11.swift */,
 			);
 			path = NotificationDesign;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				9A1D22692DB69EB400E5FD17 /* TicketView_V1.swift in Sources */,
 				9A1D22672DB69CD100E5FD17 /* DriverLicenseCardView_V3.swift in Sources */,
 				9AE86F582DB76D71005B1527 /* NotificationView_V1.swift in Sources */,
+				9AE86F6D2DB78C3D005B1527 /* NotificationView_V11.swift in Sources */,
 				9A1D22542DB694FF00E5FD17 /* BoardingPassView_V2.swift in Sources */,
 				9A1D22632DB69BC900E5FD17 /* DriverLicenseCardView_V2.swift in Sources */,
 				9A1D225C2DB698E600E5FD17 /* StoreCardView_V2.swift in Sources */,
