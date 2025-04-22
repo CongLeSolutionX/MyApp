@@ -88,18 +88,58 @@ class CalendarManager: ObservableObject {
     @Published var loading = false
     private let store = EKEventStore()
     
-    func requestAndFetch() {
-        loading = true
-        error = nil
-        store.requestAccess(to: .event) { granted, err in
-            DispatchQueue.main.async {
-                guard granted else {
+    func requestAndFetch() async { // Mark the function as async
+        await MainActor.run { // Ensure UI updates happen on the main thread
+            self.loading = true
+            self.error = nil
+        }
+
+        do {
+            var granted = false
+            if #available(iOS 17.0, *) {
+                // Use the newer API for iOS 17+
+                granted = try await store.requestFullAccessToEvents()
+            } else {
+                // Fallback for older iOS versions
+                granted = try await store.requestAccess(to: .event) // Use await with the older async wrapper
+            }
+
+            guard granted else {
+                await MainActor.run {
                     self.error = "Calendar access denied."
                     self.loading = false
-                    return
                 }
-                self.fetch()
+                return
             }
+
+            // If access granted, proceed to fetch (make fetch async too if needed)
+            await fetchEvents() // Rename or make fetch async
+
+        } catch {
+            await MainActor.run {
+                self.error = "Error requesting calendar access: \(error.localizedDescription)"
+                self.loading = false
+            }
+        }
+    }
+
+    // Make fetch async as well for consistency and potentially long operations
+    private func fetchEvents() async {
+        let start = Date()
+        let end = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+        let pred = store.predicateForEvents(withStart: start, end: end, calendars: store.calendars(for: .event))
+
+        // Perform the potentially blocking fetch on a background task
+        let fetchedEvents = await Task.detached(priority: .userInitiated) {
+            return self.store.events(matching: pred)
+                .filter { !$0.isAllDay }
+                .sorted { $0.startDate < $1.startDate }
+        }.value // Get the result from the detached task
+
+        // Update the published properties back on the main thread
+        await MainActor.run {
+            self.events = fetchedEvents
+            self.loading = false
         }
     }
     private func fetch() {
