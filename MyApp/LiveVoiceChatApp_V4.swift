@@ -718,7 +718,7 @@ final class ChatStore: ObservableObject {
     // Called by TakeoverVUIView when prompting state is entered
     // Needs access to the SpeechRecognizer instance managed by the main view
     func handleVUIListenStartRequest(speechRecognizer sr: SpeechRecognizer) {
-         guard store.vuiState == .prompting else { return }
+         guard self.vuiState == .prompting else { return }
          print("VUI attempting to start listening...")
          vuiErrorMessage = nil // Clear any previous VUI error
 
