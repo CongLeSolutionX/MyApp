@@ -434,7 +434,7 @@ struct ContentView: View {
                 
                 // Update state to loaded on the main thread
                 await MainActor.run {
-                    self.loadingState = .loaded(loadedBot ?? <#default value#>)
+                    self.loadingState = .loaded(loadedBot!)
                 }
                 
             } catch is CancellationError {
@@ -461,37 +461,178 @@ struct ContentView: View {
 // MARK: - SwiftUI Previews (Optional)
 
 #if DEBUG
-// Previews might be harder to set up accurately with async loading.
-// You might explicitly set the state for previewing different UI states.
+import SwiftUI
+import LLM // Or the mock definitions if LLM is not available
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-// Preview Idle State
-//        ContentView(loadingState: .idle)
-//            .previewDisplayName("Idle State")
+// MARK: - Mock Bot for Previewing Loaded State
 
-// Preview Downloading State
-//        ContentView(loadingState: .downloading(progress: 0.65))
-//            .previewDisplayName("Downloading State")
+/// A simplified Bot implementation for SwiftUI Previews.
+class MockBot: Bot {
+    // Override the designated initializer if necessary.
+    // If Bot's designated initializer requires a URL that we don't have in preview,
+    // we might need MockBot to inherit directly from LLM instead,
+    // or provide a dummy URL and handle it internally.
+    // Let's assume we can work around Bot's initializer for the preview.
+    // A simpler init might be needed if the async one causes issues here.
 
-// Preview Failed State
-//        ContentView(loadingState: .failed(ModelLoadingError.downloadError(NSError(domain: "Preview", code: -1, userInfo: [NSLocalizedDescriptionKey: "Simulated network error during download."]))))
-//            .previewDisplayName("Failed State")
+    // Convenience init for previews
+    init(mockOutput: String = "Hello! I am a preview bot.", history: [(role: Role, content: String)] = [], isAvailable: Bool = true) {
+        // We need to call a designated initializer of the superclass (Bot or LLM).
+        // This is the trickiest part. Bot's designated init is `init(from:template:)`.
+        // We need a dummy URL and template.
+        let dummyUrl = URL(fileURLWithPath: "/dev/null") // A harmless dummy path
+        let dummyTemplate = Template.chatML("You are a mock bot.") // Example dummy template
+        
+        // Call the designated initializer of LLM directly if Bot doesn't add essential state
+        // Or handle Bot's specific init logic if necessary.
+        // Assuming we can call LLM's init here for simplicity in the mock.
+        // If `Bot` override `init(from:template:)` making it `convenience`, this won't work cleanly.
+        // Let's *assume* we can call through to LLM's init for the purpose of the mock.
+        // try! super.init(from: dummyUrl, template: dummyTemplate) // Using try! as this should not fail in preview setup
 
-// Preview Loaded State (Requires a Mock Bot or a readily available small model)
-//        ContentView(loadingState: .loaded(createMockBot()))
-//            .previewDisplayName("Loaded State")
-//    }
+        // Override published properties after initialization
+        self.output = mockOutput
+        self.isAvailable = isAvailable
+        self.history = history
+    }
 
-//    // Helper to create a mock bot for preview if needed
-//    static func createMockBot() -> Bot {
-//        // This is tricky because Bot's designated initializer might be internal or complex.
-//        // You might need to adjust Bot or LLM for better testability/mocking.
-//        // For now, this part is commented out.
-//        fatalError("Mock Bot creation for SwiftUI preview needs implementation.")
-//    }
-//}
+    // Override methods to provide mock behavior
+    override func respond(to input: String) async {
+        await MainActor.run { self.isAvailable = false }
+        let response = "Mock response to: \(input)"
+        // Simulate typing delay
+        try? await Task.sleep(nanoseconds: 500_000_000)
+        await MainActor.run {
+            self.output += "\nUser: \(input)\nBot: \(response)"
+            self.isAvailable = true
+            self.history.append((role: .user, content: input))
+            self.history.append((role: .bot, content: response))
+        }
+    }
+
+    override func stop() {
+        print("MockBot stop called.")
+        Task { @MainActor in self.isAvailable = true }
+    }
+}
+
+// MARK: - SwiftUI Previews
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        // --- Preview States ---
+
+        // 1. Idle State
+        // Simulate the UI elements ContentView shows in the .idle state
+        Group {
+            NavigationView { // Wrap in NavigationView as ContentView does
+                VStack(spacing: 20) {
+                    Text("Tap to load LLM model.")
+                    Button("Load Model") { } // Action doesn't matter for preview
+                        .buttonStyle(.borderedProminent)
+                }
+                .navigationTitle("LLM Chat")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .previewDisplayName("Idle State")
+
+            // 2. Downloading State
+            // Simulate the UI for .downloading
+            NavigationView {
+                ProgressView(value: 0.65) { // Example progress value
+                    Text("Loading Model...")
+                } currentValueLabel: {
+                    Text(String(format: "%.1f%%", 0.65 * 100))
+                }
+                .progressViewStyle(.circular)
+                .padding()
+                .navigationTitle("LLM Chat")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .previewDisplayName("Downloading (65%)")
+            
+            // 3. Loaded State (Using MockBot)
+            // Instantiate the MockBot here
+            NavigationView {
+                 BotView(bot: MockBot()) // Pass the mock instance
+                 .navigationTitle("LLM Chat")
+                 .navigationBarTitleDisplayMode(.inline)
+            }
+             .previewDisplayName("Loaded State")
+
+            // 4. Failed State
+            // Simulate the UI for .failed
+            NavigationView {
+                VStack(spacing: 15) { // Reduced spacing slightly
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40) // Slightly smaller icon
+                        .foregroundColor(.red)
+                    Text("Failed to Load Model")
+                        .font(.headline)
+                    // Use a specific mock error for the preview
+                    Text(ModelLoadingError.downloadError(NSError(domain: "PreviewError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Could not connect to the server. Please check your network connection."])).localizedDescription)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    Button("Retry") { } // Action doesn't matter for preview
+                        .buttonStyle(.bordered)
+                }
+                .padding()
+                .navigationTitle("LLM Chat")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .previewDisplayName("Failed State")
+        }
+    }
+}
+
+// --- Minimal Placeholder Definitions for Preview Correctness (if needed) ---
+// Add these ONLY if you don't have the actual LLM library available
+// when running the preview build target. Usually not needed if the package is linked.
+#if !canImport(LLM) && DEBUG // Add && DEBUG check here too
+
+enum MockRole { case user, bot }
+class LLM: ObservableObject { /* Minimal needed properties/methods */
+    @Published var output: String = ""
+    @Published var isAvailable: Bool = true
+    var history: [(role: MockRole, content: String)] = []
+    init(from url: URL, template: Template) throws { /* empty or basic setup */ }
+    func respond(to input: String) async { /* empty */ }
+    func stop() { /* empty */ }
+    // Need Role nested enum definition if used by MockBot/Template directly
+    enum Role { case user, bot }
+}
+
+struct Template { /* Minimal needed properties/methods */
+    static func chatML(_ systemPrompt: String?) -> Template { return Template() }
+}
+
+struct HuggingFaceModel { enum Quantization: String { case Q2_K } } // Dummy enum
+
+enum ModelLoadingError: LocalizedError { /* Minimal cases for preview */
+    case downloadError(Error)
+    var errorDescription: String? { /* Basic description */
+        switch self {
+        case .downloadError(let error): return "Download failed: \(error.localizedDescription)"
+        // Add other cases if needed by previews
+        default: return "An unknown error occurred."
+        }
+    }
+}
+
+// Define Bot if it adds specific logic needed by MockBot's super.init or BotView
+// If Bot is just a thin wrapper, MockBot might inherit directly from LLM.
+class Bot: LLM {
+     // If Bot overrides init(from:template:), MockBot needs to respect that signature.
+     // Example: Assume Bot *doesn't* override the designated init from LLM
+}
+
 #endif
+// --- End Placeholders ---
+
+#endif // End #if DEBUG
 
 // --- Placeholder definitions if LLM library isn't available ---
 #if !canImport(LLM)
