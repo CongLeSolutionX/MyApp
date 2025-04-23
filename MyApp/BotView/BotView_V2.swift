@@ -490,7 +490,7 @@ struct ContentView: View {
 //        // For now, this part is commented out.
 //        fatalError("Mock Bot creation for SwiftUI preview needs implementation.")
 //    }
-}
+//}
 #endif
 
 // --- Placeholder definitions if LLM library isn't available ---
