@@ -52,8 +52,11 @@ class MyUIViewController: UIViewController {
         // Note: Force unwrapping LLM init with '!' is dangerous. Better to handle potential nil.
         // Consider using optional binding or throwing a specific error if init fails.
         // For this example, keeping the '!' as in original, but know it's risky.
-        let bot = try await LLM(from: HuggingFaceModel("TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF", .Q2_K, template: .chatML(systemPrompt)))!
-        let question = bot.preprocess("What's the meaning of life?", [])
+        // https://huggingface.co/arcee-ai/Arcee-VyLinh-GGUF
+        // vylinh-3b-q8_0.gguf
+        // TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+        let bot = try await LLM(from: HuggingFaceModel("TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF", .Q8_0, template: .chatML(systemPrompt)))!
+        let question = bot.preprocess("Đời là gì?", [])
         let answer = await bot.getCompletion(from: question)
         print(answer)
     }
