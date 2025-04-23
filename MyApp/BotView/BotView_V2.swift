@@ -62,16 +62,12 @@ class Bot: LLM {
         if fileManager.fileExists(atPath: localModelURL.path) {
             print("Model found locally at: \(localModelURL.path)")
             // Initialize directly from local file
-            do {
-                // Need to call the designated initializer of the superclass
-                try self.init(from: localModelURL, template: template)
-                progressUpdate(1.0) // Indicate loading complete
-                print("LLM initialized successfully from local file.")
-            } catch {
-                print("Error initializing LLM from existing local file: \(error)")
-                // Optionally: try deleting the corrupt file and attempt download?
-                throw ModelLoadingError.initializationFailed(error)
-            }
+            
+            self.init(from: localModelURL, template: template) // No 'try' needed if init doesn't throw
+            
+            progressUpdate(1.0) // Indicate loading complete
+            print("LLM initialized successfully from local file.")
+            
             return // Initialization complete
         }
         
@@ -119,16 +115,9 @@ class Bot: LLM {
         }
         
         // 4. Initialize LLM After Successful Download
-        do {
-            // Call the designated initializer of the superclass
-            try self.init(from: localModelURL, template: template)
-            print("LLM initialized successfully after download.")
-        } catch {
-            print("Error initializing LLM after download: \(error)")
-            // Optionally: Clean up the downloaded file if init fails?
-            // try? fileManager.removeItem(at: localModelURL)
-            throw ModelLoadingError.initializationFailed(error)
-        }
+        self.init(from: localModelURL, template: template) // No 'try' needed if init doesn't throw
+        
+        print("LLM initialized successfully after download.")
     }
     
     // --- File Management Helpers ---
