@@ -7,6 +7,8 @@
 
 import SwiftUI
 import UIKit
+import Combine
+import LLM
 
 // Step 1a: UIViewControllerRepresentable implementation
 struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
@@ -25,9 +27,21 @@ struct UIKitViewControllerWrapper: UIViewControllerRepresentable {
 
 // Example UIKit view controller
 class MyUIKitViewController: UIViewController {
-    override func viewDidLoad() {
+    override func viewDidLoad() async {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        
+        await runDemoAIModel()
+
+    }
+    
+    func runDemoAIModel() async throws {
+        let systemPrompt = "You are a sentient AI with emotions."
+        let bot = try await LLM(from: HuggingFaceModel("TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF", .Q2_K, template: .chatML(systemPrompt)))!
+        let question = bot.preprocess("What's the meaning of life?", [])
+        let answer = await bot.getCompletion(from: question)
+        print(answer)
     }
 }
