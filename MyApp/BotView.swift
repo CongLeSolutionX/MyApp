@@ -71,7 +71,7 @@ struct BotView: View {
                         .padding(.vertical, 8) // Vertical padding for text blocks
                         .id(bottomID) // ID for scrolling to the bottom
                 }
-                .onChange(of: bot.output) { _ in
+                .onChange(of: bot.output) {
                     // Automatically scroll to the bottom when new output arrives
                     // Using async ensures the view has updated before scrolling
                     DispatchQueue.main.async {
@@ -119,8 +119,8 @@ struct BotView: View {
             .padding(.vertical, 8) // Padding above/below the input bar
             .background(.bar) // Background for the input bar area
         }
-        // .frame(maxWidth: .infinity) // VStack takes max width by default
-        // .navigationTitle("LLM.swift Chat") // Example Navigation Title
+         .frame(maxWidth: .infinity) // VStack takes max width by default
+         .navigationTitle("LLM.swift Chat") // Example Navigation Title
     }
 
     /// Sends the current input text to the bot.
