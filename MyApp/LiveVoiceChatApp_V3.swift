@@ -384,8 +384,71 @@ final class ChatStore: ObservableObject {
     }
     
     // MARK: - Backend Management (Unchanged)
-    func setBackend(_ newBackend: ChatBackend, type: BackendType) { /* ... */ }
-    private func configureBackend() { /* ... */ }
+    func setBackend(_ newBackend: ChatBackend, type: BackendType) {
+        backend = newBackend
+        // Update AppStorage which triggers configureBackend via the computed property's setter
+        backendTypeRaw = type.rawValue
+        print("Backend explicitly set to: \(type.rawValue)")
+    }
+    private func configureBackend() {
+        print("Configuring backend for type: \(self.backendType.rawValue)") // Use self explicitly for clarity inside method
+
+        // --- Safety Check: OpenAI ---
+        if self.backendType == .openAI && self.apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            print("Warning: OpenAI backend selected but API key is missing. Falling back to Mock.")
+            // Update state on the main thread for potential UI feedback
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                // Check if we are not already on Mock to avoid infinite loop if setter calls configure again
+                if self.backendType != .mock {
+                    self.errorMessage = "Khóa API OpenAI bị thiếu. Sử dụng Mock backend."
+                    self.backend = MockChatBackend() // Set directly
+                    self.backendTypeRaw = BackendType.mock.rawValue // Update storage last
+                }
+            }
+            return // Stop configuration here
+        }
+
+        // --- Safety Check: CoreML ---
+        if self.backendType == .coreML {
+            let coreMLBackend = CoreMLChatBackend(modelName: self.coreMLModelName) // Create instance to check model
+            if coreMLBackend.coreModel == nil {
+                print("Warning: CoreML model '\(self.coreMLModelName)' failed to load. Falling back to Mock.")
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    if self.backendType != .mock {
+                        self.errorMessage = "Không tải được mô hình CoreML '\(self.coreMLModelName)'. Sử dụng Mock backend."
+                        self.backend = MockChatBackend()
+                        self.backendTypeRaw = BackendType.mock.rawValue
+                    }
+                }
+                return // Stop configuration here
+            }
+            // If model loaded successfully, assign the created backend instance
+            self.backend = coreMLBackend
+        } else {
+            // --- Configure other backends (Mock, or OpenAI if key was present) ---
+            switch self.backendType {
+            case .mock:
+                self.backend = MockChatBackend()
+            case .openAI:
+                // Key presence was checked earlier
+                self.backend = RealOpenAIBackend(
+                    apiKey: self.apiKey.trimmingCharacters(in: .whitespacesAndNewlines),
+                    model: self.openAIModelName,
+                    temperature: self.openAITemperature,
+                    maxTokens: self.openAIMaxTokens
+                )
+            case .coreML:
+                // This case was handled above, but include for safety/exhaustiveness
+                print("CoreML should have been configured already. Re-checking.")
+                let backendCheck = CoreMLChatBackend(modelName: self.coreMLModelName)
+                self.backend = (backendCheck.coreModel != nil) ? backendCheck : MockChatBackend()
+
+            }
+        }
+        print("Backend configured successfully to: \(self.backendType.rawValue)")
+    }
     
     // MARK: - VUI Interaction Flow
     
