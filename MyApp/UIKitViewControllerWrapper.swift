@@ -55,7 +55,7 @@ class MyUIViewController: UIViewController {
         // https://huggingface.co/arcee-ai/Arcee-VyLinh-GGUF
         // vylinh-3b-q8_0.gguf
         // TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
-        let bot = try await LLM(from: HuggingFaceModel("TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF", .Q8_0, template: .chatML(systemPrompt)))!
+        let bot = try await LLM(from: HuggingFaceModel("arcee-ai/Arcee-VyLinh-GGUF", .Q8_0, template: .chatML(systemPrompt)))!
         let question = bot.preprocess("Đời là gì?", [])
         let answer = await bot.getCompletion(from: question)
         print(answer)
