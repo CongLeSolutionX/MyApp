@@ -35,14 +35,14 @@ struct Message: Identifiable, Codable, Hashable {
     let role: ChatRole
     let content: String
     let timestamp: Date
-
+    
     init(role: ChatRole, content: String, timestamp: Date = .now, id: UUID = .init()) {
         self.id = id
         self.role = role
         self.content = content
         self.timestamp = timestamp
     }
-
+    
     static func system(_ text: String)    -> Message { .init(role: .system,    content: text) }
     static func user(_ text: String)      -> Message { .init(role: .user,      content: text) }
     static func assistant(_ text: String) -> Message { .init(role: .assistant, content: text) }
@@ -53,7 +53,7 @@ struct Conversation: Identifiable, Codable, Hashable {
     var title: String
     var messages: [Message]
     var createdAt: Date
-
+    
     init(id: UUID = .init(),
          title: String = "",
          messages: [Message] = [],
@@ -97,16 +97,16 @@ final class RealOpenAIBackend: ChatBackend {
     struct RequestPayload: Encodable { struct M: Encodable { let role: String; let content: String }; let model: String; let messages: [M]; let temperature: Double; let max_tokens: Int }
     struct ResponsePayload: Decodable { struct C: Decodable { struct M: Decodable { let content: String }; let message: M }; let choices: [C] }
     struct ErrorResponse: Decodable { struct ED: Decodable { let message: String }; let error: ED? }
-
+    
     func streamChat(messages: [Message], systemPrompt: String, completion: @escaping (Result<String, Error>) -> Void) {
         var allMessages = systemPrompt.isEmpty ? messages : [.system(systemPrompt)] + messages
         guard let url = URL(string: "https://api.openai.com/v1/chat/completions") else { return completion(.failure(NSError(domain: "InvalidURL", code: 0))) }
         var request = URLRequest(url: url); request.httpMethod = "POST"; request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization"); request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let body = RequestPayload(model: self.model, messages: allMessages.map { RequestPayload.M(role: $0.role.rawValue, content: $0.content) }, temperature: self.temperature, max_tokens: self.maxTokens)
         do { request.httpBody = try JSONEncoder().encode(body) } catch { return completion(.failure(error)) }
-
+        
         URLSession.shared.dataTask(with: request) { data, _, error in
-             DispatchQueue.main.async { // Ensure completion on main thread
+            DispatchQueue.main.async { // Ensure completion on main thread
                 if let netErr = error { return completion(.failure(netErr)) }
                 guard let respData = data else { return completion(.failure(NSError(domain: "NoData", code: 1))) }
                 do {
@@ -117,7 +117,7 @@ final class RealOpenAIBackend: ChatBackend {
                     if let decodedError = try? JSONDecoder().decode(ErrorResponse.self, from: respData), let msg = decodedError.error?.message { errorMsg = "API Error: \(msg)" }
                     completion(.failure(NSError(domain: "DecodingError", code: 2, userInfo: [NSLocalizedDescriptionKey: errorMsg])))
                 }
-             }
+            }
         }.resume()
     }
 }
@@ -146,19 +146,19 @@ final class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDele
     // VUI ADDITION: Rough audio level simulation
     @Published var audioLevel: Float = 0.0
     private var levelTimer: Timer?
-
+    
     var onFinalTranscription: ((String) -> Void)?
     var onErrorOccurred: ((String) -> Void)? // Callback for errors during VUI
-
+    
     private let recognizer: SFSpeechRecognizer? = SFSpeechRecognizer(locale: Locale(identifier: "vi-VN"))
     private let audioEngine = AVAudioEngine()
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let silenceTimeout: TimeInterval = 1.8
     private var silenceWork: DispatchWorkItem?
-
+    
     override init() { super.init(); self.recognizer?.delegate = self }
-
+    
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         SFSpeechRecognizer.requestAuthorization { authStatus in
             let authorized = authStatus == .authorized
@@ -169,26 +169,26 @@ final class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDele
             }
         }
     }
-
+    
     func startRecording() throws {
         errorMessage = nil; transcript = ""; isRecording = true; audioLevel = 0.0
         recognitionTask?.cancel(); recognitionTask = nil
         recognitionRequest?.endAudio(); recognitionRequest = nil
         silenceWork?.cancel(); silenceWork = nil
         levelTimer?.invalidate(); levelTimer = nil
-
+        
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-
+        
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create request") }
         recognitionRequest.shouldReportPartialResults = true; recognitionRequest.taskHint = .dictation
-
+        
         guard let speechRecognizer = recognizer, speechRecognizer.isAvailable else {
             stopRecording(); throw NSError(domain: "RecognizerError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Bộ nhận dạng giọng nói không khả dụng."])
         }
-
+        
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
             guard let self = self else { return }
             var isFinal = false
@@ -207,60 +207,60 @@ final class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDele
                     self.stopRecording()
                 }
             } else if isFinal {
-                  // Already handled calling finish above
-                 self.stopRecording() // Stop audio parts even if finish was called
-             }
+                // Already handled calling finish above
+                self.stopRecording() // Stop audio parts even if finish was called
+            }
         }
-
+        
         let recordingFormat = audioEngine.inputNode.outputFormat(forBus: 0)
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
             self.recognitionRequest?.append(buffer)
-             self.updateAudioLevel(buffer: buffer) // VUI: Update level
+            self.updateAudioLevel(buffer: buffer) // VUI: Update level
         }
-
+        
         audioEngine.prepare(); try audioEngine.start()
         scheduleSilence(); startLevelTimer() // Start timers
     }
-
+    
     private func scheduleSilence() {
-       silenceWork?.cancel()
-       let wi = DispatchWorkItem { [weak self] in
-           guard let self = self, self.isRecording else { return }
-           print("Silence detected.")
-           self.finish(self.transcript)
-       }
-       silenceWork = wi
-       DispatchQueue.main.asyncAfter(deadline: .now() + silenceTimeout, execute: wi)
-   }
-
-   private func finish(_ text: String) {
-       guard isRecording else { return }
-       print("Finish called with: '\(text)'")
-       onFinalTranscription?(text)
-       stopRecording()
-   }
-
-   func stopRecording() {
-       guard isRecording else { return }
-       print("stopRecording called.")
-       isRecording = false; audioLevel = 0.0 // Reset level
-
-       stopLevelTimer() // Stop level timer
-       silenceWork?.cancel(); silenceWork = nil
-
-       if audioEngine.isRunning { audioEngine.stop(); audioEngine.inputNode.removeTap(onBus: 0) }
-       recognitionRequest?.endAudio()
-       // Don't finish task, only cancel if it's still running (delegate handles final result)
-       if recognitionTask?.error == nil && !(recognitionTask?.isFinishing ?? true) {
-          recognitionTask?.cancel()
-       }
-         recognitionTask = nil; recognitionRequest = nil // Nullify AFTER ensures no race conditions
-
-       do { try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation) }
-       catch { print("Error deactivating audio session: \(error)") }
-   }
-
+        silenceWork?.cancel()
+        let wi = DispatchWorkItem { [weak self] in
+            guard let self = self, self.isRecording else { return }
+            print("Silence detected.")
+            self.finish(self.transcript)
+        }
+        silenceWork = wi
+        DispatchQueue.main.asyncAfter(deadline: .now() + silenceTimeout, execute: wi)
+    }
+    
+    private func finish(_ text: String) {
+        guard isRecording else { return }
+        print("Finish called with: '\(text)'")
+        onFinalTranscription?(text)
+        stopRecording()
+    }
+    
+    func stopRecording() {
+        guard isRecording else { return }
+        print("stopRecording called.")
+        isRecording = false; audioLevel = 0.0 // Reset level
+        
+        stopLevelTimer() // Stop level timer
+        silenceWork?.cancel(); silenceWork = nil
+        
+        if audioEngine.isRunning { audioEngine.stop(); audioEngine.inputNode.removeTap(onBus: 0) }
+        recognitionRequest?.endAudio()
+        // Don't finish task, only cancel if it's still running (delegate handles final result)
+        if recognitionTask?.error == nil && !(recognitionTask?.isFinishing ?? true) {
+            recognitionTask?.cancel()
+        }
+        recognitionTask = nil; recognitionRequest = nil // Nullify AFTER ensures no race conditions
+        
+        do { try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation) }
+        catch { print("Error deactivating audio session: \(error)") }
+    }
+    
     // --- VUI: Audio Level Simulation Logic ---
     private func startLevelTimer() {
         levelTimer?.invalidate()
@@ -272,33 +272,33 @@ final class SpeechRecognizer: NSObject, ObservableObject, SFSpeechRecognizerDele
             }
         }
     }
-
+    
     private func stopLevelTimer() {
         levelTimer?.invalidate()
         levelTimer = nil
         // Ensure level goes to 0 when stopped
         DispatchQueue.main.async { self.audioLevel = 0.0 }
     }
-
+    
     private func updateAudioLevel(buffer: AVAudioPCMBuffer) {
         guard let channelData = buffer.floatChannelData else { return }
         let channelDataValue = channelData.pointee
         let channelDataValueArray = UnsafeBufferPointer(start: channelDataValue, count: Int(buffer.frameLength))
-
+        
         let rms = sqrt(channelDataValueArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
         let avgPower = 20 * log10(rms) // Power in dB
-
+        
         // Normalize power level to 0-1 range (adjust magic numbers as needed)
         let minDb: Float = -60.0
         let maxDb: Float = 0.0
         var normalizedLevel = (avgPower - minDb) / (maxDb - minDb)
         normalizedLevel = max(0.0, min(1.0, normalizedLevel)) // Clamp
-
+        
         // Update published property on main thread
         DispatchQueue.main.async { self.audioLevel = normalizedLevel }
     }
     // -----------------------------------------
-
+    
     func speechRecognizer(_ sr: SFSpeechRecognizer, availabilityDidChange available: Bool) { /* ... error handling ... */ }
 }
 
@@ -321,19 +321,19 @@ final class ChatStore: ObservableObject {
     @Published var input: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-
+    
     // VUI State Properties
     @Published var vuiState: VUIState = .idle
     @Published var vuiTranscript: String = "" // Transcript shown in VUI overlay
     @Published var vuiErrorMessage: String?   // Error shown in VUI overlay
-
+    
     // Suggested Prompts for VUI
     let suggestedPrompts = [
         "Kể một câu chuyện cười",
         "Dự báo thời tiết?",
         "Đặt báo thức lúc 7 giờ sáng"
     ]
-
+    
     // Settings synced with UserDefaults (Unchanged)
     @AppStorage("system_prompt") var systemPrompt: String = "Bạn là một trợ lý AI hữu ích nói tiếng Việt."
     @AppStorage("tts_enabled") var ttsEnabled: Bool = false
@@ -345,30 +345,30 @@ final class ChatStore: ObservableObject {
     @AppStorage("openai_model_name") var openAIModelName: String = "gpt-4o"
     @AppStorage("openai_temperature") var openAITemperature: Double = 0.7
     @AppStorage("openai_max_tokens") var openAIMaxTokens: Int = 512
-
+    
     // Available models / voices (Unchanged)
     let availableCoreMLModels = ["TinyChat", "LocalChat"]
     let availableOpenAIModels = ["gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo"]
     let availableVoices: [AVSpeechSynthesisVoice]
-
+    
     // MARK: - Private Properties (Unchanged)
     private(set) var backend: ChatBackend
     private let ttsSynth = AVSpeechSynthesizer()
     private var ttsDelegate: TTSSpeechDelegate?
-
+    
     // MARK: - Computed Properties (Unchanged)
     var backendType: BackendType {
         get { BackendType(rawValue: backendTypeRaw) ?? .mock }
         set { backendTypeRaw = newValue.rawValue; configureBackend() }
     }
-
+    
     // MARK: - Initialization (Mostly Unchanged, ensures VUI state starts idle)
     init() {
         self.availableVoices = AVSpeechSynthesisVoice.speechVoices().sorted { v1, v2 in /* ... */ return v1.name < v2.name } // Simplified sort
         self.backend = MockChatBackend()
         self.ttsDelegate = TTSSpeechDelegate()
         self.current = Conversation(id: UUID(), title: "", messages: []) // Placeholder
-
+        
         // Phase 2
         self.ttsSynth.delegate = self.ttsDelegate
         let initialTTSVoiceID = self.ttsVoiceID
@@ -382,13 +382,13 @@ final class ChatStore: ObservableObject {
         else { self.current = realInitialConversation }
         self.vuiState = .idle // Ensure VUI starts idle
     }
-
+    
     // MARK: - Backend Management (Unchanged)
     func setBackend(_ newBackend: ChatBackend, type: BackendType) { /* ... */ }
     private func configureBackend() { /* ... */ }
-
+    
     // MARK: - VUI Interaction Flow
-
+    
     func startVUIInteraction() {
         guard vuiState == .idle else { return } // Only start if idle
         print("Starting VUI Interaction...")
@@ -396,139 +396,139 @@ final class ChatStore: ObservableObject {
         vuiErrorMessage = nil // Clear VUI specific error
         vuiTranscript = ""    // Clear VUI transcript
         ttsSynth.stopSpeaking(at: .immediate) // Stop any ongoing TTS forcefully
-
+        
         // Change state to present the VUI overlay
         withAnimation(.interpolatingSpring(stiffness: 300, damping: 20)) {
-           vuiState = .prompting
+            vuiState = .prompting
         }
         // Note: SpeechRecognizer isn't started here yet. It starts when VUI enters listening state.
     }
-
+    
     func startListeningInVUI() {
         guard vuiState == .prompting else { return }
         print("VUI transitioning to Listening...")
         vuiErrorMessage = nil // Clear any previous VUI error
-
+        
         // Request auth if needed, then start recording
-         // Assuming SpeechRecognizer instance is accessible (e.g., passed around or singleton)
-          // We'll handle this connection in ChatDemoVUI_v2 view body
-           // speech.requestAuthorization { [weak self] granted in
-           //      DispatchQueue.main.async {
-           //          if granted {
-           //              do {
-           //                   try self?.speech.startRecording() // MUST have access to SpeechRecognizer instance
-           //                   withAnimation { self?.vuiState = .listening }
-           //              } catch {
-           //                  print("Error starting speech recognition in VUI: \(error)")
-           //                  self?.vuiErrorMessage = "Không thể bắt đầu nghe: \(error.localizedDescription)"
-           //                  self?.dismissVUI() // Go back to idle on error
-           //              }
-           //          } else {
-           //               self?.vuiErrorMessage = "Cần cấp quyền để sử dụng giọng nói."
-           //               // Optionally dismiss after a delay
-           //               DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { self?.dismissVUI() }
-           //          }
-            //    }
-           }
-
+        // Assuming SpeechRecognizer instance is accessible (e.g., passed around or singleton)
+        // We'll handle this connection in ChatDemoVUI_v2 view body
+        // speech.requestAuthorization { [weak self] granted in
+        //      DispatchQueue.main.async {
+        //          if granted {
+        //              do {
+        //                   try self?.speech.startRecording() // MUST have access to SpeechRecognizer instance
+        //                   withAnimation { self?.vuiState = .listening }
+        //              } catch {
+        //                  print("Error starting speech recognition in VUI: \(error)")
+        //                  self?.vuiErrorMessage = "Không thể bắt đầu nghe: \(error.localizedDescription)"
+        //                  self?.dismissVUI() // Go back to idle on error
+        //              }
+        //          } else {
+        //               self?.vuiErrorMessage = "Cần cấp quyền để sử dụng giọng nói."
+        //               // Optionally dismiss after a delay
+        //               DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { self?.dismissVUI() }
+        //          }
+        //    }
+    }
+    
     func stopListeningAndProcessVUI(recognizedText: String) {
         guard vuiState == .listening || vuiState == .acknowledging else { return } // Allow processing from acknowledge too
         print("VUI stopped listening. Recognized: '\(recognizedText)'")
         let trimmedText = recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
-
+        
         if trimmedText.isEmpty {
             print("VUI: Empty transcript, returning to prompt.")
             // Provide feedback and return to prompting state
             vuiErrorMessage = "Không nghe thấy gì rõ ràng. Thử lại?"
-             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-                 // Only reset if still in processing/ack state (user might have closed VUI)
-                  if self?.vuiState == .acknowledging || self?.vuiState == .processing {
-                      withAnimation { self?.vuiState = .prompting }
-                  }
-             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                // Only reset if still in processing/ack state (user might have closed VUI)
+                if self?.vuiState == .acknowledging || self?.vuiState == .processing {
+                    withAnimation { self?.vuiState = .prompting }
+                }
+            }
             // Don't proceed to sendMessage
-             return
+            return
         }
-
+        
         // 1. Transition to Acknowledging (briefly show final text)
         withAnimation { vuiState = .acknowledging }
-
+        
         // 2. After a short delay, transition to Processing and send message
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-             guard let self = self else { return }
-             // Ensure we are still in acknowledging state before processing
-             // (user might have closed the VUI)
-              if self.vuiState == .acknowledging {
-                 withAnimation { self.vuiState = .processing }
-                 self.sendMessage(trimmedText) // Send the final transcript
-             }
-         }
+            guard let self = self else { return }
+            // Ensure we are still in acknowledging state before processing
+            // (user might have closed the VUI)
+            if self.vuiState == .acknowledging {
+                withAnimation { self.vuiState = .processing }
+                self.sendMessage(trimmedText) // Send the final transcript
+            }
+        }
     }
-
-     // Called when VUI backend call completes OR when manually closing VUI
+    
+    // Called when VUI backend call completes OR when manually closing VUI
     func dismissVUI() {
         if vuiState != .idle {
-             print("Dismissing VUI (Current State: \(vuiState)).")
-             withAnimation(.interpolatingSpring(stiffness: 300, damping: 20)) {
-                 vuiState = .idle
-             }
-                 isLoading = false // Ensure loading indicator is hidden
-                 // If Speech Recognizer is running, stop it (handled in ChatDemoVUI_v2 .onChange(of: vuiState))
-         }
+            print("Dismissing VUI (Current State: \(vuiState)).")
+            withAnimation(.interpolatingSpring(stiffness: 300, damping: 20)) {
+                vuiState = .idle
+            }
+            isLoading = false // Ensure loading indicator is hidden
+            // If Speech Recognizer is running, stop it (handled in ChatDemoVUI_v2 .onChange(of: vuiState))
+        }
     }
-
+    
     // MARK: - Chat Actions (Modified sendMessage for VUI dismissal)
-
+    
     func sendMessage(_ text: String) {
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         // VUI: Check if started from VUI or text input
-         let initiatedFromVUI = (vuiState == .processing)
-
+        let initiatedFromVUI = (vuiState == .processing)
+        
         guard !trimmedText.isEmpty, !isLoading else {
-             if initiatedFromVUI { dismissVUI() } // Dismiss if empty text somehow came from VUI
+            if initiatedFromVUI { dismissVUI() } // Dismiss if empty text somehow came from VUI
             return
         }
-
+        
         stopSpeaking()
-
+        
         // Only add user message if it came from text input directly
         if !initiatedFromVUI {
             let userMessage = Message.user(trimmedText)
             current.messages.append(userMessage)
         } else {
-           // VUI already showed the user input, don't add duplicates to chat history directly
-           // Instead, add it when response is received to show the VUI interaction pair
-             print("VUI initiated send. User input '\(trimmedText)' not added to chat *yet*.")
-         }
-
+            // VUI already showed the user input, don't add duplicates to chat history directly
+            // Instead, add it when response is received to show the VUI interaction pair
+            print("VUI initiated send. User input '\(trimmedText)' not added to chat *yet*.")
+        }
+        
         let messagesForBackend = current.messages
         input = "" // Clear text input field regardless
         isLoading = true // Show loading indicator (in chat OR VUI)
         errorMessage = nil // Clear main chat error
-
+        
         print("Sending messages (\(messagesForBackend.count)) to backend (\(backendType.rawValue)). VUI Initiated: \(initiatedFromVUI)")
-
+        
         backend.streamChat(messages: messagesForBackend, systemPrompt: systemPrompt) { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.isLoading = false // Hide loading indicator
-
+                
                 // VUI: Dismiss the overlay *after* getting the result
-                 if initiatedFromVUI {
-                     self.dismissVUI()
-                 }
-
+                if initiatedFromVUI {
+                    self.dismissVUI()
+                }
+                
                 switch result {
                 case .success(let replyText):
                     print("Received reply: \(replyText.prefix(50))...")
                     let assistantMessage = Message.assistant(replyText)
                     // VUI: Add the user's VUI input + AI response together
-                     if initiatedFromVUI && !trimmedText.isEmpty {
-                         self.current.messages.append(Message.user(trimmedText)) // Add original VUI input now
-                     }
+                    if initiatedFromVUI && !trimmedText.isEmpty {
+                        self.current.messages.append(Message.user(trimmedText)) // Add original VUI input now
+                    }
                     if !replyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         self.current.messages.append(assistantMessage)
-                         self.upsertConversation() // Save updated conversation
+                        self.upsertConversation() // Save updated conversation
                     } else {
                         print("Received empty reply.")
                     }
@@ -542,47 +542,47 @@ final class ChatStore: ObservableObject {
             }
         }
     }
-
+    
     func speak(_ text: String) { /* ... (Unchanged) ... */ }
     func stopSpeaking() { /* ... (Unchanged) ... */ }
-
+    
     // MARK: - History Management (Unchanged)
     func deleteConversation(id: UUID) { /* ... */ }
     func selectConversation(_ conversation: Conversation) { /* ... */ }
     func renameConversation(_ conversation: Conversation, to newTitle: String) { /* ... */ }
     func clearHistory() { /* ... */ }
-
+    
     // MARK: - Voice Command / VUI Speech Handling
     func attachRecognizer(_ sr: SpeechRecognizer) {
         // VUI: Update VUI transcript during listening
         sr.$transcript.sink { [weak self] newTranscript in
             guard self?.vuiState == .listening else { return }
             DispatchQueue.main.async { // Ensure updates on main thread
-                 self?.vuiTranscript = newTranscript
+                self?.vuiTranscript = newTranscript
             }
         }.store(in: &cancellables) // Need to manage cancellables
-
+        
         // VUI: Handle final transcription from VUI
         sr.onFinalTranscription = { [weak self] text in
-             self?.stopListeningAndProcessVUI(recognizedText: text)
+            self?.stopListeningAndProcessVUI(recognizedText: text)
         }
-
-         // VUI: Handle errors reported by recognizer during VUI session
-         sr.onErrorOccurred = { [weak self] errorMsg in
-             self?.vuiErrorMessage = errorMsg
-             // Optionally dismiss VUI after showing error
-             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                 self?.dismissVUI()
-             }
-         }
+        
+        // VUI: Handle errors reported by recognizer during VUI session
+        sr.onErrorOccurred = { [weak self] errorMsg in
+            self?.vuiErrorMessage = errorMsg
+            // Optionally dismiss VUI after showing error
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self?.dismissVUI()
+            }
+        }
     }
     private var cancellables = Set<AnyCancellable>() // For Sink
-
+    
     // MARK: - Persistence (Unchanged)
     private func loadFromDisk() { /* ... */ }
     private func saveToDisk() { /* ... */ }
     func upsertConversation() { /* ... */ }
-
+    
 } // End ChatStore
 
 // MARK: - 4.1 TTS Delegate (Unchanged)
@@ -621,43 +621,43 @@ struct ChatInputBar: View {
     @ObservedObject var store: ChatStore
     @ObservedObject var speech: SpeechRecognizer // Keep reference for VUI trigger
     @FocusState var isFocused: Bool
-
+    
     var body: some View {
-         VStack(spacing: 0) {
-             // --- Optional: Speech Status (Only show ERROR from recognizer now) ---
-              if speech.errorMessage != nil {
-                  HStack {
-                      Text(speech.errorMessage!) // Only show if there's an error
-                          .font(.caption).foregroundColor(.red).lineLimit(1)
-                          .frame(maxWidth: .infinity, alignment: .leading)
-                          .padding(.horizontal).padding(.bottom, 4)
-                   }
-                   .transition(.opacity)
+        VStack(spacing: 0) {
+            // --- Optional: Speech Status (Only show ERROR from recognizer now) ---
+            if speech.errorMessage != nil {
+                HStack {
+                    Text(speech.errorMessage!) // Only show if there's an error
+                        .font(.caption).foregroundColor(.red).lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal).padding(.bottom, 4)
                 }
-
-             HStack(spacing: 8) {
-                 TextField("Type message...", text: $text, axis: .vertical)
-                     .focused($isFocused).lineLimit(1...4).padding(8)
-                     .background(Color(.secondarySystemBackground)).clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                     .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(isFocused ? Color.blue.opacity(0.5) : Color.gray.opacity(0.3)))
-                     .disabled(store.isLoading || store.vuiState != .idle) // Disable if VUI active
-
-                 // -- Mic Button (MODIFIED Action) ---
-                 micButton
-
-                 // -- Send Button ---
-                 sendButton
-             }
-             .padding(.horizontal).padding(.vertical, 6)
-             .background(.thinMaterial)
-         }
-         .onChange(of: speech.errorMessage) { _, newValue in // Error auto-clear
-              if newValue != nil {
-                  DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { if speech.errorMessage == newValue { speech.errorMessage = nil } }
-              }
-          }
+                .transition(.opacity)
+            }
+            
+            HStack(spacing: 8) {
+                TextField("Type message...", text: $text, axis: .vertical)
+                    .focused($isFocused).lineLimit(1...4).padding(8)
+                    .background(Color(.secondarySystemBackground)).clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(isFocused ? Color.blue.opacity(0.5) : Color.gray.opacity(0.3)))
+                    .disabled(store.isLoading || store.vuiState != .idle) // Disable if VUI active
+                
+                // -- Mic Button (MODIFIED Action) ---
+                micButton
+                
+                // -- Send Button ---
+                sendButton
+            }
+            .padding(.horizontal).padding(.vertical, 6)
+            .background(.thinMaterial)
+        }
+        .onChange(of: speech.errorMessage) { _, newValue in // Error auto-clear
+            if newValue != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { if speech.errorMessage == newValue { speech.errorMessage = nil } }
+            }
+        }
     }
-
+    
     // MARK: Mic Button (Action modified for VUI)
     private var micButton: some View {
         Button {
@@ -665,28 +665,28 @@ struct ChatInputBar: View {
             store.startVUIInteraction() // Trigger the VUI overlay
         } label: {
             Image(systemName: "mic.circle.fill") // Use filled icon to indicate action
-                 .resizable().scaledToFit().frame(width: 28, height: 28)
-                 .foregroundColor(.blue)
+                .resizable().scaledToFit().frame(width: 28, height: 28)
+                .foregroundColor(.blue)
         }
         .disabled(store.isLoading || store.vuiState != .idle) // Disable while loading OR VUI active
         .accessibilityLabel("Start Voice Input")
     }
-
+    
     // Send Button View (State slightly changed)
     private var sendButton: some View {
         Button {
-             let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-             if !trimmedText.isEmpty && !store.isLoading && store.vuiState == .idle { // Ensure VUI is idle
-                 store.sendMessage(trimmedText)
-                 text = ""
-             }
+            let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmedText.isEmpty && !store.isLoading && store.vuiState == .idle { // Ensure VUI is idle
+                store.sendMessage(trimmedText)
+                text = ""
+            }
         } label: {
-             Image(systemName: "arrow.up.circle.fill")
-                 .resizable().scaledToFit().frame(width: 28, height: 28)
-                 .foregroundColor(
-                     text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || store.isLoading || store.vuiState != .idle
-                     ? .gray.opacity(0.5) : .blue
-                 )
+            Image(systemName: "arrow.up.circle.fill")
+                .resizable().scaledToFit().frame(width: 28, height: 28)
+                .foregroundColor(
+                    text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || store.isLoading || store.vuiState != .idle
+                    ? .gray.opacity(0.5) : .blue
+                )
         }
         .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || store.isLoading || store.vuiState != .idle) // Disable if VUI active
         .transition(.opacity.combined(with: .scale))
@@ -700,12 +700,12 @@ struct SettingsSheet: View {
     @State private var localApiKey: String; @State private var localOpenAIModelName: String; @State private var localOpenAITemperature: Double; @State private var localOpenAIMaxTokens: Int; @State private var localBackendType: BackendType; @State private var localCoreMLModelName: String; @State private var localSystemPrompt: String; @State private var localTtsEnabled: Bool; @State private var localTtsRate: Float; @State private var localTtsVoiceID: String
     @Environment(\.dismiss) var dismiss
     var onUpdate: (ChatBackend, BackendType) -> Void // Keep signature, may be less used
-
+    
     init(store: ChatStore, onUpdate: @escaping (ChatBackend, BackendType) -> Void) {
         self.store = store; self.onUpdate = onUpdate;
         _localApiKey = State(initialValue: store.apiKey); _localOpenAIModelName = State(initialValue: store.openAIModelName); _localOpenAITemperature = State(initialValue: store.openAITemperature); _localOpenAIMaxTokens = State(initialValue: store.openAIMaxTokens); _localBackendType = State(initialValue: store.backendType); _localCoreMLModelName = State(initialValue: store.coreMLModelName); _localSystemPrompt = State(initialValue: store.systemPrompt); _localTtsEnabled = State(initialValue: store.ttsEnabled); _localTtsRate = State(initialValue: Float(store.ttsRate)); _localTtsVoiceID = State(initialValue: store.ttsVoiceID)
     }
-
+    
     var body: some View { NavigationStack { Form { /* ... Sections as before ... */ } .navigationTitle("Cài đặt Chat").navigationBarTitleDisplayMode(.inline).toolbar { /* ... Buttons ... */ } } }
     private func applyChanges() { /* ... Previous logic to update store ... */ }
 }
@@ -741,24 +741,24 @@ struct VUICloseButton: View {
 struct SuggestedPromptsView: View {
     let prompts: [String]
     let onSelect: (String) -> Void
-
+    
     var body: some View {
         VStack(spacing: 12) {
             ForEach(prompts, id: \.self) { prompt in
                 Button { onSelect(prompt) } label: {
                     Text(prompt)
-                         .font(.system(size: 16, weight: .medium)) // Slightly smaller font
-                         .foregroundColor(.white) // White text
-                         .frame(maxWidth: .infinity)
-                         .padding(.vertical, 14) // Make buttons taller
-                         .padding(.horizontal, 10)
-                         .background(Color.white.opacity(0.15)) // Subtle white background
-                         .clipShape(RoundedRectangle(cornerRadius: 12)) // Slightly less rounded
-                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.4), lineWidth: 1)) // Subtle border
+                        .font(.system(size: 16, weight: .medium)) // Slightly smaller font
+                        .foregroundColor(.white) // White text
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14) // Make buttons taller
+                        .padding(.horizontal, 10)
+                        .background(Color.white.opacity(0.15)) // Subtle white background
+                        .clipShape(RoundedRectangle(cornerRadius: 12)) // Slightly less rounded
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.4), lineWidth: 1)) // Subtle border
                 }
             }
         }
-         .padding(.horizontal, 40) // More horizontal padding
+        .padding(.horizontal, 40) // More horizontal padding
     }
 }
 
@@ -766,18 +766,18 @@ struct SuggestedPromptsView: View {
 struct AudioVisualizerView: View {
     @ObservedObject var speech: SpeechRecognizer // Get audio level
     let barCount: Int = 5 // Number of visualizer bars
-
+    
     var body: some View {
-         // Animate level changes for smoothness
+        // Animate level changes for smoothness
         let animatedLevel = speech.isRecording ? CGFloat(speech.audioLevel) : 0.0
-
+        
         HStack(spacing: 6) {
             ForEach(0..<barCount, id: \.self) { index in
                 // Vary bar heights slightly randomly based on level for a more dynamic look
                 let randomFactor = CGFloat.random(in: 0.7...1.0) // Add randomness
                 // Make bars react more significantly to low levels, taper off at high levels
                 let calculatedHeight = calculateBarHeight(level: animatedLevel, index: index) * randomFactor
-
+                
                 RoundedRectangle(cornerRadius: 3) // Use rounded rectangles
                     .fill(speech.isRecording ? Color.white.opacity(0.8) : Color.white.opacity(0.3)) // White bars, less opaque when idle
                     .frame(width: 6, height: max(6, calculatedHeight)) // Ensure minimum height
@@ -785,10 +785,10 @@ struct AudioVisualizerView: View {
         }
         .frame(height: 60) // Fixed height for the visualizer area
         .animation(.easeOut(duration: 0.15), value: animatedLevel) // Animate height changes
-         .opacity(speech.isRecording || speech.audioLevel > 0.01 ? 1.0 : 0.5) // Fade out when truly idle
-         .blur(radius: speech.isRecording ? 0 : 0.5) // Slightly blur when inactive
+        .opacity(speech.isRecording || speech.audioLevel > 0.01 ? 1.0 : 0.5) // Fade out when truly idle
+        .blur(radius: speech.isRecording ? 0 : 0.5) // Slightly blur when inactive
     }
-
+    
     // Function to calculate bar height with some variation
     private func calculateBarHeight(level: CGFloat, index: Int) -> CGFloat {
         let maxBarHeight: CGFloat = 55.0
@@ -808,9 +808,9 @@ struct AudioVisualizerView: View {
 struct TakeoverVUIView: View {
     @ObservedObject var store: ChatStore
     @ObservedObject var speech: SpeechRecognizer
-
+    
     @State private var showAcknowledgedText = false // State for acknowledge transition
-
+    
     var body: some View {
         ZStack {
             // 1. Background
@@ -818,98 +818,98 @@ struct TakeoverVUIView: View {
                 .ignoresSafeArea()
                 .onTapGesture { // Allow tapping background to cancel (except when processing)
                     if store.vuiState == .prompting || store.vuiState == .listening || store.vuiState == .acknowledging {
-                         print("VUI Background tapped, dismissing.")
-                         store.dismissVUI()
-                         speech.stopRecording() // Explicitly stop speech if tapped out
+                        print("VUI Background tapped, dismissing.")
+                        store.dismissVUI()
+                        speech.stopRecording() // Explicitly stop speech if tapped out
                     }
                 }
-
+            
             // 2. Content based on State
             VStack {
                 Spacer() // Push content towards center/bottom
-
+                
                 switch store.vuiState {
                 case .prompting:
                     promptingContent
                         .transition(.opacity.combined(with: .scale(scale: 0.9)))
-
+                    
                 case .listening:
                     listeningContent
-                         .transition(.opacity) // Subtle transition
-
+                        .transition(.opacity) // Subtle transition
+                    
                 case .acknowledging:
-                     acknowledgingContent
-                         .transition(.opacity)
-
+                    acknowledgingContent
+                        .transition(.opacity)
+                    
                 case .processing:
                     processingContent
                         .transition(.opacity)
-
+                    
                 case .idle:
                     EmptyView() // Should not be visible
                 }
-
+                
                 // Show VUI-specific error message if present
                 if let vuiError = store.vuiErrorMessage {
-                     Text(vuiError)
-                         .font(.caption)
-                         .foregroundColor(.white.opacity(0.8))
-                         .padding(.top, 10)
-                         .padding(.horizontal, 30)
-                         .multilineTextAlignment(.center)
-                         .transition(.opacity)
-                 }
-
+                    Text(vuiError)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.8))
+                        .padding(.top, 10)
+                        .padding(.horizontal, 30)
+                        .multilineTextAlignment(.center)
+                        .transition(.opacity)
+                }
+                
                 Spacer() // Push visualizer to bottom
-
+                
                 // 3. Audio Visualizer
                 AudioVisualizerView(speech: speech)
                     .padding(.bottom, 30) // Position above bottom safe area
             }
             .padding(.vertical, 20) // Overall vertical padding
-
+            
             // 4. Close Button (Always visible on top right)
             VStack {
                 HStack {
                     Spacer()
                     VUICloseButton {
                         print("Close button tapped.")
-                         store.dismissVUI()
-                         speech.stopRecording() // Ensure speech stops on close
+                        store.dismissVUI()
+                        speech.stopRecording() // Ensure speech stops on close
                     }
                 }
                 Spacer() // Push button to top
             }
             .padding(.top, 10) // Adjust top padding for status bar
-
+            
         }
         .onChange(of: store.vuiState) { _, newState in
-             // Automatically start listening when prompting state is entered
-             if newState == .prompting {
-                 // Slight delay to allow UI to appear before starting mic
-                  DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                      // Check if still in prompting state before starting
-                      if store.vuiState == .prompting {
-                           requestAndStartListening()
-                      }
-                  }
-             }
-             // Reset acknowledge state flag when leaving acknowledge state
-             if newState != .acknowledging {
-                  showAcknowledgedText = false
-              }
-              // Automatically transition from acknowledge to process is handled in stopListeningAndProcessVUI
-         }
-         .onAppear {
-             // If view appears and state is prompting, try starting mic immediately
-              if store.vuiState == .prompting {
-                  requestAndStartListening()
-              }
-          }
+            // Automatically start listening when prompting state is entered
+            if newState == .prompting {
+                // Slight delay to allow UI to appear before starting mic
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    // Check if still in prompting state before starting
+                    if store.vuiState == .prompting {
+                        requestAndStartListening()
+                    }
+                }
+            }
+            // Reset acknowledge state flag when leaving acknowledge state
+            if newState != .acknowledging {
+                showAcknowledgedText = false
+            }
+            // Automatically transition from acknowledge to process is handled in stopListeningAndProcessVUI
+        }
+        .onAppear {
+            // If view appears and state is prompting, try starting mic immediately
+            if store.vuiState == .prompting {
+                requestAndStartListening()
+            }
+        }
     } // End body
-
+    
     // MARK: - VUI State Content Views
-
+    
     private var promptingContent: some View {
         VStack(spacing: 25) {
             Text("Xin hãy nói gì đó,\nHoặc thử một trong những câu này:")
@@ -919,26 +919,26 @@ struct TakeoverVUIView: View {
                 .multilineTextAlignment(.center)
             SuggestedPromptsView(prompts: store.suggestedPrompts) { selectedPrompt in
                 print("Suggested prompt selected: \(selectedPrompt)")
-                 speech.stopRecording() // Stop listening if active
-                 store.vuiTranscript = selectedPrompt // Show selection briefly
-                 store.stopListeningAndProcessVUI(recognizedText: selectedPrompt)
+                speech.stopRecording() // Stop listening if active
+                store.vuiTranscript = selectedPrompt // Show selection briefly
+                store.stopListeningAndProcessVUI(recognizedText: selectedPrompt)
             }
         }
     }
-
+    
     private var listeningContent: some View {
-         // Make text larger while listening
+        // Make text larger while listening
         Text(store.vuiTranscript.isEmpty ? "Đang nghe..." : store.vuiTranscript)
             .font(.system(size: 34, weight: .semibold)) // Larger, bolder font
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 30)
             .frame(minHeight: 100) // Ensure space even when empty
-             .scaleEffect(store.vuiTranscript.isEmpty ? 0.95 : 1.0) // Subtle scale effect
-             .opacity(store.vuiTranscript.isEmpty ? 0.7 : 1.0) // Fade prompt text
-             .animation(.easeInOut, value: store.vuiTranscript.isEmpty)
+            .scaleEffect(store.vuiTranscript.isEmpty ? 0.95 : 1.0) // Subtle scale effect
+            .opacity(store.vuiTranscript.isEmpty ? 0.7 : 1.0) // Fade prompt text
+            .animation(.easeInOut, value: store.vuiTranscript.isEmpty)
     }
-
+    
     private var acknowledgingContent: some View {
         // Show the final transcript more subtly before processing
         Text(store.vuiTranscript)
@@ -947,50 +947,50 @@ struct TakeoverVUIView: View {
             .multilineTextAlignment(.center)
             .padding(.horizontal, 30)
             .frame(minHeight: 100)
-             .onAppear {
-                 // Trigger fade-in animation shortly after entering state
-                 withAnimation(.easeIn(duration: 0.4)) {
-                      showAcknowledgedText = true
-                  }
-             }
+            .onAppear {
+                // Trigger fade-in animation shortly after entering state
+                withAnimation(.easeIn(duration: 0.4)) {
+                    showAcknowledgedText = true
+                }
+            }
     }
-
+    
     private var processingContent: some View {
-         VStack(spacing: 15) {
-             ProgressView() // Standard spinner
-                 .scaleEffect(1.5) // Make it larger
-                 .tint(.white)
-             Text("Để tôi xem...") // Processing text
-                 .font(.title3)
-                 .fontWeight(.medium)
-                 .foregroundColor(.white.opacity(0.9))
-         }
+        VStack(spacing: 15) {
+            ProgressView() // Standard spinner
+                .scaleEffect(1.5) // Make it larger
+                .tint(.white)
+            Text("Để tôi xem...") // Processing text
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundColor(.white.opacity(0.9))
+        }
     }
-
+    
     // MARK: - Helper Methods
     private func requestAndStartListening() {
         print("VUI: Requesting auth and starting to listen...")
         vuiErrorMessage = nil
         speech.requestAuthorization { [weak self] granted in
             DispatchQueue.main.async {
-                 guard let self = self else { return }
-                 // Check if still prompting, VUI might have been closed
-                  guard self.store.vuiState == .prompting else {
-                      print("VUI: State changed before authorization completed. Aborting listen start.")
-                      return
-                  }
-
+                guard let self = self else { return }
+                // Check if still prompting, VUI might have been closed
+                guard self.store.vuiState == .prompting else {
+                    print("VUI: State changed before authorization completed. Aborting listen start.")
+                    return
+                }
+                
                 if granted {
                     do {
-                         try self.speech.startRecording()
-                         print("VUI: Speech recording started successfully.")
-                         // Transition state only AFTER successfully starting recording
-                         withAnimation { self.store.vuiState = .listening }
+                        try self.speech.startRecording()
+                        print("VUI: Speech recording started successfully.")
+                        // Transition state only AFTER successfully starting recording
+                        withAnimation { self.store.vuiState = .listening }
                     } catch {
                         print("VUI Error starting speech recognition: \(error)")
                         self.store.vuiErrorMessage = "Không thể bắt đầu nghe: \(error.localizedDescription)"
-                         // Go back to idle on error
-                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { self.store.dismissVUI() }
+                        // Go back to idle on error
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { self.store.dismissVUI() }
                     }
                 } else {
                     print("VUI: Speech permission denied.")
@@ -1001,7 +1001,7 @@ struct TakeoverVUIView: View {
             }
         }
     }
-
+    
 } // End TakeoverVUIView
 
 // MARK: — 6. Main View (Modified for VUI Overlay)
@@ -1009,12 +1009,12 @@ struct TakeoverVUIView: View {
 struct ChatDemoVUI_v2: View {
     @StateObject var store = ChatStore()
     @StateObject var speech = SpeechRecognizer() // Speech Recognizer owned here
-
+    
     @FocusState var isInputFocused: Bool
-
+    
     @State private var showSettingsSheet = false
     @State private var showHistorySheet = false
-
+    
     var body: some View {
         ZStack { // Use ZStack to layer VUI on top
             NavigationStack {
@@ -1030,17 +1030,17 @@ struct ChatDemoVUI_v2: View {
                 }
                 .navigationBarHidden(true)
                 // VUI: Blur background when VUI is active
-                 .blur(radius: store.vuiState != .idle ? 10 : 0)
-                 .disabled(store.vuiState != .idle) // Disable interaction behind VUI
+                .blur(radius: store.vuiState != .idle ? 10 : 0)
+                .disabled(store.vuiState != .idle) // Disable interaction behind VUI
             }
             // VUI: Settings/History sheets presentation moved outside ZStack's main content
             //      to ensure they appear *over* the blur/disabled state.
-
+            
             // VUI: Conditionally show the Takeover Overlay
             if store.vuiState != .idle {
                 TakeoverVUIView(store: store, speech: speech)
-                     .zIndex(10) // Ensure VUI is on top
-                     .transition(.opacity.combined(with: .scale(scale: 0.9))) // VUI appearance animation
+                    .zIndex(10) // Ensure VUI is on top
+                    .transition(.opacity.combined(with: .scale(scale: 0.9))) // VUI appearance animation
             }
         }
         // .sheet presentations remain at the top level
@@ -1055,59 +1055,96 @@ struct ChatDemoVUI_v2: View {
         // Tapping outside input bar to dismiss keyboard (only if VUI is idle)
         .onTapGesture { if store.vuiState == .idle { isInputFocused = false } }
         .preferredColorScheme(nil) // Respect system appearance
-         // VUI: Explicitly stop speech recognizer if VUI state becomes idle unexpectedly
-         .onChange(of: store.vuiState) { _, newState in
-              if newState == .idle && speech.isRecording {
-                  print("VUI became idle, ensuring speech recognizer stops.")
-                  speech.stopRecording()
-              }
-          }
+        // VUI: Explicitly stop speech recognizer if VUI state becomes idle unexpectedly
+        .onChange(of: store.vuiState) { _, newState in
+            if newState == .idle && speech.isRecording {
+                print("VUI became idle, ensuring speech recognizer stops.")
+                speech.stopRecording()
+            }
+        }
     }
-
+    
     // Custom Header View Component (Unchanged)
     private var chatHeader: some View {
         HStack(spacing: 10) {
-             Text(store.current.title).font(.headline).lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
-             Spacer()
-             if store.ttsEnabled { Image(systemName: "speaker.wave.2.fill").foregroundColor(.blue).imageScale(.medium).transition(.scale.combined(with: .opacity)).accessibilityLabel("TTS bật") }
-             else { Image(systemName: "speaker.slash.fill").foregroundColor(.gray).imageScale(.medium).transition(.scale.combined(with: .opacity)).accessibilityLabel("TTS tắt") }
-             Button { showHistorySheet = true } label: { Label("History", systemImage: "clock.arrow.circlepath") }.labelStyle(.iconOnly)
-             Button { showSettingsSheet = true } label: { Label("Settings", systemImage: "gearshape.fill") }.labelStyle(.iconOnly)
-             Button { store.resetChat() } label: { Label("New", systemImage: "plus.circle.fill") }.labelStyle(.iconOnly)
-         }
-         .padding(.horizontal).padding(.vertical, 10)
-         .background(.thinMaterial)
-         .animation(.default, value: store.ttsEnabled)
+            Text(store.current.title).font(.headline).lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+            if store.ttsEnabled { Image(systemName: "speaker.wave.2.fill").foregroundColor(.blue).imageScale(.medium).transition(.scale.combined(with: .opacity)).accessibilityLabel("TTS bật") }
+            else { Image(systemName: "speaker.slash.fill").foregroundColor(.gray).imageScale(.medium).transition(.scale.combined(with: .opacity)).accessibilityLabel("TTS tắt") }
+            Button { showHistorySheet = true } label: { Label("History", systemImage: "clock.arrow.circlepath") }.labelStyle(.iconOnly)
+            Button { showSettingsSheet = true } label: { Label("Settings", systemImage: "gearshape.fill") }.labelStyle(.iconOnly)
+            Button { store.resetChat() } label: { Label("New", systemImage: "plus.circle.fill") }.labelStyle(.iconOnly)
+        }
+        .padding(.horizontal).padding(.vertical, 10)
+        .background(.thinMaterial)
+        .animation(.default, value: store.ttsEnabled)
     }
-
+    
     // Scrollable View for Messages (Unchanged)
     private var messagesScrollView: some View {
-         ScrollViewReader { proxy in
-             ScrollView {
-                 LazyVStack(spacing: 16) {
-                     ForEach(store.current.messages.filter { $0.role != .system }) { message in
-                         MessageBubble(message: message, onRespeak: store.speak).id(message.id)
-                     }
-                     Color.clear.frame(height: 10).id("bottomPadding")
-                     if store.isLoading { HStack(spacing:8){ProgressView().tint(.secondary);Text("AI thinking...").font(.caption).foregroundColor(.secondary)}.padding(.vertical).id("loadingIndicator").transition(.opacity) }
-                 } .padding(.vertical).padding(.horizontal, 12)
-             }
-             .background(Color(.systemGroupedBackground))
-             .scrollDismissesKeyboard(.interactively)
-             .onChange(of: store.current.messages.last?.id) { _, newId in scrollToBottom(proxy: proxy, anchor: .bottom) }
-             .onChange(of: store.isLoading) { _, isLoading in if isLoading { DispatchQueue.main.asyncAfter(deadline:.now()+0.1) {withAnimation{proxy.scrollTo("loadingIndicator", anchor:.bottom)}} } }
-             .onAppear { scrollToBottom(proxy: proxy, anchor: .bottom, animated: false) }
-             .onChange(of: store.current.id) { _, _ in scrollToBottom(proxy: proxy, anchor: .bottom, animated: false) }
-         }
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(store.current.messages.filter { $0.role != .system }) { message in
+                        MessageBubble(message: message, onRespeak: store.speak).id(message.id)
+                    }
+                    Color.clear.frame(height: 10).id("bottomPadding")
+                    if store.isLoading { HStack(spacing:8){ProgressView().tint(.secondary);Text("AI thinking...").font(.caption).foregroundColor(.secondary)}.padding(.vertical).id("loadingIndicator").transition(.opacity) }
+                } .padding(.vertical).padding(.horizontal, 12)
+            }
+            .background(Color(.systemGroupedBackground))
+            .scrollDismissesKeyboard(.interactively)
+            .onChange(of: store.current.messages.last?.id) { _, newId in scrollToBottom(proxy: proxy, anchor: .bottom) }
+            .onChange(of: store.isLoading) { _, isLoading in if isLoading { DispatchQueue.main.asyncAfter(deadline:.now()+0.1) {withAnimation{proxy.scrollTo("loadingIndicator", anchor:.bottom)}} } }
+            .onAppear { scrollToBottom(proxy: proxy, anchor: .bottom, animated: false) }
+            .onChange(of: store.current.id) { _, _ in scrollToBottom(proxy: proxy, anchor: .bottom, animated: false) }
+        }
     }
-
+    
     // Helper function for scrolling (Unchanged)
-    private func scrollToBottom(proxy: ScrollViewProxy, anchor: UnitPoint?, animated: Bool = true) { /* ... */ }
+    
+    private func scrollToBottom(proxy: ScrollViewProxy, anchor: UnitPoint?, animated: Bool = true) {
+        DispatchQueue.main.async {
+            let targetId: AnyHashable = store.isLoading ? "loadingIndicator" : (store.current.messages.last?.id ?? UUID())
+            let fallbackId: AnyHashable = "bottomPadding"
+            let idToScroll: AnyHashable = targetId
+            
+            if animated {
+                withAnimation(.spring(duration: 0.4)) { proxy.scrollTo(idToScroll, anchor: anchor) }
+            } else {
+                proxy.scrollTo(idToScroll, anchor: anchor)
+            }
+        }
+    }
 }
 
 // MARK: — 7. Helper Extensions (Unchanged)
-extension UIApplication { static var topViewController: UIViewController? { /* ... */ return nil } } // Placeholder
-extension UIActivityViewController { static func present(text: String) { /* ... */ } } // Placeholder
+
+extension UIApplication { // No change
+    static var topViewController: UIViewController? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first { $0.isKeyWindow }
+        var topController = window?.rootViewController
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+        return topController
+    }
+}
+
+extension UIActivityViewController { // No change
+    static func present(text: String) {
+        guard let topVC = UIApplication.topViewController else { return }
+        let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = topVC.view
+            popoverController.sourceRect = CGRect(x: topVC.view.bounds.midX, y: topVC.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        topVC.present(activityViewController, animated: true, completion: nil)
+    }
+}
 
 // MARK: — 8. Preview Provider
 //
