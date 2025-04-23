@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import LLM // Import the library
-// Foundation is needed for FileManager and URLSession
-import Foundation
+import LLM          // Import the library
+import Foundation   // Foundation is needed for FileManager and URLSession
 
 // MARK: - Error Handling
 enum ModelLoadingError: LocalizedError {
@@ -491,7 +490,7 @@ struct ContentView: View {
 //        // For now, this part is commented out.
 //        fatalError("Mock Bot creation for SwiftUI preview needs implementation.")
 //    }
-//}
+}
 #endif
 
 // --- Placeholder definitions if LLM library isn't available ---
