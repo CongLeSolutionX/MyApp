@@ -21,7 +21,13 @@ func runDemoAIModel(question: String) async throws -> String {
     // WARNING: Force unwrapping LLM init with '!' is dangerous. Handle errors.
     // https://huggingface.co/arcee-ai/Arcee-VyLinh-GGUF
     // vylinh-3b-q8_0.gguf
-    let bot = try await LLM(from: HuggingFaceModel("arcee-ai/Arcee-VyLinh-GGUF", .Q8_0, template: .chatML(systemPrompt)))!
+    
+    // Q8_0 (8-bit quantization) is relatively high quality but uses more memory than lower-bit quantizations.
+    // Q4_K_M or Q4_0: These 4-bit quantizations significantly reduce memory usage, often with a minimal perceived impact on quality for many tasks.
+    // Q5_K_M is another good option slightly larger than 4-bit.
+    // Q3_K_M is even smaller but might show more quality degradation.
+
+    let bot = try await LLM(from: HuggingFaceModel("arcee-ai/Arcee-VyLinh-GGUF", .Q4_K_M, template: .chatML(systemPrompt)))!
     
     let preparedQuestion = bot.preprocess(question, []) // Pass the transcribed question
     print("Sending Vietnamese question to AI: \(question)")
