@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9A5C9A842DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A832DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift */; };
 		9A5C9A862DBAAB6E00B28A14 /* ChatWithLocalBot_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A852DBAAB6D00B28A14 /* ChatWithLocalBot_V2.swift */; };
+		9A5C9A8A2DBAAC5000B28A14 /* ChatWithLocalBot_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A892DBAAC4E00B28A14 /* ChatWithLocalBot_V3.swift */; };
 		9A717E6B2DB8B02100C4B277 /* LiveVoiceChatApp_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */; };
 		9A717E6D2DB8B77000C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */; };
 		9A717E822DB8DD8400C4B277 /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9A717E812DB8DD8400C4B277 /* LLM */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		9A5C9A832DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V1.swift; sourceTree = "<group>"; };
 		9A5C9A852DBAAB6D00B28A14 /* ChatWithLocalBot_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V2.swift; sourceTree = "<group>"; };
+		9A5C9A892DBAAC4E00B28A14 /* ChatWithLocalBot_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V3.swift; sourceTree = "<group>"; };
 		9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVoiceChatApp_V4.swift; sourceTree = "<group>"; };
 		9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVoiceChatApp_V5_Incomplete.swift; sourceTree = "<group>"; };
 		9A717E852DB8E24E00C4B277 /* BotView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotView_V1.swift; sourceTree = "<group>"; };
@@ -57,6 +59,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A5C9A872DBAAC2D00B28A14 /* ChatWithLocalBot */ = {
+			isa = PBXGroup;
+			children = (
+				9A5C9A832DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift */,
+				9A5C9A852DBAAB6D00B28A14 /* ChatWithLocalBot_V2.swift */,
+				9A5C9A892DBAAC4E00B28A14 /* ChatWithLocalBot_V3.swift */,
+			);
+			path = ChatWithLocalBot;
+			sourceTree = "<group>";
+		};
+		9A5C9A882DBAAC3900B28A14 /* LiveVoiceChatApp */ = {
+			isa = PBXGroup;
+			children = (
+				9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */,
+				9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */,
+				9ACE2A532DB8A89200D86035 /* LiveVoiceChatApp_V3.swift */,
+				9ACE2A512DB82A8C00D86035 /* LiveVoiceChatApp_V2.swift */,
+			);
+			path = LiveVoiceChatApp;
+			sourceTree = "<group>";
+		};
 		9A717E892DB8F19D00C4B277 /* BotView */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,13 +112,9 @@
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A5C9A832DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift */,
-				9A5C9A852DBAAB6D00B28A14 /* ChatWithLocalBot_V2.swift */,
-				9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */,
-				9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */,
-				9ACE2A532DB8A89200D86035 /* LiveVoiceChatApp_V3.swift */,
-				9ACE2A512DB82A8C00D86035 /* LiveVoiceChatApp_V2.swift */,
 				9ACE2A4F2DB827EA00D86035 /* ChatApp_UsingAppleVoiceUserInterfaceDesign_V1.swift */,
+				9A5C9A872DBAAC2D00B28A14 /* ChatWithLocalBot */,
+				9A5C9A882DBAAC3900B28A14 /* LiveVoiceChatApp */,
 				9A717E892DB8F19D00C4B277 /* BotView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -197,6 +216,7 @@
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A5C9A862DBAAB6E00B28A14 /* ChatWithLocalBot_V2.swift in Sources */,
 				9A717E8B2DB8F79700C4B277 /* BotView_V3.swift in Sources */,
+				9A5C9A8A2DBAAC5000B28A14 /* ChatWithLocalBot_V3.swift in Sources */,
 				9ACE2A502DB827EF00D86035 /* ChatApp_UsingAppleVoiceUserInterfaceDesign_V1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
