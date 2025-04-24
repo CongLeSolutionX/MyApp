@@ -12,8 +12,9 @@ import SwiftUI
 struct MyApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            ChatDemoVUI_v2()
+            ContentView()
+            //ChatDemoVUI_v2()
+            AICardView()
         }
     }
 }
