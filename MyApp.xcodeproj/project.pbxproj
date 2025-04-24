@@ -252,6 +252,7 @@
 		9AA1A57F2DA693B3000178B3 /* ComprehensiveView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V2.swift; sourceTree = "<group>"; };
 		9AA1A5812DA6967F000178B3 /* ComprehensiveView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V3.swift; sourceTree = "<group>"; };
 		9AA610162D87D8FD00ADD329 /* SpotifyMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMusicPlayerView.swift; sourceTree = "<group>"; };
+		9AA717F52DB9B78E00F97786 /* MyAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppRelease.entitlements; sourceTree = "<group>"; };
 		9AA9C39D2DB320BA001ACE8C /* SuperBread.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SuperBread.ttf; sourceTree = "<group>"; };
 		9AA9C39F2DB3223D001ACE8C /* CustomFontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontView.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -608,6 +609,7 @@
 			isa = PBXGroup;
 			children = (
 				9AA1A5112DA4F392000178B3 /* Info.plist */,
+				9AA717F52DB9B78E00F97786 /* MyAppRelease.entitlements */,
 				9A5AAE762D93BD43006A955A /* SpotifyMusicAPI.swift */,
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
 				9AAC417D2C74668B00AC0A60 /* ContentView.swift */,
