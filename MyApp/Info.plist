@@ -11,7 +11,7 @@
 			<string>myapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>myapp://callback</string>
+				<string>myapp</string>
 			</array>
 		</dict>
 	</array>
