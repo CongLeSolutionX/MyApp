@@ -13,6 +13,7 @@
 		9A5C9A8C2DBAC28000B28A14 /* ChatWithLocalBot_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A8B2DBAC27E00B28A14 /* ChatWithLocalBot_V4.swift */; };
 		9A5C9A8E2DBB131200B28A14 /* ChatWithLocalBot_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A8D2DBB131200B28A14 /* ChatWithLocalBot_V5.swift */; };
 		9A5C9A902DBB169500B28A14 /* ChatWithLocalBot_V6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C9A8F2DBB169500B28A14 /* ChatWithLocalBot_V6.swift */; };
+		9A5C9A942DBB194F00B28A14 /* tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf in Resources */ = {isa = PBXBuildFile; fileRef = 9A5C9A932DBB194F00B28A14 /* tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf */; };
 		9A717E6B2DB8B02100C4B277 /* LiveVoiceChatApp_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */; };
 		9A717E6D2DB8B77000C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */; };
 		9A717E822DB8DD8400C4B277 /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9A717E812DB8DD8400C4B277 /* LLM */; };
@@ -36,6 +37,7 @@
 		9A5C9A8B2DBAC27E00B28A14 /* ChatWithLocalBot_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V4.swift; sourceTree = "<group>"; };
 		9A5C9A8D2DBB131200B28A14 /* ChatWithLocalBot_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V5.swift; sourceTree = "<group>"; };
 		9A5C9A8F2DBB169500B28A14 /* ChatWithLocalBot_V6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithLocalBot_V6.swift; sourceTree = "<group>"; };
+		9A5C9A932DBB194F00B28A14 /* tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"; sourceTree = "<group>"; };
 		9A717E6A2DB8B02000C4B277 /* LiveVoiceChatApp_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVoiceChatApp_V4.swift; sourceTree = "<group>"; };
 		9A717E6C2DB8B76E00C4B277 /* LiveVoiceChatApp_V5_Incomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVoiceChatApp_V5_Incomplete.swift; sourceTree = "<group>"; };
 		9A717E852DB8E24E00C4B277 /* BotView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BotView_V1.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		9A5C9A872DBAAC2D00B28A14 /* ChatWithLocalBot */ = {
 			isa = PBXGroup;
 			children = (
+				9A5C9A912DBB17CA00B28A14 /* TheBloke */,
 				9A5C9A832DBAAB1800B28A14 /* ChatWithLocalBot_V1.swift */,
 				9A5C9A852DBAAB6D00B28A14 /* ChatWithLocalBot_V2.swift */,
 				9A5C9A892DBAAC4E00B28A14 /* ChatWithLocalBot_V3.swift */,
@@ -87,6 +90,22 @@
 				9ACE2A512DB82A8C00D86035 /* LiveVoiceChatApp_V2.swift */,
 			);
 			path = LiveVoiceChatApp;
+			sourceTree = "<group>";
+		};
+		9A5C9A912DBB17CA00B28A14 /* TheBloke */ = {
+			isa = PBXGroup;
+			children = (
+				9A5C9A922DBB17DA00B28A14 /* TinyLlama-1.1B-Chat-v1.0-GGUF */,
+			);
+			path = TheBloke;
+			sourceTree = "<group>";
+		};
+		9A5C9A922DBB17DA00B28A14 /* TinyLlama-1.1B-Chat-v1.0-GGUF */ = {
+			isa = PBXGroup;
+			children = (
+				9A5C9A932DBB194F00B28A14 /* tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf */,
+			);
+			path = "TinyLlama-1.1B-Chat-v1.0-GGUF";
 			sourceTree = "<group>";
 		};
 		9A717E892DB8F19D00C4B277 /* BotView */ = {
@@ -203,6 +222,7 @@
 			files = (
 				9AAC41842C74668C00AC0A60 /* Preview Assets.xcassets in Resources */,
 				9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */,
+				9A5C9A942DBB194F00B28A14 /* tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,29 +12,65 @@ import Speech // For Speech Recognition
 import AVFoundation // For Speech Synthesis (Text-to-Speech)
 
 // --- Core AI Interaction Logic ---
-// (Adapted to accept question as parameter)
-
 func runDemoAIModel(question: String) async throws -> String {
-    // System prompt might influence the tone, but the user question drives content
-    let systemPrompt = "You are a helpful AI assistant who responds in Vietnamese."
-    
-    // WARNING: Force unwrapping LLM init with '!' is dangerous. Handle errors.
-    // https://huggingface.co/arcee-ai/Arcee-VyLinh-GGUF
-    // vylinh-3b-q8_0.gguf
-    
-    // Q8_0 (8-bit quantization) is relatively high quality but uses more memory than lower-bit quantizations.
-    // Q4_K_M or Q4_0: These 4-bit quantizations significantly reduce memory usage, often with a minimal perceived impact on quality for many tasks.
-    // Q5_K_M is another good option slightly larger than 4-bit.
-    // Q3_K_M is even smaller but might show more quality degradation.
+    // System prompt might need adjustment based on the model's training
+    let systemPrompt = "You are a helpful AI assistant. Please respond in Vietnamese if the user asks in Vietnamese."
 
-    let bot = try await LLM(from: HuggingFaceModel("TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF", .Q4_K_M, template: .chatML(systemPrompt)))!
-    
-    let preparedQuestion = bot.preprocess(question, []) // Pass the transcribed question
-    print("Sending Vietnamese question to AI: \(question)")
-    let answer = await bot.getCompletion(from: preparedQuestion)
-    print("Received Vietnamese answer: \(answer)")
-    return answer
+    // --- Configuration for Local Bundled TinyLlama ---
+    let modelFileName = "tinyllama-1.1b-chat-v1.0.Q4_K_M" // Base name without extension
+    let modelFileExtension = "gguf"
+    // Link to Model Card (Check for correct template!):
+    // https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+    let templateType: Template = .chatML(systemPrompt) // VERIFY template
+
+    print("Attempting to load BUNDLED MODEL: \(modelFileName).\(modelFileExtension)")
+
+    // 1. Get the URL of the model file within the app bundle
+    guard let modelURL = Bundle.main.url(forResource: modelFileName, withExtension: modelFileExtension) else {
+        print("❌ Error: Could not find bundled model file: \(modelFileName).\(modelFileExtension)")
+        throw AIError.initializationFailed // Specific error indicating file not found
+    }
+    print("Found bundled model at URL: \(modelURL.path)")
+
+    do {
+        // 2. Initialize LLM from the local model URL
+        // THIS IS HYPOTHETICAL - Replace with your library's actual initializer
+        // Examples of what it MIGHT look like:
+        // let bot = try await LLM(modelURL: modelURL, template: templateType)
+        // let bot = try await LLM(fromLocalModel: modelURL, template: templateType)
+        // let bot = try await LLM(contentsOf: modelURL, template: templateType)
+
+        // *** CONSULT YOUR LLM LIBRARY DOCUMENTATION FOR THE CORRECT INITIALIZER ***
+        // If your library *only* uses the HuggingFaceModel struct, you might need
+        // to modify the library itself or check if it caches downloads in a predictable
+        // location you could manually place the file in (less ideal).
+
+        // --- Placeholder: Assuming an initializer exists ---
+        // Replace this line with the correct one for your library:
+        let bot = try await LLM(from: modelURL, template: templateType)! // <--- REPLACE THIS WITH ACTUAL INITIALIZER
+        // --------------------------------------------------
+
+        let preparedQuestion = bot.preprocess(question, [])
+        print("Sending Vietnamese question to AI: \(question)")
+        let answer = await bot.getCompletion(from: preparedQuestion)
+        print("Received Vietnamese answer: \(answer)")
+
+        guard !answer.isEmpty else {
+            print("Warning: Received empty answer from AI.")
+            throw AIError.processingError("AI returned an empty response.")
+        }
+
+        return answer
+
+    } catch {
+        print("❌ Error loading or running bundled model: \(error)")
+        // Try to cast to NSError for more details if it's from underlying frameworks
+        let nsError = error as NSError
+        print("Underlying Error Domain: \(nsError.domain), Code: \(nsError.code), UserInfo: \(nsError.userInfo)")
+        throw AIError.initializationFailed // Map the error appropriately
+    }
 }
+
 
 // Optional: Define a custom error for better handling
 enum AIError: Error {
