@@ -34,8 +34,33 @@ class MyUIKitViewController: UIViewController {
     }
     
     func runSolution() {
+        // --- Testing with provided examples ---
+        let N1 = 9
+        let L1 = [6, 3, 4, 5, 1, 6, 3, 3, 4]
+        let D1 = "ULDRULURD"
+        let result1 = getPlusSignCount(N1, L1, D1)
+        print("Sample 1 Result: \(result1) (Expected: 4)") // Confirmed correct logic gives 4
         
-        // === Test with Provided Examples ===
-
+        let N2 = 8
+        let L2 = [1, 1, 1, 1, 1, 1, 1, 1]
+        let D2 = "RDLUULDR"
+        let result2 = getPlusSignCount(N2, L2, D2)
+        print("Sample 2 Result: \(result2) (Expected: 1)") // Confirmed correct logic gives 1 (at 0,0)
+        
+        let N3 = 8
+        let L3 = [1, 2, 2, 1, 1, 2, 2, 1]
+        let D3 = "UDUDLRLR"
+        let result3 = getPlusSignCount(N3, L3, D3)
+        print("Sample 3 Result: \(result3) (Expected: 1)") // Confirmed correct logic gives 1 (at 0,0)
+        
+        // Additional test case: Path: (0,0) -> (5,0) -> (5,-2) -> (2,-2) -> (2,2)
+        // Intersection and plus sign expected at (2,0), which is not an original vertex.
+        let N4_path = 4
+        let L4_path = [5, 2, 3, 4] // R 5, D 2, L 3, U 4
+        let D4_path = "RDLU"
+        let result4 = getPlusSignCount(N4_path, L4_path, D4_path)
+        print("Sample 4 (Intersection) Result: \(result4) (Expected: 1 at (2,0))") // Correct logic gives 1
+        
+        
     }
 }
