@@ -34,35 +34,62 @@ import Foundation
 func runWithIncreasedStack(block: @escaping () -> Void) {
     #if os(Linux) || os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
         var attributes = ThreadAttributes()
-        pthread_attr_init(&attributes)
+        guard pthread_attr_init(&attributes) == 0 else {
+             print("Error: Failed to initialize pthread attributes. Falling back to current thread.")
+             block()
+             return
+        }
         defer { pthread_attr_destroy(&attributes) } // Ensure cleanup
 
         // Set stack size (e.g., 8MB)
         let stackSize = 8 * 1024 * 1024
-        pthread_attr_setstacksize(&attributes, stackSize)
+        guard pthread_attr_setstacksize(&attributes, stackSize) == 0 else {
+            print("Error: Failed to set pthread stack size. Falling back to current thread.")
+            block()
+            return
+        }
 
         var thread: ThreadHandle = nil
+        // Pass the block as context, retaining it for the thread's lifetime
+        let context = Unmanaged.passRetained(block as AnyObject).toOpaque()
+
         let creation = pthread_create(&thread, &attributes, { argPointer in
             guard let argPointer = argPointer else {
-               print("Error: Received nil argPointer in thread creation")
+               print("Error: Received nil argPointer in thread creation callback")
                return nil
             }
-            // Retrieve, Cast, and Call the block
-            (Unmanaged<AnyObject>.fromOpaque(argPointer).takeUnretainedValue() as! () -> Void)()
+            // Retrieve, Cast, Call the block, and then release it
+            let unmanagedBlock = Unmanaged<AnyObject>.fromOpaque(argPointer)
+            let blockToRun = unmanagedBlock.takeUnretainedValue() as! () -> Void
+            blockToRun()
+            unmanagedBlock.release() // Release the block after execution
+
             return nil // pthread routine expects a return value
-        }, Unmanaged.passUnretained(block as AnyObject).toOpaque())
+        }, context) // Pass the retained context
 
         if creation != 0 {
-            print("Error creating pthread with increased stack size: \(strerror(creation) ?? "Unknown error"). Falling back to current thread.")
+            // --- FIX IS HERE ---
+            // Convert the C string from strerror to a Swift String safely
+            let errorPtr = strerror(creation) // Returns UnsafeMutablePointer<CChar>? or similar
+            let errorMessage = errorPtr.map { String(cString: $0) } ?? "Unknown error code \(creation)" // Use map for optional handling
+            print("Error creating pthread with increased stack size: \(errorMessage). Falling back to current thread.")
+            // --- END FIX ---
+
+            Unmanaged.passUnretained(block as AnyObject).release() // Release context if thread creation failed
             block() // Fallback to running on the current thread
             return
         }
 
+        // If thread creation succeeded, detach or join
+        // Detach if you don't need to wait for it.
+        // pthread_detach(thread!)
+        // Or Join if you need to wait for completion (as was original)
         if let thread = thread {
             pthread_join(thread, nil)
         } else {
-             print("Error: Thread handle was nil after creation attempt.")
-             block() // Fallback if thread handle is somehow nil
+             // This case should ideally not happen if creation succeeded without error
+             print("Error: Thread handle was nil after successful creation attempt? Falling back.")
+             block()
         }
 
     #elseif os(Windows)
@@ -76,7 +103,6 @@ func runWithIncreasedStack(block: @escaping () -> Void) {
         block()
     #endif
 }
-
 // MARK: - Core Algorithm Implementation
 
 /// Solves the Slippery Trip problem.
