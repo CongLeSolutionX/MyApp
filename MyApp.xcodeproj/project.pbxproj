@@ -13,6 +13,7 @@
 		9A613DB32DBC52B50071CE8B /* Solution7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB22DBC52B30071CE8B /* Solution7.swift */; };
 		9A613DB52DBC56870071CE8B /* Solution8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB42DBC56850071CE8B /* Solution8.swift */; };
 		9A613DB72DBC5A1B0071CE8B /* Solution9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB62DBC5A190071CE8B /* Solution9.swift */; };
+		9A613DB92DBC5D530071CE8B /* Solution10.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB82DBC5D510071CE8B /* Solution10.swift */; };
 		9A9C016A2DAF4D41004E4172 /* Solution2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C01692DAF4D3E004E4172 /* Solution2.swift */; };
 		9A9C016C2DAF4EF5004E4172 /* Solution3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C016B2DAF4EF3004E4172 /* Solution3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
@@ -29,6 +30,7 @@
 		9A613DB22DBC52B30071CE8B /* Solution7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution7.swift; sourceTree = "<group>"; };
 		9A613DB42DBC56850071CE8B /* Solution8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution8.swift; sourceTree = "<group>"; };
 		9A613DB62DBC5A190071CE8B /* Solution9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution9.swift; sourceTree = "<group>"; };
+		9A613DB82DBC5D510071CE8B /* Solution10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution10.swift; sourceTree = "<group>"; };
 		9A9C01692DAF4D3E004E4172 /* Solution2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution2.swift; sourceTree = "<group>"; };
 		9A9C016B2DAF4EF3004E4172 /* Solution3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 				9A613DB22DBC52B30071CE8B /* Solution7.swift */,
 				9A613DB42DBC56850071CE8B /* Solution8.swift */,
 				9A613DB62DBC5A190071CE8B /* Solution9.swift */,
+				9A613DB82DBC5D510071CE8B /* Solution10.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -167,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* Solution4.swift in Sources */,
+				9A613DB92DBC5D530071CE8B /* Solution10.swift in Sources */,
 				9A613DAD2DBC4E680071CE8B /* Solution5.swift in Sources */,
 				9A613DB32DBC52B50071CE8B /* Solution7.swift in Sources */,
 				9A613DB72DBC5A1B0071CE8B /* Solution9.swift in Sources */,
