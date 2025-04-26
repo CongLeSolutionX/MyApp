@@ -26,13 +26,10 @@ typealias ThreadAttributes = Void // Windows doesn't use pthread_attr_t directly
 #endif
 
 // MARK: - Stack Size Increase Utility
-
 /// Runs the given block of code on a separate thread with an increased stack size.
 /// Necessary for potentially deep recursion in algorithms like Tarjan's SCC or DP.
 ///
 /// - Parameter block: The closure containing the code to execute.
-/// Runs the given block of code on a separate thread with an increased stack size.
-/// Necessary for potentially deep recursion in algorithms like Tarjan's SCC or DP.
 func runWithIncreasedStack(block: @escaping () -> Void) {
     #if os(Linux) || os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
         var attributes = ThreadAttributes()
@@ -45,30 +42,39 @@ func runWithIncreasedStack(block: @escaping () -> Void) {
 
         var thread: ThreadHandle = nil
 
-        // Pass the block as context, unretained because pthread_join guarantees lifetime
-        let context = Unmanaged.passUnretained(block as AnyObject).toOpaque()
+        // --- CHANGE 1: Pass the block RETAINED ---
+        // This increments the reference count. The thread now has a +1 reference count.
+        let context = Unmanaged.passRetained(block as AnyObject).toOpaque()
 
-        // --- CORRECTED SIGNATURE HERE ---
         // Thread's start routine: Input MUST be non-optional UnsafeMutableRawPointer
         let startRoutine: @convention(c) (UnsafeMutableRawPointer) -> UnsafeMutableRawPointer? = { argPointer in
-            // --- GUARD REMOVED (argPointer is guaranteed non-nil) ---
-            // Retrieve the block from context and execute it
-            let block = Unmanaged<AnyObject>.fromOpaque(argPointer).takeUnretainedValue() as! () -> Void
+            // --- CHANGE 2: Take back the RETAINED value ---
+            // This consumes the +1 reference count passed by passRetained.
+            // The 'block' local variable now holds the reference.
+            let block = Unmanaged<AnyObject>.fromOpaque(argPointer).takeRetainedValue() as! () -> Void
+
+            // Execute the block
             block()
+
+            // When 'block' goes out of scope here, its reference count is decremented,
+            // balancing the takeRetainedValue.
+
             // Return nil as UnsafeMutableRawPointer?
             return nil
         }
-        // --- END SIGNATURE CORRECTION ---
 
         let creation = pthread_create(&thread, &attributes, startRoutine, context)
 
         if creation != 0 {
+            // --- ERROR HANDLING (Remains the same, but NOTE context handling) ---
             // Safely convert the C error string to a Swift String
             let errorPtr = strerror(creation)
             let errorMessage = errorPtr.map { String(cString: $0) } ?? "Unknown error code \(creation)"
             print("Error creating pthread with increased stack size: \(errorMessage). Falling back to current thread.")
 
-            // No incorrect release here
+            // --- IMPORTANT: Release the retained context if thread creation failed ---
+            // Since we used passRetained, we MUST balance it if the thread doesn't start.
+            Unmanaged.passUnretained(block as AnyObject).release() // Use passUnretained + release OR fromOpaque + release
 
             block() // Fallback to running on the current thread
             return // Exit the function after fallback
@@ -78,8 +84,13 @@ func runWithIncreasedStack(block: @escaping () -> Void) {
         if let thread = thread {
             pthread_join(thread, nil) // Wait for the thread to complete
         } else {
-             // This case should ideally not happen if creation returned 0, but handle defensively
              print("Error: Thread handle was nil after successful creation attempt. Falling back.")
+             // If creation succeeded but thread is nil (highly unlikely), the context
+             // passed via passRetained might leak. This scenario indicates a deeper system issue.
+             // Attempting release here might be risky if 'context' is invalid.
+             // For robustness, we might consider adding a fallback release here too,
+             // although the root cause would be elsewhere.
+             // Unmanaged.passUnretained(block as AnyObject).release() // Optional defensive release
              block() // Fallback if thread handle is somehow nil
         }
 
