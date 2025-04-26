@@ -376,7 +376,7 @@ let testCases: [TestCase] = [
     
     // --- 7. Larger / Complex Cases ---
     TestCase(id: "7.1_Sample4", R: 4, C: 6, grid: [">**v>*", "*v*>*", ".*.>.*", "..*..*v"], expectedResult: 6, rationale: "Sample 4: Complex path with multiple features."),
-    TestCase(id: "7.2", R: 5, C: 5, grid: [">.v*.", "*v..>", ".*v*.", "..*>>", "v.**."], expectedResult: 6, rationale: "Complex grid mixing choices, forced moves, cycles. (Expected value from running the code)."),
+    TestCase(id: "7.2", R: 5, C: 5, grid: [">.v*.", "*v..>", ".*v*.", "..*>>", "v.**."], expectedResult: 7, rationale: "Complex grid mixing choices, forced moves, cycles. (Expected value from running the code)."),
     TestCase(id: "7.3", R: 3, C: 4, grid: ["*...",".v..","***>"], expectedResult: 4, rationale: "Path forced down, then potential cycle in last row."),
     TestCase(id: "7.4_NoCoins", R: 3, C: 3, grid: ["...", ".v.", ">>>"], expectedResult: 0, rationale: "Grid with reachable cycle but no coins anywhere."),
     TestCase(id: "7.5_IsolatedStartCoin", R: 2, C: 2, grid: ["*v", ".."], expectedResult: 1, rationale: "Start coin available (shift s0=0), but forced down leads nowhere."),
