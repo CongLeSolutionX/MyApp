@@ -43,17 +43,24 @@
 //
 //        var thread: ThreadHandle = nil
 //        let creation = pthread_create(&thread, &attributes, { argPointer in
-//            guard let argPointer = argPointer else {
+////            guard let argPointer = argPointer else {
 //               print("Error: Received nil argPointer in thread creation")
-//               return nil
-//            }
+////               return nil
+////            }
 //            // Retrieve, Cast, and Call the block
 //            (Unmanaged<AnyObject>.fromOpaque(argPointer).takeUnretainedValue() as! () -> Void)()
 //            return nil // pthread routine expects a return value
 //        }, Unmanaged.passUnretained(block as AnyObject).toOpaque())
 //
 //        if creation != 0 {
-//            print("Error creating pthread with increased stack size: \(strerror(creation) ?? "Unknown error"). Falling back to current thread.")
+//            // --- FIX IS HERE ---
+//            // Convert the C string from strerror to a Swift String safely
+//            let errorPtr = strerror(creation) // Returns UnsafeMutablePointer<CChar>? or similar
+//            let errorMessage = errorPtr.map { String(cString: $0) } ?? "Unknown error code \(creation)" // Use map for optional handling
+//            print("Error creating pthread with increased stack size: \(errorMessage). Falling back to current thread.")
+//            // --- END FIX ---
+//    
+//            Unmanaged.passUnretained(block as AnyObject).release() // Release context if thread creation failed
 //            block() // Fallback to running on the current thread
 //            return
 //        }
