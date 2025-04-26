@@ -21,7 +21,8 @@
 		9A613DC32DBC66460071CE8B /* Solution15.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC22DBC66450071CE8B /* Solution15.swift */; };
 		9A613DC52DBC69E90071CE8B /* Solution16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC42DBC69E70071CE8B /* Solution16.swift */; };
 		9A613DC72DBC6B760071CE8B /* Solution17.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC62DBC6B740071CE8B /* Solution17.swift */; };
-		9A613DC92DBC6FB50071CE8B /* Solution18.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC82DBC6FB40071CE8B /* Solution18.swift */; };
+		9A613DC92DBC6FB50071CE8B /* Solution18_Failed_base_test_cases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC82DBC6FB40071CE8B /* Solution18_Failed_base_test_cases.swift */; };
+		9A613DCB2DBC70AD0071CE8B /* Solution19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DCA2DBC70AB0071CE8B /* Solution19.swift */; };
 		9A9C016A2DAF4D41004E4172 /* Solution2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C01692DAF4D3E004E4172 /* Solution2.swift */; };
 		9A9C016C2DAF4EF5004E4172 /* Solution3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C016B2DAF4EF3004E4172 /* Solution3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
@@ -46,7 +47,8 @@
 		9A613DC22DBC66450071CE8B /* Solution15.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution15.swift; sourceTree = "<group>"; };
 		9A613DC42DBC69E70071CE8B /* Solution16.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution16.swift; sourceTree = "<group>"; };
 		9A613DC62DBC6B740071CE8B /* Solution17.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution17.swift; sourceTree = "<group>"; };
-		9A613DC82DBC6FB40071CE8B /* Solution18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution18.swift; sourceTree = "<group>"; };
+		9A613DC82DBC6FB40071CE8B /* Solution18_Failed_base_test_cases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution18_Failed_base_test_cases.swift; sourceTree = "<group>"; };
+		9A613DCA2DBC70AB0071CE8B /* Solution19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution19.swift; sourceTree = "<group>"; };
 		9A9C01692DAF4D3E004E4172 /* Solution2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution2.swift; sourceTree = "<group>"; };
 		9A9C016B2DAF4EF3004E4172 /* Solution3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,7 +109,8 @@
 				9A613DC22DBC66450071CE8B /* Solution15.swift */,
 				9A613DC42DBC69E70071CE8B /* Solution16.swift */,
 				9A613DC62DBC6B740071CE8B /* Solution17.swift */,
-				9A613DC82DBC6FB40071CE8B /* Solution18.swift */,
+				9A613DC82DBC6FB40071CE8B /* Solution18_Failed_base_test_cases.swift */,
+				9A613DCA2DBC70AB0071CE8B /* Solution19.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -209,8 +212,9 @@
 				9A613DAF2DBC4EA40071CE8B /* UIKitViewControllerWrapper.swift in Sources */,
 				9A613DC52DBC69E90071CE8B /* Solution16.swift in Sources */,
 				9A613DB12DBC515A0071CE8B /* Solution6.swift in Sources */,
+				9A613DCB2DBC70AD0071CE8B /* Solution19.swift in Sources */,
 				9A613DC12DBC65D40071CE8B /* Solution14_Logic_Issues.swift in Sources */,
-				9A613DC92DBC6FB50071CE8B /* Solution18.swift in Sources */,
+				9A613DC92DBC6FB50071CE8B /* Solution18_Failed_base_test_cases.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
