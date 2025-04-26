@@ -31,74 +31,78 @@ typealias ThreadAttributes = Void // Windows doesn't use pthread_attr_t directly
 /// Necessary for potentially deep recursion in algorithms like Tarjan's SCC or DP.
 ///
 /// - Parameter block: The closure containing the code to execute.
+/// Runs the given block of code on a separate thread with an increased stack size.
+/// Necessary for potentially deep recursion in algorithms like Tarjan's SCC or DP.
+///
+/// - Parameter block: The closure containing the code to execute.
 func runWithIncreasedStack(block: @escaping () -> Void) {
-#if os(Linux) || os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-    var attributes = ThreadAttributes()
-    guard pthread_attr_init(&attributes) == 0 else {
-        print("Error: Failed to initialize pthread attributes. Falling back to current thread.")
+    #if os(Linux) || os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        var attributes = ThreadAttributes()
+        pthread_attr_init(&attributes)
+        defer { pthread_attr_destroy(&attributes) } // Ensure cleanup
+
+        // Set stack size (e.g., 8MB, adjust as needed)
+        let stackSize = 8 * 1024 * 1024
+        pthread_attr_setstacksize(&attributes, stackSize)
+
+        var thread: ThreadHandle = nil
+
+        // Pass the block as context, unretained because pthread_join guarantees lifetime
+        let context = Unmanaged.passUnretained(block as AnyObject).toOpaque()
+
+        // Thread's start routine
+        let startRoutine: @convention(c) (UnsafeMutableRawPointer?) -> UnsafeMutableRawPointer? = { argPointer in
+            guard let argPointer = argPointer else {
+               print("Error: Received nil argPointer in thread creation")
+               // Return nil as UnsafeMutableRawPointer?
+               return nil
+            }
+            // Retrieve the block from context and execute it
+            let block = Unmanaged<AnyObject>.fromOpaque(argPointer).takeUnretainedValue() as! () -> Void
+            block()
+            // Return nil as UnsafeMutableRawPointer?
+            return nil
+        }
+
+        let creation = pthread_create(&thread, &attributes, startRoutine, context)
+
+        if creation != 0 {
+            // --- FIX IS HERE ---
+            // Safely convert the C error string to a Swift String
+            let errorPtr = strerror(creation) // Returns UnsafeMutablePointer<CChar>? or similar
+            let errorMessage = errorPtr.map { String(cString: $0) } ?? "Unknown error code \(creation)"
+            print("Error creating pthread with increased stack size: \(errorMessage). Falling back to current thread.")
+            // --- END FIX ---
+
+            // --- FIX REMOVED ---
+            // DO NOT release the context here. 'passUnretained' means ARC still owns it.
+            // Unmanaged.passUnretained(block as AnyObject).release() // <--- REMOVED INCORRECT RELEASE
+            // --- END FIX REMOVED ---
+
+            block() // Fallback to running on the current thread
+            return // Exit the function after fallback
+        }
+
+        // If creation was successful, join the thread
+        if let thread = thread {
+            pthread_join(thread, nil) // Wait for the thread to complete
+        } else {
+             // This case should ideally not happen if creation returned 0, but handle defensively
+             print("Error: Thread handle was nil after successful creation attempt. Falling back.")
+             block() // Fallback if thread handle is somehow nil
+        }
+
+    #elseif os(Windows)
+        // ... (Windows implementation remains unchanged) ...
+        print("Warning: Pthread stack size increase not fully implemented for Windows in this example. Running on current thread.")
         block()
-        return
-    }
-    defer { pthread_attr_destroy(&attributes) } // Ensure cleanup
-    
-    // Set stack size (e.g., 8MB)
-    let stackSize = 8 * 1024 * 1024
-    guard pthread_attr_setstacksize(&attributes, stackSize) == 0 else {
-        print("Error: Failed to set pthread stack size. Falling back to current thread.")
+    #else
+        // ... (Fallback implementation remains unchanged) ...
+         print("Warning: Pthread stack size increase not implemented for this platform. Running on current thread.")
         block()
-        return
-    }
-    
-    var thread: ThreadHandle = nil
-    // Pass the block as context, retaining it for the thread's lifetime
-    //let context = Unmanaged.passRetained(block as AnyObject).toOpaque()
-    
-    let creation = pthread_create(&thread, &attributes, { argPointer in
-        //guard let argPointer = argPointer else {
-            print("Error: Received nil argPointer in thread creation")
-            //return nil
-        //}
-        // Retrieve, Cast, and Call the block
-        (Unmanaged<AnyObject>.fromOpaque(argPointer).takeUnretainedValue() as! () -> Void)()
-        return nil // pthread routine expects a return value
-    }, Unmanaged.passUnretained(block as AnyObject).toOpaque())
-    
-    if creation != 0 {
-        // --- FIX IS HERE ---
-        // Convert the C string from strerror to a Swift String safely
-        let errorPtr = strerror(creation) // Returns UnsafeMutablePointer<CChar>? or similar
-        let errorMessage = errorPtr.map { String(cString: $0) } ?? "Unknown error code \(creation)" // Use map for optional handling
-        print("Error creating pthread with increased stack size: \(errorMessage). Falling back to current thread.")
-        // --- END FIX ---
-        
-        Unmanaged.passUnretained(block as AnyObject).release() // Release context if thread creation failed
-        block() // Fallback to running on the current thread
-        return
-    }
-    
-    // If thread creation succeeded, detach or join
-    // Detach if you don't need to wait for it.
-    // pthread_detach(thread!)
-    // Or Join if you need to wait for completion (as was original)
-    if let thread = thread {
-        pthread_join(thread, nil)
-    } else {
-        // This case should ideally not happen if creation succeeded without error
-        print("Error: Thread handle was nil after successful creation attempt? Falling back.")
-        block()
-    }
-    
-#elseif os(Windows)
-    // Windows thread creation is different. This is a simplified placeholder.
-    // Using _beginthreadex would be more appropriate for stack size control.
-    print("Warning: Pthread stack size increase not fully implemented for Windows in this example. Running on current thread.")
-    block()
-#else
-    // Fallback for other potential platforms (though unlikely with #error above)
-    print("Warning: Pthread stack size increase not implemented for this platform. Running on current thread.")
-    block()
-#endif
+    #endif
 }
+
 // MARK: - Core Algorithm Implementation
 
 /// Solves the Slippery Trip problem.
