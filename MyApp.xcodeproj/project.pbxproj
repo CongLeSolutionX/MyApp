@@ -20,6 +20,7 @@
 		9A613DC12DBC65D40071CE8B /* Solution14_Logic_Issues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC02DBC65D20071CE8B /* Solution14_Logic_Issues.swift */; };
 		9A613DC32DBC66460071CE8B /* Solution15.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC22DBC66450071CE8B /* Solution15.swift */; };
 		9A613DC52DBC69E90071CE8B /* Solution16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC42DBC69E70071CE8B /* Solution16.swift */; };
+		9A613DC72DBC6B760071CE8B /* Solution17.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DC62DBC6B740071CE8B /* Solution17.swift */; };
 		9A9C016A2DAF4D41004E4172 /* Solution2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C01692DAF4D3E004E4172 /* Solution2.swift */; };
 		9A9C016C2DAF4EF5004E4172 /* Solution3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C016B2DAF4EF3004E4172 /* Solution3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
@@ -43,6 +44,7 @@
 		9A613DC02DBC65D20071CE8B /* Solution14_Logic_Issues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution14_Logic_Issues.swift; sourceTree = "<group>"; };
 		9A613DC22DBC66450071CE8B /* Solution15.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution15.swift; sourceTree = "<group>"; };
 		9A613DC42DBC69E70071CE8B /* Solution16.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution16.swift; sourceTree = "<group>"; };
+		9A613DC62DBC6B740071CE8B /* Solution17.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution17.swift; sourceTree = "<group>"; };
 		9A9C01692DAF4D3E004E4172 /* Solution2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution2.swift; sourceTree = "<group>"; };
 		9A9C016B2DAF4EF3004E4172 /* Solution3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 				9A613DC02DBC65D20071CE8B /* Solution14_Logic_Issues.swift */,
 				9A613DC22DBC66450071CE8B /* Solution15.swift */,
 				9A613DC42DBC69E70071CE8B /* Solution16.swift */,
+				9A613DC62DBC6B740071CE8B /* Solution17.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -191,6 +194,7 @@
 				9A613DB92DBC5D530071CE8B /* Solution10.swift in Sources */,
 				9A613DAD2DBC4E680071CE8B /* Solution5.swift in Sources */,
 				9A613DB32DBC52B50071CE8B /* Solution7.swift in Sources */,
+				9A613DC72DBC6B760071CE8B /* Solution17.swift in Sources */,
 				9A613DB72DBC5A1B0071CE8B /* Solution9.swift in Sources */,
 				9A9C016A2DAF4D41004E4172 /* Solution2.swift in Sources */,
 				9A9C016C2DAF4EF5004E4172 /* Solution3.swift in Sources */,
