@@ -34,6 +34,29 @@ class MyUIKitViewController: UIViewController {
     }
     
     func runSolution() {
-       
+        // --- Sample Tests (Sweep Line) ---
+        print("--- Running Sample Test Cases (Sweep Line) ---")
+        let N1 = 9; let L1 = [6, 3, 4, 5, 1, 6, 3, 3, 4]; let D1 = "ULDRULURD"; let result1 = getPlusSignCount(N1, L1, D1); print("Sample 1 Result: \(result1) (\(result1 == 4 ? "Correct" : "Incorrect"), Expected: 4)")
+        let N2 = 8; let L2 = [1, 1, 1, 1, 1, 1, 1, 1]; let D2 = "RDLUULDR"; let result2 = getPlusSignCount(N2, L2, D2); print("Sample 2 Result: \(result2) (\(result2 == 1 ? "Correct" : "Incorrect"), Expected: 1)")
+        let N3 = 8; let L3 = [1, 2, 2, 1, 1, 2, 2, 1]; let D3 = "UDUDLRLR"; let result3 = getPlusSignCount(N3, L3, D3); print("Sample 3 Result: \(result3) (\(result3 == 1 ? "Correct" : "Incorrect"), Expected: 1)")
+        print("\n--- Running Boundary/Edge Test Cases (Sweep Line) ---")
+        let N4 = 4; let L4 = [5, 2, 5, 2]; let D4 = "RDLU"; let result4 = getPlusSignCount(N4, L4, D4); print("Sample 4 (Rectangle) Result: \(result4) (\(result4 == 0 ? "Correct" : "Incorrect"), Expected: 0)")
+        // Test Case 5: Single Plus
+        let N5 = 4; let L5 = [1, 1, 1, 1]; let D5 = "RULD"; let result5 = getPlusSignCount(N5, L5, D5); print("Sample 5 (Single Plus) Result: \(result5) (\(result5 == 1 ? "Correct" : "Incorrect"), Expected: 1)")
+        // Test Case 6: Intersection but no plus because arms don't fully cross
+        let N6 = 4; let L6 = [5, 2, 3, 4]; let D6 = "RDLU"; let result6 = getPlusSignCount(N6, L6, D6); print("Sample 6 (Intersection) Result: \(result6) (\(result6 == 1 ? "Correct": "Incorrect"), Expected: 1)")
+        // Test Case 7: No plus sign possible
+        let N7 = 2; let L7 = [5, 5]; let D7 = "RU"; let result7 = getPlusSignCount(N7, L7, D7); print("Sample 7 (No Plus) Result: \(result7) (\(result7 == 0 ? "Correct" : "Incorrect"), Expected: 0)")
+        // Test Case 8: Large coordinates
+        let N8 = 4; let L8 = [1000000000, 1, 1000000000, 1]; let D8 = "RULD"; let result8 = getPlusSignCount(N8, L8, D8); print("Sample 8 (Large Coords) Result: \(result8) (\(result8 == 1 ? "Correct" : "Incorrect"), Expected: 1)")
+        // Test Case 9: Overlapping path creates plus
+        let N9 = 8; let L9 = [2, 2, 2, 2, 2, 2, 2, 2]; let D9 = "RURULDLDR"; let result9 = getPlusSignCount(N9, L9, D9); print("Sample 9 (Overlap Plus) Result: \(result9) (\(result9 == 1 ? "Correct" : "Incorrect"), Expected: 1)")
+        // Test Case 10 : Complex Path
+        let N10 = 12; let L10 = [2,2,1,1,2,2,1,1,2,2,1,1]; let D10 = "RULD RULD LDRU"; let result10 = getPlusSignCount(N10, L10, D10); print("Sample 10 (Complex) Result: \(result10) (\(result10 == 2 ? "Correct" : "Incorrect"), Expected: 2)")
+        // Test Case 11: Explicit Cross (Should be 0 pluses)
+        let N11 = 4; let L11 = [1, 2, 1, 2]; let D11 = "RLUD"; let result11 = getPlusSignCount(N11, L11, D11); print("Sample 11 (Explicit Cross) Result: \(result11) (\(result11 == 0 ? "Correct" : "Incorrect"), Expected: 0)")
+
+        print("\n--- Testing Complete ---")
+
     }
 }
