@@ -63,17 +63,16 @@ final class GetMaxExpectedProfitHiddenTests: XCTestCase {
          XCTAssertEqual(getMaxExpectedProfit(N, V, C, S), expectedProfit, accuracy: accuracy, "HC Max N, Max V, Max C, High S")
      }
 
-     // Hidden Test Case #9: N=1 (redundant with previous tests, but often included)
-     func testHiddenCase_N1_HighS() {
-         let N = 1
-         let V = [100]
-         let C = 10
-         let S: Float = 0.95 // Very High S
-         // T0 calc: (v-10) = max(0, (1-0.95)v - 10) => v-10 = max(0, 0.05v-10). Threshold ~200.
-         // P=100. Don't collect. E1 = 0.05*100 = 5. Final profit = max(0, 5-10)=0
-         let expectedProfit: Float = 0.0
-         XCTAssertEqual(getMaxExpectedProfit(N, V, C, S), expectedProfit, accuracy: accuracy, "HC N=1 High S")
-     }
+    // Hidden Test Case #9: N=1
+    func testHiddenCase_N1_HighS() {
+        let N = 1
+        let V = [100]
+        let C = 10
+        let S: Float = 0.95 // Very High S
+        // Calculation: E[0] = max(V[0]-C, (1-S)*(V[0]+E[1])) = max(100-10, (1-0.95)*(100+0)) = max(90, 5) = 90
+        let expectedProfit: Float = 90.0 // Corrected expectation
+        XCTAssertEqual(getMaxExpectedProfit(N, V, C, S), expectedProfit, accuracy: accuracy, "HC N=1 High S")
+    }
 
 
     // MARK: - Logic Edge Case Tests (5 Cases)
