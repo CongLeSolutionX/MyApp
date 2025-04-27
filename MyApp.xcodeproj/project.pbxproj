@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A1D8FAA2DBDA9FB00AC0706 /* Solution28.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FA92DBDA9F900AC0706 /* Solution28.swift */; };
+		9A1D8FAA2DBDA9FB00AC0706 /* Solution28_The_best_so_far.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FA92DBDA9F900AC0706 /* Solution28_The_best_so_far.swift */; };
 		9A1D8FAC2DBDAD7500AC0706 /* Solution29.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FAB2DBDAD7200AC0706 /* Solution29.swift */; };
 		9A1D8FAE2DBDB40C00AC0706 /* Solution30.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FAD2DBDB40900AC0706 /* Solution30.swift */; };
+		9A1D8FB02DBDC9D000AC0706 /* Solution31.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FAF2DBDC9CD00AC0706 /* Solution31.swift */; };
 		9A613DAD2DBC4E680071CE8B /* Solution5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DAC2DBC4E640071CE8B /* Solution5.swift */; };
 		9A613DAF2DBC4EA40071CE8B /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DAE2DBC4E9B0071CE8B /* UIKitViewControllerWrapper.swift */; };
 		9A613DB12DBC515A0071CE8B /* Solution6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB02DBC51580071CE8B /* Solution6.swift */; };
@@ -44,9 +45,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A1D8FA92DBDA9F900AC0706 /* Solution28.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution28.swift; sourceTree = "<group>"; };
+		9A1D8FA92DBDA9F900AC0706 /* Solution28_The_best_so_far.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution28_The_best_so_far.swift; sourceTree = "<group>"; };
 		9A1D8FAB2DBDAD7200AC0706 /* Solution29.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution29.swift; sourceTree = "<group>"; };
 		9A1D8FAD2DBDB40900AC0706 /* Solution30.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution30.swift; sourceTree = "<group>"; };
+		9A1D8FAF2DBDC9CD00AC0706 /* Solution31.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution31.swift; sourceTree = "<group>"; };
 		9A613DAC2DBC4E640071CE8B /* Solution5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution5.swift; sourceTree = "<group>"; };
 		9A613DAE2DBC4E9B0071CE8B /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9A613DB02DBC51580071CE8B /* Solution6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution6.swift; sourceTree = "<group>"; };
@@ -141,9 +143,10 @@
 				9A613DD62DBCADE70071CE8B /* Solution25.swift */,
 				9A613DD82DBCB07F0071CE8B /* Solution26.swift */,
 				9A613DDA2DBCC98E0071CE8B /* Solution27.swift */,
-				9A1D8FA92DBDA9F900AC0706 /* Solution28.swift */,
+				9A1D8FA92DBDA9F900AC0706 /* Solution28_The_best_so_far.swift */,
 				9A1D8FAB2DBDAD7200AC0706 /* Solution29.swift */,
 				9A1D8FAD2DBDB40900AC0706 /* Solution30.swift */,
+				9A1D8FAF2DBDC9CD00AC0706 /* Solution31.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -249,7 +252,7 @@
 				9A613DD32DBCA9100071CE8B /* Solution23.swift in Sources */,
 				9A613DBD2DBC63090071CE8B /* Solution12.swift in Sources */,
 				9A613DD92DBCB0870071CE8B /* Solution26.swift in Sources */,
-				9A1D8FAA2DBDA9FB00AC0706 /* Solution28.swift in Sources */,
+				9A1D8FAA2DBDA9FB00AC0706 /* Solution28_The_best_so_far.swift in Sources */,
 				9A613DC32DBC66460071CE8B /* Solution15.swift in Sources */,
 				9A613DAF2DBC4EA40071CE8B /* UIKitViewControllerWrapper.swift in Sources */,
 				9A613DC52DBC69E90071CE8B /* Solution16.swift in Sources */,
@@ -258,6 +261,7 @@
 				9A613DCB2DBC70AD0071CE8B /* Solution19.swift in Sources */,
 				9A613DC12DBC65D40071CE8B /* Solution14_Logic_Issues.swift in Sources */,
 				9A613DD52DBCAB9B0071CE8B /* Solution24.swift in Sources */,
+				9A1D8FB02DBDC9D000AC0706 /* Solution31.swift in Sources */,
 				9A613DC92DBC6FB50071CE8B /* Solution18_Failed_base_test_cases.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
