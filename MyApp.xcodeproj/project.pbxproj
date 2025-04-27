@@ -14,6 +14,7 @@
 		9A1D8FB22DBDCAF400AC0706 /* Solution32_Extended_workable_solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FB12DBDCAF200AC0706 /* Solution32_Extended_workable_solution.swift */; };
 		9A1D8FB42DBDCBF700AC0706 /* Solution33_Identified_bottleneck_point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FB32DBDCBF400AC0706 /* Solution33_Identified_bottleneck_point.swift */; };
 		9A1D8FB62DBDCDA200AC0706 /* Solution34.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FB52DBDCDA100AC0706 /* Solution34.swift */; };
+		9A1D8FB82DBDCF0800AC0706 /* Solution35.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1D8FB72DBDCF0600AC0706 /* Solution35.swift */; };
 		9A613DAD2DBC4E680071CE8B /* Solution5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DAC2DBC4E640071CE8B /* Solution5.swift */; };
 		9A613DAF2DBC4EA40071CE8B /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DAE2DBC4E9B0071CE8B /* UIKitViewControllerWrapper.swift */; };
 		9A613DB12DBC515A0071CE8B /* Solution6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A613DB02DBC51580071CE8B /* Solution6.swift */; };
@@ -55,6 +56,7 @@
 		9A1D8FB12DBDCAF200AC0706 /* Solution32_Extended_workable_solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution32_Extended_workable_solution.swift; sourceTree = "<group>"; };
 		9A1D8FB32DBDCBF400AC0706 /* Solution33_Identified_bottleneck_point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution33_Identified_bottleneck_point.swift; sourceTree = "<group>"; };
 		9A1D8FB52DBDCDA100AC0706 /* Solution34.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution34.swift; sourceTree = "<group>"; };
+		9A1D8FB72DBDCF0600AC0706 /* Solution35.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution35.swift; sourceTree = "<group>"; };
 		9A613DAC2DBC4E640071CE8B /* Solution5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution5.swift; sourceTree = "<group>"; };
 		9A613DAE2DBC4E9B0071CE8B /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9A613DB02DBC51580071CE8B /* Solution6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution6.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				9A1D8FB12DBDCAF200AC0706 /* Solution32_Extended_workable_solution.swift */,
 				9A1D8FB32DBDCBF400AC0706 /* Solution33_Identified_bottleneck_point.swift */,
 				9A1D8FB52DBDCDA100AC0706 /* Solution34.swift */,
+				9A1D8FB72DBDCF0600AC0706 /* Solution35.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* Solution4.swift in Sources */,
+				9A1D8FB82DBDCF0800AC0706 /* Solution35.swift in Sources */,
 				9A613DB92DBC5D530071CE8B /* Solution10.swift in Sources */,
 				9A613DCD2DBC718A0071CE8B /* Solution20.swift in Sources */,
 				9A613DD72DBCADE90071CE8B /* Solution25.swift in Sources */,
