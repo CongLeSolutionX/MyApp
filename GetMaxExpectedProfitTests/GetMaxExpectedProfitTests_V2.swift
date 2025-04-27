@@ -6,8 +6,7 @@
 ////
 //@testable import MyApp
 //import XCTest
-//// Assuming the function 'getMaxExpectedProfit' is accessible
-//
+
 //final class GetMaxExpectedProfitTests: XCTestCase {
 //
 //    let accuracy: Float = 1e-8 // Adjusted accuracy for Float comparison might need tuning
