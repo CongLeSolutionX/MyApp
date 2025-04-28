@@ -470,10 +470,13 @@ struct ContentView: View {
 
 // Helper extension for conditional button styling
 extension Button {
-    @ViewBuilder
     func applyButtonStyle(label: String) -> some View {
         let isZero = (label == "0")
-        let isDigitOrDecimal = (("0"..."9").contains(label) || label == ".")
+        // Note: The warning "Initialization of immutable value 'isDigitOrDecimal' was never used"
+        // is technically true because the final 'else' covers this case implicitly.
+        // You can ignore this warning or add an explicit `else if isDigitOrDecimal` check
+        // if you prefer, but it won't affect the build error fix.
+        _ = (("0"..."9").contains(label) || label == ".")
         let isOperator = ["/", "*", "-", "+", "="].contains(label)
         let isTopUtility = ["C", "+/-", "%"].contains(label)
 
@@ -486,16 +489,15 @@ extension Button {
         } else if isTopUtility {
             bgColor = Color(.lightGray) // Lighter gray for top utilities
             fgColor = .black
-        } else { // Digits and decimal
+        } else { // Digits and decimal implicitly includes isDigitOrDecimal
             bgColor = Color(.darkGray).opacity(0.8) // Darker gray for numbers
             fgColor = .white
         }
 
-        // Use the ButtonStyle directly
-        self.buttonStyle(CalculatorButtonStyle(backgroundColor: bgColor, foregroundColor: fgColor, isWide: isZero))
+        // Use the ButtonStyle directly - this returns the View
+        return self.buttonStyle(CalculatorButtonStyle(backgroundColor: bgColor, foregroundColor: fgColor, isWide: isZero))
     }
 }
-
 // MARK: - App Entry Point
 @main
 struct CalculatorAppFunctional: App {
