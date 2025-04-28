@@ -29,5 +29,27 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        runInitializerInjectionDemo()
+    }
+    
+    func runInitializerInjectionDemo() {
+        
+        // Usage: Injecting the dependency
+        let realService = NetworkService()
+        let viewModel = DataViewModel(networkFetcher: realService)
+        viewModel.loadData()
+        
+        // For Testing: Injecting a mock
+        class MockNetworkFetcher: NetworkFetching {
+            func fetchData() -> Data? {
+                print("Returning mock data...")
+                return Data("Mock".utf8)
+            }
+        }
+        let mockService = MockNetworkFetcher()
+        let testViewModel = DataViewModel(networkFetcher: mockService)
+        testViewModel.loadData()
+        
     }
 }
