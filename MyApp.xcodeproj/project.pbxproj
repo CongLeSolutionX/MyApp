@@ -14,6 +14,7 @@
 		9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */; };
 		9AEB006E2DBFAA6B00653E2C /* FactoryPatterns_SimpleFactoryDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEB006D2DBFAA6600653E2C /* FactoryPatterns_SimpleFactoryDemo.swift */; };
 		9AEB00702DBFAB4600653E2C /* FactoryPatterns_FactoryMethodPatternDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEB006F2DBFAB3C00653E2C /* FactoryPatterns_FactoryMethodPatternDemo.swift */; };
+		9AEB00722DBFABC400653E2C /* FactoryPatterns_AbstractFactoryPatternPatternDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEB00712DBFABB900653E2C /* FactoryPatterns_AbstractFactoryPatternPatternDemo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerWrapper.swift; sourceTree = "<group>"; };
 		9AEB006D2DBFAA6600653E2C /* FactoryPatterns_SimpleFactoryDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryPatterns_SimpleFactoryDemo.swift; sourceTree = "<group>"; };
 		9AEB006F2DBFAB3C00653E2C /* FactoryPatterns_FactoryMethodPatternDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryPatterns_FactoryMethodPatternDemo.swift; sourceTree = "<group>"; };
+		9AEB00712DBFABB900653E2C /* FactoryPatterns_AbstractFactoryPatternPatternDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryPatterns_AbstractFactoryPatternPatternDemo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9AEB006D2DBFAA6600653E2C /* FactoryPatterns_SimpleFactoryDemo.swift */,
 				9AEB006F2DBFAB3C00653E2C /* FactoryPatterns_FactoryMethodPatternDemo.swift */,
+				9AEB00712DBFABB900653E2C /* FactoryPatterns_AbstractFactoryPatternPatternDemo.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
+				9AEB00722DBFABC400653E2C /* FactoryPatterns_AbstractFactoryPatternPatternDemo.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9AEB006E2DBFAA6B00653E2C /* FactoryPatterns_SimpleFactoryDemo.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,

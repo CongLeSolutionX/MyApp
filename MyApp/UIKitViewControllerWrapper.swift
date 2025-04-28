@@ -31,7 +31,8 @@ class MyUIKitViewController: UIViewController {
         // Additional setup
         
         //runSimpleFactoryDemo()
-        runFactoryMethodPatternDemo()
+        //runFactoryMethodPatternDemo()
+        runAbstractFactoryPatternPatternDemo()
     }
     
     func runSimpleFactoryDemo() {
@@ -53,5 +54,20 @@ class MyUIKitViewController: UIViewController {
         let fileCreator: LoggerFactory = FileLoggerFactory(logFilePath: "debug.log")
         fileCreator.logProcess(action: "Data Sync") // Uses FileLogger
         
+    }
+    
+    func runAbstractFactoryPatternPatternDemo() {
+        
+        // Usage
+        print("--- Using Light Theme ---")
+        let lightFactory = LightThemeFactory()
+        let lightSettings = SettingsScreen(factory: lightFactory)
+        lightSettings.displayUI()
+
+        print("\n--- Using Dark Theme ---")
+        let darkFactory = DarkThemeFactory()
+        let darkSettings = SettingsScreen(factory: darkFactory)
+        darkSettings.displayUI()
+
     }
 }
