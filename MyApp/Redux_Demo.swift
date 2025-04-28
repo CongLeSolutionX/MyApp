@@ -202,8 +202,8 @@ final class Store<State>: ObservableObject {
     }
 
     // Optional: Convenience for manual subscriptions outside SwiftUI
-    func subscribe( NreceiveValue: @escaping (State) -> Void) -> AnyCancellable {
-        $state.sink(receiveValue: receiveValue)
+    func subscribe(NreceiveValue: @escaping (State) -> Void) -> AnyCancellable {
+        $state.sink(receiveValue: NreceiveValue)
     }
 }
 
