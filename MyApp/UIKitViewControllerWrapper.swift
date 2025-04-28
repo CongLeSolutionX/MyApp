@@ -29,5 +29,27 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        runProxyPatternDemo()
+    }
+    
+    func runProxyPatternDemo() {
+        
+        // --- 4. Client Usage ---
+        let imageURL = URL(string: "https://via.placeholder.com/300")! // Example URL
+        let imageView = UIImageView()
+
+        // Client interacts with the Subject protocol, using the Proxy
+        let imageLoader: ImageService = LazyImageServiceProxy(url: imageURL)
+        print("Client: Created proxy.")
+
+        // RealImageService instance and image loading only happens now:
+        print("Client: Requesting displayImage...")
+        imageLoader.displayImage(on: imageView) // Proxy creates RealService, RealService loads data
+
+        print("\nClient: Requesting imageData...")
+        let data = imageLoader.getImageData() // Proxy forwards, RealService returns loaded data.
+        print("Client: Received data (\(data?.count ?? 0) bytes)")
+
     }
 }
