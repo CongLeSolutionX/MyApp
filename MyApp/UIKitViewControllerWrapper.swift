@@ -59,7 +59,7 @@ class MyUIKitViewController: UIViewController {
         print("\n--- Example 1: Using Virtual Proxy (Lazy Loading) ---")
         
         // Client interacts via the protocol, unaware of lazy loading details
-        var lazyDownloader: FileDownloader = VirtualFileDownloaderProxy()
+        let lazyDownloader: FileDownloader = VirtualFileDownloaderProxy()
         let dummyURL1 = URL(string: "https://example.com/file1.txt")!
         
         print("Client: lazyDownloader created. Requesting download...")
