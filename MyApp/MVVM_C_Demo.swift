@@ -4,152 +4,164 @@
 //
 //  Created by Cong Le on 4/28/25.
 //
-
-import UIKit
-import Combine // Often used with MVVM, but not strictly required for the pattern itself
+import SwiftUI
+import UIKit // Needed for UIViewController, UINavigationController etc.
+// No need to import Combine for this basic example, but you often would in a real app
 
 // MARK: - Coordinator Protocol
 
 // Defines the basic interface for all coordinators
 protocol Coordinator: AnyObject {
-    // Each coordinator has its own navigation controller (or sometimes a parent passes one down)
     var navigationController: UINavigationController { get set }
-    // Stores child coordinators. A coordinator start other coordinators, e.g., for sub-flows.
     var childCoordinators: [Coordinator] { get set }
     
-    // Method to kick off the coordinator's flow
     func start()
-    
-    // Optional: To inform a parent coordinator that a child flow has finished
-    // Often used with a delegate pattern: `var parentCoordinator: ParentCoordinatorDelegate?`
     func didFinish() // This coordinator's own flow finished
-    
-    // Helper to remove child coordinators from the list when they finish
     func childDidFinish(_ child: Coordinator?)
 }
 
-// Default implementation for child cleanup
+// Default implementation for child cleanup and didFinish
 extension Coordinator {
     func childDidFinish(_ child: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {
                 childCoordinators.remove(at: index)
+                print("\(type(of: self)): Removed child coordinator - \(type(of: coordinator))")
                 break
             }
         }
     }
-    
-    // Default didFinish (can be overridden)
+
     func didFinish() {
-        // Default implementation does nothing, often overridden to notify parent
         print("\(type(of: self)) finished.")
+        // Default does nothing - Often overridden to notify parent coordinator
     }
 }
 
-// MARK: - App Coordinator
+// MARK: - Coordinator Delegates (For Child -> Parent Communication)
 
-// The main coordinator, responsible for setting up the initial view hierarchy and managing major application flows.
+// Protocol for ListCoordinator to talk back to AppCoordinator
+protocol AppCoordinatorDelegate: AnyObject {
+    func listCoordinatorDidFinish(_ child: Coordinator?)
+}
+
+// Protocol for ListViewModel to talk to its Coordinator (ListCoordinator)
+protocol ListViewModelCoordinatorDelegate: AnyObject {
+    func listViewModelDidRequestShowDetail(_ viewModel: ListViewModel, data: String)
+     func listViewModelDidFinish(_ viewModel: ListViewModel) // Optional based on flow needs
+}
+
+// Protocol for DetailViewModel to talk to its Coordinator (ListCoordinator in this case)
+protocol DetailViewModelCoordinatorDelegate: AnyObject {
+    func detailViewModelDidFinish(_ viewModel: DetailViewModel)
+}
+
+// MARK: - App Coordinator (Manages the overall App Flow)
+
 class AppCoordinator: Coordinator, AppCoordinatorDelegate {
     var navigationController: UINavigationController
     var childCoordinators: [Coordinator] = []
-    
-    // Weak reference to the window to manage the root view controller
-    // In SceneDelegate based apps, the window is readily available.
-    private weak var window: UIWindow?
 
-    init(window: UIWindow) {
-        self.window = window
-        self.navigationController = UINavigationController() // Create the main navigation stack
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
+    // Initialized with the root navigation controller provided by the hosting view
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+        print("AppCoordinator: Initialized.")
     }
 
     func start() {
-        print("AppCoordinator starting...")
-        // Decide initial flow (e.g., onboarding, auth, or main app)
-        // For this example, directly start the main "List" flow.
+        print("AppCoordinator: start() called. Starting initial flow...")
+        // For this example, we immediately start the list flow
         showListFlow()
     }
     
     func showListFlow() {
-        // Create and start the ListCoordinator
+        print("AppCoordinator: Starting List Flow...")
         let listCoordinator = ListCoordinator(navigationController: navigationController)
-        listCoordinator.parentCoordinator = self // Set the parent delegate
-        childCoordinators.append(listCoordinator) // Keep track of the child
-        listCoordinator.start() // Kick off the list flow
+        listCoordinator.parentCoordinator = self // Set self as the delegate
+        childCoordinators.append(listCoordinator)
+        listCoordinator.start()
     }
     
-    // This function would be called by a child coordinator (like ListCoordinator)
-    // when its entire flow is complete and should be removed.
+    // --- AppCoordinatorDelegate conformance ---
+    // Called by ListCoordinator when it finishes its entire flow
     func listCoordinatorDidFinish(_ child: Coordinator?) {
-        print("AppCoordinator notified that ListCoordinator finished.")
-        childDidFinish(child)
-        // Here you might decide to show another flow, like login,
-        // but for this example, we do nothing further.
+        print("AppCoordinator: Notified that ListCoordinator finished.")
+        self.childDidFinish(child)
+        // Here you could decide what to do next, e.g., show login screen
+        // For simplicity, we do nothing more.
+    }
+
+    // AppCoordinator itself usually doesn't "finish" unless the app is closing
+    func didFinish() {
+         print("AppCoordinator: didFinish() called (unlikely in standard flow).")
     }
 }
 
 // MARK: - List Flow (Coordinator, ViewModel, ViewController)
 
-// --- Delegate Protocol for ListViewModel -> ListCoordinator communication ---
-protocol ListViewModelCoordinatorDelegate: AnyObject {
-    func listViewModelDidRequestShowDetail(_ viewModel: ListViewModel, data: String)
-    func listViewModelDidFinish(_ viewModel: ListViewModel) // Optional: If the list itself could "finish"
-}
-
 // --- List ViewModel ---
 class ListViewModel {
     weak var coordinatorDelegate: ListViewModelCoordinatorDelegate?
     
-    let title = "List Screen"
-    let detailButtonTitle = "Show Detail"
-    let listData = "Some data from List" // Example data to pass
+    let title = "Items List"
+    let detailButtonTitle = "Show Detail (Item #1)"
+    let finishButtonTitle = "Finish List Flow (Example)"
+    let listData = "Item #1 Data" // Example data
 
     func userDidTapDetailButton() {
         print("ListViewModel: Detail button tapped. Requesting navigation...")
-        // Ask the coordinator to navigate
         coordinatorDelegate?.listViewModelDidRequestShowDetail(self, data: listData)
     }
     
-    // Call this if the list screen itself could finish its flow
-    func finishListFlow() {
+    func userDidTapFinishButton() {
+        print("ListViewModel: Finish button tapped. Signaling flow finish...")
         coordinatorDelegate?.listViewModelDidFinish(self)
     }
+    
+    deinit { print("ListViewModel: Deinit") }
 }
 
 // --- List ViewController ---
 class ListViewController: UIViewController {
     let viewModel: ListViewModel
     
-    // UI Elements (programmatic for simplicity)
+    // UI Elements
     private let detailButton = UIButton(type: .system)
+    private let finishButton = UIButton(type: .system) // Example for finishing flow
 
     init(viewModel: ListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.title = viewModel.title // Set navigation bar title
-        print("ListViewController initialized with ViewModel.")
+        self.title = viewModel.title
+        print("ListViewController: Initialized.")
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .white // Changed for better visibility
         setupUI()
-        print("ListViewController viewDidLoad.")
+        print("ListViewController: viewDidLoad.")
     }
 
     private func setupUI() {
         detailButton.setTitle(viewModel.detailButtonTitle, for: .normal)
         detailButton.addTarget(self, action: #selector(detailButtonTapped), for: .touchUpInside)
         
-        detailButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(detailButton)
+        finishButton.setTitle(viewModel.finishButtonTitle, for: .normal)
+        finishButton.addTarget(self, action: #selector(finishButtonTapped), for: .touchUpInside)
+        
+        let stackView = UIStackView(arrangedSubviews: [detailButton, finishButton])
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            detailButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            detailButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
 
@@ -158,123 +170,120 @@ class ListViewController: UIViewController {
         viewModel.userDidTapDetailButton()
     }
     
+     @objc private func finishButtonTapped() {
+        print("ListViewController: Finish button tapped, informing ViewModel.")
+        viewModel.userDidTapFinishButton()
+    }
+    
     deinit {
-        print("ListViewController deinit")
+        print("ListViewController: Deinit")
     }
 }
 
 // --- List Coordinator ---
-protocol AppCoordinatorDelegate: AnyObject {
-    func listCoordinatorDidFinish(_ child: Coordinator?)
-}
-
 class ListCoordinator: Coordinator {
-    weak var parentCoordinator: AppCoordinatorDelegate? // Delegate to notify parent
+    weak var parentCoordinator: AppCoordinatorDelegate? // Delegate to talk back to AppCoordinator
     var navigationController: UINavigationController
     var childCoordinators: [Coordinator] = []
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        print("ListCoordinator initialized.")
+        print("ListCoordinator: Initialized.")
     }
 
     func start() {
-        print("ListCoordinator starting...")
-        // 1. Create ViewModel
+        print("ListCoordinator: start() called.")
+        // Create VM, set self as delegate
         let viewModel = ListViewModel()
-        viewModel.coordinatorDelegate = self // ViewModel communicates back to this coordinator
+        viewModel.coordinatorDelegate = self
 
-        // 2. Create ViewController and Inject ViewModel
+        // Create VC, inject VM
         let viewController = ListViewController(viewModel: viewModel)
 
-        // 3. Push onto navigation stack
-        // Make it the root if it's the first one, otherwise push.
+        // Present VC
+        // Set as root if stack is empty, otherwise push
         if navigationController.viewControllers.isEmpty {
+             print("ListCoordinator: Setting ListVC as root.")
              navigationController.setViewControllers([viewController], animated: false)
         } else {
+             print("ListCoordinator: Pushing ListVC.")
             navigationController.pushViewController(viewController, animated: true)
         }
     }
     
-    // Called when the list coordinator's own flow is done.
+    // Called when this entire flow should end
     func didFinish() {
-        print("ListCoordinator signaling it has finished.")
+        print("ListCoordinator: didFinish() called. Notifying parent.")
         parentCoordinator?.listCoordinatorDidFinish(self)
     }
     
-    // --- Navigation Handling ---
-    
+    // --- Navigation Handling Methods ---
     func showDetailScreen(data: String) {
-        print("ListCoordinator: Handling request to show Detail screen.")
-        // Create and start the Detail flow (In this simple case, directly managing Detail VC)
-        // If Detail had its own complex flow, we'd create a DetailCoordinator here.
-        
-        // 1. Create Detail ViewModel
+        print("ListCoordinator: Handling request to show Detail screen...")
+        // In a complex app, you might start a DetailCoordinator.
+        // Here, we manage DetailViewController directly.
         let detailViewModel = DetailViewModel(detailData: data)
-        detailViewModel.coordinatorDelegate = self // Listen for finish signals from DetailViewModel
+        detailViewModel.coordinatorDelegate = self // ListCoordinator listens for Detail's finish
 
-        // 2. Create Detail ViewController
         let detailViewController = DetailViewController(viewModel: detailViewModel)
-        
-        // 3. Push the Detail ViewController
+        print("ListCoordinator: Pushing DetailVC.")
         navigationController.pushViewController(detailViewController, animated: true)
     }
     
-    // Called by DetailViewModel when it's done
-    func detailDidFinish() {
-        print("ListCoordinator: Detail screen finished, popping it.")
-        // Pop the DetailViewController off the stack
+    // Called by self when Detail flow is done
+    func detailFlowDidFinish() {
+        print("ListCoordinator: Detail flow finished. Popping DetailVC.")
         navigationController.popViewController(animated: true)
-        // If Detail flow was managed by a DetailCoordinator, we would call `childDidFinish(detailCoordinator)` here.
+        // If a child DetailCoordinator existed, call: self.childDidFinish(detailCoordinator)
     }
     
     deinit {
-        print("ListCoordinator deinit")
+        print("ListCoordinator: Deinit")
     }
 }
 
-// Implement the delegate method for ListViewModel
+// --- ListCoordinator: Delegate Conformance ---
+
 extension ListCoordinator: ListViewModelCoordinatorDelegate {
     func listViewModelDidRequestShowDetail(_ viewModel: ListViewModel, data: String) {
         showDetailScreen(data: data)
     }
     
+    // Called when ListViewModel signals its flow should end
     func listViewModelDidFinish(_ viewModel: ListViewModel) {
-        // This example doesn't explicitly finish the list flow,
-        // but if it did (e.g., user logs out from here), we'd call:
-         didFinish()
+        self.didFinish() // Signal self has finished, which notifies parent
     }
 }
 
-
-// MARK: - Detail Flow (ViewModel, ViewController) - Managed by ListCoordinator here
-
-// --- Delegate Protocol for DetailViewModel -> ListCoordinator communication ---
-protocol DetailViewModelCoordinatorDelegate: AnyObject {
-    func detailViewModelDidFinish(_ viewModel: DetailViewModel)
+extension ListCoordinator: DetailViewModelCoordinatorDelegate {
+    // Called when DetailViewModel signals it's done
+    func detailViewModelDidFinish(_ viewModel: DetailViewModel) {
+        self.detailFlowDidFinish() // Handle the finish of the detail screen
+    }
 }
+
+// MARK: - Detail Flow (ViewModel, ViewController)
 
 // --- Detail ViewModel ---
 class DetailViewModel {
     weak var coordinatorDelegate: DetailViewModelCoordinatorDelegate?
     
-    let title = "Detail Screen"
+    let title = "Item Detail"
     let closeButtonTitle = "Close Detail"
     let detailInfo: String
 
     init(detailData: String) {
-        self.detailInfo = "Received data: \(detailData)"
-        print("DetailViewModel initialized with data: \(detailData)")
+        self.detailInfo = "Detail: \(detailData)\nTapped at: \(Date())"
+        print("DetailViewModel: Initialized with data '\(detailData)'")
     }
 
     func userDidTapCloseButton() {
         print("DetailViewModel: Close button tapped. Signaling finish...")
-        // Ask the coordinator (ListCoordinator in this case) to finish this flow
         coordinatorDelegate?.detailViewModelDidFinish(self)
     }
     
     deinit {
-        print("DetailViewModel deinit")
+        print("DetailViewModel: Deinit")
     }
 }
 
@@ -290,39 +299,42 @@ class DetailViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.title = viewModel.title
-        print("DetailViewController initialized.")
+        print("DetailViewController: Initialized.")
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray3
+        view.backgroundColor = .systemMint // Changed for visibility
         setupUI()
-        print("DetailViewController viewDidLoad.")
+        print("DetailViewController: viewDidLoad.")
     }
 
     private func setupUI() {
         infoLabel.text = viewModel.detailInfo
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
+        infoLabel.textColor = .white
         
         closeButton.setTitle(viewModel.closeButtonTitle, for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.backgroundColor = .systemBlue
+        closeButton.layer.cornerRadius = 8
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
 
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(infoLabel)
-        view.addSubview(closeButton)
+        let stackView = UIStackView(arrangedSubviews: [infoLabel, closeButton])
+        stackView.axis = .vertical
+        stackView.spacing = 30
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            infoLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
-            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            closeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            closeButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 40)
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
         ])
     }
 
@@ -332,37 +344,67 @@ class DetailViewController: UIViewController {
     }
     
     deinit {
-        print("DetailViewController deinit")
+        print("DetailViewController: Deinit")
     }
 }
 
-// --- Detail flow needs to communicate back to its manager (ListCoordinator) ---
-// Implement the delegate method within the coordinator that manages the Detail flow.
-extension ListCoordinator: DetailViewModelCoordinatorDelegate {
-    func detailViewModelDidFinish(_ viewModel: DetailViewModel) {
-        self.detailDidFinish() // Call the ListCoordinator's own cleanup method
+// MARK: - SwiftUI Host for UIKit Coordinator Flow
+
+struct CoordinatorHostingView: UIViewControllerRepresentable {
+
+    // Strong reference to keep the AppCoordinator alive for the duration of the view
+    private var appCoordinator: AppCoordinator?
+    private let navigationController: UINavigationController
+
+    init() {
+       print("CoordinatorHostingView: init.")
+       // Create the root navigation controller ONCE
+       self.navigationController = UINavigationController()
+       // Create the AppCoordinator, passing the navigation controller
+       self.appCoordinator = AppCoordinator(navigationController: self.navigationController)
+    }
+
+    // Creates the initial UIKit view controller (our UINavigationController)
+    func makeUIViewController(context: Context) -> UINavigationController {
+        print("CoordinatorHostingView: makeUIViewController (Creating and starting AppCoordinator).")
+        // Start the AppCoordinator's flow
+        appCoordinator?.start()
+        return navigationController
+    }
+
+    // Updates the UIKit view controller when SwiftUI state changes (not needed here)
+     func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+         // print("CoordinatorHostingView: updateUIViewController")
+         // No external state changes to pass down in this simple example
+     }
+
+    // Creates coordinator instance used by SwiftUI internally (different from our MVVM-C Coordinator)
+    func makeCoordinator() -> Coordinator {
+        print("CoordinatorHostingView: makeCoordinator (SwiftUI internal).")
+        return Coordinator() // Standard SwiftUI Coordinator class
+    }
+    
+    // Standard SwiftUI Coordinator class (can be used for UIKit -> SwiftUI communication if needed)
+    class Coordinator {
+        init() {
+            print("CoordinatorHostingView.Coordinator (SwiftUI internal): init")
+        }
     }
 }
 
+// MARK: - SwiftUI App Entry Point
 
-// MARK: - SceneDelegate (or AppDelegate) Setup
-
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
-    var window: UIWindow?
-    var appCoordinator: AppCoordinator? // Keep a strong reference to the AppCoordinator
-
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        print("SceneDelegate: willConnectTo...")
-        let window = UIWindow(windowScene: windowScene)
-        self.window = window
-
-        // Create the AppCoordinator and kick things off
-        appCoordinator = AppCoordinator(window: window)
-        appCoordinator?.start() // Start the main application flow
+@main
+struct MyApp: App {
+    init() {
+        print("MyApp: Initializing.")
     }
-
-    // Other SceneDelegate methods...
+    
+    var body: some Scene {
+        WindowGroup {
+            // Host the UIKit view hierarchy managed by the coordinator
+            CoordinatorHostingView()
+                .edgesIgnoringSafeArea(.all) // Let UIKit control the full screen
+        }
+    }
 }
