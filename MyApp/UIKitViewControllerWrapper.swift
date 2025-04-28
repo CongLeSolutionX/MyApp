@@ -43,7 +43,7 @@ class MyUIKitViewController: UIViewController {
         context.assign(name: "x", value: 10)
         context.assign(name: "y", value: 4)
         context.assign(name: "z", value: 2)
-        context.printState()
+        //context.printState()
         print("\n--- Building & Interpreting ASTs ---")
 
         // --- Example 1: Simple Expression "x + 5" ---
