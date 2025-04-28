@@ -84,7 +84,7 @@ class MyUIKitViewController: UIViewController {
         
         // Scenario A: Guest User
         print("\nClient: Simulating GUEST user...")
-        var guestDownloader: FileDownloader = ProtectionFileDownloaderProxy(wrapping: baseDownloader, userRole: .guest)
+        let guestDownloader: FileDownloader = ProtectionFileDownloaderProxy(wrapping: baseDownloader, userRole: .guest)
         
         print("Client (Guest): Attempting to download guest file...")
         guestDownloader.downloadFile(url: guestURL) { result in print("Client (Guest - Guest File): Result: \(result)") }
@@ -100,7 +100,7 @@ class MyUIKitViewController: UIViewController {
         
         // Scenario B: Premium User
         print("\nClient: Simulating PREMIUM user...")
-        var premiumDownloader: FileDownloader = ProtectionFileDownloaderProxy(wrapping: baseDownloader, userRole: .premiumUser)
+        let premiumDownloader: FileDownloader = ProtectionFileDownloaderProxy(wrapping: baseDownloader, userRole: .premiumUser)
         
         print("Client (Premium): Attempting to download premium file...")
         premiumDownloader.downloadFile(url: premiumURL) { result in print("Client (Premium - Premium File): Result: \(result)") }
@@ -112,7 +112,7 @@ class MyUIKitViewController: UIViewController {
         
         print("\n--- Example 3: Using Caching Proxy ---")
         let dummyURL2 = URL(string: "https://example.com/file2.jpg")!
-        var cachingDownloader: FileDownloader = CachingFileDownloaderProxy(wrapping: baseDownloader) // Wrap the real downloader
+        let cachingDownloader: FileDownloader = CachingFileDownloaderProxy(wrapping: baseDownloader) // Wrap the real downloader
         
         print("\nClient (Caching): First download attempt for file2.jpg...")
         cachingDownloader.downloadFile(url: dummyURL2) { result in
