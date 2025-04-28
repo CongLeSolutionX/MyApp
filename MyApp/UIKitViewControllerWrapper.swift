@@ -31,7 +31,8 @@ class MyUIKitViewController: UIViewController {
         // Additional setup
         
         //runInitializerInjectionDemo()
-        runPropertyInjectionDemo()
+        //runPropertyInjectionDemo()
+        runMethodInjectionDemo()
     }
     
     func runInitializerInjectionDemo() {
@@ -61,5 +62,21 @@ class MyUIKitViewController: UIViewController {
         // Potential issue: viewModel is usable here, but `loadData` would fail
         viewModel.networkFetcher = NetworkService() // Injection via property
         viewModel.loadData()
+    }
+    
+    func runMethodInjectionDemo() {
+      
+        // Usage
+        let generator = ReportGenerator()
+        let reportData = Data("Report Content".utf8)
+
+        let standardFormatter = StandardFormatter()
+        let standardReport = generator.generateReport(data: reportData, formatter: standardFormatter) // Inject StandardFormatter
+        print("Injected standardReport: \(standardReport)")
+
+        let fancyFormatter = FancyFormatter()
+        let fancyReport = generator.generateReport(data: reportData, formatter: fancyFormatter) // Inject FancyFormatter
+        print("Injected fancyReport: \(fancyReport)")
+
     }
 }
