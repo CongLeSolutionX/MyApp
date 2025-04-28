@@ -29,5 +29,18 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        runSimpleFactoryDemo()
+    }
+    
+    func runSimpleFactoryDemo() {
+        
+        // Client Code
+        let success = AlertFactory.createAlert(type: .success)
+        success.show(title: "Operation Complete", message: "Data saved successfully.")
+
+        let error = AlertFactory.createAlert(type: .error)
+        error.show(title: "Operation Failed", message: "Network connection lost.")
+
     }
 }
