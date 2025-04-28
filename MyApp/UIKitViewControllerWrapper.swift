@@ -30,7 +30,8 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         // Additional setup
         
-        runInitializerInjectionDemo()
+        //runInitializerInjectionDemo()
+        runPropertyInjectionDemo()
     }
     
     func runInitializerInjectionDemo() {
@@ -51,5 +52,14 @@ class MyUIKitViewController: UIViewController {
         let testViewModel = DataViewModel(networkFetcher: mockService)
         testViewModel.loadData()
         
+    }
+    
+    func runPropertyInjectionDemo() {
+        
+        // Usage: Injecting after initialization
+        let viewModel = AnotherViewModel()
+        // Potential issue: viewModel is usable here, but `loadData` would fail
+        viewModel.networkFetcher = NetworkService() // Injection via property
+        viewModel.loadData()
     }
 }
