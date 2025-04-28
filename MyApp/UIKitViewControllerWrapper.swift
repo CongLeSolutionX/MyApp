@@ -29,5 +29,24 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        runDesignPatternDemo()
+    }
+    
+    func runDesignPatternDemo() {
+        
+        // Usage:
+        // Access the single instance from anywhere
+        let settings = SettingsManager.shared
+        settings.username = "iOSDev"
+        settings.setVolumeLevel(0.8)
+        SettingsManager.shared.saveSettings() // Or call save explicitly later
+
+        let currentVolume = SettingsManager.shared.getVolumeLevel()
+        print("Current volume retrieved: \(currentVolume)")
+
+        // Attempting to create a new instance fails:
+        // let anotherSettings = SettingsManager() // Error: 'SettingsManager' initializer is inaccessible due to 'private' protection level
+
     }
 }
