@@ -30,7 +30,8 @@ class MyUIKitViewController: UIViewController {
         view.backgroundColor = .systemBlue
         // Additional setup
         
-        runSimpleFactoryDemo()
+        //runSimpleFactoryDemo()
+        runFactoryMethodPatternDemo()
     }
     
     func runSimpleFactoryDemo() {
@@ -42,5 +43,15 @@ class MyUIKitViewController: UIViewController {
         let error = AlertFactory.createAlert(type: .error)
         error.show(title: "Operation Failed", message: "Network connection lost.")
 
+    }
+    
+    func runFactoryMethodPatternDemo() {
+        // Client Code
+        let consoleCreator: LoggerFactory = ConsoleLoggerFactory()
+        consoleCreator.logProcess(action: "User Login") // Uses ConsoleLogger
+
+        let fileCreator: LoggerFactory = FileLoggerFactory(logFilePath: "debug.log")
+        fileCreator.logProcess(action: "Data Sync") // Uses FileLogger
+        
     }
 }
