@@ -461,13 +461,13 @@ struct ConstructionSpendingView: View {
                     
                     // --- Fetch Action Buttons ---
                     Section(header: Text("Fetch Data").font(.headline)) {
-                        HStack(spacing: 15) { // Use HStack for button row layout
+                        HStack(spacing: 10) { // Use HStack for button row layout
                             Spacer() // Push buttons to center/right
                             
                             Button {
                                 dataService.fetchData(for: .bySection(section: selectedSection))
                             } label: {
-                                Label("By Section", systemImage: "chart.pie")
+                                Label("By Section", systemImage: "chart.pie").font(.caption)
                             }
                             .buttonStyle(.bordered)
                             .disabled(dataService.isLoading)
@@ -475,7 +475,7 @@ struct ConstructionSpendingView: View {
                             Button {
                                 dataService.fetchData(for: .bySectionAndSector(section: selectedSection, sector: selectedSector))
                             } label: {
-                                Label("By Section & Sector", systemImage: "chart.bar.xaxis")
+                                Label("By Section & Sector", systemImage: "chart.bar.xaxis").font(.caption)
                             }
                             .buttonStyle(.bordered)
                             .disabled(dataService.isLoading)
@@ -491,6 +491,7 @@ struct ConstructionSpendingView: View {
                             
                             Spacer() // Push buttons to center/left
                         }
+                        .padding(.vertical, 4) // Add vertical padding AROUND the HStack
                         
                         Button("Clear Results", role: .destructive) {
                             dataService.clearLocalData()
@@ -517,6 +518,15 @@ struct ConstructionSpendingView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
                         } else {
+                            // **** Display the count ABOVE the list ****
+                            Text("\(totalDataPoints) data point(s) found")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading) // Align left
+                                .padding(.horizontal) // Add some horizontal padding
+                                .padding(.bottom, 2) // Small space before list
+                            
+                            
                             List {
                                 // Iterate through each DTO (which represents a specific requested category)
                                 ForEach(dataService.spendingDataGroups) { dataGroup in
@@ -527,15 +537,15 @@ struct ConstructionSpendingView: View {
                                     }
                                 }
                             }
-                            // Add a count (consider counting total datums if more meaningful)
-                            .overlay(alignment: .bottom) {
-                                Text("\(totalDataPoints) data point(s) displayed")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .padding(.vertical, 4)
-                                    .frame(maxWidth: .infinity)
-                                    .background(.thinMaterial)
-                            }
+                            //                            // Add a count (consider counting total datums if more meaningful)
+                            //                            .overlay(alignment: .bottom) {
+                            //                                Text("\(totalDataPoints) data point(s) displayed")
+                            //                                    .font(.caption)
+                            //                                    .foregroundColor(.secondary)
+                            //                                    .padding(.vertical, 4)
+                            //                                    .frame(maxWidth: .infinity)
+                            //                                    .background(.thinMaterial)
+                            //                            }
                         }
                     }
                 } // End Form
@@ -568,17 +578,23 @@ struct SpendingDatumRow: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(datum.dataSectionName ?? "Unknown Section") // Display the category name
+            VStack(alignment: .leading, spacing: 2) { // Add spacing if needed
+                Text(datum.dataSectionName ?? "Unknown Section")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text("Period: \(datum.monthLabelType ?? datum.monthAndValueType ?? "N/A")") // Prefer formatted label
-                    .font(.subheadline)
+                Text("Period: \(datum.monthLabelType ?? datum.monthAndValueType ?? "N/A")")
+                    .font(.subheadline) // Consistent font size
+                    .lineLimit(1) // Prevent period wrapping if too long
             }
             Spacer()
-            Text(formatCurrency(datum.constructionSpendingValue)) // Format the value
-                .font(.headline)
+            Text(formatCurrency(datum.constructionSpendingValue))
+            // **** CHANGE FONT **** Use a smaller font that fits
+                .font(.subheadline.weight(.medium)) // Make it slightly bold but smaller than headline
+                .multilineTextAlignment(.trailing) // Ensure it aligns right
+                .lineLimit(1) // Prevent wrapping
+                .minimumScaleFactor(0.8) // Allow text to shrink slightly if needed
         }
+        .padding(.vertical, 4) // Add padding around the HStack content
     }
     
     // Currency formatter
