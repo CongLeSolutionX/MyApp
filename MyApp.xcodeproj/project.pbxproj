@@ -30,6 +30,7 @@
 		9A5A394B2D92896F00FAE312 /* PoolPrefixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5A394A2D92896A00FAE312 /* PoolPrefixView.swift */; };
 		9A7B33D72DC0520100BF8D58 /* LoanLimitsView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33D62DC0520000BF8D58 /* LoanLimitsView_V2.swift */; };
 		9A7B33DA2DC0554F00BF8D58 /* ConstructionSpendingView_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33D92DC0554D00BF8D58 /* ConstructionSpendingView_v2.swift */; };
+		9A7B33DC2DC0562400BF8D58 /* ConstructionSpendingView_v3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		9A5A394A2D92896A00FAE312 /* PoolPrefixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolPrefixView.swift; sourceTree = "<group>"; };
 		9A7B33D62DC0520000BF8D58 /* LoanLimitsView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanLimitsView_V2.swift; sourceTree = "<group>"; };
 		9A7B33D92DC0554D00BF8D58 /* ConstructionSpendingView_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v2.swift; sourceTree = "<group>"; };
+		9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v3.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			children = (
 				9A7B33D92DC0554D00BF8D58 /* ConstructionSpendingView_v2.swift */,
 				9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView_v1.swift */,
+				9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3.swift */,
 			);
 			path = ConstructionSpendingView;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				9A53CC1C2D8EA777004020E9 /* ConstructionSpendingView_v1.swift in Sources */,
 				9A53CC1E2D8F5359004020E9 /* EconomicIndicatorView.swift in Sources */,
 				9A51C1B62D911728008E455A /* LoanLimitsView_V1.swift in Sources */,
+				9A7B33DC2DC0562400BF8D58 /* ConstructionSpendingView_v3.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
