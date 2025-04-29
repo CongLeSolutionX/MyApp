@@ -18,7 +18,7 @@
 		9A51C1AE2D90EC33008E455A /* HERAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1AD2D90EC2E008E455A /* HERAView.swift */; };
 		9A51C1B02D90F2D0008E455A /* OpportunityZonesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1AF2D90F2C8008E455A /* OpportunityZonesView.swift */; };
 		9A51C1B42D911545008E455A /* IncomeLimitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1B32D91153E008E455A /* IncomeLimitsView.swift */; };
-		9A51C1B62D911728008E455A /* LoanLimitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1B52D911721008E455A /* LoanLimitsView.swift */; };
+		9A51C1B62D911728008E455A /* LoanLimitsView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1B52D911721008E455A /* LoanLimitsView_V1.swift */; };
 		9A51C1B82D912345008E455A /* ManufacturedHousingLoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A51C1B72D912341008E455A /* ManufacturedHousingLoansView.swift */; };
 		9A53CC1C2D8EA777004020E9 /* ConstructionSpendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */; };
 		9A53CC1E2D8F5359004020E9 /* EconomicIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */; };
@@ -28,6 +28,7 @@
 		9A53CC272D8F70BC004020E9 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 9A53CC262D8F70BC004020E9 /* ZipArchive */; };
 		9A5A39492D92857B00FAE312 /* NationalHousingSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5A39482D92857400FAE312 /* NationalHousingSurveyView.swift */; };
 		9A5A394B2D92896F00FAE312 /* PoolPrefixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5A394A2D92896A00FAE312 /* PoolPrefixView.swift */; };
+		9A7B33D72DC0520100BF8D58 /* LoanLimitsView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33D62DC0520000BF8D58 /* LoanLimitsView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -47,7 +48,7 @@
 		9A51C1AD2D90EC2E008E455A /* HERAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HERAView.swift; sourceTree = "<group>"; };
 		9A51C1AF2D90F2C8008E455A /* OpportunityZonesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunityZonesView.swift; sourceTree = "<group>"; };
 		9A51C1B32D91153E008E455A /* IncomeLimitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeLimitsView.swift; sourceTree = "<group>"; };
-		9A51C1B52D911721008E455A /* LoanLimitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanLimitsView.swift; sourceTree = "<group>"; };
+		9A51C1B52D911721008E455A /* LoanLimitsView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanLimitsView_V1.swift; sourceTree = "<group>"; };
 		9A51C1B72D912341008E455A /* ManufacturedHousingLoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManufacturedHousingLoansView.swift; sourceTree = "<group>"; };
 		9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView.swift; sourceTree = "<group>"; };
 		9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomicIndicatorView.swift; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		9A53CC282D8F7806004020E9 /* MyAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyAppRelease.entitlements; sourceTree = "<group>"; };
 		9A5A39482D92857400FAE312 /* NationalHousingSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalHousingSurveyView.swift; sourceTree = "<group>"; };
 		9A5A394A2D92896A00FAE312 /* PoolPrefixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoolPrefixView.swift; sourceTree = "<group>"; };
+		9A7B33D62DC0520000BF8D58 /* LoanLimitsView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanLimitsView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -84,7 +86,7 @@
 				9A5A394A2D92896A00FAE312 /* PoolPrefixView.swift */,
 				9A5A39482D92857400FAE312 /* NationalHousingSurveyView.swift */,
 				9A51C1B72D912341008E455A /* ManufacturedHousingLoansView.swift */,
-				9A51C1B52D911721008E455A /* LoanLimitsView.swift */,
+				9A7B33D52DC051E900BF8D58 /* LoanLimitsView */,
 				9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView.swift */,
 				9A53CC1D2D8F5358004020E9 /* EconomicIndicatorView.swift */,
 				9A53CC1F2D8F567D004020E9 /* HomeReadyEvaluationView.swift */,
@@ -110,6 +112,15 @@
 				9A51C1A12D8FFED7008E455A /* data2.csv */,
 			);
 			path = DataViewer;
+			sourceTree = "<group>";
+		};
+		9A7B33D52DC051E900BF8D58 /* LoanLimitsView */ = {
+			isa = PBXGroup;
+			children = (
+				9A51C1B52D911721008E455A /* LoanLimitsView_V1.swift */,
+				9A7B33D62DC0520000BF8D58 /* LoanLimitsView_V2.swift */,
+			);
+			path = LoanLimitsView;
 			sourceTree = "<group>";
 		};
 		9AAC416F2C74668B00AC0A60 = {
@@ -229,6 +240,7 @@
 			files = (
 				9A51C1A02D8FFCC6008E455A /* CSVChartView.swift in Sources */,
 				9A51C1AA2D90E4EE008E455A /* ConnecticutAvenueSecuritiesView.swift in Sources */,
+				9A7B33D72DC0520100BF8D58 /* LoanLimitsView_V2.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A51C1A42D9000A9008E455A /* CIRTData_ShortView.swift in Sources */,
 				9A51C1A62D906083008E455A /* CIRTData_LongView.swift in Sources */,
@@ -246,7 +258,7 @@
 				9A51C1B82D912345008E455A /* ManufacturedHousingLoansView.swift in Sources */,
 				9A53CC1C2D8EA777004020E9 /* ConstructionSpendingView.swift in Sources */,
 				9A53CC1E2D8F5359004020E9 /* EconomicIndicatorView.swift in Sources */,
-				9A51C1B62D911728008E455A /* LoanLimitsView.swift in Sources */,
+				9A51C1B62D911728008E455A /* LoanLimitsView_V1.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
