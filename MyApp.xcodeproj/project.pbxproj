@@ -32,6 +32,7 @@
 		9A7B33DA2DC0554F00BF8D58 /* ConstructionSpendingView_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33D92DC0554D00BF8D58 /* ConstructionSpendingView_v2.swift */; };
 		9A7B33DC2DC0562400BF8D58 /* ConstructionSpendingView_v3_Almost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3_Almost.swift */; };
 		9A7B33DE2DC0592500BF8D58 /* ConstructionSpendingView_v4_Lovely_work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33DD2DC0592500BF8D58 /* ConstructionSpendingView_v4_Lovely_work.swift */; };
+		9A7B33E02DC05C0D00BF8D58 /* ConstructionSpendingView_v5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7B33DF2DC05C0D00BF8D58 /* ConstructionSpendingView_v5.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		9A7B33D92DC0554D00BF8D58 /* ConstructionSpendingView_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v2.swift; sourceTree = "<group>"; };
 		9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3_Almost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v3_Almost.swift; sourceTree = "<group>"; };
 		9A7B33DD2DC0592500BF8D58 /* ConstructionSpendingView_v4_Lovely_work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v4_Lovely_work.swift; sourceTree = "<group>"; };
+		9A7B33DF2DC05C0D00BF8D58 /* ConstructionSpendingView_v5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructionSpendingView_v5.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				9A53CC1B2D8EA76F004020E9 /* ConstructionSpendingView_v1.swift */,
 				9A7B33DB2DC0562200BF8D58 /* ConstructionSpendingView_v3_Almost.swift */,
 				9A7B33DD2DC0592500BF8D58 /* ConstructionSpendingView_v4_Lovely_work.swift */,
+				9A7B33DF2DC05C0D00BF8D58 /* ConstructionSpendingView_v5.swift */,
 			);
 			path = ConstructionSpendingView;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A51C1B42D911545008E455A /* IncomeLimitsView.swift in Sources */,
 				9A53CC242D8F5D17004020E9 /* CIRTContentView.swift in Sources */,
+				9A7B33E02DC05C0D00BF8D58 /* ConstructionSpendingView_v5.swift in Sources */,
 				9A51C1B02D90F2D0008E455A /* OpportunityZonesView.swift in Sources */,
 				9A7B33DE2DC0592500BF8D58 /* ConstructionSpendingView_v4_Lovely_work.swift in Sources */,
 				9A53CC202D8F567E004020E9 /* HomeReadyEvaluationView.swift in Sources */,
