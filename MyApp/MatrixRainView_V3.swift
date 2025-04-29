@@ -136,35 +136,21 @@ struct MatrixRainView: View {
         }
         """
     }
-    
+    //TODO: Function needs fixed
     // Compiled shader instance
-    private var matrixShader: Shader {
-        // Using .dynamic allows embedding shader source directly. Requires iOS 17+ / macOS 14+
-        // Ensure the function name here matches the one in the shader string exactly.
-        ShaderLibrary.dynamic(name: "matrixRainShader", source: matrixRainShaderSource)!
-    }
+//    private var matrixShader: Shader {
+//        // Using .dynamic allows embedding shader source directly. Requires iOS 17+ / macOS 14+
+//        // Ensure the function name here matches the one in the shader string exactly.
+//        //ShaderLibrary.dynamic(name: "matrixRainShader", source: matrixRainShaderSource)!
+//
+//    }
     
     var body: some View {
         // TimelineView drives the animation updates
         TimelineView(.animation(minimumInterval: updateInterval, paused: false)) { context in
             Rectangle() // The view area where the shader will draw
                 .ignoresSafeArea() // Fill the entire screen
-                .colorEffect( // Apply the shader effect
-                    matrixShader, // The compiled shader object
-                    // === Corrected Argument Passing ===
-                    // Pass arguments directly after the shader.
-                    // Use Shader.Argument wrappers.
-                    // The ORDER must EXACTLY match the shader function's parameters
-                    // (after the implicit 'pos', 'color', 'bounds').
-                    Shader.Argument.float(Float(context.date.timeIntervalSinceReferenceDate)), // -> currentTime (param 4)
-                    Shader.Argument.float2(glyphSize),       // -> glyphSize (param 5)
-                    Shader.Argument.float(minSpeed),         // -> minSpeed (param 6)
-                    Shader.Argument.float(maxSpeed),         // -> maxSpeed (param 7)
-                    Shader.Argument.float(tailLength),       // -> tailLength (param 8)
-                    Shader.Argument.float3(baseGreen),       // -> baseGreen (param 9)
-                    Shader.Argument.float3(highlightColor)   // -> highlightColor (param 10)
-                    // === End of Arguments ===
-                )
+                .colorEffect(matrixShader, isEnabled: true)
             // Update state on each frame (alternative to context.date if needed)
             // .onChange(of: context.date) { _, newDate in
             //     elapsedTime = newDate.timeIntervalSinceReferenceDate
