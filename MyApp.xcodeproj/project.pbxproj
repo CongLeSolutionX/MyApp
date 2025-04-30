@@ -14,6 +14,7 @@
 		9A166AF22DC1AEF90031BCA5 /* ComprehensiveView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AF12DC1AEF70031BCA5 /* ComprehensiveView_V2.swift */; };
 		9A166AF42DC1AFE20031BCA5 /* ComprehensiveView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AF32DC1AFE00031BCA5 /* ComprehensiveView_V3.swift */; };
 		9A166AF62DC1B1000031BCA5 /* ComprehensiveView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AF52DC1B0FE0031BCA5 /* ComprehensiveView_V4.swift */; };
+		9A166AF82DC1B26E0031BCA5 /* ComprehensiveView_V5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AF72DC1B26C0031BCA5 /* ComprehensiveView_V5.swift */; };
 		9A4ADDA52DC0B3CC0022A209 /* HarmonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */; };
 		9A4ADDA72DC0B3FA0022A209 /* HarmonicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */; };
 		9A4ADDA92DC0B8390022A209 /* ContentView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */; };
@@ -32,6 +33,7 @@
 		9A166AF12DC1AEF70031BCA5 /* ComprehensiveView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V2.swift; sourceTree = "<group>"; };
 		9A166AF32DC1AFE00031BCA5 /* ComprehensiveView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V3.swift; sourceTree = "<group>"; };
 		9A166AF52DC1B0FE0031BCA5 /* ComprehensiveView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V4.swift; sourceTree = "<group>"; };
+		9A166AF72DC1B26C0031BCA5 /* ComprehensiveView_V5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView_V5.swift; sourceTree = "<group>"; };
 		9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonicButton.swift; sourceTree = "<group>"; };
 		9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = HarmonicShaders.metal; sourceTree = "<group>"; };
 		9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_V2.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				9A166AEF2DC1AD810031BCA5 /* ComprehensiveView_V1.swift */,
 				9A166AF32DC1AFE00031BCA5 /* ComprehensiveView_V3.swift */,
 				9A166AF52DC1B0FE0031BCA5 /* ComprehensiveView_V4.swift */,
+				9A166AF72DC1B26C0031BCA5 /* ComprehensiveView_V5.swift */,
 				9A166AEE2DC1A67E0031BCA5 /* HarmonicShaders */,
 				9A166AED2DC1A66C0031BCA5 /* RippleView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -200,6 +203,7 @@
 				9A166AF42DC1AFE20031BCA5 /* ComprehensiveView_V3.swift in Sources */,
 				9A4ADDA72DC0B3FA0022A209 /* HarmonicShaders.metal in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView_V1.swift in Sources */,
+				9A166AF82DC1B26E0031BCA5 /* ComprehensiveView_V5.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
