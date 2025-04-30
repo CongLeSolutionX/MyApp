@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A166AE82DC1A5280031BCA5 /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AE72DC1A5240031BCA5 /* RippleView.swift */; };
+		9A166AEA2DC1A5A10031BCA5 /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AE92DC1A5A00031BCA5 /* Ripple.metal */; };
 		9A4ADDA52DC0B3CC0022A209 /* HarmonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */; };
 		9A4ADDA72DC0B3FA0022A209 /* HarmonicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */; };
 		9A4ADDA92DC0B8390022A209 /* ContentView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		9A166AE72DC1A5240031BCA5 /* RippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleView.swift; sourceTree = "<group>"; };
+		9A166AE92DC1A5A00031BCA5 /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
 		9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonicButton.swift; sourceTree = "<group>"; };
 		9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = HarmonicShaders.metal; sourceTree = "<group>"; };
 		9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_V2.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */,
 				9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */,
+				9A166AE92DC1A5A00031BCA5 /* Ripple.metal */,
 				9A166AE72DC1A5240031BCA5 /* RippleView.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A4ADDA52DC0B3CC0022A209 /* HarmonicButton.swift in Sources */,
+				9A166AEA2DC1A5A10031BCA5 /* Ripple.metal in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A166AE82DC1A5280031BCA5 /* RippleView.swift in Sources */,
 				9A4ADDA92DC0B8390022A209 /* ContentView_V2.swift in Sources */,
