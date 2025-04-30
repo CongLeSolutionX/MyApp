@@ -900,6 +900,9 @@ struct ContentView: View {
         }
     }
 }
+#Preview("ContentView") {
+    ContentView()
+}
 
 // MARK: - App Entry Point -
 
