@@ -129,9 +129,9 @@ struct MetalDocsSwiftUIView: View {
                             availability: "iOS 10.0+",
                             conformances: ["UInt", "@unchecked Sendable"],
                             cases: [
-                                EnumCaseView(name: "none", value: "0"),
-                                EnumCaseView(name: "triangle", value: "1"),
-                                EnumCaseView(name: "quad", value: "2")
+                                EnumCaseView(name: "none", value: "0", availability: nil, deprecated: nil),
+                                EnumCaseView(name: "triangle", value: "1", availability: nil, deprecated: nil),
+                                EnumCaseView(name: "quad", value: "2", availability: nil, deprecated: nil)
                             ]
                         )
                         SeparatorView()
@@ -140,13 +140,13 @@ struct MetalDocsSwiftUIView: View {
                             availability: "iOS 8.0+",
                             conformances: ["UInt", "@unchecked Sendable"],
                             cases: [
-                                EnumCaseView(name: "vertex", value: "1"),
-                                EnumCaseView(name: "fragment", value: "2"),
-                                EnumCaseView(name: "kernel", value: "3"),
-                                EnumCaseView(name: "visible", value: "5" , availability: "iOS 14.0+"),
-                                EnumCaseView(name: "intersection", value: "6", availability: "iOS 14.0+"),
-                                EnumCaseView(name: "mesh", value: "7", availability: "iOS 16.0+"),
-                                EnumCaseView(name: "object", value: "8", availability: "iOS 16.0+")
+                                EnumCaseView(name: "vertex", value: "1", availability: nil, deprecated: nil),
+                                EnumCaseView(name: "fragment", value: "2", availability: nil, deprecated: nil),
+                                EnumCaseView(name: "kernel", value: "3", availability: nil, deprecated: nil),
+                                EnumCaseView(name: "visible", value: "5" , availability: "iOS 14.0+", deprecated: nil),
+                                EnumCaseView(name: "intersection", value: "6", availability: "iOS 14.0+", deprecated: nil),
+                                EnumCaseView(name: "mesh", value: "7", availability: "iOS 16.0+", deprecated: nil),
+                                EnumCaseView(name: "object", value: "8", availability: "iOS 16.0+", deprecated: nil)
                             ]
                         )
                         SeparatorView()
@@ -156,16 +156,16 @@ struct MetalDocsSwiftUIView: View {
                             conformances: ["UInt", "@unchecked Sendable"],
                             cases: [
                                 EnumCaseView(name: "version1_0", value: "65536", availability: "iOS 9.0+", deprecated: "16.0: Use newer standard"),
-                                EnumCaseView(name: "version1_1", value: "65537", availability: "iOS 9.0+"),
-                                EnumCaseView(name: "version1_2", value: "65538", availability: "iOS 10.0+"),
-                                EnumCaseView(name: "version2_0", value: "131072", availability: "iOS 11.0+"),
-                                EnumCaseView(name: "version2_1", value: "131073", availability: "iOS 12.0+"),
-                                EnumCaseView(name: "version2_2", value: "131074", availability: "iOS 13.0+"),
-                                EnumCaseView(name: "version2_3", value: "131075", availability: "iOS 14.0+"),
-                                EnumCaseView(name: "version2_4", value: "131076", availability: "iOS 15.0+"),
-                                EnumCaseView(name: "version3_0", value: "196608", availability: "iOS 16.0+"),
-                                EnumCaseView(name: "version3_1", value: "196609", availability: "iOS 17.0+"),
-                                EnumCaseView(name: "version3_2", value: "196610", availability: "iOS 18.0+")
+                                EnumCaseView(name: "version1_1", value: "65537", availability: "iOS 9.0+", deprecated: nil),
+                                EnumCaseView(name: "version1_2", value: "65538", availability: "iOS 10.0+", deprecated: nil),
+                                EnumCaseView(name: "version2_0", value: "131072", availability: "iOS 11.0+", deprecated: nil),
+                                EnumCaseView(name: "version2_1", value: "131073", availability: "iOS 12.0+", deprecated: nil),
+                                EnumCaseView(name: "version2_2", value: "131074", availability: "iOS 13.0+", deprecated: nil),
+                                EnumCaseView(name: "version2_3", value: "131075", availability: "iOS 14.0+", deprecated: nil),
+                                EnumCaseView(name: "version2_4", value: "131076", availability: "iOS 15.0+", deprecated: nil),
+                                EnumCaseView(name: "version3_0", value: "196608", availability: "iOS 16.0+", deprecated: nil),
+                                EnumCaseView(name: "version3_1", value: "196609", availability: "iOS 17.0+", deprecated: nil),
+                                EnumCaseView(name: "version3_2", value: "196610", availability: "iOS 18.0+", deprecated: nil)
                             ]
                         )
                         SeparatorView()
@@ -175,8 +175,8 @@ struct MetalDocsSwiftUIView: View {
                              availability: "iOS 14.0+",
                              conformances: ["Int", "@unchecked Sendable"],
                              cases: [
-                                 EnumCaseView(name: "executable", value: "0"),
-                                 EnumCaseView(name: "dynamic", value: "1")
+                                 EnumCaseView(name: "executable", value: "0", availability: nil, deprecated: nil),
+                                 EnumCaseView(name: "dynamic", value: "1", availability: nil, deprecated: nil)
                              ]
                          )
                          SeparatorView()
@@ -185,8 +185,8 @@ struct MetalDocsSwiftUIView: View {
                              availability: "iOS 16.0+",
                              conformances: ["Int", "@unchecked Sendable"],
                              cases: [
-                                 EnumCaseView(name: "default", value: "0"),
-                                 EnumCaseView(name: "size", value: "1")
+                                 EnumCaseView(name: "default", value: "0", availability: nil, deprecated: nil),
+                                 EnumCaseView(name: "size", value: "1", availability: nil, deprecated: nil)
                              ]
                          )
                          SeparatorView()
@@ -195,8 +195,8 @@ struct MetalDocsSwiftUIView: View {
                              availability: "iOS 16.4+",
                              conformances: ["Int", "@unchecked Sendable"],
                              cases: [
-                                 EnumCaseView(name: "default", value: "0"),
-                                 EnumCaseView(name: "hidden", value: "1")
+                                 EnumCaseView(name: "default", value: "0", availability: nil, deprecated: nil),
+                                 EnumCaseView(name: "hidden", value: "1", availability: nil, deprecated: nil)
                              ]
                          )
                          SeparatorView()
@@ -205,9 +205,9 @@ struct MetalDocsSwiftUIView: View {
                              availability: "iOS 18.0+ (via usage)",
                              conformances: ["Int", "@unchecked Sendable"],
                              cases: [
-                                 EnumCaseView(name: "safe", value: "0"),
-                                 EnumCaseView(name: "relaxed", value: "1"),
-                                 EnumCaseView(name: "fast", value: "2")
+                                 EnumCaseView(name: "safe", value: "0", availability: nil, deprecated: nil),
+                                 EnumCaseView(name: "relaxed", value: "1", availability: nil, deprecated: nil),
+                                 EnumCaseView(name: "fast", value: "2", availability: nil, deprecated: nil)
                            ]
                          )
                          SeparatorView()
@@ -216,8 +216,8 @@ struct MetalDocsSwiftUIView: View {
                               availability: "iOS 18.0+ (via usage)",
                               conformances: ["Int", "@unchecked Sendable"],
                               cases: [
-                                  EnumCaseView(name: "fast", value: "0"),
-                                  EnumCaseView(name: "precise", value: "1")
+                                  EnumCaseView(name: "fast", value: "0", availability: nil, deprecated: nil),
+                                  EnumCaseView(name: "precise", value: "1", availability: nil, deprecated: nil)
                             ]
                           )
                     }
@@ -231,12 +231,12 @@ struct MetalDocsSwiftUIView: View {
                            availability: "iOS 8.0+",
                            inheritance: ["NSObject"],
                            properties: [
-                               PropertyView(name: "name", type: "String { get }"),
-                               PropertyView(name: "attributeIndex", type: "Int { get }"),
-                               PropertyView(name: "attributeType", type: "MTLDataType { get }", availability: "iOS 8.3+"),
-                               PropertyView(name: "isActive", type: "Bool { get }"),
-                               PropertyView(name: "isPatchData", type: "Bool { get }", availability: "iOS 10.0+"),
-                               PropertyView(name: "isPatchControlPointData", type: "Bool { get }", availability: "iOS 10.0+")
+                               PropertyView(name: "name", type: "String { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "attributeIndex", type: "Int { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "attributeType", type: "MTLDataType { get }", availability: "iOS 8.3+", deprecated: nil),
+                               PropertyView(name: "isActive", type: "Bool { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "isPatchData", type: "Bool { get }", availability: "iOS 10.0+", deprecated: nil),
+                               PropertyView(name: "isPatchControlPointData", type: "Bool { get }", availability: "iOS 10.0+", deprecated: nil)
                            ],
                            methods: []
                        )
@@ -246,12 +246,12 @@ struct MetalDocsSwiftUIView: View {
                            availability: "iOS 10.0+",
                            inheritance: ["NSObject"],
                            properties: [
-                               PropertyView(name: "name", type: "String { get }"),
-                               PropertyView(name: "attributeIndex", type: "Int { get }"),
-                               PropertyView(name: "attributeType", type: "MTLDataType { get }"),
-                               PropertyView(name: "isActive", type: "Bool { get }"),
-                               PropertyView(name: "isPatchData", type: "Bool { get }", availability: "iOS 10.0+"),
-                               PropertyView(name: "isPatchControlPointData", type: "Bool { get }", availability: "iOS 10.0+")
+                               PropertyView(name: "name", type: "String { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "attributeIndex", type: "Int { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "attributeType", type: "MTLDataType { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "isActive", type: "Bool { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "isPatchData", type: "Bool { get }", availability: "iOS 10.0+", deprecated: nil),
+                               PropertyView(name: "isPatchControlPointData", type: "Bool { get }", availability: "iOS 10.0+", deprecated: nil)
                            ],
                            methods: []
                        )
@@ -261,10 +261,10 @@ struct MetalDocsSwiftUIView: View {
                            availability: "iOS 10.0+",
                            inheritance: ["NSObject"],
                            properties: [
-                               PropertyView(name: "name", type: "String { get }"),
-                               PropertyView(name: "type", type: "MTLDataType { get }"),
-                               PropertyView(name: "index", type: "Int { get }"),
-                               PropertyView(name: "required", type: "Bool { get }")
+                               PropertyView(name: "name", type: "String { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "type", type: "MTLDataType { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "index", type: "Int { get }", availability: nil, deprecated: nil),
+                               PropertyView(name: "required", type: "Bool { get }", availability: nil, deprecated: nil)
                            ],
                            methods: []
                        )
@@ -274,20 +274,20 @@ struct MetalDocsSwiftUIView: View {
                             availability: "iOS 8.0+",
                             inheritance: ["NSObject", "NSCopying"],
                             properties: [
-                                PropertyView(name: "preprocessorMacros", type: "[String : NSObject]? { get set }"),
+                                PropertyView(name: "preprocessorMacros", type: "[String : NSObject]? { get set }", availability: nil, deprecated: nil),
                                 PropertyView(name: "fastMathEnabled", type: "Bool { get set }", availability: "iOS 8.0+", deprecated: "18.0: Use mathMode"),
-                                PropertyView(name: "mathMode", type: "MTLMathMode { get set }", availability: "iOS 18.0+"),
-                                PropertyView(name: "mathFloatingPointFunctions", type: "MTLMathFloatingPointFunctions { get set }", availability: "iOS 18.0+"),
-                                PropertyView(name: "languageVersion", type: "MTLLanguageVersion { get set }", availability: "iOS 9.0+"),
-                                PropertyView(name: "libraryType", type: "MTLLibraryType { get set }", availability: "iOS 14.0+"),
-                                PropertyView(name: "installName", type: "String? { get set }", availability: "iOS 14.0+"),
-                                PropertyView(name: "libraries", type: "[any MTLDynamicLibrary]? { get set }", availability: "iOS 14.0+"),
-                                PropertyView(name: "preserveInvariance", type: "Bool { get set }", availability: "iOS 14.0+"),
-                                PropertyView(name: "optimizationLevel", type: "MTLLibraryOptimizationLevel { get set }", availability: "iOS 16.0+"),
-                                PropertyView(name: "compileSymbolVisibility", type: "MTLCompileSymbolVisibility { get set }", availability: "iOS 16.4+"),
-                                PropertyView(name: "allowReferencingUndefinedSymbols", type: "Bool { get set }", availability: "iOS 16.4+"),
-                                PropertyView(name: "maxTotalThreadsPerThreadgroup", type: "Int { get set }", availability: "iOS 16.4+"),
-                                PropertyView(name: "enableLogging", type: "Bool { get set }", availability: "iOS 18.0+")
+                                PropertyView(name: "mathMode", type: "MTLMathMode { get set }", availability: "iOS 18.0+", deprecated: nil),
+                                PropertyView(name: "mathFloatingPointFunctions", type: "MTLMathFloatingPointFunctions { get set }", availability: "iOS 18.0+", deprecated: nil),
+                                PropertyView(name: "languageVersion", type: "MTLLanguageVersion { get set }", availability: "iOS 9.0+", deprecated: nil),
+                                PropertyView(name: "libraryType", type: "MTLLibraryType { get set }", availability: "iOS 14.0+", deprecated: nil),
+                                PropertyView(name: "installName", type: "String? { get set }", availability: "iOS 14.0+", deprecated: nil),
+                                PropertyView(name: "libraries", type: "[any MTLDynamicLibrary]? { get set }", availability: "iOS 14.0+", deprecated: nil),
+                                PropertyView(name: "preserveInvariance", type: "Bool { get set }", availability: "iOS 14.0+", deprecated: nil),
+                                PropertyView(name: "optimizationLevel", type: "MTLLibraryOptimizationLevel { get set }", availability: "iOS 16.0+", deprecated: nil),
+                                PropertyView(name: "compileSymbolVisibility", type: "MTLCompileSymbolVisibility { get set }", availability: "iOS 16.4+", deprecated: nil),
+                                PropertyView(name: "allowReferencingUndefinedSymbols", type: "Bool { get set }", availability: "iOS 16.4+", deprecated: nil),
+                                PropertyView(name: "maxTotalThreadsPerThreadgroup", type: "Int { get set }", availability: "iOS 16.4+", deprecated: nil),
+                                PropertyView(name: "enableLogging", type: "Bool { get set }", availability: "iOS 18.0+", deprecated: nil)
                             ],
                             methods: [] // No methods specifically listed in snippet
                        )
@@ -302,20 +302,20 @@ struct MetalDocsSwiftUIView: View {
                             availability: "iOS 8.0+",
                             inheritance: ["NSObjectProtocol"],
                             properties: [
-                                PropertyView(name: "label", type: "String? { get set }", availability: "iOS 10.0+"),
-                                PropertyView(name: "device", type: "any MTLDevice { get }"),
-                                PropertyView(name: "functionType", type: "MTLFunctionType { get }"),
-                                PropertyView(name: "patchType", type: "MTLPatchType { get }", availability: "iOS 10.0+"),
-                                PropertyView(name: "patchControlPointCount", type: "Int { get }", availability: "iOS 10.0+"),
-                                PropertyView(name: "vertexAttributes", type: "[MTLVertexAttribute]? { get }"),
-                                PropertyView(name: "stageInputAttributes", type: "[MTLAttribute]? { get }", availability: "iOS 10.0+"),
-                                PropertyView(name: "name", type: "String { get }"),
-                                PropertyView(name: "functionConstantsDictionary", type: "[String : MTLFunctionConstant] { get }", availability: "iOS 10.0+"),
-                                PropertyView(name: "options", type: "MTLFunctionOptions { get }", availability: "iOS 14.0+")
+                                PropertyView(name: "label", type: "String? { get set }", availability: "iOS 10.0+", deprecated: nil),
+                                PropertyView(name: "device", type: "any MTLDevice { get }", availability: nil, deprecated: nil),
+                                PropertyView(name: "functionType", type: "MTLFunctionType { get }", availability: nil, deprecated: nil),
+                                PropertyView(name: "patchType", type: "MTLPatchType { get }", availability: "iOS 10.0+", deprecated: nil),
+                                PropertyView(name: "patchControlPointCount", type: "Int { get }", availability: "iOS 10.0+", deprecated: nil),
+                                PropertyView(name: "vertexAttributes", type: "[MTLVertexAttribute]? { get }", availability: nil, deprecated: nil),
+                                PropertyView(name: "stageInputAttributes", type: "[MTLAttribute]? { get }", availability: "iOS 10.0+", deprecated: nil),
+                                PropertyView(name: "name", type: "String { get }", availability: nil, deprecated: nil),
+                                PropertyView(name: "functionConstantsDictionary", type: "[String : MTLFunctionConstant] { get }", availability: "iOS 10.0+", deprecated: nil),
+                                PropertyView(name: "options", type: "MTLFunctionOptions { get }", availability: "iOS 14.0+", deprecated: nil)
                             ],
                             methods: [
                                 // Group similar methods if desired
-                                MethodView(signature: "makeArgumentEncoder(bufferIndex: Int) -> any MTLArgumentEncoder", availability: "iOS 11.0+"),
+                                MethodView(signature: "makeArgumentEncoder(bufferIndex: Int) -> any MTLArgumentEncoder", availability: "iOS 11.0+", deprecated: nil),
                                 MethodView(signature: "makeArgumentEncoder(bufferIndex: Int, reflection: AutoreleasingUnsafeMutablePointer<...>?) -> any MTLArgumentEncoder", availability: "iOS 11.0+", deprecated: "16.0: Use MTLDevice's newArgumentEncoderWithBufferBinding:")
                             ]
                         )
@@ -325,23 +325,23 @@ struct MetalDocsSwiftUIView: View {
                              availability: "iOS 8.0+",
                              inheritance: ["NSObjectProtocol"],
                              properties: [
-                                 PropertyView(name: "label", type: "String? { get set }"),
-                                 PropertyView(name: "device", type: "any MTLDevice { get }"),
-                                 PropertyView(name: "functionNames", type: "[String] { get }"),
-                                 PropertyView(name: "type", type: "MTLLibraryType { get }", availability: "iOS 14.0+"),
-                                 PropertyView(name: "installName", type: "String? { get }", availability: "iOS 14.0+")
+                                 PropertyView(name: "label", type: "String? { get set }", availability: nil, deprecated: nil),
+                                 PropertyView(name: "device", type: "any MTLDevice { get }", availability: nil, deprecated: nil),
+                                 PropertyView(name: "functionNames", type: "[String] { get }", availability: nil, deprecated: nil),
+                                 PropertyView(name: "type", type: "MTLLibraryType { get }", availability: "iOS 14.0+", deprecated: nil),
+                                 PropertyView(name: "installName", type: "String? { get }", availability: "iOS 14.0+", deprecated: nil)
                              ],
                              methods: [
-                                 MethodView(signature: "makeFunction(name: String) -> (any MTLFunction)?"),
-                                 MethodView(signature: "makeFunction(name: String, constantValues: MTLFunctionConstantValues) throws -> any MTLFunction", availability: "iOS 10.0+"),
-                                 MethodView(signature: "makeFunction(name: String, constantValues: ..., completionHandler: @escaping ((any MTLFunction)?, Error?) -> Void)", availability: "iOS 10.0+"),
-                                 MethodView(signature: "makeFunction(name: String, constantValues: ...) async throws -> any MTLFunction", availability: "iOS 10.0+"),
-                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor, completionHandler: @escaping (...))", availability: "iOS 14.0+"),
-                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor) async throws -> any MTLFunction", availability: "iOS 14.0+"),
-                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor) throws -> any MTLFunction", availability: "iOS 14.0+"),
-                                 MethodView(signature: "makeIntersectionFunction(descriptor: ..., completionHandler: @escaping (...))", availability: "iOS 14.0+"),
-                                 MethodView(signature: "makeIntersectionFunction(descriptor: ...) async throws -> any MTLFunction", availability: "iOS 14.0+"),
-                                 MethodView(signature: "makeIntersectionFunction(descriptor: ...) throws -> any MTLFunction", availability: "iOS 14.0+")
+                                 MethodView(signature: "makeFunction(name: String) -> (any MTLFunction)?", availability: nil, deprecated: nil),
+                                 MethodView(signature: "makeFunction(name: String, constantValues: MTLFunctionConstantValues) throws -> any MTLFunction", availability: "iOS 10.0+", deprecated: nil),
+                                 MethodView(signature: "makeFunction(name: String, constantValues: ..., completionHandler: @escaping ((any MTLFunction)?, Error?) -> Void)", availability: "iOS 10.0+", deprecated: nil),
+                                 MethodView(signature: "makeFunction(name: String, constantValues: ...) async throws -> any MTLFunction", availability: "iOS 10.0+", deprecated: nil),
+                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor, completionHandler: @escaping (...))", availability: "iOS 14.0+", deprecated: nil),
+                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor) async throws -> any MTLFunction", availability: "iOS 14.0+", deprecated: nil),
+                                 MethodView(signature: "makeFunction(descriptor: MTLFunctionDescriptor) throws -> any MTLFunction", availability: "iOS 14.0+", deprecated: nil),
+                                 MethodView(signature: "makeIntersectionFunction(descriptor: ..., completionHandler: @escaping (...))", availability: "iOS 14.0+", deprecated: nil),
+                                 MethodView(signature: "makeIntersectionFunction(descriptor: ...) async throws -> any MTLFunction", availability: "iOS 14.0+", deprecated: nil),
+                                 MethodView(signature: "makeIntersectionFunction(descriptor: ...) throws -> any MTLFunction", availability: "iOS 14.0+", deprecated: nil)
                              ]
                         )
                     } // VStack
@@ -362,12 +362,12 @@ struct MetalDocsSwiftUIView: View {
                              conformances: ["CustomNSError", "Hashable", "Error"],
                              properties: [
                                  // Implied properties from protocols
-                                 PropertyView(name: "errorCode", type: "Int { get } (via CustomNSError)"),
-                                 PropertyView(name: "errorUserInfo", type: "[String : Any] { get } (via CustomNSError)"),
-                                 PropertyView(name: "localizedDescription", type:"String { get } (via Error)")
+                                 PropertyView(name: "errorCode", type: "Int { get } (via CustomNSError)", availability: nil, deprecated: nil),
+                                 PropertyView(name: "errorUserInfo", type: "[String : Any] { get } (via CustomNSError)", availability: nil, deprecated: nil),
+                                 PropertyView(name: "localizedDescription", type:"String { get } (via Error)", availability: nil, deprecated: nil)
                              ],
                              methods: [
-                                 MethodView(signature: "init(_nsError: NSError)")
+                                 MethodView(signature: "init(_nsError: NSError)", availability: nil, deprecated: nil)
                              ],
                              nestedTypes: [
                                  AnyView( // Use AnyView for type erasure
@@ -376,12 +376,12 @@ struct MetalDocsSwiftUIView: View {
                                          availability: "iOS 8.0+",
                                          conformances: ["UInt", "@unchecked Sendable", "Equatable"],
                                          cases: [
-                                             EnumCaseView(name: "unsupported", value: "1"),
-                                             EnumCaseView(name: "internal", value: "2"),
-                                             EnumCaseView(name: "compileFailure", value: "3"),
-                                             EnumCaseView(name: "compileWarning", value: "4"),
-                                             EnumCaseView(name: "functionNotFound", value: "5", availability: "iOS 10.0+"),
-                                             EnumCaseView(name: "fileNotFound", value: "6", availability: "iOS 10.0+")
+                                             EnumCaseView(name: "unsupported", value: "1", availability: nil, deprecated: nil),
+                                             EnumCaseView(name: "internal", value: "2", availability: nil, deprecated: nil),
+                                             EnumCaseView(name: "compileFailure", value: "3", availability: nil, deprecated: nil),
+                                             EnumCaseView(name: "compileWarning", value: "4", availability: nil, deprecated: nil),
+                                             EnumCaseView(name: "functionNotFound", value: "5", availability: "iOS 10.0+", deprecated: nil),
+                                             EnumCaseView(name: "fileNotFound", value: "6", availability: "iOS 10.0+", deprecated: nil)
                                          ]
                                      )
                                      .padding(.leading) // Indent nested type
