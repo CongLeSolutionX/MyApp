@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9A166AE82DC1A5280031BCA5 /* RippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AE72DC1A5240031BCA5 /* RippleView.swift */; };
 		9A166AEA2DC1A5A10031BCA5 /* Ripple.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AE92DC1A5A00031BCA5 /* Ripple.metal */; };
+		9A166AEC2DC1A65D0031BCA5 /* ContentView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AEB2DC1A65D0031BCA5 /* ContentView_V3.swift */; };
+		9A166AF02DC1AD890031BCA5 /* ComprehensiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A166AEF2DC1AD810031BCA5 /* ComprehensiveView.swift */; };
 		9A4ADDA52DC0B3CC0022A209 /* HarmonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */; };
 		9A4ADDA72DC0B3FA0022A209 /* HarmonicShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */; };
 		9A4ADDA92DC0B8390022A209 /* ContentView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		9A166AE72DC1A5240031BCA5 /* RippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleView.swift; sourceTree = "<group>"; };
 		9A166AE92DC1A5A00031BCA5 /* Ripple.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ripple.metal; sourceTree = "<group>"; };
+		9A166AEB2DC1A65D0031BCA5 /* ContentView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_V3.swift; sourceTree = "<group>"; };
+		9A166AEF2DC1AD810031BCA5 /* ComprehensiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensiveView.swift; sourceTree = "<group>"; };
 		9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarmonicButton.swift; sourceTree = "<group>"; };
 		9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = HarmonicShaders.metal; sourceTree = "<group>"; };
 		9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_V2.swift; sourceTree = "<group>"; };
@@ -45,6 +49,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A166AED2DC1A66C0031BCA5 /* RippleView */ = {
+			isa = PBXGroup;
+			children = (
+				9A166AE92DC1A5A00031BCA5 /* Ripple.metal */,
+				9A166AE72DC1A5240031BCA5 /* RippleView.swift */,
+			);
+			path = RippleView;
+			sourceTree = "<group>";
+		};
+		9A166AEE2DC1A67E0031BCA5 /* HarmonicShaders */ = {
+			isa = PBXGroup;
+			children = (
+				9AAC417D2C74668B00AC0A60 /* ContentView_V1.swift */,
+				9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */,
+				9A166AEB2DC1A65D0031BCA5 /* ContentView_V3.swift */,
+				9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */,
+				9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */,
+			);
+			path = HarmonicShaders;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -65,13 +90,10 @@
 			isa = PBXGroup;
 			children = (
 				9AAC417B2C74668B00AC0A60 /* MyApp.swift */,
-				9AAC417D2C74668B00AC0A60 /* ContentView_V1.swift */,
-				9A4ADDA82DC0B8370022A209 /* ContentView_V2.swift */,
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
-				9A4ADDA42DC0B3CA0022A209 /* HarmonicButton.swift */,
-				9A4ADDA62DC0B3F90022A209 /* HarmonicShaders.metal */,
-				9A166AE92DC1A5A00031BCA5 /* Ripple.metal */,
-				9A166AE72DC1A5240031BCA5 /* RippleView.swift */,
+				9A166AEF2DC1AD810031BCA5 /* ComprehensiveView.swift */,
+				9A166AEE2DC1A67E0031BCA5 /* HarmonicShaders */,
+				9A166AED2DC1A66C0031BCA5 /* RippleView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -158,7 +180,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A4ADDA52DC0B3CC0022A209 /* HarmonicButton.swift in Sources */,
+				9A166AF02DC1AD890031BCA5 /* ComprehensiveView.swift in Sources */,
 				9A166AEA2DC1A5A10031BCA5 /* Ripple.metal in Sources */,
+				9A166AEC2DC1A65D0031BCA5 /* ContentView_V3.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A166AE82DC1A5280031BCA5 /* RippleView.swift in Sources */,
 				9A4ADDA92DC0B8390022A209 /* ContentView_V2.swift in Sources */,
