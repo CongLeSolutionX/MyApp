@@ -482,10 +482,10 @@ struct IcosahedronView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-     return PreviewPlaceholder() // <-- Use Placeholder
+     //return PreviewPlaceholder() // <-- Use Placeholder
 
     // Option 2: Attempt Live Metal Preview (Uncomment below, comment above)
-    // return IcosahedronView()
+    return IcosahedronView()
 }
 
 // MARK: - Matrix Math Helper Functions (using SIMD)
