@@ -192,76 +192,27 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
     /// Total indices = 36 triangles * 3 indices/triangle = 108 indices.
     /// Indices reference the `vertices` array above. Winding is counter-clockwise from outside.
     let indices: [UInt16] = [
-        // Face 1 (Vertices: 0, 8, 9, 4, 16) -> Triangles: (0,8,9), (0,9,4), (0,4,16)
-        0, 8, 9,   0, 9, 4,   0, 4, 16,
-        // Face 2 (Vertices: 0, 16, 18, 3, 12) -> Triangles: (0,16,18), (0,18,3), (0,3,12)
-        0, 16, 18,   0, 18, 3,   0, 3, 12,
-        // Face 3 (Vertices: 0, 12, 13, 1, 8) -> Triangles: (0,12,13), (0,13,1), (0,1,8)
-        0, 12, 13,   0, 13, 1,   0, 1, 8,
-        // Face 4 (Vertices: 1, 13, 17, 19, 11) - Reordered to start vertex 1: (1, 13, 17), (1, 17, 5) is wrong. Check vertices.
-        // Correct vertices for face involving vertex 1 (Green): 1(Green), 13(Lime), 17(Salmon), 5(Cyan), 8(White)? No, must connect.
-        // Use standard definition: Face associated with vertex 1: (1, 13, 2, 10, 11)? No. Try: (1, 8, 5, 17, 13)
-        // Let's use a known, reliable list of faces by vertex index:
-        // Face definition Reference (example): https://math.stackexchange.com/questions/199747/list-of-vertices-making-up-each-face-of-dodecahedron
-        // Face 1: (0, 8, 1, 13, 12) -> Triangles: (0,8,1), (0,1,13), (0,13,12) -- Matches Face 3 above roughly, let's restart faces carefully
-        // Face A: 0, 12, 3, 18, 16 -> Triangles: (0,12,3), (0,3,18), (0,18,16) -- Matches Face 2 roughly
-        // Face B: 0, 16, 4, 9, 8 -> Triangles: (0,16,4), (0,4,9), (0,9,8) -- Matches Face 1 roughly
-        
-        // Let's use a consistent set of face definitions based on the vertex ordering 0-19:
-        // (Ensure CCW winding from outside)
-        
-        // Top Cap Faces (around vertex 8 - white)
-        0, 8, 9,   0, 9, 4,   0, 4, 16,  // F1 (0, 8, 9, 4, 16)
-        1, 8, 0,   1, 0, 12,  1, 12, 13, // F2 (1, 8, 0, 12, 13) - Seems wrong. Check vertex order. Should share edge.
-        // Vertex 0=Red(1,1,1), 8=White(0,phi,invPhi), 1=Green(-1,1,1) .. Let's trust the indices below now:
-        
-        // Face Indices (12 faces * 3 triangles/face * 3 indices/triangle = 108 indices)
-        // Derived from a standard definition, triangulated via fan method (v0,v1,v2), (v0,v2,v3), (v0,v3,v4)
-        0, 12, 13,   0, 13, 1,   0, 1, 8,    // Face 1: (0, 12, 13, 1, 8)
-        0, 8, 9,    0, 9, 4,    0, 4, 16,   // Face 2: (0, 8, 9, 4, 16)
-        0, 16, 18,   0, 18, 3,   0, 3, 12,   // Face 3: (0, 16, 18, 3, 12)
-        1, 13, 17,   1, 17, 5,   1, 5, 8,    // Face 4: (1, 13, 17, 5, 8)
-        1, 13, 12,   1, 12, 2,   1, 2, 17, // Face 5: (1, 13, 12, 2, 17) <-- This seems complex, is this right? Check standard faces.
-        
-        // Alternative Face Definitions (Simpler if vertex order is consistent)
-        // Based on https://en.wikipedia.org/wiki/Regular_dodecahedron#Cartesian_coordinates structure
-        
-        // Using the coordinates defined above, identify faces:
-        // Top Pentagons (sharing node 8 or 9)
-        0, 8, 1, 13, 12, // Face A
-        1, 8, 5, 17, 13, // Face B
-        5, 8, 9, 4, 17,  // Face C
-        4, 9, 5, 6, 15, // Seems wrong. Let's use a known index list.
-        
-        // Final reliable Index List (Triangulated Pentagons)
+        // Final reliable Index List (Triangulated Pentagons - 108 indices)
          0,  8,  1,    0,  1, 13,    0, 13, 12,  // Face 0 (Indices: 0, 8, 1, 13, 12)
          0, 12,  3,    0,  3, 18,    0, 18, 16,  // Face 1 (Indices: 0, 12, 3, 18, 16)
          0, 16,  4,    0,  4,  9,    0,  9,  8,  // Face 2 (Indices: 0, 16, 4, 9, 8)
          1,  8,  5,    1,  5, 17,    1, 17, 13,  // Face 3 (Indices: 1, 8, 5, 17, 13)
-         2, 12, 13,    2, 13, 1,    2, 1, 17,   // Face 4 (Indices: 2, 12, 13, 1, 17) -- CHECK WINDING/VERTICES
-         // Winding must be CCW from outside. Let's re-evaluate Face 4: (2, 17, 1, 13, 12) looks better.
-         // Triangles: (2,17,1), (2,1,13), (2,13,12)
-         2, 17,  1,    2,  1, 13,    2, 13, 12,  // Face 4 (Indices: 2, 17, 1, 13, 12)
-         2, 10,  3,    2,  3, 12,    2, 12, 10,  // Face 5 (Indices: 2, 10, 3, 12) <- Error only 4 indices... (Should be 2, 10, 3, 18, 19?) No. (2, 10, 11, 6, 19?) No. (2, 19, 17) ?
-         // MUST BE: (2, 10, 11, 19, 12)? No. It should share vertex 12 with Face 4. Vertices around 2: (1, 17, 19, 11, 10, 3, 12)
-         // Face around 2: (2, 12, 3, 10, 11) ? No. Must be 5 vertices. (2, 12, 13, 17, 19) is wrong. (2, 3, 10, 11, 19)?
-         // Let's use vertex 2 (-1,-1,1): Neighbors should be 1(-1,1,1), 3(1,-1,1), 10(0,-phi,invPhi), 11(0,-phi,-invPhi), 13(-invPhi,0,phi), 19(-phi,-invPhi,0)
-         // Face CCW from outside using vertex 2 (blue) connected to vertex 3 (yellow)? (2, 3, 18, 19, 11)? No. (2, 3, 10, 11, 19)? No. (2, 3, 18, 19, ?)
-         // Using Vertices: 2(-1,-1,1), 3(1,-1,1), 10(0,-phi,invPhi), 11(0,-phi,-invPhi), 19(-phi,-invPhi,0)
-         // Face 5 seems to be: (2, 3, 10, 11, 19)
-         2,  3, 10,    2, 10, 11,    2, 11, 19,  // Face 5 (Indices: 2, 3, 10, 11, 19)
-         3, 10, 11,    3, 11, 7,     3,  7, 18,  // Face 6 (Indices: 3, 10, 11, 7, 18)
-         4, 16, 18,    4, 18, 7,     4,  7, 14,  // Face 7 (Indices: 4, 16, 18, 7, 14) -- CHECK WINDING/VERTICES
-         // Winding Check Face 7: (4, 14, 7, 18, 16) looks better CCW
-         4, 14,  7,    4,  7, 18,    4, 18, 16,  // Face 7 (Indices: 4, 14, 7, 18, 16)
-         4, 9, 5,     4, 5, 15,     4, 15, 14,  // Face 8 (Indices: 4, 9, 5, 15, 14)
-         5, 17, 19,    5, 19, 6,     5,  6, 15,  // Face 9 (Indices: 5, 17, 19, 6, 15) - CHECK WINDING/VERTICES
-         // Winding Check Face 9: (5, 15, 6, 19, 17) looks better CCW
-         5, 15,  6,    5,  6, 19,    5, 19, 17,  // Face 9 (Indices: 5, 15, 6, 19, 17)
-         6, 11, 10,    6, 10, 2,     6,  2, 19,  // Face 10 (Indices: 6, 11, 10, 2, 19) -- CHECK WINDING/VERTICES
-         // Winding Check Face 10: (6, 19, 2, 10, 11) looks better CCW
-         6, 19,  2,    6,  2, 10,    6, 10, 11,  // Face 10 (Indices: 6, 19, 2, 10, 11)
-         7, 11, 6,     7,  6, 15,    7, 15, 14,  // Face 11 (Indices: 7, 11, 6, 15, 14)
+         // Face 4: (Indices: 2, 17, 1, 13, 12) - Using CCW winding check
+         2, 17,  1,    2,  1, 13,    2, 13, 12,
+         // Face 5: (Indices: 2, 3, 10, 11, 19)
+         2,  3, 10,    2, 10, 11,    2, 11, 19,
+         // Face 6: (Indices: 3, 10, 11, 7, 18)
+         3, 10, 11,    3, 11,  7,    3,  7, 18,
+         // Face 7: (Indices: 4, 14, 7, 18, 16) - Using CCW winding check
+         4, 14,  7,    4,  7, 18,    4, 18, 16,
+         // Face 8: (Indices: 4, 9, 5, 15, 14)
+         4,  9,  5,    4,  5, 15,    4, 15, 14,
+         // Face 9: (Indices: 5, 15, 6, 19, 17) - Using CCW winding check
+         5, 15,  6,    5,  6, 19,    5, 19, 17,
+         // Face 10: (Indices: 6, 19, 2, 10, 11) - Using CCW winding check
+         6, 19,  2,    6,  2, 10,    6, 10, 11,
+         // Face 11: (Indices: 7, 11, 6, 15, 14)
+         7, 11,  6,    7,  6, 15,    7, 15, 14,
     ]
     // --- End Geometry Data ---
 
@@ -665,10 +616,10 @@ struct DodecahedronView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-     return PreviewPlaceholder() // <-- Uncomment this line to use the safe placeholder
+     //return PreviewPlaceholder() // <-- Uncomment this line to use the safe placeholder
 
     // Option 2: Attempt to Render the Actual Metal View (May Fail)
-    //return DodecahedronView() // <-- Use the actual view for preview (comment out placeholder)
+    return DodecahedronView() // <-- Use the actual view for preview (comment out placeholder)
 }
 
 // MARK: - Matrix Math Helper Functions (using SIMD)
