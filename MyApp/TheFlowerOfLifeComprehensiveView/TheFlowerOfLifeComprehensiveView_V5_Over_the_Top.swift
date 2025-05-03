@@ -701,6 +701,12 @@ struct FlowerOfLifeView: View {
             // Embed the Metal view using the representable wrapper.
             MetalFlowerViewRepresentable()
                 // The representable will automatically size to fit the available space.
+            
+            // Example image content.
+            Image("My-meme-orange")
+                .resizable()
+                .scaledToFit() // Use scaledToFit to maintain aspect ratio
+                .frame(width: 280, height: 200)
         }
         // Set the background for the entire VStack area
         .background(Color(red: 0.05, green: 0.05, blue: 0.1))
@@ -708,6 +714,8 @@ struct FlowerOfLifeView: View {
         .ignoresSafeArea(.keyboard)
         // Allow the view content (especially the Metal part) to extend to the bottom edge.
         .edgesIgnoringSafeArea(.bottom)
+        
+        
     }
 }
 
