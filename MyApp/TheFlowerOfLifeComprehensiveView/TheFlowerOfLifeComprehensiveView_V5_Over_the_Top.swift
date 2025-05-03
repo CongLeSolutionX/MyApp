@@ -3,14 +3,6 @@
 //  MyApp
 //
 //  Created by Cong Le on 5/3/25.
-//
-
-//
-//  TheFlowerOfLifeComprehensiveView.swift
-//  MyApp
-//
-//  Created by Cong Le on 5/3/25.
-//
 
 //  Description:
 //  This file defines a SwiftUI view that displays an animated construction
@@ -272,7 +264,6 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
         circleCenters.append(SIMD2<Float>(-r * 1.5, -h))// Outer Mid-Bottom-Left (17)
         circleCenters.append(SIMD2<Float>(r * 1.5, -h)) // Outer Mid-Bottom-Right (18)
         
-        
         guard circleCenters.count == maxInstances else {
             print("Warning: Calculated \(circleCenters.count) centers, expected \(maxInstances). Check calculation logic.")
             // Pad if necessary, though logic implies exactly 19
@@ -324,8 +315,11 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
             
             // -- Base Circle Vertex Layout (Buffer 0) --
             // Attribute 0: `position` (float2) in `VertexIn`.
+             guard let basePositionOffset = MemoryLayout<CircleVertex>.offset(of: \.position) else {
+                 fatalError("Could not determine memory offset for CircleVertex.position.")
+             }
             vertexDescriptor.attributes[0].format = .float2    // Data type is float2.
-            vertexDescriptor.attributes[0].offset = 0         // Starts at the beginning of the CircleVertex struct.
+            vertexDescriptor.attributes[0].offset = basePositionOffset         // Starts at the beginning of the CircleVertex struct.
             vertexDescriptor.attributes[0].bufferIndex = 0    // Data comes from the buffer bound at index 0 (circleVertexBuffer).
             
             // Layout for Buffer 0: Describes how to step through the `circleVertexBuffer`.
@@ -335,23 +329,33 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
             // stepRate is 1 (default for perVertex).
             
             // -- Instance Data Layout (Buffer 2) --
+            
             // Attribute 1: `offset` (float2) in `InstanceData`.
-            vertexDescriptor.attributes[1].format = .float2    // Data type is float2.
-            vertexDescriptor.attributes[1].offset = 0         // Starts at the beginning of the InstanceData struct.
-            vertexDescriptor.attributes[1].bufferIndex = 2    // Data comes from the buffer bound at index 2 (instanceDataBuffer).
+            // Use guard let for safety
+            guard let offsetOffset = MemoryLayout<InstanceData>.offset(of: \.offset) else {
+               fatalError("Could not determine memory offset for InstanceData.offset.")
+            }
+            vertexDescriptor.attributes[1].format = .float2
+            vertexDescriptor.attributes[1].offset = offsetOffset
+            vertexDescriptor.attributes[1].bufferIndex = 2
             
             // Attribute 2: `scale` (float) in `InstanceData`.
-            vertexDescriptor.attributes[2].format = .float     // Data type is float.
-            // Starts IMMEDIATELY after the 'offset' field.
-            vertexDescriptor.attributes[2].offset = MemoryLayout<SIMD2<Float>>.offset(of: \SIMD2<Float>.y)! + MemoryLayout<Float>.stride
-            // Alternatively and safer: `MemoryLayout<InstanceData>.offset(of: \.scale)!` if struct definition known.
-            vertexDescriptor.attributes[2].bufferIndex = 2    // Also from buffer index 2.
+             // Use guard let for safety
+            guard let scaleOffset = MemoryLayout<InstanceData>.offset(of: \.scale) else {
+                fatalError("Could not determine memory offset for InstanceData.scale.")
+            }
+            vertexDescriptor.attributes[2].format = .float
+            vertexDescriptor.attributes[2].offset = scaleOffset
+            vertexDescriptor.attributes[2].bufferIndex = 2
             
             // Attribute 3: `alpha` (float) in `InstanceData`.
-            vertexDescriptor.attributes[3].format = .float     // Data type is float.
-            // Starts IMMEDIATELY after the 'scale' field.
-            vertexDescriptor.attributes[3].offset = MemoryLayout<InstanceData>.offset(of: \InstanceData.alpha)! // Safer way
-            vertexDescriptor.attributes[3].bufferIndex = 2    // Also from buffer index 2.
+            // **FIXED:** Use guard let for safety
+            guard let alphaOffset = MemoryLayout<InstanceData>.offset(of: \.alpha) else {
+                fatalError("Could not determine memory offset for InstanceData.alpha.")
+            }
+            vertexDescriptor.attributes[3].format = .float
+            vertexDescriptor.attributes[3].offset = alphaOffset // Use the safely unwrapped value
+            vertexDescriptor.attributes[3].bufferIndex = 2
             
             // Layout for Buffer 2: Describes how to step through the `instanceDataBuffer`.
             vertexDescriptor.layouts[2].stride = MemoryLayout<InstanceData>.stride // Size of one InstanceData element.
@@ -421,9 +425,21 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
             baseColor: SIMD4<Float>(0.8, 0.8, 1.0, 1.0) // Light blueish color
         )
         // Copy the updated uniform data into the Metal buffer.
+        // Ensure buffer is not nil before accessing contents
+        guard let uniformBuffer = uniformBuffer else {
+            print("Error: Uniform buffer is nil in updateState.")
+            return
+        }
         uniformBuffer.contents().copyMemory(from: [uniforms], byteCount: MemoryLayout<FlowerUniforms>.stride)
         
         // 2. Update Instance Data Buffer (Buffer 2) based on Time
+        
+        // Ensure instance buffer is not nil before accessing contents
+        guard let instanceDataBuffer = instanceDataBuffer else {
+             print("Error: Instance data buffer is nil in updateState.")
+             return
+         }
+        
         // Get a typed pointer to the buffer's memory to write InstanceData structs directly.
         let instanceDataPtr = instanceDataBuffer.contents().bindMemory(to: InstanceData.self, capacity: maxInstances)
         
@@ -506,7 +522,19 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
     /// This is the main drawing loop where commands are encoded and sent to the GPU.
     /// - Parameter view: The `MTKView` requesting the drawing.
     func draw(in view: MTKView) {
-        // 1. Obtain necessary objects for rendering
+        // 1. Preliminary checks: Ensure essential components are available before proceeding.
+        // Check if pipeline state has been created (depends on MTKView configuration).
+         guard let pipelineState = pipelineState,
+               // Check if buffers have been created.
+               let circleVertexBuffer = circleVertexBuffer,
+               let circleIndexBuffer = circleIndexBuffer,
+               let uniformBuffer = uniformBuffer,
+               let instanceDataBuffer = instanceDataBuffer else {
+             print("Error: Renderer not fully initialized (pipeline or buffers missing). Skipping draw.")
+             return // Skip drawing if essential components are not ready.
+         }
+
+        // 2. Obtain necessary objects for rendering for this frame.
         guard let drawable = view.currentDrawable, // Represents the texture to draw into.
               let renderPassDescriptor = view.currentRenderPassDescriptor, // Describes attachments (color, depth, stencil).
               let commandBuffer = commandQueue.makeCommandBuffer(), // Container for encoded commands.
@@ -524,13 +552,13 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
         // Store action: Store the rendered result in the texture.
         renderPassDescriptor.colorAttachments[0].storeAction = .store
         
-        // 2. Update dynamic data (Uniforms and Instance Data)
+        // 3. Update dynamic data (Uniforms and Instance Data)
         updateState() // This calculates uniforms, instance data, and `lastCalculatedInstanceCount`.
         
         // Use the instance count calculated and stored during `updateState`.
         let visibleInstanceCount = self.lastCalculatedInstanceCount
         
-        // 3. Encode Rendering Commands (only if there are visible instances)
+        // 4. Encode Rendering Commands (only if there are visible instances)
         if visibleInstanceCount > 0 {
             renderEncoder.label = "Flower of Life Render Encoder" // For debugging in Metal frame capture.
             
@@ -561,7 +589,7 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
             // The clear color will still be applied due to the load action.
         }
         
-        // 4. Finalize Encoding and Command Buffer
+        // 5. Finalize Encoding and Command Buffer
         renderEncoder.endEncoding() // Signal that command encoding is finished for this pass.
         
         // Schedule the drawable to be presented onscreen after the command buffer completes execution.
@@ -611,6 +639,9 @@ struct MetalFlowerViewRepresentable: UIViewRepresentable {
         mtkView.preferredFramesPerSecond = 60
         // Allow the view to manage its own display loop via the delegate (`draw(in:)`).
         mtkView.enableSetNeedsDisplay = false
+        // Ensure delegate drawing is enabled for the coordinator to receive callbacks.
+        mtkView.isPaused = false // Ensure view is not paused
+        
         // Set the view's pixel format (ensure consistency with pipeline state setup).
         // sRGB is commonly used for color UI elements.
         mtkView.colorPixelFormat = .bgra8Unorm_srgb
@@ -625,7 +656,14 @@ struct MetalFlowerViewRepresentable: UIViewRepresentable {
         context.coordinator.configure(metalKitView: mtkView)
         
         // Perform an initial size update using the view's current drawable size.
-        context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
+        // Check if drawableSize is valid before calling the delegate method
+        if mtkView.drawableSize.width > 0 && mtkView.drawableSize.height > 0 {
+            context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
+        } else {
+             print("Warning: MTKView initial drawableSize is zero or invalid.")
+             // Consider setting a default aspectRatio or delaying the first update if safe.
+             // context.coordinator.aspectRatio = 1.0 // Example default
+         }
         
         print("MTKView created and configured for Flower of Life.")
         return mtkView
@@ -678,7 +716,7 @@ struct FlowerOfLifeView: View {
 /// Provides previews for the `FlowerOfLifeView` in Xcode.
 #Preview {
     // NOTE: Metal previews can sometimes be unreliable or slow in Xcode.
-    // Using a placeholder might be safer for general development workflow.
+    // Running on a real device or simulator is often more stable.
     
     // Option 1: Placeholder View (Safer for complex Metal views)
     //    struct PreviewPlaceholder: View {
@@ -708,7 +746,7 @@ struct FlowerOfLifeView: View {
     // return PreviewPlaceholder()
     
     // Option 2: Attempt to preview the actual Metal view
-    // This might work but can be resource-intensive or fail in some Xcode versions.
+    // This might work but can be resource-intensive or fail in some Xcode versions/configurations.
     return FlowerOfLifeView()
 }
 
@@ -734,13 +772,20 @@ func matrix_orthographic_projection(aspectRatio: Float, nearZ: Float = -1.0, far
     var scaleY = overallScale
 
     // Adjust scaling based on aspect ratio to prevent distortion.
-    if aspectRatio > 1.0 {
-        // View is wider than tall: Reduce horizontal scale (squeeze horizontally)
-        scaleX /= aspectRatio
+    if aspectRatio > 0 { // Ensure aspectRatio is valid before using it
+        if aspectRatio > 1.0 {
+            // View is wider than tall: Reduce horizontal scale (squeeze horizontally)
+            scaleX /= aspectRatio
+        } else {
+            // View is taller than wide (or square): Reduce vertical scale (squeeze vertically)
+            scaleY *= aspectRatio
+        }
     } else {
-        // View is taller than wide (or square): Reduce vertical scale (squeeze vertically)
-        scaleY *= aspectRatio
-    }
+         print("Warning: Invalid aspect ratio (\(aspectRatio)) in projection matrix calculation.")
+         // Handle invalid aspect ratio, e.g., assume square (1.0) or keep unscaled
+         // scaleX = overallScale
+         // scaleY = overallScale
+     }
 
     // Calculate Z-axis scaling and translation to map [nearZ, farZ] -> [0, 1] (Metal's usual NDC Z range).
     let scaleZ = 1.0 / (farZ - nearZ)
@@ -768,9 +813,14 @@ func matrix_orthographic_projection(aspectRatio: Float, nearZ: Float = -1.0, far
 ///   - x: The current input value to check against the edges.
 /// - Returns: A Float between 0.0 and 1.0, representing the smoothed interpolation factor.
 func smoothstep(_ edge0: Float, _ edge1: Float, _ x: Float) -> Float {
-    // Clamp x to the range [edge0, edge1] and normalize to [0, 1]
     // Avoid division by zero if edges are equal.
-    let t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0)
+    let denominator = edge1 - edge0
+    // Add a small epsilon or check for zero to prevent NaN issues.
+    guard abs(denominator) > .ulpOfOne else { return x < edge0 ? 0.0 : 1.0 }
+
+    // Clamp x to the range [edge0, edge1] and normalize to [0, 1]
+    let t = clamp((x - edge0) / denominator, 0.0, 1.0)
+
     // Apply the smoothstep formula: 3t^2 - 2t^3 (or t*t*(3-2t))
     return t * t * (3.0 - 2.0 * t)
 }
@@ -784,5 +834,3 @@ func smoothstep(_ edge0: Float, _ edge1: Float, _ x: Float) -> Float {
 func clamp(_ x: Float, _ lower: Float, _ upper: Float) -> Float {
     return min(upper, max(lower, x))
 }
-
-
