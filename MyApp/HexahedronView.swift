@@ -471,10 +471,10 @@ struct HexahedronView: View { // Renamed
             .edgesIgnoringSafeArea(.all)
         }
     }
-     return PreviewPlaceholder() // Using placeholder by default
+     //return PreviewPlaceholder() // Using placeholder by default
 
     // Option 2: Attempt to Render the Actual Metal View (May Fail in Canvas)
-//     return HexahedronView() // Use the renamed view
+     return HexahedronView() // Use the renamed view
 }
 
 // MARK: - Matrix Math Helper Functions (using SIMD)
