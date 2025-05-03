@@ -303,7 +303,7 @@ struct MetalOctahedronViewRepresentable: UIViewRepresentable {
         guard let renderer = OctahedronRenderer(metalKitView: mtkView) else {
              fatalError("Renderer could not be initialized with MTKView")
         }
-        context.coordinator.drawableSizeWillChange(mtkView.drawableSize) // Initial aspect ratio setup
+        context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize) // Initial aspect ratio setup
         mtkView.delegate = renderer // Re-assign delegate after renderer is fully init
 
         // Store the renderer in the coordinator
