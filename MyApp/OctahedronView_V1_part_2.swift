@@ -216,10 +216,12 @@ class OctahedronRenderer: NSObject, MTKViewDelegate {
         let modelViewMatrix = matrix_multiply(viewMatrix, modelMatrix)
         let mvpMatrix = matrix_multiply(projectionMatrix, modelViewMatrix)
 
-        // Copy the MVP matrix into the uniform buffer
-        let bufferPointer = uniformBuffer.contents()
-        var uniforms = Uniforms(modelViewProjectionMatrix: mvpMatrix)
-        memcpy(bufferPointer, &uniforms, MemoryLayout<Uniforms>.size)
+         // Copy the MVP matrix into the uniform buffer
+         let bufferPointer = uniformBuffer.contents()
+         // Create an instance of the *Swift* Uniforms struct
+         var uniforms = Uniforms(modelViewProjectionMatrix: mvpMatrix)
+         // Copy the *Swift* struct instance into the buffer
+         memcpy(bufferPointer, &uniforms, MemoryLayout<Uniforms>.size) // Use size of the Swift struct here
 
         // Update rotation for the next frame
         rotationAngle += 0.005 // Adjust speed as needed
