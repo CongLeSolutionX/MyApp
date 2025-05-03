@@ -103,13 +103,14 @@ fragment half4 seed_of_life_fragment_shader(
     half alpha = half(1.0 - smoothstep(0.0, uniforms.edgeSoftness, minSignedDistance));
 
     // --- Determine Final Color ---
-    // If alpha is near zero, discard the fragment to avoid unnecessary blending.
-    if (alpha < 0.01h) {
-        discard_fragment();
-    }
+     // If alpha is near zero, discard the fragment to avoid unnecessary blending.
+     if (alpha < 0.01h) {
+         discard_fragment();
+     }
 
-    // Otherwise, return the fill color modulated by the calculated alpha for smooth edges.
-    return half4(uniforms.fillColor.rgb, uniforms.fillColor.a * alpha);
+     // Otherwise, return the fill color modulated by the calculated alpha for smooth edges.
+     // Explicitly cast the float3 color to half3 and use the calculated half alpha.
+     return half4(half3(uniforms.fillColor.rgb), alpha); // <-- CORRECTED LINE
 }
 """
 
@@ -452,9 +453,9 @@ struct SeedOfLifeView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-     return PreviewPlaceholder() // <-- Recommended for stability
+     //return PreviewPlaceholder() // <-- Recommended for stability
 
-     //return SeedOfLifeView() // <-- Uncomment to attempt rendering the actual view
+     return SeedOfLifeView() // <-- Uncomment to attempt rendering the actual view
 }
 
 // Note: Matrix math helper functions removed as they are not needed for this 2D implementation.
