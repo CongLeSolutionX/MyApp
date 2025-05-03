@@ -10,7 +10,7 @@
 		9A18E03B2DC666EF002A0969 /* IcosahedronView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A18E03A2DC666EF002A0969 /* IcosahedronView_V3.swift */; };
 		9A34F6B02DC697D800C57D9E /* HexahedronView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6AF2DC697D600C57D9E /* HexahedronView.swift */; };
 		9A34F6B22DC69BF500C57D9E /* DodecahedronView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */; };
-		9A34F6B42DC6A2F600C57D9E /* DodecahedronView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2.swift */; };
+		9A34F6B42DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */; };
 		9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */; };
 		9A75160C2DC63CD600B5E180 /* OctahedronView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */; };
 		9A75160E2DC63CF400B5E180 /* OctahedronShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */; };
@@ -33,7 +33,7 @@
 		9A18E03A2DC666EF002A0969 /* IcosahedronView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcosahedronView_V3.swift; sourceTree = "<group>"; };
 		9A34F6AF2DC697D600C57D9E /* HexahedronView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexahedronView.swift; sourceTree = "<group>"; };
 		9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V1.swift; sourceTree = "<group>"; };
-		9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V2.swift; sourceTree = "<group>"; };
+		9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V2_Debug_reference.swift; sourceTree = "<group>"; };
 		9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1.swift; sourceTree = "<group>"; };
 		9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V2.swift; sourceTree = "<group>"; };
 		9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OctahedronShaders.metal; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */,
-				9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2.swift */,
+				9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */,
 			);
 			path = DodecahedronView;
 			sourceTree = "<group>";
@@ -216,7 +216,7 @@
 				9A34F6B22DC69BF500C57D9E /* DodecahedronView_V1.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A7516102DC63D2B00B5E180 /* OctahedronView_V1_part_2.swift in Sources */,
-				9A34F6B42DC6A2F600C57D9E /* DodecahedronView_V2.swift in Sources */,
+				9A34F6B42DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift in Sources */,
 				9A18E03B2DC666EF002A0969 /* IcosahedronView_V3.swift in Sources */,
 				9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */,
 				9A7516142DC640E900B5E180 /* OctahedronView_V1_part_4.swift in Sources */,

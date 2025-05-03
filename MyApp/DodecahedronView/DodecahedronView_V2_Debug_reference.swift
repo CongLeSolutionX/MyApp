@@ -270,18 +270,21 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
     /// Fails if Metal device or command queue creation fails.
     /// - Parameter device: The `MTLDevice` (GPU connection) to use for rendering.
     init?(device: MTLDevice) {
+        print("Renderer: Initializing...")
         self.device = device
         // Create a command queue for submitting work to the GPU
         guard let queue = device.makeCommandQueue() else {
-            print("Could not create command queue")
-            return nil // Initialization failed
+            print("Renderer: FAILED to create command queue") // Critical
+            return nil
         }
         self.commandQueue = queue
+        print("Renderer: Command Queue created.")
         super.init()
 
         // Setup resources that don't depend on the MTKView's drawable format yet
         setupBuffers()        // Create vertex, index, and uniform buffers
         setupDepthStencil()   // Configure depth testing state
+        print("Renderer: Initialization complete.")
     }
 
     /// Configures the Metal pipeline state. This is called *after* the `MTKView` is created,
@@ -297,15 +300,20 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
     /// This object encapsulates the compiled shaders and fixed-function states (like blending, vertex layout).
     /// - Parameter metalKitView: The view providing the necessary pixel format information.
     func setupPipeline(metalKitView: MTKView) {
+        print("Renderer: Setting up pipeline...")
         do {
+            print("Renderer: Creating library...")
             // Create a Metal library from the embedded shader source code string.
             let library = try device.makeLibrary(source: dodecahedronMetalShaderSource, options: nil)
+            
+            print("Renderer: Library created. Loading functions...")
 
             // Get references to the compiled vertex and fragment shader functions.
             guard let vertexFunction = library.makeFunction(name: "dodecahedron_vertex_shader"),
                   let fragmentFunction = library.makeFunction(name: "dodecahedron_fragment_shader") else {
                 fatalError("Could not load shader functions from library. Check function names.")
             }
+            print("Renderer: Shader functions loaded.")
 
             // Create a descriptor to configure the render pipeline state.
             let pipelineDescriptor = MTLRenderPipelineDescriptor()
@@ -342,18 +350,23 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
 
             pipelineDescriptor.vertexDescriptor = vertexDescriptor // Assign the configured descriptor
 
+            print("Renderer: Creating pipeline state...")
             // Create the immutable render pipeline state object from the descriptor.
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+            print("Renderer: Pipeline state created successfully.")
 
         } catch {
             // If pipeline creation fails, it's usually due to shader compilation errors,
             // mismatched struct layouts, or incorrect format settings.
+            print("Renderer: FAILED to create pipeline state: \(error)") // Critical
             fatalError("Failed to create Metal Render Pipeline State: \(error)")
         }
+        print("Renderer: Pipeline setup complete.")
     }
 
     /// Creates and populates the GPU buffers for vertices, indices, and uniforms.
     func setupBuffers() {
+        print("Renderer: Setting up buffers...")
         // --- Vertex Buffer ---
         // Use the lazy var 'vertices' which calculates coordinates on first access
         let vertexDataSize = vertices.count * MemoryLayout<DodecahedronVertex>.stride
@@ -361,6 +374,7 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
         guard let vBuffer = device.makeBuffer(bytes: vertices, length: vertexDataSize, options: []) else {
             fatalError("Could not create vertex buffer")
         }
+        print("Renderer: Vertex buffer created.")
         vertexBuffer = vBuffer
         vertexBuffer.label = "Dodecahedron Vertices" // Debug label
 
@@ -371,6 +385,7 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
         guard let iBuffer = device.makeBuffer(bytes: indices, length: indexDataSize, options: []) else {
             fatalError("Could not create index buffer")
         }
+        print("Renderer: Index buffer created.")
         indexBuffer = iBuffer
         indexBuffer.label = "Dodecahedron Indices" // Debug label
 
@@ -381,8 +396,11 @@ class DodecahedronRenderer: NSObject, MTKViewDelegate {
         guard let uBuffer = device.makeBuffer(length: uniformBufferSize, options: .storageModeShared) else {
             fatalError("Could not create uniform buffer")
         }
+        print("Renderer: Uniform buffer created.")
         uniformBuffer = uBuffer
         uniformBuffer.label = "Uniforms Buffer (MVP Matrix)" // Debug label
+        
+        print("Renderer: Buffers setup complete.")
     }
 
     /// Creates the `MTLDepthStencilState` object to configure depth testing.
@@ -524,10 +542,12 @@ struct MetalDodecahedronViewRepresentable: UIViewRepresentable {
     /// The coordinator acts as the delegate for the `MTKView` and holds the `DodecahedronRenderer`.
     func makeCoordinator() -> DodecahedronRenderer {
         // Get the default system GPU device.
+        print("Representable: Making Coordinator...")
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("Metal is not supported on this device.")
         }
         // Initialize our custom renderer class.
+        print("Representable: Metal device obtained.")
         guard let coordinator = DodecahedronRenderer(device: device) else {
             fatalError("DodecahedronRenderer failed to initialize.")
         }
@@ -540,6 +560,7 @@ struct MetalDodecahedronViewRepresentable: UIViewRepresentable {
     /// - Parameter context: Provides access to the `Coordinator` and other contextual information.
     /// - Returns: The configured `MTKView`.
     func makeUIView(context: Context) -> MTKView {
+        print("Representable: Making MTKView...")
         let mtkView = MTKView()
 
         // --- Configuration ---
@@ -563,16 +584,18 @@ struct MetalDodecahedronViewRepresentable: UIViewRepresentable {
 
         // --- Linking Renderer and View ---
         // Allow the renderer to configure its pipeline based on the view's pixel formats now.
+        print("Representable: Configuring renderer with MTKView...")
         context.coordinator.configure(metalKitView: mtkView)
 
         // Set the renderer (Coordinator) as the view's delegate AFTER the view is configured.
+        print("Representable: Setting MTKView delegate...")
         mtkView.delegate = context.coordinator
 
         // Manually trigger the initial size update call in the delegate.
         // This ensures the aspect ratio is correct before the very first draw call might occur.
         context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
 
-        print("MTKView created and configured for Dodecahedron.")
+        print("Representable: MTKView created and configured for Dodecahedron.")
         return mtkView
     }
 
