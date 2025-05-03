@@ -135,7 +135,7 @@ struct FruitOfLifeInstance {
 
 /// Manages Metal setup, resources, and rendering for the Fruit of Life pattern.
 class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
-
+    
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     var pipelineState: MTLRenderPipelineState!
@@ -143,23 +143,23 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
     // if draw order doesn't matter, but good practice if shapes might overlap complexly.
     // Let's keep it simple for now and omit it unless overlap issues arise.
     // var depthState: MTLDepthStencilState!
-
+    
     // Buffers
     var vertexBuffer: MTLBuffer!       // For the base circle mesh vertices
     var indexBuffer: MTLBuffer!        // For the base circle mesh indices
     var instanceBuffer: MTLBuffer!     // For the 13 circle instances' data
     var uniformBuffer: MTLBuffer!      // For projection matrix and radius
-
+    
     // Geometry Data
     var baseCircleVertices: [CircleVertex] = []
     var baseCircleIndices: [UInt16] = []
     let circleSegmentCount = 64 // Number of segments for smoothness
-
+    
     var fruitOfLifeInstances: [FruitOfLifeInstance] = []
     let fruitCircleRadius: Float = 0.9 // Radius of individual circles in the pattern
-
+    
     var viewSize: CGSize = .zero // Keep track of view size for projection
-
+    
     /// Initializer
     init?(device: MTLDevice) {
         self.device = device
@@ -169,177 +169,142 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         }
         self.commandQueue = queue
         super.init()
-
+        
         // Generate geometry and setup initial instance positions
         generateBaseCircleGeometry()
         calculateFruitOfLifePositions()
-
+        
         // Setup buffers (vertex, index, instance, uniform)
         setupBuffers()
         // setupDepthStencil() // Omitted for simplicity initially
     }
-
+    
     /// Generates vertices and indices for a unit circle (radius 1) centered at origin.
     func generateBaseCircleGeometry() {
         baseCircleVertices.removeAll()
         baseCircleIndices.removeAll()
-
+        
         // Center vertex for triangle fan
         baseCircleVertices.append(CircleVertex(position: SIMD2<Float>(0, 0))) // Index 0
-
+        
         // Outer vertices
         let angleStep = (2.0 * Float.pi) / Float(circleSegmentCount)
         for i in 0...circleSegmentCount { // Include last point to close the circle visually if needed
             let angle = Float(i) * angleStep
             baseCircleVertices.append(CircleVertex(position: SIMD2<Float>(cos(angle), sin(angle))))
         }
-
+        
         // Triangle Fan Indices (0, 1, 2; 0, 2, 3; ... 0, n, 1)
         for i in 1...circleSegmentCount {
             baseCircleIndices.append(0) // Center vertex
             baseCircleIndices.append(UInt16(i))
             baseCircleIndices.append(UInt16(i % circleSegmentCount + 1)) // Wrap around for the last triangle
         }
-         print("Generated Base Circle: \(baseCircleVertices.count) vertices, \(baseCircleIndices.count) indices")
+        print("Generated Base Circle: \(baseCircleVertices.count) vertices, \(baseCircleIndices.count) indices")
     }
-
+    
     /// Calculates the center positions for the 13 Fruit of Life circles.
     /// Uses hexagonal grid logic. Assumes radius between centers is `2 * fruitCircleRadius`.
     func calculateFruitOfLifePositions() {
-        fruitOfLifeInstances.removeAll()
+        // --- Initial Calculation Attempt (Using Angles/Rings) ---
+        // Let's keep the direct append method as the primary one,
+        // as the fallback calculation was incomplete anyway.
+        
+        fruitOfLifeInstances.removeAll() // Start fresh each time this function is called
+        
         let radius = fruitCircleRadius // Visual radius of each circle
-        let spacing = radius // Distance from center to center along axes
-
+        let spacing = radius // Distance from center to center along axes (adjust if needed for packing)
+        let R = spacing * 2.0 // Use spacing * 2 as the characteristic distance between centers based on Flower of Life logic
+        
         // Predefined color for all circles (light blue like the diagram)
         let circleColor = SIMD4<Float>(0.678, 0.847, 0.902, 1.0) // R, G, B, A (light blue)
-
-        // Center circle
+        
+        // Calculate positions using the known pattern structure directly from Flower of Life centers
+        
+        // Center (1)
         fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(0, 0), color: circleColor))
-
-        // Inner ring (6 circles) - Distance = radius * 2 from center
-        // Using angles (0, 60, 120, 180, 240, 300 degrees)
-        let innerRingDistance: Float = spacing * 2.0 // Center-to-center distance
+        
+        // Inner Ring (6 circles) - Distance = R from center
         for i in 0..<6 {
-            let angle = Float(i) * (Float.pi / 3.0) // 60 degrees increments
-            let x = innerRingDistance * cos(angle)
-            let y = innerRingDistance * sin(angle)
-            fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(x, y), color: circleColor))
+            let angle = Float(i) * .pi / 3.0 // 0, 60, 120, 180, 240, 300 degrees
+            fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(R * cos(angle), R * sin(angle)), color: circleColor))
         }
-
-        // Outer ring vertices (6 circles) - these are derived from Flower of Life logic
-        // They sit at distance=spacing*sqrt(3)*2 from the origin if using that derivation,
-        // Or simpler: they form the points halfway between the inner ring (+/- 30 deg offset) farter out
-        // Let's use the positions from the previous dot graph: Sqrt(3) * innerRingDistance approx
-         let outerRingDistance: Float = innerRingDistance * sqrt(3.0) // Approx 1.732 * innerRingDistance
+        
+        // Outer Ring (6 circles) - centers of circles *adjacent* to the center one in Flower of Life
+        // Distance = R * sqrt(3.0) from origin, angles offset by 30 deg
         for i in 0..<6 {
-             let angle = Float(i) * (Float.pi / 3.0) + (Float.pi / 6.0) // 30, 90, 150, 210, 270, 330 degrees
-             let x = outerRingDistance * cos(angle)
-             let y = outerRingDistance * sin(angle)
-             fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(x, y), color: circleColor))
-         }
-
-        // Correct number of expected circles?
+            let angle = Float(i) * .pi / 3.0 + .pi / 6.0 // 30, 90, 150, 210, 270, 330 degrees
+            let dist = R * sqrt(3.0) // Distance for these outer centers relative to true center
+            fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(dist * cos(angle), dist * sin(angle)), color: circleColor))
+        }
+        
+        // --- Verification (Optional, but good practice) ---
         if fruitOfLifeInstances.count != 13 {
-             print("Warning: Generated \(fruitOfLifeInstances.count) instances, expected 13.")
-             // Fallback or recalculate if logic is complex/flawed
-             // Reset and use explicit known positions if needed
-            fruitOfLifeInstances.removeAll()
-            let r = radius * 2.0 // spacing between centers = diameter
-            let h = r * sqrt(3.0) / 2.0 // height diff in hex grid
-
-             fruitOfLifeInstances = [
-                 // Row 1
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(0, 2*h), color: circleColor), // Top center (Outer) C8
-                 // Row 2
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(-r, h), color: circleColor),    // Top Left (Outer) C9
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(r, h), color: circleColor),     // Top Right (Outer) C7
-                 // Row 3 (Inner Ring + Center)
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(-r*1.5, 0), color: circleColor), // Outer Left (Outer) Not in 13
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(-r*0.5, 0), color: circleColor), // Center Left (Inner) C3
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(0, 0), color: circleColor),      // True Center (Center) C0
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(r*0.5, 0), color: circleColor),  // Center Right (Inner) C2
-                 FruitOfLifeInstance(centerPosition: SIMD2<Float>(r*1.5, 0), color: circleColor), // Outer Right (Outer) Not in 13
-
-                 // Let's retry calculation using the known pattern structure directly from Flower of Life centers
-
-                 fruitOfLifeInstances.removeAll()
-                 let R = spacing // Use spacing as the characteristic distance between centers
-
-                 // Center (1)
-                 fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(0, 0), color: circleColor))
-                 // Inner Ring (6)
-                 for i in 0..<6 {
-                     let angle = Float(i) * .pi / 3.0
-                     fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(2.0 * R * cos(angle), 2.0 * R * sin(angle)), color: circleColor))
-                 }
-                  // Outer Ring (6) - these are centers of circles *adjacent* to the center one in Flower of Life
-                 for i in 0..<6 {
-                      let angle = Float(i) * .pi / 3.0 + .pi / 6.0 // Offset by 30 deg
-                      let dist = 2.0 * R * sqrt(3.0) // Distance for these outer centers relative to true center
-                     fruitOfLifeInstances.append(FruitOfLifeInstance(centerPosition: SIMD2<Float>(dist * cos(angle), dist * sin(angle)), color: circleColor))
-                  }
+            print("Error: Generated \(fruitOfLifeInstances.count) instances, expected 13. Check calculation logic.")
+            // Potential fallback or error state here if needed
         }
-
+        
         print("Calculated \(fruitOfLifeInstances.count) Fruit of Life instance positions.")
+        
     }
-
+    
     /// Configures the Metal pipeline state (shaders, vertex descriptors).
     func configure(metalKitView: MTKView) {
-         do {
+        do {
             let library = try device.makeLibrary(source: fruitOfLifeMetalShaderSource, options: nil)
             guard let vertexFunction = library.makeFunction(name: "fruit_of_life_vertex_shader"),
                   let fragmentFunction = library.makeFunction(name: "fruit_of_life_fragment_shader") else {
                 fatalError("Could not load shader functions from library.")
             }
-
+            
             let pipelineDescriptor = MTLRenderPipelineDescriptor()
             pipelineDescriptor.label = "Fruit of Life Instanced Pipeline"
             pipelineDescriptor.vertexFunction = vertexFunction
             pipelineDescriptor.fragmentFunction = fragmentFunction
             pipelineDescriptor.colorAttachments[0].pixelFormat = metalKitView.colorPixelFormat
             // pipelineDescriptor.depthAttachmentPixelFormat = metalKitView.depthStencilPixelFormat // Omitted for now
-
+            
             // --- Configure Vertex Descriptors (Base Mesh + Instances) ---
             let vertexDescriptor = MTLVertexDescriptor()
-
+            
             // == Layout for Base Circle Vertices (Buffer 0) ==
             // Attribute 0: Base position (float2)
             vertexDescriptor.attributes[0].format = .float2
             vertexDescriptor.attributes[0].offset = 0
             vertexDescriptor.attributes[0].bufferIndex = 0 // Corresponds to [[buffer(0)]]
-
+            
             // Define stride for Layout 0
             vertexDescriptor.layouts[0].stride = MemoryLayout<CircleVertex>.stride
             vertexDescriptor.layouts[0].stepRate = 1              // Advance per vertex
             vertexDescriptor.layouts[0].stepFunction = .perVertex
-
+            
             // == Layout for Instance Data (Buffer 1) ==
-             // Attribute 1: Instance center position (float2)
+            // Attribute 1: Instance center position (float2)
             vertexDescriptor.attributes[1].format = .float2
             vertexDescriptor.attributes[1].offset = MemoryLayout.offset(of: \FruitOfLifeInstance.centerPosition)!
             vertexDescriptor.attributes[1].bufferIndex = 1 // Corresponds to [[buffer(1)]]
-
-             // Attribute 2: Instance color (float4)
+            
+            // Attribute 2: Instance color (float4)
             vertexDescriptor.attributes[2].format = .float4
             vertexDescriptor.attributes[2].offset = MemoryLayout.offset(of: \FruitOfLifeInstance.color)!
             vertexDescriptor.attributes[2].bufferIndex = 1 // Also from buffer 1
-
+            
             // Define stride for Layout 1 (instance data)
             vertexDescriptor.layouts[1].stride = MemoryLayout<FruitOfLifeInstance>.stride
             vertexDescriptor.layouts[1].stepRate = 1               // Advance per instance
             vertexDescriptor.layouts[1].stepFunction = .perInstance // Crucial for instancing!
-
+            
             pipelineDescriptor.vertexDescriptor = vertexDescriptor
-
+            
             // Create the immutable pipeline state
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
-             print("Render pipeline state created.")
-
+            print("Render pipeline state created.")
+            
         } catch {
             fatalError("Failed to create Fruit of Life Render Pipeline State: \(error)")
         }
     }
-
+    
     /// Creates and populates GPU buffers.
     func setupBuffers() {
         // --- Vertex Buffer (Base Circle Mesh) ---
@@ -349,7 +314,7 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         }
         vertexBuffer = vBuffer
         vertexBuffer.label = "Base Circle Vertices"
-
+        
         // --- Index Buffer (Base Circle Mesh) ---
         let indexDataSize = baseCircleIndices.count * MemoryLayout<UInt16>.stride
         guard let iBuffer = device.makeBuffer(bytes: baseCircleIndices, length: indexDataSize, options: []) else {
@@ -357,7 +322,7 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         }
         indexBuffer = iBuffer
         indexBuffer.label = "Base Circle Indices"
-
+        
         // --- Instance Buffer (Positions & Colors) ---
         let instanceDataSize = fruitOfLifeInstances.count * MemoryLayout<FruitOfLifeInstance>.stride
         // Use storageModeShared if we might update instance data from CPU later (e.g., animation)
@@ -366,7 +331,7 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         }
         instanceBuffer = instBuffer
         instanceBuffer.label = "Fruit of Life Instances"
-
+        
         // --- Uniform Buffer (Projection Matrix & Radius) ---
         let uniformBufferSize = MemoryLayout<FruitOfLifeUniforms>.stride // Ensure stride not size for alignment
         guard let uBuffer = device.makeBuffer(length: uniformBufferSize, options: .storageModeShared) else {
@@ -374,21 +339,21 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         }
         uniformBuffer = uBuffer
         uniformBuffer.label = "Uniforms (Projection + Radius)"
-         print("Buffers created.")
+        print("Buffers created.")
     }
-
+    
     /* // Depth Stencil Setup (if needed later)
-    func setupDepthStencil() {
-        let depthDescriptor = MTLDepthStencilDescriptor()
-        depthDescriptor.depthCompareFunction = .less
-        depthDescriptor.isDepthWriteEnabled = true
-        guard let state = device.makeDepthStencilState(descriptor: depthDescriptor) else {
-            fatalError("Failed to create depth stencil state")
-        }
-        depthState = state
-    }
-    */
-
+     func setupDepthStencil() {
+     let depthDescriptor = MTLDepthStencilDescriptor()
+     depthDescriptor.depthCompareFunction = .less
+     depthDescriptor.isDepthWriteEnabled = true
+     guard let state = device.makeDepthStencilState(descriptor: depthDescriptor) else {
+     fatalError("Failed to create depth stencil state")
+     }
+     depthState = state
+     }
+     */
+    
     /// Calculates the orthographic projection matrix and updates the uniform buffer.
     func updateUniforms() {
         // Determine bounds based on the calculated instance positions to ensure all fit.
@@ -407,17 +372,17 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
         // Add radius to bounds to ensure circle edges are visible
         minX -= fruitCircleRadius; maxX += fruitCircleRadius
         minY -= fruitCircleRadius; maxY += fruitCircleRadius
-
+        
         // Make the view slightly larger than the content bounds
         let padding: Float = 0.5
         minX -= padding; maxX += padding; minY -= padding; maxY += padding
-
+        
         // Ensure the aspect ratio of the projection matches the view's aspect ratio
         let currentAspectRatio = Float(viewSize.width / max(1, viewSize.height))
         let contentWidth = maxX - minX
         let contentHeight = maxY - minY
         let contentAspectRatio = contentWidth / max(1, contentHeight)
-
+        
         var left, right, bottom, top: Float
         if contentAspectRatio > currentAspectRatio {
             // Content is wider than view aspect ratio, adjust height
@@ -436,31 +401,31 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
             bottom = minY
             top = maxY
         }
-
+        
         let nearZ: Float = -1.0 // Can be anything for ortho, defines clipping planes
         let farZ: Float = 1.0
-
+        
         // Create orthographic projection matrix (Left-Handed)
         let projectionMatrix = matrix_orthographic_left_hand(left: left, right: right, bottom: bottom, top: top, nearZ: nearZ, farZ: farZ)
-
+        
         // Update Uniform Buffer
         var uniforms = FruitOfLifeUniforms(projectionMatrix: projectionMatrix, radius: fruitCircleRadius)
         let bufferPointer = uniformBuffer.contents()
         memcpy(bufferPointer, &uniforms, MemoryLayout<FruitOfLifeUniforms>.stride) // Use STRIDE for safety
     }
-
+    
     // MARK: - MTKViewDelegate Methods
-
+    
     /// Called when the MTKView's size changes. Updates the projection.
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         // Store the new size and recalculate projection matrix for the next frame.
         if size != .zero && size != viewSize {
-           viewSize = size
-           print("MTKView Resized to: \(size)")
-           // updateUniforms() will be called in the next draw anyway
+            viewSize = size
+            print("MTKView Resized to: \(size)")
+            // updateUniforms() will be called in the next draw anyway
         }
     }
-
+    
     /// Called for each frame to encode rendering commands.
     func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
@@ -470,19 +435,19 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
             print("Failed to get required Metal objects in draw(in:). Skipping frame.")
             return
         }
-
+        
         // Update uniforms based on current view size (important for ortho projection)
         updateUniforms()
-
+        
         renderEncoder.label = "Fruit of Life Render Encoder"
         renderEncoder.setRenderPipelineState(pipelineState)
         // renderEncoder.setDepthStencilState(depthState) // If using depth testing
-
+        
         // Bind Buffers (Update indices to match shader)
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)   // Base vertices at [[buffer(0)]]
         renderEncoder.setVertexBuffer(instanceBuffer, offset: 0, index: 1) // Instance data at [[buffer(1)]]
         renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 2)  // Uniforms at [[buffer(2)]]
-
+        
         // Issue Instanced Draw Call
         renderEncoder.drawIndexedPrimitives(type: .triangle,            // Primitives are triangles (from base mesh)
                                             indexCount: baseCircleIndices.count, // Indices per instance
@@ -490,7 +455,7 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
                                             indexBuffer: indexBuffer,      // Index buffer for base mesh
                                             indexBufferOffset: 0,
                                             instanceCount: fruitOfLifeInstances.count) // Draw 13 instances!
-
+        
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
@@ -502,7 +467,7 @@ class FruitOfLifeRenderer: NSObject, MTKViewDelegate {
 /// Bridges MTKView for Fruit of Life rendering into SwiftUI.
 struct MetalFruitOfLifeViewRepresentable: UIViewRepresentable {
     typealias UIViewType = MTKView
-
+    
     func makeCoordinator() -> FruitOfLifeRenderer {
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("Metal is not supported on this device.")
@@ -513,7 +478,7 @@ struct MetalFruitOfLifeViewRepresentable: UIViewRepresentable {
         print("Coordinator (FruitOfLifeRenderer) created.")
         return coordinator
     }
-
+    
     func makeUIView(context: Context) -> MTKView {
         let mtkView = MTKView()
         mtkView.device = context.coordinator.device
@@ -522,18 +487,18 @@ struct MetalFruitOfLifeViewRepresentable: UIViewRepresentable {
         mtkView.clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.98, alpha: 1.0) // Light background
         mtkView.colorPixelFormat = .bgra8Unorm_srgb
         // mtkView.depthStencilPixelFormat = .depth32Float // If enabling depth testing
-
+        
         // Configure pipeline AFTER view's formats are known
         context.coordinator.configure(metalKitView: mtkView)
         mtkView.delegate = context.coordinator
-
+        
         // Trigger initial size update
         context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
-
+        
         print("MTKView created and configured for Fruit of Life.")
         return mtkView
     }
-
+    
     func updateUIView(_ uiView: MTKView, context: Context) {
         // No external state updates handled in this version.
     }
@@ -551,10 +516,10 @@ struct FruitOfLifeView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color(red: 0.9, green: 0.9, blue: 0.94)) // Slightly darker for title BG
                 .foregroundColor(Color.primary.opacity(0.7))
-
+            
             // Embed the Metal View
             MetalFruitOfLifeViewRepresentable()
-                // Ensures the Metal view uses the light background color too
+            // Ensures the Metal view uses the light background color too
                 .background(Color(red: 0.95, green: 0.95, blue: 0.98))
         }
         .background(Color(red: 0.95, green: 0.95, blue: 0.98)) // Background for the whole VStack
@@ -571,25 +536,25 @@ struct FruitOfLifeView: View {
     struct PreviewPlaceholder: View {
         var body: some View {
             VStack {
-                 Text("The Fruit of Life (Metal)")
+                Text("The Fruit of Life (Metal)")
                     .font(.headline)
                     .padding()
                     .foregroundColor(Color.primary.opacity(0.7))
-                 Spacer()
-                 Text("Metal View Placeholder\n(Run on Simulator or Device)")
-                     .foregroundColor(.gray)
-                     .italic()
-                     .multilineTextAlignment(.center)
-                     .padding()
-                 Spacer()
-             }
+                Spacer()
+                Text("Metal View Placeholder\n(Run on Simulator or Device)")
+                    .foregroundColor(.gray)
+                    .italic()
+                    .multilineTextAlignment(.center)
+                    .padding()
+                Spacer()
+            }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(red: 0.95, green: 0.95, blue: 0.98))
             .edgesIgnoringSafeArea(.all)
         }
     }
-   return PreviewPlaceholder()
-
+    return PreviewPlaceholder()
+    
     // Uncomment below to TRY rendering the real view in Preview (might fail)
     // return FruitOfLifeView()
 }
@@ -611,7 +576,7 @@ func matrix_orthographic_left_hand(left: Float, right: Float, bottom: Float, top
     let lr = 1.0 / (right - left)
     let bt = 1.0 / (top - bottom)
     let nf = 1.0 / (farZ - nearZ)
-
+    
     // Construct column-major matrix
     return matrix_float4x4(
         // Column 0            Column 1            Column 2      Column 3
