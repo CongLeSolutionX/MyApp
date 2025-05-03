@@ -181,7 +181,10 @@ class OctahedronRenderer: NSObject, MTKViewDelegate {
         indexBuffer = device.makeBuffer(bytes: indices, length: indexDataSize, options: [])
 
         // Buffer for uniform data (MVP matrix)
-        let uniformBufferSize = MemoryLayout<SIMD4x4<Float>>.size // Size of one 4x4 matrix
+        // Use either the Swift Uniforms struct size OR the underlying matrix size
+        // let uniformBufferSize = MemoryLayout<Uniforms>.size // Using the new struct
+        // OR more directly:
+        let uniformBufferSize = MemoryLayout<matrix_float4x4>.size // Size of one 4x4 matrix
         uniformBuffer = device.makeBuffer(length: uniformBufferSize, options: .storageModeShared)
     }
 
