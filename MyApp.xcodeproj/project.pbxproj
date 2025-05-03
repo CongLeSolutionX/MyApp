@@ -11,7 +11,8 @@
 		9A34F6C62DC6C1AC00C57D9E /* TheFlowerOfLifeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6C52DC6C1A200C57D9E /* TheFlowerOfLifeView.swift */; };
 		9A34F6C82DC6C31500C57D9E /* TheFruitOfLifeView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6C72DC6C30F00C57D9E /* TheFruitOfLifeView_V1.swift */; };
 		9A34F6CD2DC6C3BB00C57D9E /* TheFruitOfLifeView_V2_lovely_work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6CC2DC6C3BB00C57D9E /* TheFruitOfLifeView_V2_lovely_work.swift */; };
-		9A34F6CF2DC6C72900C57D9E /* TheSeedOfLifeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView.swift */; };
+		9A34F6CF2DC6C72900C57D9E /* TheSeedOfLifeView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView_V1.swift */; };
+		9A34F6D12DC6C8C700C57D9E /* TheSeedOfLifeView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6D02DC6C8C700C57D9E /* TheSeedOfLifeView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -24,7 +25,8 @@
 		9A34F6C52DC6C1A200C57D9E /* TheFlowerOfLifeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFlowerOfLifeView.swift; sourceTree = "<group>"; };
 		9A34F6C72DC6C30F00C57D9E /* TheFruitOfLifeView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFruitOfLifeView_V1.swift; sourceTree = "<group>"; };
 		9A34F6CC2DC6C3BB00C57D9E /* TheFruitOfLifeView_V2_lovely_work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFruitOfLifeView_V2_lovely_work.swift; sourceTree = "<group>"; };
-		9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheSeedOfLifeView.swift; sourceTree = "<group>"; };
+		9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheSeedOfLifeView_V1.swift; sourceTree = "<group>"; };
+		9A34F6D02DC6C8C700C57D9E /* TheSeedOfLifeView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheSeedOfLifeView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +56,15 @@
 			path = TheFruitOfLifeView;
 			sourceTree = "<group>";
 		};
+		9A34F6D22DC6C8D400C57D9E /* TheSeedOfLifeView */ = {
+			isa = PBXGroup;
+			children = (
+				9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView_V1.swift */,
+				9A34F6D02DC6C8C700C57D9E /* TheSeedOfLifeView_V2.swift */,
+			);
+			path = TheSeedOfLifeView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +89,7 @@
 				9AAC418A2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift */,
 				9A34F6C32DC6C06F00C57D9E /* MetatronCubeView.swift */,
 				9A34F6C52DC6C1A200C57D9E /* TheFlowerOfLifeView.swift */,
-				9A34F6CE2DC6C72300C57D9E /* TheSeedOfLifeView.swift */,
+				9A34F6D22DC6C8D400C57D9E /* TheSeedOfLifeView */,
 				9A34F6CB2DC6C3AD00C57D9E /* TheFruitOfLifeView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
@@ -168,8 +179,9 @@
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A34F6C42DC6C07200C57D9E /* MetatronCubeView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
+				9A34F6D12DC6C8C700C57D9E /* TheSeedOfLifeView_V2.swift in Sources */,
 				9A34F6CD2DC6C3BB00C57D9E /* TheFruitOfLifeView_V2_lovely_work.swift in Sources */,
-				9A34F6CF2DC6C72900C57D9E /* TheSeedOfLifeView.swift in Sources */,
+				9A34F6CF2DC6C72900C57D9E /* TheSeedOfLifeView_V1.swift in Sources */,
 				9A34F6C62DC6C1AC00C57D9E /* TheFlowerOfLifeView.swift in Sources */,
 				9A34F6C82DC6C31500C57D9E /* TheFruitOfLifeView_V1.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,

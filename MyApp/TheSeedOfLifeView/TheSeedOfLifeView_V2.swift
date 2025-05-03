@@ -454,7 +454,7 @@ struct SeedOfLifeView: View {
     }
      return PreviewPlaceholder() // <-- Recommended for stability
 
-    // return SeedOfLifeView() // <-- Uncomment to attempt rendering the actual view
+     //return SeedOfLifeView() // <-- Uncomment to attempt rendering the actual view
 }
 
 // Note: Matrix math helper functions removed as they are not needed for this 2D implementation.
