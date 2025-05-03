@@ -63,7 +63,10 @@ fragment half4 octahedron_fragment_shader(
 """
 
 // MARK: - Vertex Data Structure (Swift & Metal Compatible)
-
+// Swift struct mirroring the layout of the 'Uniforms' struct in the shader
+struct Uniforms {
+    var modelViewProjectionMatrix: matrix_float4x4 // Use the simd alias matrix_float4x4
+}
 struct OctahedronVertex {
     var position: SIMD3<Float>
     var color: SIMD4<Float> // RGBA
