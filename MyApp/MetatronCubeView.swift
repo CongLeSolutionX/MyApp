@@ -471,10 +471,10 @@ struct MetatronCubeView: View { // Renamed
             .edgesIgnoringSafeArea(.all)
         }
     }
-    return PreviewPlaceholder() // <-- Use placeholder by default
+    //return PreviewPlaceholder() // <-- Use placeholder by default
 
     // Option 2: Attempt to Render the Actual Metal View (May Fail Preview)
-    // return MetatronCubeView() // <-- Uncomment to try live preview
+    return MetatronCubeView() // <-- Uncomment to try live preview
 }
 
 // MARK: - Matrix Math Helper Functions (using SIMD)
