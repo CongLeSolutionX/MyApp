@@ -553,10 +553,10 @@ struct FruitOfLifeView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-    return PreviewPlaceholder()
+    //return PreviewPlaceholder()
     
     // Uncomment below to TRY rendering the real view in Preview (might fail)
-    // return FruitOfLifeView()
+    return FruitOfLifeView()
 }
 
 // MARK: - Matrix Math Helper Functions (Orthographic)
