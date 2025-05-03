@@ -4,15 +4,6 @@
 //
 //  Created by Cong Le on 5/3/25.
 //
-
-//
-//  HexahedronView.swift
-//  MyApp
-//  (Adapted Filename)
-//
-//  Created by Cong Le on 5/4/25. (Based on Octahedron example date)
-//  Modified from original Octahedron example.
-//
 //  Description:
 //  This file defines a SwiftUI view hierarchy that displays a 3D rotating
 //  wireframe Hexahedron (Cube) rendered using Apple's Metal framework. It demonstrates:
