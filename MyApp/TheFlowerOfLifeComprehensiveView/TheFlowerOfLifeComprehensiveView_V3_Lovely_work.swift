@@ -78,12 +78,12 @@ vertex VertexOut flower_vertex_shader(
 }
 
 // --- Fragment Shader ---
-fragment half4 flower_fragment_shader(VertexOut in [[stage_in]]) {
-    // Return the interpolated color (including alpha)
-    // Premultiplied alpha is generally good practice if blending were enabled.
-    // For simple opacity, this works.
-    return half4(in.color.rgb * in.color.a, in.color.a);
-}
+fragment float4 flower_fragment_shader(VertexOut in [[stage_in]]) {
+  // Return the interpolated color (including alpha)
+      // Premultiplied alpha is generally good practice if blending were enabled.
+      // For simple opacity, this works.
+      return float4(in.color.rgb * in.color.a, in.color.a); // <-- Changed from half4(...)
+  }
 """
 
 // MARK: - Swift Data Structures
