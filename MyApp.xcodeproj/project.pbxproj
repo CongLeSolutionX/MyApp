@@ -11,7 +11,8 @@
 		9A34F6B02DC697D800C57D9E /* HexahedronView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6AF2DC697D600C57D9E /* HexahedronView.swift */; };
 		9A34F6B22DC69BF500C57D9E /* DodecahedronView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */; };
 		9A34F6B42DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */; };
-		9A34F6B72DC6A6BD00C57D9E /* DodecahedronView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3.swift */; };
+		9A34F6B72DC6A6BD00C57D9E /* DodecahedronView_V3_Lovely_work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3_Lovely_work.swift */; };
+		9A34F6B92DC6A98500C57D9E /* DodecahedronView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6B82DC6A98400C57D9E /* DodecahedronView_V4.swift */; };
 		9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */; };
 		9A75160C2DC63CD600B5E180 /* OctahedronView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */; };
 		9A75160E2DC63CF400B5E180 /* OctahedronShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */; };
@@ -35,7 +36,8 @@
 		9A34F6AF2DC697D600C57D9E /* HexahedronView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexahedronView.swift; sourceTree = "<group>"; };
 		9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V1.swift; sourceTree = "<group>"; };
 		9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V2_Debug_reference.swift; sourceTree = "<group>"; };
-		9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V3.swift; sourceTree = "<group>"; };
+		9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3_Lovely_work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V3_Lovely_work.swift; sourceTree = "<group>"; };
+		9A34F6B82DC6A98400C57D9E /* DodecahedronView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodecahedronView_V4.swift; sourceTree = "<group>"; };
 		9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1.swift; sourceTree = "<group>"; };
 		9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V2.swift; sourceTree = "<group>"; };
 		9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OctahedronShaders.metal; sourceTree = "<group>"; };
@@ -72,7 +74,8 @@
 			children = (
 				9A34F6B12DC69BF200C57D9E /* DodecahedronView_V1.swift */,
 				9A34F6B32DC6A2F600C57D9E /* DodecahedronView_V2_Debug_reference.swift */,
-				9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3.swift */,
+				9A34F6B62DC6A6BD00C57D9E /* DodecahedronView_V3_Lovely_work.swift */,
+				9A34F6B82DC6A98400C57D9E /* DodecahedronView_V4.swift */,
 			);
 			path = DodecahedronView;
 			sourceTree = "<group>";
@@ -230,8 +233,9 @@
 				9A75160E2DC63CF400B5E180 /* OctahedronShaders.metal in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
 				9A75161D2DC664F500B5E180 /* IcosahedronView_V1.swift in Sources */,
+				9A34F6B92DC6A98500C57D9E /* DodecahedronView_V4.swift in Sources */,
 				9A75160C2DC63CD600B5E180 /* OctahedronView_V2.swift in Sources */,
-				9A34F6B72DC6A6BD00C57D9E /* DodecahedronView_V3.swift in Sources */,
+				9A34F6B72DC6A6BD00C57D9E /* DodecahedronView_V3_Lovely_work.swift in Sources */,
 				9A7516202DC665C600B5E180 /* IcosahedronView_V2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
