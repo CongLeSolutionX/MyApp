@@ -15,6 +15,7 @@
 		9A7516142DC640E900B5E180 /* OctahedronView_V1_part_4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516132DC640E900B5E180 /* OctahedronView_V1_part_4.swift */; };
 		9A7516162DC642F700B5E180 /* OctahedronView_V1_part_5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516152DC642F700B5E180 /* OctahedronView_V1_part_5.swift */; };
 		9A7516182DC6444E00B5E180 /* OctahedronView_V1_part_6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516172DC6444E00B5E180 /* OctahedronView_V1_part_6.swift */; };
+		9A75161A2DC6475000B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516192DC6474E00B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		9A7516132DC640E900B5E180 /* OctahedronView_V1_part_4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1_part_4.swift; sourceTree = "<group>"; };
 		9A7516152DC642F700B5E180 /* OctahedronView_V1_part_5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1_part_5.swift; sourceTree = "<group>"; };
 		9A7516172DC6444E00B5E180 /* OctahedronView_V1_part_6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1_part_6.swift; sourceTree = "<group>"; };
+		9A7516192DC6474E00B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1_part_7_Lovely_work.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				9A7516132DC640E900B5E180 /* OctahedronView_V1_part_4.swift */,
 				9A7516152DC642F700B5E180 /* OctahedronView_V1_part_5.swift */,
 				9A7516172DC6444E00B5E180 /* OctahedronView_V1_part_6.swift */,
+				9A7516192DC6474E00B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift */,
 				9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */,
 				9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
@@ -171,6 +174,7 @@
 				9A7516102DC63D2B00B5E180 /* OctahedronView_V1_part_2.swift in Sources */,
 				9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */,
 				9A7516142DC640E900B5E180 /* OctahedronView_V1_part_4.swift in Sources */,
+				9A75161A2DC6475000B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift in Sources */,
 				9A7516182DC6444E00B5E180 /* OctahedronView_V1_part_6.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A7516162DC642F700B5E180 /* OctahedronView_V1_part_5.swift in Sources */,
