@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A18E03B2DC666EF002A0969 /* IcosahedronView_V3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A18E03A2DC666EF002A0969 /* IcosahedronView_V3.swift */; };
 		9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */; };
 		9A75160C2DC63CD600B5E180 /* OctahedronView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */; };
 		9A75160E2DC63CF400B5E180 /* OctahedronShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A18E03A2DC666EF002A0969 /* IcosahedronView_V3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcosahedronView_V3.swift; sourceTree = "<group>"; };
 		9A7516092DC63B1C00B5E180 /* OctahedronView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V1.swift; sourceTree = "<group>"; };
 		9A75160B2DC63CD400B5E180 /* OctahedronView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctahedronView_V2.swift; sourceTree = "<group>"; };
 		9A75160D2DC63CF000B5E180 /* OctahedronShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OctahedronShaders.metal; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			children = (
 				9A75161C2DC664E700B5E180 /* IcosahedronView_V1.swift */,
 				9A75161F2DC665C600B5E180 /* IcosahedronView_V2.swift */,
+				9A18E03A2DC666EF002A0969 /* IcosahedronView_V3.swift */,
 			);
 			path = IcosahedronView;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				9A7516122DC63F9A00B5E180 /* OctahedronView_V1_part_3.swift in Sources */,
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A7516102DC63D2B00B5E180 /* OctahedronView_V1_part_2.swift in Sources */,
+				9A18E03B2DC666EF002A0969 /* IcosahedronView_V3.swift in Sources */,
 				9A75160A2DC63B2B00B5E180 /* OctahedronView_V1.swift in Sources */,
 				9A7516142DC640E900B5E180 /* OctahedronView_V1_part_4.swift in Sources */,
 				9A75161A2DC6475000B5E180 /* OctahedronView_V1_part_7_Lovely_work.swift in Sources */,
