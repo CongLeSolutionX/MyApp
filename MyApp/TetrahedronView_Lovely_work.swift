@@ -418,10 +418,10 @@ struct TetrahedronView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-    return PreviewPlaceholder() // Default to placeholder
+    //return PreviewPlaceholder() // Default to placeholder
 
     // Option 2: Attempt to Render the Actual Metal View (May Fail in Preview)
-    // return TetrahedronView() // Uncomment this line and comment placeholder to try
+    return TetrahedronView() // Uncomment this line and comment placeholder to try
 }
 
 // MARK: - Matrix Math Helper Functions (using SIMD - Left-Handed)
