@@ -490,9 +490,9 @@ struct FlowerOfLifeView: View {
             .edgesIgnoringSafeArea(.all)
         }
     }
-     return PreviewPlaceholder() // <-- Use placeholder
+     //return PreviewPlaceholder() // <-- Use placeholder
 
-    // return FlowerOfLifeView() // <-- Or uncomment to try rendering real view (may fail)
+    return FlowerOfLifeView() // <-- Or uncomment to try rendering real view (may fail)
 }
 
 // MARK: - Matrix Math Helper Functions (Left-Handed)
