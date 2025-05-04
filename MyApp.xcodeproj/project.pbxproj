@@ -18,6 +18,8 @@
 		9A34F6D82DC6CFA300C57D9E /* TheFlowerOfLifeComprehensiveView_V3_Lovely_work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6D72DC6CFA300C57D9E /* TheFlowerOfLifeComprehensiveView_V3_Lovely_work.swift */; };
 		9A34F6DB2DC6D1B700C57D9E /* TheFlowerOfLifeComprehensiveView_V4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6DA2DC6D1AC00C57D9E /* TheFlowerOfLifeComprehensiveView_V4.swift */; };
 		9A34F6DD2DC6D2B300C57D9E /* TheFlowerOfLifeComprehensiveView_V5_Over_the_Top.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6DC2DC6D2B300C57D9E /* TheFlowerOfLifeComprehensiveView_V5_Over_the_Top.swift */; };
+		9A34F6FA2DC777D200C57D9E /* SimulatingUniverseCreationView_V1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A34F6F92DC777D200C57D9E /* SimulatingUniverseCreationView_V1.swift */; };
+		9A67845B2DC778A6006D12B2 /* SimulatingUniverseCreationView_V2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A67845A2DC778A6006D12B2 /* SimulatingUniverseCreationView_V2.swift */; };
 		9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417B2C74668B00AC0A60 /* MyApp.swift */; };
 		9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAC417D2C74668B00AC0A60 /* ContentView.swift */; };
 		9AAC41802C74668C00AC0A60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AAC417F2C74668C00AC0A60 /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		9A34F6D72DC6CFA300C57D9E /* TheFlowerOfLifeComprehensiveView_V3_Lovely_work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFlowerOfLifeComprehensiveView_V3_Lovely_work.swift; sourceTree = "<group>"; };
 		9A34F6DA2DC6D1AC00C57D9E /* TheFlowerOfLifeComprehensiveView_V4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFlowerOfLifeComprehensiveView_V4.swift; sourceTree = "<group>"; };
 		9A34F6DC2DC6D2B300C57D9E /* TheFlowerOfLifeComprehensiveView_V5_Over_the_Top.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheFlowerOfLifeComprehensiveView_V5_Over_the_Top.swift; sourceTree = "<group>"; };
+		9A34F6F92DC777D200C57D9E /* SimulatingUniverseCreationView_V1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatingUniverseCreationView_V1.swift; sourceTree = "<group>"; };
+		9A67845A2DC778A6006D12B2 /* SimulatingUniverseCreationView_V2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatingUniverseCreationView_V2.swift; sourceTree = "<group>"; };
 		9AAC41782C74668B00AC0A60 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AAC417B2C74668B00AC0A60 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
 		9AAC417D2C74668B00AC0A60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -87,6 +91,15 @@
 			path = TheFlowerOfLifeComprehensiveView;
 			sourceTree = "<group>";
 		};
+		9A67845D2DC778BC006D12B2 /* SimulatingUniverseCreationView */ = {
+			isa = PBXGroup;
+			children = (
+				9A34F6F92DC777D200C57D9E /* SimulatingUniverseCreationView_V1.swift */,
+				9A67845A2DC778A6006D12B2 /* SimulatingUniverseCreationView_V2.swift */,
+			);
+			path = SimulatingUniverseCreationView;
+			sourceTree = "<group>";
+		};
 		9AAC416F2C74668B00AC0A60 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +127,7 @@
 				9A34F6D92DC6D06D00C57D9E /* TheFlowerOfLifeComprehensiveView */,
 				9A34F6D22DC6C8D400C57D9E /* TheSeedOfLifeView */,
 				9A34F6CB2DC6C3AD00C57D9E /* TheFruitOfLifeView */,
+				9A67845D2DC778BC006D12B2 /* SimulatingUniverseCreationView */,
 				9AAC417F2C74668C00AC0A60 /* Assets.xcassets */,
 				9AAC41812C74668C00AC0A60 /* MyApp.entitlements */,
 				9AAC41822C74668C00AC0A60 /* Preview Content */,
@@ -201,6 +215,7 @@
 			files = (
 				9AAC418B2C7466F000AC0A60 /* UIKitViewControllerWrapper.swift in Sources */,
 				9A34F6D42DC6CB5000C57D9E /* TheFlowerOfLifeComprehensiveView_V1.swift in Sources */,
+				9A34F6FA2DC777D200C57D9E /* SimulatingUniverseCreationView_V1.swift in Sources */,
 				9A34F6C42DC6C07200C57D9E /* MetatronCubeView.swift in Sources */,
 				9AAC417E2C74668B00AC0A60 /* ContentView.swift in Sources */,
 				9A34F6D62DC6CBCF00C57D9E /* TheFlowerOfLifeComprehensiveView_V2.swift in Sources */,
@@ -208,6 +223,7 @@
 				9A34F6CD2DC6C3BB00C57D9E /* TheFruitOfLifeView_V2_lovely_work.swift in Sources */,
 				9A34F6DB2DC6D1B700C57D9E /* TheFlowerOfLifeComprehensiveView_V4.swift in Sources */,
 				9A34F6CF2DC6C72900C57D9E /* TheSeedOfLifeView_V1.swift in Sources */,
+				9A67845B2DC778A6006D12B2 /* SimulatingUniverseCreationView_V2.swift in Sources */,
 				9A34F6C62DC6C1AC00C57D9E /* TheFlowerOfLifeView.swift in Sources */,
 				9A34F6C82DC6C31500C57D9E /* TheFruitOfLifeView_V1.swift in Sources */,
 				9AAC417C2C74668B00AC0A60 /* MyApp.swift in Sources */,
