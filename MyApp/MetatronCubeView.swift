@@ -440,7 +440,7 @@
 //
 //            // Embed the Metal View
 //            MetalMetatronViewRepresentable() // Use updated representable
-//                // .ignoresSafeArea() // Optional: extend into safe areas
+//                 .ignoresSafeArea() // Optional: extend into safe areas
 //        }
 //        .background(Color(red: 0.05, green: 0.05, blue: 0.1)) // Match Metal clear color
 //        .ignoresSafeArea(.keyboard)
