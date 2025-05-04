@@ -152,6 +152,10 @@ final class FlowerRenderer: NSObject, MTKViewDelegate {
 
 struct FlowerOfLifeMetalView: UIViewRepresentable {
     
+    private enum AssocKey {
+        static var renderer = 0       // its address is the unique key
+    }
+    
     typealias UIViewType = MTKView
     
     func makeUIView(context: Context) -> MTKView {
@@ -167,10 +171,12 @@ struct FlowerOfLifeMetalView: UIViewRepresentable {
         if let renderer = FlowerRenderer(mtkView: view) {
             view.device   = renderer.device
             view.delegate = renderer
-            objc_setAssociatedObject(view,
-                                     Unmanaged.passUnretained(self).toOpaque(),
-                                     renderer,
-                                     .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            
+            objc_setAssociatedObject(
+                view,
+                &AssocKey.renderer,           // <- pass the address of the static var
+                renderer,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         return view
     }
