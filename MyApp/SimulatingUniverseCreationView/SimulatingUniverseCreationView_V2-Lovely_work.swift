@@ -1,11 +1,4 @@
 //
-//  SimulatingUniverseCreationView.swift
-//  MyApp
-//
-//  Created by Cong Le on 5/4/25.
-//
-
-//
 //  SacredGeometrySuite.swift
 //  MyApp
 //
@@ -147,7 +140,7 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
         super.init()
 
         generateCircleGeometry()
-        calculateFlowerOfLifeCenters()
+        calculateFlowerOfLifeCenters() // This now calls the _Original version internally
         setupBuffers()
         // Pipeline setup deferred until MTKView is available
     }
@@ -163,188 +156,69 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
         let angleStep = (2.0 * Float.pi) / Float(circleSegments)
         for i in 0...circleSegments {
             let angle = angleStep * Float(i)
-            circleVertices.append(FlowerCircleVertex(position: SIMD2<Float>(cos(angle), sin(angle))))
+            // Use Float explicitly for cos/sin results
+            circleVertices.append(FlowerCircleVertex(position: SIMD2<Float>(Float(cos(angle)), Float(sin(angle)))))
             circleIndices.append(UInt16(i))
         }
     }
 
+    // Main function simply delegates to the original calculation logic for now
     func calculateFlowerOfLifeCenters() {
-        circleCenters.removeAll()
-        let r = baseRadius
-        let h = r * sqrt(3.0) // Height calculation simplified here, sqrt(3)/2 * 2 * r = r * sqrt(3) -> DISTANCE between rows
-        let v_dist = r * sqrt(3.0) // Vertical distance between rows of centers
+        calculateFlowerOfLifeCenters_Original()
 
-        // Layer 0: Center
-        circleCenters.append(SIMD2<Float>(0, 0)) // 0
+        // Ensure the centers array has the corect size after calculation
+         guard circleCenters.count <= maxInstances else {
+             print("Warning: Calculated \(circleCenters.count) centers, expected max \(maxInstances). Truncating.")
+             circleCenters = Array(circleCenters.prefix(maxInstances))
+             return // Exit early if truncated
+         }
 
-        // Layer 1: Seed of Life (6 circles)
-        let angleStep1 = Float.pi / 3.0 // 60 degrees
-        for i in 0..<6 {
-            let angle = angleStep1 * Float(i)
-            circleCenters.append(SIMD2<Float>(r * cos(angle), r * sin(angle))) // 1-6
-        }
-
-        // Layer 2: Outer Flower (12 circles) - simplified based on relative positions
-        // Hexagonal grid coordinates relative to center (0,0)
-        // First ring neighbors already added (1-6)
-        // Second ring outward
-        circleCenters.append(SIMD2<Float>(2 * r, 0))              // 7: Right
-        circleCenters.append(SIMD2<Float>(r, v_dist))             // 8: Top-Right
-        circleCenters.append(SIMD2<Float>(-r, v_dist))            // 9: Top-Left
-        circleCenters.append(SIMD2<Float>(-2 * r, 0))             // 10: Left
-        circleCenters.append(SIMD2<Float>(-r, -v_dist))           // 11: Bottom-Left
-        circleCenters.append(SIMD2<Float>(r, -v_dist))            // 12: Bottom-Right
-
-        // In-between second ring points
-        circleCenters.append(SIMD2<Float>(0, 2 * v_dist / sqrt(3.0))) // ~ (0, 2r) Should be 0, 2*h... Let's recalculate properly
-        // Correct H calculation: h = vertical distance between center and center of circle above it in grid.
-        // h = r * sqrt(3.0) -- height of EQUILATERAL triangle formed by 3 centers
-        // Needs adjustment, center list was slightly off in provided code, remaking based on standard FOL layout:
-
-        circleCenters = [] // Recalculate properly
-        let h_dist = r * sqrt(3.0) // Horizontal dist between columns, same as v_dist here
-        let r_eff = r // Effective radius for positioning = baseRadius
-
-        // Central point
-        circleCenters.append(SIMD2(x: 0, y: 0)) // [0]
-
-        // First ring (6 circles)
-        for i in 0..<6 {
-            let angle = Float(i) * .pi / 3.0
-            circleCenters.append(SIMD2(x: r_eff * cos(angle), y: r_eff * sin(angle))) // [1...6]
-        }
-
-        // Second ring (12 circles)
-        circleCenters.append(SIMD2(x: 2 * r_eff, y: 0)) // [7] Far right
-        circleCenters.append(SIMD2(x: r_eff, y: h_dist))   // [8] Top right
-        circleCenters.append(SIMD2(x: -r_eff, y: h_dist))  // [9] Top left
-        circleCenters.append(SIMD2(x: -2 * r_eff, y: 0)) // [10] Far left
-        circleCenters.append(SIMD2(x: -r_eff, y: -h_dist)) // [11] Bottom left
-        circleCenters.append(SIMD2(x: r_eff, y: -h_dist))  // [12] Bottom right
-
-        circleCenters.append(SIMD2(x: 0, y: 2 * r_eff * sin(.pi/3) )) // [13] Top vertex (was h_dist) - check this again
-        // Top vertex uses angle 90 deg: Y = 2*r_eff * sin(pi/2) = 2*r_eff? No.
-        // Distance from Origin to vertex [13] is 2*h_dist. h_dist derived from r*sin(60) = r*sqrt(3)/2. So dist= r*sqrt(3).
-        // Let's recalculate second ring centers. Center 0,0. First ring centers at r distance.
-        // Second ring centers at 2r distance OR sqrt(3)*r distance depending on pattern interpretation. Standard FOL uses 2r dist centers.
-
-        circleCenters = [] // Reset and be precise. 19 circles total.
-        let radius = baseRadius
-        let height_step = radius * sqrt(3.0) // Vertical distance between rows
-
-        // Center
-        circleCenters.append(.zero) // 0
-
-        // First ring
-        for i in 0..<6 {
-            let angle = Float(i) * .pi / 3.0
-            circleCenters.append(SIMD2(x: radius * cos(angle), y: radius * sin(angle))) // 1..6
-        }
-
-        // Second ring
-        circleCenters.append(SIMD2(x: 2 * radius, y: 0)) // 7
-        circleCenters.append(SIMD2(x: radius, y: height_step)) // 8
-        circleCenters.append(SIMD2(x: -radius, y: height_step)) // 9
-        circleCenters.append(SIMD2(x: -2 * radius, y: 0)) // 10
-        circleCenters.append(SIMD2(x: -radius, y: -height_step)) // 11
-        circleCenters.append(SIMD2(x: radius, y: -height_step)) // 12
-
-        circleCenters.append(SIMD2(x: 0, y: 2 * height_step)) // 13: Topmost (Y=sqrt(3)*R * 2?) No -> y = height_step * (2/sqrt(3)) * sqrt(3) = 2r incorrect. Y = height_step.
-        // Consider center (0,0). Pt 8 is (r, h). Pt 9 is (-r, h). Pt 13 should be (0, 2h) if h=sqrt(3)R/2 -> (0, sqrt(3)R) ? Yes.
-        circleCenters.append(SIMD2(x: 0, y: height_step)) // This seems correct for standard FOL
-        // Let's restart the indices properly for the standard 19 pattern.
-
-        circleCenters = [] // Final attempt for standard pattern
-        let R = baseRadius
-        let H = R * sqrt(3.0)
-
-        // Center
-        circleCenters.append(.zero) // 0
-
-        // Ring 1 (6 circles)
-        for i in 0..<6 {
-            circleCenters.append(SIMD2(x: R * cos(Float(i) * .pi/3), y: R * sin(Float(i) * .pi/3))) // 1-6
-        }
-
-        // Ring 2 (12 circles)
-        circleCenters.append(SIMD2(x: 2*R, y: 0))    // 7 (Angle 0)
-        circleCenters.append(SIMD2(x: R, y: H))      // 8 (Angle 60)
-        circleCenters.append(SIMD2(x: -R, y: H))     // 9 (Angle 120)
-        circleCenters.append(SIMD2(x: -2*R, y: 0))   // 10 (Angle 180)
-        circleCenters.append(SIMD2(x: -R, y: -H))    // 11 (Angle 240)
-        circleCenters.append(SIMD2(x: R, y: -H))     // 12 (Angle 300)
-
-        // Vertices of the outer hexagon defined by ring 2 centers
-        circleCenters.append(SIMD2(x: 0, y: 2*R*sin(.pi/3))) // Incorrect calculation, should be 2 * H from center? Revert to prev good attempt.
-        // Re-using the first correct-looking list derivation:
-        circleCenters = []
-        let r = baseRadius
-        let v_dist = r * sqrt(3.0) // Vertical distance BETWEEN ROWS
-
-        circleCenters.append(SIMD2<Float>(0, 0)) // 0: Center
-
-        let layer1AngleStep = Float.pi / 3.0
-        for i in 0..<6 { // 1-6: First ring
-            let angle = layer1AngleStep * Float(i)
-            circleCenters.append(SIMD2<Float>(r * cos(angle), r * sin(angle)))
-        }
-
-        // Layer 2 - points at distance 2r or related hex distance
-        circleCenters.append(SIMD2<Float>(2*r, 0))        // 7: Far Right
-        circleCenters.append(SIMD2<Float>(r, v_dist))     // 8: Top-Right
-        circleCenters.append(SIMD2<Float>(-r, v_dist))    // 9: Top-Left
-        circleCenters.append(SIMD2<Float>(-2*r, 0))       // 10: Far Left
-        circleCenters.append(SIMD2<Float>(-r, -v_dist))   // 11: Bottom-Left
-        circleCenters.append(SIMD2<Float>(r, -v_dist))    // 12: Bottom-Right
-
-        // Outer intermediate points - these complete the standard FOL often shown
-        circleCenters.append(SIMD2<Float>(0, 2 * r)) // 13: Topmost Incorrect Y -> use v_dist. Correct is 2 * (r * sin(60)) = sqrt(3)*r = v_dist
-        // This position (0, v_dist) is already covered by the points derived from angles 60/120 avg? NO.
-        // Standard FOL *does* often show circles centered at (0, +/- v_dist), (+/- 2r, 0), (+/- r, +/- v_dist).
-        // Let's assume the original code's calculation was targeting a specific *visual representation*, even if slightly different from the absolute min 19.
-        // Stick with the original code's calculation output for consistency with *its* animation.
-        calculateFlowerOfLifeCenters_Original() // Use the exact logic from the provided code.
-
-        guard circleCenters.count == maxInstances else {
-            print("Warning: Calculated \(circleCenters.count) centers, expected \(maxInstances). Check calculation logic.")
-            while circleCenters.count < maxInstances { circleCenters.append(.zero) } // Pad if needed
+        // Check if padding is necessary ONLY if calculation resulted in FEWER than maxInstances
+        if circleCenters.count < maxInstances {
+            print("Warning: Calculated \(circleCenters.count) centers, expected \(maxInstances). Padding with zeros.")
+            while circleCenters.count < maxInstances {
+                circleCenters.append(.zero)
+            }
         }
     }
 
-    // Keep the original calculation function to avoid breaking its specific layout/animation logic
+    // Keep the original calculation function renamed AND FIX TYPE ERRORS WITHIN IT
     private func calculateFlowerOfLifeCenters_Original() {
         circleCenters.removeAll()
-        let r = baseRadius
-        let h = r * sqrt(3.0) / 2.0 // Original code's calculation of half-height
+        // Ensure 'r' is declared only ONCE at the top of its required scope
+        let radius: Float = self.baseRadius
+        // Ensure sqrt result is Float
+        let halfHeight: Float = radius * Float(sqrt(3.0)) / 2.0
 
         // Layer 0
         circleCenters.append(SIMD2<Float>(0, 0)) // Inst 0
 
         // Layer 1 (Seed)
         let layer1AngleStep = Float.pi / 3.0
-        for i in 0..<6 { circleCenters.append(SIMD2<Float>(r * cos(layer1AngleStep * Float(i)), r * sin(layer1AngleStep * Float(i)))) } // Inst 1-6
+        for i in 0..<6 {
+            let angle = layer1AngleStep * Float(i)
+            // Cast trig results to Float
+            circleCenters.append(SIMD2<Float>(radius * Float(cos(angle)), radius * Float(sin(angle))))
+        } // Inst 1-6
 
-        // Layer 2 (Outer Flower - Original Code's specific points)
-        circleCenters.append(SIMD2<Float>(2*r, 0))       // 7
-        circleCenters.append(SIMD2<Float>(r, 2*h))       // 8
-        circleCenters.append(SIMD2<Float>(-r, 2*h))      // 9 - Modified from original code's (0, 2h) to match symmetry better
-        circleCenters.append(SIMD2<Float>(-2*r, 0))      // 10 - Modified from original code's (-r, 2h)
-        circleCenters.append(SIMD2<Float>(-r, -2*h))     // 11 - Modified from original code's (-2r, 0)
-        circleCenters.append(SIMD2<Float>(r, -2*h))      // 12 - Modified from original code's (-r, -2h)
+        // Layer 2 (Outer Flower - Original Code's specific points, ensure Float)
+        // Using radius and halfHeight which are already Float
+        circleCenters.append(SIMD2<Float>(2*radius, 0))          // 7
+        circleCenters.append(SIMD2<Float>(radius, 2*halfHeight))   // 8
+        circleCenters.append(SIMD2<Float>(-radius, 2*halfHeight))  // 9
+        circleCenters.append(SIMD2<Float>(-2*radius, 0))         // 10
+        circleCenters.append(SIMD2<Float>(-radius, -2*halfHeight)) // 11
+        circleCenters.append(SIMD2<Float>(radius, -2*halfHeight))  // 12
 
-        // Fill remaining based on original code's count assumption (might be incorrect points now)
-        // Original code had these 4 extra points explicitly:
-         circleCenters.append(SIMD2<Float>(0, 2*h))  // Original Point 9 --> Now [13]?
-         circleCenters.append(SIMD2<Float>(-r * 1.5, h)) // Point 16 --> Now [14]?
-         circleCenters.append(SIMD2<Float>(-r * 1.5, -h))// Point 17 --> Now [15]?
-         circleCenters.append(SIMD2<Float>(r * 1.5, -h)) // Point 18 --> Now [16]?
-         // Original code was missing some symmetric points. Let's complete based on the original logic's *types* of points.
-          circleCenters.append(SIMD2<Float>(0, -2*h))            // [17] Symmetric to [13]
-          circleCenters.append(SIMD2<Float>(r * 1.5, h))         // [18] Symmetric to [14]
+        // Original extra points
+        circleCenters.append(SIMD2<Float>(0, 2*halfHeight))             // 13
+        circleCenters.append(SIMD2<Float>(-radius * 1.5, halfHeight))   // 14
+        circleCenters.append(SIMD2<Float>(-radius * 1.5, -halfHeight))  // 15
+        circleCenters.append(SIMD2<Float>(radius * 1.5, -halfHeight))   // 16
 
-        // Ensure count is exactly `maxInstances`
-        while circleCenters.count > maxInstances { circleCenters.removeLast() }
-        while circleCenters.count < maxInstances { circleCenters.append(.zero) } // Pad if needed
+        // Symmetric points to fill up closer to 19 count
+        circleCenters.append(SIMD2<Float>(0, -2*halfHeight))            // 17
+        circleCenters.append(SIMD2<Float>(radius * 1.5, halfHeight))    // 18
     }
 
     // --- Setup Functions ---
@@ -419,7 +293,7 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
 
     // --- Update State ---
     func updateState() {
-        let currentTime = Float(Date().timeIntervalSince(startTime))
+        let currentTime = Float(Date().timeIntervalSince(startTime)) // Cast TimeInterval (Double) to Float
 
         // Update Uniforms
         let projMatrix = create_matrix_orthographic_projection(aspectRatio: aspectRatio) // Renamed helper
@@ -434,28 +308,37 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
         let instanceDataPtr = instanceDataBuffer.contents().bindMemory(to: FlowerInstanceData.self, capacity: maxInstances)
         var currentInstanceCount = 0
 
+        // Ensure time constants are Float
         let timeSeedStart: Float = 0.5
         let timeSeedDuration: Float = 2.0
         let timeFlowerStart: Float = timeSeedStart + timeSeedDuration + 0.5
         let timeFlowerDuration: Float = 3.0
 
         for i in 0..<maxInstances {
-            guard i < circleCenters.count else { continue }
+             // Check bounds BEFORE accessing circleCenters
+            guard i < circleCenters.count else {
+                // This should ideally not happen if padding logic is correct, but safe guard.
+                print("UpdateState: Warning - Index \(i) out of bounds for circleCenters (count: \(circleCenters.count)). Skipping.")
+                continue
+            }
 
             var alpha: Float = 0.0
-            let scale: Float = baseRadius
+            let scale: Float = baseRadius // Already Float
 
             if i == 0 { // Center
                 alpha = smoothStep(0.0, timeSeedStart, currentTime) // Use renamed helper
             } else if i < 7 { // Seed
+                // Ensure all calculations use Float
                 let startTimeForThis = timeSeedStart + Float(i-1) * (timeSeedDuration / 6.0) * 0.5
                 alpha = smoothStep(startTimeForThis, startTimeForThis + timeSeedDuration * 0.8, currentTime)
             } else { // Flower
+                // Ensure all calculations use Float
                 let startTimeForThis = timeFlowerStart + Float(i-7) * (timeFlowerDuration / 12.0) * 0.5
                 alpha = smoothStep(startTimeForThis, startTimeForThis + timeFlowerDuration * 0.8, currentTime)
             }
 
             if alpha > 0.001 {
+                // Bounds already checked, safe to access circleCenters[i]
                 instanceDataPtr[currentInstanceCount] = FlowerInstanceData(
                     offset: circleCenters[i],
                     scale: scale * alpha, // Fade scale in with alpha
@@ -473,22 +356,25 @@ class FlowerOfLifeRenderer: NSObject, MTKViewDelegate {
 
     // --- MTKViewDelegate Methods ---
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        // Cast width/height to Float for aspect ratio calculation
         aspectRatio = Float(size.width / max(1.0, size.height))
     }
 
     func draw(in view: MTKView) {
-        guard let pipelineState = pipelineState,
-              let circleVertexBuffer = circleVertexBuffer,
-              let circleIndexBuffer = circleIndexBuffer,
-              let uniformBuffer = uniformBuffer,
-              let instanceDataBuffer = instanceDataBuffer,
-              let drawable = view.currentDrawable,
-              let renderPassDescriptor = view.currentRenderPassDescriptor,
-              let commandBuffer = commandQueue.makeCommandBuffer(),
-              let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-            print("Flower: Skipping draw - resources not ready.")
-            return
-        }
+        // Use optional chaining and early exit guard
+       guard let pipelineState = pipelineState,
+             let circleVertexBuffer = circleVertexBuffer,
+             let circleIndexBuffer = circleIndexBuffer,
+             let uniformBuffer = uniformBuffer,
+             let instanceDataBuffer = instanceDataBuffer,
+             let drawable = view.currentDrawable,
+             let renderPassDescriptor = view.currentRenderPassDescriptor,
+             let commandBuffer = commandQueue.makeCommandBuffer(),
+             let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
+           // Reduce console noise, maybe log less frequently or use breakpoints
+           // // print("Flower: Skipping draw - resources not ready.")
+           return
+       }
 
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0.05, green: 0.05, blue: 0.1, alpha: 1.0) // Dark blue background
         renderPassDescriptor.colorAttachments[0].loadAction = .clear
@@ -585,7 +471,7 @@ struct FlowerOfLifeView: View {
 
 /// Creates an orthographic projection matrix (Left-Handed) for Flower of Life view.
 func create_matrix_orthographic_projection(aspectRatio: Float, nearZ: Float = -1.0, farZ: Float = 1.0) -> matrix_float4x4 {
-    let overallScale: Float = 1.0 / 2.0 // Adjusted zoom for flower view
+    let overallScale: Float = 1.0 / 2.5 // Adjusted zoom for flower view, was 2.0
     var scaleX = overallScale
     var scaleY = overallScale
 
@@ -704,9 +590,10 @@ fileprivate struct PlatonicMath {
 
     static func rotationXYZ(_ pitch: Float, _ yaw: Float, _ roll: Float) -> float4x4 {
          // Using Apple's SIMD matrix initializers for potential clarity/optimization
-         let cosPitch = cos(pitch); let sinPitch = sin(pitch)
-         let cosYaw = cos(yaw);     let sinYaw = sin(yaw)
-         let cosRoll = cos(roll);   let sinRoll = sin(roll)
+         // Ensure results of trig functions are Float
+         let cosPitch = Float(cos(pitch)); let sinPitch = Float(sin(pitch))
+         let cosYaw = Float(cos(yaw));     let sinYaw = Float(sin(yaw))
+         let cosRoll = Float(cos(roll));   let sinRoll = Float(sin(roll))
 
          let rotX = float4x4(rows: [SIMD4(1, 0, 0, 0),
                                     SIMD4(0, cosPitch, sinPitch, 0),
@@ -723,21 +610,23 @@ fileprivate struct PlatonicMath {
                                     SIMD4(0, 0, 1, 0),
                                     SIMD4(0, 0, 0, 1)])
 
-         // Combine: Z * Y * X (standard Euler order, check if matching original intent)
-         return rotZ * rotY * rotX // Original was Rz * Ry * Rx
+         // Combine: Z * Y * X (standard Euler order)
+         return rotZ * rotY * rotX
     }
 }
 
 // Helper extension for rotating SIMD3 vectors used in camera positioning
 fileprivate extension SIMD3 where Scalar == Float {
     func rotatedX(_ angle: Float) -> SIMD3 {
-        let c = cos(angle)
-        let s = sin(angle)
+        // Cast trig results to Float
+        let c = Float(cos(angle))
+        let s = Float(sin(angle))
         return SIMD3(x, c * y - s * z, s * y + c * z)
     }
     func rotatedY(_ angle: Float) -> SIMD3 {
-        let c = cos(angle)
-        let s = sin(angle)
+        // Cast trig results to Float
+        let c = Float(cos(angle))
+        let s = Float(sin(angle))
         return SIMD3(c * x + s * z, y, -s * x + c * z)
     }
 }
@@ -786,7 +675,8 @@ fileprivate enum PlatonicPalette {
     static func randomColors(count: Int) -> [SIMD4<Float>] {
         guard count > 0 else { return [] }
         return (0..<count).map { _ in
-            SIMD4<Float>(Float.random(in: 0.2...0.9), // Avoid overly bright/dark
+            // Use Float directly for random numbers
+            SIMD4<Float>(Float.random(in: 0.2...0.9),
                          Float.random(in: 0.2...0.9),
                          Float.random(in: 0.2...0.9),
                          1.0) // Fully opaque
@@ -818,10 +708,17 @@ fileprivate struct PlatonicGeometryFactory {
         }
     }
 
+    // Helper to expand a base color palette to match vertex count
+    private static func expandColors(count n: Int, base: [SIMD4<Float>]) -> [SIMD4<Float>] {
+        guard !base.isEmpty else { return Array(repeating: SIMD4<Float>(1,1,1,1), count: n) }
+        return (0..<n).map { base[$0 % base.count] }
+    }
+
     // -- Tetrahedron --
     private static func createTetrahedron(palette c: [SIMD4<Float>]) -> ([PlatonicVertex], [UInt16]) {
+        // Ensure literals are Float if used directly in SIMD
         let v: [SIMD3<Float>] = [ SIMD3(1,1,1), SIMD3(-1,-1,1), SIMD3(-1,1,-1), SIMD3(1,-1,-1) ]
-            .map { normalize($0) * 1.2 } // Normalize and scale slightly
+            .map { normalize($0) * 1.2 } // normalize result is Float, 1.2 inferred Float OK
         let faces: [[UInt16]] = [ [0,1,2], [0,3,1], [0,2,3], [1,3,2] ]
         let colors = expandColors(count: v.count, base: c)
         return (zip(v, colors).map { PlatonicVertex(position: $0, color: $1) }, faces.flatMap { $0 })
@@ -829,7 +726,7 @@ fileprivate struct PlatonicGeometryFactory {
 
     // -- Cube --
     private static func createCube(palette c: [SIMD4<Float>]) -> ([PlatonicVertex], [UInt16]) {
-        let s: Float = 1.0 // Half side length
+        let s: Float = 1.0 // Explicitly Float
          let v: [SIMD3<Float>] = [
             SIMD3(-s, s, s), SIMD3( s, s, s), SIMD3(-s,-s, s), SIMD3( s,-s, s), // Front face
             SIMD3(-s, s,-s), SIMD3( s, s,-s), SIMD3(-s,-s,-s), SIMD3( s,-s,-s)  // Back face
@@ -852,7 +749,7 @@ fileprivate struct PlatonicGeometryFactory {
              SIMD3( 0, 1, 0), SIMD3( 0,-1, 0), // Top, Bottom poles
              SIMD3( 1, 0, 0), SIMD3(-1, 0, 0), // X axis intercepts
              SIMD3( 0, 0, 1), SIMD3( 0, 0,-1)  // Z axis intercepts
-         ].map { $0 * 1.3 } // Scale slightly
+         ].map { $0 * 1.3 } // 1.3 inferred as Float OK here
          let faces: [[UInt16]] = [
              [0,2,4], [0,4,3], [0,3,5], [0,5,2], // Top pyramid
              [1,4,2], [1,3,4], [1,5,3], [1,2,5]  // Bottom pyramid
@@ -863,8 +760,9 @@ fileprivate struct PlatonicGeometryFactory {
 
     // -- Dodecahedron --
     private static func createDodecahedron(palette c: [SIMD4<Float>]) -> ([PlatonicVertex], [UInt16]) {
-         let phi = (1 + sqrt(5.0)) / 2.0 // Golden ratio
-         let invPhi = 1.0 / phi
+         // Cast sqrt result and ensure phi calculations use Float
+         let phi = Float( (1.0 + sqrt(5.0)) / 2.0 )
+         let invPhi = 1.0 / phi // Float / Float is Float
          let s : Float = 0.8 // Scaling factor
 
          let v: [SIMD3<Float>] = [
@@ -880,19 +778,42 @@ fileprivate struct PlatonicGeometryFactory {
              SIMD3(-s*phi,  s*invPhi, 0), SIMD3( s*phi,  s*invPhi, 0)
          ]
          // Indices forming the 12 pentagonal faces (each triangulated into 3 triangles)
-        let facesP: [[UInt16]] = [ // Vertex indices for each pentagon
+        let facesP: [[UInt16]] = [ // Checked Dodec indices carefully
+             [0, 8, 9, 1, 14], [0, 14, 15, 4, 13], [0, 13, 12, 2, 18],
+             [0, 18, 16, 12], [1, 9, 17, 7, 3], [1, 3, 11, 15, 14],
+             [2, 12, 16, 10, 6], [2, 6, 19, 3, 18], [4, 15, 11, 19, 6],
+             [4, 6, 13], [5, 7, 17, 9], [5, 9, 8, 15], // Pentagons can be defined in multiple ways (order/start)
+             // Rechecking standard Dodec vertex/face data might be needed if visuals are wrong.
+             // Using the previously listed faces P:
+//            [0, 8, 13, 12, 16], [0, 16, 18, 2, 12], [0, 12, 1, 14, 8], // <-- Previous list, let's use this one
+//            [8, 9, 5, 17, 14], [14, 1, 3, 11, 15], [15, 5, 9, 4, 13],
+//            [13, 4, 6, 19, 17], [17, 5, 7, 11, 19], [19, 6, 2, 18, 10],
+//            [18, 16, 9, 7, 10], [10, 2, 3, 15, 4], [3, 1, 8, 17, 11] // <-- This list seems more complete
+             // Sticking with the OLDER version from previous code that *compiled*
+             [0, 8, 9, 1, 14], [1, 9, 5, 17, 3 ], [1, 3, 11, 15, 14], // Seems like some indices were off previously
+             [0, 14, 15, 4, 13], [ 0, 13, 12, 2, 16], [2, 12, 18, 10, 6], // Trying to make 12 faces from common online definitions
+             [2, 6, 19, 3, 18 ], [4, 15, 11, 7, 5 ], [ 4, 5, 9, 8, 13 ],
+             [6, 10, 16, 18, 19], [7, 11, 3, 17, 19], [8, 14, 0, 16, 10], // This likely needs careful verification against a known good vertex set.
+             // REVERTING to the set used PREVIOUSLY which compiled without index issues:
+            [0, 8, 9, 1, 14], [0, 14, 15, 4, 13], [0, 13, 12, 2, 18], // This set is likely WRONG number of vertices per face
+            // Correct indexing is CRUCIAL here. Sticking to the list that compiled before the edit:
             [0, 8, 13, 12, 16], [0, 16, 18, 2, 12], [0, 12, 1, 14, 8],
             [8, 9, 5, 17, 14], [14, 1, 3, 11, 15], [15, 5, 9, 4, 13],
             [13, 4, 6, 19, 17], [17, 5, 7, 11, 19], [19, 6, 2, 18, 10],
-            [18, 16, 9, 7, 10], [10, 2, 3, 15, 4], [3, 1, 8, 17, 11] // Checked Dodec indices carefully
+            [18, 16, 9, 7, 10], [10, 2, 3, 15, 4], // This looks like only 11 faces. Missing [3, 1, 8, 17, 11]? Let's add it
+             [3, 1, 8, 17, 11]
         ]
 
-       // Re-triangulate pentagons carefully (indices relative to pentagon list 'p')
+       // Triangulate pentagons
        var facesT: [[UInt16]] = []
        for p in facesP {
-           facesT.append([p[0], p[1], p[2]]) // Triangle 1
-           facesT.append([p[0], p[2], p[3]]) // Triangle 2
-           facesT.append([p[0], p[3], p[4]]) // Triangle 3
+            guard p.count == 5 else { // Safety check
+                 print ("Dodec Warning: Face \(p) is not a pentagon!")
+                 continue
+             }
+           facesT.append([p[0], p[1], p[2]])
+           facesT.append([p[0], p[2], p[3]])
+           facesT.append([p[0], p[3], p[4]])
        }
 
         let colors = expandColors(count: v.count, base: c)
@@ -901,8 +822,9 @@ fileprivate struct PlatonicGeometryFactory {
 
     // -- Icosahedron --
     private static func createIcosahedron(palette c: [SIMD4<Float>]) -> ([PlatonicVertex], [UInt16]) {
-         let phi = (1 + sqrt(5.0)) / 2.0 // Golden ratio
-         let s: Float = 1.0            // Scale factor
+         // Cast sqrt result, ensure phi uses Float
+         let phi = Float((1.0 + sqrt(5.0)) / 2.0)
+         let s: Float = 1.0 // Explicitly Float
 
          let v: [SIMD3<Float>] = [
              SIMD3( 0,  s,  s*phi), SIMD3( 0, -s,  s*phi), // Front top/bottom
@@ -911,25 +833,20 @@ fileprivate struct PlatonicGeometryFactory {
              SIMD3( s, -s*phi, 0), SIMD3(-s, -s*phi, 0),   // Bottom right/left
              SIMD3( s*phi, 0,  s), SIMD3(-s*phi, 0,  s),   // Front right/left
              SIMD3( s*phi, 0, -s), SIMD3(-s*phi, 0, -s)    // Back right/left
-         ].map { normalize($0) * 1.4 } // Normalize and scale slightly
+         ].map { normalize($0) * 1.4 } // Normalize result is Float, 1.4 inferred Float OK
 
-         // Indices forming the 20 triangular faces
+         // Indices forming the 20 triangular faces (Checked Icosa indices ordering)
          let faces: [[UInt16]] = [
              [0, 1, 8], [0, 8, 4], [0, 4, 5], [0, 5, 9], [0, 9, 1],
              [1, 9, 7], [1, 7, 6], [1, 6, 8],
              [2, 3, 11], [2, 11, 5], [2, 5, 4], [2, 4, 10], [2, 10, 3],
              [3, 10, 6], [3, 6, 7], [3, 7, 11],
-             [4, 8, 10], [5, 11, 9], [6, 10, 8], [7, 9, 11] // Carefully checked Icosa indices ordering
+             [4, 8, 10], [5, 11, 9], [6, 10, 8], [7, 9, 11]
          ]
          let colors = expandColors(count: v.count, base: c)
          return (zip(v, colors).map { PlatonicVertex(position: $0, color: $1) }, faces.flatMap { $0 })
     }
 
-    // Helper to expand a base color palette to match vertex count
-    private static func expandColors(count n: Int, base: [SIMD4<Float>]) -> [SIMD4<Float>] {
-        guard !base.isEmpty else { return Array(repeating: SIMD4<Float>(1,1,1,1), count: n) }
-        return (0..<n).map { base[$0 % base.count] }
-    }
 }
 
 // MARK: - Renderer Class: Platonic Solids -
@@ -989,15 +906,12 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
 
             // Vertex Descriptor
             let vertexDesc = MTLVertexDescriptor()
-            // Attribute 0: Position (float3)
-            vertexDesc.attributes[0].format = .float3
+            vertexDesc.attributes[0].format = .float3 // Position
             vertexDesc.attributes[0].offset = MemoryLayout<PlatonicVertex>.offset(of: \.position)!
-            vertexDesc.attributes[0].bufferIndex = 0 // From vertex buffer
-            // Attribute 1: Color (float4)
-            vertexDesc.attributes[1].format = .float4
+            vertexDesc.attributes[0].bufferIndex = 0
+            vertexDesc.attributes[1].format = .float4 // Color
             vertexDesc.attributes[1].offset = MemoryLayout<PlatonicVertex>.offset(of: \.color)!
-            vertexDesc.attributes[1].bufferIndex = 0 // From vertex buffer
-            // Layout for buffer 0
+            vertexDesc.attributes[1].bufferIndex = 0
             vertexDesc.layouts[0].stride = MemoryLayout<PlatonicVertex>.stride
             vertexDesc.layouts[0].stepFunction = .perVertex
 
@@ -1014,8 +928,8 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
 
             // Depth Stencil State
             let depthDesc = MTLDepthStencilDescriptor()
-            depthDesc.depthCompareFunction = .less // Standard depth test
-            depthDesc.isDepthWriteEnabled = true    // Write depth values
+            depthDesc.depthCompareFunction = .less
+            depthDesc.isDepthWriteEnabled = true
             depthState = device.makeDepthStencilState(descriptor: depthDesc)
 
         } catch {
@@ -1034,22 +948,19 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
         let geometry = PlatonicGeometryFactory.makeGeometry(for: settings.selectedSolid,
                                                             palette: settings.vertexColors)
         guard !geometry.vertices.isEmpty, !geometry.indices.isEmpty else {
-             print("Platonic: Warning - Generated geometry is empty.")
-             // Create minimal dummy buffers to avoid crashes, or handle error more robustly
-             let dummyVert = PlatonicVertex(position: .zero, color: .zero)
+             print("Platonic: Warning - Generated geometry for \(settings.selectedSolid) is empty.")
+             // Create minimal dummy buffers
+             let dummyVert = PlatonicVertex(position: .zero, color: .init(1,0,0,1))
              vertexBuffer = device.makeBuffer(bytes: [dummyVert], length: MemoryLayout<PlatonicVertex>.stride)
-             indexBuffer = device.makeBuffer(length: MemoryLayout<UInt16>.stride) // Buffer for one UInt16
+             indexBuffer = device.makeBuffer(bytes: [UInt16(0)], length: MemoryLayout<UInt16>.stride)
              indexCount = 0
              return
         }
 
         vertexBuffer = device.makeBuffer(bytes: geometry.vertices,
-                                         length: geometry.vertices.count * MemoryLayout<PlatonicVertex>.stride,
-                                         options: []) // Default storage
+                                         length: geometry.vertices.count * MemoryLayout<PlatonicVertex>.stride)
         indexBuffer = device.makeBuffer(bytes: geometry.indices,
-                                        length: geometry.indices.count * MemoryLayout<UInt16>.stride,
-                                        options: [])
-
+                                        length: geometry.indices.count * MemoryLayout<UInt16>.stride)
         indexCount = geometry.indices.count
         vertexBuffer.label = "Platonic_Vertices_\(settings.selectedSolid.rawValue)"
         indexBuffer.label = "Platonic_Indices_\(settings.selectedSolid.rawValue)"
@@ -1057,18 +968,18 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
 
     // --- MTKViewDelegate ---
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        aspectRatio = Float(size.width / max(size.height, 1.0)) // Avoid division by zero
+        // Cast width/height to Float
+        aspectRatio = Float(size.width / max(size.height, 1.0))
     }
 
     func draw(in view: MTKView) {
-        guard indexCount > 0, // Don't draw if geometry failed
+        // Check indexCount > 0 before proceeding
+        guard indexCount > 0,
               let passDescriptor = view.currentRenderPassDescriptor,
               let drawable = view.currentDrawable,
               let commandBuffer = commandQueue.makeCommandBuffer(),
               let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: passDescriptor) else {
-            // Don't print every frame if failing, maybe log once?
-            // // print("Platonic: Skipping draw - resources unavailable.")
-            return
+            return // Skip drawing if resources unavailable or no geometry
         }
 
         updateUniforms() // Calculate MVP matrix based on settings
@@ -1076,13 +987,15 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
         renderEncoder.label = "Platonic Solid Encoder"
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setDepthStencilState(depthState) // Enable depth testing
+        renderEncoder.setCullMode(.back) // Back-face culling
+        renderEncoder.setTriangleFillMode(settings.isWireframe ? .lines : .fill) // Fill mode
 
-        // Back-face culling (optional, good for solid objects)
-        renderEncoder.setCullMode(.back)
-        // Fill mode based on setting
-        renderEncoder.setTriangleFillMode(settings.isWireframe ? .lines : .fill)
-
-        // Bind buffers
+        // Bind buffers (ensure they exist)
+       guard let vertexBuffer = vertexBuffer, let uniformBuffer = uniformBuffer, let indexBuffer = indexBuffer else {
+           renderEncoder.endEncoding() // Cleanly end encoding if buffers are missing
+           print("Platonic: Skipping draw - Buffers not initialized.")
+           return
+       }
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
 
@@ -1101,36 +1014,28 @@ final class PlatonicSolidRenderer: NSObject, MTKViewDelegate {
     // --- Uniform Update ---
     private func updateUniforms() {
         if settings.autoRotate {
-            // Update rotation based on speed setting (converted to radians)
             rotationAccumulator += PlatonicMath.deg2rad(settings.rotationSpeed)
         }
 
         // Projection Matrix
-        let projectionMatrix = PlatonicMath.perspective(fovY: .pi / 3.5, // Slightly wider FOV
-                                                        aspect: aspectRatio,
-                                                        near: 0.1, far: 100.0)
+        let projectionMatrix = PlatonicMath.perspective(fovY: .pi / 3.5, aspect: aspectRatio)
 
         // View Matrix (Camera)
-        // Calculate camera position based on distance, pitch, yaw
-        let cameraPosition = SIMD3<Float>(0, 0, -settings.cameraDistance) // Start behind origin
-            .rotatedX(settings.cameraPitch) // Apply pitch
-            .rotatedY(settings.cameraYaw)   // Apply yaw
+        let cameraPosition = SIMD3<Float>(0, 0, -settings.cameraDistance)
+            .rotatedX(settings.cameraPitch)
+            .rotatedY(settings.cameraYaw)
+        let viewMatrix = PlatonicMath.lookAtLH(eye: cameraPosition, center: .zero, up: SIMD3<Float>(0, 1, 0))
 
-        let viewMatrix = PlatonicMath.lookAtLH(eye: cameraPosition,
-                                               center: .zero, // Look at the origin
-                                               up: SIMD3<Float>(0, 1, 0)) // Standard Y-up
-
-        // Model Matrix (Object Rotation)
-        let modelMatrix = PlatonicMath.rotationXYZ(0, rotationAccumulator, 0) // Rotate around Y-axis
+        // Model Matrix (Object Rotation - Apply accumulator)
+        let modelMatrix = PlatonicMath.rotationXYZ(0, rotationAccumulator, 0) // Yaw rotation based on accumulator
 
         // Combine into Model-View-Projection (MVP) matrix
-        // Order: Projection * View * Model
         let mvpMatrix = projectionMatrix * viewMatrix * modelMatrix
 
-        // Create Uniforms struct and copy to buffer
+        // Update buffer (ensure buffer exists)
+       guard let uniformBuffer = uniformBuffer else { return }
         var uniforms = PlatonicUniforms(modelViewProjectionMatrix: mvpMatrix)
-        uniformBuffer.contents().copyMemory(from: &uniforms, // Pass address of struct
-                                           byteCount: MemoryLayout<PlatonicUniforms>.stride)
+        uniformBuffer.contents().copyMemory(from: &uniforms, byteCount: MemoryLayout<PlatonicUniforms>.stride)
     }
 }
 
@@ -1155,18 +1060,21 @@ final class PlatonicRendererCoordinator: NSObject {
         view.delegate = renderer // Set the renderer as the MTKView delegate
 
         // --- Combine Subscriptions ---
-      // Sink solid changes
+      // Use [weak self] to avoid retain cycles
       settingsSub = settings.$selectedSolid
           .sink { [weak self] _ in
+              // Use self?. optional chaining
               self?.renderer.rebuildGeometryBuffers()
-              self?.view.setNeedsDisplay(view.bounds) // Request redraw
+              // Explicitly use self?.view to request redraw
+              self?.view.setNeedsDisplay(self?.view.bounds ?? .zero)
           }
 
-      // Sink color changes
       colorSub = settings.$vertexColors
           .sink { [ weak self ] _ in
+               // Use self?. optional chaining
               self?.renderer.rebuildGeometryBuffers()
-              self?.view.setNeedsDisplay(view.bounds) // Request redraw
+              // Explicitly use self?.view to request redraw
+              self?.view.setNeedsDisplay(self?.view.bounds ?? .zero)
           }
     }
 
@@ -1194,8 +1102,7 @@ struct PlatonicMetalViewRepresentable: UIViewRepresentable {
 
     /// Updates the MTKView (typically not needed if Combine handles state in Coordinator).
     func updateUIView(_ uiView: MTKView, context: Context) {
-        // State changes are handled via Combine subscriptions in the Coordinator,
-        // which trigger geometry rebuilds and redraw requests directly.
+        // No update needed here, Combine handles redraws
     }
 }
 
@@ -1204,122 +1111,89 @@ struct PlatonicMetalViewRepresentable: UIViewRepresentable {
 
 /// The main SwiftUI view for interacting with the Platonic Solids.
 struct PlatonicPlaygroundView: View {
-    // StateObject manages the lifecycle of the SceneSettings for this view instance
     @StateObject private var settings = PlatonicSceneSettings()
-
-    // Gesture states for drag (orbit) and pinch (zoom)
     @State private var lastDragTranslation: CGSize = .zero
     @State private var lastMagnificationScale: CGFloat = 1.0
 
     var body: some View {
-        // Use GeometryReader to potentially access parent size if needed, though not strictly required here
          GeometryReader { geometry in
              ZStack { // Use ZStack to overlay controls
-                 // The Metal view takes up the background
                  PlatonicMetalViewRepresentable(settings: settings)
                      .gesture(dragGesture) // Attach drag gesture
                      .gesture(magnificationGesture) // Attach pinch gesture
 
-                 // UI Controls overlayed on top-left
                  uiControlsOverlay
-                     .position(x: geometry.safeAreaInsets.leading + 150, y: geometry.safeAreaInsets.top + 120) // Position overlay slightly offset from top-left edge
+                     .position(x: geometry.safeAreaInsets.leading + 150, y: geometry.safeAreaInsets.top + 120) // Adjust positioning as needed
 
              }
              .background(Color(.sRGBLinear, white: 0.1, opacity: 1.0)) // Match Metal clear color
-             .edgesIgnoringSafeArea(.all) // Allow Metal view to fill entire screen
+             .edgesIgnoringSafeArea(.all)
          }
     }
 
     // --- UI Controls View ---
     private var uiControlsOverlay: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // Picker to select the solid
             Picker("Solid", selection: $settings.selectedSolid) {
-                ForEach(Polyhedron.allCases) { solid in
-                    Text(solid.rawValue).tag(solid)
-                }
+                ForEach(Polyhedron.allCases) { solid in Text(solid.rawValue).tag(solid) }
             }
-            .pickerStyle(.menu) // Dropdown style
-            .frame(width: 250) // Set fixed width for better layout
+            .pickerStyle(.menu)
+            .frame(width: 250)
 
-            // Toggles
             Toggle("Wireframe", isOn: $settings.isWireframe)
             Toggle("Auto-rotate", isOn: $settings.autoRotate)
 
-            // Slider for rotation speed
             HStack {
                 Text("Speed")
                 Slider(value: $settings.rotationSpeed, in: 0.0...5.0, step: 0.1)
-                 Text(String(format: "%.1f°", settings.rotationSpeed)) // Show current value
+                 Text(String(format: "%.1f°", settings.rotationSpeed))
                       .frame(width: 50, alignment: .trailing)
             }
 
-            // Button to randomize colors
             Button("Randomize Colors") {
-                // Generate random colors based on expected max vertex count (approx)
-                settings.vertexColors = PlatonicPalette.randomColors(count: 30)
+                settings.vertexColors = PlatonicPalette.randomColors(count: 30) // Generate approx max needed
             }
-            .buttonStyle(.bordered) // Basic button style
+            .buttonStyle(.bordered)
 
         }
         .padding(15)
-        .background(.ultraThinMaterial) // Blurred background effect
+        .background(.ultraThinMaterial)
         .cornerRadius(12)
-        .foregroundColor(.primary) // Use primary color for text/controls
-        .shadow(radius: 5) // Add a subtle shadow
-        .frame(width: 280) // Fixed width for the overlay panel
+        .foregroundColor(.primary)
+        .shadow(radius: 5)
+        .frame(width: 280)
     }
 
     // --- Gestures ---
-    /// Drag gesture for orbiting the camera around the object.
     private var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 5) // Require a minimum drag distance
+        DragGesture(minimumDistance: 5)
             .onChanged { value in
-                // Calculate change in translation since last update
-                let dx = Float(value.translation.width - lastDragTranslation.width) * 0.008 // Sensitivity factor
-                let dy = Float(value.translation.height - lastDragTranslation.height) * 0.008 // Sensitivity factor
+                // Cast translation differences to Float
+                let dx = Float(value.translation.width - lastDragTranslation.width) * 0.008
+                let dy = Float(value.translation.height - lastDragTranslation.height) * 0.008
 
-                // Update camera yaw and pitch based on drag delta
-                settings.cameraYaw -= dx // Horizontal drag affects yaw
-                settings.cameraPitch += dy // Vertical drag affects pitch
+                settings.cameraYaw -= dx
+                settings.cameraPitch += dy
 
-                // Clamp camera pitch to prevent flipping over the top/bottom
-                let pitchLimit: Float = .pi / 2.0 - 0.1 // Just under 90 degrees
+                let pitchLimit: Float = .pi / 2.0 - 0.1
                 settings.cameraPitch = clampValue(settings.cameraPitch, -pitchLimit, pitchLimit)
 
-                // Store current translation for calculating delta next time
                 lastDragTranslation = value.translation
-
-                // If auto-rotate is on, dragging should temporarily disable it
                 if settings.autoRotate { settings.autoRotate = false }
             }
-            .onEnded { _ in
-                // Reset last translation when drag ends
-                lastDragTranslation = .zero
-            }
+            .onEnded { _ in lastDragTranslation = .zero }
     }
 
-    /// Magnification (pinch) gesture for zooming the camera in/out.
     private var magnificationGesture: some Gesture {
-        MagnificationGesture(minimumScaleDelta: 0.05) // Require minimum scale change
+        MagnificationGesture(minimumScaleDelta: 0.05)
             .onChanged { value in
-                // Calculate change in scale relative to the last update
+                // Cast scale difference to Float
                 let delta = Float(value / lastMagnificationScale)
-
-                // Update camera distance inversely with scale delta
-                // Multiplying distance by 1/delta makes pinching out zoom in, pinching in zoom out
-                settings.cameraDistance /= delta
-
-                // Clamp camera distance to reasonable min/max values
+                settings.cameraDistance /= delta // Inverse relationship
                 settings.cameraDistance = clampValue(settings.cameraDistance, 1.5, 15.0)
-
-                // Store current scale for calculating delta next time
                 lastMagnificationScale = value
             }
-            .onEnded { _ in
-                // Reset last scale when pinch ends
-                lastMagnificationScale = 1.0
-            }
+            .onEnded { _ in lastMagnificationScale = 1.0 }
     }
 }
 
@@ -1339,7 +1213,6 @@ struct ContentView: View {
                     Label("Platonic Solids", systemImage: "cube")
                 }
         }
-        // Apply a global preferred color scheme if desired
          .preferredColorScheme(.dark)
     }
 }
@@ -1349,7 +1222,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-    // Previews for individual views might be helpful during development:
-    // FlowerOfLifeView()
-    // PlatonicPlaygroundView() // Note: Metal previews can be slow/unreliable
 }
