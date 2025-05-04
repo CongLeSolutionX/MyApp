@@ -139,17 +139,17 @@ struct CircleDrawInfo {
 
 /// Manages Metal setup, geometry, and rendering commands for the pattern.
 class PatternRenderer: NSObject, MTKViewDelegate {
-
+    
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     var pipelineState: MTLRenderPipelineState!
     // Depth state is less critical for Z=0 2D drawing, but kept for potential future use or 3D projection.
     // It ensures consistent behavior when Z coordinates are used.
     var depthState: MTLDepthStencilState!
-
+    
     var vertexBuffer: MTLBuffer!
     var uniformBuffer: MTLBuffer!
-
+    
     // Data structure to hold vertex data generated on the CPU.
     private var vertices: [Vertex] = []
     // Data structure to store drawing information for each circle/line strip.
@@ -164,16 +164,16 @@ class PatternRenderer: NSObject, MTKViewDelegate {
     private let centralRadius: Float = 0.25 * 1.0
     private let patternCenter: SIMD2<Float> = SIMD2<Float>(0.5, 0.5) // Center of the 0-1 pattern square
     private let segmentsPerCircle = 80 // Number of line segments approximating each circle
-
+    
     // Color matching the bright green lines in the screenshot (e.g., #00FF99)
     private let lineColor: SIMD4<Float> = SIMD4<Float>(0/255.0, 255/255.0, 153/255.0, 1.0)
-
+    
     /// Initializes the renderer with a Metal device and sets up resources.
     /// - Parameter device: The `MTLDevice` (GPU connection) to use for rendering.
     init?(device: MTLDevice) {
         // Ensure a Metal device is available.
         guard let defaultDevice = MTLCreateSystemDefaultDevice() else {
-             // Log error and return nil if Metal is not supported.
+            // Log error and return nil if Metal is not supported.
             print("Error: Metal is not supported on this device.")
             return nil
         }
@@ -197,7 +197,7 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         
         print("PatternRenderer initialized successfully.")
     }
-
+    
     /// Configures the Metal pipeline state, including compiling shaders and setting
     /// the vertex descriptor and pixel formats. This is called *after* the `MTKView`
     /// is created and its drawable formats are known.
@@ -205,15 +205,15 @@ class PatternRenderer: NSObject, MTKViewDelegate {
     func configure(metalKitView: MTKView) {
         setupPipeline(metalKitView: metalKitView)
     }
-
+    
     // --- Setup Functions ---
-
+    
     /// Generates the vertex data for the core geometric pattern (7 interlocking circles) on the CPU.
     /// The positions are generated in a 0-1 normalized space.
     private func setupGeometry() {
         vertices = []
         circleDrawInfo = []
-
+        
         // Helper closure to generate vertices for a single circle approximated by line segments.
         // Uses a "+1" vertex count to ensure a closed loop when drawing with `.lineStrip`.
         let generateCircleVertices = { (center: SIMD2<Float>, radius: Float, color: SIMD4<Float>, segments: Int) -> [Vertex] in
@@ -230,10 +230,11 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         // 1. Generate vertices for the Central Circle.
         let centralCircleVerts = generateCircleVertices(patternCenter, centralRadius, lineColor, segmentsPerCircle)
         // Store drawing info: starting index in the combined vertex buffer and the number of vertices.
-        circleDrawInfo.append((startIndex: vertices.count, vertexCount: centralCircleVerts.count))
+        // *** FIX: Use Struct Initializer ***
+        circleDrawInfo.append(CircleDrawInfo(startIndex: vertices.count, vertexCount: centralCircleVerts.count))
         // Append the generated vertices to the main vertices array.
         vertices.append(contentsOf: centralCircleVerts)
-
+        
         // 2. Generate vertices for the Six Outer Circles.
         // Their centers are located on the circumference of the Central Circle.
         for i in 0..<6 {
@@ -243,17 +244,18 @@ class PatternRenderer: NSObject, MTKViewDelegate {
             let outerCircleCenter = SIMD2<Float>(centerX, centerY)
             
             let outerCircleVerts = generateCircleVertices(outerCircleCenter, centralRadius, lineColor, segmentsPerCircle)
-            circleDrawInfo.append((startIndex: vertices.count, vertexCount: outerCircleVerts.count))
+            // *** FIX: Use Struct Initializer ***
+            circleDrawInfo.append(CircleDrawInfo(startIndex: vertices.count, vertexCount: outerCircleVerts.count))
             vertices.append(contentsOf: outerCircleVerts)
         }
         
-        // NOTE: To draw the full pattern from the screenshot, you would add more geometry
+        // NOTE: To draw the full pattern from the screenshot, Patter would add more geometry
         // generation here for additional layers of circles, intersecting curves, and lines.
         // This example provides the core structure of the 7 primary circles.
         
         print("Geometry generation complete: \(vertices.count) vertices total for \(circleDrawInfo.count) primary circles.")
     }
-
+    
     /// Compiles shaders and creates the `MTLRenderPipelineState`.
     /// This object contains the compiled shader code and render configuration.
     /// - Parameter metalKitView: The view providing the necessary pixel format information.
@@ -267,7 +269,7 @@ class PatternRenderer: NSObject, MTKViewDelegate {
                   let fragmentFunction = library.makeFunction(name: "pattern_fragment_shader") else {
                 fatalError("Error: Could not load shader functions from library. Check function names in code and shader string.")
             }
-
+            
             // Create a descriptor object to define the pipeline configuration.
             let pipelineDescriptor = MTLRenderPipelineDescriptor()
             pipelineDescriptor.label = "Geometric Pattern Pipeline" // Debug label
@@ -278,45 +280,46 @@ class PatternRenderer: NSObject, MTKViewDelegate {
             // These must match the formats configured for the MTKView.
             pipelineDescriptor.colorAttachments[0].pixelFormat = metalKitView.colorPixelFormat
             pipelineDescriptor.depthAttachmentPixelFormat = metalKitView.depthStencilPixelFormat // For depth testing
-
+            
             // --- Configure Vertex Descriptor ---
             // Describes how the vertex data (`Vertex` struct) is laid out in the vertex buffer.
             // This must match the `VertexIn` struct in the shader code.
             let vertexDescriptor = MTLVertexDescriptor()
-
+            
             // Attribute 0: Position (SIMD2<Float> -> float2 in shader)
-            vertexDescriptor.attributes[0].format = .float2       // Data type is 2 floats
-            vertexDescriptor.attributes[0].offset = 0             // Offset 0 from the start of the struct
-            vertexDescriptor.attributes[0].bufferIndex = 0        // Data comes from the buffer bound at index 0
-
+            vertexDescriptor.attributes[0].format = .float2 // Data type is 2 floats
+            vertexDescriptor.attributes[0].offset = 0       // Offset 0 from the start of the struct
+            vertexDescriptor.attributes[0].bufferIndex = 0  // Data comes from the buffer bound at index 0
+            
             // Attribute 1: Color (SIMD4<Float> -> float4 in shader)
-            vertexDescriptor.attributes[1].format = .float4       // Data type is 4 floats
+            vertexDescriptor.attributes[1].format = .float4 // Data type is 4 floats
             // Offset: Starts immediately after the position data. Use MemoryLayout's stride for safety/padding.
             vertexDescriptor.attributes[1].offset = MemoryLayout<SIMD2<Float>>.stride
-            vertexDescriptor.attributes[1].bufferIndex = 0        // Data comes from the *same* buffer (index 0)
+            vertexDescriptor.attributes[1].bufferIndex = 0  // Data comes from the *same* buffer (index 0)
             
             // Layout 0: Describes the overall structure of each vertex in the buffer.
             vertexDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride // Total size of one Vertex struct
-            vertexDescriptor.layouts[0].stepRate = 1              // Read one vertex for each vertex processed by the shader
+            vertexDescriptor.layouts[0].stepRate = 1        // Read one vertex for each vertex processed by the shader
             vertexDescriptor.layouts[0].stepFunction = .perVertex // Standard vertex stepping
-
+            
             pipelineDescriptor.vertexDescriptor = vertexDescriptor // Assign the configured descriptor
-
-             // Specify that this pipeline is intended primarily for drawing lines.
-             // Although the draw call primitive type is the most important factor,
-             // setting this on the descriptor can sometimes help Metal optimize.
-             pipelineDescriptor.primitiveTopology = .line
-
+            
+            // *** FIX: Remove invalid property assignment ***
+            // // Specify that this pipeline is intended primarily for drawing lines.
+            // // Although the draw call primitive type is the most important factor,
+            // // setting this on the descriptor can sometimes help Metal optimize.
+            // pipelineDescriptor.primitiveTopology = .line // <-- REMOVE THIS LINE
+            
             // Create the immutable render pipeline state object from the descriptor.
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
-
+            
         } catch {
             // If pipeline creation fails, it's often due to shader compilation errors,
             // mismatched struct layouts, or incorrect format settings.
             fatalError("Failed to create Metal Render Pipeline State: \(error)")
         }
     }
-
+    
     /// Creates and populates the GPU buffers for vertex data and uniform data.
     private func setupBuffers() {
         // --- Vertex Buffer ---
@@ -333,7 +336,7 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         }
         vertexBuffer = vBuffer
         vertexBuffer.label = "Pattern Vertices" // Debug label
-
+        
         // --- Uniform Buffer ---
         // Needs space for the `Uniforms` struct (which currently just holds `viewSize`).
         let uniformBufferSize = MemoryLayout<Uniforms>.size
@@ -344,12 +347,12 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         uniformBuffer = uBuffer
         uniformBuffer.label = "Uniforms Buffer (View Size)" // Debug label
     }
-
+    
     /// Creates the `MTLDepthStencilState` object to configure depth testing.
     /// Although drawing a flat 2D pattern at Z=0 doesn't strictly require complex depth,
     /// using a basic depth state is good practice for 3D rendering or future extensions.
     private func setupDepthStencil() {
-         let depthDescriptor = MTLDepthStencilDescriptor()
+        let depthDescriptor = MTLDepthStencilDescriptor()
         // Fragments with a depth value *less than* the value in the depth buffer will pass.
         depthDescriptor.depthCompareFunction = .less
         // Write the depth value of fragments that pass the test to the depth buffer.
@@ -361,7 +364,7 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         }
         depthState = state
     }
-
+    
     // --- Update State Per Frame ---
     
     /// Updates the uniform buffer with the current drawable size of the view.
@@ -383,9 +386,9 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         
         // print("Uniforms updated with view size: \(drawableSize.width)x\(drawableSize.height)") // Debug
     }
-
+    
     // MARK: - MTKViewDelegate Methods
-
+    
     /// Called automatically by the `MTKView` whenever its drawable size (resolution) changes.
     /// This happens when the view is initially displayed and when the device is rotated or the window is resized.
     /// This method is crucial for updating uniforms or parameters that depend on the view's dimensions.
@@ -393,11 +396,11 @@ class PatternRenderer: NSObject, MTKViewDelegate {
     ///   - view: The `MTKView` whose size changed.
     ///   - size: The new drawable size in pixels.
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-         // Update the uniforms buffer with the new drawable size so the vertex shader can use it.
-         updateUniforms(drawableSize: size)
-         print("MTKView drawable size changed to: \(size)")
+        // Update the uniforms buffer with the new drawable size so the vertex shader can use it.
+        updateUniforms(drawableSize: size)
+        print("MTKView drawable size changed to: \(size)")
     }
-
+    
     /// Called automatically by the `MTKView` when it's time to draw a new frame.
     /// This is the main rendering loop entry point.
     /// - Parameter view: The `MTKView` requesting the drawing update.
@@ -407,40 +410,40 @@ class PatternRenderer: NSObject, MTKViewDelegate {
               let renderPassDescriptor = view.currentRenderPassDescriptor, // Describes the render targets & actions
               let commandBuffer = commandQueue.makeCommandBuffer(),      // Buffer to hold our GPU commands
               // Encoder for rendering commands (like setting pipeline state, binding buffers, drawing)
-              let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-             print("Error: Failed to get essential Metal objects in draw(in:). Skipping frame.")
+                let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
+            print("Error: Failed to get essential Metal objects in draw(in:). Skipping frame.")
             return
         }
-
+        
         // --- Configure the Render Pass Actions ---
         // Specify what to do with the color attachment (the view's texture) at the start/end of the pass.
         renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0.05, green: 0.05, blue: 0.08, alpha: 1.0) // Define the background clear color
         renderPassDescriptor.colorAttachments[0].loadAction = .clear  // Clear the color buffer with the clearColor at the start
         renderPassDescriptor.colorAttachments[0].storeAction = .store // Store the results to the texture so it can be presented
-
+        
         // Configure the depth attachment actions.
         renderPassDescriptor.depthAttachment.clearDepth = 1.0 // Set the default depth value for clearing (farthest)
         renderPassDescriptor.depthAttachment.loadAction = .clear // Clear the depth buffer at the start
         renderPassDescriptor.depthAttachment.storeAction = .store // Store the depth results
-
+        
         // --- Begin Encoding Commands ---
         renderEncoder.label = "Geometric Pattern Render Encoder" // Debug label
         renderEncoder.setRenderPipelineState(pipelineState)     // Set the compiled render pipeline state
         renderEncoder.setDepthStencilState(depthState)           // Set the depth testing state (even if simple Z=0)
-
+        
         // --- Bind Resources to the Pipeline ---
         // Make vertex data available to the vertex shader at buffer index 0.
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         // Make uniform data (view size) available to the vertex shader at buffer index 1.
         renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
-
+        
         // --- Issue Draw Calls ---
         // Draw each generated circle/line strip.
         // We use the `.lineStrip` primitive type, which draws a connected sequence of lines
         // using the vertices starting from `vertexStart` for `vertexCount`.
         // No index buffer is needed for `.lineStrip`.
         guard !circleDrawInfo.isEmpty else {
-             print("Warning: No circle draw info available. Nothing to draw.")
+            print("Warning: No circle draw info available. Nothing to draw.")
             renderEncoder.endEncoding() // Still need to end encoding if no draws occurred
             // commandBuffer.present(drawable) // No need to present if nothing was drawn? Or commit anyway?
             // commandBuffer.commit()
@@ -448,17 +451,17 @@ class PatternRenderer: NSObject, MTKViewDelegate {
         }
         
         for drawInfo in circleDrawInfo {
-             renderEncoder.drawPrimitives(type: .lineStrip,
-                                          vertexStart: drawInfo.startIndex, // Start reading vertices from this index
-                                          vertexCount: drawInfo.vertexCount) // Read this many vertices for the line strip
+            renderEncoder.drawPrimitives(type: .lineStrip,
+                                         vertexStart: drawInfo.startIndex, // Start reading vertices from this index
+                                         vertexCount: drawInfo.vertexCount) // Read this many vertices for the line strip
         }
-
+        
         // --- End Encoding and Commit ---
         renderEncoder.endEncoding() // Signal that command encoding for this pass is complete
-
+        
         // Schedule the drawable texture to be shown on screen after the GPU finishes executing the commands.
         commandBuffer.present(drawable)
-
+        
         // Commit the command buffer to the GPU for execution.
         // Commands are processed asynchronously after this call returns.
         commandBuffer.commit()
@@ -476,7 +479,7 @@ class PatternRenderer: NSObject, MTKViewDelegate {
 struct MetalPatternViewRepresentable: UIViewRepresentable {
     /// Specifies the type of UIKit view that this representable manages.
     typealias UIViewType = MTKView
-
+    
     /// Creates the custom `Coordinator` object.
     /// The coordinator acts as the delegate for the `MTKView` and holds the `PatternRenderer`.
     /// It's the bridge for communication between the UIKit view and SwiftUI's context.
@@ -486,12 +489,12 @@ struct MetalPatternViewRepresentable: UIViewRepresentable {
         guard let coordinator = PatternRenderer(device: MTLCreateSystemDefaultDevice()!) else { // Force unwrap as renderer checks in init, or add Nil-coalescing / error handling
             // If the renderer failed to initialize (e.g., no Metal device), fatalError.
             // In a real app, you might show an error message or alternative content.
-             fatalError("Fatal: PatternRenderer failed to initialize. Metal may not be supported.")
+            fatalError("Fatal: PatternRenderer failed to initialize. Metal may not be supported.")
         }
         print("Coordinator (PatternRenderer) created.")
         return coordinator
     }
-
+    
     /// Creates and configures the underlying `MTKView` instance.
     /// This method is called only once by SwiftUI when the view is first added to the hierarchy.
     /// - Parameter context: Provides access to the `Coordinator` and SwiftUI environment information.
@@ -512,14 +515,14 @@ struct MetalPatternViewRepresentable: UIViewRepresentable {
         // Set the clear values for the color and depth buffers, used when `loadAction` is `.clear`.
         mtkView.clearColor = MTLClearColor(red: 0.05, green: 0.05, blue: 0.08, alpha: 1.0) // Dark background from image
         mtkView.clearDepth = 1.0 // Farthermost depth value
-
+        
         // Automatic resizing of the underlying drawable texture when the view's size changes.
         mtkView.autoResizeDrawable = true
         // Disable the default UIKit `setNeedsDisplay` drawing loop; we'll use the `MTKViewDelegate`'s `draw` method.
         mtkView.enableSetNeedsDisplay = false
         // Set the target frame rate. The `draw` delegate method will be called periodically to achieve this.
         mtkView.preferredFramesPerSecond = 60
-
+        
         // --- Linking Renderer and View ---
         // Allow the renderer to perform setup steps that depend on the MTKView's properties (like pixel formats).
         context.coordinator.configure(metalKitView: mtkView)
@@ -527,7 +530,7 @@ struct MetalPatternViewRepresentable: UIViewRepresentable {
         // Set the renderer (Coordinator) as the delegate for the MTKView.
         // The MTKView will call the delegate methods (`mtkView`, `draw`).
         mtkView.delegate = context.coordinator
-
+        
         // Manually trigger the initial size update call on the delegate *after* setting the delegate.
         // This ensures that the renderer's uniforms (like view size) are set for the very first draw call.
         context.coordinator.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
@@ -535,7 +538,7 @@ struct MetalPatternViewRepresentable: UIViewRepresentable {
         print("MTKView created and configured for pattern.")
         return mtkView
     }
-
+    
     /// Updates the `MTKView` when relevant SwiftUI state changes.
     /// This method is called by SwiftUI whenever the view's configuration needs to be updated
     /// due to changes in the SwiftUI state that drives it.
@@ -565,7 +568,7 @@ struct GeometricPatternView: View {
                 .frame(maxWidth: .infinity) // Make the background span the full width
                 .background(Color(red: 0.05, green: 0.05, blue: 0.08)) // Match the Metal clear color
                 .foregroundColor(.white) // Ensure text is visible on the dark background
-
+            
             // Embed the Metal View using our UIViewRepresentable.
             // This representable will take up the remaining space in the VStack.
             MetalPatternViewRepresentable()
@@ -587,37 +590,37 @@ struct GeometricPatternView: View {
 
 /// Provides a preview for the SwiftUI view in Xcode's canvas.
 #Preview {
-     // Option 1: Use a Placeholder View (Recommended for Previews with Metal)
-     // Metal views can sometimes be unstable or crash in SwiftUI previews,
-     // especially in the canvas drawing mode. A simple placeholder provides
-     // visual feedback without requiring Metal to run.
-     /* Uncomment this block and comment out Option 2 below to use the safe placeholder.
-    struct PatternPreviewPlaceholder: View {
-        var body: some View {
-            VStack {
-                Text("Geometric Pattern (Metal)")
-                    .font(.headline)
-                    .padding()
-                    .foregroundColor(.white)
-                
-                Spacer() // Spacers push the text to the center
-                
-                Text("Metal View Placeholder\n(Run on Simulator or Device to see pattern)")
-                    .foregroundColor(.gray)
-                    .italic()
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity) // Make placeholder fill the preview area
-            .background(Color(red: 0.05, green: 0.05, blue: 0.08)) // Match the expected background color
-            .edgesIgnoringSafeArea(.all) // Extend placeholder background to safe areas
-        }
-    }
-    return PatternPreviewPlaceholder()
-      */
-
+    // Option 1: Use a Placeholder View (Recommended for Previews with Metal)
+    // Metal views can sometimes be unstable or crash in SwiftUI previews,
+    // especially in the canvas drawing mode. A simple placeholder provides
+    // visual feedback without requiring Metal to run.
+    /* Uncomment this block and comment out Option 2 below to use the safe placeholder.
+     struct PatternPreviewPlaceholder: View {
+     var body: some View {
+     VStack {
+     Text("Geometric Pattern (Metal)")
+     .font(.headline)
+     .padding()
+     .foregroundColor(.white)
+     
+     Spacer() // Spacers push the text to the center
+     
+     Text("Metal View Placeholder\n(Run on Simulator or Device to see pattern)")
+     .foregroundColor(.gray)
+     .italic()
+     .multilineTextAlignment(.center)
+     .padding()
+     
+     Spacer()
+     }
+     .frame(maxWidth: .infinity, maxHeight: .infinity) // Make placeholder fill the preview area
+     .background(Color(red: 0.05, green: 0.05, blue: 0.08)) // Match the expected background color
+     .edgesIgnoringSafeArea(.all) // Extend placeholder background to safe areas
+     }
+     }
+     return PatternPreviewPlaceholder()
+     */
+    
     // Option 2: Attempt to Render the Actual Metal View
     // Uncomment the line below and comment out Option 1 above if you want to
     // try rendering the real Metal view in the preview canvas. Be aware this
@@ -680,11 +683,11 @@ struct GeometricPatternView: View {
  // MARK: - Matrix Math Helper Functions (using SIMD) - Octahedron Example
  // Kept for reference, not used by PatternRenderer's 2D rendering
  /*
- func matrix_perspective_left_hand(...) -> matrix_float4x4 { ... }
- func matrix_look_at_left_hand(...) -> matrix_float4x4 { ... }
- func matrix_rotation_y(...) -> matrix_float4x4 { ... }
- func matrix_rotation_x(...) -> matrix_float4x4 { ... }
- func matrix_multiply(_: _: ) -> matrix_float4x4 { ... }
- */
+  func matrix_perspective_left_hand(...) -> matrix_float4x4 { ... }
+  func matrix_look_at_left_hand(...) -> matrix_float4x4 { ... }
+  func matrix_rotation_y(...) -> matrix_float4x4 { ... }
+  func matrix_rotation_x(...) -> matrix_float4x4 { ... }
+  func matrix_multiply(_: _: ) -> matrix_float4x4 { ... }
+  */
  
  */
