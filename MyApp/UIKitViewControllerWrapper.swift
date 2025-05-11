@@ -29,5 +29,9 @@ class MyUIKitViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         // Additional setup
+        
+        // To run the example:
+         runAStarExample()
+
     }
 }
